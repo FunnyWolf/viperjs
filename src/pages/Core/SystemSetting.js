@@ -42,8 +42,8 @@ const { Option } = Select;
 const { TabPane } = Tabs;
 const { Title, Paragraph, Text } = Typography;
 
-const viper_version = '1.1.8';
-const viper_update_date = '20210117';
+const viper_version = '1.2.0';
+const viper_update_date = '20210124';
 const datas = [
   {
     name: 'metasploit-framework',
