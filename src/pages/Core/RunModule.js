@@ -490,11 +490,12 @@ const RunModule = props => {
     return null;
   }
   // 心跳标签
-  const timestamp_now = moment().unix();
-  const timepass = timestamp_now - record.session.last_checkin;
+  const fromnowTime = (moment().unix() - record.session.fromnow) * 1000;
+  const timepass = record.session.fromnow;
+
   let heartbeat = null;
 
-  if (timepass <= 0) {
+  if (timepass <= 60) {
     heartbeat = (
       <Tooltip title={timepass + 's'} placement="left">
         <Tag
@@ -505,22 +506,7 @@ const RunModule = props => {
             cursor: 'pointer',
           }}
         >
-          {moment(timestamp_now * 1000).fromNow()}
-        </Tag>
-      </Tooltip>
-    );
-  } else if (timepass <= 60) {
-    heartbeat = (
-      <Tooltip title={timepass + 's'} placement="left">
-        <Tag
-          color="green"
-          style={{
-            width: 72,
-            textAlign: 'center',
-            cursor: 'pointer',
-          }}
-        >
-          {moment(record.session.last_checkin * 1000).fromNow()}
+          {moment(fromnowTime).fromNow()}
         </Tag>
       </Tooltip>
     );
@@ -535,7 +521,7 @@ const RunModule = props => {
             cursor: 'pointer',
           }}
         >
-          {moment(record.session.last_checkin * 1000).fromNow()}
+          {moment(fromnowTime).fromNow()}
         </Tag>
       </Tooltip>
     );
@@ -550,7 +536,7 @@ const RunModule = props => {
             cursor: 'pointer',
           }}
         >
-          {moment(record.session.last_checkin * 1000).fromNow()}
+          {moment(fromnowTime).fromNow()}
         </Tag>
       </Tooltip>
     );

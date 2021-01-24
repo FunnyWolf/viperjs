@@ -329,7 +329,7 @@ const HostAndSessionCard = props => {
       os_short: null,
       arch: null,
       platform: null,
-      last_checkin: 0,
+      fromnow: 0,
       available: 0,
       isadmin: null,
     },
@@ -351,7 +351,7 @@ const HostAndSessionCard = props => {
     os_short: null,
     arch: null,
     platform: null,
-    last_checkin: 0,
+    fromnow: 0,
     available: 0,
     isadmin: null,
   });
@@ -563,11 +563,11 @@ const HostAndSessionCard = props => {
                   return null;
                 }
                 // 心跳标签
-                const timestamp_now = moment().unix();
-                const timepass = timestamp_now - record.session.last_checkin;
+                const fromnowTime = (moment().unix() - record.session.fromnow) * 1000;
+                const timepass = record.session.fromnow;
                 let heartbeat = null;
 
-                if (timepass <= 0) {
+                if (timepass <= 60) {
                   heartbeat = (
                     <Tooltip title={timepass + 's'} placement="left">
                       <Tag
@@ -578,22 +578,7 @@ const HostAndSessionCard = props => {
                           cursor: 'pointer',
                         }}
                       >
-                        {moment(timestamp_now * 1000).fromNow()}
-                      </Tag>
-                    </Tooltip>
-                  );
-                } else if (timepass <= 60) {
-                  heartbeat = (
-                    <Tooltip title={timepass + 's'} placement="left">
-                      <Tag
-                        color="green"
-                        style={{
-                          width: 72,
-                          textAlign: 'center',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        {moment(record.session.last_checkin * 1000).fromNow()}
+                        {moment(fromnowTime).fromNow()}
                       </Tag>
                     </Tooltip>
                   );
@@ -608,7 +593,7 @@ const HostAndSessionCard = props => {
                           cursor: 'pointer',
                         }}
                       >
-                        {moment(record.session.last_checkin * 1000).fromNow()}
+                        {moment(fromnowTime).fromNow()}
                       </Tag>
                     </Tooltip>
                   );
@@ -623,7 +608,7 @@ const HostAndSessionCard = props => {
                           cursor: 'pointer',
                         }}
                       >
-                        {moment(record.session.last_checkin * 1000).fromNow()}
+                        {moment(fromnowTime).fromNow()}
                       </Tag>
                     </Tooltip>
                   );
@@ -2092,7 +2077,7 @@ const SessionInfo = props => {
     user: null,
     arch: null,
     platform: null,
-    last_checkin: 0,
+    fromnow: 0,
     computer: null,
     os: null,
     os_short: null,
@@ -2226,6 +2211,7 @@ const SessionInfo = props => {
       </Tag>
     );
 
+  const fromnowTime = (moment().unix() - sessionInfoActive.fromnow) * 1000;
   return (
     <Fragment>
       <Tabs defaultActiveKey="sessioninfo" size="small">
@@ -2238,7 +2224,7 @@ const SessionInfo = props => {
             loading={initListSessionInfoReq.loading || updateSessionInfoReq.loading}
           >
             <Descriptions.Item label="心跳" span={4}>
-              <Tag color="cyan">{moment(sessionInfoActive.last_checkin * 1000).fromNow()}</Tag>
+              <Tag color="cyan">{moment(fromnowTime).fromNow()}</Tag>
             </Descriptions.Item>
             <Descriptions.Item label="ID" span={4}>
               {SidTag(sessionInfoActive.sessionid)}
