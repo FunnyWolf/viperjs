@@ -1016,8 +1016,8 @@ const Msfconsole = props => {
         wsmsf.current.send(sendData);
       });
       msfConsoleTerm.current.onSelectionChange(e => {
-        if (this.msfConsoleTerm.hasSelection()) {
-          copy(this.msfConsoleTerm.getSelection());
+        if (msfConsoleTerm.current.hasSelection()) {
+          copy(msfConsoleTerm.current.getSelection());
         }
       });
 
