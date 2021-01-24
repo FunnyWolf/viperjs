@@ -247,9 +247,16 @@ export async function deletePostlateralPortserviceAPI(params) {
   });
 }
 
-// 自定义接口
+
 export async function getPostmodulePostModuleConfigAPI(params) {
   return request('/api/v1/postmodule/postmoduleconfig/', { params });
+}
+
+export async function putPostmodulePostModuleConfigAPI(params) {
+  return request('/api/v1/postmodule/postmoduleconfig/', {
+    method: 'PUT',
+    data: params,
+  });
 }
 
 export async function getPostmodulePostModuleResultAPI(params) {

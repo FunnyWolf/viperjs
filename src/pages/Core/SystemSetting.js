@@ -1,6 +1,11 @@
 import React, { Fragment, useState } from 'react';
-import { getCoreSettingAPI, getServiceStatusAPI, postCoreSettingAPI } from '@/services/apiv1';
-import { history, useRequest } from 'umi';
+import {
+  getCoreSettingAPI,
+  getServiceStatusAPI,
+  postCoreSettingAPI,
+  putPostmodulePostModuleConfigAPI,
+} from '@/services/apiv1';
+import { useModel, history, useRequest } from 'umi';
 import '@ant-design/compatible/assets/index.css';
 import { setToken } from '@/utils/authority';
 import {
@@ -27,7 +32,9 @@ import {
   LogoutOutlined,
   MinusOutlined,
   SyncOutlined,
+  ReloadOutlined,
 } from '@ant-design/icons';
+
 import styles from '@/components/GlobalHeader/index.less';
 import { reloadAuthorized } from '@/utils/Authorized';
 
@@ -211,7 +218,11 @@ const SystemSetting = props => {
 
 
 const SystemInfo = props => {
-
+  const {
+    setPostModuleConfigListStateAll,
+  } = useModel('HostAndSessionModel', model => ({
+    setPostModuleConfigListStateAll: model.setPostModuleConfigListStateAll,
+  }));
   const [serviceStatusActive, setServiceStatusActive] = useState({ json_rpc: { status: false } });
   //初始化数据
   const initListServiceStatusReq = useRequest(getServiceStatusAPI, {
@@ -230,6 +241,16 @@ const SystemInfo = props => {
     onError: (error, params) => {
     },
   });
+
+  const updatePostmodulePostModuleConfigReq = useRequest(putPostmodulePostModuleConfigAPI, {
+    manual: true,
+    onSuccess: (result, params) => {
+      setPostModuleConfigListStateAll(result);
+    },
+    onError: (error, params) => {
+    },
+  });
+
   const loginOut = () => {
     const { query, pathname } = history.location;
     const { redirect } = query;
@@ -249,6 +270,13 @@ const SystemInfo = props => {
         <Col span={16}>
           <Row>
             <Descriptions size="small" style={{ marginLeft: 64 }} column={4}>
+              <Descriptions.Item label="渗透服务">
+                {serviceStatusActive.json_rpc.status ? (
+                  <Tag color="green">正常</Tag>
+                ) : (
+                  <Tag color="red">不可用</Tag>
+                )}
+              </Descriptions.Item>
               <Descriptions.Item label="平台版本">
                 <Tag color="geekblue">{viper_version}</Tag>
               </Descriptions.Item>
@@ -266,14 +294,6 @@ const SystemInfo = props => {
                   文档链接
                 </a>
               </Descriptions.Item>
-              <Descriptions.Item label="渗透服务">
-                {serviceStatusActive.json_rpc.status ? (
-                  <Tag color="green">正常</Tag>
-                ) : (
-                  <Tag color="red">不可用</Tag>
-                )}
-              </Descriptions.Item>
-
             </Descriptions>
           </Row>
           <Row>
@@ -282,19 +302,25 @@ const SystemInfo = props => {
             >
               <Button
                 type="primary"
-                style={{ width: 96 }}
                 icon={<SyncOutlined/>}
                 onClick={() => listServiceStatusReq.run()}
                 loading={listServiceStatusReq.loading}
               >
-                刷新
+                更新渗透服务状态
+              </Button>
+              <Button
+
+                icon={<ReloadOutlined/>}
+                onClick={() => updatePostmodulePostModuleConfigReq.run()}
+                loading={updatePostmodulePostModuleConfigReq.loading}
+              >
+                重新加载所有模块
               </Button>
               <Button
                 danger
-                style={{ width: 96 }}
                 icon={<LogoutOutlined/>}
                 onClick={loginOut}>
-                退出
+                退出平台
               </Button>
             </Space>
           </Row>
