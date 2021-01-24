@@ -1622,10 +1622,8 @@ const RealTimeModuleResult = () => {
 
   const [text, setText] = useState('');
 
-  useEffect(() => {
-    return () => {
-    };
-  }, []);
+  const [refresh, setRefresh] = useState(false);
+  useInterval(() => setRefresh(!refresh), 60000);
 
   const handlePostModuleResultHistorySearch = text => {
     const reg = new RegExp(text, 'gi');
@@ -1892,7 +1890,8 @@ const RealTimeNotices = () => {
     notices: model.notices,
     setNotices: model.setNotices,
   }));
-
+  const [refresh, setRefresh] = useState(false);
+  useInterval(() => setRefresh(!refresh), 60000);
 
   const NoticesList = props => {
     const getContent = item => {
@@ -1943,7 +1942,7 @@ const RealTimeNotices = () => {
         // 用户输入
         return (
           <Text style={{ color: '#cb2b83' }}
-                className={styles.wordBreakClass}><Space>{userIconLarge(item.userkey)}{item.content}</Space></Text>
+                className={styles.wordBreakClass}><Space>{userIconLarge(item.userkey)}{item.content}{userIconLarge(item.userkey)}</Space></Text>
         );
       }
       return (
