@@ -48,17 +48,6 @@ export function patchRoutes(routes) {
 
 export function render(oldRender) {
   oldRender();
-  // fetch('/api/auth_routes')
-  //   .then(res => res.json())
-  //   .then(
-  //     ret => {
-  //       authRoutes = ret;
-  //       oldRender();
-  //     },
-  //     () => {
-  //       oldRender();
-  //     }
-  //   );
 }
 
 const codeMessage = {
@@ -92,12 +81,6 @@ const errorHandler = error => {
       notification.error({
         message: '尚未登录或登录已过期,请重新登录.',
       });
-      // @HACK
-      /* eslint-disable no-underscore-dangle */
-      // @ts-ignore
-      // window.g_app._store.dispatch({
-      //   type: 'login/logout',
-      // });
 
       history.push({
         pathname: '/user/login',
@@ -216,8 +199,6 @@ export const request = {
         });
         return response;
       }
-      // response.headers.append('interceptors', 'yes yo');
-
       return response;
     },
   ],
