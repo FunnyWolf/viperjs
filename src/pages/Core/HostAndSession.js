@@ -53,7 +53,6 @@ import {
   DeliveredProcedureOutlined,
   DesktopOutlined,
   DownOutlined,
-  EditOutlined,
   FieldTimeOutlined,
   FolderAddOutlined,
   FolderOpenOutlined,
@@ -508,7 +507,9 @@ const HostAndSessionCard = props => {
         {/*</Menu.Item>*/}
         <Menu.Item key="DestoryHost">
           <DeleteOutlined style={{ color: 'red' }}/>
+          <span style={{ color: 'red' }}>
           删除主机
+          </span>
         </Menu.Item>
       </Menu>
     );
@@ -518,7 +519,6 @@ const HostAndSessionCard = props => {
     <Fragment>
       <Card bordered bodyStyle={{ padding: '0px 0px 0px 0px' }}>
         <Table
-          // rowClassName={styles.hostandsessionTr}
           className={styles.hostandsessionTable}
           rowKey="order_id"
           size="small"
@@ -543,7 +543,6 @@ const HostAndSessionCard = props => {
                       textAlign: 'center',
                       cursor: 'pointer',
                     }}
-                    type="primary"
                     size="small"
                   >
                     <CaretRightOutlined/>
@@ -817,12 +816,25 @@ const HostAndSessionCard = props => {
                   <Tooltip
                     title={record.comment}
                     placement="left"
-                    onClick={() => {
-                      setActiveHostAndSession(record);
-                      setUpdateHostModalVisable(true);
-                    }}
+                    // onClick={() => {
+                    //   setActiveHostAndSession(record);
+                    //   setUpdateHostModalVisable(true);
+                    // }}
                   >
-                    {host_type_to_avatar_table[record.tag]}
+                    <Popover
+                      placement="left"
+                      content={
+                        <UpdateHost
+                          hostAndSessionActive={hostAndSessionActive}
+                        />
+                      }
+                      onClick={() => {
+                        setActiveHostAndSession(record);
+                      }}
+                      trigger="click">
+                      {host_type_to_avatar_table[record.tag]}
+                    </Popover>
+
                   </Tooltip>
                 </div>
               ),
@@ -960,21 +972,21 @@ const HostAndSessionCard = props => {
       >
         <Vulnerability hostAndSessionActive={hostAndSessionActive}/>
       </Modal>
-      <Modal
-        style={{ top: 32 }}
-        width="45vw"
-        bodyStyle={{ padding: '8 8 8 8' }}
-        destroyOnClose
-        visible={updateHostModalVisable}
-        footer={null}
-        mask={false}
-        onCancel={() => setUpdateHostModalVisable(false)}
-      >
-        <UpdateHost
-          hostAndSessionActive={hostAndSessionActive}
-          closeModal={() => setUpdateHostModalVisable(false)}
-        />
-      </Modal>
+      {/*<Modal*/}
+      {/*  style={{ top: 32 }}*/}
+      {/*  width="45vw"*/}
+      {/*  bodyStyle={{ padding: '8 8 8 8' }}*/}
+      {/*  destroyOnClose*/}
+      {/*  visible={updateHostModalVisable}*/}
+      {/*  footer={null}*/}
+      {/*  mask={false}*/}
+      {/*  onCancel={() => setUpdateHostModalVisable(false)}*/}
+      {/*>*/}
+      {/*  <UpdateHost*/}
+      {/*    hostAndSessionActive={hostAndSessionActive}*/}
+      {/*    closeModal={() => setUpdateHostModalVisable(false)}*/}
+      {/*  />*/}
+      {/*</Modal>*/}
     </Fragment>
   );
 };
@@ -1104,7 +1116,7 @@ const TabsBottom = props => {
 
   return (
     <Fragment>
-      <Tabs style={{ marginTop: 0 }} type="card" onChange={tabActiveOnChange}>
+      <Tabs style={{ marginTop: 2 }} type="card" onChange={tabActiveOnChange}>
         <TabPane
           tab={<span>
             {heatbeatsocketalive ? <Badge status="success"/> : <Badge status="error"/>}
@@ -4411,11 +4423,11 @@ const Vulnerability = props => {
 
 const UpdateHost = props => {
   console.log('UpdateHost');
-  const { hostAndSessionActive, closeModal } = props;
+  const { hostAndSessionActive } = props;
   const updateHostReq = useRequest(putCoreHostAPI, {
     manual: true,
     onSuccess: (result, params) => {
-      closeModal();
+
     },
     onError: (error, params) => {
     },
@@ -4454,6 +4466,9 @@ const UpdateHost = props => {
 
   return (
     <Form
+      style={{
+        width: '40vw',
+      }}
       initialValues={{
         hid: hostAndSessionActive.id,
         tag: hostAndSessionActive.tag,
@@ -4488,10 +4503,10 @@ const UpdateHost = props => {
       <Form.Item
         label={<span>注释</span>}
         name="comment"
-        rules={[{ message: '最多支持二十个字符', max: 20 }]}
+        rules={[{ message: '最长支持二十个字符', max: 20 }]}
         {...formLayout}
       >
-        <Input placeholder="最多支持二十个字符"/>
+        <Input placeholder="最长支持二十个字符"/>
       </Form.Item>
       <Form.Item {...tailLayout}>
         <Button
