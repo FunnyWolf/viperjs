@@ -502,10 +502,10 @@ const HostAndSessionCard = props => {
           <BugOutlined/>
           已知漏洞
         </Menu.Item>
-        <Menu.Item key="UpdateHost">
-          <EditOutlined/>
-          修改备注
-        </Menu.Item>
+        {/*<Menu.Item key="UpdateHost">*/}
+        {/*  <EditOutlined/>*/}
+        {/*  修改备注*/}
+        {/*</Menu.Item>*/}
         <Menu.Item key="DestoryHost">
           <DeleteOutlined style={{ color: 'red' }}/>
           删除主机
@@ -529,7 +529,7 @@ const HostAndSessionCard = props => {
           columns={[
             {
               dataIndex: 'ipaddress',
-              width: 144,
+              width: 120,
               render: (text, record) => {
                 return (
                   <Button
@@ -537,23 +537,45 @@ const HostAndSessionCard = props => {
                       setRunModuleModalVisable(true);
                       setActiveHostAndSession(record);
                     }}
-                    icon={<CaretRightOutlined/>}
                     style={{
-                      width: 112,
+                      width: 96,
                       backgroundColor: '#15395b',
+                      textAlign: 'center',
+                      cursor: 'pointer',
                     }}
+                    type="primary"
                     size="small"
                   >
-                      <span
-                        style={{
-                          textAlign: 'center',
-                        }}
-                      >
-                        执行模块
-                      </span>
+                    <CaretRightOutlined/>
                   </Button>
                 );
               },
+            },
+            {
+              dataIndex: 'ipaddress',
+              width: 144,
+              render: (text, record) => (
+                <div
+                  style={{
+                    display: 'flex',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <Dropdown overlay={() => HostMenu(record)} trigger={['contextMenu', 'click']}>
+                    <Tag
+                      color="gold"
+                      style={{
+                        width: 120,
+                        textAlign: 'center',
+                        marginRight: 4,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <strong>{record.ipaddress}</strong>
+                    </Tag>
+                  </Dropdown>
+                </div>
+              ),
             },
             {
               title: 'Session',
@@ -784,7 +806,7 @@ const HostAndSessionCard = props => {
             {
               title: '内网IP',
               dataIndex: 'ipaddress',
-              width: 176,
+              width: 64,
               render: (text, record) => (
                 <div
                   style={{
@@ -792,19 +814,6 @@ const HostAndSessionCard = props => {
                     cursor: 'pointer',
                   }}
                 >
-                  <Dropdown overlay={() => HostMenu(record)} trigger={['contextMenu', 'click']}>
-                    <Tag
-                      color="gold"
-                      style={{
-                        width: 120,
-                        textAlign: 'center',
-                        marginRight: 4,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      <strong>{record.ipaddress}</strong>
-                    </Tag>
-                  </Dropdown>
                   <Tooltip
                     title={record.comment}
                     placement="left"
@@ -951,7 +960,6 @@ const HostAndSessionCard = props => {
       >
         <Vulnerability hostAndSessionActive={hostAndSessionActive}/>
       </Modal>
-
       <Modal
         style={{ top: 32 }}
         width="45vw"
@@ -959,6 +967,7 @@ const HostAndSessionCard = props => {
         destroyOnClose
         visible={updateHostModalVisable}
         footer={null}
+        mask={false}
         onCancel={() => setUpdateHostModalVisable(false)}
       >
         <UpdateHost
@@ -978,9 +987,13 @@ const Msfconsole = props => {
   useEffect(() => {
     initMsfconsole();
     return () => {
-      wsmsf.current.close();
-      msfConsoleTerm.current.close();
-      msfConsoleTerm.current.dispose();
+      try {
+        wsmsf.current.close();
+        msfConsoleTerm.current.close();
+        msfConsoleTerm.current.dispose();
+      } catch (error) {
+      }
+
     };
   }, []);
 

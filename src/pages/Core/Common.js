@@ -30,7 +30,7 @@ export const host_type_to_avatar_table = {
     <Avatar
       size={22}
       shape="square"
-      style={{ backgroundColor: '#177ddc', width: 48 }}
+      style={{ backgroundColor: '#177ddc', width: 56 }}
       icon={<WindowsOutlined/>}
     />
   ),
@@ -38,7 +38,7 @@ export const host_type_to_avatar_table = {
     <Avatar
       size={22}
       shape="square"
-      style={{ backgroundColor: '#49aa19', width: 48 }}
+      style={{ backgroundColor: '#49aa19', width: 56 }}
       icon={<LaptopOutlined/>}
     />
   ),
@@ -46,7 +46,7 @@ export const host_type_to_avatar_table = {
     <Avatar
       size={22}
       shape="square"
-      style={{ backgroundColor: '#13a8a8', width: 48 }}
+      style={{ backgroundColor: '#13a8a8', width: 56 }}
       icon={<CloudOutlined/>}
     />
   ),
@@ -54,7 +54,7 @@ export const host_type_to_avatar_table = {
     <Avatar
       size={22}
       shape="square"
-      style={{ backgroundColor: '#d84a1b', width: 48 }}
+      style={{ backgroundColor: '#d84a1b', width: 56 }}
       icon={<BugOutlined/>}
     />
   ),
@@ -62,7 +62,7 @@ export const host_type_to_avatar_table = {
     <Avatar
       size={22}
       shape="square"
-      style={{ backgroundColor: '#d87a16', width: 48 }}
+      style={{ backgroundColor: '#d87a16', width: 56 }}
       icon={<GatewayOutlined/>}
     />
   ),
@@ -70,7 +70,7 @@ export const host_type_to_avatar_table = {
     <Avatar
       size={22}
       shape="square"
-      style={{ backgroundColor: '#bfbfbf', width: 48 }}
+      style={{ backgroundColor: '#bfbfbf', width: 56 }}
       icon={<QuestionOutlined/>}
     />
   ),
