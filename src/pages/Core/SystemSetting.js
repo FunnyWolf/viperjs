@@ -25,6 +25,7 @@ import {
   Tabs,
   Tag,
   Typography,
+  message,
 } from 'antd';
 import {
   CheckOutlined,
@@ -34,7 +35,7 @@ import {
   SyncOutlined,
   ReloadOutlined,
 } from '@ant-design/icons';
-
+import { useLocalStorageState } from 'ahooks';
 import styles from '@/components/GlobalHeader/index.less';
 import { reloadAuthorized } from '@/utils/Authorized';
 
@@ -224,6 +225,7 @@ const SystemInfo = props => {
     setPostModuleConfigListStateAll: model.setPostModuleConfigListStateAll,
   }));
   const [serviceStatusActive, setServiceStatusActive] = useState({ json_rpc: { status: false } });
+  const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState('viper-debug-flag', false);
   //初始化数据
   const initListServiceStatusReq = useRequest(getServiceStatusAPI, {
     onSuccess: (result, params) => {
@@ -269,7 +271,7 @@ const SystemInfo = props => {
       <Row>
         <Col span={16}>
           <Row>
-            <Descriptions size="small" style={{ marginLeft: 64 }} column={4}>
+            <Descriptions size="small" style={{ marginLeft: 64 }} column={5}>
               <Descriptions.Item label="渗透服务">
                 {serviceStatusActive.json_rpc.status ? (
                   <Tag color="green">正常</Tag>
@@ -294,6 +296,18 @@ const SystemInfo = props => {
                   文档链接
                 </a>
               </Descriptions.Item>
+              <Descriptions.Item label="实验功能">
+                <Switch
+                  checkedChildren={<CheckOutlined/>}
+                  unCheckedChildren={<MinusOutlined/>}
+                  checked={viperDebugFlag}
+                  onClick={() => {
+                    setViperDebugFlag(!viperDebugFlag);
+                    message.info('刷新页面后生效');
+                  }}
+                />
+              </Descriptions.Item>
+
             </Descriptions>
           </Row>
           <Row>
@@ -322,6 +336,7 @@ const SystemInfo = props => {
                 onClick={loginOut}>
                 退出平台
               </Button>
+
             </Space>
           </Row>
         </Col>

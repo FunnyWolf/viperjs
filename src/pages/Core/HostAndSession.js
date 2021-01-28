@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { useModel, useRequest } from 'umi';
+import { useControllableValue, useInterval, useLocalStorageState } from 'ahooks';
 import {
   deleteCoreHostAPI,
   deleteMsgrpcFileSessionAPI,
@@ -36,7 +37,6 @@ import {
   putMsgrpcTransportAPI,
 } from '@/services/apiv1';
 import '@ant-design/compatible/assets/index.css';
-import { useControllableValue, useInterval } from 'ahooks';
 
 import {
   ArrowRightOutlined,
@@ -652,14 +652,19 @@ const HostAndSessionCard = props => {
 
                 // 连接标签
                 const connecttooltip = (
-                  <span>
-                      {' '}
-                    {record.session.tunnel_peer_locate} {record.session.tunnel_peer} {'-> '}
-                    {record.session.tunnel_local}
-                    </span>
+                  <div
+
+                  >
+                    {record.session.tunnel_local}{' <- '}
+                    {record.session.tunnel_peer}{' '}
+                    {record.session.tunnel_peer_locate}
+                  </div>
                 );
                 const connectTag = (
-                  <Tooltip mouseEnterDelay={1} placement="right" title={connecttooltip}>
+                  <Tooltip
+                    mouseEnterDelay={1}
+                    placement="bottomLeft"
+                    title={connecttooltip}>
                     <Tag
                       color="cyan"
                       style={{
@@ -701,7 +706,11 @@ const HostAndSessionCard = props => {
                 // os标签
                 const os_tag_new =
                   record.session.platform === 'windows' ? (
-                    <Tooltip mouseEnterDelay={1} placement="right" title={record.session.os}>
+                    <Tooltip
+                      mouseEnterDelay={1}
+                      placement="bottomLeft"
+                      title={record.session.os}
+                    >
                       <Tag
                         color="blue"
                         style={{
@@ -749,7 +758,10 @@ const HostAndSessionCard = props => {
                 let user = null;
                 if (record.session.available === true && record.session.isadmin === true) {
                   user = (
-                    <Tooltip mouseEnterDelay={1} placement="right" title={record.session.info}>
+                    <Tooltip
+                      mouseEnterDelay={1}
+                      placement="bottomLeft"
+                      title={record.session.info}>
                       <Tag
                         color="orange"
                         style={{
@@ -765,7 +777,10 @@ const HostAndSessionCard = props => {
                   );
                 } else {
                   user = (
-                    <Tooltip mouseEnterDelay={1} placement="right" title={record.session.info}>
+                    <Tooltip
+                      mouseEnterDelay={1}
+                      placement="bottomLeft"
+                      title={record.session.info}>
                       <Tag
                         style={{
                           marginLeft: -6,
@@ -803,6 +818,39 @@ const HostAndSessionCard = props => {
               },
             },
             {
+              dataIndex: 'ipaddress',
+              width: 120,
+              render: (text, record) => (
+                <div
+                  style={{
+                    display: 'flex',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <Popover
+                    placement="left"
+                    content={
+                      <UpdateHost
+                        hostAndSessionActive={hostAndSessionActive}
+                      />
+                    }
+                    onClick={() => {
+                      setActiveHostAndSession(record);
+                    }}
+                    trigger="click">
+                    <Text
+                      className={styles.percent}
+                      ellipsis={{
+                        rows: 1,
+                        tooltip: true,
+                      }}>
+                      {record.comment}
+                    </Text>
+                  </Popover>
+                </div>
+              ),
+            },
+            {
               title: '内网IP',
               dataIndex: 'ipaddress',
               width: 64,
@@ -813,29 +861,19 @@ const HostAndSessionCard = props => {
                     cursor: 'pointer',
                   }}
                 >
-                  <Tooltip
-                    title={record.comment}
+                  <Popover
                     placement="left"
-                    // onClick={() => {
-                    //   setActiveHostAndSession(record);
-                    //   setUpdateHostModalVisable(true);
-                    // }}
-                  >
-                    <Popover
-                      placement="left"
-                      content={
-                        <UpdateHost
-                          hostAndSessionActive={hostAndSessionActive}
-                        />
-                      }
-                      onClick={() => {
-                        setActiveHostAndSession(record);
-                      }}
-                      trigger="click">
-                      {host_type_to_avatar_table[record.tag]}
-                    </Popover>
-
-                  </Tooltip>
+                    content={
+                      <UpdateHost
+                        hostAndSessionActive={hostAndSessionActive}
+                      />
+                    }
+                    onClick={() => {
+                      setActiveHostAndSession(record);
+                    }}
+                    trigger="click">
+                    {host_type_to_avatar_table[record.tag]}
+                  </Popover>
                 </div>
               ),
             },
@@ -1083,7 +1121,7 @@ const TabsBottom = props => {
   }));
 
   const [runBotModuleModalVisable, setRunBotModuleModalVisable] = useState(false);
-
+  const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState('viper-debug-flag', false);
   const tabActiveOnChange = activeKey => {
     switch (activeKey) {
       case 'msfconsole':
@@ -1187,12 +1225,13 @@ const TabsBottom = props => {
         >
           <Credential/>
         </TabPane>
-        <TabPane
+        {viperDebugFlag ? <TabPane
           tab={<span><MailOutlined/>钓鱼管理</span>}
           key="LazyLoader"
         >
           <LazyLoader/>
-        </TabPane>
+        </TabPane> : null}
+
         <TabPane
           tab={<span><RadarChartOutlined/>全网扫描</span>}
           key="BotScan"
