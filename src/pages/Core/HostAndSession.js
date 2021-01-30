@@ -237,10 +237,8 @@ const HostAndSession = props => {
 
       const { bot_wait_list_update } = response;
       const { bot_wait_list } = response;
+      setTaskQueueLength(task_queue_length);
 
-      if (taskQueueLength !== task_queue_length) {
-        setTaskQueueLength(task_queue_length);
-      }
       if (hosts_sorted_update) {
         setHostAndSessionList(hosts_sorted);
       }
@@ -355,7 +353,7 @@ const HostAndSessionCard = props => {
     isadmin: null,
   });
 
-  const [updateHostModalVisable, setUpdateHostModalVisable] = useState(false);
+
   const [sessionIOModalVisable, setSessionIOModalVisable] = useState(false);
   const [routeModalVisable, setRouteModalVisable] = useState(false);
   const [portFwdModalVisable, setPortFwdModalVisable] = useState(false);
@@ -475,10 +473,6 @@ const HostAndSessionCard = props => {
           setActiveHostAndSession(record);
           setVulnerabilityModalVisable(true);
           break;
-        case 'UpdateHost':
-          setActiveHostAndSession(record);
-          setUpdateHostModalVisable(true);
-          break;
         case 'DestoryHost':
           destoryHostReq.run({ hid: record.id });
           break;
@@ -501,10 +495,6 @@ const HostAndSessionCard = props => {
           <BugOutlined/>
           已知漏洞
         </Menu.Item>
-        {/*<Menu.Item key="UpdateHost">*/}
-        {/*  <EditOutlined/>*/}
-        {/*  修改备注*/}
-        {/*</Menu.Item>*/}
         <Menu.Item key="DestoryHost">
           <DeleteOutlined style={{ color: 'red' }}/>
           <span style={{ color: 'red' }}>
@@ -578,7 +568,6 @@ const HostAndSessionCard = props => {
             },
             {
               title: 'Session',
-              // width: 550,
               render: (text, record) => {
                 if (record.session === null || record.session === undefined) {
                   return null;
@@ -653,7 +642,6 @@ const HostAndSessionCard = props => {
                 // 连接标签
                 const connecttooltip = (
                   <div
-
                   >
                     {record.session.tunnel_local}{' <- '}
                     {record.session.tunnel_peer}{' '}
@@ -819,7 +807,7 @@ const HostAndSessionCard = props => {
             },
             {
               dataIndex: 'ipaddress',
-              width: 120,
+              width: 200,
               render: (text, record) => (
                 <div
                   style={{
@@ -851,7 +839,6 @@ const HostAndSessionCard = props => {
               ),
             },
             {
-              title: '内网IP',
               dataIndex: 'ipaddress',
               width: 64,
               render: (text, record) => (
@@ -862,7 +849,7 @@ const HostAndSessionCard = props => {
                   }}
                 >
                   <Popover
-                    placement="left"
+                    placement="leftTop"
                     content={
                       <UpdateHost
                         hostAndSessionActive={hostAndSessionActive}
@@ -1010,21 +997,6 @@ const HostAndSessionCard = props => {
       >
         <Vulnerability hostAndSessionActive={hostAndSessionActive}/>
       </Modal>
-      {/*<Modal*/}
-      {/*  style={{ top: 32 }}*/}
-      {/*  width="45vw"*/}
-      {/*  bodyStyle={{ padding: '8 8 8 8' }}*/}
-      {/*  destroyOnClose*/}
-      {/*  visible={updateHostModalVisable}*/}
-      {/*  footer={null}*/}
-      {/*  mask={false}*/}
-      {/*  onCancel={() => setUpdateHostModalVisable(false)}*/}
-      {/*>*/}
-      {/*  <UpdateHost*/}
-      {/*    hostAndSessionActive={hostAndSessionActive}*/}
-      {/*    closeModal={() => setUpdateHostModalVisable(false)}*/}
-      {/*  />*/}
-      {/*</Modal>*/}
     </Fragment>
   );
 };
@@ -1125,28 +1097,20 @@ const TabsBottom = props => {
   const tabActiveOnChange = activeKey => {
     switch (activeKey) {
       case 'msfconsole':
-        // openMsfconsole();
         break;
       case 'Socks':
-        // this.msfSocks.listSocks();
         break;
       case 'filemsf':
-        // this.fileMsf.listFileMsf();
         break;
       case 'Credential':
-        // this.credential.listCredential();
         break;
       case 'LazyLoader':
-        // this.lazyloader.listLazyLoader();
         break;
       case 'PayloadAndHandler':
-        // this.payloadandhandler.listHandlerList();
         break;
       case 'MuitHosts':
-        // this.muitHosts.listHost();
         break;
       case 'SystemSetting':
-        // this.systemSettingView.listCoreSetingAll();
         break;
       default:
     }
@@ -1175,20 +1139,19 @@ const TabsBottom = props => {
         </TabPane>
         <TabPane
           tab={<div>
-            {/*{taskQueueLength > 0 ?*/}
-            {/*  <Badge*/}
-            {/*    showZero*/}
-            {/*    style={{*/}
-            {/*      marginTop: -4,*/}
-            {/*      marginLeft: -4,*/}
-            {/*      marginRight: 10,*/}
-            {/*      color: '#73d13d',*/}
-            {/*      backgroundColor: '#092b00',*/}
-            {/*      boxShadow: '0 0 0 1px #237804 inset',*/}
-            {/*    }}*/}
-            {/*    count={taskQueueLength}*/}
-            {/*  /> : <FieldTimeOutlined/>}*/}
-            <FieldTimeOutlined/>
+            {taskQueueLength > 0 ?
+              <Badge
+                showZero
+                style={{
+                  marginTop: -4,
+                  marginLeft: -4,
+                  marginRight: 10,
+                  color: '#73d13d',
+                  backgroundColor: '#092b00',
+                  boxShadow: '0 0 0 1px #237804 inset',
+                }}
+                count={taskQueueLength}
+              /> : <FieldTimeOutlined/>}
             <span>任务列表</span>
           </div>}
           key="JobList"
@@ -4506,7 +4469,7 @@ const UpdateHost = props => {
   return (
     <Form
       style={{
-        width: '40vw',
+        width: '548px',
       }}
       initialValues={{
         hid: hostAndSessionActive.id,
@@ -4527,7 +4490,6 @@ const UpdateHost = props => {
       <Form.Item
         label={<span>标签</span>}
         name="tag"
-        rules={[{ required: true, message: '请选择标签' }]}
         {...formLayout}
       >
         <Radio.Group>
@@ -4540,7 +4502,7 @@ const UpdateHost = props => {
         </Radio.Group>
       </Form.Item>
       <Form.Item
-        label={<span>注释</span>}
+        label={<span>备注</span>}
         name="comment"
         rules={[{ message: '最长支持二十个字符', max: 20 }]}
         {...formLayout}
