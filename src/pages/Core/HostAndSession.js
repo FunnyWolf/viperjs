@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { useModel, useRequest } from 'umi';
 import { useControllableValue, useInterval, useLocalStorageState } from 'ahooks';
 import {
@@ -130,7 +130,7 @@ import PayloadAndHandler from '@/pages/Core/PayloadAndHandler';
 import MuitHosts from '@/pages/Core/MuitHosts';
 import { host_type_to_avatar_table, MyIcon, SidTag } from '@/pages/Core/Common';
 import SystemSetting from '@/pages/Core/SystemSetting';
-import RunModule, { PostModule, RunBotModule } from '@/pages/Core/RunModule';
+import { PostModule, RunBotModule, RunModuleMemo } from '@/pages/Core/RunModule';
 import MsfSocks from '@/pages/Core/MsfSocks';
 import LazyLoader from '@/pages/Core/LazyLoader';
 import Credential from '@/pages/Core/Credential';
@@ -299,38 +299,14 @@ const HostAndSessionCard = props => {
   console.log('HostAndSessionCard');
   const {
     hostAndSessionList,
+    hostAndSessionActive,
+    setHostAndSessionActive,
   } = useModel('HostAndSessionModel', model => ({
     hostAndSessionList: model.hostAndSessionList,
+    hostAndSessionActive: model.hostAndSessionActive,
+    setHostAndSessionActive: model.setHostAndSessionActive,
   }));
 
-  const [hostAndSessionActive, setHostAndSessionActive] = useState({
-    id: -1,
-    ipaddress: '点击选择主机',
-    tag: 'other',
-    comment: null,
-    proxy: {},
-    session: {
-      id: -1,
-      type: 'meterpreter',
-      session_host: '请选择Session',
-      tunnel_local: null,
-      tunnel_peer: null,
-      tunnel_peer_ip: null,
-      tunnel_peer_locate: null,
-      tunnel_peer_asn: null,
-      via_exploit: null,
-      via_payload: null,
-      info: null,
-      user: null,
-      os: null,
-      os_short: null,
-      arch: null,
-      platform: null,
-      fromnow: 0,
-      available: 0,
-      isadmin: null,
-    },
-  });
   const [sessionActive, setSessionActive] = useState({
     id: -1,
     type: 'meterpreter',
@@ -353,7 +329,6 @@ const HostAndSessionCard = props => {
     isadmin: null,
   });
 
-
   const [sessionIOModalVisable, setSessionIOModalVisable] = useState(false);
   const [routeModalVisable, setRouteModalVisable] = useState(false);
   const [portFwdModalVisable, setPortFwdModalVisable] = useState(false);
@@ -364,6 +339,10 @@ const HostAndSessionCard = props => {
   const [vulnerabilityModalVisable, setVulnerabilityModalVisable] = useState(false);
   const [fileSessionModalVisable, setFileSessionModalVisable] = useState(false);
   const [runModuleModalVisable, setRunModuleModalVisable] = useState(false);
+
+  const closeTransportModel = useCallback(() => {
+    setTransportModalVisable(false);
+  }, []);
 
   const destoryHostReq = useRequest(deleteCoreHostAPI, {
     manual: true,
@@ -877,9 +856,7 @@ const HostAndSessionCard = props => {
         footer={null}
         bodyStyle={{ padding: '0px 0px 0px 0px' }}
       >
-        <RunModule
-          hostAndSessionActive={hostAndSessionActive}
-        />
+        <RunModuleMemo/>
       </Modal>
 
       <Modal
@@ -891,7 +868,7 @@ const HostAndSessionCard = props => {
         footer={null}
         bodyStyle={{ padding: '8px 8px 8px 8px' }}
       >
-        <SessionInfo hostAndSessionActive={hostAndSessionActive}/>
+        <SessionInfoMemo/>
       </Modal>
 
       <Modal
@@ -903,7 +880,7 @@ const HostAndSessionCard = props => {
         footer={null}
         bodyStyle={{ padding: '8px 0px 0px 0px' }}
       >
-        <FileSession hostAndSessionActive={hostAndSessionActive}/>
+        <FileSessionMemo/>
       </Modal>
 
       <Modal
@@ -916,7 +893,7 @@ const HostAndSessionCard = props => {
         footer={null}
         bodyStyle={{ padding: '0px 0px 16px 0px' }}
       >
-        <MsfRoute hostAndSessionActive={hostAndSessionActive}/>
+        <MsfRouteMemo/>
       </Modal>
 
       <Modal
@@ -929,7 +906,7 @@ const HostAndSessionCard = props => {
         footer={null}
         bodyStyle={{ padding: '0px 0px 16px 0px' }}
       >
-        <PortFwd hostAndSessionActive={hostAndSessionActive}/>
+        <PortFwdMemo/>
       </Modal>
 
       <Modal
@@ -942,9 +919,8 @@ const HostAndSessionCard = props => {
         footer={null}
         bodyStyle={{ padding: '0px 0px 16px 0px' }}
       >
-        <Transport
-          hostAndSessionActive={hostAndSessionActive}
-          closeModal={() => setTransportModalVisable(false)}
+        <TransportMemo
+          closeModal={closeTransportModel}
         />
       </Modal>
 
@@ -957,7 +933,7 @@ const HostAndSessionCard = props => {
         footer={null}
         bodyStyle={{ padding: '8px 8px 8px 8px' }}
       >
-        <SessionIO hostAndSessionActive={hostAndSessionActive}/>
+        <SessionIOMemo/>
       </Modal>
 
       <Modal
@@ -969,7 +945,7 @@ const HostAndSessionCard = props => {
         footer={null}
         bodyStyle={{ padding: '8px 8px 8px 8px' }}
       >
-        <HostInfo hostAndSessionActive={hostAndSessionActive}/>
+        <HostInfoMemo/>
       </Modal>
 
       <Modal
@@ -982,7 +958,7 @@ const HostAndSessionCard = props => {
         footer={null}
         bodyStyle={{ padding: '0px 8px 0px 8px' }}
       >
-        <PortService hostAndSessionActive={hostAndSessionActive}/>
+        <PortServiceMemo/>
       </Modal>
 
       <Modal
@@ -995,13 +971,13 @@ const HostAndSessionCard = props => {
         footer={null}
         bodyStyle={{ padding: '0px 0px 0px 0px' }}
       >
-        <Vulnerability hostAndSessionActive={hostAndSessionActive}/>
+        <VulnerabilityMemo/>
       </Modal>
     </Fragment>
   );
 };
 
-const Msfconsole = props => {
+const Msfconsole = () => {
   console.log('Msfconsole');
   const fitAddon = useRef(new FitAddon());
   const msfConsoleTerm = useRef(null);
@@ -2066,9 +2042,13 @@ const RealTimeNotices = () => {
   </Fragment>);
 };
 
-const SessionInfo = props => {
+const SessionInfo = () => {
   console.log('SessionInfo');
-  const { hostAndSessionActive } = props;
+  const {
+    hostAndSessionActive,
+  } = useModel('HostAndSessionModel', model => ({
+    hostAndSessionActive: model.hostAndSessionActive,
+  }));
   const [sessionInfoActive, setSessionInfoActive] = useState({
     sessionid: -1,
     whoami: null,
@@ -2242,7 +2222,7 @@ const SessionInfo = props => {
   return (
     <Fragment>
       <Tabs defaultActiveKey="sessioninfo" size="small">
-        <TabPane tab="Session信息" key="sessioninfo">
+        <TabPane tab="权限信息" key="sessioninfo">
           <Descriptions
             style={{ marginTop: -16, width: '100%' }}
             size="small"
@@ -2390,10 +2370,15 @@ const SessionInfo = props => {
   );
 };
 
+const SessionInfoMemo = React.memo(SessionInfo);
 
-const SessionIO = props => {
+const SessionIO = () => {
   console.log('SessionIO');
-  const { hostAndSessionActive } = props;
+  const {
+    hostAndSessionActive,
+  } = useModel('HostAndSessionModel', model => ({
+    hostAndSessionActive: model.hostAndSessionActive,
+  }));
   const [sessionIOOutput, setSessionIOOutput] = useState('');
   const [shellInput, setShellInput] = useState('');
 
@@ -2540,10 +2525,15 @@ const SessionIO = props => {
   );
 };
 
+const SessionIOMemo = React.memo(SessionIO);
 
-const MsfRoute = props => {
+const MsfRoute = () => {
   console.log('MsfRoute');
-  const { hostAndSessionActive } = props;
+  const {
+    hostAndSessionActive,
+  } = useModel('HostAndSessionModel', model => ({
+    hostAndSessionActive: model.hostAndSessionActive,
+  }));
   const [routeActive, setRouteActive] = useState([]);
   const [autoRouteCheck, setAutoRouteCheck] = useState(false);
 
@@ -2679,10 +2669,15 @@ const MsfRoute = props => {
   );
 };
 
+const MsfRouteMemo = React.memo(MsfRoute);
 
-const PortFwd = props => {
+const PortFwd = () => {
   console.log('PortFwd');
-  const { hostAndSessionActive } = props;
+  const {
+    hostAndSessionActive,
+  } = useModel('HostAndSessionModel', model => ({
+    hostAndSessionActive: model.hostAndSessionActive,
+  }));
   const [portFwdActive, setPortFwdActive] = useState([]);
 
   const initListPortFwdReq = useRequest(() => getMsgrpcPortFwdAPI({ sessionid: hostAndSessionActive.session.id }), {
@@ -2952,10 +2947,16 @@ const PortFwd = props => {
   );
 };
 
+const PortFwdMemo = React.memo(PortFwd);
 
 const Transport = props => {
   console.log('Transport');
-  const { hostAndSessionActive, closeModal } = props;
+  const {
+    hostAndSessionActive,
+  } = useModel('HostAndSessionModel', model => ({
+    hostAndSessionActive: model.hostAndSessionActive,
+  }));
+  const { closeModal } = props;
   const [session_exp, setSession_exp] = useState(0);
   const [transports, setTransports] = useState([]);
   const [handlers, setHandlers] = useState([]);
@@ -3276,10 +3277,15 @@ const Transport = props => {
   );
 };
 
+const TransportMemo = React.memo(Transport);
 
-const FileSession = props => {
+const FileSession = () => {
   console.log('FileSession');
-  const { hostAndSessionActive } = props;
+  const {
+    hostAndSessionActive,
+  } = useModel('HostAndSessionModel', model => ({
+    hostAndSessionActive: model.hostAndSessionActive,
+  }));
   const [fileSessionListActive, setFileSessionListActive] = useState({
     path: null,
     entries: [],
@@ -3890,10 +3896,15 @@ const FileSession = props => {
   );
 };
 
+const FileSessionMemo = React.memo(FileSession);
 
-const HostInfo = props => {
+const HostInfo = () => {
   console.log('HostInfo');
-  const { hostAndSessionActive } = props;
+  const {
+    hostAndSessionActive,
+  } = useModel('HostAndSessionModel', model => ({
+    hostAndSessionActive: model.hostAndSessionActive,
+  }));
   const [hostAndSessionBaseInfo, setHostAndSessionBaseInfo] = useState({
     Computer: null,
     OS: null,
@@ -4234,11 +4245,15 @@ const HostInfo = props => {
     </Fragment>
   );
 };
+const HostInfoMemo = React.memo(HostInfo);
 
-
-const PortService = props => {
+const PortService = () => {
   console.log('PortService');
-  const { hostAndSessionActive } = props;
+  const {
+    hostAndSessionActive,
+  } = useModel('HostAndSessionModel', model => ({
+    hostAndSessionActive: model.hostAndSessionActive,
+  }));
   const [portServiceActive, setPortServiceActive] = useState([]);
 
   const initListPortServiceReq = useRequest(() => getPostlateralPortserviceAPI(
@@ -4335,11 +4350,15 @@ const PortService = props => {
     />
   );
 };
+const PortServiceMemo = React.memo(PortService);
 
-
-const Vulnerability = props => {
+const Vulnerability = () => {
   console.log('Vulnerability');
-  const { hostAndSessionActive } = props;
+  const {
+    hostAndSessionActive,
+  } = useModel('HostAndSessionModel', model => ({
+    hostAndSessionActive: model.hostAndSessionActive,
+  }));
   const [vulnerabilityActive, setVulnerabilityActive] = useState([]);
 
   const initListVulnerabilityeReq = useRequest(() => getPostlateralVulnerabilityAPI(
@@ -4421,7 +4440,7 @@ const Vulnerability = props => {
     />
   );
 };
-
+const VulnerabilityMemo = React.memo(Vulnerability);
 
 const UpdateHost = props => {
   console.log('UpdateHost');

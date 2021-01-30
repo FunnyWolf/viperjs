@@ -57,14 +57,16 @@ String.prototype.format = function() {
 };
 
 
-const RunModule = props => {
+export const RunModule = () => {
   console.log('RunModule');
   const {
+    hostAndSessionActive,
     postModuleConfigListStateAll,
   } = useModel('HostAndSessionModel', model => ({
+    hostAndSessionActive: model.hostAndSessionActive,
     postModuleConfigListStateAll: model.postModuleConfigListStateAll,
   }));
-  const { hostAndSessionActive } = props;
+
 
   const getPins = () => {
     if (localStorage.getItem('Pins') === null) {
@@ -829,6 +831,7 @@ const RunModule = props => {
   );
 };
 
+export const RunModuleMemo = React.memo(RunModule);
 
 export const RunBotModule = props => {
   console.log('RunBotModule');
@@ -1631,4 +1634,4 @@ export const PostModule = props => {
   );
 };
 
-export default RunModule;
+

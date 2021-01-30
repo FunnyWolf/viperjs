@@ -15,6 +15,36 @@ export default function HostAndSessionModel() {
   const [botWaitList, setBotWaitList] = useState([]);
 
 
+  const [hostAndSessionActive, setHostAndSessionActive] = useState({
+    id: -1,
+    ipaddress: '点击选择主机',
+    tag: 'other',
+    comment: null,
+    proxy: {},
+    session: {
+      id: -1,
+      type: 'meterpreter',
+      session_host: '请选择Session',
+      tunnel_local: null,
+      tunnel_peer: null,
+      tunnel_peer_ip: null,
+      tunnel_peer_locate: null,
+      tunnel_peer_asn: null,
+      via_exploit: null,
+      via_payload: null,
+      info: null,
+      user: null,
+      os: null,
+      os_short: null,
+      arch: null,
+      platform: null,
+      fromnow: 0,
+      available: 0,
+      isadmin: null,
+    },
+  });
+
+
   return {
     postModuleConfigListStateAll,
     setPostModuleConfigListStateAll,
@@ -45,5 +75,8 @@ export default function HostAndSessionModel() {
 
     botWaitList,
     setBotWaitList,
+
+    hostAndSessionActive,
+    setHostAndSessionActive,
   };
 }
