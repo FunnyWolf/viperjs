@@ -795,7 +795,7 @@ const HostAndSessionCard = props => {
                   }}
                 >
                   <Popover
-                    placement="left"
+                    placement="leftTop"
                     content={
                       <UpdateHostMemo/>
                     }
@@ -3211,7 +3211,7 @@ const Transport = props => {
         </Form.Item>
         <Form.Item>
           <Popconfirm
-            title="确认切换Session传输,该操作会删除当前Session?"
+            title="确认切换Session传输,此操作会删除当前Session?"
             onConfirm={() => onUpdateTransport('prev')}
           >
             <Button loading={updateTransportReq.loading} danger icon={<UpOutlined/>}>
@@ -3221,7 +3221,7 @@ const Transport = props => {
         </Form.Item>
         <Form.Item>
           <Popconfirm
-            title="确认切换Session传输,该操作会删除当前Session?"
+            title="确认切换Session传输,此操作会删除当前Session?"
             onConfirm={() => onUpdateTransport('next')}
           >
             <Button loading={updateTransportReq.loading} danger icon={<DownOutlined/>}>
