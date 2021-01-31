@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, memo, useState } from 'react';
 import {
   deleteMsgrpcHandlerAPI,
   getCoreSettingAPI,
@@ -1661,7 +1661,7 @@ const CreatePayloadModalContent = props => {
 };
 
 
-const PayloadAndHandler = props => {
+const PayloadAndHandler = () => {
   console.log('PayloadAndHandler');
   const [createHandlerModalVisible, setCreateHandlerModalVisible] = useState(false);
   const [createPayloadModalVisible, setCreatePayloadModalVisible] = useState(false);
@@ -1961,5 +1961,5 @@ const PayloadAndHandler = props => {
     </Modal>
   </Fragment>);
 };
-
+export const PayloadAndHandlerMemo = memo(PayloadAndHandler);
 export default PayloadAndHandler;

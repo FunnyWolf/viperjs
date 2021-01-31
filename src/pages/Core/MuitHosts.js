@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, memo, useState } from 'react';
 import copy from 'copy-to-clipboard';
 import { formatMessage, useRequest } from 'umi';
 import moment from 'moment';
@@ -83,7 +83,7 @@ const host_type_to_avatar = {
   ),
 };
 
-const MuitHosts = props => {
+const MuitHosts = () => {
   console.log('MuitHosts');
   const [updateHostModalVisable, setUpdateHostModalVisable] = useState(false);
   const [hostList, setHostList] = useState([]);
@@ -483,4 +483,5 @@ const MuitHosts = props => {
   );
 };
 
+export const MuitHostsMemo = memo(MuitHosts);
 export default MuitHosts;

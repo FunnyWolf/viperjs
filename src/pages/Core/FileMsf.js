@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, memo, useState } from 'react';
 import moment from 'moment';
 import { formatMessage, useRequest } from 'umi';
 import { deleteMsgrpcFileMsfAPI, getMsgrpcFileMsfAPI, postPostmodulePostModuleActuatorAPI } from '@/services/apiv1';
@@ -114,7 +114,7 @@ const downloadFileWayDetail = item => {
   });
 };
 
-const FileMsf = props => {
+const FileMsf = () => {
   console.log('FileMsf');
   const [msfUploading, setMsfUploading] = useState(false);
   const [fileMsfListActive, setFileMsfListActive] = useState([]);
@@ -340,7 +340,7 @@ const FileMsf = props => {
     </Fragment>
   );
 };
-
+export const FileMsfMemo = memo(FileMsf);
 
 export const FileMsfModal = props => {
   const { hostAndSessionActive, dirpath } = props;

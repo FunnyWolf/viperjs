@@ -1,11 +1,11 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, memo, useState } from 'react';
 import {
   getCoreSettingAPI,
   getServiceStatusAPI,
   postCoreSettingAPI,
   putPostmodulePostModuleConfigAPI,
 } from '@/services/apiv1';
-import { useModel, history, useRequest } from 'umi';
+import { history, useModel, useRequest } from 'umi';
 import '@ant-design/compatible/assets/index.css';
 import { setToken } from '@/utils/authority';
 import {
@@ -18,6 +18,7 @@ import {
   Form,
   Input,
   List,
+  message,
   Row,
   Select,
   Space,
@@ -25,15 +26,14 @@ import {
   Tabs,
   Tag,
   Typography,
-  message,
 } from 'antd';
 import {
   CheckOutlined,
   DeliveredProcedureOutlined,
   LogoutOutlined,
   MinusOutlined,
-  SyncOutlined,
   ReloadOutlined,
+  SyncOutlined,
 } from '@ant-design/icons';
 import { useLocalStorageState } from 'ahooks';
 import styles from '@/components/GlobalHeader/index.less';
@@ -85,7 +85,7 @@ const inputItemLayout = {
 };
 
 
-const SystemSetting = props => {
+const SystemSetting = () => {
   console.log('SystemSetting');
   return (
     <Fragment>
@@ -217,8 +217,9 @@ const SystemSetting = props => {
   );
 };
 
+export const SystemSettingMemo = memo(SystemSetting);
 
-const SystemInfo = props => {
+const SystemInfo = () => {
   const {
     setPostModuleConfigListStateAll,
   } = useModel('HostAndSessionModel', model => ({

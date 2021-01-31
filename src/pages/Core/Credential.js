@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, memo, useState } from 'react';
 import '@ant-design/compatible/assets/index.css';
 import { ChromeOutlined, MehOutlined, PlusOutlined, SyncOutlined, WindowsOutlined } from '@ant-design/icons';
 
@@ -28,7 +28,7 @@ String.prototype.format = function() {
 };
 
 
-const Credential = props => {
+const Credential = () => {
   console.log('Credential');
   const [createCredentialModalVisible, setCreateCredentialModalVisible] = useState(false);
   const [credentialList, setCredentialList] = useState([]);
@@ -308,5 +308,5 @@ const Credential = props => {
     </Fragment>
   );
 };
-
+export const CredentialMemo = memo(Credential);
 export default Credential;

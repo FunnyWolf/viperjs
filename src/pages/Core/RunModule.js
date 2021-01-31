@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, memo, useState } from 'react';
 import { useModel, useRequest } from 'umi';
 import '@ant-design/compatible/assets/index.css';
 import {
@@ -1426,6 +1426,8 @@ export const RunBotModule = props => {
     </Row>
   );
 };
+
+export const RunBotModuleMemo = memo(RunBotModule);
 
 export const PostModule = props => {
   console.log('PostModule');

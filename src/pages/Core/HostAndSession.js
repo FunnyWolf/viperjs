@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react';
+import React, { Fragment, memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useModel, useRequest } from 'umi';
 import { useControllableValue, useInterval, useLocalStorageState } from 'ahooks';
 import {
@@ -125,15 +125,15 @@ import { FitAddon } from 'xterm-addon-fit';
 import './xterm.css';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import moment from 'moment';
-import FileMsf, { FileMsfModal } from '@/pages/Core/FileMsf';
-import PayloadAndHandler from '@/pages/Core/PayloadAndHandler';
-import MuitHosts from '@/pages/Core/MuitHosts';
+import { FileMsfMemo, FileMsfModal } from '@/pages/Core/FileMsf';
+import PayloadAndHandler, { PayloadAndHandlerMemo } from '@/pages/Core/PayloadAndHandler';
+import MuitHosts, { MuitHostsMemo } from '@/pages/Core/MuitHosts';
 import { host_type_to_avatar_table, MyIcon, SidTag } from '@/pages/Core/Common';
-import SystemSetting from '@/pages/Core/SystemSetting';
-import { PostModule, RunBotModule, RunModuleMemo } from '@/pages/Core/RunModule';
-import MsfSocks from '@/pages/Core/MsfSocks';
-import LazyLoader from '@/pages/Core/LazyLoader';
-import Credential from '@/pages/Core/Credential';
+import SystemSetting, { SystemSettingMemo } from '@/pages/Core/SystemSetting';
+import { PostModule, RunBotModuleMemo, RunModuleMemo } from '@/pages/Core/RunModule';
+import { MsfSocksMemo } from '@/pages/Core/MsfSocks';
+import LazyLoader, { LazyLoaderMemo } from '@/pages/Core/LazyLoader';
+import Credential, { CredentialMemo } from '@/pages/Core/Credential';
 import { getToken } from '@/utils/authority';
 import styles from './HostAndSession.less';
 
@@ -797,9 +797,7 @@ const HostAndSessionCard = props => {
                   <Popover
                     placement="left"
                     content={
-                      <UpdateHost
-                        hostAndSessionActive={hostAndSessionActive}
-                      />
+                      <UpdateHostMemo/>
                     }
                     onClick={() => {
                       setActiveHostAndSession(record);
@@ -830,9 +828,7 @@ const HostAndSessionCard = props => {
                   <Popover
                     placement="leftTop"
                     content={
-                      <UpdateHost
-                        hostAndSessionActive={hostAndSessionActive}
-                      />
+                      <UpdateHostMemo/>
                     }
                     onClick={() => {
                       setActiveHostAndSession(record);
@@ -1057,8 +1053,9 @@ const Msfconsole = () => {
 
 };
 
+const MsfconsoleMemo = memo(Msfconsole);
 
-const TabsBottom = props => {
+const TabsBottom = () => {
   console.log('TabsBottom');
   const {
     heatbeatsocketalive,
@@ -1106,10 +1103,10 @@ const TabsBottom = props => {
         >
           <Row gutter={0}>
             <Col span={14}>
-              <RealTimeModuleResult/>
+              <RealTimeModuleResultMemo/>
             </Col>
             <Col span={10}>
-              <RealTimeNotices/>
+              <RealTimeNoticesMemo/>
             </Col>
           </Row>
         </TabPane>
@@ -1132,43 +1129,43 @@ const TabsBottom = props => {
           </div>}
           key="JobList"
         >
-          <RealTimeJobs/>
+          <RealTimeJobsMemo/>
         </TabPane>
         <TabPane
           tab={<span><CustomerServiceOutlined/>监听载荷</span>}
           key="PayloadAndHandler"
         >
-          <PayloadAndHandler/>
+          <PayloadAndHandlerMemo/>
         </TabPane>
         <TabPane
           tab={<span><FolderOpenOutlined/>文件列表</span>}
           key="filemsf"
         >
-          <FileMsf/>
+          <FileMsfMemo/>
         </TabPane>
         <TabPane
           tab={<span><SisternodeOutlined/>内网代理</span>}
           key="Socks"
         >
-          <MsfSocks/>
+          <MsfSocksMemo/>
         </TabPane>
         <TabPane
           tab={<span><GroupOutlined/>内网主机</span>}
           key="MuitHosts"
         >
-          <MuitHosts/>
+          <MuitHostsMemo/>
         </TabPane>
         <TabPane
           tab={<span><KeyOutlined/>凭证管理</span>}
           key="Credential"
         >
-          <Credential/>
+          <CredentialMemo/>
         </TabPane>
         {viperDebugFlag ? <TabPane
           tab={<span><MailOutlined/>钓鱼管理</span>}
           key="LazyLoader"
         >
-          <LazyLoader/>
+          <LazyLoaderMemo/>
         </TabPane> : null}
 
         <TabPane
@@ -1187,21 +1184,20 @@ const TabsBottom = props => {
               </Button>
             </Col>
           </Row>
-          <RealTimeBotWaitList/>
+          <RealTimeBotWaitListMemo/>
         </TabPane>
         <TabPane
           tab={<span><CodeOutlined/>CONSOLE</span>}
           key="msfconsole"
           // forceRender
         >
-          <Msfconsole/>
-
+          <MsfconsoleMemo/>
         </TabPane>
         <TabPane
           tab={<span><SettingOutlined/>平台设置</span>}
           key="SystemSetting"
         >
-          <SystemSetting/>
+          <SystemSettingMemo/>
         </TabPane>
       </Tabs>
       <Modal
@@ -1214,7 +1210,7 @@ const TabsBottom = props => {
         footer={null}
         bodyStyle={{ padding: '0px 0px 0px 0px' }}
       >
-        <RunBotModule/>
+        <RunBotModuleMemo/>
       </Modal>
     </Fragment>
   );
@@ -1411,6 +1407,7 @@ const RealTimeBotWaitList = () => {
   );
 };
 
+const RealTimeBotWaitListMemo = memo(RealTimeBotWaitList);
 
 const RealTimeJobs = () => {
   console.log('RealTimeJobs');
@@ -1421,11 +1418,6 @@ const RealTimeJobs = () => {
     jobList: model.jobList,
     setJobList: model.setJobList,
   }));
-
-
-  // const [jobList, onJobListChange] = useControllableValue(props, {
-  //   defaultValue: [],
-  // });
 
   const destoryJobReq = useRequest(deleteMsgrpcJobAPI, {
     manual: true,
@@ -1593,6 +1585,8 @@ const RealTimeJobs = () => {
     </Card>
   );
 };
+
+const RealTimeJobsMemo = memo(RealTimeJobs);
 
 const RealTimeModuleResult = () => {
   console.log('RealTimeModuleResult');
@@ -1787,6 +1781,9 @@ const RealTimeModuleResult = () => {
     </Card>
   </Fragment>);
 };
+
+const RealTimeModuleResultMemo = memo(RealTimeModuleResult);
+
 const KeyToUserIcon = {
   '0': 'icon-yuanxingbaoshi',
   '1': 'icon-sanjiaobaoshi',
@@ -1795,6 +1792,7 @@ const KeyToUserIcon = {
   '4': 'icon-lingxingbaoshi',
   '5': 'icon-duojiaobaoshi',
 };
+
 const userIcon = (key) => {
   return <MyIcon
     type={KeyToUserIcon[key]}
@@ -1817,6 +1815,7 @@ const userIconLarge = (key) => {
     }}
   />;
 };
+
 // 单独独立出来是为了不丢失焦点
 const UserInput = props => {
   const [text, onInputChange] = useControllableValue(
@@ -2041,6 +2040,8 @@ const RealTimeNotices = () => {
     </Card>
   </Fragment>);
 };
+
+const RealTimeNoticesMemo = memo(RealTimeNotices);
 
 const SessionInfo = () => {
   console.log('SessionInfo');
@@ -2370,7 +2371,7 @@ const SessionInfo = () => {
   );
 };
 
-const SessionInfoMemo = React.memo(SessionInfo);
+const SessionInfoMemo = memo(SessionInfo);
 
 const SessionIO = () => {
   console.log('SessionIO');
@@ -2525,7 +2526,7 @@ const SessionIO = () => {
   );
 };
 
-const SessionIOMemo = React.memo(SessionIO);
+const SessionIOMemo = memo(SessionIO);
 
 const MsfRoute = () => {
   console.log('MsfRoute');
@@ -2669,7 +2670,7 @@ const MsfRoute = () => {
   );
 };
 
-const MsfRouteMemo = React.memo(MsfRoute);
+const MsfRouteMemo = memo(MsfRoute);
 
 const PortFwd = () => {
   console.log('PortFwd');
@@ -2947,7 +2948,7 @@ const PortFwd = () => {
   );
 };
 
-const PortFwdMemo = React.memo(PortFwd);
+const PortFwdMemo = memo(PortFwd);
 
 const Transport = props => {
   console.log('Transport');
@@ -3277,7 +3278,7 @@ const Transport = props => {
   );
 };
 
-const TransportMemo = React.memo(Transport);
+const TransportMemo = memo(Transport);
 
 const FileSession = () => {
   console.log('FileSession');
@@ -3896,7 +3897,7 @@ const FileSession = () => {
   );
 };
 
-const FileSessionMemo = React.memo(FileSession);
+const FileSessionMemo = memo(FileSession);
 
 const HostInfo = () => {
   console.log('HostInfo');
@@ -4245,7 +4246,7 @@ const HostInfo = () => {
     </Fragment>
   );
 };
-const HostInfoMemo = React.memo(HostInfo);
+const HostInfoMemo = memo(HostInfo);
 
 const PortService = () => {
   console.log('PortService');
@@ -4350,7 +4351,7 @@ const PortService = () => {
     />
   );
 };
-const PortServiceMemo = React.memo(PortService);
+const PortServiceMemo = memo(PortService);
 
 const Vulnerability = () => {
   console.log('Vulnerability');
@@ -4440,11 +4441,15 @@ const Vulnerability = () => {
     />
   );
 };
-const VulnerabilityMemo = React.memo(Vulnerability);
+const VulnerabilityMemo = memo(Vulnerability);
 
-const UpdateHost = props => {
+const UpdateHost = () => {
   console.log('UpdateHost');
-  const { hostAndSessionActive } = props;
+  const {
+    hostAndSessionActive,
+  } = useModel('HostAndSessionModel', model => ({
+    hostAndSessionActive: model.hostAndSessionActive,
+  }));
   const updateHostReq = useRequest(putCoreHostAPI, {
     manual: true,
     onSuccess: (result, params) => {
@@ -4542,5 +4547,6 @@ const UpdateHost = props => {
     </Form>
   );
 };
+const UpdateHostMemo = memo(UpdateHost);
 
 export default HostAndSession;

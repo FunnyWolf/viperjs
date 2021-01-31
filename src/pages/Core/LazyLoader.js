@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, memo, useState } from 'react';
 import '@ant-design/compatible/assets/index.css';
 import { DownloadOutlined, SyncOutlined } from '@ant-design/icons';
 import { useRequest } from 'umi';
@@ -34,7 +34,7 @@ String.prototype.format = function() {
 };
 
 
-const LazyLoader = props => {
+const LazyLoader = () => {
   console.log('LazyLoader');
   const [lazyloaderList, setLazyloaderList] = useState([]);
   const [handlers, setHandlers] = useState([]);
@@ -360,5 +360,6 @@ const LazyLoader = props => {
     </Fragment>
   );
 };
+export const LazyLoaderMemo = memo(LazyLoader);
 
 export default LazyLoader;

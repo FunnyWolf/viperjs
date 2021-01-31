@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, memo, useState } from 'react';
 import '@ant-design/compatible/assets/index.css';
 import { PlusOutlined, SyncOutlined } from '@ant-design/icons';
 
@@ -513,5 +513,5 @@ const MsfSocks = props => {
     </Fragment>
   );
 };
-
+export const MsfSocksMemo = memo(MsfSocks);
 export default MsfSocks;
