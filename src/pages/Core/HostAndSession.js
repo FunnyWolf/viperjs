@@ -852,7 +852,7 @@ const HostAndSessionCard = props => {
         footer={null}
         bodyStyle={{ padding: '0px 0px 0px 0px' }}
       >
-        <RunModuleMemo/>
+        <RunModuleMemo closeModel={() => setRunModuleModalVisable(false)}/>
       </Modal>
 
       <Modal

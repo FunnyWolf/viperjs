@@ -36,7 +36,15 @@ import { useRequest } from 'umi';
 const { Panel } = Collapse;
 const { Option } = Select;
 const { TextArea } = Input;
+const migrateProcess = [
+  'explorer.exe',
+  'notepad.exe',
+  'svchost.exe',
+];
 
+const initialAutoRunScript = [
+  'post/windows/manage/migrate NAME=explorer.exe SPAWN=false',
+];
 const CreateHandlerModalContent = props => {
   const { createHandlerFinish } = props;
   const formLayout = {
@@ -712,6 +720,68 @@ const CreateHandlerModalContent = props => {
 
         </Panel>
         {handlerPayloadSpecialOption()}
+        <Panel header="自动化" key="auto">
+          <FormNew.Item
+            {...formLayout}
+            label={
+              <Tooltip title="权限(Session)初始化完成后自动执行脚本,请注意该参数只有在监听中生效,在载荷中使用不生效">
+                    <span>
+                      <InfoCircleOutlined/>
+                      &nbsp;自动执行脚本
+                    </span>
+              </Tooltip>
+            }
+            name="InitialAutoRunScript"
+            rules={[]}
+          >
+            <Select allowClear>
+              {initialAutoRunScript.map((encoder, i) => (
+                <Option value={encoder}>{encoder}</Option>
+              ))}
+            </Select>
+          </FormNew.Item>
+          <FormNew.Item
+            {...formLayout}
+            label={
+              <Tooltip title="Payload执行后自动迁移到指定进程,请注意 1)必须使用该监听生成的载荷才能生效 2)迁移进程后原进程不会关闭,并且占用loader文件">
+                    <span>
+                      <InfoCircleOutlined/>
+                      &nbsp;自动迁移
+                    </span>
+              </Tooltip>
+            }
+            name="PrependMigrate"
+            valuePropName="checked"
+            initialValue={false}
+            rules={[]}
+          >
+            <Checkbox/>
+          </FormNew.Item>
+          <FormNew.Item {...formLayout} label="自动迁移到进程" name="PrependMigrateProc" rules={[]}>
+            <Select style={{ width: 200 }} allowClear>
+              {migrateProcess.map((encoder, i) => (
+                <Option value={encoder}>{encoder}</Option>
+              ))}
+            </Select>
+          </FormNew.Item>
+          <FormNew.Item
+            {...formLayout}
+            label={
+              <Tooltip title="监听生成Session后自动关闭,reverse_http(s)会自动忽略改选项">
+                    <span>
+                      <InfoCircleOutlined/>
+                      &nbsp;自动关闭监听
+                    </span>
+              </Tooltip>
+            }
+            name="EXITONSESSION"
+            valuePropName="checked"
+            rules={[]}
+            initialValue={false}
+          >
+            <Checkbox/>
+          </FormNew.Item>
+        </Panel>
         <Panel header="自定义参数" key="3">
           <FormNew.Item
             {...formLayout}
@@ -767,23 +837,7 @@ const CreateHandlerModalContent = props => {
           >
             <Checkbox defaultChecked/>
           </FormNew.Item>
-          <FormNew.Item
-            {...formLayout}
-            label={
-              <Tooltip title="监听生成Session后自动关闭,reverse_http(s)会自动忽略改选项">
-                    <span>
-                      <InfoCircleOutlined/>
-                      &nbsp;自动关闭
-                    </span>
-              </Tooltip>
-            }
-            name="EXITONSESSION"
-            valuePropName="checked"
-            rules={[]}
-            initialValue={false}
-          >
-            <Checkbox/>
-          </FormNew.Item>
+
           <FormNew.Item
             {...formLayout}
             label={
@@ -1147,6 +1201,7 @@ const CreatePayloadModalContent = props => {
     'x64/xor_dynamic',
     'cmd/powershell_base64',
   ];
+
 
   const changePayloadOption = (value, selectedOptions) => {
     const payload = value.join('/');
@@ -1566,7 +1621,31 @@ const CreatePayloadModalContent = props => {
           {payloadFormatOption()}
         </Panel>
         {payloadSpecialOption()}
-        <Panel header="自定义参数" key="3">
+        <Panel header="自动化" key="auto">
+          <FormNew.Item
+            {...formLayout}
+            label={
+              <Tooltip title="Payload执行后自动迁移到指定进程,请注意 1)必须使用该监听生成的载荷才能生效 2)迁移进程后原进程不会关闭,并且占用loader文件">
+                    <span>
+                      <InfoCircleOutlined/>
+                      &nbsp;自动迁移
+                    </span>
+              </Tooltip>
+            }
+            name="PrependMigrate"
+            valuePropName="checked"
+            initialValue={false}
+            rules={[]}
+          >
+            <Checkbox/>
+          </FormNew.Item>
+          <FormNew.Item {...formLayout} label="自动迁移到进程" name="PrependMigrateProc" rules={[]}>
+            <Select style={{ width: 200 }} allowClear>
+              {migrateProcess.map((encoder, i) => (
+                <Option value={encoder}>{encoder}</Option>
+              ))}
+            </Select>
+          </FormNew.Item>
           <FormNew.Item
             {...formLayout}
             label={
@@ -1584,6 +1663,9 @@ const CreatePayloadModalContent = props => {
           >
             <Checkbox/>
           </FormNew.Item>
+        </Panel>
+
+        <Panel header="自定义参数" key="3">
           <FormNew.Item {...formLayout} label="编码" name="Encoder" rules={[]}>
             <Select style={{ width: 200 }} allowClear>
               {payloadEncoder.map((encoder, i) => (
@@ -1604,6 +1686,7 @@ const CreatePayloadModalContent = props => {
           >
             <Checkbox/>
           </FormNew.Item>
+
           <FormNew.Item {...formLayout} label="避免字符" name="BadChars" rules={[]}>
             <Input/>
           </FormNew.Item>
