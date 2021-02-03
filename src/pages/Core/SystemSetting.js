@@ -43,8 +43,8 @@ const { Option } = Select;
 const { TabPane } = Tabs;
 const { Title, Paragraph, Text } = Typography;
 
-const viper_version = '1.2.0';
-const viper_update_date = '20210124';
+const viper_version = '1.2.1';
+const viper_update_date = '20210131';
 const datas = [
   {
     name: 'metasploit-framework',
@@ -270,9 +270,9 @@ const SystemInfo = () => {
   return (
     <Card style={{ marginTop: -16 }}>
       <Row>
-        <Col span={16}>
+        <Col span={18}>
           <Row>
-            <Descriptions size="small" style={{ marginLeft: 64 }} column={5}>
+            <Descriptions size="small" style={{ marginLeft: 64 }} column={6}>
               <Descriptions.Item label="渗透服务">
                 {serviceStatusActive.json_rpc.status ? (
                   <Tag color="green">正常</Tag>
@@ -294,7 +294,18 @@ const SystemInfo = () => {
                   // rel="noopener noreferrer"
                   className={styles.action}
                 >
-                  文档链接
+                  网页链接
+                </a>
+              </Descriptions.Item>
+              <Descriptions.Item label="问题反馈">
+                <a
+                  target="_blank"
+                  href="https://www.yuque.com/funnywolfdoc/viperdoc/qmanm1"
+                  download
+                  // rel="noopener noreferrer"
+                  className={styles.action}
+                >
+                  网页链接
                 </a>
               </Descriptions.Item>
               <Descriptions.Item label="实验功能">
@@ -316,20 +327,20 @@ const SystemInfo = () => {
               style={{ marginTop: 16, marginLeft: 64 }}
             >
               <Button
-                type="primary"
+
                 icon={<SyncOutlined/>}
                 onClick={() => listServiceStatusReq.run()}
                 loading={listServiceStatusReq.loading}
               >
-                更新渗透服务状态
+                更新渗透服务
               </Button>
               <Button
-
+                type="primary"
                 icon={<ReloadOutlined/>}
                 onClick={() => updatePostmodulePostModuleConfigReq.run()}
                 loading={updatePostmodulePostModuleConfigReq.loading}
               >
-                重新加载所有模块
+                重载所有模块
               </Button>
               <Button
                 danger
@@ -341,7 +352,7 @@ const SystemInfo = () => {
             </Space>
           </Row>
         </Col>
-        <Col span={8}>
+        <Col span={6}>
           <List
             size="small"
             header={<div>平台使用以下开源软件</div>}
