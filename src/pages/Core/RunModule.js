@@ -57,8 +57,9 @@ String.prototype.format = function() {
 };
 
 
-export const RunModule = () => {
+export const RunModule = (props) => {
   console.log('RunModule');
+  const { closeModel } = props;
   const {
     hostAndSessionActive,
     postModuleConfigListStateAll,
@@ -136,6 +137,7 @@ export const RunModule = () => {
   const createPostModuleActuatorReq = useRequest(postPostmodulePostModuleActuatorAPI, {
     manual: true,
     onSuccess: (result, params) => {
+      closeModel();
     },
     onError: (error, params) => {
     },
@@ -835,6 +837,7 @@ export const RunModuleMemo = React.memo(RunModule);
 
 export const RunBotModule = props => {
   console.log('RunBotModule');
+
   const botModuleConfigListProps = useModel('HostAndSessionModel', model => ({
     botModuleConfigList: model.botModuleConfigList,
   })).botModuleConfigList;
@@ -893,6 +896,7 @@ export const RunBotModule = props => {
   const createPostModuleActuatorReq = useRequest(postPostmodulePostModuleActuatorAPI, {
     manual: true,
     onSuccess: (result, params) => {
+
     },
     onError: (error, params) => {
     },
