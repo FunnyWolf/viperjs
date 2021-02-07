@@ -1,8 +1,6 @@
 import moment from 'moment';
 import React from 'react';
-import { parse, stringify } from 'qs';
-
-export const heightCon = '5vh';
+import { parse } from 'qs';
 
 export function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;

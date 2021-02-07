@@ -3,7 +3,7 @@ import copy from 'copy-to-clipboard';
 import { formatMessage, useRequest } from 'umi';
 import moment from 'moment';
 import '@ant-design/compatible/assets/index.css';
-import { Avatar, Button, Card, Col, Divider, Form, Input, message, Modal, Radio, Row, Table, Tag } from 'antd';
+import { Avatar, Button, Card, Col, Form, Input, message, Modal, Radio, Row, Space, Table, Tag } from 'antd';
 import {
   BugOutlined,
   CloudOutlined,
@@ -13,7 +13,6 @@ import {
   GatewayOutlined,
   LaptopOutlined,
   QuestionOutlined,
-  ReloadOutlined,
   SearchOutlined,
   SyncOutlined,
   WindowsOutlined,
@@ -21,7 +20,6 @@ import {
 import { deleteCoreHostAPI, getCoreHostAPI, putCoreHostAPI } from '@/services/apiv1';
 
 import styles from './MuitHosts.less';
-import { heightCon } from '@/utils/utils';
 
 String.prototype.format = function() {
   let args = arguments;
@@ -91,6 +89,7 @@ const MuitHosts = () => {
   const [hostAcvtive, setHostAcvtive] = useState({});
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
+  const [text, setText] = useState('');
   const initListHostReq = useRequest(getCoreHostAPI, {
     onSuccess: (result, params) => {
       setHostList(result);
@@ -156,6 +155,7 @@ const MuitHosts = () => {
 
   const reloadSearch = () => {
     setHostList(hostListTmp);
+    setText('');
   };
 
   const handleSearch = value => {
@@ -301,25 +301,19 @@ const MuitHosts = () => {
         }}
       >
         <Col span={10}>
-          <Search
+          <Input
+            allowClear
             prefix={<SearchOutlined/>}
+            style={{ width: '100%' }}
             placeholder="搜索 : IP地址/端口/服务"
-            onSearch={value => handleSearch(value)}
+            value={text}
+            onChange={e => {
+              setText(e.target.value);
+              handleSearch(e.target.value);
+            }}
           />
         </Col>
         <Col span={2}>
-          <Button onClick={reloadSearch} block>
-            <ReloadOutlined/>
-            重置
-          </Button>
-        </Col>
-        <Col span={4}>
-          <Button icon={<SyncOutlined/>} onClick={() => listHostReq.run()} block
-                  loading={listHostReq.loading || destoryHostReq.loading}>
-            刷新
-          </Button>
-        </Col>
-        <Col span={4}>
           <Button
             onClick={() => getSelectHostIPaddress()}
             block
@@ -329,7 +323,7 @@ const MuitHosts = () => {
             拷贝
           </Button>
         </Col>
-        <Col span={4}>
+        <Col span={2}>
           <Button
             onClick={() => destoryHostReq.run({ hid: selectedRowKeys.toString() })}
             block
@@ -339,11 +333,17 @@ const MuitHosts = () => {
             <DeleteOutlined/> 删除
           </Button>
         </Col>
+        <Col span={10}>
+          <Button icon={<SyncOutlined/>} onClick={() => listHostReq.run()} block
+                  loading={listHostReq.loading || destoryHostReq.loading}>
+            刷新
+          </Button>
+        </Col>
+
       </Row>
       <Card bordered bodyStyle={{ padding: '0px 0px 0px 0px' }} style={{ marginTop: 0 }}>
         <Table
           className={styles.muitHostsTable}
-          scroll={{ y: 'calc(50vh  - 20px + {0})'.format(heightCon) }}
           size="small"
           bordered
           pagination={false}
@@ -405,11 +405,12 @@ const MuitHosts = () => {
               width: 96,
               render: (text, record) => (
                 <div style={{ textAlign: 'center' }}>
-                  <a onClick={() => showUpdateHostModal(record)}>编辑</a>
-                  <Divider type="vertical"/>
-                  <a onClick={() => destoryHostReq.run({ hid: record.id })} style={{ color: 'red' }}>
-                    删除
-                  </a>
+                  <Space size="middle">
+                    <a onClick={() => showUpdateHostModal(record)}>编辑</a>
+                    <a onClick={() => destoryHostReq.run({ hid: record.id })} style={{ color: 'red' }}>
+                      删除
+                    </a>
+                  </Space>
                 </div>
               ),
             },

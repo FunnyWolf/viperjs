@@ -3,13 +3,12 @@ import moment from 'moment';
 import { formatMessage, useRequest } from 'umi';
 import { deleteMsgrpcFileMsfAPI, getMsgrpcFileMsfAPI, postPostmodulePostModuleActuatorAPI } from '@/services/apiv1';
 import '@ant-design/compatible/assets/index.css';
-import { Button, Card, Col, Divider, message, Modal, Row, Table, Tag, Upload } from 'antd';
+import { Button, Card, Col, message, Modal, Row, Space, Table, Tag, Upload } from 'antd';
 import { CopyOutlined, SyncOutlined, UploadOutlined } from '@ant-design/icons';
 
 import copy from 'copy-to-clipboard';
 import styles from './FileMsf.less';
 import { getToken } from '@/utils/authority';
-import { heightCon } from '@/utils/utils';
 
 String.prototype.format = function() {
   let args = arguments;
@@ -271,7 +270,6 @@ const FileMsf = () => {
           <Card style={{ marginTop: 0 }} bordered bodyStyle={{ padding: '0px 0px 0px 0px' }}>
             <Table
               className={styles.filesTable}
-              scroll={{ y: 'calc(50vh  - 22px + {0})'.format(heightCon) }}
               size="small"
               bordered
               pagination={false}
@@ -304,30 +302,29 @@ const FileMsf = () => {
                   width: 224,
                   render: (text, record) => (
                     <div style={{ textAlign: 'center' }}>
-                      {record.size <= 1024 * 1024 ? (
-                        <Fragment>
-                          <a
-                            style={{ color: 'green' }}
-                            onClick={() => listFileMsfForView(record.name)}
-                          >
-                            查看
-                          </a>
-                        </Fragment>
-                      ) : (
-                        <Fragment>
-                          <a style={{ visibility: 'Hidden' }}>占位</a>
-                        </Fragment>
-                      )}
-                      <Divider type="vertical"/>
-                      <a onClick={() => listFileMsfForDownload(record.name)}>下载</a>
-                      <Divider type="vertical"/>
-                      <a style={{ color: '#faad14' }} onClick={() => downloadFileWayDetail(record)}>
-                        一句话下载
-                      </a>
-                      <Divider type="vertical"/>
-                      <a onClick={() => destoryFileMsfReq.run(record)} style={{ color: 'red' }}>
-                        删除
-                      </a>
+                      <Space size="middle">
+                        {record.size <= 1024 * 1024 ? (
+                          <Fragment>
+                            <a
+                              style={{ color: 'green' }}
+                              onClick={() => listFileMsfForView(record.name)}
+                            >
+                              查看
+                            </a>
+                          </Fragment>
+                        ) : (
+                          <Fragment>
+                            <a style={{ visibility: 'Hidden' }}>占位</a>
+                          </Fragment>
+                        )}
+                        <a onClick={() => listFileMsfForDownload(record.name)}>下载</a>
+                        <a style={{ color: '#faad14' }} onClick={() => downloadFileWayDetail(record)}>
+                          一句话下载
+                        </a>
+                        <a onClick={() => destoryFileMsfReq.run(record)} style={{ color: 'red' }}>
+                          删除
+                        </a>
+                      </Space>
                     </div>
                   ),
                 },
@@ -454,24 +451,26 @@ export const FileMsfModal = props => {
               dataIndex: 'operation',
               width: 176,
               render: (text, record) => (
-                <div>
-                  <a
-                    style={{ color: 'green' }}
-                    onClick={() => createPostModuleActuatorReq.run({
-                      hid: hostAndSessionActive.id,
-                      loadpath: 'MODULES.FileSessionUploadModule',
-                      sessionid: hostAndSessionActive.session.id,
-                      custom_param: JSON.stringify({ SESSION_DIR: dirpath, MSF_FILE: record.name }),
-                    })}
-                  >
-                    上传到目标
-                  </a>
-                  <Divider type="vertical"/>
-                  <a onClick={() => listFileMsfForDownloadReq.run({ name: record.name })}>下载</a>
-                  <Divider type="vertical"/>
-                  <a onClick={() => destoryFileMsfReq.run({ name: record.name })} style={{ color: 'red' }}>
-                    删除
-                  </a>
+                <div style={{ textAlign: 'center' }}>
+                  <Space size="middle">
+                    <a
+                      style={{ color: 'green' }}
+                      onClick={() => createPostModuleActuatorReq.run({
+                        hid: hostAndSessionActive.id,
+                        loadpath: 'MODULES.FileSessionUploadModule',
+                        sessionid: hostAndSessionActive.session.id,
+                        custom_param: JSON.stringify({ SESSION_DIR: dirpath, MSF_FILE: record.name }),
+                      })}
+                    >
+                      上传到目标
+                    </a>
+
+                    <a onClick={() => listFileMsfForDownloadReq.run({ name: record.name })}>下载</a>
+
+                    <a onClick={() => destoryFileMsfReq.run({ name: record.name })} style={{ color: 'red' }}>
+                      删除
+                    </a>
+                  </Space>
                 </div>
               ),
             },

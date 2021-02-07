@@ -71,7 +71,6 @@ import {
   PushpinOutlined,
   QuestionOutlined,
   RadarChartOutlined,
-  ReloadOutlined,
   RestOutlined,
   RetweetOutlined,
   RightOutlined,
@@ -97,7 +96,6 @@ import {
   Checkbox,
   Col,
   Descriptions,
-  Divider,
   Dropdown,
   Form,
   Input,
@@ -130,7 +128,7 @@ import PayloadAndHandler, { PayloadAndHandlerMemo } from '@/pages/Core/PayloadAn
 import MuitHosts, { MuitHostsMemo } from '@/pages/Core/MuitHosts';
 import { host_type_to_avatar_table, MyIcon, SidTag } from '@/pages/Core/Common';
 import SystemSetting, { SystemSettingMemo } from '@/pages/Core/SystemSetting';
-import { PostModule, RunBotModuleMemo, RunModuleMemo } from '@/pages/Core/RunModule';
+import { BotScan, PostModuleMemo, RunModuleMemo } from '@/pages/Core/RunModule';
 import { MsfSocksMemo } from '@/pages/Core/MsfSocks';
 import LazyLoader, { LazyLoaderMemo } from '@/pages/Core/LazyLoader';
 import Credential, { CredentialMemo } from '@/pages/Core/Credential';
@@ -171,7 +169,6 @@ const HostAndSession = props => {
     setHostAndSessionList,
     setHeatbeatsocketalive,
     setTaskQueueLength,
-    taskQueueLength,
     setJobList,
     setPostModuleResultHistory,
     setPostModuleResultHistoryActive,
@@ -295,19 +292,17 @@ const HostAndSession = props => {
 };
 
 
-const HostAndSessionCard = props => {
+const HostAndSessionCard = () => {
   console.log('HostAndSessionCard');
   const {
     hostAndSessionList,
-    hostAndSessionActive,
     setHostAndSessionActive,
   } = useModel('HostAndSessionModel', model => ({
     hostAndSessionList: model.hostAndSessionList,
     hostAndSessionActive: model.hostAndSessionActive,
     setHostAndSessionActive: model.setHostAndSessionActive,
   }));
-
-  const [sessionActive, setSessionActive] = useState({
+  const sessionActiveInit = {
     id: -1,
     type: 'meterpreter',
     session_host: '请选择Session',
@@ -327,7 +322,7 @@ const HostAndSessionCard = props => {
     fromnow: 0,
     available: 0,
     isadmin: null,
-  });
+  };
 
   const [sessionIOModalVisable, setSessionIOModalVisable] = useState(false);
   const [routeModalVisable, setRouteModalVisable] = useState(false);
@@ -339,6 +334,7 @@ const HostAndSessionCard = props => {
   const [vulnerabilityModalVisable, setVulnerabilityModalVisable] = useState(false);
   const [fileSessionModalVisable, setFileSessionModalVisable] = useState(false);
   const [runModuleModalVisable, setRunModuleModalVisable] = useState(false);
+  const [updateHostModalVisable, setUpdateHostModalVisable] = useState(false);
 
   const closeTransportModel = useCallback(() => {
     setTransportModalVisable(false);
@@ -363,7 +359,7 @@ const HostAndSessionCard = props => {
   const setActiveHostAndSession = item => {
     const tmp = JSON.parse(JSON.stringify(item));
     if (item.session === null || item.session === undefined) {
-      tmp.session = sessionActive;
+      tmp.session = sessionActiveInit;
     }
     setHostAndSessionActive(tmp);
   };
@@ -404,7 +400,7 @@ const HostAndSessionCard = props => {
     };
 
     return (
-      <Menu style={{ width: 100 }} onClick={onClick}>
+      <Menu style={{ width: 104 }} onClick={onClick}>
         <Menu.Item key="SessionInfo">
           <ContactsOutlined/>
           权限信息
@@ -461,24 +457,19 @@ const HostAndSessionCard = props => {
     };
 
     return (
-      <Menu style={{ width: 100 }} onClick={onClick}>
+      <Menu style={{ width: 104 }} onClick={onClick}>
         <Menu.Item key="HostInfo">
-          <ProfileOutlined/>
-          主机信息
+          <ProfileOutlined/>主机信息
         </Menu.Item>
         <Menu.Item key="PortService">
-          <InteractionOutlined/>
-          开放端口
+          <InteractionOutlined/>开放端口
         </Menu.Item>
         <Menu.Item key="Vulnerability">
-          <BugOutlined/>
-          已知漏洞
+          <BugOutlined/>已知漏洞
         </Menu.Item>
         <Menu.Item key="DestoryHost">
           <DeleteOutlined style={{ color: 'red' }}/>
-          <span style={{ color: 'red' }}>
-          删除主机
-          </span>
+          <span style={{ color: 'red' }}>删除主机</span>
         </Menu.Item>
       </Menu>
     );
@@ -786,32 +777,26 @@ const HostAndSessionCard = props => {
             },
             {
               dataIndex: 'ipaddress',
-              width: 200,
+              width: 240,
               render: (text, record) => (
                 <div
                   style={{
                     display: 'flex',
                     cursor: 'pointer',
                   }}
+                  onClick={() => {
+                    setActiveHostAndSession(record);
+                    setUpdateHostModalVisable(true);
+                  }}
                 >
-                  <Popover
-                    placement="leftTop"
-                    content={
-                      <UpdateHostMemo/>
-                    }
-                    onClick={() => {
-                      setActiveHostAndSession(record);
-                    }}
-                    trigger="click">
-                    <Text
-                      className={styles.percent}
-                      ellipsis={{
-                        rows: 1,
-                        tooltip: true,
-                      }}>
-                      {record.comment}
-                    </Text>
-                  </Popover>
+                  <Text
+                    className={styles.percent}
+                    ellipsis={{
+                      rows: 1,
+                      tooltip: true,
+                    }}>
+                    {record.comment}
+                  </Text>
                 </div>
               ),
             },
@@ -824,18 +809,12 @@ const HostAndSessionCard = props => {
                     display: 'flex',
                     cursor: 'pointer',
                   }}
+                  onClick={() => {
+                    setActiveHostAndSession(record);
+                    setUpdateHostModalVisable(true);
+                  }}
                 >
-                  <Popover
-                    placement="leftTop"
-                    content={
-                      <UpdateHostMemo/>
-                    }
-                    onClick={() => {
-                      setActiveHostAndSession(record);
-                    }}
-                    trigger="click">
-                    {host_type_to_avatar_table[record.tag]}
-                  </Popover>
+                  {host_type_to_avatar_table[record.tag]}
                 </div>
               ),
             },
@@ -969,6 +948,23 @@ const HostAndSessionCard = props => {
       >
         <VulnerabilityMemo/>
       </Modal>
+      <Modal
+        style={{
+          top: 32,
+          left: 'calc(20vw)',
+        }}
+        width='548px'
+        bodyStyle={{ padding: '0px 0px 0px 0px' }}
+        destroyOnClose
+        visible={updateHostModalVisable}
+        footer={null}
+        mask={false}
+        onCancel={() => setUpdateHostModalVisable(false)}
+      >
+        <UpdateHostMemo
+          closeModal={() => setUpdateHostModalVisable(false)}
+        />
+      </Modal>
     </Fragment>
   );
 };
@@ -1055,17 +1051,51 @@ const Msfconsole = () => {
 
 const MsfconsoleMemo = memo(Msfconsole);
 
-const TabsBottom = () => {
-  console.log('TabsBottom');
+const TaskQueueTag = () => {
+  console.log('TaskQueueTag');
   const {
-    heatbeatsocketalive,
     taskQueueLength,
   } = useModel('HostAndSessionModel', model => ({
-    heatbeatsocketalive: model.heatbeatsocketalive,
     taskQueueLength: model.taskQueueLength,
   }));
+  if (taskQueueLength > 0) {
+    return <Badge
+      showZero
+      style={{
+        marginTop: -4,
+        marginLeft: -4,
+        marginRight: 10,
+        color: '#73d13d',
+        backgroundColor: '#092b00',
+        boxShadow: '0 0 0 1px #237804 inset',
+      }}
+      count={taskQueueLength}
+    />;
+  } else {
+    return <FieldTimeOutlined/>;
+  }
 
-  const [runBotModuleModalVisable, setRunBotModuleModalVisable] = useState(false);
+};
+const TaskQueueTagMemo = memo(TaskQueueTag);
+
+const HeatbeatsocketaliveTag = () => {
+  console.log('HeatbeatsocketaliveTag');
+  const {
+    heatbeatsocketalive,
+  } = useModel('HostAndSessionModel', model => ({
+    heatbeatsocketalive: model.heatbeatsocketalive,
+  }));
+  if (heatbeatsocketalive) {
+    return <Badge style={{ marginRight: 8 }} status="success"/>;
+  } else {
+    return <Badge style={{ marginRight: 8 }} status="error"/>;
+  }
+
+};
+
+
+const TabsBottom = () => {
+  console.log('TabsBottom');
   const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState('viper-debug-flag', false);
   const tabActiveOnChange = activeKey => {
     switch (activeKey) {
@@ -1091,14 +1121,9 @@ const TabsBottom = () => {
 
   return (
     <Fragment>
-      <Tabs style={{ marginTop: 2 }} type="card" onChange={tabActiveOnChange}>
+      <Tabs style={{ marginTop: 4 }} type="card" onChange={tabActiveOnChange}>
         <TabPane
-          tab={<span>
-            {heatbeatsocketalive ? <Badge status="success"/> : <Badge status="error"/>}
-            <FundViewOutlined style={{ marginLeft: 8 }}/>
-                实时输出
-              </span>
-          }
+          tab={<span><HeatbeatsocketaliveTag/><FundViewOutlined/>实时输出</span>}
           key="notices"
         >
           <Row gutter={0}>
@@ -1111,22 +1136,7 @@ const TabsBottom = () => {
           </Row>
         </TabPane>
         <TabPane
-          tab={<div>
-            {taskQueueLength > 0 ?
-              <Badge
-                showZero
-                style={{
-                  marginTop: -4,
-                  marginLeft: -4,
-                  marginRight: 10,
-                  color: '#73d13d',
-                  backgroundColor: '#092b00',
-                  boxShadow: '0 0 0 1px #237804 inset',
-                }}
-                count={taskQueueLength}
-              /> : <FieldTimeOutlined/>}
-            <span>任务列表</span>
-          </div>}
+          tab={<span><TaskQueueTagMemo/>任务列表</span>}
           key="JobList"
         >
           <RealTimeJobsMemo/>
@@ -1172,19 +1182,7 @@ const TabsBottom = () => {
           tab={<span><RadarChartOutlined/>全网扫描</span>}
           key="BotScan"
         >
-          <Row style={{ marginTop: -16 }} gutter={0}>
-            <Col span={12}>
-              <Button
-                block
-                type="dashed"
-                icon={<PlusOutlined/>}
-                onClick={() => setRunBotModuleModalVisable(true)}
-              >
-                新建任务
-              </Button>
-            </Col>
-          </Row>
-          <RealTimeBotWaitListMemo/>
+          <BotScan/>
         </TabPane>
         <TabPane
           tab={<span><CodeOutlined/>CONSOLE</span>}
@@ -1200,214 +1198,9 @@ const TabsBottom = () => {
           <SystemSettingMemo/>
         </TabPane>
       </Tabs>
-      <Modal
-        mask={false}
-        style={{ top: 16 }}
-        width="90vw"
-        destroyOnClose
-        visible={runBotModuleModalVisable}
-        onCancel={() => setRunBotModuleModalVisable(false)}
-        footer={null}
-        bodyStyle={{ padding: '0px 0px 0px 0px' }}
-      >
-        <RunBotModuleMemo/>
-      </Modal>
     </Fragment>
   );
 };
-const RealTimeBotWaitList = () => {
-  console.log('RealTimeBotWaitList');
-  const {
-    botWaitList,
-    setBotWaitList,
-  } = useModel('HostAndSessionModel', model => ({
-    botWaitList: model.botWaitList,
-    setBotWaitList: model.setBotWaitList,
-  }));
-  const destoryBotWaitReq = useRequest(deleteMsgrpcJobAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
-      const { uuid } = result;
-      setBotWaitList(botWaitList.filter(item => item.group_uuid !== uuid));
-    },
-    onError: (error, params) => {
-    },
-  });
-
-  const onDestoryBotWait = (record) => {
-    destoryBotWaitReq.run({ uuid: record.group_uuid, job_id: record.job_id, broker: record.broker });
-  };
-
-
-  const ModuleInfoContent = postModuleConfig => {
-    const references = postModuleConfig.REFERENCES;
-    const referencesCom = [];
-    for (let i = 0; i < references.length; i++) {
-      referencesCom.push(
-        <div>
-          <a href={references[i]} target="_blank">
-            {references[i]}
-          </a>
-        </div>,
-      );
-    }
-
-    return (
-      <Descriptions
-        size="small"
-        style={{
-          padding: '0 0 0 0',
-          marginRight: 8,
-        }}
-        column={8}
-        bordered
-      >
-        <Descriptions.Item label="名称" span={8}>
-          {postModuleConfig.NAME}
-        </Descriptions.Item>
-        <Descriptions.Item label="作者" span={4}>
-          <Tag color="lime">{postModuleConfig.AUTHOR}</Tag>
-        </Descriptions.Item>
-        <Descriptions.Item label="参考链接" span={8}>
-          {referencesCom}
-        </Descriptions.Item>
-        <Descriptions.Item span={8} label="简介">
-          <pre>{postModuleConfig.DESC}</pre>
-        </Descriptions.Item>
-      </Descriptions>
-    );
-  };
-
-  const taskDetail = item => {
-    const Descriptions_Items = [];
-    let showstr = null;
-    for (const key in item) {
-      if (item[key] === null || item[key] === '') {
-        continue;
-      } else if (item[key] === true || item[key] === false) {
-        showstr = item[key] ? 'True' : 'False';
-      } else {
-        showstr = item[key];
-      }
-      Descriptions_Items.push(<Descriptions.Item label={key}>{showstr}</Descriptions.Item>);
-    }
-    return (
-      <Descriptions style={{ width: '80vw' }} bordered size="small" column={2}>
-        {Descriptions_Items}
-      </Descriptions>
-    );
-  };
-
-  const columns = [
-    {
-      title: '新建时间',
-      dataIndex: 'time',
-      key: 'time',
-      width: 80,
-      render: (text, record) => <Tag color="cyan">{moment(record.time * 1000).fromNow()}</Tag>,
-    },
-    {
-      title: '模块',
-      dataIndex: 'moduleinfo',
-      key: 'moduleinfo',
-      width: 240,
-      render: (text, record) => (
-        <Popover
-          // title={record.moduleinfo.NAME}
-          placement="right"
-          content={ModuleInfoContent(record.moduleinfo)}
-          trigger="click"
-        >
-          <a>{record.moduleinfo.NAME}</a>
-        </Popover>
-      ),
-    },
-    {
-      title: '目标数量',
-      dataIndex: 'ip_list',
-      key: 'ip_list',
-      width: 120,
-      render: (text, record) => {
-        return (
-          <strong
-            style={{
-              color: '#13a8a8',
-            }}
-          >
-            {record.ip_list.length} 个
-          </strong>
-        );
-      },
-    },
-    {
-      title: '目标列表',
-      dataIndex: 'ip_list',
-      key: 'ip_list',
-      width: 96,
-      render: (text, record) => {
-        return (
-          <Popover
-            placement="right"
-            content={
-              <List
-                className={styles.noticelist}
-                size="small"
-                bordered
-                dataSource={record.ip_list}
-                renderItem={item => <List.Item>{item}</List.Item>}
-              />
-            }
-            trigger="click"
-          >
-            <a>点击查看</a>
-          </Popover>
-        );
-      },
-    },
-    {
-      title: '参数',
-      dataIndex: 'moduleinfo',
-      key: 'moduleinfo',
-      render: (text, record) => {
-        return (
-          <Popover
-            placement="top"
-            content={taskDetail(record.moduleinfo._custom_param)}
-            trigger="click"
-          >
-            <a>点击查看</a>
-          </Popover>
-        );
-      },
-    },
-    {
-      title: '操作',
-      dataIndex: 'operation',
-      width: 48,
-      render: (text, record) => (
-        <a style={{ color: 'red' }} onClick={() => onDestoryBotWait(record)}>
-          删除
-        </a>
-      ),
-    },
-  ];
-
-  return (
-    <Card style={{ marginTop: 0 }} bodyStyle={{ padding: '0px 0px 0px 0px' }}>
-      <Table
-        className={styles.botWaitListTable}
-        size="small"
-        rowKey="uuid"
-        pagination={false}
-        dataSource={botWaitList}
-        bordered
-        columns={columns}
-      />
-    </Card>
-  );
-};
-
-const RealTimeBotWaitListMemo = memo(RealTimeBotWaitList);
 
 const RealTimeJobs = () => {
   console.log('RealTimeJobs');
@@ -1654,8 +1447,9 @@ const RealTimeModuleResult = () => {
   return (<Fragment>
     <Row style={{ marginTop: -16 }}>
       <Fragment>
-        <Col span={18}>
+        <Col span={21}>
           <Input
+            allowClear
             prefix={<SearchOutlined/>}
             style={{ width: '100%' }}
             placeholder="搜索 : 主机IP/模块/参数/结果"
@@ -1665,21 +1459,6 @@ const RealTimeModuleResult = () => {
               handlePostModuleResultHistorySearch(e.target.value);
             }}
           />
-        </Col>
-        <Col span={3}>
-          <Tooltip title="重置搜索">
-            <Button
-              block
-              icon={<ReloadOutlined/>}
-              onClick={() => {
-                setText('');
-                setPostModuleResultHistoryActive(postModuleResultHistory);
-                document.getElementById('moduleresultlist').scrollTop = 0;
-              }}
-            >
-              重置
-            </Button>
-          </Tooltip>
         </Col>
       </Fragment>
       <Col span={3}>
@@ -2176,7 +1955,7 @@ const SessionInfo = () => {
           arrowPointAtCenter
           placement="left"
           content={
-            <PostModule
+            <PostModuleMemo
               loadpath="MODULES.DefenseEvasion_ProcessInjection_ProcessHandle"
               hostAndSessionActive={hostAndSessionActive}
               initialValues={{ PID: record.pid }}
@@ -3769,7 +3548,7 @@ const FileSession = () => {
                 if (record.type === 'directory') {
                   // 文件夹打开类操作
                   return (
-                    <div>
+                    <Space size="middle">
                       <a
                         onClick={() =>
                           onListFileSession(
@@ -3782,11 +3561,8 @@ const FileSession = () => {
                       >
                         打开
                       </a>
-                      <Divider type="vertical"/>
                       <a style={{ visibility: 'Hidden' }}>占位</a>
-                      <Divider type="vertical"/>
                       <a style={{ visibility: 'Hidden' }}>占位</a>
-                      <Divider type="vertical"/>
                       <Popconfirm
                         placement="topRight"
                         title="确认删除文件夹(无法撤销)?"
@@ -3794,7 +3570,7 @@ const FileSession = () => {
                       >
                         <a style={{ color: 'red' }}>删除</a>
                       </Popconfirm>
-                    </div>
+                    </Space>
                   );
                 }
                 if (record.type === 'fixed' || record.type === 'remote') {
@@ -3819,7 +3595,7 @@ const FileSession = () => {
                 if (record.type === 'file') {
                   // 文件类操作
                   return (
-                    <div>
+                    <Space size="middle">
                       <a
                         onClick={() =>
                           onListFileSession(
@@ -3832,29 +3608,19 @@ const FileSession = () => {
                       >
                         下载
                       </a>
-
                       {record.cat_able === true ? (
-                        <Fragment>
-                          <Divider type="vertical"/>
-                          <a
-                            style={{ color: 'green' }}
-                            onClick={() =>
-                              onListFileSessionCat(
-                                hostAndSessionActive.session.id,
-                                record.absolute_path,
-                              )
-                            }
-                          >
-                            查看
-                          </a>
-                        </Fragment>
-                      ) : (
-                        <Fragment>
-                          <Divider type="vertical"/>
-                          <a style={{ visibility: 'Hidden' }}>占位</a>
-                        </Fragment>
-                      )}
-                      <Divider type="vertical"/>
+                        <a
+                          style={{ color: 'green' }}
+                          onClick={() =>
+                            onListFileSessionCat(
+                              hostAndSessionActive.session.id,
+                              record.absolute_path,
+                            )
+                          }
+                        >
+                          查看
+                        </a>
+                      ) : (<a style={{ visibility: 'Hidden' }}>占位</a>)}
                       <Popover
                         placement="left"
                         title="命令行参数"
@@ -3877,7 +3643,6 @@ const FileSession = () => {
                       >
                         <a style={{ color: '#faad14' }}>执行</a>
                       </Popover>
-                      <Divider type="vertical"/>
                       <Popconfirm
                         placement="topRight"
                         title="确认删除文件(无法撤销)?"
@@ -3885,7 +3650,7 @@ const FileSession = () => {
                       >
                         <a style={{ color: 'red' }}>删除</a>
                       </Popconfirm>
-                    </div>
+                    </Space>
                   );
                 }
               },
@@ -4443,7 +4208,7 @@ const Vulnerability = () => {
 };
 const VulnerabilityMemo = memo(Vulnerability);
 
-const UpdateHost = () => {
+const UpdateHost = (props) => {
   console.log('UpdateHost');
   const {
     hostAndSessionActive,
@@ -4453,7 +4218,7 @@ const UpdateHost = () => {
   const updateHostReq = useRequest(putCoreHostAPI, {
     manual: true,
     onSuccess: (result, params) => {
-
+      props.closeModal();
     },
     onError: (error, params) => {
     },
@@ -4491,60 +4256,62 @@ const UpdateHost = () => {
   };
 
   return (
-    <Form
-      style={{
-        width: '548px',
-      }}
-      initialValues={{
-        hid: hostAndSessionActive.id,
-        tag: hostAndSessionActive.tag,
-        comment: hostAndSessionActive.comment,
-      }}
-      onFinish={onUpdateHost}
-    >
-      <Form.Item
-        label={<span>HID</span>}
-        name="hid"
-        rules={[{ required: true, message: '请输入' }]}
-        style={{ display: 'None' }}
-        {...formLayout}
+    <Card>
+      <Form
+        style={{
+          width: '548px',
+        }}
+        initialValues={{
+          hid: hostAndSessionActive.id,
+          tag: hostAndSessionActive.tag,
+          comment: hostAndSessionActive.comment,
+        }}
+        onFinish={onUpdateHost}
       >
-        <span>{hostAndSessionActive.id}</span>
-      </Form.Item>
-      <Form.Item
-        label={<span>标签</span>}
-        name="tag"
-        {...formLayout}
-      >
-        <Radio.Group>
-          <Radio value="ad_server">{hostTypeToAvatar.ad_server}</Radio>
-          <Radio value="pc">{hostTypeToAvatar.pc}</Radio>
-          <Radio value="web_server">{hostTypeToAvatar.web_server}</Radio>
-          <Radio value="cms">{hostTypeToAvatar.cms}</Radio>
-          <Radio value="firewall">{hostTypeToAvatar.firewall}</Radio>
-          <Radio value="other">{hostTypeToAvatar.other}</Radio>
-        </Radio.Group>
-      </Form.Item>
-      <Form.Item
-        label={<span>备注</span>}
-        name="comment"
-        rules={[{ message: '最长支持二十个字符', max: 20 }]}
-        {...formLayout}
-      >
-        <Input placeholder="最长支持二十个字符"/>
-      </Form.Item>
-      <Form.Item {...tailLayout}>
-        <Button
-          icon={<DeliveredProcedureOutlined/>}
-          block
-          type="primary"
-          htmlType="submit"
-          loading={updateHostReq.loading}
+        <Form.Item
+          label={<span>HID</span>}
+          name="hid"
+          rules={[{ required: true, message: '请输入' }]}
+          style={{ display: 'None' }}
+          {...formLayout}
         >
-          更新
-        </Button>
-      </Form.Item>
-    </Form>
+          <span>{hostAndSessionActive.id}</span>
+        </Form.Item>
+        <Form.Item
+          label={<span>标签</span>}
+          name="tag"
+          {...formLayout}
+        >
+          <Radio.Group>
+            <Radio value="ad_server">{hostTypeToAvatar.ad_server}</Radio>
+            <Radio value="pc">{hostTypeToAvatar.pc}</Radio>
+            <Radio value="web_server">{hostTypeToAvatar.web_server}</Radio>
+            <Radio value="cms">{hostTypeToAvatar.cms}</Radio>
+            <Radio value="firewall">{hostTypeToAvatar.firewall}</Radio>
+            <Radio value="other">{hostTypeToAvatar.other}</Radio>
+          </Radio.Group>
+        </Form.Item>
+        <Form.Item
+          label={<span>备注</span>}
+          name="comment"
+          rules={[{ message: '最长支持二十个字符', max: 20 }]}
+          {...formLayout}
+        >
+          <Input placeholder="最长支持二十个字符"/>
+        </Form.Item>
+        <Form.Item {...tailLayout}>
+          <Button
+            icon={<DeliveredProcedureOutlined/>}
+            block
+            type="primary"
+            htmlType="submit"
+            loading={updateHostReq.loading}
+          >
+            更新
+          </Button>
+        </Form.Item>
+      </Form>
+    </Card>
   );
 };
 const UpdateHostMemo = memo(UpdateHost);

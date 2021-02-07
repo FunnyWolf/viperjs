@@ -1,8 +1,8 @@
-// import fetch from 'dva/fetch';
 import { notification } from 'antd';
 import { getToken } from './authority';
 import { saveAs } from 'file-saver';
-import { history, RequestConfig } from 'umi';
+import { history } from 'umi';
+
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',
@@ -63,8 +63,7 @@ export default function request(apiurl, option) {
 
   let defaultOptions = {};
   if (url.includes('/api/v1/core/baseauth/')) {
-    defaultOptions = {
-    };
+    defaultOptions = {};
   } else {
     defaultOptions = {
       headers: { Authorization: tokenstr },
@@ -128,15 +127,12 @@ export default function request(apiurl, option) {
         }
         // environment should not be used
         if (status === 403) {
-          // router.push('/exception/403');
           return;
         }
         if (status <= 504 && status >= 500) {
-          // router.push('/exception/500');
           return;
         }
         if (status >= 404 && status < 422) {
-          // router.push('/exception/404');
         }
       })
   );

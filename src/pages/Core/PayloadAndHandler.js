@@ -19,7 +19,6 @@ import {
   Col,
   Collapse,
   Descriptions,
-  Divider,
   Form as FormNew,
   Input,
   InputNumber,
@@ -1980,7 +1979,7 @@ const PayloadAndHandler = () => {
           {
             title: '操作',
             dataIndex: 'operation',
-            width: 224,
+            width: 256,
             render: (text, record) => {
               let transformAction = null;
               if (record.ID >= 0) {
@@ -1998,20 +1997,19 @@ const PayloadAndHandler = () => {
                 </a>;
               }
               return (<div style={{ textAlign: 'center' }}>
-                <a
-                  style={{ color: 'green' }}
-                  onClick={() => onCreatePayloadByHandler(record)}
-                >
-                  生成载荷
-                </a>
-                <Divider type="vertical"/>
-                <a onClick={() => handlerDetail(record)}>详情</a>
-                <Divider type="vertical"/>
-                {transformAction}
-                <Divider type="vertical"/>
-                <a onClick={() => destoryHandlerReq.run({ jobid: record.ID })} style={{ color: 'red' }}>
-                  删除
-                </a>
+                <Space size="middle">
+                  <a
+                    style={{ color: 'green' }}
+                    onClick={() => onCreatePayloadByHandler(record)}
+                  >
+                    生成载荷
+                  </a>
+                  <a onClick={() => handlerDetail(record)}>详细参数</a>
+                  {transformAction}
+                  <a onClick={() => destoryHandlerReq.run({ jobid: record.ID })} style={{ color: 'red' }}>
+                    删除
+                  </a>
+                </Space>
               </div>);
             },
           },

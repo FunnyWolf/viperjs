@@ -9,6 +9,7 @@ import {
   FormOutlined,
   InfoCircleOutlined,
   PlayCircleOutlined,
+  PlusOutlined,
   QuestionOutlined,
   RadarChartOutlined,
   SearchOutlined,
@@ -27,6 +28,9 @@ import {
   Form,
   Input,
   InputNumber,
+  List,
+  Modal,
+  Popover,
   Row,
   Select,
   Table,
@@ -39,6 +43,7 @@ import moment from 'moment';
 import { host_type_to_avatar_table, MyIcon } from '@/pages/Core/Common';
 import styles from './RunModule.less';
 import {
+  deleteMsgrpcJobAPI,
   getCoreNetworkSearchAPI,
   getPostmodulePostModuleConfigAPI,
   postPostmodulePostModuleActuatorAPI,
@@ -832,7 +837,6 @@ export const RunModule = (props) => {
     </Fragment>
   );
 };
-
 export const RunModuleMemo = React.memo(RunModule);
 
 export const RunBotModule = props => {
@@ -1433,9 +1437,241 @@ export const RunBotModule = props => {
 
 export const RunBotModuleMemo = memo(RunBotModule);
 
+export const BotScan = () => {
+  const [runBotModuleModalVisable, setRunBotModuleModalVisable] = useState(false);
+  return <Fragment>
+    <Row style={{ marginTop: -16 }} gutter={0}>
+      <Col span={12}>
+        <Button
+          block
+          type="dashed"
+          icon={<PlusOutlined/>}
+          onClick={() => setRunBotModuleModalVisable(true)}
+        >
+          新建任务
+        </Button>
+      </Col>
+    </Row>
+    <RealTimeBotWaitListMemo/>
+    <Modal
+      mask={false}
+      style={{ top: 16 }}
+      width="90vw"
+      destroyOnClose
+      visible={runBotModuleModalVisable}
+      onCancel={() => setRunBotModuleModalVisable(false)}
+      footer={null}
+      bodyStyle={{ padding: '0px 0px 0px 0px' }}
+    >
+      <RunBotModuleMemo/>
+    </Modal>
+  </Fragment>;
+};
+
+
+const RealTimeBotWaitList = () => {
+  console.log('RealTimeBotWaitList');
+  const {
+    botWaitList,
+    setBotWaitList,
+  } = useModel('HostAndSessionModel', model => ({
+    botWaitList: model.botWaitList,
+    setBotWaitList: model.setBotWaitList,
+  }));
+  const destoryBotWaitReq = useRequest(deleteMsgrpcJobAPI, {
+    manual: true,
+    onSuccess: (result, params) => {
+      const { uuid } = result;
+      setBotWaitList(botWaitList.filter(item => item.group_uuid !== uuid));
+    },
+    onError: (error, params) => {
+    },
+  });
+
+  const onDestoryBotWait = (record) => {
+    destoryBotWaitReq.run({ uuid: record.group_uuid, job_id: record.job_id, broker: record.broker });
+  };
+
+
+  const ModuleInfoContent = postModuleConfig => {
+    const references = postModuleConfig.REFERENCES;
+    const referencesCom = [];
+    for (let i = 0; i < references.length; i++) {
+      referencesCom.push(
+        <div>
+          <a href={references[i]} target="_blank">
+            {references[i]}
+          </a>
+        </div>,
+      );
+    }
+
+    return (
+      <Descriptions
+        size="small"
+        style={{
+          padding: '0 0 0 0',
+          marginRight: 8,
+        }}
+        column={8}
+        bordered
+      >
+        <Descriptions.Item label="名称" span={8}>
+          {postModuleConfig.NAME}
+        </Descriptions.Item>
+        <Descriptions.Item label="作者" span={4}>
+          <Tag color="lime">{postModuleConfig.AUTHOR}</Tag>
+        </Descriptions.Item>
+        <Descriptions.Item label="参考链接" span={8}>
+          {referencesCom}
+        </Descriptions.Item>
+        <Descriptions.Item span={8} label="简介">
+          <pre>{postModuleConfig.DESC}</pre>
+        </Descriptions.Item>
+      </Descriptions>
+    );
+  };
+
+  const taskDetail = item => {
+    const Descriptions_Items = [];
+    let showstr = null;
+    for (const key in item) {
+      if (item[key] === null || item[key] === '') {
+        continue;
+      } else if (item[key] === true || item[key] === false) {
+        showstr = item[key] ? 'True' : 'False';
+      } else {
+        showstr = item[key];
+      }
+      Descriptions_Items.push(<Descriptions.Item label={key}>{showstr}</Descriptions.Item>);
+    }
+    return (
+      <Descriptions style={{ width: '80vw' }} bordered size="small" column={2}>
+        {Descriptions_Items}
+      </Descriptions>
+    );
+  };
+
+  const columns = [
+    {
+      title: '新建时间',
+      dataIndex: 'time',
+      key: 'time',
+      width: 80,
+      render: (text, record) => <Tag color="cyan">{moment(record.time * 1000).fromNow()}</Tag>,
+    },
+    {
+      title: '模块',
+      dataIndex: 'moduleinfo',
+      key: 'moduleinfo',
+      width: 240,
+      render: (text, record) => (
+        <Popover
+          // title={record.moduleinfo.NAME}
+          placement="right"
+          content={ModuleInfoContent(record.moduleinfo)}
+          trigger="click"
+        >
+          <a>{record.moduleinfo.NAME}</a>
+        </Popover>
+      ),
+    },
+    {
+      title: '目标数量',
+      dataIndex: 'ip_list',
+      key: 'ip_list',
+      width: 120,
+      render: (text, record) => {
+        return (
+          <strong
+            style={{
+              color: '#13a8a8',
+            }}
+          >
+            {record.ip_list.length} 个
+          </strong>
+        );
+      },
+    },
+    {
+      title: '目标列表',
+      dataIndex: 'ip_list',
+      key: 'ip_list',
+      width: 96,
+      render: (text, record) => {
+        return (
+          <Popover
+            placement="right"
+            content={
+              <List
+                className={styles.noticelist}
+                size="small"
+                bordered
+                dataSource={record.ip_list}
+                renderItem={item => <List.Item>{item}</List.Item>}
+              />
+            }
+            trigger="click"
+          >
+            <a>点击查看</a>
+          </Popover>
+        );
+      },
+    },
+    {
+      title: '参数',
+      dataIndex: 'moduleinfo',
+      key: 'moduleinfo',
+      render: (text, record) => {
+        return (
+          <Popover
+            placement="top"
+            content={taskDetail(record.moduleinfo._custom_param)}
+            trigger="click"
+          >
+            <a>点击查看</a>
+          </Popover>
+        );
+      },
+    },
+    {
+      title: '操作',
+      dataIndex: 'operation',
+      width: 48,
+      render: (text, record) => (
+        <a style={{ color: 'red' }} onClick={() => onDestoryBotWait(record)}>
+          删除
+        </a>
+      ),
+    },
+  ];
+
+  return (
+    <Card style={{ marginTop: 0 }} bodyStyle={{ padding: '0px 0px 0px 0px' }}>
+      <Table
+        className={styles.botWaitListTable}
+        size="small"
+        rowKey="uuid"
+        pagination={false}
+        dataSource={botWaitList}
+        bordered
+        columns={columns}
+      />
+    </Card>
+  );
+};
+
+const RealTimeBotWaitListMemo = memo(RealTimeBotWaitList);
+
+
 export const PostModule = props => {
   console.log('PostModule');
-  const { loadpath, hostAndSessionActive, initialValues } = props;
+  const { loadpath, initialValues } = props;
+  const {
+    hostAndSessionActive,
+  } = useModel('HostAndSessionModel', model => ({
+    hostAndSessionActive: model.hostAndSessionActive,
+  }));
   const [postModuleConfigActive, setPostModuleConfigActive] = useState({
     NAME: null,
     DESC: null,
@@ -1448,8 +1684,6 @@ export const PostModule = props => {
     REFERENCES: [],
     ATTCK: [],
   });
-
-
   const initGetPostModuleConfigReq = useRequest(() => getPostmodulePostModuleConfigAPI({ loadpath }), {
     onSuccess: (result, params) => {
       setPostModuleConfigActive(result);
@@ -1639,5 +1873,5 @@ export const PostModule = props => {
     </Form>
   );
 };
-
+export const PostModuleMemo = memo(PostModule);
 

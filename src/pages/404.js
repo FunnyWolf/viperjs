@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'umi';
+import { formatMessage, Link } from 'umi';
 import Exception from '@/components/Exception';
-import { formatMessage } from 'umi';
+
 export default () => (
   <Exception
     type="404"

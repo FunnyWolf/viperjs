@@ -2,7 +2,7 @@ import React, { Fragment, memo, useState } from 'react';
 import '@ant-design/compatible/assets/index.css';
 import { ChromeOutlined, MehOutlined, PlusOutlined, SyncOutlined, WindowsOutlined } from '@ant-design/icons';
 
-import { Button, Card, Col, Collapse, Divider, Form, Input, Modal, Popover, Radio, Row, Table, Tooltip } from 'antd';
+import { Button, Card, Col, Collapse, Form, Input, Modal, Popover, Radio, Row, Space, Table, Tooltip } from 'antd';
 import './xterm.css';
 import Ellipsis from '@/components/Ellipsis';
 import styles from './Credential.less';
@@ -207,7 +207,6 @@ const Credential = () => {
               title: '说明',
               dataIndex: 'desc',
               key: 'desc',
-              // width: 160,
               render: (text, record) => {
                 const test = text;
                 return (
@@ -223,25 +222,26 @@ const Credential = () => {
               width: 96,
               render: (text, record) => (
                 <div style={{ textAlign: 'center' }}>
-                  <Popover
-                    title="说明"
-                    content={
-                      <Search
-                        defaultValue={text}
-                        enterButton="更改"
-                        size="default"
-                        onSearch={value => updateCredentialReq.run({ id: record.id, desc: value })}
-                        loading={updateCredentialReq.loading}
-                      />
-                    }
-                    trigger="click"
-                  >
-                    <a>编辑</a>
-                  </Popover>
-                  <Divider type="vertical"/>
-                  <a onClick={() => destoryCredentialReq.run({ id: record.id })} style={{ color: 'red' }}>
-                    删除
-                  </a>
+                  <Space size="middle">
+                    <Popover
+                      title="说明"
+                      content={
+                        <Search
+                          defaultValue={text}
+                          enterButton="更改"
+                          size="default"
+                          onSearch={value => updateCredentialReq.run({ id: record.id, desc: value })}
+                          loading={updateCredentialReq.loading}
+                        />
+                      }
+                      trigger="click"
+                    >
+                      <a>编辑</a>
+                    </Popover>
+                    <a onClick={() => destoryCredentialReq.run({ id: record.id })} style={{ color: 'red' }}>
+                      删除
+                    </a>
+                  </Space>
                 </div>
               ),
             },

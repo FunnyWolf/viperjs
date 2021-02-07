@@ -7,11 +7,11 @@ import {
   Card,
   Col,
   Descriptions,
-  Divider,
   Modal,
   Popover,
   Row,
   Select,
+  Space,
   Switch,
   Table,
   Tag,
@@ -151,7 +151,7 @@ const LazyLoader = () => {
       </Row>
       <Card style={{ marginTop: 0 }} bodyStyle={{ padding: '0px 0px 0px 0px' }}>
         <Table
-          className={styles.credentiallist}
+          className={styles.lazyloaderlist}
           size="small"
           bordered
           pagination={false}
@@ -287,69 +287,69 @@ const LazyLoader = () => {
               width: 200,
               render: (text, record) => (
                 <div style={{ textAlign: 'center' }}>
-                  <Popover
-                    content={
-                      <Table
-                        size="small"
-                        bordered
-                        pagination={false}
-                        rowKey="name"
-                        columns={[
-                          {
-                            title: '监听',
-                            dataIndex: 'name',
-                            key: 'name',
-                            render: text => <span>{text}</span>,
-                          },
-                          {
-                            title: '操作',
-                            dataIndex: 'operation',
-                            width: 64,
-                            render: (text, inlinerecord) => {
-                              if (inlinerecord.name.includes('reverse_https')) {
-                                return (
-                                  <div style={{ textAlign: 'center' }}>
-                                    <a
-                                      onClick={() => updateLazyLoaderReq.run({
-                                        uuid: record.uuid,
-                                        field: 'payload',
-                                        data: inlinerecord.value,
-                                      })
-                                      }
-                                    >
-                                      加载
-                                    </a>
-                                  </div>
-                                );
-                              }
+                  <Space size="middle">
+                    <Popover
+                      content={
+                        <Table
+                          size="small"
+                          bordered
+                          pagination={false}
+                          rowKey="name"
+                          columns={[
+                            {
+                              title: '监听',
+                              dataIndex: 'name',
+                              key: 'name',
+                              render: text => <span>{text}</span>,
                             },
-                          },
-                        ]}
-                        dataSource={handlers}
-                      />
-                    }
-                    trigger="click"
-                  >
-                    <a>加载载荷</a>
-                  </Popover>
-                  <Divider type="vertical"/>
-                  <Switch
-                    style={{ marginTop: -4 }}
-                    checkedChildren={'循环'}
-                    unCheckedChildren={'退出'}
-                    checked={!record.exit_loop}
-                    onClick={() => updateLazyLoaderReq.run({
-                      uuid: record.uuid,
-                      field: 'exit_loop',
-                      data: !record.exit_loop,
-                    })}
-                  />
-                  <Divider type="vertical"/>
-                  <a
-                    style={{ color: 'red' }}
-                    onClick={() => destoryLazyLoaderReq.run({ uuid: record.uuid })}>
-                    删除
-                  </a>
+                            {
+                              title: '操作',
+                              dataIndex: 'operation',
+                              width: 64,
+                              render: (text, inlinerecord) => {
+                                if (inlinerecord.name.includes('reverse_https')) {
+                                  return (
+                                    <div style={{ textAlign: 'center' }}>
+                                      <a
+                                        onClick={() => updateLazyLoaderReq.run({
+                                          uuid: record.uuid,
+                                          field: 'payload',
+                                          data: inlinerecord.value,
+                                        })
+                                        }
+                                      >
+                                        加载
+                                      </a>
+                                    </div>
+                                  );
+                                }
+                              },
+                            },
+                          ]}
+                          dataSource={handlers}
+                        />
+                      }
+                      trigger="click"
+                    >
+                      <a>加载载荷</a>
+                    </Popover>
+                    <Switch
+                      style={{ marginTop: -4 }}
+                      checkedChildren={'循环'}
+                      unCheckedChildren={'退出'}
+                      checked={!record.exit_loop}
+                      onClick={() => updateLazyLoaderReq.run({
+                        uuid: record.uuid,
+                        field: 'exit_loop',
+                        data: !record.exit_loop,
+                      })}
+                    />
+                    <a
+                      style={{ color: 'red' }}
+                      onClick={() => destoryLazyLoaderReq.run({ uuid: record.uuid })}>
+                      删除
+                    </a>
+                  </Space>
                 </div>
               ),
             },

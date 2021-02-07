@@ -27,7 +27,6 @@ import {
   getMsgrpcSocksAPI,
   postMsgrpcSocksAPI,
 } from '@/services/apiv1';
-import { heightCon } from '@/utils/utils';
 
 const { Option } = Select;
 const { TabPane } = Tabs;
@@ -148,7 +147,6 @@ const MsfSocks = props => {
               <Card style={{ marginTop: -16 }} bodyStyle={{ padding: '0px 0px 0px 0px' }}>
                 <Table
                   bordered
-                  scroll={{ y: 'calc(50vh  - 52px + {0})'.format(heightCon) }}
                   className={styles.routesTable}
                   size="small"
                   rowKey="port"
@@ -219,7 +217,6 @@ const MsfSocks = props => {
               >
                 <Table
                   bordered
-                  scroll={{ y: 'calc(50vh  - 56px + {0})'.format(heightCon) }}
                   className={styles.routesTable}
                   size="small"
                   rowKey="subnet"
@@ -299,7 +296,6 @@ const MsfSocks = props => {
               >
                 <Table
                   bordered
-                  scroll={{ y: 'calc(50vh  - 52px + {0})'.format(heightCon) }}
                   className={styles.routesTable}
                   size="small"
                   rowKey="subnet"
@@ -352,7 +348,6 @@ const MsfSocks = props => {
                 bodyStyle={{ padding: '0px 0px 0px 0px' }}
               >
                 <Table
-                  scroll={{ y: 'calc(50vh  - 52px + {0})'.format(heightCon) }}
                   className={styles.routesTable}
                   bordered
                   size="small"

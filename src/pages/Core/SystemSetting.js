@@ -14,7 +14,6 @@ import {
   Card,
   Col,
   Descriptions,
-  Divider,
   Form,
   Input,
   List,
@@ -87,6 +86,7 @@ const inputItemLayout = {
 
 const SystemSetting = () => {
   console.log('SystemSetting');
+  const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState('viper-debug-flag', false);
   return (
     <Fragment>
       <Tabs style={{ marginTop: -16 }} type="card" defaultActiveKey="system_info">
@@ -120,7 +120,7 @@ const SystemSetting = () => {
             </Row>
           </Card>
         </TabPane>
-        <TabPane tab="FOFA API" key="FOFA">
+        {viperDebugFlag ? <TabPane tab="FOFA API" key="FOFA">
           <Card style={{ marginTop: -16 }}>
             <Row>
               <Col span={16}>
@@ -139,7 +139,7 @@ const SystemSetting = () => {
               </Col>
             </Row>
           </Card>
-        </TabPane>
+        </TabPane> : null}
         <TabPane tab="DingDing Bot" key="dingding">
           <Card style={{ marginTop: -16 }}>
             <Row>
@@ -291,7 +291,6 @@ const SystemInfo = () => {
                   target="_blank"
                   href="https://www.yuque.com/funnywolfdoc/viperdoc"
                   download
-                  // rel="noopener noreferrer"
                   className={styles.action}
                 >
                   网页链接
@@ -366,10 +365,6 @@ const SystemInfo = () => {
           />
         </Col>
       </Row>
-
-
-      <Divider/>
-
     </Card>
   );
 };

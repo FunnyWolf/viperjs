@@ -1,18 +1,5 @@
 import { request } from 'umi';
 
-// export async function listPluginConfigAPI(params) {
-//   return request<API.DataReturn>('api/v1/data/pluginconfig/', {
-//     params,
-//   });
-// }
-//
-// export async function updatePluginConfigAPI(params) {
-//   return request<API.DataReturn>('api/v1/data/pluginconfig/', {
-//     method: 'PUT',
-//     data: params,
-//   });
-// }
-
 export async function postCoreSettingAPI(params) {
   return request('/api/v1/core/setting/', {
     method: 'POST',

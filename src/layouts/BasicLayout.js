@@ -9,7 +9,6 @@ import classNames from 'classnames';
 import pathToRegexp from 'path-to-regexp';
 import Media from 'react-media';
 import Authorized from '@/utils/Authorized';
-import Footer from './Footer';
 import Context from './MenuContext';
 import Exception403 from '../pages/403';
 import PageLoading from '@/components/PageLoading';
@@ -57,9 +56,6 @@ class BasicLayout extends React.PureComponent {
       dispatch,
       route: { routes, authority },
     } = this.props;
-    // dispatch({
-    //   type: 'user/fetchCurrent',
-    // });
     dispatch({
       type: 'setting/getSetting',
     });
@@ -179,7 +175,6 @@ class BasicLayout extends React.PureComponent {
               {children}
             </Authorized>
           </Content>
-          <Footer/>
         </Layout>
       </Layout>
     );
@@ -194,7 +189,7 @@ class BasicLayout extends React.PureComponent {
             )}
           </ContainerQuery>
         </DocumentTitle>
-        <Suspense fallback={<PageLoading />}>{this.renderSettingDrawer()}</Suspense>
+        <Suspense fallback={<PageLoading/>}>{this.renderSettingDrawer()}</Suspense>
       </React.Fragment>
     );
   }
