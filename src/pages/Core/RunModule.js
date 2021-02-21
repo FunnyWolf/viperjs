@@ -72,7 +72,7 @@ export const RunModule = (props) => {
     hostAndSessionActive: model.hostAndSessionActive,
     postModuleConfigListStateAll: model.postModuleConfigListStateAll,
   }));
-
+  const [text, setText] = useState('');
 
   const getPins = () => {
     if (localStorage.getItem('Pins') === null) {
@@ -691,18 +691,6 @@ export const RunModule = (props) => {
       </Tooltip>
     );
   }
-  const hostipaddress = (
-    <Tag
-      color="orange"
-      style={{
-        width: 120,
-        textAlign: 'center',
-        cursor: 'pointer',
-      }}
-    >
-      <strong>{record.ipaddress}</strong>
-    </Tag>
-  );
 
 
   return (
@@ -711,7 +699,7 @@ export const RunModule = (props) => {
         <Col span={8}>
           <Card bordered={false}>
             <div style={{ display: 'flex' }}>
-              <Select className={styles.testNew} onChange={moduleTypeOnChange} allowClear>
+              <Select style={{ width: 146 }} onChange={moduleTypeOnChange} allowClear>
                 <Option value="Initial_Access">初始访问</Option>
                 <Option value="Persistence">持久化</Option>
                 <Option value="Privilege_Escalation">权限提升</Option>
@@ -722,10 +710,16 @@ export const RunModule = (props) => {
                 <Option value="Collection">数据采集</Option>
                 <Option value="Command_and_Control">命令控制</Option>
               </Select>
-              <Search
-                style={{ marginLeft: 4 }}
+              <Input
+                allowClear
+                prefix={<SearchOutlined/>}
+                style={{ width: '100%' }}
                 placeholder="名称/说明/TTPs"
-                onSearch={value => handleModuleSearch(value)}
+                value={text}
+                onChange={e => {
+                  setText(e.target.value);
+                  handleModuleSearch(e.target.value);
+                }}
               />
             </div>
             <Table
@@ -825,7 +819,16 @@ export const RunModule = (props) => {
                   cursor: 'pointer',
                 }}
               >
-                {hostipaddress}
+                <Tag
+                  color="orange"
+                  style={{
+                    width: 120,
+                    textAlign: 'center',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <strong>{record.ipaddress}</strong>
+                </Tag>
                 <Tooltip title={record.comment} placement="left">
                   {host_type_to_avatar_table[record.tag]}
                 </Tooltip>
