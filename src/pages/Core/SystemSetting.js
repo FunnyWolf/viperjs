@@ -140,6 +140,31 @@ const SystemSetting = () => {
             </Row>
           </Card>
         </TabPane> : null}
+        <TabPane tab="Server酱 Bot" key="serverchan">
+          <Card style={{ marginTop: -16 }}>
+            <Row>
+              <Col span={16}>
+                <ServerChanForm/>
+              </Col>
+              <Col span={8}>
+                <Typography>
+                  <Paragraph>
+                    <Title level={4}>配置方法</Title>
+                    <Text>登录Server酱,配置消息通道,获取SendKey,填入SendKey.</Text>
+                    <br/>
+                    <Text>参考:</Text>
+                    <a
+                      target="_blank"
+                      href="https://sct.ftqq.com/"
+                    >
+                      Server酱·Turbo版
+                    </a>
+                  </Paragraph>
+                </Typography>
+              </Col>
+            </Row>
+          </Card>
+        </TabPane>
         <TabPane tab="DingDing Bot" key="dingding">
           <Card style={{ marginTop: -16 }}>
             <Row>
@@ -153,7 +178,9 @@ const SystemSetting = () => {
                     <Text>新建一个DingDing Bot,并获取Token.</Text>
                     <br/>
                     <Text>参考:</Text>
-                    <a href="https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq">
+                    <a
+                      target="_blank"
+                      href="https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq">
                       获取自定义机器人webhook
                     </a>
                   </Paragraph>
@@ -175,7 +202,9 @@ const SystemSetting = () => {
                     <Text>新建一个Telegram Bot,并获取Token.</Text>
                     <br/>
                     <Text>参考:</Text>
-                    <a href="https://longnight.github.io/2018/12/12/Telegram-Bot-notifications">
+                    <a
+                      target="_blank"
+                      href="https://longnight.github.io/2018/12/12/Telegram-Bot-notifications">
                       使用Telegram Bot来实现推送通知
                     </a>
                     <br/>
@@ -202,7 +231,8 @@ const SystemSetting = () => {
                   <Paragraph>
                     <Title level={4}>配置说明</Title>
                     <Text>
-                      当激活Session监控后,每当平台新增Session时都会发送通知.建议结合Bot使用.
+                      当激活Session监控后,每当平台新增Session时都会发送通知.
+                      需要结合Bot使用.
                     </Text>
                     <br/>
                   </Paragraph>
@@ -290,7 +320,6 @@ const SystemInfo = () => {
                 <a
                   target="_blank"
                   href="https://www.yuque.com/funnywolfdoc/viperdoc"
-                  download
                   className={styles.action}
                 >
                   网页链接
@@ -300,7 +329,6 @@ const SystemInfo = () => {
                 <a
                   target="_blank"
                   href="https://www.yuque.com/funnywolfdoc/viperdoc/qmanm1"
-                  download
                   // rel="noopener noreferrer"
                   className={styles.action}
                 >
@@ -616,6 +644,78 @@ const DingDingForm = props => {
 };
 
 
+const ServerChanForm = props => {
+  const [serverchanForm] = Form.useForm();
+  const [settingsServerChan, setSettingsServerChan] = useState({ sendkey: null, alive: false });
+
+  //初始化数据
+  const initListServerChanReq = useRequest(() => getCoreSettingAPI({ kind: 'serverchan' }), {
+    onSuccess: (result, params) => {
+      setSettingsServerChan(result);
+      serverchanForm.setFieldsValue(result);
+    },
+    onError: (error, params) => {
+    },
+  });
+
+  const updateServerChanReq = useRequest(postCoreSettingAPI, {
+    manual: true,
+    onSuccess: (result, params) => {
+      setSettingsServerChan(result);
+      serverchanForm.setFieldsValue(result);
+    },
+    onError: (error, params) => {
+    },
+  });
+
+  const onUpdateServerChan = values => {
+    let params = {
+      kind: 'serverchan',
+      tag: 'default',
+      setting: { ...values },
+    };
+    updateServerChanReq.run(params);
+  };
+
+  return (
+    <Form
+      onFinish={onUpdateServerChan}
+      form={serverchanForm}
+      {...inputItemLayout}
+    >
+      <Form.Item
+        label="SendKey"
+        name="sendkey"
+        rules={[
+          {
+            required: true,
+            message: '请输入SendKey',
+          },
+        ]}
+      >
+        <Input/>
+      </Form.Item>
+      <Form.Item label="状态">
+        {settingsServerChan.alive ? (
+          <Badge status="processing" text="正常"/>
+        ) : (
+          <Badge status="error" text="不可用"/>
+        )}
+      </Form.Item>
+      <Form.Item {...buttonItemLayout}>
+        <Button
+          icon={<DeliveredProcedureOutlined/>}
+          type="primary"
+          htmlType="submit"
+          loading={updateServerChanReq.loading}
+        >
+          更新
+        </Button>
+      </Form.Item>
+    </Form>
+  );
+};
+
 const FOFAForm = props => {
   const [fofaForm] = Form.useForm();
   const [settingsFOFA, setSettingsFOFA] = useState({});
@@ -701,7 +801,6 @@ const FOFAForm = props => {
           >
             更新
           </Button>
-
         </Space>
       </Form.Item>
     </Form>
