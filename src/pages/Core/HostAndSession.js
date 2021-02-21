@@ -1002,7 +1002,7 @@ const Msfconsole = () => {
         });
 
         msfConsoleTerm.current.attachCustomKeyEventHandler(e => {
-          if (e.keyCode === 39 || e.keyCode === 37) {
+          if (e.keyCode === 39 || e.keyCode === 37 || e.keyCode === 45 || e.keyCode === 36) {
             return false;
           }
           return true;
@@ -1177,13 +1177,13 @@ const TabsBottom = () => {
         >
           <LazyLoaderMemo/>
         </TabPane> : null}
-
-        <TabPane
+        {viperDebugFlag ? <TabPane
           tab={<span><RadarChartOutlined/>全网扫描</span>}
           key="BotScan"
         >
           <BotScan/>
-        </TabPane>
+        </TabPane> : null}
+
         <TabPane
           tab={<span><CodeOutlined/>CONSOLE</span>}
           key="msfconsole"
