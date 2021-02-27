@@ -37,13 +37,13 @@ import {
   putMsgrpcTransportAPI,
 } from '@/services/apiv1';
 import '@ant-design/compatible/assets/index.css';
-
 import {
   ArrowRightOutlined,
   ArrowUpOutlined,
   BugOutlined,
   CaretRightOutlined,
   CheckOutlined,
+  ClearOutlined,
   CloseCircleOutlined,
   CloudOutlined,
   CodeOutlined,
@@ -987,6 +987,15 @@ const Msfconsole = () => {
     };
   }, []);
 
+  const clearConsole = () => {
+    msfConsoleTerm.current.clear();
+  };
+  const resetBackendConsole = () => {
+    const sendMessage = { status: 0, cmd: 'reset' };
+    const sendData = JSON.stringify(sendMessage);
+    wsmsf.current.send(sendData);
+  };
+
   const initMsfconsole = () => {
     const urlargs = `&token=${getToken()}`;
     const urlpatternsMsf = '/ws/v1/websocket/msfconsole/?';
@@ -1043,8 +1052,44 @@ const Msfconsole = () => {
     };
   };
 
+
   return (<Card style={{ marginTop: -16 }} bodyStyle={{ padding: '0px 0px 0px 0px' }} bordered>
-    <div className={styles.msfconsolediv} id="msfconsole_terminal"/>
+    <div className={styles.msfconsolediv} id="msfconsole_terminal">
+      <Space
+        style={{
+          top: 16,
+          right: 16,
+          position: 'absolute',
+          zIndex: 10000,
+        }}
+        direction="vertical">
+        <Button
+          style={{
+            backgroundColor: 'rgba(0,0,0,0.8)',
+          }}
+          size="large"
+          onClick={() => clearConsole()}
+          icon={<ClearOutlined/>}
+        >
+        </Button>
+        <Button
+          style={{
+            backgroundColor: 'rgba(0,0,0,0.8)',
+          }}
+          size="large"
+          icon={<InteractionOutlined/>}
+          onClick={() => resetBackendConsole()}
+        >
+        </Button>
+
+      </Space>
+      {/*<Button*/}
+      {/*  onClick={() => clearConsole()}>*/}
+      {/*  clear*/}
+      {/*</Button>*/}
+    </div>
+
+
   </Card>);
 
 };
