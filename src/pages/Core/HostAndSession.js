@@ -322,6 +322,13 @@ const HostAndSessionCard = () => {
     fromnow: 0,
     available: 0,
     isadmin: null,
+    job_info: {
+      job_id: -1,
+      PAYLOAD: null,
+      LPORT: null,
+      LHOST: null,
+      RHOST: null,
+    },
   };
 
   const [sessionIOModalVisable, setSessionIOModalVisable] = useState(false);
@@ -596,6 +603,7 @@ const HostAndSessionCard = () => {
 
                 // sessionid
                 const sessionidTag = (
+
                   <Tag
                     color="purple"
                     style={{
@@ -752,6 +760,35 @@ const HostAndSessionCard = () => {
                     </Tooltip>
                   );
                 }
+                // handler标签
+                const jobidTagTooltip = (
+                  <span
+                  >
+                    {record.session.job_info.PAYLOAD}{' '}
+                    {record.session.job_info.LHOST}{' '}
+                    {record.session.job_info.RHOST}{' '}
+                    {record.session.job_info.LPORT}{' '}
+                  </span>
+                );
+                const jobidTag = (
+                  <Tooltip
+                    mouseEnterDelay={1}
+                    placement="bottomLeft"
+                    title={jobidTagTooltip}>
+                    <Tag
+                      color="lime"
+                      style={{
+                        width: 40,
+                        marginLeft: -6,
+                        textAlign: 'center',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <strong>{record.session.job_info.job_id}</strong>
+                    </Tag>
+                  </Tooltip>
+                );
+
                 return (
                   <Dropdown
                     overlay={() => SessionMenu(record)}
@@ -767,6 +804,7 @@ const HostAndSessionCard = () => {
                       {heartbeat}
                       {sessionidTag}
                       {connectTag}
+                      {jobidTag}
                       {archTag}
                       {os_tag_new}
                       {user}
@@ -1011,7 +1049,11 @@ const Msfconsole = () => {
         });
 
         msfConsoleTerm.current.attachCustomKeyEventHandler(e => {
-          if (e.keyCode === 39 || e.keyCode === 37 || e.keyCode === 45 || e.keyCode === 36) {
+
+          if (e.keyCode === 39 || e.keyCode === 37) {
+            return false;
+          }
+          if (e.keyCode === 45 || e.keyCode === 36) {
             return false;
           }
           return true;

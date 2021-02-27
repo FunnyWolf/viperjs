@@ -41,6 +41,13 @@ export default function HostAndSessionModel() {
       fromnow: 0,
       available: 0,
       isadmin: null,
+      job_info: {
+        job_id: -1,
+        PAYLOAD: null,
+        LPORT: null,
+        LHOST: null,
+        RHOST: null,
+      },
     },
   });
 
