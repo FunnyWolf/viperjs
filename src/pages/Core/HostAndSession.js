@@ -951,7 +951,7 @@ const HostAndSessionCard = () => {
 
       <Modal
         style={{ top: 32 }}
-        width="70vw"
+        width="80vw"
         destroyOnClose
         visible={hostInfoModalVisable}
         onCancel={() => setHostInfoModalVisable(false)}
@@ -3834,6 +3834,7 @@ const HostInfo = () => {
     {
       title: 'PID',
       dataIndex: 'pid',
+      width: 64,
       sorter: (a, b) => a.pid >= b.pid,
     },
     {
@@ -3850,6 +3851,7 @@ const HostInfo = () => {
     },
     {
       title: 'ARCH',
+      width: 48,
       dataIndex: 'arch',
     },
   ];
@@ -4002,7 +4004,14 @@ const HostInfo = () => {
         )}
       </Row>
       <Row>
-        <Tabs size="small" defaultActiveKey="1" style={{ minHeight: '80vh' }}>
+        <Tabs
+          size="small"
+          defaultActiveKey="1"
+          style={{
+            minHeight: '80vh',
+
+          }}
+        >
           <TabPane tab={<span>主机信息</span>} key="1">
             <Descriptions size="small" column={1} bordered>
               <Descriptions.Item label="主机名">
@@ -4021,10 +4030,10 @@ const HostInfo = () => {
           </TabPane>
           <TabPane tab={<span>网卡信息</span>} key="8">
             <Table
-              style={{ marginTop: -16 }}
+              className={styles.hostinfoTable}
               columns={interfaceColumns}
               dataSource={hostAndSessionBaseInfo.INTERFACE}
-              pagination={paginationProps}
+              pagination={false}
               rowKey="Name"
               size="small"
               expandRowByClick
@@ -4032,64 +4041,65 @@ const HostInfo = () => {
           </TabPane>
           <TabPane tab={<span>本地监听</span>} key="10">
             <Table
-              style={{ marginTop: -16 }}
+              className={styles.hostinfoTable}
               columns={netstatColumns}
               dataSource={hostAndSessionBaseInfo.listen_address}
-              pagination={paginationProps}
+              pagination={false}
               size="small"
             />
           </TabPane>
           <TabPane tab={<span>外网连接</span>} key="5">
             <Table
-              style={{ marginTop: -16 }}
+              className={styles.hostinfoTable}
               columns={netstatColumns}
               dataSource={hostAndSessionBaseInfo.public_ipaddress}
-              pagination={paginationProps}
+              pagination={false}
               size="small"
             />
           </TabPane>
           <TabPane tab={<span>内网连接</span>} key="6">
             <Table
-              style={{ marginTop: -16 }}
+              className={styles.hostinfoTable}
               columns={netstatColumns}
               dataSource={hostAndSessionBaseInfo.private_ipaddress}
-              pagination={paginationProps}
+              pagination={false}
               size="small"
             />
           </TabPane>
           <TabPane tab={<span>ARP信息</span>} key="7">
             <Table
-              style={{ marginTop: -16 }}
+              className={styles.hostinfoTable}
               columns={arpColumns}
               dataSource={hostAndSessionBaseInfo.ARP}
-              pagination={paginationProps}
+              pagination={false}
               size="small"
             />
           </TabPane>
           <TabPane tab={<span>重要进程</span>} key="9">
             <Table
-              style={{ marginTop: -16 }}
+              className={styles.hostinfoTable}
+              scroll={{ x: 'calc(70vw - 16px)' }}
               columns={usefulProcessColumns}
               dataSource={hostAndSessionBaseInfo.useful_processes}
-              pagination={paginationProps}
+              pagination={false}
               size="small"
             />
           </TabPane>
           <TabPane tab={<span>所有连接</span>} key="4">
             <Table
-              style={{ marginTop: -16 }}
+              className={styles.hostinfoTable}
               columns={netstatColumns}
               dataSource={hostAndSessionBaseInfo.NETSTAT}
-              pagination={paginationProps}
+              pagination={false}
               size="small"
             />
           </TabPane>
           <TabPane tab={<span>所有进程</span>} key="2">
             <Table
-              style={{ marginTop: -16 }}
+              className={styles.hostinfoTable}
               columns={processColumns}
               dataSource={hostAndSessionBaseInfo.PROCESSES}
-              pagination={paginationProps}
+              pagination={false}
               size="small"
             />
           </TabPane>
