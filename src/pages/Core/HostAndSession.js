@@ -1183,6 +1183,7 @@ const HeatbeatsocketaliveTag = () => {
 
 const TabsBottom = () => {
   console.log('TabsBottom');
+  let filemsfRef = React.createRef();
   const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState('viper-debug-flag', false);
   const tabActiveOnChange = activeKey => {
     switch (activeKey) {
@@ -1191,6 +1192,12 @@ const TabsBottom = () => {
       case 'Socks':
         break;
       case 'filemsf':
+        if (filemsfRef.current === null) {
+
+        } else {
+          filemsfRef.current.updateData();
+        }
+
         break;
       case 'Credential':
         break;
@@ -1238,7 +1245,7 @@ const TabsBottom = () => {
           tab={<span><FolderOpenOutlined/>文件列表</span>}
           key="filemsf"
         >
-          <FileMsfMemo/>
+          <FileMsfMemo onRef={filemsfRef}/>
         </TabPane>
         <TabPane
           tab={<span><SisternodeOutlined/>内网代理</span>}

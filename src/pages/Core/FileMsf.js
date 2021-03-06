@@ -1,4 +1,4 @@
-import React, { Fragment, memo, useState } from 'react';
+import React, { Fragment, memo, useImperativeHandle, useState } from 'react';
 import moment from 'moment';
 import { formatMessage, useRequest } from 'umi';
 import { deleteMsgrpcFileMsfAPI, getMsgrpcFileMsfAPI, postPostmodulePostModuleActuatorAPI } from '@/services/apiv1';
@@ -113,10 +113,19 @@ const downloadFileWayDetail = item => {
   });
 };
 
-const FileMsf = () => {
+const FileMsf = (props) => {
   console.log('FileMsf');
   const [msfUploading, setMsfUploading] = useState(false);
   const [fileMsfListActive, setFileMsfListActive] = useState([]);
+
+
+  useImperativeHandle(props.onRef, () => {
+    return {
+      updateData: () => {
+        listFileMsfReq.run();
+      },
+    };
+  });
   const initListFileMsfReq = useRequest(getMsgrpcFileMsfAPI, {
     onSuccess: (result, params) => {
       setFileMsfListActive(result);
