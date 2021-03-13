@@ -2,15 +2,12 @@ import React, { Fragment, memo, useState } from 'react';
 import { useModel, useRequest } from 'umi';
 import '@ant-design/compatible/assets/index.css';
 import {
-  ArrowRightOutlined,
   CaretRightOutlined,
   CheckCircleOutlined,
-  CheckOutlined,
   FormOutlined,
   InfoCircleOutlined,
   PlayCircleOutlined,
   PlusOutlined,
-  QuestionOutlined,
   RadarChartOutlined,
   SearchOutlined,
   StarOutlined,
@@ -19,7 +16,6 @@ import {
 
 import {
   Alert,
-  Avatar,
   Button,
   Card,
   Checkbox,
@@ -126,6 +122,7 @@ export const RunModule = (props) => {
     PERMISSIONS: [],
     PLATFORM: [],
     REFERENCES: [],
+    README: [],
     ATTCK: [],
     SEARCH: null,
   });
@@ -374,6 +371,18 @@ export const RunModule = (props) => {
         permissionsCom.push(<Tag color="lime">{permissions[i]}</Tag>);
       }
     }
+    const readme = postModuleConfig.README;
+    const readmeCom = [];
+    for (let i = 0; i < readme.length; i++) {
+      readmeCom.push(
+        <div>
+          <a href={readme[i]} target="_blank">
+            {readme[i]}
+          </a>
+        </div>,
+      );
+    }
+
     const references = postModuleConfig.REFERENCES;
     const referencesCom = [];
     for (let i = 0; i < references.length; i++) {
@@ -415,6 +424,9 @@ export const RunModule = (props) => {
         <Descriptions.Item label="适用权限" span={4}>
           {permissionsCom}
         </Descriptions.Item>
+        <Descriptions.Item label="使用文档" span={8}>
+          {readmeCom}
+        </Descriptions.Item>
         <Descriptions.Item label="参考链接" span={8}>
           {referencesCom}
         </Descriptions.Item>
@@ -429,28 +441,14 @@ export const RunModule = (props) => {
     {
       dataIndex: 'NAME',
       render: (text, record) => {
+        let selectStyles = {};
         let tag = null;
         if (record.loadpath === postModuleConfigActive.loadpath) {
-          tag = (
-            <Avatar
-              shape="square"
-              size={20}
-              style={{ backgroundColor: '#1890ff' }}
-              icon={<ArrowRightOutlined/>}
-            />
-          );
-        } else {
-          tag = (
-            <Avatar
-              shape="square"
-              size={20}
-              style={{
-                visibility: 'hidden',
-                backgroundColor: '#bfbfbf',
-              }}
-              icon={<QuestionOutlined/>}
-            />
-          );
+          selectStyles = {
+            color: '#d89614',
+            fontWeight: 'bolder',
+          };
+
         }
         const pins = getPins();
         const pinIcon =
@@ -483,8 +481,7 @@ export const RunModule = (props) => {
 
         return (
           <div style={{ display: 'inline' }}>
-            {tag}
-            <a style={{ marginLeft: 4 }}>{text}</a>
+            <a style={{ marginLeft: 4, ...selectStyles }}>{text}</a>
             {pinIcon}
           </div>
         );
@@ -1118,29 +1115,7 @@ export const RunBotModule = props => {
     {
       dataIndex: 'NAME',
       render: (text, record) => {
-        let tag = null;
-        if (record.loadpath === botModuleConfigActive.loadpath) {
-          tag = (
-            <Avatar
-              shape="square"
-              size={20}
-              style={{ backgroundColor: '#1890ff' }}
-              icon={<CheckOutlined/>}
-            />
-          );
-        } else {
-          tag = (
-            <Avatar
-              shape="square"
-              size={20}
-              style={{
-                visibility: 'hidden',
-                backgroundColor: '#bfbfbf',
-              }}
-              icon={<QuestionOutlined/>}
-            />
-          );
-        }
+
         const pins = getPins();
         const pinIcon =
           pins.indexOf(record.loadpath) > -1 ? (
@@ -1170,10 +1145,27 @@ export const RunBotModule = props => {
             />
           );
 
+        let tag = null;
+        let selectStyles = {};
+        if (record.loadpath === botModuleConfigActive.loadpath) {
+          selectStyles = {
+            color: '#d89614',
+            fontWeight: 'bolder',
+          };
+        }
+
         return (
-          <div style={{ display: 'inline' }}>
-            {tag}
-            <a style={{ marginLeft: 4 }}>{text}</a>
+          <div
+            style={{
+              display: 'inline',
+            }}
+          >
+
+            <a
+              style={{ marginLeft: 4, ...selectStyles }}
+            >
+              {text}
+            </a>
             {pinIcon}
           </div>
         );
@@ -1189,7 +1181,17 @@ export const RunBotModule = props => {
     if (postModuleConfig === undefined) {
       return null;
     }
-
+    const readme = postModuleConfig.README;
+    const readmeCom = [];
+    for (let i = 0; i < readme.length; i++) {
+      readmeCom.push(
+        <div>
+          <a href={readme[i]} target="_blank">
+            {readme[i]}
+          </a>
+        </div>,
+      );
+    }
     const references = postModuleConfig.REFERENCES;
     const referencesCom = [];
     for (let i = 0; i < references.length; i++) {
@@ -1216,6 +1218,9 @@ export const RunBotModule = props => {
         </Descriptions.Item>
         <Descriptions.Item label="作者" span={4}>
           <Tag color="lime">{postModuleConfig.AUTHOR}</Tag>
+        </Descriptions.Item>
+        <Descriptions.Item label="使用文档" span={8}>
+          {readmeCom}
         </Descriptions.Item>
         <Descriptions.Item label="参考链接" span={8}>
           {referencesCom}
@@ -1495,46 +1500,6 @@ const RealTimeBotWaitList = () => {
     destoryBotWaitReq.run({ uuid: record.group_uuid, job_id: record.job_id, broker: record.broker });
   };
 
-
-  const ModuleInfoContent = postModuleConfig => {
-    const references = postModuleConfig.REFERENCES;
-    const referencesCom = [];
-    for (let i = 0; i < references.length; i++) {
-      referencesCom.push(
-        <div>
-          <a href={references[i]} target="_blank">
-            {references[i]}
-          </a>
-        </div>,
-      );
-    }
-
-    return (
-      <Descriptions
-        size="small"
-        style={{
-          padding: '0 0 0 0',
-          marginRight: 8,
-        }}
-        column={8}
-        bordered
-      >
-        <Descriptions.Item label="名称" span={8}>
-          {postModuleConfig.NAME}
-        </Descriptions.Item>
-        <Descriptions.Item label="作者" span={4}>
-          <Tag color="lime">{postModuleConfig.AUTHOR}</Tag>
-        </Descriptions.Item>
-        <Descriptions.Item label="参考链接" span={8}>
-          {referencesCom}
-        </Descriptions.Item>
-        <Descriptions.Item span={8} label="简介">
-          <pre>{postModuleConfig.DESC}</pre>
-        </Descriptions.Item>
-      </Descriptions>
-    );
-  };
-
   const taskDetail = item => {
     const Descriptions_Items = [];
     let showstr = null;
@@ -1570,9 +1535,8 @@ const RealTimeBotWaitList = () => {
       width: 240,
       render: (text, record) => (
         <Popover
-          // title={record.moduleinfo.NAME}
           placement="right"
-          content={ModuleInfoContent(record.moduleinfo)}
+          content={<ModuleInfoMemo postModuleConfig={record.moduleinfo}/>}
           trigger="click"
         >
           <a>{record.moduleinfo.NAME}</a>
@@ -1878,3 +1842,56 @@ export const PostModule = props => {
 };
 export const PostModuleMemo = memo(PostModule);
 
+export const ModuleInfo = ({ postModuleConfig }) => {
+  const references = postModuleConfig.REFERENCES;
+  const referencesCom = [];
+  for (let i = 0; i < references.length; i++) {
+    referencesCom.push(
+      <div>
+        <a href={references[i]} target="_blank">
+          {references[i]}
+        </a>
+      </div>,
+    );
+  }
+
+  const readme = postModuleConfig.README;
+  const readmeCom = [];
+  for (let i = 0; i < readme.length; i++) {
+    readmeCom.push(
+      <div>
+        <a href={readme[i]} target="_blank">
+          {readme[i]}
+        </a>
+      </div>,
+    );
+  }
+  return (
+    <Descriptions
+      size="small"
+      style={{
+        padding: '0 0 0 0',
+        marginRight: 8,
+      }}
+      column={8}
+      bordered
+    >
+      <Descriptions.Item label="名称" span={8}>
+        {postModuleConfig.NAME}
+      </Descriptions.Item>
+      <Descriptions.Item label="作者" span={4}>
+        <Tag color="lime">{postModuleConfig.AUTHOR}</Tag>
+      </Descriptions.Item>
+      <Descriptions.Item label="使用文档" span={8}>
+        {readmeCom}
+      </Descriptions.Item>
+      <Descriptions.Item label="参考链接" span={8}>
+        {referencesCom}
+      </Descriptions.Item>
+      <Descriptions.Item span={8} label="简介">
+        <pre>{postModuleConfig.DESC}</pre>
+      </Descriptions.Item>
+    </Descriptions>
+  );
+};
+export const ModuleInfoMemo = memo(ModuleInfo);

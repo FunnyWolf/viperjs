@@ -862,7 +862,7 @@ const HostAndSessionCard = () => {
       <Modal
         mask={false}
         style={{ top: 32 }}
-        width="75vw"
+        width="85vw"
         destroyOnClose
         visible={runModuleModalVisable}
         onCancel={() => setRunModuleModalVisable(false)}
@@ -1342,6 +1342,7 @@ const RealTimeJobs = () => {
         permissionsCom.push(<Tag color="lime">{permissions[i]}</Tag>);
       }
     }
+
     const references = postModuleConfig.REFERENCES;
     const referencesCom = [];
     for (let i = 0; i < references.length; i++) {
@@ -1353,6 +1354,19 @@ const RealTimeJobs = () => {
         </div>,
       );
     }
+
+    const readme = postModuleConfig.README;
+    const readmeCom = [];
+    for (let i = 0; i < readme.length; i++) {
+      readmeCom.push(
+        <div>
+          <a href={readme[i]} target="_blank">
+            {readme[i]}
+          </a>
+        </div>,
+      );
+    }
+
     const attcks = postModuleConfig.ATTCK;
     const attckCom = [];
     for (let i = 0; i < attcks.length; i++) {
@@ -1383,6 +1397,9 @@ const RealTimeJobs = () => {
         </Descriptions.Item>
         <Descriptions.Item label="适用权限" span={4}>
           {permissionsCom}
+        </Descriptions.Item>
+        <Descriptions.Item label="使用文档" span={8}>
+          {readmeCom}
         </Descriptions.Item>
         <Descriptions.Item label="参考链接" span={8}>
           {referencesCom}
