@@ -1563,7 +1563,7 @@ const RealTimeModuleResult = () => {
             allowClear
             prefix={<SearchOutlined/>}
             style={{ width: '100%' }}
-            placeholder="搜索 : 主机IP/模块/参数/结果"
+            placeholder=" 主机IP/模块/参数/结果"
             value={text}
             onChange={e => {
               setText(e.target.value);

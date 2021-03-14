@@ -3,7 +3,6 @@ import { useModel, useRequest } from 'umi';
 import '@ant-design/compatible/assets/index.css';
 import {
   CaretRightOutlined,
-  CheckCircleOutlined,
   FormOutlined,
   InfoCircleOutlined,
   PlayCircleOutlined,
@@ -20,6 +19,7 @@ import {
   Card,
   Checkbox,
   Col,
+  Collapse,
   Descriptions,
   Form,
   Input,
@@ -36,7 +36,7 @@ import {
 } from 'antd';
 import './xterm.css';
 import moment from 'moment';
-import { host_type_to_avatar_table, MyIcon } from '@/pages/Core/Common';
+import { MyIcon } from '@/pages/Core/Common';
 import styles from './RunModule.less';
 import {
   deleteMsgrpcJobAPI,
@@ -48,7 +48,7 @@ import {
 const { Option } = Select;
 const { Search, TextArea } = Input;
 const { TabPane } = Tabs;
-
+const { Panel } = Collapse;
 //字符串格式化函数
 String.prototype.format = function() {
   let args = arguments;
@@ -447,8 +447,8 @@ export const RunModule = (props) => {
           selectStyles = {
             color: '#d89614',
             fontWeight: 'bolder',
+            fontSize: 15,
           };
-
         }
         const pins = getPins();
         const pinIcon =
@@ -461,7 +461,9 @@ export const RunModule = (props) => {
               }}
               style={{
                 marginTop: 4,
-                float: 'right',
+                marginLeft: 4,
+                marginRight: 8,
+                float: 'left',
                 fontSize: '18px',
               }}
             />
@@ -473,7 +475,9 @@ export const RunModule = (props) => {
               }}
               style={{
                 marginTop: 4,
-                float: 'right',
+                marginLeft: 4,
+                marginRight: 8,
+                float: 'left',
                 fontSize: '18px',
               }}
             />
@@ -481,8 +485,8 @@ export const RunModule = (props) => {
 
         return (
           <div style={{ display: 'inline' }}>
-            <a style={{ marginLeft: 4, ...selectStyles }}>{text}</a>
             {pinIcon}
+            <a style={{ ...selectStyles }}>{text}</a>
           </div>
         );
       },
@@ -586,7 +590,31 @@ export const RunModule = (props) => {
       </Tag>
     </Tooltip>
   );
-
+  // handler标签
+  const jobidTagTooltip = (
+    <span>{record.session.job_info.PAYLOAD}{' '}
+      {record.session.job_info.LHOST}{' '}
+      {record.session.job_info.RHOST}{' '}
+      {record.session.job_info.LPORT}{' '}</span>
+  );
+  const jobidTag = (
+    <Tooltip
+      mouseEnterDelay={1}
+      placement="bottomLeft"
+      title={jobidTagTooltip}>
+      <Tag
+        color="lime"
+        style={{
+          width: 40,
+          marginLeft: -6,
+          textAlign: 'center',
+          cursor: 'pointer',
+        }}
+      >
+        <strong>{record.session.job_info.job_id}</strong>
+      </Tag>
+    </Tooltip>
+  );
   // arch
   const archTag =
     record.session.arch === 'x64' ? (
@@ -704,8 +732,8 @@ export const RunModule = (props) => {
                 <Option value="Credential_Access">凭证访问</Option>
                 <Option value="Discovery">信息收集</Option>
                 <Option value="Lateral_Movement">横向移动</Option>
-                <Option value="Collection">数据采集</Option>
-                <Option value="Command_and_Control">命令控制</Option>
+                {/*<Option value="Collection">数据采集</Option>*/}
+                {/*<Option value="Command_and_Control">命令控制</Option>*/}
               </Select>
               <Input
                 allowClear
@@ -733,7 +761,6 @@ export const RunModule = (props) => {
               rowKey={item => item.loadpath}
               columns={postModuleConfigTableColumns}
               dataSource={postModuleConfigListState}
-              // rowSelection={undefined}
             />
           </Card>
         </Col>
@@ -745,6 +772,31 @@ export const RunModule = (props) => {
               }
               key="params"
             >
+              <div
+                style={{
+                  display: 'flex',
+                  cursor: 'pointer',
+                  marginBottom: 24,
+                }}
+              >
+                <Tag
+                  color="orange"
+                  style={{
+                    width: 120,
+                    textAlign: 'center',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <strong>{record.ipaddress}</strong>
+                </Tag>
+                {heartbeat}
+                {sessionidTag}
+                {connectTag}
+                {jobidTag}
+                {archTag}
+                {os_tag_new}
+                {user}
+              </div>
               <Form
                 className={styles.moduleCardNew}
                 style={{ marginBottom: 16 }}
@@ -793,44 +845,6 @@ export const RunModule = (props) => {
             >
               <ModuleInfoContent postModuleConfig={postModuleConfigActive}/>
             </TabPane>
-            <TabPane
-              tab={<span><CheckCircleOutlined/>权限&主机</span>}
-              key="hostandsession"
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  cursor: 'pointer',
-                }}
-              >
-                {heartbeat}
-                {sessionidTag}
-                {connectTag}
-                {archTag}
-                {os_tag_new}
-                {user}
-              </div>
-              <div
-                style={{
-                  display: 'flex',
-                  cursor: 'pointer',
-                }}
-              >
-                <Tag
-                  color="orange"
-                  style={{
-                    width: 120,
-                    textAlign: 'center',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <strong>{record.ipaddress}</strong>
-                </Tag>
-                <Tooltip title={record.comment} placement="left">
-                  {host_type_to_avatar_table[record.tag]}
-                </Tooltip>
-              </div>
-            </TabPane>
           </Tabs>
         </Col>
       </Row>
@@ -878,6 +892,7 @@ export const RunBotModule = props => {
     REQUIRE_SESSION: true,
     loadpath: null,
     REFERENCES: [],
+    README: [],
     SEARCH: '',
   });
 
@@ -1127,7 +1142,9 @@ export const RunBotModule = props => {
               }}
               style={{
                 marginTop: 4,
-                float: 'right',
+                marginLeft: 4,
+                marginRight: 8,
+                float: 'left',
                 fontSize: '18px',
               }}
             />
@@ -1139,7 +1156,9 @@ export const RunBotModule = props => {
               }}
               style={{
                 marginTop: 4,
-                float: 'right',
+                marginLeft: 4,
+                marginRight: 8,
+                float: 'left',
                 fontSize: '18px',
               }}
             />
@@ -1160,13 +1179,12 @@ export const RunBotModule = props => {
               display: 'inline',
             }}
           >
-
+            {pinIcon}
             <a
               style={{ marginLeft: 4, ...selectStyles }}
             >
               {text}
             </a>
-            {pinIcon}
           </div>
         );
       },
@@ -1219,14 +1237,14 @@ export const RunBotModule = props => {
         <Descriptions.Item label="作者" span={4}>
           <Tag color="lime">{postModuleConfig.AUTHOR}</Tag>
         </Descriptions.Item>
+        <Descriptions.Item span={8} label="搜索关键字">
+          <pre>{postModuleConfig.SEARCH}</pre>
+        </Descriptions.Item>
         <Descriptions.Item label="使用文档" span={8}>
           {readmeCom}
         </Descriptions.Item>
         <Descriptions.Item label="参考链接" span={8}>
           {referencesCom}
-        </Descriptions.Item>
-        <Descriptions.Item span={8} label="搜索关键字">
-          <pre>{postModuleConfig.SEARCH}</pre>
         </Descriptions.Item>
         <Descriptions.Item span={8} label="简介">
           <pre>{postModuleConfig.DESC}</pre>
