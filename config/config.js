@@ -1,10 +1,8 @@
 // https://umijs.org/config/
 // import webpackPlugin from './plugin.config';
 // const compactTheme = require('antd/dist/compact-theme');
-import os from 'os';
 import pageRoutes from './router.config';
 import defaultSettings from '../src/defaultSettings';
-import slash from 'slash2';
 
 const darkThemeVars = require('antd/dist/dark-theme');
 
@@ -18,6 +16,7 @@ export default {
   dva: {
     hmr: true,
   },
+
   locale: {
     antd: true, // default false
     default: 'zh-CN', // default zh-CN
@@ -56,6 +55,7 @@ export default {
     basePath: '/',
   },
   publicPath: './',
+  hash: true,
   history: { type: 'hash' },
   // chainWebpack: webpackPlugin,
   proxy: {
