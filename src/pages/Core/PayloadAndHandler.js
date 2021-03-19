@@ -452,7 +452,7 @@ const CreateHandlerModalContent = props => {
             <span>验证证书</span>
           </Tooltip>
         }
-        initialValue
+        initialValue={false}
         name="StagerVerifySSLCert"
         valuePropName="checked"
         rules={[
