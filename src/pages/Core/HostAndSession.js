@@ -1373,6 +1373,12 @@ const RealTimeJobs = () => {
       attckCom.push(<Tag color="gold">{attcks[i]}</Tag>);
     }
 
+    const authors = postModuleConfig.AUTHOR;
+    const authorCom = [];
+    for (let i = 0; i < authors.length; i++) {
+      authorCom.push(<Tag color="lime">{authors[i]}</Tag>);
+    }
+
     return (
       <Descriptions
         size="small"
@@ -1387,7 +1393,7 @@ const RealTimeJobs = () => {
           {postModuleConfig.NAME}
         </Descriptions.Item>
         <Descriptions.Item label="作者" span={4}>
-          <Tag color="lime">{postModuleConfig.AUTHOR}</Tag>
+          {authorCom}
         </Descriptions.Item>
         <Descriptions.Item label="TTPs" span={4}>
           {attckCom}

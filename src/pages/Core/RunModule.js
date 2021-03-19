@@ -115,7 +115,7 @@ export const RunModule = (props) => {
     NAME: null,
     DESC: null,
     WARN: null,
-    AUTHOR: null,
+    AUTHOR: [],
     OPTIONS: [],
     REQUIRE_SESSION: true,
     loadpath: null,
@@ -399,6 +399,13 @@ export const RunModule = (props) => {
     for (let i = 0; i < attcks.length; i++) {
       attckCom.push(<Tag color="gold">{attcks[i]}</Tag>);
     }
+
+    const authors = postModuleConfig.AUTHOR;
+    const authorCom = [];
+    for (let i = 0; i < authors.length; i++) {
+      authorCom.push(<Tag color="lime">{authors[i]}</Tag>);
+    }
+
     return (
       <Descriptions
         size="small"
@@ -413,7 +420,7 @@ export const RunModule = (props) => {
           {postModuleConfig.NAME}
         </Descriptions.Item>
         <Descriptions.Item label="作者" span={4}>
-          <Tag color="lime">{postModuleConfig.AUTHOR}</Tag>
+          {authorCom}
         </Descriptions.Item>
         <Descriptions.Item label="TTPs" span={4}>
           {attckCom}
@@ -887,7 +894,7 @@ export const RunBotModule = props => {
   const [botModuleConfigActive, setBotModuleConfigActive] = useState({
     NAME: null,
     DESC: null,
-    AUTHOR: null,
+    AUTHOR: [],
     OPTIONS: [],
     REQUIRE_SESSION: true,
     loadpath: null,
@@ -1221,6 +1228,13 @@ export const RunBotModule = props => {
         </div>,
       );
     }
+
+    const authors = postModuleConfig.AUTHOR;
+    const authorCom = [];
+    for (let i = 0; i < authors.length; i++) {
+      authorCom.push(<Tag color="lime">{authors[i]}</Tag>);
+    }
+
     return (
       <Descriptions
         size="small"
@@ -1235,7 +1249,7 @@ export const RunBotModule = props => {
           {postModuleConfig.NAME}
         </Descriptions.Item>
         <Descriptions.Item label="作者" span={4}>
-          <Tag color="lime">{postModuleConfig.AUTHOR}</Tag>
+          {authorCom}
         </Descriptions.Item>
         <Descriptions.Item span={8} label="搜索关键字">
           <pre>{postModuleConfig.SEARCH}</pre>
@@ -1660,7 +1674,7 @@ export const PostModule = props => {
   const [postModuleConfigActive, setPostModuleConfigActive] = useState({
     NAME: null,
     DESC: null,
-    AUTHOR: null,
+    AUTHOR: [],
     OPTIONS: [],
     REQUIRE_SESSION: true,
     loadpath: null,
@@ -1884,6 +1898,14 @@ export const ModuleInfo = ({ postModuleConfig }) => {
       </div>,
     );
   }
+
+  const authors = postModuleConfig.AUTHOR;
+  const authorCom = [];
+  for (let i = 0; i < authors.length; i++) {
+    authorCom.push(<Tag color="lime">{authors[i]}</Tag>);
+  }
+
+
   return (
     <Descriptions
       size="small"
@@ -1898,7 +1920,7 @@ export const ModuleInfo = ({ postModuleConfig }) => {
         {postModuleConfig.NAME}
       </Descriptions.Item>
       <Descriptions.Item label="作者" span={4}>
-        <Tag color="lime">{postModuleConfig.AUTHOR}</Tag>
+        {authorCom}
       </Descriptions.Item>
       <Descriptions.Item label="使用文档" span={8}>
         {readmeCom}
