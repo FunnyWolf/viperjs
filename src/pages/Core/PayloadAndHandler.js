@@ -418,6 +418,13 @@ const CreateHandlerModalContent = props => {
     }
   };
 
+  const randomString = (length, chars) => {
+    let result = '';
+    for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+    return result;
+  };
+  let rString = randomString(8, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+
   const handlerPayloadSpecialOption = () => {
     let options = [];
     if (selectPayload === null || selectPayload === undefined) {
@@ -474,7 +481,7 @@ const CreateHandlerModalContent = props => {
             <span>LURI</span>
           </Tooltip>
         }
-        initialValue="viper"
+        initialValue={rString}
         name="LURI"
       >
         <Input placeholder="请输入自定义的URI"/>
