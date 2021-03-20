@@ -565,7 +565,7 @@ const HostAndSessionCard = () => {
                           cursor: 'pointer',
                         }}
                       >
-                        {moment(fromnowTime).fromNow()}
+                        {timepass + 's'}
                       </Tag>
                     </Tooltip>
                   );
@@ -580,7 +580,7 @@ const HostAndSessionCard = () => {
                           cursor: 'pointer',
                         }}
                       >
-                        {moment(fromnowTime).fromNow()}
+                        {timepass + 's'}
                       </Tag>
                     </Tooltip>
                   );
@@ -607,7 +607,7 @@ const HostAndSessionCard = () => {
                   <Tag
                     color="purple"
                     style={{
-                      width: 36,
+                      width: 40,
                       marginLeft: -6,
                       textAlign: 'center',
                       cursor: 'pointer',
@@ -778,13 +778,13 @@ const HostAndSessionCard = () => {
                     <Tag
                       color="lime"
                       style={{
-                        width: 40,
+                        width: 32,
                         marginLeft: -6,
                         textAlign: 'center',
                         cursor: 'pointer',
                       }}
                     >
-                      <strong>{record.session.job_info.job_id}</strong>
+                      <span>{record.session.job_info.job_id}</span>
                     </Tag>
                   </Tooltip>
                 );
