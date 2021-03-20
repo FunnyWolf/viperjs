@@ -1444,7 +1444,6 @@ const RealTimeJobs = () => {
             render: (text, record) => (
               <Popover
                 placement="right"
-                // title={record.moduleinfo.NAME}
                 content={ModuleInfoContent(record.moduleinfo)}
                 trigger="click"
               >

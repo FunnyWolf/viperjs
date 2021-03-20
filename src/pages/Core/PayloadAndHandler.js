@@ -1242,6 +1242,7 @@ const CreatePayloadModalContent = props => {
         { show: 'powershell', value: 'powershell' },
         { show: 'psh-reflection', value: 'psh-reflection' },
         { show: 'psh-cmd', value: 'psh-cmd' },
+        { show: 'python', value: 'python' },
         { show: 'hex', value: 'hex' },
         { show: 'hta-psh', value: 'hta-psh' },
         { show: 'raw', value: 'raw' },
