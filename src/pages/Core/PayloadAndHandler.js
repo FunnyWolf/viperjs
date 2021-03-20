@@ -44,6 +44,11 @@ const migrateProcess = [
 const initialAutoRunScript = [
   'post/windows/manage/migrate NAME=explorer.exe SPAWN=false',
 ];
+const randomString = (length, chars) => {
+  let result = '';
+  for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+  return result;
+};
 const CreateHandlerModalContent = props => {
   const { createHandlerFinish } = props;
   const formLayout = {
@@ -418,11 +423,7 @@ const CreateHandlerModalContent = props => {
     }
   };
 
-  const randomString = (length, chars) => {
-    let result = '';
-    for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
-    return result;
-  };
+
   let rString = randomString(8, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
 
   const handlerPayloadSpecialOption = () => {
@@ -607,7 +608,7 @@ const CreateHandlerModalContent = props => {
             <span>RC4密码</span>
           </Tooltip>
         }
-        initialValue="viperviper"
+        initialValue={rString}
         name="RC4PASSWORD"
         rules={[
           {
@@ -1300,6 +1301,8 @@ const CreatePayloadModalContent = props => {
   };
 
   const payloadSpecialOption = () => {
+    let rString = randomString(8, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+
     let options = [];
 
     if (selectPayload === null || selectPayload === undefined) {
@@ -1357,7 +1360,7 @@ const CreatePayloadModalContent = props => {
             <span>LURI</span>
           </Tooltip>
         }
-        initialValue="viper"
+        initialValue={rString}
         name="LURI"
       >
         <Input placeholder="请输入自定义的URI"/>
@@ -1484,7 +1487,7 @@ const CreatePayloadModalContent = props => {
             <span>RC4密码</span>
           </Tooltip>
         }
-        initialValue="viperviper"
+        initialValue={rString}
         name="RC4PASSWORD"
         rules={[
           {
