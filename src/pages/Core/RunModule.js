@@ -733,6 +733,7 @@ export const RunModule = (props) => {
             <div style={{ display: 'flex' }}>
               <Select style={{ width: 146 }} onChange={moduleTypeOnChange} allowClear>
                 <Option value="Initial_Access">初始访问</Option>
+                <Option value="Execution">执行</Option>
                 <Option value="Persistence">持久化</Option>
                 <Option value="Privilege_Escalation">权限提升</Option>
                 <Option value="Defense_Evasion">防御绕过</Option>
@@ -756,7 +757,7 @@ export const RunModule = (props) => {
             </div>
             <Table
               className={styles.moduleTableNew}
-              scroll={{ y: 'calc(80vh - 80px)' }}
+              scroll={{ y: 'calc(80vh)' }}
               rowClassName={styles.moduleTr}
               showHeader={false}
               onRow={record => ({
