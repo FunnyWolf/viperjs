@@ -41,6 +41,7 @@ export default function HostAndSessionModel() {
       fromnow: 0,
       available: 0,
       isadmin: null,
+      pid: -1,
       job_info: {
         job_id: -1,
         PAYLOAD: null,

@@ -322,6 +322,7 @@ const HostAndSessionCard = () => {
     fromnow: 0,
     available: 0,
     isadmin: null,
+    pid: -1,
     job_info: {
       job_id: -1,
       PAYLOAD: null,
@@ -603,11 +604,10 @@ const HostAndSessionCard = () => {
 
                 // sessionid
                 const sessionidTag = (
-
                   <Tag
                     color="purple"
                     style={{
-                      width: 40,
+                      minWidth: 48,
                       marginLeft: -6,
                       textAlign: 'center',
                       cursor: 'pointer',
@@ -615,6 +615,27 @@ const HostAndSessionCard = () => {
                   >
                     <strong>{record.session.id}</strong>
                   </Tag>
+                );
+
+                // sessionid
+                const pidTag = (
+                  <Tooltip
+                    mouseEnterDelay={1}
+                    placement="bottomLeft"
+                    title={<span>Pid {record.session.pid}</span>}
+                  >
+                    <Tag
+                      color="gold"
+                      style={{
+                        // width: 64,
+                        marginLeft: -6,
+                        textAlign: 'center',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <span>{record.session.pid}</span>
+                    </Tag>
+                  </Tooltip>
                 );
 
                 // 连接标签
@@ -670,7 +691,7 @@ const HostAndSessionCard = () => {
                   );
 
                 // os标签
-                const os_tag_new =
+                const os_tag =
                   record.session.platform === 'windows' ? (
                     <Tooltip
                       mouseEnterDelay={1}
@@ -778,7 +799,7 @@ const HostAndSessionCard = () => {
                     <Tag
                       color="lime"
                       style={{
-                        width: 32,
+                        minWidth: 48,
                         marginLeft: -6,
                         textAlign: 'center',
                         cursor: 'pointer',
@@ -803,11 +824,12 @@ const HostAndSessionCard = () => {
                     >
                       {heartbeat}
                       {sessionidTag}
-                      {connectTag}
                       {jobidTag}
+                      {connectTag}
                       {archTag}
-                      {os_tag_new}
+                      {os_tag}
                       {user}
+                      {pidTag}
                     </div>
                   </Dropdown>
                 );
@@ -862,7 +884,7 @@ const HostAndSessionCard = () => {
       <Modal
         mask={false}
         style={{ top: 32 }}
-        width="85vw"
+        width="90vw"
         destroyOnClose
         visible={runModuleModalVisable}
         onCancel={() => setRunModuleModalVisable(false)}
