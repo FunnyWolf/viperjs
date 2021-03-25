@@ -570,7 +570,7 @@ const HostAndSessionCard = () => {
                       </Tag>
                     </Tooltip>
                   );
-                } else if (60 < timepass <= 90) {
+                } else if (60 < timepass && timepass <= 90) {
                   heartbeat = (
                     <Tooltip title={timepass + 's'} placement="left">
                       <Tag
