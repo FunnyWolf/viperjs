@@ -1,0 +1,37 @@
+{
+  "id": "2449550",
+  "name": "g6",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "19863078",
+      "name": "windows",
+      "font_class": "windows",
+      "unicode": "e795",
+      "unicode_decimal": 59285
+    },
+    {
+      "icon_id": "16605973",
+      "name": "linux",
+      "font_class": "linux",
+      "unicode": "e730",
+      "unicode_decimal": 59184
+    },
+    {
+      "icon_id": "12697739",
+      "name": "v",
+      "font_class": "v",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "15346892",
+      "name": "电脑",
+      "font_class": "diannao",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    }
+  ]
+}

@@ -465,7 +465,7 @@ export const FileMsfModal = props => {
                     <a
                       style={{ color: 'green' }}
                       onClick={() => createPostModuleActuatorReq.run({
-                        hid: hostAndSessionActive.id,
+                        ipaddress: hostAndSessionActive.ipaddress,
                         loadpath: 'MODULES.FileSessionUploadModule',
                         sessionid: hostAndSessionActive.session.id,
                         custom_param: JSON.stringify({ SESSION_DIR: dirpath, MSF_FILE: record.name }),

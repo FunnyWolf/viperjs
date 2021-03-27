@@ -76,6 +76,7 @@ import {
   RightOutlined,
   SearchOutlined,
   SettingOutlined,
+  ShareAltOutlined,
   SisternodeOutlined,
   SwapLeftOutlined,
   SwapOutlined,
@@ -134,6 +135,7 @@ import LazyLoader, { LazyLoaderMemo } from '@/pages/Core/LazyLoader';
 import Credential, { CredentialMemo } from '@/pages/Core/Credential';
 import { getToken } from '@/utils/authority';
 import styles from './HostAndSession.less';
+import NetworkMemo from '@/pages/Core/Network';
 
 const { Text } = Typography;
 const { Paragraph } = Typography;
@@ -174,6 +176,7 @@ const HostAndSession = props => {
     setPostModuleResultHistoryActive,
     setNotices,
     setBotWaitList,
+    setNetworkData,
   } = useModel('HostAndSessionModel', model => ({
     setBotModuleConfigList: model.setBotModuleConfigList,
     setPostModuleConfigListStateAll: model.setPostModuleConfigListStateAll,
@@ -181,6 +184,7 @@ const HostAndSession = props => {
     taskQueueLength: model.taskQueueLength,
     setTaskQueueLength: model.setTaskQueueLength,
     setHostAndSessionList: model.setHostAndSessionList,
+    setNetworkData: model.setNetworkData,
     setJobList: model.setJobList,
     setPostModuleResultHistory: model.setPostModuleResultHistory,
     setPostModuleResultHistoryActive: model.setPostModuleResultHistoryActive,
@@ -223,6 +227,9 @@ const HostAndSession = props => {
       const { hosts_sorted_update } = response;
       const { hosts_sorted } = response;
 
+      const { network_data_update } = response;
+      const { network_data } = response;
+
       const { result_history_update } = response;
       const { result_history } = response;
 
@@ -239,6 +246,11 @@ const HostAndSession = props => {
       if (hosts_sorted_update) {
         setHostAndSessionList(hosts_sorted);
       }
+
+      if (network_data_update) {
+        setNetworkData(network_data);
+      }
+
       if (jobs_update) {
         setJobList(jobs);
       }
@@ -457,7 +469,7 @@ const HostAndSessionCard = () => {
           setVulnerabilityModalVisable(true);
           break;
         case 'DestoryHost':
-          destoryHostReq.run({ hid: record.id });
+          destoryHostReq.run({ ipaddress: record.ipaddress });
           break;
         default:
           console.log('unknow command');
@@ -1270,6 +1282,12 @@ const TabsBottom = () => {
           <FileMsfMemo onRef={filemsfRef}/>
         </TabPane>
         <TabPane
+          tab={<span><ShareAltOutlined/>网络拓扑</span>}
+          key="Network"
+        >
+          <NetworkMemo/>
+        </TabPane>
+        <TabPane
           tab={<span><SisternodeOutlined/>内网代理</span>}
           key="Socks"
         >
@@ -1584,21 +1602,19 @@ const RealTimeModuleResult = () => {
 
   return (<Fragment>
     <Row style={{ marginTop: -16 }}>
-      <Fragment>
-        <Col span={21}>
-          <Input
-            allowClear
-            prefix={<SearchOutlined/>}
-            style={{ width: '100%' }}
-            placeholder=" 主机IP/模块/参数/结果"
-            value={text}
-            onChange={e => {
-              setText(e.target.value);
-              handlePostModuleResultHistorySearch(e.target.value);
-            }}
-          />
-        </Col>
-      </Fragment>
+      <Col span={21}>
+        <Input
+          allowClear
+          prefix={<SearchOutlined/>}
+          style={{ width: '100%' }}
+          placeholder=" 主机IP/模块/参数/结果"
+          value={text}
+          onChange={e => {
+            setText(e.target.value);
+            handlePostModuleResultHistorySearch(e.target.value);
+          }}
+        />
+      </Col>
       <Col span={3}>
         <Tooltip mouseEnterDelay={0.3} title="清空结果">
           <Button
@@ -2316,14 +2332,14 @@ const SessionIO = () => {
 
   if (hostAndSessionActive.session.id !== -1) {
     useInterval(() => updateSessionioReq.run({
-        hid: hostAndSessionActive.id,
+        ipaddress: hostAndSessionActive.ipaddress,
         sessionid: hostAndSessionActive.session.id,
       }), 3000,
     );
   }
 
   const initUpdateSessionioReq = useRequest(() => putMsgrpcSessionioAPI(
-    { hid: hostAndSessionActive.id, sessionid: hostAndSessionActive.session.id }), {
+    { ipaddress: hostAndSessionActive.ipaddress, sessionid: hostAndSessionActive.session.id }), {
     onSuccess: (result, params) => {
       if (result.buffer !== sessionIOOutput) {
         setSessionIOOutput(result.buffer);
@@ -2354,7 +2370,7 @@ const SessionIO = () => {
 
   const onCreateSessionio = (input) => {
     createSessionioReq.run({
-      hid: hostAndSessionActive.id,
+      ipaddress: hostAndSessionActive.ipaddress,
       sessionid: hostAndSessionActive.session.id,
       input: input,
     });
@@ -2434,7 +2450,7 @@ const SessionIO = () => {
         </Col>
         <Col xs={24} sm={4}>
           <Button danger block icon={<DeleteOutlined/>}
-                  onClick={() => destorySessionioReq.run({ hid: hostAndSessionActive.id })}>
+                  onClick={() => destorySessionioReq.run({ ipaddress: hostAndSessionActive.ipaddress })}>
             清空
           </Button>
         </Col>
@@ -3259,7 +3275,7 @@ const FileSession = () => {
       listFileSessionReq.run({ sessionid, operation, dirpath });
     } else if (operation === 'download') {
       createPostModuleActuatorReq.run({
-        hid: hostAndSessionActive.id,
+        ipaddress: hostAndSessionActive.ipaddress,
         loadpath: 'MODULES.FileSessionDownloadModule',
         sessionid: sessionid,
         custom_param: JSON.stringify({ SESSION_FILE: filepath }),
@@ -3826,7 +3842,7 @@ const HostInfo = () => {
     UPDATE_TIME: 0,
   });
   const initListHostInfoReq = useRequest(() => getPostmodulePostModuleResultAPI(
-    { hid: hostAndSessionActive.id, loadpath: 'MODULES.HostBaseInfoModule' }), {
+    { ipaddress: hostAndSessionActive.ipaddress, loadpath: 'MODULES.HostBaseInfoModule' }), {
     onSuccess: (result, params) => {
       try {
         const resultJson = JSON.parse(result.result);
@@ -3857,7 +3873,7 @@ const HostInfo = () => {
   });
 
   const onListHostInfo = (record) => {
-    listHostInfoReq.run({ hid: record.id, loadpath: 'MODULES.HostBaseInfoModule' });
+    listHostInfoReq.run({ ipaddress: record.ipaddress, loadpath: 'MODULES.HostBaseInfoModule' });
   };
 
 
@@ -3872,7 +3888,7 @@ const HostInfo = () => {
 
   const onUpdateHostInfo = () => {
     updateHostInfoReq.run({
-      hid: hostAndSessionActive.id,
+      ipaddress: hostAndSessionActive.ipaddress,
       loadpath: 'MODULES.HostBaseInfoModule',
       sessionid: hostAndSessionActive.session.id,
     });
@@ -4171,7 +4187,7 @@ const PortService = () => {
   const [portServiceActive, setPortServiceActive] = useState([]);
 
   const initListPortServiceReq = useRequest(() => getPostlateralPortserviceAPI(
-    { hid: hostAndSessionActive.id }), {
+    { ipaddress: hostAndSessionActive.ipaddress }), {
     onSuccess: (result, params) => {
       setPortServiceActive(result);
 
@@ -4191,24 +4207,15 @@ const PortService = () => {
   const destoryPortServiceReq = useRequest(deletePostlateralPortserviceAPI, {
     manual: true,
     onSuccess: (result, params) => {
-      listPortServiceReq.run({ hid: hostAndSessionActive.id });
+      listPortServiceReq.run({ ipaddress: hostAndSessionActive.ipaddress });
     },
     onError: (error, params) => {
     },
   });
 
   const onDestoryPortService = (record) => {
-    destoryPortServiceReq.run({ hid: record.hid, port: record.port });
+    destoryPortServiceReq.run({ ipaddress: record.ipaddress, port: record.port });
   };
-
-  const portServiceExpandedRowRender = record => (
-    <Descriptions size="middle" column={2} bordered>
-      <Descriptions.Item label="路由方式">{record.proxy.type}</Descriptions.Item>
-      <Descriptions.Item label="路由主机">
-        {record.proxy.data === undefined ? null : record.proxy.data.session_host}
-      </Descriptions.Item>
-    </Descriptions>
-  );
   const paginationProps = {
     simple: true,
     pageSize: 5,
@@ -4221,8 +4228,7 @@ const PortService = () => {
       pagination={paginationProps}
       dataSource={portServiceActive}
       loading={listPortServiceReq.loading || initListPortServiceReq.loading}
-      expandRowByClick
-      expandedRowRender={portServiceExpandedRowRender}
+
       columns={[
         {
           title: '端口',
@@ -4276,7 +4282,7 @@ const Vulnerability = () => {
   const [vulnerabilityActive, setVulnerabilityActive] = useState([]);
 
   const initListVulnerabilityeReq = useRequest(() => getPostlateralVulnerabilityAPI(
-    { hid: hostAndSessionActive.id }), {
+    { ipaddress: hostAndSessionActive.ipaddress }), {
     onSuccess: (result, params) => {
       setVulnerabilityActive(result);
 
@@ -4296,7 +4302,7 @@ const Vulnerability = () => {
   const destoryVulnerabilityReq = useRequest(deletePostlateralVulnerabilityAPI, {
     manual: true,
     onSuccess: (result, params) => {
-      listVulnerabilityReq.run({ hid: hostAndSessionActive.id });
+      listVulnerabilityReq.run({ ipaddress: hostAndSessionActive.ipaddress });
     },
     onError: (error, params) => {
     },
@@ -4410,20 +4416,20 @@ const UpdateHost = (props) => {
           width: '548px',
         }}
         initialValues={{
-          hid: hostAndSessionActive.id,
+          ipaddress: hostAndSessionActive.ipaddress,
           tag: hostAndSessionActive.tag,
           comment: hostAndSessionActive.comment,
         }}
         onFinish={onUpdateHost}
       >
         <Form.Item
-          label={<span>HID</span>}
-          name="hid"
+          label={<span>ipaddress</span>}
+          name="ipaddress"
           rules={[{ required: true, message: '请输入' }]}
           style={{ display: 'None' }}
           {...formLayout}
         >
-          <span>{hostAndSessionActive.id}</span>
+          <span>{hostAndSessionActive.ipaddress}</span>
         </Form.Item>
         <Form.Item
           label={<span>标签</span>}

@@ -6,6 +6,8 @@ export default function HostAndSessionModel() {
   const [botModuleConfigList, setBotModuleConfigList] = useState([]);
 
   const [hostAndSessionList, setHostAndSessionList] = useState([]);
+  const [networkData, setNetworkData] = useState({ nodes: [], edges: [] });
+
   const [heatbeatsocketalive, setHeatbeatsocketalive] = useState(false);
   const [taskQueueLength, setTaskQueueLength] = useState(0);
   const [jobList, setJobList] = useState([]);
@@ -14,13 +16,10 @@ export default function HostAndSessionModel() {
   const [notices, setNotices] = useState([]);
   const [botWaitList, setBotWaitList] = useState([]);
 
-
   const [hostAndSessionActive, setHostAndSessionActive] = useState({
-    id: -1,
-    ipaddress: '点击选择主机',
+    ipaddress: null,
     tag: 'other',
     comment: null,
-    proxy: {},
     session: {
       id: -1,
       type: 'meterpreter',
@@ -68,6 +67,9 @@ export default function HostAndSessionModel() {
 
     hostAndSessionList,
     setHostAndSessionList,
+
+    networkData,
+    setNetworkData,
 
     jobList,
     setJobList,

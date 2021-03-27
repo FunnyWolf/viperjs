@@ -147,7 +147,7 @@ export const RunModule = (props) => {
 
   const onCreatePostModuleActuator = (params) => {
     createPostModuleActuatorReq.run({
-      hid: hostAndSessionActive.id,
+      ipaddress: hostAndSessionActive.ipaddress,
       sessionid: hostAndSessionActive.session.id,
       loadpath: postModuleConfigActive.loadpath,
       custom_param: JSON.stringify(params),
@@ -1702,7 +1702,7 @@ export const PostModule = props => {
 
   const onCreatePostModuleActuator = (params) => {
     createPostModuleActuatorReq.run({
-      hid: hostAndSessionActive.id,
+      ipaddress: hostAndSessionActive.ipaddress,
       sessionid: hostAndSessionActive.session.id,
       loadpath: postModuleConfigActive.loadpath,
       custom_param: JSON.stringify(params),

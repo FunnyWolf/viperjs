@@ -217,27 +217,7 @@ const MuitHosts = () => {
         dataIndex: 'banner',
         // width: '20%',
       },
-      {
-        title: '代理主机',
-        dataIndex: 'proxy',
-        key: 'proxy',
-        width: 120,
-        render: (text, record) => {
-          try {
-            return (
-              <strong
-                style={{
-                  color: '#d8bd14',
-                }}
-              >
-                {record.proxy.data.session_host}
-              </strong>
-            );
-          } catch (e) {
-            return null;
-          }
-        },
-      },
+
       {
         title: '更新时间',
         dataIndex: 'update_time',
@@ -325,7 +305,7 @@ const MuitHosts = () => {
         </Col>
         <Col span={2}>
           <Button
-            onClick={() => destoryHostReq.run({ hid: selectedRowKeys.toString() })}
+            onClick={() => destoryHostReq.run({ ipaddress: selectedRowKeys.toString() })}
             block
             disabled={selectedRowKeys.length === 0}
             danger
@@ -347,7 +327,7 @@ const MuitHosts = () => {
           size="small"
           bordered
           pagination={false}
-          rowKey="id"
+          rowKey="ipaddress"
           expandable={{
             expandedRowRender: expandedRowRender,
             rowExpandable: record => record.portService.length > 0,
@@ -407,7 +387,7 @@ const MuitHosts = () => {
                 <div style={{ textAlign: 'center' }}>
                   <Space size="middle">
                     <a onClick={() => showUpdateHostModal(record)}>编辑</a>
-                    <a onClick={() => destoryHostReq.run({ hid: record.id })} style={{ color: 'red' }}>
+                    <a onClick={() => destoryHostReq.run({ ipaddress: record.ipaddress })} style={{ color: 'red' }}>
                       删除
                     </a>
                   </Space>
@@ -429,20 +409,20 @@ const MuitHosts = () => {
       >
         <Form
           initialValues={{
-            hid: hostAcvtive.id,
+            ipaddress: hostAcvtive.ipaddress,
             tag: hostAcvtive.tag,
             comment: hostAcvtive.comment,
           }}
           onFinish={updateHostReq.run}
         >
           <Form.Item
-            label={<span>HID</span>}
-            name="hid"
+            label={<span>ipaddress</span>}
+            name="ipaddress"
             rules={[{ required: true, message: '请输入' }]}
             style={{ display: 'None' }}
             {...formLayout}
           >
-            <span>{hostAcvtive.id}</span>
+            <span>{hostAcvtive.ipaddress}</span>
           </Form.Item>
           <Form.Item
             label={<span>标签</span>}
