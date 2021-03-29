@@ -65,7 +65,7 @@ const downloadFileWayDetail = item => {
     {
       key: '7',
       name: 'linux下载执行elf',
-      cmd: `wget -O ${filename} ${download_url} && chmod 755 ${filename} && ./${filename} `,
+      cmd: `wget -O ${filename} --no-check-certificate ${download_url} && chmod 755 ${filename} && ./${filename} `,
     },
   ];
 
