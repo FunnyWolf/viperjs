@@ -60,7 +60,7 @@ const downloadFileWayDetail = item => {
     {
       key: '6',
       name: 'linux下载',
-      cmd: `wget -O ${filename} ${download_url}`,
+      cmd: `wget -O ${filename} --no-check-certificate ${download_url}`,
     },
     {
       key: '7',
