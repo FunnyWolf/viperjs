@@ -41,7 +41,7 @@ const Network = () => {
     if (data.type === 'viper' || data.type === 'session') {
       return 150;
     } else {
-      return 80;
+      return 100;
     }
   };
 
@@ -88,7 +88,6 @@ const Network = () => {
 
         };
       } else if (data.type === 'session') {
-        // .platform === 'windows'
         const { sessionnum, platform } = data;
         if (platform === 'windows') {
           node.style = {
