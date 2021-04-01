@@ -8,7 +8,6 @@ export default [
       { path: '/user/login', component: './User/Login' },
     ],  },
   // app
-  // <ClusterOutlined />
   {
     path: '/',
     component: '../layouts/BasicLayout',
@@ -22,12 +21,6 @@ export default [
         path: 'main',
         name: 'control-board',
         component: './Core/HostAndSession',
-      },
-      {
-        icon: 'setting',
-        path: 'system-setting',
-        name: 'setting',
-        component: './Core/SystemSetting',
       },
       {
         component: '404',

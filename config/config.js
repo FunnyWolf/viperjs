@@ -4,8 +4,6 @@
 import pageRoutes from './router.config';
 import defaultSettings from '../src/defaultSettings';
 
-const darkThemeVars = require('antd/dist/dark-theme');
-
 export default {
   // add for transfer to umi
 
@@ -13,10 +11,13 @@ export default {
     dark: true, // 开启暗色主题
     // compact: true, // 开启紧凑主题
   },
-  dva: {
-    hmr: true,
+  targets: {
+    chrome: 79,
+    firefox: 86,
+    safari: 13,
+    edge: false,
+    ios: false,
   },
-
   locale: {
     antd: true, // default false
     default: 'zh-CN', // default zh-CN
@@ -28,16 +29,11 @@ export default {
   define: {
     APP_TYPE: process.env.APP_TYPE || '',
   },
-  targets: {
-    ie: 11,
-  },
   // 路由配置
   routes: pageRoutes,
   // Theme for antd
   // https://ant.design/docs/react/customize-theme-cn
   theme: {
-    // hack: `true;@import "${require.resolve('antd/lib/style/color/colorPalette.less')}";`,
-    // ...darkThemeVars,
     // 'font-size-base': '12px',
     // 'form-item-margin-bottom': '16px',
     'layout-header-height': '28px',
