@@ -38,10 +38,10 @@ const Network = () => {
   }));
   const ranksepFunc = (node) => {
     const { id, data } = node;
-    if (data.type === 'viper' || data.type === 'session') {
-      return 150;
+    if (data.type === 'session') {
+      return 75;
     } else {
-      return 100;
+      return 150;
     }
   };
 
@@ -85,22 +85,21 @@ const Network = () => {
             fill: '#e8b339',
             size: 35,
           },
-
         };
       } else if (data.type === 'session') {
-        const { sessionnum, platform } = data;
+        const { platform } = data;
         if (platform === 'windows') {
           node.style = {
             label: {
               value: node.id,
-              fill: '#6abe39',
+              fill: '#ab7ae0',
               fontSize: 14,
               offset: [0, 12],
             },
             keyshape: {
               size: 60,
-              stroke: '#306317',
-              fill: '#306317',
+              stroke: '#642ab5',
+              fill: '#642ab5',
               fillOpacity: 0.2,
             },
             icon: {
@@ -110,29 +109,29 @@ const Network = () => {
               fill: '#2b4acb',
               size: 40,
             },
-            badges: [
-              {
-                position: 'RT',
-                type: 'text',
-                value: sessionnum,
-                size: [20, 20],
-                color: '#6abe39',
-                fill: '#306317',
-              },
-            ],
+            // badges: [
+            //   {
+            //     position: 'RT',
+            //     type: 'text',
+            //     value: sessionnum,
+            //     size: [20, 20],
+            //     color: '#6abe39',
+            //     fill: '#306317',
+            //   },
+            // ],
           };
         } else {
           node.style = {
             label: {
               value: node.id,
-              fill: '#6abe39',
+              fill: '#ab7ae0',
               fontSize: 14,
               offset: [0, 12],
             },
             keyshape: {
               size: 60,
-              stroke: '#306317',
-              fill: '#306317',
+              stroke: '#642ab5',
+              fill: '#642ab5',
               fillOpacity: 0.2,
             },
             icon: {
@@ -142,16 +141,6 @@ const Network = () => {
               fill: '#d89614',
               size: 40,
             },
-            badges: [
-              {
-                position: 'RT',
-                type: 'text',
-                value: sessionnum,
-                size: [20, 20],
-                color: '#6abe39',
-                fill: '#306317',
-              },
-            ],
           };
         }
       }
@@ -179,7 +168,7 @@ const Network = () => {
         const { sid } = data;
         edge.style = {
           label: {
-            value: ` 内网路由 SID ${sid} `,
+            value: ` 内网路由 `,
             fill: '#3c9ae8',
             fontSize: 14,
           },
