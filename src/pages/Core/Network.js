@@ -8,17 +8,16 @@ import Graphin, { Behaviors, Utils } from '@antv/graphin';
 import './iconfont.css';
 import fonts from './iconfont.json';
 
-const { DragCanvas, ZoomCanvas, DragNode, ActivateRelations, ResizeCanvas, FitView } = Behaviors;
+const { ActivateRelations, FitView } = Behaviors;
 const iconLoader = () => {
   return {
     fontFamily: 'iconfont',
     glyphs: fonts.glyphs,
   };
 };
-const { fontFamily, glyphs } = iconLoader();
+const { fontFamily } = iconLoader();
 
 const icons = Graphin.registerFontFamily(iconLoader);
-
 
 //字符串格式化函数
 String.prototype.format = function() {
@@ -36,6 +35,7 @@ const Network = () => {
   } = useModel('HostAndSessionModel', model => ({
     networkData: model.networkData,
   }));
+
   const ranksepFunc = (node) => {
     const { id, data } = node;
     if (data.type === 'session') {
@@ -213,7 +213,6 @@ const Network = () => {
     return data;
   };
   let data = formatData(networkData);
-
 
   return (
     <Fragment>

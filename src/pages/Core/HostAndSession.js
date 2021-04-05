@@ -264,7 +264,6 @@ const HostAndSession = props => {
       if (bot_wait_list_update) {
         setBotWaitList(bot_wait_list);
       }
-
     };
   };
 
