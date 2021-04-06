@@ -1908,16 +1908,20 @@ const PayloadAndHandler = () => {
             title: 'ID',
             dataIndex: 'ID',
             key: 'ID',
-            width: 32,
+            width: 48,
             render: (text, record) =>
               record.ID >= 0 ? (
-                <Avatar style={{ backgroundColor: '#49aa19' }} shape="square" size={24}>
+                <Avatar
+                  style={{ backgroundColor: '#49aa19', width: '100%' }}
+                  shape="square"
+                  size={24}>
                   <Tooltip placement="right" title="真实监听">
                     {record.ID}
                   </Tooltip>
                 </Avatar>
               ) : (
                 <Avatar
+                  style={{ width: '100%' }}
                   shape="square"
                   size={24}
                 >
