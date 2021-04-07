@@ -42,8 +42,8 @@ const { Option } = Select;
 const { TabPane } = Tabs;
 const { Title, Paragraph, Text } = Typography;
 
-const viper_version = '1.3.1';
-const viper_update_date = '20210330';
+const viper_version = '1.3.2';
+const viper_update_date = '2021-04-11';
 const datas = [
   {
     name: 'metasploit-framework',
@@ -300,7 +300,7 @@ const SystemInfo = () => {
   return (
     <Card style={{ marginTop: -16 }}>
       <Row>
-        <Col span={18}>
+        <Col span={20}>
           <Row>
             <Descriptions size="small" style={{ marginLeft: 64 }} column={6}>
               <Descriptions.Item label="渗透服务">
@@ -311,25 +311,24 @@ const SystemInfo = () => {
                 )}
               </Descriptions.Item>
               <Descriptions.Item label="平台版本">
-                <Tag color="geekblue">{viper_version}</Tag>
+                <Tag color="blue">{viper_version}</Tag>
               </Descriptions.Item>
               <Descriptions.Item label="更新时间">
-                <Tag color="geekblue">{viper_update_date}</Tag>
+                <Tag color="blue">{viper_update_date}</Tag>
               </Descriptions.Item>
-              <Descriptions.Item label="使用文档">
+              <Descriptions.Item label="官方文档">
                 <a
                   target="_blank"
-                  href="https://www.yuque.com/funnywolfdoc/viperdoc"
+                  href="https://www.yuque.com/vipersec"
                   className={styles.action}
                 >
                   网页链接
                 </a>
               </Descriptions.Item>
-              <Descriptions.Item label="问题反馈">
+              <Descriptions.Item label="Github">
                 <a
                   target="_blank"
-                  href="https://www.yuque.com/funnywolfdoc/viperdoc/qmanm1"
-                  // rel="noopener noreferrer"
+                  href="https://github.com/FunnyWolf/Viper"
                   className={styles.action}
                 >
                   网页链接
@@ -379,7 +378,7 @@ const SystemInfo = () => {
             </Space>
           </Row>
         </Col>
-        <Col span={6}>
+        <Col span={4}>
           <List
             size="small"
             header={<div>平台使用以下开源软件</div>}
@@ -387,7 +386,7 @@ const SystemInfo = () => {
             dataSource={datas}
             renderItem={item => (
               <List.Item>
-                <Typography.Text>{item.name}</Typography.Text> <a href={item.url}>LICENSE</a>
+                <a href={item.url}>{item.name}</a>
               </List.Item>
             )}
           />
