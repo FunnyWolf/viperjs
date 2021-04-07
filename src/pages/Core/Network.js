@@ -8,7 +8,7 @@ import Graphin, { Behaviors, Utils } from '@antv/graphin';
 import './iconfont.css';
 import fonts from './iconfont.json';
 
-const { ActivateRelations, FitView } = Behaviors;
+const { ActivateRelations } = Behaviors;
 const iconLoader = () => {
   return {
     fontFamily: 'iconfont',
@@ -234,8 +234,8 @@ const Network = () => {
                   ranksepFunc: ranksepFunc,
                 }}
               >
-                <FitView/>
-                <ActivateRelations/>
+
+              <ActivateRelations/>
               </Graphin>
             </div>
           </Card>

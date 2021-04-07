@@ -1054,7 +1054,6 @@ const Msfconsole = () => {
         msfConsoleTerm.current.dispose();
       } catch (error) {
       }
-
     };
   }, []);
 
@@ -1156,12 +1155,8 @@ const Msfconsole = () => {
           onClick={() => resetBackendConsole()}
         >
         </Button>
-
       </Space>
-      {/*<Button*/}
-      {/*  onClick={() => clearConsole()}>*/}
-      {/*  clear*/}
-      {/*</Button>*/}
+
     </div>
 
 
