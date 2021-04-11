@@ -457,7 +457,6 @@ const HostAndSessionCard = () => {
         case 'HostInfo':
           setActiveHostAndSession(record);
           setHostInfoModalVisable(true);
-
           break;
         case 'PortService':
           setActiveHostAndSession(record);
@@ -1139,7 +1138,7 @@ const Msfconsole = () => {
         direction="vertical">
         <Button
           style={{
-            backgroundColor: 'rgba(0,0,0,0.8)',
+            backgroundColor: 'rgba(40,40,40,0.7)',
           }}
           size="large"
           onClick={() => clearConsole()}
@@ -1148,7 +1147,7 @@ const Msfconsole = () => {
         </Button>
         <Button
           style={{
-            backgroundColor: 'rgba(0,0,0,0.8)',
+            backgroundColor: 'rgba(40,40,40,0.7)',
           }}
           size="large"
           icon={<InteractionOutlined/>}
