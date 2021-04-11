@@ -289,7 +289,14 @@ const HostAndSession = props => {
   useEffect(() => {
     initHeartBeat();
     return () => {
-      ws.current.close();
+      try {
+        ws.current.close();
+      } catch (error) {
+      }
+      try {
+        ws.current = null;
+      } catch (error) {
+      }
     };
   }, []);
 
@@ -308,10 +315,11 @@ const HostAndSessionCard = () => {
   const {
     hostAndSessionList,
     setHostAndSessionActive,
+    heatbeatsocketalive,
   } = useModel('HostAndSessionModel', model => ({
     hostAndSessionList: model.hostAndSessionList,
-    hostAndSessionActive: model.hostAndSessionActive,
     setHostAndSessionActive: model.setHostAndSessionActive,
+    heatbeatsocketalive: model.heatbeatsocketalive,
   }));
   const sessionActiveInit = {
     id: -1,
@@ -497,6 +505,7 @@ const HostAndSessionCard = () => {
     <Fragment>
       <Card bordered bodyStyle={{ padding: '0px 0px 0px 0px' }}>
         <Table
+          loading={!heatbeatsocketalive}
           className={styles.hostandsessionTable}
           rowKey="order_id"
           size="small"
@@ -1023,7 +1032,7 @@ const HostAndSessionCard = () => {
           top: 32,
           left: 'calc(20vw)',
         }}
-        width='548px'
+        width="548px"
         bodyStyle={{ padding: '0px 0px 0px 0px' }}
         destroyOnClose
         visible={updateHostModalVisable}
@@ -1244,7 +1253,7 @@ const TabsBottom = () => {
     <Fragment>
       <Tabs style={{ marginTop: 4 }} type="card" onChange={tabActiveOnChange}>
         <TabPane
-          tab={<span><HeatbeatsocketaliveTag/><FundViewOutlined/>实时输出</span>}
+          tab={<span><FundViewOutlined/>实时输出</span>}
           key="notices"
         >
           <Row gutter={0}>
