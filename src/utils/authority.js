@@ -27,8 +27,9 @@ export function getToken() {
     return token;
   } else {
     history.push('/user/login');
+    return token || 'forguest';
   }
-  return localStorage.getItem('viper-token') || 'forguest';
+
 }
 
 export function setToken(token) {
