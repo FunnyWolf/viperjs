@@ -62,7 +62,7 @@ export async function putCoreHostAPI(params) {
 export async function deleteCoreHostAPI(params) {
   return request('/api/v1/core/host/', {
     method: 'DELETE',
-    params,
+    data: params,
   });
 }
 
