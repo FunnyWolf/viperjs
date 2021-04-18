@@ -2,7 +2,12 @@
 @import '../../utils/utils.less';
 
 .networkCard {
-  overflow: auto;
-  height: calc(~'100vh - 244px');
-  //height: calc(~'100vh - 244px');
+  //overflow: auto;
+  height: calc(~'@{Downheight}');
+}
+
+.networkCardOut {
+  //overflow: auto;
+  max-height: calc(~'@{Downheight}');
+  min-height: calc(~'@{Downheight}');
 }

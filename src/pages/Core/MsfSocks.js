@@ -31,7 +31,6 @@ import {
 const { Option } = Select;
 const { TabPane } = Tabs;
 
-
 //字符串格式化函数
 String.prototype.format = function() {
   let args = arguments;
@@ -39,7 +38,6 @@ String.prototype.format = function() {
     return args[i];
   });
 };
-
 
 const MsfSocks = props => {
   console.log('MsfSocks');
@@ -49,7 +47,6 @@ const MsfSocks = props => {
   const [portfwds, setPortfwds] = useState({});
   const [hostsRoute, setHostsRoute] = useState([]);
 
-
   const initListSocksReq = useRequest(getMsgrpcSocksAPI, {
     onSuccess: (result, params) => {
       setSocksActive(result.socks);
@@ -57,10 +54,8 @@ const MsfSocks = props => {
       setPortfwds(result.portfwds);
       setHostsRoute(result.hostsRoute);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
-
 
   const listSocksReq = useRequest(getMsgrpcSocksAPI, {
     manual: true,
@@ -70,8 +65,7 @@ const MsfSocks = props => {
       setPortfwds(result.portfwds);
       setHostsRoute(result.hostsRoute);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const createSocksReq = useRequest(postMsgrpcSocksAPI, {
@@ -80,18 +74,15 @@ const MsfSocks = props => {
       listSocksReq.run();
       setCreateSocksModalVisible(false);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
-
 
   const destorySocksReq = useRequest(deleteMsgrpcSocksAPI, {
     manual: true,
     onSuccess: (result, params) => {
       listSocksReq.run();
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const destoryPortFwdReq = useRequest(deleteMsgrpcPortFwdAPI, {
@@ -99,8 +90,7 @@ const MsfSocks = props => {
     onSuccess: (result, params) => {
       listSocksReq.run();
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const destoryRouteReq = useRequest(deleteMsgrpcRouteAPI, {
@@ -108,10 +98,8 @@ const MsfSocks = props => {
     onSuccess: (result, params) => {
       listSocksReq.run();
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
-
 
   const formLayout = {
     labelCol: { span: 4 },
@@ -121,7 +109,6 @@ const MsfSocks = props => {
     wrapperCol: { offset: 4, span: 16 },
   };
 
-
   return (
     <Fragment>
       <Row gutter={0} style={{ marginTop: -16 }}>
@@ -130,7 +117,7 @@ const MsfSocks = props => {
             type="dashed"
             style={{ marginTop: 0 }}
             block
-            icon={<PlusOutlined/>}
+            icon={<PlusOutlined />}
             onClick={() => setCreateSocksModalVisible(true)}
           >
             新增代理
@@ -186,7 +173,7 @@ const MsfSocks = props => {
         </Col>
         <Col span={12}>
           <Button
-            icon={<SyncOutlined/>}
+            icon={<SyncOutlined />}
             block
             loading={
               listSocksReq.loading ||
@@ -274,10 +261,7 @@ const MsfSocks = props => {
                       render: (text, record) => (
                         <div style={{ display: 'flex' }}>
                           {host_type_to_avatar_table[record.tag]}
-                          <Typography.Text
-                            // ellipsis={true}
-                            style={{ marginLeft: 4 }}
-                          >
+                          <Typography.Text style={{ marginLeft: 4 }}>
                             {record.comment}
                           </Typography.Text>
                         </div>
@@ -327,11 +311,16 @@ const MsfSocks = props => {
                       dataIndex: 'operation',
                       width: 64,
                       render: (text, record) => (
-                        <a style={{ color: 'red' }} onClick={() => destoryRouteReq.run({
-                          sessionid: record.session,
-                          subnet: record.subnet,
-                          netmask: record.netmask,
-                        })}>
+                        <a
+                          style={{ color: 'red' }}
+                          onClick={() =>
+                            destoryRouteReq.run({
+                              sessionid: record.session,
+                              subnet: record.subnet,
+                              netmask: record.netmask,
+                            })
+                          }
+                        >
                           删除
                         </a>
                       ),
@@ -490,13 +479,13 @@ const MsfSocks = props => {
               },
             ]}
           >
-            <InputNumber style={{ width: 160 }} placeholder="socks监听端口"/>
+            <InputNumber style={{ width: 160 }} placeholder="socks监听端口" />
           </FormNew.Item>
           <FormNew.Item {...buttonLayout}>
             <Button
               block
               loading={createSocksReq.loading}
-              icon={<PlusOutlined/>}
+              icon={<PlusOutlined />}
               htmlType="submit"
               type="primary"
             >

@@ -1,4 +1,12 @@
-import React, { Fragment, memo, useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  Fragment,
+  memo,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import { useModel, useRequest } from 'umi';
 import { useControllableValue, useInterval, useLocalStorageState } from 'ahooks';
 import {
@@ -198,8 +206,7 @@ const HostAndSession = props => {
       setPostModuleConfigListStateAll(result.filter(item => item.BROKER.indexOf('post') === 0));
       setBotModuleConfigList(result.filter(item => item.BROKER.indexOf('bot') === 0));
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const urlpatterns = '/ws/v1/websocket/heartbeat/?';
@@ -207,7 +214,6 @@ const HostAndSession = props => {
   const socketUrl = protocol + webHost + urlpatterns + urlargs;
 
   const ws = useRef(null);
-
 
   const initHeartBeat = () => {
     ws.current = new WebSocket(socketUrl);
@@ -220,7 +226,7 @@ const HostAndSession = props => {
     ws.current.onerror = () => {
       setHeatbeatsocketalive(false);
     };
-    ws.current.onmessage = (event) => {
+    ws.current.onmessage = event => {
       const response = JSON.parse(event.data);
       const { task_queue_length } = response;
 
@@ -276,12 +282,10 @@ const HostAndSession = props => {
     } else {
       try {
         ws.current.close();
-      } catch (error) {
-      }
+      } catch (error) {}
       try {
         ws.current = null;
-      } catch (error) {
-      }
+      } catch (error) {}
       initHeartBeat();
     }
   };
@@ -291,36 +295,34 @@ const HostAndSession = props => {
     return () => {
       try {
         ws.current.close();
-      } catch (error) {
-      }
+      } catch (error) {}
       try {
         ws.current = null;
-      } catch (error) {
-      }
+      } catch (error) {}
     };
   }, []);
 
-
   return (
     <GridContent>
-      <HostAndSessionCard/>
-      <TabsBottom/>
+      {/*<SplitPane split="horizontal" minSize={50}>*/}
+
+      <HostAndSessionCard />
+      <TabsBottom />
+      {/*</SplitPane>*/}
     </GridContent>
   );
 };
 
-
 const HostAndSessionCard = () => {
   console.log('HostAndSessionCard');
-  const {
-    hostAndSessionList,
-    setHostAndSessionActive,
-    heatbeatsocketalive,
-  } = useModel('HostAndSessionModel', model => ({
-    hostAndSessionList: model.hostAndSessionList,
-    setHostAndSessionActive: model.setHostAndSessionActive,
-    heatbeatsocketalive: model.heatbeatsocketalive,
-  }));
+  const { hostAndSessionList, setHostAndSessionActive, heatbeatsocketalive } = useModel(
+    'HostAndSessionModel',
+    model => ({
+      hostAndSessionList: model.hostAndSessionList,
+      setHostAndSessionActive: model.setHostAndSessionActive,
+      heatbeatsocketalive: model.heatbeatsocketalive,
+    })
+  );
   const sessionActiveInit = {
     id: -1,
     type: 'meterpreter',
@@ -369,18 +371,14 @@ const HostAndSessionCard = () => {
 
   const destoryHostReq = useRequest(deleteCoreHostAPI, {
     manual: true,
-    onSuccess: (result, params) => {
-    },
-    onError: (error, params) => {
-    },
+    onSuccess: (result, params) => {},
+    onError: (error, params) => {},
   });
 
   const destorySessionReq = useRequest(deleteMsgrpcSessionAPI, {
     manual: true,
-    onSuccess: (result, params) => {
-    },
-    onError: (error, params) => {
-    },
+    onSuccess: (result, params) => {},
+    onError: (error, params) => {},
   });
 
   const setActiveHostAndSession = item => {
@@ -429,31 +427,31 @@ const HostAndSessionCard = () => {
     return (
       <Menu style={{ width: 104 }} onClick={onClick}>
         <Menu.Item key="SessionInfo">
-          <ContactsOutlined/>
+          <ContactsOutlined />
           权限信息
         </Menu.Item>
         <Menu.Item key="FileSession">
-          <DesktopOutlined/>
+          <DesktopOutlined />
           文件管理
         </Menu.Item>
         <Menu.Item key="Route">
-          <PartitionOutlined/>
+          <PartitionOutlined />
           内网路由
         </Menu.Item>
         <Menu.Item key="PortFwd">
-          <SwapOutlined/>
+          <SwapOutlined />
           端口转发
         </Menu.Item>
         <Menu.Item key="Transport">
-          <NodeIndexOutlined/>
+          <NodeIndexOutlined />
           传输协议
         </Menu.Item>
         <Menu.Item key="SessionIO">
-          <CodeOutlined/>
+          <CodeOutlined />
           命令终端
         </Menu.Item>
         <Menu.Item key="DestorySession">
-          <CloseCircleOutlined style={{ color: 'red' }}/>
+          <CloseCircleOutlined style={{ color: 'red' }} />
           <span style={{ color: 'red' }}>删除权限</span>
         </Menu.Item>
       </Menu>
@@ -485,16 +483,19 @@ const HostAndSessionCard = () => {
     return (
       <Menu style={{ width: 104 }} onClick={onClick}>
         <Menu.Item key="HostInfo">
-          <ProfileOutlined/>主机信息
+          <ProfileOutlined />
+          主机信息
         </Menu.Item>
         <Menu.Item key="PortService">
-          <InteractionOutlined/>开放端口
+          <InteractionOutlined />
+          开放端口
         </Menu.Item>
         <Menu.Item key="Vulnerability">
-          <BugOutlined/>已知漏洞
+          <BugOutlined />
+          已知漏洞
         </Menu.Item>
         <Menu.Item key="DestoryHost">
-          <DeleteOutlined style={{ color: 'red' }}/>
+          <DeleteOutlined style={{ color: 'red' }} />
           <span style={{ color: 'red' }}>删除主机</span>
         </Menu.Item>
       </Menu>
@@ -532,7 +533,7 @@ const HostAndSessionCard = () => {
                     }}
                     size="small"
                   >
-                    <CaretRightOutlined/>
+                    <CaretRightOutlined />
                   </Button>
                 );
               },
@@ -659,18 +660,14 @@ const HostAndSessionCard = () => {
 
                 // 连接标签
                 const connecttooltip = (
-                  <div
-                  >
-                    {record.session.tunnel_local}{' <- '}
-                    {record.session.tunnel_peer}{' '}
-                    {record.session.tunnel_peer_locate}
+                  <div>
+                    {record.session.tunnel_local}
+                    {' <- '}
+                    {record.session.tunnel_peer} {record.session.tunnel_peer_locate}
                   </div>
                 );
                 const connectTag = (
-                  <Tooltip
-                    mouseEnterDelay={1}
-                    placement="bottomLeft"
-                    title={connecttooltip}>
+                  <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={connecttooltip}>
                     <Tag
                       color="cyan"
                       style={{
@@ -712,11 +709,7 @@ const HostAndSessionCard = () => {
                 // os标签
                 const os_tag =
                   record.session.platform === 'windows' ? (
-                    <Tooltip
-                      mouseEnterDelay={1}
-                      placement="bottomLeft"
-                      title={record.session.os}
-                    >
+                    <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={record.session.os}>
                       <Tag
                         color="blue"
                         style={{
@@ -764,10 +757,7 @@ const HostAndSessionCard = () => {
                 let user = null;
                 if (record.session.available === true && record.session.isadmin === true) {
                   user = (
-                    <Tooltip
-                      mouseEnterDelay={1}
-                      placement="bottomLeft"
-                      title={record.session.info}>
+                    <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={record.session.info}>
                       <Tag
                         color="orange"
                         style={{
@@ -775,46 +765,33 @@ const HostAndSessionCard = () => {
                           cursor: 'pointer',
                         }}
                       >
-                        <div className={styles.sessionInfoTextOverflow}>
-                          {record.session.info}
-                        </div>
+                        <div className={styles.sessionInfoTextOverflow}>{record.session.info}</div>
                       </Tag>
                     </Tooltip>
                   );
                 } else {
                   user = (
-                    <Tooltip
-                      mouseEnterDelay={1}
-                      placement="bottomLeft"
-                      title={record.session.info}>
+                    <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={record.session.info}>
                       <Tag
                         style={{
                           marginLeft: -6,
                           cursor: 'pointer',
                         }}
                       >
-                        <div className={styles.sessionInfoTextOverflow}>
-                          {record.session.info}
-                        </div>
+                        <div className={styles.sessionInfoTextOverflow}>{record.session.info}</div>
                       </Tag>
                     </Tooltip>
                   );
                 }
                 // handler标签
                 const jobidTagTooltip = (
-                  <span
-                  >
-                    {record.session.job_info.PAYLOAD}{' '}
-                    {record.session.job_info.LHOST}{' '}
-                    {record.session.job_info.RHOST}{' '}
-                    {record.session.job_info.LPORT}{' '}
+                  <span>
+                    {record.session.job_info.PAYLOAD} {record.session.job_info.LHOST}{' '}
+                    {record.session.job_info.RHOST} {record.session.job_info.LPORT}{' '}
                   </span>
                 );
                 const jobidTag = (
-                  <Tooltip
-                    mouseEnterDelay={1}
-                    placement="bottomLeft"
-                    title={jobidTagTooltip}>
+                  <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={jobidTagTooltip}>
                     <Tag
                       color="lime"
                       style={{
@@ -873,7 +850,8 @@ const HostAndSessionCard = () => {
                     ellipsis={{
                       rows: 1,
                       tooltip: true,
-                    }}>
+                    }}
+                  >
                     {record.comment}
                   </Text>
                 </div>
@@ -910,7 +888,7 @@ const HostAndSessionCard = () => {
         footer={null}
         bodyStyle={{ padding: '0px 0px 0px 0px' }}
       >
-        <RunModuleMemo closeModel={() => setRunModuleModalVisable(false)}/>
+        <RunModuleMemo closeModel={() => setRunModuleModalVisable(false)} />
       </Modal>
 
       <Modal
@@ -922,7 +900,7 @@ const HostAndSessionCard = () => {
         footer={null}
         bodyStyle={{ padding: '8px 8px 8px 8px' }}
       >
-        <SessionInfoMemo/>
+        <SessionInfoMemo />
       </Modal>
 
       <Modal
@@ -934,7 +912,7 @@ const HostAndSessionCard = () => {
         footer={null}
         bodyStyle={{ padding: '8px 0px 0px 0px' }}
       >
-        <FileSessionMemo/>
+        <FileSessionMemo />
       </Modal>
 
       <Modal
@@ -947,7 +925,7 @@ const HostAndSessionCard = () => {
         footer={null}
         bodyStyle={{ padding: '0px 0px 16px 0px' }}
       >
-        <MsfRouteMemo/>
+        <MsfRouteMemo />
       </Modal>
 
       <Modal
@@ -960,7 +938,7 @@ const HostAndSessionCard = () => {
         footer={null}
         bodyStyle={{ padding: '0px 0px 16px 0px' }}
       >
-        <PortFwdMemo/>
+        <PortFwdMemo />
       </Modal>
 
       <Modal
@@ -973,9 +951,7 @@ const HostAndSessionCard = () => {
         footer={null}
         bodyStyle={{ padding: '0px 0px 16px 0px' }}
       >
-        <TransportMemo
-          closeModal={closeTransportModel}
-        />
+        <TransportMemo closeModal={closeTransportModel} />
       </Modal>
 
       <Modal
@@ -987,7 +963,7 @@ const HostAndSessionCard = () => {
         footer={null}
         bodyStyle={{ padding: '8px 8px 8px 8px' }}
       >
-        <SessionIOMemo/>
+        <SessionIOMemo />
       </Modal>
 
       <Modal
@@ -999,7 +975,7 @@ const HostAndSessionCard = () => {
         footer={null}
         bodyStyle={{ padding: '8px 8px 8px 8px' }}
       >
-        <HostInfoMemo/>
+        <HostInfoMemo />
       </Modal>
 
       <Modal
@@ -1012,7 +988,7 @@ const HostAndSessionCard = () => {
         footer={null}
         bodyStyle={{ padding: '0px 8px 0px 8px' }}
       >
-        <PortServiceMemo/>
+        <PortServiceMemo />
       </Modal>
 
       <Modal
@@ -1025,7 +1001,7 @@ const HostAndSessionCard = () => {
         footer={null}
         bodyStyle={{ padding: '0px 0px 0px 0px' }}
       >
-        <VulnerabilityMemo/>
+        <VulnerabilityMemo />
       </Modal>
       <Modal
         style={{
@@ -1040,19 +1016,29 @@ const HostAndSessionCard = () => {
         mask={false}
         onCancel={() => setUpdateHostModalVisable(false)}
       >
-        <UpdateHostMemo
-          closeModal={() => setUpdateHostModalVisable(false)}
-        />
+        <UpdateHostMemo closeModal={() => setUpdateHostModalVisable(false)} />
       </Modal>
     </Fragment>
   );
 };
 
-const Msfconsole = () => {
+const Msfconsole = props => {
   console.log('Msfconsole');
   const fitAddon = useRef(new FitAddon());
   const msfConsoleTerm = useRef(null);
   const wsmsf = useRef(null);
+
+  useImperativeHandle(props.onRef, () => {
+    return {
+      autoInit: () => {
+        try {
+        } catch (error) {
+          console.error(error);
+        }
+      },
+    };
+  });
+
   useEffect(() => {
     initMsfconsole();
     return () => {
@@ -1060,8 +1046,7 @@ const Msfconsole = () => {
         wsmsf.current.close();
         msfConsoleTerm.current.close();
         msfConsoleTerm.current.dispose();
-      } catch (error) {
-      }
+      } catch (error) {}
     };
   }, []);
 
@@ -1089,7 +1074,6 @@ const Msfconsole = () => {
         });
 
         msfConsoleTerm.current.attachCustomKeyEventHandler(e => {
-
           if (e.keyCode === 39 || e.keyCode === 37) {
             return false;
           }
@@ -1124,112 +1108,94 @@ const Msfconsole = () => {
       try {
         msfConsoleTerm.current.close();
         msfConsoleTerm.current.dispose();
-      } catch (error) {
-      }
+      } catch (error) {}
     };
 
-    wsmsf.current.onmessage = (event) => {
+    wsmsf.current.onmessage = event => {
       const recv_message = JSON.parse(event.data);
       msfConsoleTerm.current.write(recv_message.data);
     };
   };
 
-
-  return (<Card style={{ marginTop: -16 }} bodyStyle={{ padding: '0px 0px 0px 0px' }} bordered>
-    <div className={styles.msfconsolediv} id="msfconsole_terminal">
-      <Space
-        style={{
-          top: 16,
-          right: 16,
-          position: 'absolute',
-          zIndex: 10000,
-        }}
-        direction="vertical">
-        <Button
+  return (
+    <Card style={{ marginTop: -16 }} bodyStyle={{ padding: '0px 0px 0px 0px' }} bordered>
+      <div className={styles.msfconsolediv} id="msfconsole_terminal">
+        <Space
           style={{
-            backgroundColor: 'rgba(40,40,40,0.7)',
+            top: 16,
+            right: 16,
+            position: 'absolute',
+            zIndex: 10000,
           }}
-          size="large"
-          onClick={() => clearConsole()}
-          icon={<ClearOutlined/>}
+          direction="vertical"
         >
-        </Button>
-        <Button
-          style={{
-            backgroundColor: 'rgba(40,40,40,0.7)',
-          }}
-          size="large"
-          icon={<InteractionOutlined/>}
-          onClick={() => resetBackendConsole()}
-        >
-        </Button>
-      </Space>
-
-    </div>
-
-
-  </Card>);
-
+          <Button
+            style={{
+              backgroundColor: 'rgba(40,40,40,0.7)',
+            }}
+            size="large"
+            onClick={() => clearConsole()}
+            icon={<ClearOutlined />}
+          />
+          <Button
+            style={{
+              backgroundColor: 'rgba(40,40,40,0.7)',
+            }}
+            size="large"
+            icon={<InteractionOutlined />}
+            onClick={() => resetBackendConsole()}
+          />
+        </Space>
+      </div>
+    </Card>
+  );
 };
 
 const MsfconsoleMemo = memo(Msfconsole);
 
 const TaskQueueTag = () => {
   console.log('TaskQueueTag');
-  const {
-    taskQueueLength,
-  } = useModel('HostAndSessionModel', model => ({
+  const { taskQueueLength } = useModel('HostAndSessionModel', model => ({
     taskQueueLength: model.taskQueueLength,
   }));
   if (taskQueueLength > 0) {
-    return <Badge
-      showZero
-      style={{
-        marginTop: -4,
-        marginLeft: -4,
-        marginRight: 10,
-        color: '#73d13d',
-        backgroundColor: '#092b00',
-        boxShadow: '0 0 0 1px #237804 inset',
-      }}
-      count={taskQueueLength}
-    />;
+    return (
+      <Badge
+        showZero
+        style={{
+          marginTop: -4,
+          marginLeft: -4,
+          marginRight: 10,
+          color: '#73d13d',
+          backgroundColor: '#092b00',
+          boxShadow: '0 0 0 1px #237804 inset',
+        }}
+        count={taskQueueLength}
+      />
+    );
   } else {
-    return <FieldTimeOutlined/>;
+    return <FieldTimeOutlined />;
   }
-
 };
 const TaskQueueTagMemo = memo(TaskQueueTag);
-
-const HeatbeatsocketaliveTag = () => {
-  console.log('HeatbeatsocketaliveTag');
-  const {
-    heatbeatsocketalive,
-  } = useModel('HostAndSessionModel', model => ({
-    heatbeatsocketalive: model.heatbeatsocketalive,
-  }));
-  if (heatbeatsocketalive) {
-    return <Badge style={{ marginRight: 8 }} status="success"/>;
-  } else {
-    return <Badge style={{ marginRight: 8 }} status="error"/>;
-  }
-
-};
-
 
 const TabsBottom = () => {
   console.log('TabsBottom');
   let filemsfRef = React.createRef();
+  let consoleRef = React.createRef();
   const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState('viper-debug-flag', false);
   const tabActiveOnChange = activeKey => {
     switch (activeKey) {
       case 'msfconsole':
+        if (consoleRef.current === null) {
+        } else {
+          consoleRef.current.autoInit();
+        }
         break;
       case 'Socks':
         break;
       case 'filemsf':
         if (filemsfRef.current === null) {
-
         } else {
           filemsfRef.current.updateData();
         }
@@ -1253,85 +1219,149 @@ const TabsBottom = () => {
     <Fragment>
       <Tabs style={{ marginTop: 4 }} type="card" onChange={tabActiveOnChange}>
         <TabPane
-          tab={<span><FundViewOutlined/>实时输出</span>}
+          tab={
+            <span>
+              <FundViewOutlined />
+              实时输出
+            </span>
+          }
           key="notices"
         >
           <Row gutter={0}>
             <Col span={14}>
-              <RealTimeModuleResultMemo/>
+              <RealTimeModuleResultMemo />
             </Col>
             <Col span={10}>
-              <RealTimeNoticesMemo/>
+              <RealTimeNoticesMemo />
             </Col>
           </Row>
         </TabPane>
         <TabPane
-          tab={<span><TaskQueueTagMemo/>任务列表</span>}
+          tab={
+            <span>
+              <TaskQueueTagMemo />
+              任务列表
+            </span>
+          }
           key="JobList"
         >
-          <RealTimeJobsMemo/>
+          <RealTimeJobsMemo />
         </TabPane>
         <TabPane
-          tab={<span><CustomerServiceOutlined/>监听载荷</span>}
+          tab={
+            <span>
+              <CustomerServiceOutlined />
+              监听载荷
+            </span>
+          }
           key="PayloadAndHandler"
         >
-          <PayloadAndHandlerMemo/>
+          <PayloadAndHandlerMemo />
         </TabPane>
         <TabPane
-          tab={<span><FolderOpenOutlined/>文件列表</span>}
+          tab={
+            <span>
+              <FolderOpenOutlined />
+              文件列表
+            </span>
+          }
           key="filemsf"
         >
-          <FileMsfMemo onRef={filemsfRef}/>
+          <FileMsfMemo onRef={filemsfRef} />
         </TabPane>
         <TabPane
-          tab={<span><ShareAltOutlined/>网络拓扑</span>}
+          tab={
+            <span>
+              <ShareAltOutlined />
+              网络拓扑
+            </span>
+          }
           key="Network"
         >
-          <NetworkMemo/>
+          <NetworkMemo />
         </TabPane>
         <TabPane
-          tab={<span><SisternodeOutlined/>内网代理</span>}
+          tab={
+            <span>
+              <SisternodeOutlined />
+              内网代理
+            </span>
+          }
           key="Socks"
         >
-          <MsfSocksMemo/>
+          <MsfSocksMemo />
         </TabPane>
         <TabPane
-          tab={<span><GroupOutlined/>内网主机</span>}
+          tab={
+            <span>
+              <GroupOutlined />
+              内网主机
+            </span>
+          }
           key="MuitHosts"
         >
-          <MuitHostsMemo/>
+          <MuitHostsMemo />
         </TabPane>
         <TabPane
-          tab={<span><KeyOutlined/>凭证管理</span>}
+          tab={
+            <span>
+              <KeyOutlined />
+              凭证管理
+            </span>
+          }
           key="Credential"
         >
-          <CredentialMemo/>
+          <CredentialMemo />
         </TabPane>
-        {viperDebugFlag ? <TabPane
-          tab={<span><MailOutlined/>钓鱼管理</span>}
-          key="LazyLoader"
-        >
-          <LazyLoaderMemo/>
-        </TabPane> : null}
-        {viperDebugFlag ? <TabPane
-          tab={<span><RadarChartOutlined/>全网扫描</span>}
-          key="BotScan"
-        >
-          <BotScan/>
-        </TabPane> : null}
+        {viperDebugFlag ? (
+          <TabPane
+            tab={
+              <span>
+                <MailOutlined />
+                钓鱼管理
+              </span>
+            }
+            key="LazyLoader"
+          >
+            <LazyLoaderMemo />
+          </TabPane>
+        ) : null}
+        {viperDebugFlag ? (
+          <TabPane
+            tab={
+              <span>
+                <RadarChartOutlined />
+                全网扫描
+              </span>
+            }
+            key="BotScan"
+          >
+            <BotScan />
+          </TabPane>
+        ) : null}
 
         <TabPane
-          tab={<span><CodeOutlined/>CONSOLE</span>}
+          tab={
+            <span>
+              <CodeOutlined />
+              CONSOLE
+            </span>
+          }
           key="msfconsole"
           // forceRender
         >
-          <MsfconsoleMemo/>
+          <MsfconsoleMemo onRef={consoleRef} />
         </TabPane>
         <TabPane
-          tab={<span><SettingOutlined/>平台设置</span>}
+          tab={
+            <span>
+              <SettingOutlined />
+              平台设置
+            </span>
+          }
           key="SystemSetting"
         >
-          <SystemSettingMemo/>
+          <SystemSettingMemo />
         </TabPane>
       </Tabs>
     </Fragment>
@@ -1340,10 +1370,7 @@ const TabsBottom = () => {
 
 const RealTimeJobs = () => {
   console.log('RealTimeJobs');
-  const {
-    jobList,
-    setJobList,
-  } = useModel('HostAndSessionModel', model => ({
+  const { jobList, setJobList } = useModel('HostAndSessionModel', model => ({
     jobList: model.jobList,
     setJobList: model.setJobList,
   }));
@@ -1354,11 +1381,10 @@ const RealTimeJobs = () => {
       const { uuid } = result;
       setJobList(jobList.filter(item => item.uuid !== uuid));
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
-  const onDestoryJob = (record) => {
+  const onDestoryJob = record => {
     destoryJobReq.run({ uuid: record.uuid, job_id: record.job_id, broker: record.broker });
   };
 
@@ -1393,7 +1419,7 @@ const RealTimeJobs = () => {
           <a href={references[i]} target="_blank">
             {references[i]}
           </a>
-        </div>,
+        </div>
       );
     }
 
@@ -1405,7 +1431,7 @@ const RealTimeJobs = () => {
           <a href={readme[i]} target="_blank">
             {readme[i]}
           </a>
-        </div>,
+        </div>
       );
     }
 
@@ -1515,7 +1541,7 @@ const RealTimeJobs = () => {
                     {' '}
                     <strong>{key}: </strong>
                     {item}{' '}
-                  </span>,
+                  </span>
                 );
               }
               return <Fragment>{component}</Fragment>;
@@ -1572,8 +1598,7 @@ const RealTimeModuleResult = () => {
           resultMatch = record.result.match(reg);
           optsMatch = optsStr.match(reg);
           hostMatch = record.ipaddress.match(reg);
-        } catch (error) {
-        }
+        } catch (error) {}
 
         if (moduleNameMatch || resultMatch || optsMatch || hostMatch) {
           return { ...record };
@@ -1598,123 +1623,120 @@ const RealTimeModuleResult = () => {
       setPostModuleResultHistory([]);
       setPostModuleResultHistoryActive([]);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
-  return (<Fragment>
-    <Row style={{ marginTop: -16 }}>
-      <Col span={21}>
-        <Input
-          allowClear
-          prefix={<SearchOutlined/>}
-          style={{ width: '100%' }}
-          placeholder=" 主机IP/模块/参数/结果"
-          value={text}
-          onChange={e => {
-            setText(e.target.value);
-            handlePostModuleResultHistorySearch(e.target.value);
-          }}
-        />
-      </Col>
-      <Col span={3}>
-        <Tooltip mouseEnterDelay={0.3} title="清空结果">
-          <Button
-            block
-            danger
-            onClick={() => deletePostModuleResultHistoryReq.run()}
-            icon={<DeleteOutlined/>}
+  return (
+    <Fragment>
+      <Row style={{ marginTop: -16 }}>
+        <Col span={21}>
+          <Input
+            allowClear
+            prefix={<SearchOutlined />}
+            style={{ width: '100%' }}
+            placeholder=" 主机IP/模块/参数/结果"
+            value={text}
+            onChange={e => {
+              setText(e.target.value);
+              handlePostModuleResultHistorySearch(e.target.value);
+            }}
+          />
+        </Col>
+        <Col span={3}>
+          <Tooltip mouseEnterDelay={0.3} title="清空结果">
+            <Button
+              block
+              danger
+              onClick={() => deletePostModuleResultHistoryReq.run()}
+              icon={<DeleteOutlined />}
+            >
+              清空
+            </Button>
+          </Tooltip>
+        </Col>
+      </Row>
+      <Card bordered={false} style={{ marginTop: 0 }} bodyStyle={{ padding: '0px 0px 0px 0px' }}>
+        <List
+          id="moduleresultlist"
+          bordered
+          className={styles.moduleresultlist}
+          itemLayout="vertical"
+          size="small"
+          dataSource={postModuleResultHistoryActive}
+          renderItem={item => (
+            <List.Item key={item.id} style={{ padding: '4px 0px 0px 4px' }}>
+              <div>
+                <Tooltip title={moment(item.update_time * 1000).format('YYYY-MM-DD HH:mm:ss')}>
+                  <Tag style={{ width: '68px' }} color="cyan">
+                    {moment(item.update_time * 1000).fromNow()}
+                  </Tag>
+                </Tooltip>
+                <strong
+                  style={{
+                    color: '#642ab5',
+                    // marginLeft: 8,
+                  }}
+                >
+                  {item.module_name}
+                </strong>
+                <strong
+                  style={{
+                    color: '#d8bd14',
+                    width: 120,
+                    marginLeft: 8,
+                  }}
+                >
+                  {item.ipaddress}
+                </strong>
+              </div>
+              <div
+                style={{
+                  marginTop: 0,
+                }}
+              >
+                {postModuleOpts(item.opts)}
+              </div>
+              <Row>
+                <pre
+                  style={{
+                    whiteSpace: 'pre-wrap',
+                    overflowX: 'hidden',
+                    padding: '0 0 0 0',
+                    marginTop: 2,
+                    marginBottom: 2,
+                  }}
+                >
+                  {item.result}
+                </pre>
+              </Row>
+            </List.Item>
+          )}
+        >
+          <BackTop
+            style={{
+              right: 'calc(41vw + 32px)',
+            }}
+            target={() => document.getElementById('moduleresultlist')}
           >
-            清空
-          </Button>
-        </Tooltip>
-      </Col>
-    </Row>
-    <Card
-      bordered={false}
-      style={{ marginTop: 0 }}
-      bodyStyle={{ padding: '0px 0px 0px 0px' }}
-    >
-      <List
-        id="moduleresultlist"
-        bordered
-        className={styles.moduleresultlist}
-        itemLayout="vertical"
-        size="small"
-        dataSource={postModuleResultHistoryActive}
-        renderItem={item => (
-          <List.Item key={item.id} style={{ padding: '4px 0px 0px 4px' }}>
-            <div>
-              <Tooltip title={moment(item.update_time * 1000).format('YYYY-MM-DD HH:mm:ss')}>
-                <Tag style={{ width: '68px' }} color="cyan">
-                  {moment(item.update_time * 1000).fromNow()}
-                </Tag>
-              </Tooltip>
-              <strong
-                style={{
-                  color: '#642ab5',
-                  // marginLeft: 8,
-                }}
-              >
-                {item.module_name}
-              </strong>
-              <strong
-                style={{
-                  color: '#d8bd14',
-                  width: 120,
-                  marginLeft: 8,
-                }}
-              >
-                {item.ipaddress}
-              </strong>
-            </div>
             <div
               style={{
-                marginTop: 0,
+                height: 40,
+                width: 40,
+                lineHeight: '40px',
+                borderRadius: 4,
+                backgroundColor: 'rgba(64, 64, 64, 0.6)',
+                color: '#fff',
+                textAlign: 'center',
+                fontSize: 14,
               }}
             >
-              {postModuleOpts(item.opts)}
+              <VerticalAlignTopOutlined />
             </div>
-            <Row>
-            <pre
-              style={{
-                whiteSpace: 'pre-wrap',
-                overflowX: 'hidden',
-                padding: '0 0 0 0',
-                marginTop: 2,
-                marginBottom: 2,
-              }}
-            >
-              {item.result}
-            </pre>
-            </Row>
-          </List.Item>
-        )}
-      >
-        <BackTop
-          style={{
-            right: 'calc(41vw + 32px)',
-          }}
-          target={() => document.getElementById('moduleresultlist')}
-        >
-          <div
-            style={{
-              height: 40,
-              width: 40,
-              lineHeight: '40px',
-              borderRadius: 4,
-              backgroundColor: 'rgba(64, 64, 64, 0.6)',
-              color: '#fff',
-              textAlign: 'center',
-              fontSize: 14,
-            }}
-          >
-            <VerticalAlignTopOutlined/>
-          </div>
-        </BackTop>
-      </List>
-    </Card>
-  </Fragment>);
+          </BackTop>
+        </List>
+      </Card>
+    </Fragment>
+  );
 };
 
 const RealTimeModuleResultMemo = memo(RealTimeModuleResult);
@@ -1728,27 +1750,31 @@ const KeyToUserIcon = {
   '5': 'icon-duojiaobaoshi',
 };
 
-const userIcon = (key) => {
-  return <MyIcon
-    type={KeyToUserIcon[key]}
-    style={{
-      padding: '0px 0px 0px 0px',
-      marginBottom: 0,
-      marginTop: 0,
-      marginLeft: -4,
-      marginRight: 4,
-      fontSize: '18px',
-    }}
-  />;
+const userIcon = key => {
+  return (
+    <MyIcon
+      type={KeyToUserIcon[key]}
+      style={{
+        padding: '0px 0px 0px 0px',
+        marginBottom: 0,
+        marginTop: 0,
+        marginLeft: -4,
+        marginRight: 4,
+        fontSize: '18px',
+      }}
+    />
+  );
 };
 
-const userIconLarge = (key) => {
-  return <MyIcon
-    type={KeyToUserIcon[key]}
-    style={{
-      fontSize: '18px',
-    }}
-  />;
+const userIconLarge = key => {
+  return (
+    <MyIcon
+      type={KeyToUserIcon[key]}
+      style={{
+        fontSize: '18px',
+      }}
+    />
+  );
 };
 
 // 单独独立出来是为了不丢失焦点
@@ -1757,7 +1783,7 @@ const UserInput = props => {
     {},
     {
       defaultValue: '',
-    },
+    }
   );
   const getUserIconKey = () => {
     let key = '0';
@@ -1770,22 +1796,28 @@ const UserInput = props => {
   };
   const [iconkey, setIconkey] = useState(getUserIconKey());
   const PrefixIcon = () => {
-
     const onChange = e => {
       console.log('radio checked', e.target.value);
       setIconkey(e.target.value);
       localStorage.setItem('UserIcon', e.target.value);
     };
-    return (<Popover content={<Radio.Group onChange={onChange} value={getUserIconKey()}>
-      <Radio value="0">{userIcon('0')}</Radio>
-      <Radio value="1">{userIcon('1')}</Radio>
-      <Radio value="2">{userIcon('2')}</Radio>
-      <Radio value="3">{userIcon('3')}</Radio>
-      <Radio value="4">{userIcon('4')}</Radio>
-      <Radio value="5">{userIcon('5')}</Radio>
-    </Radio.Group>} trigger="click">
-      {userIcon(iconkey)}
-    </Popover>);
+    return (
+      <Popover
+        content={
+          <Radio.Group onChange={onChange} value={getUserIconKey()}>
+            <Radio value="0">{userIcon('0')}</Radio>
+            <Radio value="1">{userIcon('1')}</Radio>
+            <Radio value="2">{userIcon('2')}</Radio>
+            <Radio value="3">{userIcon('3')}</Radio>
+            <Radio value="4">{userIcon('4')}</Radio>
+            <Radio value="5">{userIcon('5')}</Radio>
+          </Radio.Group>
+        }
+        trigger="click"
+      >
+        {userIcon(iconkey)}
+      </Popover>
+    );
   };
 
   return (
@@ -1793,7 +1825,7 @@ const UserInput = props => {
       style={{ width: '100%' }}
       placeholder="发送消息"
       value={text}
-      prefix={<PrefixIcon/>}
+      prefix={<PrefixIcon />}
       onPressEnter={() => {
         props.createNotice({ userkey: iconkey, content: text });
         onInputChange('');
@@ -1805,10 +1837,7 @@ const UserInput = props => {
 
 const RealTimeNotices = () => {
   console.log('RealTimeNotices');
-  const {
-    notices,
-    setNotices,
-  } = useModel('HostAndSessionModel', model => ({
+  const { notices, setNotices } = useModel('HostAndSessionModel', model => ({
     notices: model.notices,
     setNotices: model.setNotices,
   }));
@@ -1863,8 +1892,13 @@ const RealTimeNotices = () => {
       if (item.level === 6) {
         // 用户输入
         return (
-          <Text style={{ color: '#cb2b83' }}
-                className={styles.wordBreakClass}><Space>{userIconLarge(item.userkey)}{item.content}{userIconLarge(item.userkey)}</Space></Text>
+          <Text style={{ color: '#cb2b83' }} className={styles.wordBreakClass}>
+            <Space>
+              {userIconLarge(item.userkey)}
+              {item.content}
+              {userIconLarge(item.userkey)}
+            </Space>
+          </Text>
         );
       }
       return (
@@ -1926,7 +1960,7 @@ const RealTimeNotices = () => {
               fontSize: 14,
             }}
           >
-            <VerticalAlignTopOutlined/>
+            <VerticalAlignTopOutlined />
           </div>
         </BackTop>
       </List>
@@ -1938,51 +1972,43 @@ const RealTimeNotices = () => {
       // notices.unshift(result);
       // setNotices(notices);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
-
 
   const deleteNoticesReq = useRequest(deleteNoticesAPI, {
     manual: true,
     onSuccess: (result, params) => {
       setNotices([]);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
-
-  return (<Fragment>
-    <Row style={{ marginTop: -16 }}>
-      <Col span={20}>
-        <UserInput createNotice={(params) => createNoticeReq.run(params)}/>
-      </Col>
-      <Col span={4}>
-        <Tooltip mouseEnterDelay={0.3} title="清空日志">
-          <Button icon={<DeleteOutlined/>} block danger onClick={() => deleteNoticesReq.run()}>
-            清空
-          </Button>
-        </Tooltip>
-      </Col>
-    </Row>
-    <Card
-      bordered={false}
-      style={{ marginTop: 0 }}
-      bodyStyle={{ padding: '0px 0px 0px 0px' }}
-    >
-      <NoticesList notices={notices}/>
-    </Card>
-  </Fragment>);
+  return (
+    <Fragment>
+      <Row style={{ marginTop: -16 }}>
+        <Col span={20}>
+          <UserInput createNotice={params => createNoticeReq.run(params)} />
+        </Col>
+        <Col span={4}>
+          <Tooltip mouseEnterDelay={0.3} title="清空日志">
+            <Button icon={<DeleteOutlined />} block danger onClick={() => deleteNoticesReq.run()}>
+              清空
+            </Button>
+          </Tooltip>
+        </Col>
+      </Row>
+      <Card bordered={false} style={{ marginTop: 0 }} bodyStyle={{ padding: '0px 0px 0px 0px' }}>
+        <NoticesList notices={notices} />
+      </Card>
+    </Fragment>
+  );
 };
 
 const RealTimeNoticesMemo = memo(RealTimeNotices);
 
 const SessionInfo = () => {
   console.log('SessionInfo');
-  const {
-    hostAndSessionActive,
-  } = useModel('HostAndSessionModel', model => ({
+  const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
   const [sessionInfoActive, setSessionInfoActive] = useState({
@@ -2025,23 +2051,22 @@ const SessionInfo = () => {
     os: null,
     os_short: null,
   });
-  const initListSessionInfoReq = useRequest(() => getMsgrpcSessionAPI(
-    { sessionid: hostAndSessionActive.session.id }), {
-    onSuccess: (result, params) => {
-      setSessionInfoActive(result);
-    },
-    onError: (error, params) => {
-    },
-  });
-
+  const initListSessionInfoReq = useRequest(
+    () => getMsgrpcSessionAPI({ sessionid: hostAndSessionActive.session.id }),
+    {
+      onSuccess: (result, params) => {
+        setSessionInfoActive(result);
+      },
+      onError: (error, params) => {},
+    }
+  );
 
   const updateSessionInfoReq = useRequest(putMsgrpcSessionAPI, {
     manual: true,
     onSuccess: (result, params) => {
       setSessionInfoActive(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const integrity_to_tag = {
@@ -2256,9 +2281,11 @@ const SessionInfo = () => {
           <Space style={{ marginTop: 8 }}>
             <Button
               type="primary"
-              icon={<SyncOutlined/>}
+              icon={<SyncOutlined />}
               loading={updateSessionInfoReq.loading || initListSessionInfoReq.loading}
-              onClick={() => updateSessionInfoReq.run({ sessionid: hostAndSessionActive.session.id })}
+              onClick={() =>
+                updateSessionInfoReq.run({ sessionid: hostAndSessionActive.session.id })
+              }
             >
               更新信息
             </Button>
@@ -2293,9 +2320,11 @@ const SessionInfo = () => {
           <Space style={{ marginTop: 8 }}>
             <Button
               type="primary"
-              icon={<SyncOutlined/>}
+              icon={<SyncOutlined />}
               loading={updateSessionInfoReq.loading || initListSessionInfoReq.loading}
-              onClick={() => updateSessionInfoReq.run({ sessionid: hostAndSessionActive.session.id })}
+              onClick={() =>
+                updateSessionInfoReq.run({ sessionid: hostAndSessionActive.session.id })
+              }
             >
               更新信息
             </Button>
@@ -2310,9 +2339,7 @@ const SessionInfoMemo = memo(SessionInfo);
 
 const SessionIO = () => {
   console.log('SessionIO');
-  const {
-    hostAndSessionActive,
-  } = useModel('HostAndSessionModel', model => ({
+  const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
   const [sessionIOOutput, setSessionIOOutput] = useState('');
@@ -2324,36 +2351,42 @@ const SessionIO = () => {
       if (result.buffer !== sessionIOOutput) {
         setSessionIOOutput(result.buffer);
         document.getElementById('sessionIOPre').scrollTop = document.getElementById(
-          'sessionIOPre',
+          'sessionIOPre'
         ).scrollHeight;
       }
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   if (hostAndSessionActive.session.id !== -1) {
-    useInterval(() => updateSessionioReq.run({
-        ipaddress: hostAndSessionActive.ipaddress,
-        sessionid: hostAndSessionActive.session.id,
-      }), 3000,
+    useInterval(
+      () =>
+        updateSessionioReq.run({
+          ipaddress: hostAndSessionActive.ipaddress,
+          sessionid: hostAndSessionActive.session.id,
+        }),
+      3000
     );
   }
 
-  const initUpdateSessionioReq = useRequest(() => putMsgrpcSessionioAPI(
-    { ipaddress: hostAndSessionActive.ipaddress, sessionid: hostAndSessionActive.session.id }), {
-    onSuccess: (result, params) => {
-      if (result.buffer !== sessionIOOutput) {
-        setSessionIOOutput(result.buffer);
-        document.getElementById('sessionIOPre').scrollTop = document.getElementById(
-          'sessionIOPre',
-        ).scrollHeight;
-      }
-    },
-    onError: (error, params) => {
-    },
-  });
-
+  const initUpdateSessionioReq = useRequest(
+    () =>
+      putMsgrpcSessionioAPI({
+        ipaddress: hostAndSessionActive.ipaddress,
+        sessionid: hostAndSessionActive.session.id,
+      }),
+    {
+      onSuccess: (result, params) => {
+        if (result.buffer !== sessionIOOutput) {
+          setSessionIOOutput(result.buffer);
+          document.getElementById('sessionIOPre').scrollTop = document.getElementById(
+            'sessionIOPre'
+          ).scrollHeight;
+        }
+      },
+      onError: (error, params) => {},
+    }
+  );
 
   const createSessionioReq = useRequest(postMsgrpcSessionioAPI, {
     manual: true,
@@ -2362,15 +2395,14 @@ const SessionIO = () => {
         setSessionIOOutput(result.buffer);
         setShellInput('');
         document.getElementById('sessionIOPre').scrollTop = document.getElementById(
-          'sessionIOPre',
+          'sessionIOPre'
         ).scrollHeight;
       }
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
-  const onCreateSessionio = (input) => {
+  const onCreateSessionio = input => {
     createSessionioReq.run({
       ipaddress: hostAndSessionActive.ipaddress,
       sessionid: hostAndSessionActive.session.id,
@@ -2383,16 +2415,15 @@ const SessionIO = () => {
     onSuccess: (result, params) => {
       setSessionIOOutput('');
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
   const sessiondisabled = hostAndSessionActive.session.id === -1;
 
   return (
     <Fragment>
-        <pre id="sessionIOPre" className={styles.sessioniopre}>
-          {sessionIOOutput}
-        </pre>
+      <pre id="sessionIOPre" className={styles.sessioniopre}>
+        {sessionIOOutput}
+      </pre>
       <Row>
         <Button type="primary" size="small" onClick={() => onCreateSessionio('help')}>
           显示帮助
@@ -2443,7 +2474,7 @@ const SessionIO = () => {
             disabled={sessiondisabled}
             placeholder=""
             value={shellInput}
-            prefix={<RightOutlined/>}
+            prefix={<RightOutlined />}
             onPressEnter={() => onCreateSessionio(shellInput)}
             onChange={e => {
               setShellInput(e.target.value);
@@ -2451,8 +2482,12 @@ const SessionIO = () => {
           />
         </Col>
         <Col xs={24} sm={4}>
-          <Button danger block icon={<DeleteOutlined/>}
-                  onClick={() => destorySessionioReq.run({ ipaddress: hostAndSessionActive.ipaddress })}>
+          <Button
+            danger
+            block
+            icon={<DeleteOutlined />}
+            onClick={() => destorySessionioReq.run({ ipaddress: hostAndSessionActive.ipaddress })}
+          >
             清空
           </Button>
         </Col>
@@ -2465,28 +2500,27 @@ const SessionIOMemo = memo(SessionIO);
 
 const MsfRoute = () => {
   console.log('MsfRoute');
-  const {
-    hostAndSessionActive,
-  } = useModel('HostAndSessionModel', model => ({
+  const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
   const [routeActive, setRouteActive] = useState([]);
   const [autoRouteCheck, setAutoRouteCheck] = useState(false);
 
-  const initListRouteReq = useRequest(() => getMsgrpcRouteAPI({ sessionid: hostAndSessionActive.session.id }), {
-    onSuccess: (result, params) => {
-      setRouteActive(result.route);
-    },
-    onError: (error, params) => {
-    },
-  });
+  const initListRouteReq = useRequest(
+    () => getMsgrpcRouteAPI({ sessionid: hostAndSessionActive.session.id }),
+    {
+      onSuccess: (result, params) => {
+        setRouteActive(result.route);
+      },
+      onError: (error, params) => {},
+    }
+  );
   const listRouteReq = useRequest(getMsgrpcRouteAPI, {
     manual: true,
     onSuccess: (result, params) => {
       setRouteActive(result.route);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const createRouteReq = useRequest(postMsgrpcRouteAPI, {
@@ -2494,12 +2528,15 @@ const MsfRoute = () => {
     onSuccess: (result, params) => {
       listRouteReq.run({ sessionid: hostAndSessionActive.session.id });
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
-  const onCreateRoute = (values) => {
-    createRouteReq.run({ ...values, sessionid: hostAndSessionActive.session.id, autoroute: autoRouteCheck });
+  const onCreateRoute = values => {
+    createRouteReq.run({
+      ...values,
+      sessionid: hostAndSessionActive.session.id,
+      autoroute: autoRouteCheck,
+    });
   };
 
   const destoryRouteReq = useRequest(deleteMsgrpcRouteAPI, {
@@ -2507,12 +2544,15 @@ const MsfRoute = () => {
     onSuccess: (result, params) => {
       listRouteReq.run({ sessionid: hostAndSessionActive.session.id });
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
-  const onDestoryRoute = (record) => {
-    destoryRouteReq.run({ sessionid: record.session, subnet: record.subnet, netmask: record.netmask });
+  const onDestoryRoute = record => {
+    destoryRouteReq.run({
+      sessionid: record.session,
+      subnet: record.subnet,
+      netmask: record.netmask,
+    });
   };
   const paginationProps = {
     simple: true,
@@ -2564,26 +2604,26 @@ const MsfRoute = () => {
         }}
       >
         <Form.Item label={<span>自动</span>} name="autoroute" valuePropName="checked">
-          <Checkbox onChange={(e) => setAutoRouteCheck(e.target.checked)}/>
+          <Checkbox onChange={e => setAutoRouteCheck(e.target.checked)} />
         </Form.Item>
         <Form.Item
           label={<span>子网</span>}
           name="subnet"
           rules={[{ required: !autoRouteCheck, message: '请输入子网' }]}
         >
-          <Input disabled={autoRouteCheck} placeholder="请输入子网(10.10.10.0)"/>
+          <Input disabled={autoRouteCheck} placeholder="请输入子网(10.10.10.0)" />
         </Form.Item>
         <Form.Item
           label={<span>掩码</span>}
           name="netmask"
           rules={[{ required: !autoRouteCheck, message: '请输入掩码' }]}
         >
-          <Input disabled={autoRouteCheck} placeholder="请输入掩码(255.255.255.0)"/>
+          <Input disabled={autoRouteCheck} placeholder="请输入掩码(255.255.255.0)" />
         </Form.Item>
         <Form.Item>
           <Button
             loading={createRouteReq.loading}
-            icon={<PlusOutlined/>}
+            icon={<PlusOutlined />}
             type="primary"
             htmlType="submit"
           >
@@ -2593,7 +2633,7 @@ const MsfRoute = () => {
         <Form.Item>
           <Button
             block
-            icon={<SyncOutlined/>}
+            icon={<SyncOutlined />}
             onClick={() => listRouteReq.run({ sessionid: hostAndSessionActive.session.id })}
             loading={listRouteReq.loading}
           >
@@ -2609,28 +2649,27 @@ const MsfRouteMemo = memo(MsfRoute);
 
 const PortFwd = () => {
   console.log('PortFwd');
-  const {
-    hostAndSessionActive,
-  } = useModel('HostAndSessionModel', model => ({
+  const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
   const [portFwdActive, setPortFwdActive] = useState([]);
 
-  const initListPortFwdReq = useRequest(() => getMsgrpcPortFwdAPI({ sessionid: hostAndSessionActive.session.id }), {
-    onSuccess: (result, params) => {
-      setPortFwdActive(result);
-    },
-    onError: (error, params) => {
-    },
-  });
+  const initListPortFwdReq = useRequest(
+    () => getMsgrpcPortFwdAPI({ sessionid: hostAndSessionActive.session.id }),
+    {
+      onSuccess: (result, params) => {
+        setPortFwdActive(result);
+      },
+      onError: (error, params) => {},
+    }
+  );
 
   const listPortFwdReq = useRequest(getMsgrpcPortFwdAPI, {
     manual: true,
     onSuccess: (result, params) => {
       setPortFwdActive(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const createPortFwdReq = useRequest(postMsgrpcPortFwdAPI, {
@@ -2638,15 +2677,22 @@ const PortFwd = () => {
     onSuccess: (result, params) => {
       listPortFwdReq.run({ sessionid: hostAndSessionActive.session.id });
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
-  const onCreatePortFwdForward = (values) => {
-    createPortFwdReq.run({ ...values, sessionid: hostAndSessionActive.session.id, type: 'Forward' });
+  const onCreatePortFwdForward = values => {
+    createPortFwdReq.run({
+      ...values,
+      sessionid: hostAndSessionActive.session.id,
+      type: 'Forward',
+    });
   };
-  const onCreatePortFwdReverse = (values) => {
-    createPortFwdReq.run({ ...values, sessionid: hostAndSessionActive.session.id, type: 'Reverse' });
+  const onCreatePortFwdReverse = values => {
+    createPortFwdReq.run({
+      ...values,
+      sessionid: hostAndSessionActive.session.id,
+      type: 'Reverse',
+    });
   };
 
   const destoryPortFwdReq = useRequest(deleteMsgrpcPortFwdAPI, {
@@ -2654,8 +2700,7 @@ const PortFwd = () => {
     onSuccess: (result, params) => {
       listPortFwdReq.run({ sessionid: hostAndSessionActive.session.id });
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   return (
@@ -2756,7 +2801,11 @@ const PortFwd = () => {
       <Row style={{ marginTop: 8 }}>
         <Tabs defaultActiveKey="Forward" size="small">
           <TabPane
-            tab={<span><SwapRightOutlined/> 正向</span>}
+            tab={
+              <span>
+                <SwapRightOutlined /> 正向
+              </span>
+            }
             key="Forward"
           >
             <Form style={{ marginLeft: 16 }} layout="inline" onFinish={onCreatePortFwdForward}>
@@ -2765,25 +2814,25 @@ const PortFwd = () => {
                 name="lport"
                 rules={[{ required: true, message: '请输入本地监听端口' }]}
               >
-                <InputNumber style={{ width: 120 }} placeholder="VPS端口"/>
+                <InputNumber style={{ width: 120 }} placeholder="VPS端口" />
               </Form.Item>
               <Form.Item
                 label={<span>远程IP(目标)</span>}
                 name="rhost"
                 rules={[{ required: true, message: '请输入远程IP' }]}
               >
-                <Input style={{ width: 160 }} placeholder="内网IP/127.0.0.1"/>
+                <Input style={{ width: 160 }} placeholder="内网IP/127.0.0.1" />
               </Form.Item>
               <Form.Item
                 label={<span>远程端口(目标)</span>}
                 name="rport"
                 rules={[{ required: true, message: '请输入远程端口' }]}
               >
-                <InputNumber style={{ width: 120 }} placeholder="目标端口"/>
+                <InputNumber style={{ width: 120 }} placeholder="目标端口" />
               </Form.Item>
               <Form.Item>
                 <Button
-                  icon={<PlusOutlined/>}
+                  icon={<PlusOutlined />}
                   type="primary"
                   htmlType="submit"
                   loading={createPortFwdReq.loading}
@@ -2794,7 +2843,7 @@ const PortFwd = () => {
               <Form.Item>
                 <Button
                   block
-                  icon={<SyncOutlined/>}
+                  icon={<SyncOutlined />}
                   onClick={() => listPortFwdReq.run({ sessionid: hostAndSessionActive.session.id })}
                   loading={listPortFwdReq.loading}
                 >
@@ -2810,13 +2859,17 @@ const PortFwd = () => {
               }}
             >
               将VPS的网络端口转发到内网的某IP某端口.
-              <br/>
+              <br />
               例如:通过192.168.3.13的Session将VPS的10.10.10.10:2000转发到内网192.168.3.14:3389.本地端口(监听):2000
               远程IP(目标):192.168.3.14 远程端口(目标):3389
             </Paragraph>
           </TabPane>
           <TabPane
-            tab={<span><SwapLeftOutlined/> 反向</span>}
+            tab={
+              <span>
+                <SwapLeftOutlined /> 反向
+              </span>
+            }
             key="Reverse"
           >
             <Form style={{ marginLeft: 16 }} layout="inline" onFinish={onCreatePortFwdReverse}>
@@ -2825,28 +2878,28 @@ const PortFwd = () => {
                 name="lhost"
                 rules={[{ required: true, message: '请输入本地目标IP' }]}
               >
-                <Input style={{ width: 160 }} placeholder="VPSIP/目标IP"/>
+                <Input style={{ width: 160 }} placeholder="VPSIP/目标IP" />
               </Form.Item>
               <Form.Item
                 label={<span>本地端口(目标)</span>}
                 name="lport"
                 rules={[{ required: true, message: '请输入本地端口' }]}
               >
-                <InputNumber style={{ width: 120 }} placeholder="目标端口"/>
+                <InputNumber style={{ width: 120 }} placeholder="目标端口" />
               </Form.Item>
               <Form.Item
                 label={<span>远程端口(监听)</span>}
                 name="rport"
                 rules={[{ required: true, message: '请输入远程端口' }]}
               >
-                <InputNumber style={{ width: 120 }} placeholder="监听端口"/>
+                <InputNumber style={{ width: 120 }} placeholder="监听端口" />
               </Form.Item>
               <Form.Item>
                 <Button
                   loading={createPortFwdReq.loading}
                   type="primary"
                   htmlType="submit"
-                  icon={<PlusOutlined/>}
+                  icon={<PlusOutlined />}
                 >
                   新增
                 </Button>
@@ -2854,7 +2907,7 @@ const PortFwd = () => {
               <Form.Item>
                 <Button
                   block
-                  icon={<SyncOutlined/>}
+                  icon={<SyncOutlined />}
                   onClick={() => listPortFwdReq.run({ sessionid: hostAndSessionActive.session.id })}
                   loading={listPortFwdReq.loading}
                 >
@@ -2870,10 +2923,10 @@ const PortFwd = () => {
               }}
             >
               将内网的某IP某端口转发到VPS的网络端口.
-              <br/>
+              <br />
               例如:通过192.168.3.13的session将内网192.168.3.13:20000转发到10.10.10.10:2000.
               本地IP(目标):10.10.10.10 本地端口(监听):2000 远程端口(监听):20000.
-              <br/>
+              <br />
               (10.10.10.10:2000开启handler监听,192.168.3.14连接192.168.3.13:20000生成反向shell)
             </Paragraph>
           </TabPane>
@@ -2887,9 +2940,7 @@ const PortFwdMemo = memo(PortFwd);
 
 const Transport = props => {
   console.log('Transport');
-  const {
-    hostAndSessionActive,
-  } = useModel('HostAndSessionModel', model => ({
+  const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
   const { closeModal } = props;
@@ -2897,15 +2948,17 @@ const Transport = props => {
   const [transports, setTransports] = useState([]);
   const [handlers, setHandlers] = useState([]);
 
-  const initListTransportReq = useRequest(() => getMsgrpcTransportAPI({ sessionid: hostAndSessionActive.session.id }), {
-    onSuccess: (result, params) => {
-      setSession_exp(result.session_exp);
-      setTransports(result.transports);
-      setHandlers(result.handlers);
-    },
-    onError: (error, params) => {
-    },
-  });
+  const initListTransportReq = useRequest(
+    () => getMsgrpcTransportAPI({ sessionid: hostAndSessionActive.session.id }),
+    {
+      onSuccess: (result, params) => {
+        setSession_exp(result.session_exp);
+        setTransports(result.transports);
+        setHandlers(result.handlers);
+      },
+      onError: (error, params) => {},
+    }
+  );
 
   const listTransportReq = useRequest(getMsgrpcTransportAPI, {
     manual: true,
@@ -2914,8 +2967,7 @@ const Transport = props => {
       setTransports(result.transports);
       setHandlers(result.handlers);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const createTransportReq = useRequest(postMsgrpcTransportAPI, {
@@ -2923,11 +2975,10 @@ const Transport = props => {
     onSuccess: (result, params) => {
       listTransportReq.run({ sessionid: hostAndSessionActive.session.id });
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
-  const onCreateTransport = (values) => {
+  const onCreateTransport = values => {
     createTransportReq.run({ ...values, sessionid: hostAndSessionActive.session.id });
   };
 
@@ -2936,16 +2987,14 @@ const Transport = props => {
     onSuccess: (result, params) => {
       closeModal();
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
-  const onUpdateTransport = (action) => {
+  const onUpdateTransport = action => {
     updateTransportReq.run({ action, sessionid: hostAndSessionActive.session.id, type: 'Reverse' });
   };
 
-
-  const onSleepSession = (values) => {
+  const onSleepSession = values => {
     updateTransportReq.run({
       action: 'sleep',
       ...values,
@@ -2958,11 +3007,10 @@ const Transport = props => {
     onSuccess: (result, params) => {
       listPortFwdReq.run({ sessionid: hostAndSessionActive.session.id });
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
-  const onDestoryTransport = (record) => {
+  const onDestoryTransport = record => {
     destoryTransportReq.run({
       ...record,
       sessionid: hostAndSessionActive.session.id,
@@ -2999,7 +3047,6 @@ const Transport = props => {
   }
   const time_exp = moment().unix() + session_exp;
 
-
   return (
     <Fragment>
       <Table
@@ -3026,7 +3073,7 @@ const Transport = props => {
                     shape="square"
                     size={20}
                     style={{ backgroundColor: '#1890ff' }}
-                    icon={<CheckOutlined/>}
+                    icon={<CheckOutlined />}
                   />
                 );
               } else {
@@ -3120,11 +3167,7 @@ const Transport = props => {
         onFinish={onCreateTransport}
         initialValues={{}}
       >
-        <Form.Item
-          label="监听"
-          name="handler"
-          rules={[{ required: true, message: '请选择监听' }]}
-        >
+        <Form.Item label="监听" name="handler" rules={[{ required: true, message: '请选择监听' }]}>
           <Select
             allowClear
             style={{
@@ -3139,7 +3182,7 @@ const Transport = props => {
             loading={createTransportReq.loading}
             type="primary"
             htmlType="submit"
-            icon={<PlusOutlined/>}
+            icon={<PlusOutlined />}
           >
             添加
           </Button>
@@ -3149,7 +3192,7 @@ const Transport = props => {
             title="确认切换Session传输,此操作会删除当前Session?"
             onConfirm={() => onUpdateTransport('prev')}
           >
-            <Button loading={updateTransportReq.loading} danger icon={<UpOutlined/>}>
+            <Button loading={updateTransportReq.loading} danger icon={<UpOutlined />}>
               切换
             </Button>
           </Popconfirm>
@@ -3159,7 +3202,7 @@ const Transport = props => {
             title="确认切换Session传输,此操作会删除当前Session?"
             onConfirm={() => onUpdateTransport('next')}
           >
-            <Button loading={updateTransportReq.loading} danger icon={<DownOutlined/>}>
+            <Button loading={updateTransportReq.loading} danger icon={<DownOutlined />}>
               切换
             </Button>
           </Popconfirm>
@@ -3167,7 +3210,7 @@ const Transport = props => {
         <Form.Item>
           <Button
             block
-            icon={<SyncOutlined/>}
+            icon={<SyncOutlined />}
             onClick={() => listTransportReq.run({ sessionid: hostAndSessionActive.session.id })}
             loading={listTransportReq.loading}
           >
@@ -3185,11 +3228,7 @@ const Transport = props => {
         onFinish={onSleepSession}
         initialValues={{}}
       >
-        <Form.Item
-          name="sleep"
-          rules={[{ required: true, message: '请选择监听' }]}
-          label="休眠"
-        >
+        <Form.Item name="sleep" rules={[{ required: true, message: '请选择监听' }]} label="休眠">
           <Select style={{ width: 120 }}>
             <Option value={60}>1分钟</Option>
             <Option value={60 * 60}>1小时</Option>
@@ -3203,7 +3242,7 @@ const Transport = props => {
             loading={updateTransportReq.loading}
             danger
             htmlType="submit"
-            icon={<RestOutlined/>}
+            icon={<RestOutlined />}
           >
             休眠
           </Button>
@@ -3217,9 +3256,7 @@ const TransportMemo = memo(Transport);
 
 const FileSession = () => {
   console.log('FileSession');
-  const {
-    hostAndSessionActive,
-  } = useModel('HostAndSessionModel', model => ({
+  const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
   const [fileSessionListActive, setFileSessionListActive] = useState({
@@ -3228,30 +3265,27 @@ const FileSession = () => {
   });
   const [fileSessionInputPathActive, setFileSessionInputPathActive] = useState('/');
 
-
-  const initListFileSessionReq = useRequest(() => getMsgrpcFileSessionAPI({
-    sessionid: hostAndSessionActive.session.id,
-    operation: 'pwd',
-  }), {
-    onSuccess: (result, params) => {
-      setFileSessionListActive(result);
-      try {
-        setFileSessionInputPathActive(result.path);
-      } catch (e) {
-
-      }
-
-    },
-    onError: (error, params) => {
-    },
-  });
+  const initListFileSessionReq = useRequest(
+    () =>
+      getMsgrpcFileSessionAPI({
+        sessionid: hostAndSessionActive.session.id,
+        operation: 'pwd',
+      }),
+    {
+      onSuccess: (result, params) => {
+        setFileSessionListActive(result);
+        try {
+          setFileSessionInputPathActive(result.path);
+        } catch (e) {}
+      },
+      onError: (error, params) => {},
+    }
+  );
 
   const createPostModuleActuatorReq = useRequest(postPostmodulePostModuleActuatorAPI, {
     manual: true,
-    onSuccess: (result, params) => {
-    },
-    onError: (error, params) => {
-    },
+    onSuccess: (result, params) => {},
+    onError: (error, params) => {},
   });
 
   const listFileSessionReq = useRequest(getMsgrpcFileSessionAPI, {
@@ -3260,15 +3294,10 @@ const FileSession = () => {
       setFileSessionListActive(result);
       try {
         setFileSessionInputPathActive(result.path);
-      } catch (e) {
-
-      }
-
+      } catch (e) {}
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
-
 
   const onListFileSession = (sessionid, operation, filepath = null, dirpath = '/') => {
     if (operation === 'pwd') {
@@ -3287,11 +3316,8 @@ const FileSession = () => {
 
   const listFileSessionRunReq = useRequest(getMsgrpcFileSessionAPI, {
     manual: true,
-    onSuccess: (result, params) => {
-
-    },
-    onError: (error, params) => {
-    },
+    onSuccess: (result, params) => {},
+    onError: (error, params) => {},
   });
 
   const onListFileSessionRun = (sessionid, operation, filepath = null, arg = '') => {
@@ -3305,16 +3331,13 @@ const FileSession = () => {
     message.success('已复制原始内容至剪切板');
   };
 
-
   const updateFileSessionReq = useRequest(putMsgrpcFileSessionAPI, {
     manual: true,
-    onSuccess: (result, params) => {
-    },
-    onError: (error, params) => {
-    },
+    onSuccess: (result, params) => {},
+    onError: (error, params) => {},
   });
 
-  const onUpdateFileSession = (values) => {
+  const onUpdateFileSession = values => {
     updateFileSessionReq.run({
       sessionid: values.sessionid,
       filepath: values.filepath,
@@ -3343,31 +3366,23 @@ const FileSession = () => {
               </Form.Item>
               <Space style={{ marginBottom: 0 }}>
                 <Form.Item>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    loading={updateFileSessionReq.loading}
-                  >
+                  <Button type="primary" htmlType="submit" loading={updateFileSessionReq.loading}>
                     保存修改
                   </Button>
                 </Form.Item>
                 <Form.Item>
-                  <Button onClick={() => copytoclipboard(result.data)}>
-                    拷贝到剪切板
-                  </Button>
+                  <Button onClick={() => copytoclipboard(result.data)}>拷贝到剪切板</Button>
                 </Form.Item>
-                <Form.Item name="sessionid" initialValue={hostAndSessionActive.session.id}/>
-                <Form.Item name="filepath" initialValue={result.reason}/>
+                <Form.Item name="sessionid" initialValue={hostAndSessionActive.session.id} />
+                <Form.Item name="filepath" initialValue={result.reason} />
               </Space>
             </Form>
           </Fragment>
         ),
-        onOk() {
-        },
+        onOk() {},
       });
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const onListFileSessionCat = (sessionid, filepath = null) => {
@@ -3378,19 +3393,13 @@ const FileSession = () => {
     listFileSessionRunReq.run({ sessionid, operation, dirpath });
   };
 
-
   const createFileSessionReq = useRequest(postMsgrpcFileSessionAPI, {
     manual: true,
     onSuccess: (result, params) => {
-      onListFileSession(hostAndSessionActive.session.id,
-        'list',
-        null,
-        fileSessionListActive.path);
+      onListFileSession(hostAndSessionActive.session.id, 'list', null, fileSessionListActive.path);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
-
 
   const onCreateFileSession = (sessionid, operation, dirpath = '/') => {
     if (operation === 'create_dir') {
@@ -3398,17 +3407,12 @@ const FileSession = () => {
     }
   };
 
-
   const destoryFileSessionReq = useRequest(deleteMsgrpcFileSessionAPI, {
     manual: true,
     onSuccess: (result, params) => {
-      onListFileSession(hostAndSessionActive.session.id,
-        'list',
-        null,
-        fileSessionListActive.path);
+      onListFileSession(hostAndSessionActive.session.id, 'list', null, fileSessionListActive.path);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const onDestoryFileSession = (record, operation) => {
@@ -3420,7 +3424,6 @@ const FileSession = () => {
     }
   };
 
-
   return (
     <Fragment>
       <Row>
@@ -3429,14 +3432,16 @@ const FileSession = () => {
             <Tooltip placement="bottom" mouseEnterDelay={0.3} title="根目录">
               <Button
                 style={{ marginLeft: 8, width: 56 }}
-                icon={<DesktopOutlined/>}
-                onClick={() => onListFileSession(hostAndSessionActive.session.id, 'list', null, '/')}
+                icon={<DesktopOutlined />}
+                onClick={() =>
+                  onListFileSession(hostAndSessionActive.session.id, 'list', null, '/')
+                }
               />
             </Tooltip>
             <Tooltip placement="bottom" title="默认目录">
               <Button
                 style={{ width: 56 }}
-                icon={<HomeOutlined/>}
+                icon={<HomeOutlined />}
                 onClick={() => onListFileSession(hostAndSessionActive.session.id, 'pwd')}
               />
             </Tooltip>
@@ -3449,10 +3454,10 @@ const FileSession = () => {
                     hostAndSessionActive.session.id,
                     'list',
                     null,
-                    `${fileSessionListActive.path}/..`,
+                    `${fileSessionListActive.path}/..`
                   )
                 }
-                icon={<ArrowUpOutlined/>}
+                icon={<ArrowUpOutlined />}
               />
             </Tooltip>
           </ButtonGroup>
@@ -3461,17 +3466,19 @@ const FileSession = () => {
               width: 'calc(80vw - 560px)',
             }}
             // prefix={<HddOutlined className="site-form-item-icon" />}
-            prefix={<FolderOpenOutlined/>}
+            prefix={<FolderOpenOutlined />}
             placeholder="请输入目录"
-            onChange={(event) => setFileSessionInputPathActive(event.target.value)}
+            onChange={event => setFileSessionInputPathActive(event.target.value)}
             value={fileSessionInputPathActive}
-            onSearch={value => onListFileSession(hostAndSessionActive.session.id, 'list', null, value)}
+            onSearch={value =>
+              onListFileSession(hostAndSessionActive.session.id, 'list', null, value)
+            }
             enterButton={
               <Button
                 loading={listFileSessionReq.loading}
                 type="primary"
                 htmlType="submit"
-                icon={<ArrowRightOutlined/>}
+                icon={<ArrowRightOutlined />}
               />
             }
           />
@@ -3485,10 +3492,10 @@ const FileSession = () => {
                   hostAndSessionActive.session.id,
                   'list',
                   null,
-                  fileSessionListActive.path,
+                  fileSessionListActive.path
                 )
               }
-              icon={<SyncOutlined/>}
+              icon={<SyncOutlined />}
             />
           </Tooltip>
           <Tooltip placement="bottom" mouseEnterDelay={0.3} title="切换工作目录到当前目录">
@@ -3500,10 +3507,10 @@ const FileSession = () => {
                 onListFileSessionCd(
                   hostAndSessionActive.session.id,
                   'cd',
-                  fileSessionListActive.path,
+                  fileSessionListActive.path
                 )
               }
-              icon={<PushpinOutlined/>}
+              icon={<PushpinOutlined />}
             />
           </Tooltip>
           <Popover
@@ -3518,7 +3525,7 @@ const FileSession = () => {
                   onCreateFileSession(
                     hostAndSessionActive.session.id,
                     'create_dir',
-                    `${fileSessionListActive.path}/${value}`,
+                    `${fileSessionListActive.path}/${value}`
                   )
                 }
               />
@@ -3529,7 +3536,7 @@ const FileSession = () => {
               loading={createFileSessionReq.loading}
               style={{ width: 56 }}
               disabled={hostAndSessionActive.session.id === -1}
-              icon={<FolderAddOutlined/>}
+              icon={<FolderAddOutlined />}
             />
           </Popover>
           <Popover
@@ -3547,7 +3554,7 @@ const FileSession = () => {
               type="primary"
               style={{ width: 56 }}
               disabled={hostAndSessionActive.session.id === -1}
-              icon={<UploadOutlined/>}
+              icon={<UploadOutlined />}
             />
           </Popover>
         </Space>
@@ -3581,7 +3588,7 @@ const FileSession = () => {
                   hostAndSessionActive.session.id,
                   'list',
                   null,
-                  record.absolute_path,
+                  record.absolute_path
                 );
               }
             },
@@ -3602,28 +3609,28 @@ const FileSession = () => {
                 if (text === 'file') {
                   return (
                     <div style={{ textAlign: 'center' }}>
-                      <MyIcon type="icon-wenjian1" style={{ fontSize: '22px' }}/>
+                      <MyIcon type="icon-wenjian1" style={{ fontSize: '22px' }} />
                     </div>
                   );
                 }
                 if (text === 'directory') {
                   return (
                     <div style={{ textAlign: 'center' }}>
-                      <MyIcon type="icon-wenjian" style={{ fontSize: '26px' }}/>
+                      <MyIcon type="icon-wenjian" style={{ fontSize: '26px' }} />
                     </div>
                   );
                 }
                 if (text === 'fixed') {
                   return (
                     <div style={{ textAlign: 'center' }}>
-                      <MyIcon type="icon-yingpan" style={{ fontSize: '26px' }}/>
+                      <MyIcon type="icon-yingpan" style={{ fontSize: '26px' }} />
                     </div>
                   );
                 }
                 if (text === 'remote') {
                   return (
                     <div style={{ textAlign: 'center' }}>
-                      <MyIcon type="icon-zhichixiezaiguazai" style={{ fontSize: '26px' }}/>
+                      <MyIcon type="icon-zhichixiezaiguazai" style={{ fontSize: '26px' }} />
                     </div>
                   );
                 }
@@ -3631,13 +3638,13 @@ const FileSession = () => {
                 if (text === 'cdrom') {
                   return (
                     <div style={{ textAlign: 'center' }}>
-                      <MyIcon type="icon-CD" style={{ fontSize: '22px' }}/>
+                      <MyIcon type="icon-CD" style={{ fontSize: '22px' }} />
                     </div>
                   );
                 }
                 return (
                   <div style={{ textAlign: 'center' }}>
-                    <MyIcon type="icon-unknow" style={{ fontSize: '22px' }}/>
+                    <MyIcon type="icon-unknow" style={{ fontSize: '22px' }} />
                   </div>
                 );
               },
@@ -3711,7 +3718,7 @@ const FileSession = () => {
                             hostAndSessionActive.session.id,
                             'list',
                             null,
-                            record.absolute_path,
+                            record.absolute_path
                           )
                         }
                       >
@@ -3739,7 +3746,7 @@ const FileSession = () => {
                             hostAndSessionActive.session.id,
                             'list',
                             null,
-                            record.absolute_path,
+                            record.absolute_path
                           )
                         }
                       >
@@ -3758,7 +3765,7 @@ const FileSession = () => {
                             hostAndSessionActive.session.id,
                             'download',
                             record.absolute_path,
-                            null,
+                            null
                           )
                         }
                       >
@@ -3770,13 +3777,15 @@ const FileSession = () => {
                           onClick={() =>
                             onListFileSessionCat(
                               hostAndSessionActive.session.id,
-                              record.absolute_path,
+                              record.absolute_path
                             )
                           }
                         >
                           查看
                         </a>
-                      ) : (<a style={{ visibility: 'Hidden' }}>占位</a>)}
+                      ) : (
+                        <a style={{ visibility: 'Hidden' }}>占位</a>
+                      )}
                       <Popover
                         placement="left"
                         title="命令行参数"
@@ -3790,7 +3799,7 @@ const FileSession = () => {
                                 hostAndSessionActive.session.id,
                                 'run',
                                 record.absolute_path,
-                                value,
+                                value
                               )
                             }
                           />
@@ -3822,9 +3831,7 @@ const FileSessionMemo = memo(FileSession);
 
 const HostInfo = () => {
   console.log('HostInfo');
-  const {
-    hostAndSessionActive,
-  } = useModel('HostAndSessionModel', model => ({
+  const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
   const [hostAndSessionBaseInfo, setHostAndSessionBaseInfo] = useState({
@@ -3843,21 +3850,25 @@ const HostInfo = () => {
     useful_processes: [],
     UPDATE_TIME: 0,
   });
-  const initListHostInfoReq = useRequest(() => getPostmodulePostModuleResultAPI(
-    { ipaddress: hostAndSessionActive.ipaddress, loadpath: 'MODULES.HostBaseInfoModule' }), {
-    onSuccess: (result, params) => {
-      try {
-        const resultJson = JSON.parse(result.result);
-        resultJson.UPDATE_TIME = result.update_time;
-        setHostAndSessionBaseInfo(resultJson);
-      } catch (e) {
-        console.error(e);
-      }
-
-    },
-    onError: (error, params) => {
-    },
-  });
+  const initListHostInfoReq = useRequest(
+    () =>
+      getPostmodulePostModuleResultAPI({
+        ipaddress: hostAndSessionActive.ipaddress,
+        loadpath: 'MODULES.HostBaseInfoModule',
+      }),
+    {
+      onSuccess: (result, params) => {
+        try {
+          const resultJson = JSON.parse(result.result);
+          resultJson.UPDATE_TIME = result.update_time;
+          setHostAndSessionBaseInfo(resultJson);
+        } catch (e) {
+          console.error(e);
+        }
+      },
+      onError: (error, params) => {},
+    }
+  );
   const listHostInfoReq = useRequest(getPostmodulePostModuleResultAPI, {
     manual: true,
     onSuccess: (result, params) => {
@@ -3868,24 +3879,18 @@ const HostInfo = () => {
       } catch (e) {
         console.error(e);
       }
-
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
-  const onListHostInfo = (record) => {
+  const onListHostInfo = record => {
     listHostInfoReq.run({ ipaddress: record.ipaddress, loadpath: 'MODULES.HostBaseInfoModule' });
   };
 
-
   const updateHostInfoReq = useRequest(postPostmodulePostModuleActuatorAPI, {
     manual: true,
-    onSuccess: (result, params) => {
-
-    },
-    onError: (error, params) => {
-    },
+    onSuccess: (result, params) => {},
+    onError: (error, params) => {},
   });
 
   const onUpdateHostInfo = () => {
@@ -4031,14 +4036,14 @@ const HostInfo = () => {
         <ButtonGroup>
           <Button
             type="primary"
-            icon={<SyncOutlined/>}
+            icon={<SyncOutlined />}
             onClick={() => onListHostInfo(hostAndSessionActive)}
             loading={listHostInfoReq.loading}
           >
             读取缓存
           </Button>
           <Button
-            icon={<RetweetOutlined/>}
+            icon={<RetweetOutlined />}
             loading={updateHostInfoReq.loading}
             onClick={() => onUpdateHostInfo()}
             disabled={
@@ -4078,7 +4083,6 @@ const HostInfo = () => {
           defaultActiveKey="1"
           style={{
             minHeight: '80vh',
-
           }}
         >
           <TabPane tab={<span>主机信息</span>} key="1">
@@ -4089,9 +4093,7 @@ const HostInfo = () => {
               <Descriptions.Item label="操作系统">
                 {hostAndSessionBaseInfo.OS} {hostAndSessionBaseInfo.ARCH}
               </Descriptions.Item>
-              <Descriptions.Item label="DOMAIN">
-                {hostAndSessionBaseInfo.DOMAIN}
-              </Descriptions.Item>
+              <Descriptions.Item label="DOMAIN">{hostAndSessionBaseInfo.DOMAIN}</Descriptions.Item>
               <Descriptions.Item label="当前登录用户数">
                 {hostAndSessionBaseInfo.LoggedOnUsers}
               </Descriptions.Item>
@@ -4181,29 +4183,26 @@ const HostInfoMemo = memo(HostInfo);
 
 const PortService = () => {
   console.log('PortService');
-  const {
-    hostAndSessionActive,
-  } = useModel('HostAndSessionModel', model => ({
+  const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
   const [portServiceActive, setPortServiceActive] = useState([]);
 
-  const initListPortServiceReq = useRequest(() => getPostlateralPortserviceAPI(
-    { ipaddress: hostAndSessionActive.ipaddress }), {
-    onSuccess: (result, params) => {
-      setPortServiceActive(result);
-
-    },
-    onError: (error, params) => {
-    },
-  });
+  const initListPortServiceReq = useRequest(
+    () => getPostlateralPortserviceAPI({ ipaddress: hostAndSessionActive.ipaddress }),
+    {
+      onSuccess: (result, params) => {
+        setPortServiceActive(result);
+      },
+      onError: (error, params) => {},
+    }
+  );
   const listPortServiceReq = useRequest(getPostlateralPortserviceAPI, {
     manual: true,
     onSuccess: (result, params) => {
       setPortServiceActive(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const destoryPortServiceReq = useRequest(deletePostlateralPortserviceAPI, {
@@ -4211,11 +4210,10 @@ const PortService = () => {
     onSuccess: (result, params) => {
       listPortServiceReq.run({ ipaddress: hostAndSessionActive.ipaddress });
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
-  const onDestoryPortService = (record) => {
+  const onDestoryPortService = record => {
     destoryPortServiceReq.run({ ipaddress: record.ipaddress, port: record.port });
   };
   const paginationProps = {
@@ -4230,7 +4228,6 @@ const PortService = () => {
       pagination={paginationProps}
       dataSource={portServiceActive}
       loading={listPortServiceReq.loading || initListPortServiceReq.loading}
-
       columns={[
         {
           title: '端口',
@@ -4276,29 +4273,26 @@ const PortServiceMemo = memo(PortService);
 
 const Vulnerability = () => {
   console.log('Vulnerability');
-  const {
-    hostAndSessionActive,
-  } = useModel('HostAndSessionModel', model => ({
+  const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
   const [vulnerabilityActive, setVulnerabilityActive] = useState([]);
 
-  const initListVulnerabilityeReq = useRequest(() => getPostlateralVulnerabilityAPI(
-    { ipaddress: hostAndSessionActive.ipaddress }), {
-    onSuccess: (result, params) => {
-      setVulnerabilityActive(result);
-
-    },
-    onError: (error, params) => {
-    },
-  });
+  const initListVulnerabilityeReq = useRequest(
+    () => getPostlateralVulnerabilityAPI({ ipaddress: hostAndSessionActive.ipaddress }),
+    {
+      onSuccess: (result, params) => {
+        setVulnerabilityActive(result);
+      },
+      onError: (error, params) => {},
+    }
+  );
   const listVulnerabilityReq = useRequest(getPostlateralVulnerabilityAPI, {
     manual: true,
     onSuccess: (result, params) => {
       setVulnerabilityActive(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const destoryVulnerabilityReq = useRequest(deletePostlateralVulnerabilityAPI, {
@@ -4306,14 +4300,12 @@ const Vulnerability = () => {
     onSuccess: (result, params) => {
       listVulnerabilityReq.run({ ipaddress: hostAndSessionActive.ipaddress });
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
-  const onDestoryVulnerability = (record) => {
+  const onDestoryVulnerability = record => {
     destoryVulnerabilityReq.run({ id: record.id });
   };
-
 
   const paginationProps = {
     simple: true,
@@ -4364,11 +4356,9 @@ const Vulnerability = () => {
 };
 const VulnerabilityMemo = memo(Vulnerability);
 
-const UpdateHost = (props) => {
+const UpdateHost = props => {
   console.log('UpdateHost');
-  const {
-    hostAndSessionActive,
-  } = useModel('HostAndSessionModel', model => ({
+  const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
   const updateHostReq = useRequest(putCoreHostAPI, {
@@ -4376,14 +4366,12 @@ const UpdateHost = (props) => {
     onSuccess: (result, params) => {
       props.closeModal();
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
-  const onUpdateHost = (values) => {
+  const onUpdateHost = values => {
     updateHostReq.run(values);
   };
-
 
   const formLayout = {
     labelCol: { span: 2 },
@@ -4394,20 +4382,18 @@ const UpdateHost = (props) => {
   };
   const hostTypeToAvatar = {
     ad_server: (
-      <Avatar shape="square" style={{ backgroundColor: '#177ddc' }} icon={<WindowsOutlined/>}/>
+      <Avatar shape="square" style={{ backgroundColor: '#177ddc' }} icon={<WindowsOutlined />} />
     ),
-    pc: (
-      <Avatar shape="square" style={{ backgroundColor: '#49aa19' }} icon={<LaptopOutlined/>}/>
-    ),
+    pc: <Avatar shape="square" style={{ backgroundColor: '#49aa19' }} icon={<LaptopOutlined />} />,
     web_server: (
-      <Avatar shape="square" style={{ backgroundColor: '#13a8a8' }} icon={<CloudOutlined/>}/>
+      <Avatar shape="square" style={{ backgroundColor: '#13a8a8' }} icon={<CloudOutlined />} />
     ),
-    cms: <Avatar shape="square" style={{ backgroundColor: '#d84a1b' }} icon={<BugOutlined/>}/>,
+    cms: <Avatar shape="square" style={{ backgroundColor: '#d84a1b' }} icon={<BugOutlined />} />,
     firewall: (
-      <Avatar shape="square" style={{ backgroundColor: '#d87a16' }} icon={<GatewayOutlined/>}/>
+      <Avatar shape="square" style={{ backgroundColor: '#d87a16' }} icon={<GatewayOutlined />} />
     ),
     other: (
-      <Avatar shape="square" style={{ backgroundColor: '#bfbfbf' }} icon={<QuestionOutlined/>}/>
+      <Avatar shape="square" style={{ backgroundColor: '#bfbfbf' }} icon={<QuestionOutlined />} />
     ),
   };
 
@@ -4433,11 +4419,7 @@ const UpdateHost = (props) => {
         >
           <span>{hostAndSessionActive.ipaddress}</span>
         </Form.Item>
-        <Form.Item
-          label={<span>标签</span>}
-          name="tag"
-          {...formLayout}
-        >
+        <Form.Item label={<span>标签</span>} name="tag" {...formLayout}>
           <Radio.Group>
             <Radio value="ad_server">{hostTypeToAvatar.ad_server}</Radio>
             <Radio value="pc">{hostTypeToAvatar.pc}</Radio>
@@ -4453,11 +4435,11 @@ const UpdateHost = (props) => {
           rules={[{ message: '最长支持二十个字符', max: 20 }]}
           {...formLayout}
         >
-          <Input placeholder="最长支持二十个字符"/>
+          <Input placeholder="最长支持二十个字符" />
         </Form.Item>
         <Form.Item {...tailLayout}>
           <Button
-            icon={<DeliveredProcedureOutlined/>}
+            icon={<DeliveredProcedureOutlined />}
             block
             type="primary"
             htmlType="submit"

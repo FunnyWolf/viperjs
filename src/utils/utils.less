@@ -5,7 +5,9 @@
   white-space: nowrap;
 }
 
-@heightCon: 5vh;
+@heightCon: '16vh';
+@Upheight: '120px + @{heightCon}';
+@Downheight: '100vh - 164px - @{heightCon}';
 
 ::-webkit-scrollbar {
   width: 6px;

@@ -27,16 +27,13 @@ String.prototype.format = function() {
   });
 };
 
-
 const Network = () => {
   console.log('Network');
-  const {
-    networkData,
-  } = useModel('HostAndSessionModel', model => ({
+  const { networkData } = useModel('HostAndSessionModel', model => ({
     networkData: model.networkData,
   }));
 
-  const ranksepFunc = (node) => {
+  const ranksepFunc = node => {
     const { id, data } = node;
     if (data.type === 'session') {
       return 75;
@@ -45,7 +42,7 @@ const Network = () => {
     }
   };
 
-  const formatData = (data) => {
+  const formatData = data => {
     data.nodes.forEach(node => {
       const { id, data } = node;
       if (data.type === 'viper') {
@@ -146,7 +143,6 @@ const Network = () => {
       }
     });
 
-
     data.edges.forEach(edge => {
       const { data } = edge;
       const { type } = data;
@@ -163,7 +159,6 @@ const Network = () => {
             lineWidth: 4,
           },
         };
-
       } else if (type === 'route') {
         const { sid } = data;
         edge.style = {
@@ -198,7 +193,6 @@ const Network = () => {
             value: payload,
             fill: '#e87040',
             fontSize: 14,
-
           },
           keyshape: {
             stroke: '#7c3118',
@@ -218,12 +212,8 @@ const Network = () => {
     <Fragment>
       <Row style={{ marginTop: -16 }}>
         <Col span={24}>
-          <Card
-            bodyStyle={{ padding: '0px 0px 0px 0px' }}
-          >
-            <div
-              className={styles.networkCard}
-            >
+          <Card bodyStyle={{ padding: '0px 0px 0px 0px' }} className={styles.networkCardOut}>
+            <div className={styles.networkCard}>
               <Graphin
                 data={data}
                 theme={{ mode: 'dark' }}
@@ -234,14 +224,12 @@ const Network = () => {
                   ranksepFunc: ranksepFunc,
                 }}
               >
-
-              <ActivateRelations/>
+                <ActivateRelations />
               </Graphin>
             </div>
           </Card>
         </Col>
       </Row>
-
     </Fragment>
   );
 };

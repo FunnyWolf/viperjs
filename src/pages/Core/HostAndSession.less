@@ -3,10 +3,8 @@
 
 .hostandsessionTable {
   overflow: auto;
-  //min-height: ~'calc(50vh - 86px - @{heightCon})';
-  //max-height: ~'calc(50vh - 86px - @{heightCon})';
-  min-height: 200px;
-  max-height: 200px;
+  min-height: ~'calc(@{Upheight})';
+  max-height: ~'calc(@{Upheight})';
 }
 
 .percent {
@@ -15,30 +13,28 @@
 
 .msfconsolediv {
   padding: 0 0 0 0;
-  //max-height: calc(~'50vh + 14px + @{heightCon}');
-  //min-height: calc(~'50vh + 14px + @{heightCon}');
-  max-height: calc(~'100vh - 244px');
-  min-height: calc(~'100vh - 244px');
+  max-height: calc(~'@{Downheight}');
+  min-height: calc(~'@{Downheight}');
 }
 
 .noticelist {
   padding: 0 0 0 0;
   overflow: auto;
-  max-height: calc(~'100vh - 244px - 30px');
-  min-height: calc(~'100vh - 244px - 30px');
+  max-height: calc(~'@{Downheight} - 30px');
+  min-height: calc(~'@{Downheight} - 30px');
 }
 
 .moduleresultlist {
   padding: 0 0 0 0;
   overflow: auto;
-  max-height: calc(~'100vh - 244px - 30px');
-  min-height: calc(~'100vh - 244px - 30px');
+  max-height: calc(~'@{Downheight} - 30px');
+  min-height: calc(~'@{Downheight} - 30px');
 }
 
 .jobListTable {
   overflow: auto;
-  max-height: calc(~'100vh - 244px');
-  min-height: calc(~'100vh - 244px');
+  max-height: calc(~'@{Downheight}');
+  min-height: calc(~'@{Downheight}');
 }
 
 .sessioniopre {
@@ -78,7 +74,6 @@
 .processesTable {
   margin-top: -16px;
 }
-
 
 .sessionOSTextOverflow {
   max-width: 360px;
