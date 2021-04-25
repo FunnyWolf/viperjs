@@ -42,8 +42,8 @@ const { Option } = Select;
 const { TabPane } = Tabs;
 const { Title, Paragraph, Text } = Typography;
 
-const viper_version = '1.3.3';
-const viper_update_date = '2021-04-18';
+const viper_version = '1.3.4';
+const viper_update_date = '2021-04-25';
 const datas = [
   {
     name: 'metasploit-framework',
@@ -83,7 +83,6 @@ const inputItemLayout = {
   },
 };
 
-
 const SystemSetting = () => {
   console.log('SystemSetting');
   const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState('viper-debug-flag', false);
@@ -91,28 +90,28 @@ const SystemSetting = () => {
     <Fragment>
       <Tabs style={{ marginTop: -16 }} type="card" defaultActiveKey="system_info">
         <TabPane tab="关于VIPER" key="system_info">
-          <SystemInfo/>
+          <SystemInfo />
         </TabPane>
         <TabPane tab="网络配置" key="lhost">
           <Card style={{ marginTop: -16 }}>
             <Row>
               <Col span={16}>
-                <LHostForm/>
+                <LHostForm />
               </Col>
               <Col span={8}>
                 <Typography>
                   <Paragraph>
                     <Title level={4}>配置说明</Title>
                     <Text strong>回连地址</Text>填写为VPS的互联网IP/域名
-                    <br/>
+                    <br />
                     <Text>VIPER已占用端口.</Text>
-                    <br/>
+                    <br />
                     Nginx:<Text code>0.0.0.0:60000</Text>
-                    <br/>
+                    <br />
                     Redis:<Text code>127.0.0.1:60004</Text>
-                    <br/>
+                    <br />
                     Msfrpcd:<Text code>127.0.0.1:60005</Text>
-                    <br/>
+                    <br />
                     SSH(默认关闭):<Text code>127.0.0.1:60010</Text>
                   </Paragraph>
                 </Typography>
@@ -120,18 +119,18 @@ const SystemSetting = () => {
             </Row>
           </Card>
         </TabPane>
-        {viperDebugFlag ? <TabPane tab="FOFA API" key="FOFA">
+        <TabPane tab="FOFA API" key="FOFA">
           <Card style={{ marginTop: -16 }}>
             <Row>
               <Col span={16}>
-                <FOFAForm/>
+                <FOFAForm />
               </Col>
               <Col span={8}>
                 <Typography>
                   <Paragraph>
                     <Title level={4}>配置方法</Title>
                     <Text>申请开通FOFA会员/账号,获取邮箱及key</Text>
-                    <br/>
+                    <br />
                     <Text>参考 : </Text>
                     <a href="https://fofa.so/static_pages/api_help">FOFA API教程</a>
                   </Paragraph>
@@ -139,45 +138,43 @@ const SystemSetting = () => {
               </Col>
             </Row>
           </Card>
-        </TabPane> : null}
-        {viperDebugFlag ? <TabPane tab="360Quake API" key="360Quake">
+        </TabPane>
+        <TabPane tab="360Quake API" key="360Quake">
           <Card style={{ marginTop: -16 }}>
             <Row>
               <Col span={16}>
-                <QuakeForm/>
+                <QuakeForm />
               </Col>
               <Col span={8}>
                 <Typography>
                   <Paragraph>
                     <Title level={4}>配置方法</Title>
                     <Text>申请开通Quake会员/账号,获取key</Text>
-                    <br/>
+                    <br />
                     <Text>参考 : </Text>
-                    <a href="https://quake.360.cn/quake/#/help?title=%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E">Quake
-                      API教程</a>
+                    <a href="https://quake.360.cn/quake/#/help?title=%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E">
+                      Quake API教程
+                    </a>
                   </Paragraph>
                 </Typography>
               </Col>
             </Row>
           </Card>
-        </TabPane> : null}
+        </TabPane>
         <TabPane tab="Server酱 Bot" key="serverchan">
           <Card style={{ marginTop: -16 }}>
             <Row>
               <Col span={16}>
-                <ServerChanForm/>
+                <ServerChanForm />
               </Col>
               <Col span={8}>
                 <Typography>
                   <Paragraph>
                     <Title level={4}>配置方法</Title>
                     <Text>登录Server酱,配置消息通道,获取SendKey,填入SendKey.</Text>
-                    <br/>
+                    <br />
                     <Text>参考:</Text>
-                    <a
-                      target="_blank"
-                      href="https://sct.ftqq.com/"
-                    >
+                    <a target="_blank" href="https://sct.ftqq.com/">
                       Server酱·Turbo版
                     </a>
                   </Paragraph>
@@ -190,18 +187,16 @@ const SystemSetting = () => {
           <Card style={{ marginTop: -16 }}>
             <Row>
               <Col span={16}>
-                <DingDingForm/>
+                <DingDingForm />
               </Col>
               <Col span={8}>
                 <Typography>
                   <Paragraph>
                     <Title level={4}>配置方法</Title>
                     <Text>新建一个DingDing Bot,并获取Token.</Text>
-                    <br/>
+                    <br />
                     <Text>参考:</Text>
-                    <a
-                      target="_blank"
-                      href="https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq">
+                    <a target="_blank" href="https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq">
                       获取自定义机器人webhook
                     </a>
                   </Paragraph>
@@ -214,24 +209,25 @@ const SystemSetting = () => {
           <Card style={{ marginTop: -16 }}>
             <Row>
               <Col span={16}>
-                <TelegramForm/>
+                <TelegramForm />
               </Col>
               <Col span={8}>
                 <Typography>
                   <Paragraph>
                     <Title level={4}>配置方法</Title>
                     <Text>新建一个Telegram Bot,并获取Token.</Text>
-                    <br/>
+                    <br />
                     <Text>参考:</Text>
                     <a
                       target="_blank"
-                      href="https://longnight.github.io/2018/12/12/Telegram-Bot-notifications">
+                      href="https://longnight.github.io/2018/12/12/Telegram-Bot-notifications"
+                    >
                       使用Telegram Bot来实现推送通知
                     </a>
-                    <br/>
+                    <br />
                     <Text>
                       Chat_id可以填写多个
-                      <br/>
+                      <br />
                       填写token及proxy后点击<Text strong>获取chat_id</Text>
                       获取备选chat_id列表
                     </Text>
@@ -245,24 +241,22 @@ const SystemSetting = () => {
           <Card style={{ marginTop: -16 }}>
             <Row>
               <Col xs={24} sm={16}>
-                <SessionMonitorForm/>
+                <SessionMonitorForm />
               </Col>
               <Col span={8}>
                 <Typography>
                   <Paragraph>
                     <Title level={4}>配置说明</Title>
                     <Text>
-                      当激活Session监控后,每当平台新增Session时都会发送通知.
-                      需要结合Bot使用.
+                      当激活Session监控后,每当平台新增Session时都会发送通知. 需要结合Bot使用.
                     </Text>
-                    <br/>
+                    <br />
                   </Paragraph>
                 </Typography>
               </Col>
             </Row>
           </Card>
         </TabPane>
-
       </Tabs>
     </Fragment>
   );
@@ -282,9 +276,7 @@ export const loginOut = () => {
   }
 };
 const SystemInfo = () => {
-  const {
-    setPostModuleConfigListStateAll,
-  } = useModel('HostAndSessionModel', model => ({
+  const { setPostModuleConfigListStateAll } = useModel('HostAndSessionModel', model => ({
     setPostModuleConfigListStateAll: model.setPostModuleConfigListStateAll,
   }));
   const [serviceStatusActive, setServiceStatusActive] = useState({ json_rpc: { status: false } });
@@ -294,8 +286,7 @@ const SystemInfo = () => {
     onSuccess: (result, params) => {
       setServiceStatusActive(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const listServiceStatusReq = useRequest(getServiceStatusAPI, {
@@ -303,8 +294,7 @@ const SystemInfo = () => {
     onSuccess: (result, params) => {
       setServiceStatusActive(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const updatePostmodulePostModuleConfigReq = useRequest(putPostmodulePostModuleConfigAPI, {
@@ -312,10 +302,8 @@ const SystemInfo = () => {
     onSuccess: (result, params) => {
       setPostModuleConfigListStateAll(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
-
 
   return (
     <Card style={{ marginTop: -16 }}>
@@ -337,11 +325,7 @@ const SystemInfo = () => {
                 <Tag color="blue">{viper_update_date}</Tag>
               </Descriptions.Item>
               <Descriptions.Item label="官方文档">
-                <a
-                  target="_blank"
-                  href="https://www.yuque.com/vipersec"
-                  className={styles.action}
-                >
+                <a target="_blank" href="https://www.yuque.com/vipersec" className={styles.action}>
                   网页链接
                 </a>
               </Descriptions.Item>
@@ -356,8 +340,8 @@ const SystemInfo = () => {
               </Descriptions.Item>
               <Descriptions.Item label="实验功能">
                 <Switch
-                  checkedChildren={<CheckOutlined/>}
-                  unCheckedChildren={<MinusOutlined/>}
+                  checkedChildren={<CheckOutlined />}
+                  unCheckedChildren={<MinusOutlined />}
                   checked={viperDebugFlag}
                   onClick={() => {
                     setViperDebugFlag(!viperDebugFlag);
@@ -365,16 +349,12 @@ const SystemInfo = () => {
                   }}
                 />
               </Descriptions.Item>
-
             </Descriptions>
           </Row>
           <Row>
-            <Space
-              style={{ marginTop: 16, marginLeft: 64 }}
-            >
+            <Space style={{ marginTop: 16, marginLeft: 64 }}>
               <Button
-
-                icon={<SyncOutlined/>}
+                icon={<SyncOutlined />}
                 onClick={() => listServiceStatusReq.run()}
                 loading={listServiceStatusReq.loading}
               >
@@ -382,19 +362,15 @@ const SystemInfo = () => {
               </Button>
               <Button
                 type="primary"
-                icon={<ReloadOutlined/>}
+                icon={<ReloadOutlined />}
                 onClick={() => updatePostmodulePostModuleConfigReq.run()}
                 loading={updatePostmodulePostModuleConfigReq.loading}
               >
                 重载所有模块
               </Button>
-              <Button
-                danger
-                icon={<LogoutOutlined/>}
-                onClick={loginOut}>
+              <Button danger icon={<LogoutOutlined />} onClick={loginOut}>
                 退出平台
               </Button>
-
             </Space>
           </Row>
         </Col>
@@ -421,14 +397,16 @@ const SessionMonitorForm = props => {
   const [settingsSessionMonitor, setSettingsSessionMonitor] = useState({});
 
   //初始化数据
-  const initListSessionMonitorReq = useRequest(() => getCoreSettingAPI({ kind: 'sessionmonitor' }), {
-    onSuccess: (result, params) => {
-      setSettingsSessionMonitor(result);
-      sessionMonitorForm.setFieldsValue(result);
-    },
-    onError: (error, params) => {
-    },
-  });
+  const initListSessionMonitorReq = useRequest(
+    () => getCoreSettingAPI({ kind: 'sessionmonitor' }),
+    {
+      onSuccess: (result, params) => {
+        setSettingsSessionMonitor(result);
+        sessionMonitorForm.setFieldsValue(result);
+      },
+      onError: (error, params) => {},
+    }
+  );
 
   const updateSessionMonitorReq = useRequest(postCoreSettingAPI, {
     manual: true,
@@ -436,8 +414,7 @@ const SessionMonitorForm = props => {
       setSettingsSessionMonitor(result);
       sessionMonitorForm.setFieldsValue(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const onUpdateSessionMonitor = () => {
@@ -455,8 +432,8 @@ const SessionMonitorForm = props => {
     <Form {...inputItemLayout}>
       <Form.Item label="开关">
         <Switch
-          checkedChildren={<CheckOutlined/>}
-          unCheckedChildren={<MinusOutlined/>}
+          checkedChildren={<CheckOutlined />}
+          unCheckedChildren={<MinusOutlined />}
           checked={settingsSessionMonitor.flag}
           onClick={() => onUpdateSessionMonitor()}
         />
@@ -479,8 +456,7 @@ const TelegramForm = props => {
       setSettingsTelegram(result);
       telegramForm.setFieldsValue(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const updateTelegramReq = useRequest(postCoreSettingAPI, {
@@ -493,8 +469,7 @@ const TelegramForm = props => {
       }
       telegramForm.setFieldsValue(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const onUpdateTelegram = values => {
@@ -517,11 +492,7 @@ const TelegramForm = props => {
   };
 
   return (
-    <Form
-      onFinish={onUpdateTelegram}
-      form={telegramForm}
-      {...inputItemLayout}
-    >
+    <Form onFinish={onUpdateTelegram} form={telegramForm} {...inputItemLayout}>
       <Form.Item
         label="token"
         name="token"
@@ -532,13 +503,9 @@ const TelegramForm = props => {
           },
         ]}
       >
-        <Input/>
+        <Input />
       </Form.Item>
-      <Form.Item
-        label="chat_id"
-        name="chat_id"
-        rules={[]}
-      >
+      <Form.Item label="chat_id" name="chat_id" rules={[]}>
         <Select
           mode="tags"
           style={{ width: '100%' }}
@@ -550,23 +517,19 @@ const TelegramForm = props => {
         </Select>
       </Form.Item>
 
-      <Form.Item
-        label="proxy"
-        name="proxy"
-        rules={[]}
-      >
-        <Input/>
+      <Form.Item label="proxy" name="proxy" rules={[]}>
+        <Input />
       </Form.Item>
       <Form.Item label="状态">
         {settingsTelegram.alive ? (
-          <Badge status="processing" text="正常"/>
+          <Badge status="processing" text="正常" />
         ) : (
-          <Badge status="error" text="不可用"/>
+          <Badge status="error" text="不可用" />
         )}
       </Form.Item>
       <Form.Item {...buttonItemLayout}>
         <Button
-          icon={<DeliveredProcedureOutlined/>}
+          icon={<DeliveredProcedureOutlined />}
           type="primary"
           htmlType="submit"
           loading={updateTelegramReq.loading}
@@ -588,8 +551,7 @@ const DingDingForm = props => {
       setSettingsDingDing(result);
       dingdingForm.setFieldsValue(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const updateDingDingReq = useRequest(postCoreSettingAPI, {
@@ -598,8 +560,7 @@ const DingDingForm = props => {
       setSettingsDingDing(result);
       dingdingForm.setFieldsValue(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const onUpdateDingDing = values => {
@@ -612,11 +573,7 @@ const DingDingForm = props => {
   };
 
   return (
-    <Form
-      onFinish={onUpdateDingDing}
-      form={dingdingForm}
-      {...inputItemLayout}
-    >
+    <Form onFinish={onUpdateDingDing} form={dingdingForm} {...inputItemLayout}>
       <Form.Item
         label="access_token"
         name="access_token"
@@ -627,7 +584,7 @@ const DingDingForm = props => {
           },
         ]}
       >
-        <Input/>
+        <Input />
       </Form.Item>
       <Form.Item
         label="自定义关键词"
@@ -639,18 +596,18 @@ const DingDingForm = props => {
           },
         ]}
       >
-        <Input/>
+        <Input />
       </Form.Item>
       <Form.Item label="状态">
         {settingsDingDing.alive ? (
-          <Badge status="processing" text="正常"/>
+          <Badge status="processing" text="正常" />
         ) : (
-          <Badge status="error" text="不可用"/>
+          <Badge status="error" text="不可用" />
         )}
       </Form.Item>
       <Form.Item {...buttonItemLayout}>
         <Button
-          icon={<DeliveredProcedureOutlined/>}
+          icon={<DeliveredProcedureOutlined />}
           type="primary"
           htmlType="submit"
           loading={updateDingDingReq.loading}
@@ -662,7 +619,6 @@ const DingDingForm = props => {
   );
 };
 
-
 const ServerChanForm = props => {
   const [serverchanForm] = Form.useForm();
   const [settingsServerChan, setSettingsServerChan] = useState({ sendkey: null, alive: false });
@@ -673,8 +629,7 @@ const ServerChanForm = props => {
       setSettingsServerChan(result);
       serverchanForm.setFieldsValue(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const updateServerChanReq = useRequest(postCoreSettingAPI, {
@@ -683,8 +638,7 @@ const ServerChanForm = props => {
       setSettingsServerChan(result);
       serverchanForm.setFieldsValue(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const onUpdateServerChan = values => {
@@ -697,11 +651,7 @@ const ServerChanForm = props => {
   };
 
   return (
-    <Form
-      onFinish={onUpdateServerChan}
-      form={serverchanForm}
-      {...inputItemLayout}
-    >
+    <Form onFinish={onUpdateServerChan} form={serverchanForm} {...inputItemLayout}>
       <Form.Item
         label="SendKey"
         name="sendkey"
@@ -712,18 +662,18 @@ const ServerChanForm = props => {
           },
         ]}
       >
-        <Input/>
+        <Input />
       </Form.Item>
       <Form.Item label="状态">
         {settingsServerChan.alive ? (
-          <Badge status="processing" text="正常"/>
+          <Badge status="processing" text="正常" />
         ) : (
-          <Badge status="error" text="不可用"/>
+          <Badge status="error" text="不可用" />
         )}
       </Form.Item>
       <Form.Item {...buttonItemLayout}>
         <Button
-          icon={<DeliveredProcedureOutlined/>}
+          icon={<DeliveredProcedureOutlined />}
           type="primary"
           htmlType="submit"
           loading={updateServerChanReq.loading}
@@ -745,8 +695,7 @@ const FOFAForm = props => {
       setSettingsFOFA(result);
       fofaForm.setFieldsValue(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const updateFOFAReq = useRequest(postCoreSettingAPI, {
@@ -755,8 +704,7 @@ const FOFAForm = props => {
       setSettingsFOFA(result);
       fofaForm.setFieldsValue(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const onUpdateFOFA = values => {
@@ -769,10 +717,7 @@ const FOFAForm = props => {
   };
 
   return (
-    <Form
-      form={fofaForm}
-      onFinish={onUpdateFOFA}
-      {...inputItemLayout}>
+    <Form form={fofaForm} onFinish={onUpdateFOFA} {...inputItemLayout}>
       <Form.Item
         label="email"
         name="email"
@@ -783,7 +728,7 @@ const FOFAForm = props => {
           },
         ]}
       >
-        <Input/>
+        <Input />
       </Form.Item>
       <Form.Item
         label="key"
@@ -795,25 +740,22 @@ const FOFAForm = props => {
           },
         ]}
       >
-        <Input/>
+        <Input />
       </Form.Item>
       <Row>
-        <Col span={4}>
-        </Col>
-        <Col
-          style={{ marginTop: -16, marginBottom: 8 }}
-          span={4}>
+        <Col span={4} />
+        <Col style={{ marginTop: -16, marginBottom: 8 }} span={4}>
           {settingsFOFA.alive ? (
-            <Badge status="processing" text="正常"/>
+            <Badge status="processing" text="正常" />
           ) : (
-            <Badge status="error" text="不可用"/>
+            <Badge status="error" text="不可用" />
           )}
         </Col>
       </Row>
       <Form.Item {...buttonItemLayout}>
         <Space>
           <Button
-            icon={<DeliveredProcedureOutlined/>}
+            icon={<DeliveredProcedureOutlined />}
             type="primary"
             htmlType="submit"
             loading={updateFOFAReq.loading}
@@ -836,8 +778,7 @@ const QuakeForm = props => {
       setSettingsQuake(result);
       quakeForm.setFieldsValue(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const updateQuakeReq = useRequest(postCoreSettingAPI, {
@@ -846,8 +787,7 @@ const QuakeForm = props => {
       setSettingsQuake(result);
       quakeForm.setFieldsValue(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const onUpdateFOFA = values => {
@@ -860,10 +800,7 @@ const QuakeForm = props => {
   };
 
   return (
-    <Form
-      form={quakeForm}
-      onFinish={onUpdateFOFA}
-      {...inputItemLayout}>
+    <Form form={quakeForm} onFinish={onUpdateFOFA} {...inputItemLayout}>
       <Form.Item
         label="key"
         name="key"
@@ -874,25 +811,22 @@ const QuakeForm = props => {
           },
         ]}
       >
-        <Input/>
+        <Input />
       </Form.Item>
       <Row>
-        <Col span={4}>
-        </Col>
-        <Col
-          style={{ marginTop: -16, marginBottom: 8 }}
-          span={4}>
+        <Col span={4} />
+        <Col style={{ marginTop: -16, marginBottom: 8 }} span={4}>
           {settingsQuake.alive ? (
-            <Badge status="processing" text="正常"/>
+            <Badge status="processing" text="正常" />
           ) : (
-            <Badge status="error" text="不可用"/>
+            <Badge status="error" text="不可用" />
           )}
         </Col>
       </Row>
       <Form.Item {...buttonItemLayout}>
         <Space>
           <Button
-            icon={<DeliveredProcedureOutlined/>}
+            icon={<DeliveredProcedureOutlined />}
             type="primary"
             htmlType="submit"
             loading={updateQuakeReq.loading}
@@ -924,8 +858,7 @@ const LHostForm = props => {
     onSuccess: (result, params) => {
       lHostForm.setFieldsValue(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const updateLHostReq = useRequest(postCoreSettingAPI, {
@@ -933,8 +866,7 @@ const LHostForm = props => {
     onSuccess: (result, params) => {
       lHostForm.setFieldsValue(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const onUpdateLhost = values => {
@@ -946,15 +878,10 @@ const LHostForm = props => {
   };
 
   return (
-    <Form
-      form={lHostForm}
-      initialValue={lhost}
-      onFinish={onUpdateLhost}
-      {...lHostFormLayout}>
+    <Form form={lHostForm} initialValue={lhost} onFinish={onUpdateLhost} {...lHostFormLayout}>
       <Form.Item
         label="回连地址"
         name="lhost"
-
         rules={[
           {
             required: true,
@@ -962,12 +889,12 @@ const LHostForm = props => {
           },
         ]}
       >
-        <Input style={{ width: '80%' }} placeholder="VPS的互联网IP/域名"/>
+        <Input style={{ width: '80%' }} placeholder="VPS的互联网IP/域名" />
       </Form.Item>
 
       <Form.Item {...buttonLHostFormLayout}>
         <Button
-          icon={<DeliveredProcedureOutlined/>}
+          icon={<DeliveredProcedureOutlined />}
           type="primary"
           htmlType="submit"
           loading={updateLHostReq.loading}
