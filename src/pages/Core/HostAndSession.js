@@ -289,7 +289,7 @@ const HostAndSession = props => {
       initHeartBeat();
     }
   };
-  useInterval(() => heartbeatmonitor(), 10000);
+  useInterval(() => heartbeatmonitor(), 3000);
   useEffect(() => {
     initHeartBeat();
     return () => {
@@ -304,11 +304,8 @@ const HostAndSession = props => {
 
   return (
     <GridContent>
-      {/*<SplitPane split="horizontal" minSize={50}>*/}
-
       <HostAndSessionCard />
       <TabsBottom />
-      {/*</SplitPane>*/}
     </GridContent>
   );
 };

@@ -3,6 +3,7 @@ import '@ant-design/compatible/assets/index.css';
 import { PlusOutlined, SyncOutlined } from '@ant-design/icons';
 
 import {
+  Alert,
   Button,
   Card,
   Col,
@@ -54,7 +55,8 @@ const MsfSocks = props => {
       setPortfwds(result.portfwds);
       setHostsRoute(result.hostsRoute);
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const listSocksReq = useRequest(getMsgrpcSocksAPI, {
@@ -65,7 +67,8 @@ const MsfSocks = props => {
       setPortfwds(result.portfwds);
       setHostsRoute(result.hostsRoute);
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const createSocksReq = useRequest(postMsgrpcSocksAPI, {
@@ -74,7 +77,8 @@ const MsfSocks = props => {
       listSocksReq.run();
       setCreateSocksModalVisible(false);
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const destorySocksReq = useRequest(deleteMsgrpcSocksAPI, {
@@ -82,7 +86,8 @@ const MsfSocks = props => {
     onSuccess: (result, params) => {
       listSocksReq.run();
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const destoryPortFwdReq = useRequest(deleteMsgrpcPortFwdAPI, {
@@ -90,7 +95,8 @@ const MsfSocks = props => {
     onSuccess: (result, params) => {
       listSocksReq.run();
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const destoryRouteReq = useRequest(deleteMsgrpcRouteAPI, {
@@ -98,7 +104,8 @@ const MsfSocks = props => {
     onSuccess: (result, params) => {
       listSocksReq.run();
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const formLayout = {
@@ -117,7 +124,7 @@ const MsfSocks = props => {
             type="dashed"
             style={{ marginTop: 0 }}
             block
-            icon={<PlusOutlined />}
+            icon={<PlusOutlined/>}
             onClick={() => setCreateSocksModalVisible(true)}
           >
             新增代理
@@ -173,7 +180,7 @@ const MsfSocks = props => {
         </Col>
         <Col span={12}>
           <Button
-            icon={<SyncOutlined />}
+            icon={<SyncOutlined/>}
             block
             loading={
               listSocksReq.loading ||
@@ -451,6 +458,7 @@ const MsfSocks = props => {
         footer={null}
         onCancel={() => setCreateSocksModalVisible(false)}
       >
+
         <FormNew onFinish={createSocksReq.run}>
           <FormNew.Item
             {...formLayout}
@@ -479,19 +487,28 @@ const MsfSocks = props => {
               },
             ]}
           >
-            <InputNumber style={{ width: 160 }} placeholder="socks监听端口" />
+            <InputNumber style={{ width: 160 }} placeholder="socks监听端口"/>
           </FormNew.Item>
           <FormNew.Item {...buttonLayout}>
             <Button
               block
               loading={createSocksReq.loading}
-              icon={<PlusOutlined />}
+              icon={<PlusOutlined/>}
               htmlType="submit"
               type="primary"
             >
               新增
             </Button>
           </FormNew.Item>
+          <Row>
+            <Col span={20} offset={4}>
+              <Alert
+                message="Socks代理请勿开放到外网1080,80等常用端口,防范DDos攻击"
+                type="warning"
+                showIcon
+              />
+            </Col>
+          </Row>
         </FormNew>
       </Modal>
     </Fragment>
