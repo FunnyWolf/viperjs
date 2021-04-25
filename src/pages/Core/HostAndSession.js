@@ -1,12 +1,4 @@
-import React, {
-  Fragment,
-  memo,
-  useCallback,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from 'react';
+import React, { Fragment, memo, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useModel, useRequest } from 'umi';
 import { useControllableValue, useInterval, useLocalStorageState } from 'ahooks';
 import {
@@ -136,7 +128,7 @@ import { FileMsfMemo, FileMsfModal } from '@/pages/Core/FileMsf';
 import PayloadAndHandler, { PayloadAndHandlerMemo } from '@/pages/Core/PayloadAndHandler';
 import MuitHosts, { MuitHostsMemo } from '@/pages/Core/MuitHosts';
 import { host_type_to_avatar_table, MyIcon, SidTag } from '@/pages/Core/Common';
-import SystemSetting, { SystemSettingMemo } from '@/pages/Core/SystemSetting';
+import SystemSetting, { loginOut, SystemSettingMemo } from '@/pages/Core/SystemSetting';
 import { BotScan, PostModuleMemo, RunModuleMemo } from '@/pages/Core/RunModule';
 import { MsfSocksMemo } from '@/pages/Core/MsfSocks';
 import LazyLoader, { LazyLoaderMemo } from '@/pages/Core/LazyLoader';
@@ -206,7 +198,8 @@ const HostAndSession = props => {
       setPostModuleConfigListStateAll(result.filter(item => item.BROKER.indexOf('post') === 0));
       setBotModuleConfigList(result.filter(item => item.BROKER.indexOf('bot') === 0));
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const urlpatterns = '/ws/v1/websocket/heartbeat/?';
@@ -220,7 +213,7 @@ const HostAndSession = props => {
     ws.current.onopen = () => {
       setHeatbeatsocketalive(true);
     };
-    ws.current.onclose = () => {
+    ws.current.onclose = (CloseEvent) => {
       setHeatbeatsocketalive(false);
     };
     ws.current.onerror = () => {
@@ -282,10 +275,12 @@ const HostAndSession = props => {
     } else {
       try {
         ws.current.close();
-      } catch (error) {}
+      } catch (error) {
+      }
       try {
         ws.current = null;
-      } catch (error) {}
+      } catch (error) {
+      }
       initHeartBeat();
     }
   };
@@ -295,10 +290,12 @@ const HostAndSession = props => {
     return () => {
       try {
         ws.current.close();
-      } catch (error) {}
+      } catch (error) {
+      }
       try {
         ws.current = null;
-      } catch (error) {}
+      } catch (error) {
+      }
     };
   }, []);
 
@@ -306,8 +303,8 @@ const HostAndSession = props => {
     <GridContent>
       {/*<SplitPane split="horizontal" minSize={50}>*/}
 
-      <HostAndSessionCard />
-      <TabsBottom />
+      <HostAndSessionCard/>
+      <TabsBottom/>
       {/*</SplitPane>*/}
     </GridContent>
   );
@@ -321,7 +318,7 @@ const HostAndSessionCard = () => {
       hostAndSessionList: model.hostAndSessionList,
       setHostAndSessionActive: model.setHostAndSessionActive,
       heatbeatsocketalive: model.heatbeatsocketalive,
-    })
+    }),
   );
   const sessionActiveInit = {
     id: -1,
@@ -371,14 +368,18 @@ const HostAndSessionCard = () => {
 
   const destoryHostReq = useRequest(deleteCoreHostAPI, {
     manual: true,
-    onSuccess: (result, params) => {},
-    onError: (error, params) => {},
+    onSuccess: (result, params) => {
+    },
+    onError: (error, params) => {
+    },
   });
 
   const destorySessionReq = useRequest(deleteMsgrpcSessionAPI, {
     manual: true,
-    onSuccess: (result, params) => {},
-    onError: (error, params) => {},
+    onSuccess: (result, params) => {
+    },
+    onError: (error, params) => {
+    },
   });
 
   const setActiveHostAndSession = item => {
@@ -427,31 +428,31 @@ const HostAndSessionCard = () => {
     return (
       <Menu style={{ width: 104 }} onClick={onClick}>
         <Menu.Item key="SessionInfo">
-          <ContactsOutlined />
+          <ContactsOutlined/>
           权限信息
         </Menu.Item>
         <Menu.Item key="FileSession">
-          <DesktopOutlined />
+          <DesktopOutlined/>
           文件管理
         </Menu.Item>
         <Menu.Item key="Route">
-          <PartitionOutlined />
+          <PartitionOutlined/>
           内网路由
         </Menu.Item>
         <Menu.Item key="PortFwd">
-          <SwapOutlined />
+          <SwapOutlined/>
           端口转发
         </Menu.Item>
         <Menu.Item key="Transport">
-          <NodeIndexOutlined />
+          <NodeIndexOutlined/>
           传输协议
         </Menu.Item>
         <Menu.Item key="SessionIO">
-          <CodeOutlined />
+          <CodeOutlined/>
           命令终端
         </Menu.Item>
         <Menu.Item key="DestorySession">
-          <CloseCircleOutlined style={{ color: 'red' }} />
+          <CloseCircleOutlined style={{ color: 'red' }}/>
           <span style={{ color: 'red' }}>删除权限</span>
         </Menu.Item>
       </Menu>
@@ -483,19 +484,19 @@ const HostAndSessionCard = () => {
     return (
       <Menu style={{ width: 104 }} onClick={onClick}>
         <Menu.Item key="HostInfo">
-          <ProfileOutlined />
+          <ProfileOutlined/>
           主机信息
         </Menu.Item>
         <Menu.Item key="PortService">
-          <InteractionOutlined />
+          <InteractionOutlined/>
           开放端口
         </Menu.Item>
         <Menu.Item key="Vulnerability">
-          <BugOutlined />
+          <BugOutlined/>
           已知漏洞
         </Menu.Item>
         <Menu.Item key="DestoryHost">
-          <DeleteOutlined style={{ color: 'red' }} />
+          <DeleteOutlined style={{ color: 'red' }}/>
           <span style={{ color: 'red' }}>删除主机</span>
         </Menu.Item>
       </Menu>
@@ -533,7 +534,7 @@ const HostAndSessionCard = () => {
                     }}
                     size="small"
                   >
-                    <CaretRightOutlined />
+                    <CaretRightOutlined/>
                   </Button>
                 );
               },
@@ -888,7 +889,7 @@ const HostAndSessionCard = () => {
         footer={null}
         bodyStyle={{ padding: '0px 0px 0px 0px' }}
       >
-        <RunModuleMemo closeModel={() => setRunModuleModalVisable(false)} />
+        <RunModuleMemo closeModel={() => setRunModuleModalVisable(false)}/>
       </Modal>
 
       <Modal
@@ -900,7 +901,7 @@ const HostAndSessionCard = () => {
         footer={null}
         bodyStyle={{ padding: '8px 8px 8px 8px' }}
       >
-        <SessionInfoMemo />
+        <SessionInfoMemo/>
       </Modal>
 
       <Modal
@@ -912,7 +913,7 @@ const HostAndSessionCard = () => {
         footer={null}
         bodyStyle={{ padding: '8px 0px 0px 0px' }}
       >
-        <FileSessionMemo />
+        <FileSessionMemo/>
       </Modal>
 
       <Modal
@@ -925,7 +926,7 @@ const HostAndSessionCard = () => {
         footer={null}
         bodyStyle={{ padding: '0px 0px 16px 0px' }}
       >
-        <MsfRouteMemo />
+        <MsfRouteMemo/>
       </Modal>
 
       <Modal
@@ -938,7 +939,7 @@ const HostAndSessionCard = () => {
         footer={null}
         bodyStyle={{ padding: '0px 0px 16px 0px' }}
       >
-        <PortFwdMemo />
+        <PortFwdMemo/>
       </Modal>
 
       <Modal
@@ -951,7 +952,7 @@ const HostAndSessionCard = () => {
         footer={null}
         bodyStyle={{ padding: '0px 0px 16px 0px' }}
       >
-        <TransportMemo closeModal={closeTransportModel} />
+        <TransportMemo closeModal={closeTransportModel}/>
       </Modal>
 
       <Modal
@@ -963,7 +964,7 @@ const HostAndSessionCard = () => {
         footer={null}
         bodyStyle={{ padding: '8px 8px 8px 8px' }}
       >
-        <SessionIOMemo />
+        <SessionIOMemo/>
       </Modal>
 
       <Modal
@@ -975,7 +976,7 @@ const HostAndSessionCard = () => {
         footer={null}
         bodyStyle={{ padding: '8px 8px 8px 8px' }}
       >
-        <HostInfoMemo />
+        <HostInfoMemo/>
       </Modal>
 
       <Modal
@@ -988,7 +989,7 @@ const HostAndSessionCard = () => {
         footer={null}
         bodyStyle={{ padding: '0px 8px 0px 8px' }}
       >
-        <PortServiceMemo />
+        <PortServiceMemo/>
       </Modal>
 
       <Modal
@@ -1001,7 +1002,7 @@ const HostAndSessionCard = () => {
         footer={null}
         bodyStyle={{ padding: '0px 0px 0px 0px' }}
       >
-        <VulnerabilityMemo />
+        <VulnerabilityMemo/>
       </Modal>
       <Modal
         style={{
@@ -1016,7 +1017,7 @@ const HostAndSessionCard = () => {
         mask={false}
         onCancel={() => setUpdateHostModalVisable(false)}
       >
-        <UpdateHostMemo closeModal={() => setUpdateHostModalVisable(false)} />
+        <UpdateHostMemo closeModal={() => setUpdateHostModalVisable(false)}/>
       </Modal>
     </Fragment>
   );
@@ -1046,7 +1047,8 @@ const Msfconsole = props => {
         wsmsf.current.close();
         msfConsoleTerm.current.close();
         msfConsoleTerm.current.dispose();
-      } catch (error) {}
+      } catch (error) {
+      }
     };
   }, []);
 
@@ -1104,11 +1106,12 @@ const Msfconsole = props => {
       wsmsf.current.send(firstData);
     };
 
-    wsmsf.current.onclose = () => {
+    wsmsf.current.onclose = (CloseEvent) => {
       try {
         msfConsoleTerm.current.close();
         msfConsoleTerm.current.dispose();
-      } catch (error) {}
+      } catch (error) {
+      }
     };
 
     wsmsf.current.onmessage = event => {
@@ -1135,14 +1138,14 @@ const Msfconsole = props => {
             }}
             size="large"
             onClick={() => clearConsole()}
-            icon={<ClearOutlined />}
+            icon={<ClearOutlined/>}
           />
           <Button
             style={{
               backgroundColor: 'rgba(40,40,40,0.7)',
             }}
             size="large"
-            icon={<InteractionOutlined />}
+            icon={<InteractionOutlined/>}
             onClick={() => resetBackendConsole()}
           />
         </Space>
@@ -1174,7 +1177,7 @@ const TaskQueueTag = () => {
       />
     );
   } else {
-    return <FieldTimeOutlined />;
+    return <FieldTimeOutlined/>;
   }
 };
 const TaskQueueTagMemo = memo(TaskQueueTag);
@@ -1221,7 +1224,7 @@ const TabsBottom = () => {
         <TabPane
           tab={
             <span>
-              <FundViewOutlined />
+              <FundViewOutlined/>
               实时输出
             </span>
           }
@@ -1229,139 +1232,139 @@ const TabsBottom = () => {
         >
           <Row gutter={0}>
             <Col span={14}>
-              <RealTimeModuleResultMemo />
+              <RealTimeModuleResultMemo/>
             </Col>
             <Col span={10}>
-              <RealTimeNoticesMemo />
+              <RealTimeNoticesMemo/>
             </Col>
           </Row>
         </TabPane>
         <TabPane
           tab={
             <span>
-              <TaskQueueTagMemo />
+              <TaskQueueTagMemo/>
               任务列表
             </span>
           }
           key="JobList"
         >
-          <RealTimeJobsMemo />
+          <RealTimeJobsMemo/>
         </TabPane>
         <TabPane
           tab={
             <span>
-              <CustomerServiceOutlined />
+              <CustomerServiceOutlined/>
               监听载荷
             </span>
           }
           key="PayloadAndHandler"
         >
-          <PayloadAndHandlerMemo />
+          <PayloadAndHandlerMemo/>
         </TabPane>
         <TabPane
           tab={
             <span>
-              <FolderOpenOutlined />
+              <FolderOpenOutlined/>
               文件列表
             </span>
           }
           key="filemsf"
         >
-          <FileMsfMemo onRef={filemsfRef} />
+          <FileMsfMemo onRef={filemsfRef}/>
         </TabPane>
         <TabPane
           tab={
             <span>
-              <ShareAltOutlined />
+              <ShareAltOutlined/>
               网络拓扑
             </span>
           }
           key="Network"
         >
-          <NetworkMemo />
+          <NetworkMemo/>
         </TabPane>
         <TabPane
           tab={
             <span>
-              <SisternodeOutlined />
+              <SisternodeOutlined/>
               内网代理
             </span>
           }
           key="Socks"
         >
-          <MsfSocksMemo />
+          <MsfSocksMemo/>
         </TabPane>
         <TabPane
           tab={
             <span>
-              <GroupOutlined />
+              <GroupOutlined/>
               内网主机
             </span>
           }
           key="MuitHosts"
         >
-          <MuitHostsMemo />
+          <MuitHostsMemo/>
         </TabPane>
         <TabPane
           tab={
             <span>
-              <KeyOutlined />
+              <KeyOutlined/>
               凭证管理
             </span>
           }
           key="Credential"
         >
-          <CredentialMemo />
+          <CredentialMemo/>
         </TabPane>
         {viperDebugFlag ? (
           <TabPane
             tab={
               <span>
-                <MailOutlined />
+                <MailOutlined/>
                 钓鱼管理
               </span>
             }
             key="LazyLoader"
           >
-            <LazyLoaderMemo />
+            <LazyLoaderMemo/>
           </TabPane>
         ) : null}
         {viperDebugFlag ? (
           <TabPane
             tab={
               <span>
-                <RadarChartOutlined />
+                <RadarChartOutlined/>
                 全网扫描
               </span>
             }
             key="BotScan"
           >
-            <BotScan />
+            <BotScan/>
           </TabPane>
         ) : null}
 
         <TabPane
           tab={
             <span>
-              <CodeOutlined />
+              <CodeOutlined/>
               CONSOLE
             </span>
           }
           key="msfconsole"
           // forceRender
         >
-          <MsfconsoleMemo onRef={consoleRef} />
+          <MsfconsoleMemo onRef={consoleRef}/>
         </TabPane>
         <TabPane
           tab={
             <span>
-              <SettingOutlined />
+              <SettingOutlined/>
               平台设置
             </span>
           }
           key="SystemSetting"
         >
-          <SystemSettingMemo />
+          <SystemSettingMemo/>
         </TabPane>
       </Tabs>
     </Fragment>
@@ -1381,7 +1384,8 @@ const RealTimeJobs = () => {
       const { uuid } = result;
       setJobList(jobList.filter(item => item.uuid !== uuid));
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const onDestoryJob = record => {
@@ -1419,7 +1423,7 @@ const RealTimeJobs = () => {
           <a href={references[i]} target="_blank">
             {references[i]}
           </a>
-        </div>
+        </div>,
       );
     }
 
@@ -1431,7 +1435,7 @@ const RealTimeJobs = () => {
           <a href={readme[i]} target="_blank">
             {readme[i]}
           </a>
-        </div>
+        </div>,
       );
     }
 
@@ -1541,7 +1545,7 @@ const RealTimeJobs = () => {
                     {' '}
                     <strong>{key}: </strong>
                     {item}{' '}
-                  </span>
+                  </span>,
                 );
               }
               return <Fragment>{component}</Fragment>;
@@ -1598,7 +1602,8 @@ const RealTimeModuleResult = () => {
           resultMatch = record.result.match(reg);
           optsMatch = optsStr.match(reg);
           hostMatch = record.ipaddress.match(reg);
-        } catch (error) {}
+        } catch (error) {
+        }
 
         if (moduleNameMatch || resultMatch || optsMatch || hostMatch) {
           return { ...record };
@@ -1623,7 +1628,8 @@ const RealTimeModuleResult = () => {
       setPostModuleResultHistory([]);
       setPostModuleResultHistoryActive([]);
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   return (
@@ -1632,7 +1638,7 @@ const RealTimeModuleResult = () => {
         <Col span={21}>
           <Input
             allowClear
-            prefix={<SearchOutlined />}
+            prefix={<SearchOutlined/>}
             style={{ width: '100%' }}
             placeholder=" 主机IP/模块/参数/结果"
             value={text}
@@ -1648,7 +1654,7 @@ const RealTimeModuleResult = () => {
               block
               danger
               onClick={() => deletePostModuleResultHistoryReq.run()}
-              icon={<DeleteOutlined />}
+              icon={<DeleteOutlined/>}
             >
               清空
             </Button>
@@ -1730,7 +1736,7 @@ const RealTimeModuleResult = () => {
                 fontSize: 14,
               }}
             >
-              <VerticalAlignTopOutlined />
+              <VerticalAlignTopOutlined/>
             </div>
           </BackTop>
         </List>
@@ -1783,7 +1789,7 @@ const UserInput = props => {
     {},
     {
       defaultValue: '',
-    }
+    },
   );
   const getUserIconKey = () => {
     let key = '0';
@@ -1825,7 +1831,7 @@ const UserInput = props => {
       style={{ width: '100%' }}
       placeholder="发送消息"
       value={text}
-      prefix={<PrefixIcon />}
+      prefix={<PrefixIcon/>}
       onPressEnter={() => {
         props.createNotice({ userkey: iconkey, content: text });
         onInputChange('');
@@ -1960,7 +1966,7 @@ const RealTimeNotices = () => {
               fontSize: 14,
             }}
           >
-            <VerticalAlignTopOutlined />
+            <VerticalAlignTopOutlined/>
           </div>
         </BackTop>
       </List>
@@ -1972,7 +1978,8 @@ const RealTimeNotices = () => {
       // notices.unshift(result);
       // setNotices(notices);
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const deleteNoticesReq = useRequest(deleteNoticesAPI, {
@@ -1980,25 +1987,26 @@ const RealTimeNotices = () => {
     onSuccess: (result, params) => {
       setNotices([]);
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   return (
     <Fragment>
       <Row style={{ marginTop: -16 }}>
         <Col span={20}>
-          <UserInput createNotice={params => createNoticeReq.run(params)} />
+          <UserInput createNotice={params => createNoticeReq.run(params)}/>
         </Col>
         <Col span={4}>
           <Tooltip mouseEnterDelay={0.3} title="清空日志">
-            <Button icon={<DeleteOutlined />} block danger onClick={() => deleteNoticesReq.run()}>
+            <Button icon={<DeleteOutlined/>} block danger onClick={() => deleteNoticesReq.run()}>
               清空
             </Button>
           </Tooltip>
         </Col>
       </Row>
       <Card bordered={false} style={{ marginTop: 0 }} bodyStyle={{ padding: '0px 0px 0px 0px' }}>
-        <NoticesList notices={notices} />
+        <NoticesList notices={notices}/>
       </Card>
     </Fragment>
   );
@@ -2057,8 +2065,9 @@ const SessionInfo = () => {
       onSuccess: (result, params) => {
         setSessionInfoActive(result);
       },
-      onError: (error, params) => {},
-    }
+      onError: (error, params) => {
+      },
+    },
   );
 
   const updateSessionInfoReq = useRequest(putMsgrpcSessionAPI, {
@@ -2066,7 +2075,8 @@ const SessionInfo = () => {
     onSuccess: (result, params) => {
       setSessionInfoActive(result);
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const integrity_to_tag = {
@@ -2281,7 +2291,7 @@ const SessionInfo = () => {
           <Space style={{ marginTop: 8 }}>
             <Button
               type="primary"
-              icon={<SyncOutlined />}
+              icon={<SyncOutlined/>}
               loading={updateSessionInfoReq.loading || initListSessionInfoReq.loading}
               onClick={() =>
                 updateSessionInfoReq.run({ sessionid: hostAndSessionActive.session.id })
@@ -2320,7 +2330,7 @@ const SessionInfo = () => {
           <Space style={{ marginTop: 8 }}>
             <Button
               type="primary"
-              icon={<SyncOutlined />}
+              icon={<SyncOutlined/>}
               loading={updateSessionInfoReq.loading || initListSessionInfoReq.loading}
               onClick={() =>
                 updateSessionInfoReq.run({ sessionid: hostAndSessionActive.session.id })
@@ -2351,11 +2361,12 @@ const SessionIO = () => {
       if (result.buffer !== sessionIOOutput) {
         setSessionIOOutput(result.buffer);
         document.getElementById('sessionIOPre').scrollTop = document.getElementById(
-          'sessionIOPre'
+          'sessionIOPre',
         ).scrollHeight;
       }
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   if (hostAndSessionActive.session.id !== -1) {
@@ -2365,7 +2376,7 @@ const SessionIO = () => {
           ipaddress: hostAndSessionActive.ipaddress,
           sessionid: hostAndSessionActive.session.id,
         }),
-      3000
+      3000,
     );
   }
 
@@ -2380,12 +2391,13 @@ const SessionIO = () => {
         if (result.buffer !== sessionIOOutput) {
           setSessionIOOutput(result.buffer);
           document.getElementById('sessionIOPre').scrollTop = document.getElementById(
-            'sessionIOPre'
+            'sessionIOPre',
           ).scrollHeight;
         }
       },
-      onError: (error, params) => {},
-    }
+      onError: (error, params) => {
+      },
+    },
   );
 
   const createSessionioReq = useRequest(postMsgrpcSessionioAPI, {
@@ -2395,11 +2407,12 @@ const SessionIO = () => {
         setSessionIOOutput(result.buffer);
         setShellInput('');
         document.getElementById('sessionIOPre').scrollTop = document.getElementById(
-          'sessionIOPre'
+          'sessionIOPre',
         ).scrollHeight;
       }
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const onCreateSessionio = input => {
@@ -2415,7 +2428,8 @@ const SessionIO = () => {
     onSuccess: (result, params) => {
       setSessionIOOutput('');
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
   const sessiondisabled = hostAndSessionActive.session.id === -1;
 
@@ -2474,7 +2488,7 @@ const SessionIO = () => {
             disabled={sessiondisabled}
             placeholder=""
             value={shellInput}
-            prefix={<RightOutlined />}
+            prefix={<RightOutlined/>}
             onPressEnter={() => onCreateSessionio(shellInput)}
             onChange={e => {
               setShellInput(e.target.value);
@@ -2485,7 +2499,7 @@ const SessionIO = () => {
           <Button
             danger
             block
-            icon={<DeleteOutlined />}
+            icon={<DeleteOutlined/>}
             onClick={() => destorySessionioReq.run({ ipaddress: hostAndSessionActive.ipaddress })}
           >
             清空
@@ -2512,15 +2526,17 @@ const MsfRoute = () => {
       onSuccess: (result, params) => {
         setRouteActive(result.route);
       },
-      onError: (error, params) => {},
-    }
+      onError: (error, params) => {
+      },
+    },
   );
   const listRouteReq = useRequest(getMsgrpcRouteAPI, {
     manual: true,
     onSuccess: (result, params) => {
       setRouteActive(result.route);
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const createRouteReq = useRequest(postMsgrpcRouteAPI, {
@@ -2528,7 +2544,8 @@ const MsfRoute = () => {
     onSuccess: (result, params) => {
       listRouteReq.run({ sessionid: hostAndSessionActive.session.id });
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const onCreateRoute = values => {
@@ -2544,7 +2561,8 @@ const MsfRoute = () => {
     onSuccess: (result, params) => {
       listRouteReq.run({ sessionid: hostAndSessionActive.session.id });
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const onDestoryRoute = record => {
@@ -2604,26 +2622,26 @@ const MsfRoute = () => {
         }}
       >
         <Form.Item label={<span>自动</span>} name="autoroute" valuePropName="checked">
-          <Checkbox onChange={e => setAutoRouteCheck(e.target.checked)} />
+          <Checkbox onChange={e => setAutoRouteCheck(e.target.checked)}/>
         </Form.Item>
         <Form.Item
           label={<span>子网</span>}
           name="subnet"
           rules={[{ required: !autoRouteCheck, message: '请输入子网' }]}
         >
-          <Input disabled={autoRouteCheck} placeholder="请输入子网(10.10.10.0)" />
+          <Input disabled={autoRouteCheck} placeholder="请输入子网(10.10.10.0)"/>
         </Form.Item>
         <Form.Item
           label={<span>掩码</span>}
           name="netmask"
           rules={[{ required: !autoRouteCheck, message: '请输入掩码' }]}
         >
-          <Input disabled={autoRouteCheck} placeholder="请输入掩码(255.255.255.0)" />
+          <Input disabled={autoRouteCheck} placeholder="请输入掩码(255.255.255.0)"/>
         </Form.Item>
         <Form.Item>
           <Button
             loading={createRouteReq.loading}
-            icon={<PlusOutlined />}
+            icon={<PlusOutlined/>}
             type="primary"
             htmlType="submit"
           >
@@ -2633,7 +2651,7 @@ const MsfRoute = () => {
         <Form.Item>
           <Button
             block
-            icon={<SyncOutlined />}
+            icon={<SyncOutlined/>}
             onClick={() => listRouteReq.run({ sessionid: hostAndSessionActive.session.id })}
             loading={listRouteReq.loading}
           >
@@ -2660,8 +2678,9 @@ const PortFwd = () => {
       onSuccess: (result, params) => {
         setPortFwdActive(result);
       },
-      onError: (error, params) => {},
-    }
+      onError: (error, params) => {
+      },
+    },
   );
 
   const listPortFwdReq = useRequest(getMsgrpcPortFwdAPI, {
@@ -2669,7 +2688,8 @@ const PortFwd = () => {
     onSuccess: (result, params) => {
       setPortFwdActive(result);
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const createPortFwdReq = useRequest(postMsgrpcPortFwdAPI, {
@@ -2677,7 +2697,8 @@ const PortFwd = () => {
     onSuccess: (result, params) => {
       listPortFwdReq.run({ sessionid: hostAndSessionActive.session.id });
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const onCreatePortFwdForward = values => {
@@ -2700,7 +2721,8 @@ const PortFwd = () => {
     onSuccess: (result, params) => {
       listPortFwdReq.run({ sessionid: hostAndSessionActive.session.id });
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   return (
@@ -2803,7 +2825,7 @@ const PortFwd = () => {
           <TabPane
             tab={
               <span>
-                <SwapRightOutlined /> 正向
+                <SwapRightOutlined/> 正向
               </span>
             }
             key="Forward"
@@ -2814,25 +2836,25 @@ const PortFwd = () => {
                 name="lport"
                 rules={[{ required: true, message: '请输入本地监听端口' }]}
               >
-                <InputNumber style={{ width: 120 }} placeholder="VPS端口" />
+                <InputNumber style={{ width: 120 }} placeholder="VPS端口"/>
               </Form.Item>
               <Form.Item
                 label={<span>远程IP(目标)</span>}
                 name="rhost"
                 rules={[{ required: true, message: '请输入远程IP' }]}
               >
-                <Input style={{ width: 160 }} placeholder="内网IP/127.0.0.1" />
+                <Input style={{ width: 160 }} placeholder="内网IP/127.0.0.1"/>
               </Form.Item>
               <Form.Item
                 label={<span>远程端口(目标)</span>}
                 name="rport"
                 rules={[{ required: true, message: '请输入远程端口' }]}
               >
-                <InputNumber style={{ width: 120 }} placeholder="目标端口" />
+                <InputNumber style={{ width: 120 }} placeholder="目标端口"/>
               </Form.Item>
               <Form.Item>
                 <Button
-                  icon={<PlusOutlined />}
+                  icon={<PlusOutlined/>}
                   type="primary"
                   htmlType="submit"
                   loading={createPortFwdReq.loading}
@@ -2843,7 +2865,7 @@ const PortFwd = () => {
               <Form.Item>
                 <Button
                   block
-                  icon={<SyncOutlined />}
+                  icon={<SyncOutlined/>}
                   onClick={() => listPortFwdReq.run({ sessionid: hostAndSessionActive.session.id })}
                   loading={listPortFwdReq.loading}
                 >
@@ -2859,7 +2881,7 @@ const PortFwd = () => {
               }}
             >
               将VPS的网络端口转发到内网的某IP某端口.
-              <br />
+              <br/>
               例如:通过192.168.3.13的Session将VPS的10.10.10.10:2000转发到内网192.168.3.14:3389.本地端口(监听):2000
               远程IP(目标):192.168.3.14 远程端口(目标):3389
             </Paragraph>
@@ -2867,7 +2889,7 @@ const PortFwd = () => {
           <TabPane
             tab={
               <span>
-                <SwapLeftOutlined /> 反向
+                <SwapLeftOutlined/> 反向
               </span>
             }
             key="Reverse"
@@ -2878,28 +2900,28 @@ const PortFwd = () => {
                 name="lhost"
                 rules={[{ required: true, message: '请输入本地目标IP' }]}
               >
-                <Input style={{ width: 160 }} placeholder="VPSIP/目标IP" />
+                <Input style={{ width: 160 }} placeholder="VPSIP/目标IP"/>
               </Form.Item>
               <Form.Item
                 label={<span>本地端口(目标)</span>}
                 name="lport"
                 rules={[{ required: true, message: '请输入本地端口' }]}
               >
-                <InputNumber style={{ width: 120 }} placeholder="目标端口" />
+                <InputNumber style={{ width: 120 }} placeholder="目标端口"/>
               </Form.Item>
               <Form.Item
                 label={<span>远程端口(监听)</span>}
                 name="rport"
                 rules={[{ required: true, message: '请输入远程端口' }]}
               >
-                <InputNumber style={{ width: 120 }} placeholder="监听端口" />
+                <InputNumber style={{ width: 120 }} placeholder="监听端口"/>
               </Form.Item>
               <Form.Item>
                 <Button
                   loading={createPortFwdReq.loading}
                   type="primary"
                   htmlType="submit"
-                  icon={<PlusOutlined />}
+                  icon={<PlusOutlined/>}
                 >
                   新增
                 </Button>
@@ -2907,7 +2929,7 @@ const PortFwd = () => {
               <Form.Item>
                 <Button
                   block
-                  icon={<SyncOutlined />}
+                  icon={<SyncOutlined/>}
                   onClick={() => listPortFwdReq.run({ sessionid: hostAndSessionActive.session.id })}
                   loading={listPortFwdReq.loading}
                 >
@@ -2923,10 +2945,10 @@ const PortFwd = () => {
               }}
             >
               将内网的某IP某端口转发到VPS的网络端口.
-              <br />
+              <br/>
               例如:通过192.168.3.13的session将内网192.168.3.13:20000转发到10.10.10.10:2000.
               本地IP(目标):10.10.10.10 本地端口(监听):2000 远程端口(监听):20000.
-              <br />
+              <br/>
               (10.10.10.10:2000开启handler监听,192.168.3.14连接192.168.3.13:20000生成反向shell)
             </Paragraph>
           </TabPane>
@@ -2956,8 +2978,9 @@ const Transport = props => {
         setTransports(result.transports);
         setHandlers(result.handlers);
       },
-      onError: (error, params) => {},
-    }
+      onError: (error, params) => {
+      },
+    },
   );
 
   const listTransportReq = useRequest(getMsgrpcTransportAPI, {
@@ -2967,7 +2990,8 @@ const Transport = props => {
       setTransports(result.transports);
       setHandlers(result.handlers);
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const createTransportReq = useRequest(postMsgrpcTransportAPI, {
@@ -2975,7 +2999,8 @@ const Transport = props => {
     onSuccess: (result, params) => {
       listTransportReq.run({ sessionid: hostAndSessionActive.session.id });
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const onCreateTransport = values => {
@@ -2987,7 +3012,8 @@ const Transport = props => {
     onSuccess: (result, params) => {
       closeModal();
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const onUpdateTransport = action => {
@@ -3007,7 +3033,8 @@ const Transport = props => {
     onSuccess: (result, params) => {
       listPortFwdReq.run({ sessionid: hostAndSessionActive.session.id });
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const onDestoryTransport = record => {
@@ -3073,7 +3100,7 @@ const Transport = props => {
                     shape="square"
                     size={20}
                     style={{ backgroundColor: '#1890ff' }}
-                    icon={<CheckOutlined />}
+                    icon={<CheckOutlined/>}
                   />
                 );
               } else {
@@ -3182,7 +3209,7 @@ const Transport = props => {
             loading={createTransportReq.loading}
             type="primary"
             htmlType="submit"
-            icon={<PlusOutlined />}
+            icon={<PlusOutlined/>}
           >
             添加
           </Button>
@@ -3192,7 +3219,7 @@ const Transport = props => {
             title="确认切换Session传输,此操作会删除当前Session?"
             onConfirm={() => onUpdateTransport('prev')}
           >
-            <Button loading={updateTransportReq.loading} danger icon={<UpOutlined />}>
+            <Button loading={updateTransportReq.loading} danger icon={<UpOutlined/>}>
               切换
             </Button>
           </Popconfirm>
@@ -3202,7 +3229,7 @@ const Transport = props => {
             title="确认切换Session传输,此操作会删除当前Session?"
             onConfirm={() => onUpdateTransport('next')}
           >
-            <Button loading={updateTransportReq.loading} danger icon={<DownOutlined />}>
+            <Button loading={updateTransportReq.loading} danger icon={<DownOutlined/>}>
               切换
             </Button>
           </Popconfirm>
@@ -3210,7 +3237,7 @@ const Transport = props => {
         <Form.Item>
           <Button
             block
-            icon={<SyncOutlined />}
+            icon={<SyncOutlined/>}
             onClick={() => listTransportReq.run({ sessionid: hostAndSessionActive.session.id })}
             loading={listTransportReq.loading}
           >
@@ -3242,7 +3269,7 @@ const Transport = props => {
             loading={updateTransportReq.loading}
             danger
             htmlType="submit"
-            icon={<RestOutlined />}
+            icon={<RestOutlined/>}
           >
             休眠
           </Button>
@@ -3276,16 +3303,20 @@ const FileSession = () => {
         setFileSessionListActive(result);
         try {
           setFileSessionInputPathActive(result.path);
-        } catch (e) {}
+        } catch (e) {
+        }
       },
-      onError: (error, params) => {},
-    }
+      onError: (error, params) => {
+      },
+    },
   );
 
   const createPostModuleActuatorReq = useRequest(postPostmodulePostModuleActuatorAPI, {
     manual: true,
-    onSuccess: (result, params) => {},
-    onError: (error, params) => {},
+    onSuccess: (result, params) => {
+    },
+    onError: (error, params) => {
+    },
   });
 
   const listFileSessionReq = useRequest(getMsgrpcFileSessionAPI, {
@@ -3294,9 +3325,11 @@ const FileSession = () => {
       setFileSessionListActive(result);
       try {
         setFileSessionInputPathActive(result.path);
-      } catch (e) {}
+      } catch (e) {
+      }
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const onListFileSession = (sessionid, operation, filepath = null, dirpath = '/') => {
@@ -3316,8 +3349,10 @@ const FileSession = () => {
 
   const listFileSessionRunReq = useRequest(getMsgrpcFileSessionAPI, {
     manual: true,
-    onSuccess: (result, params) => {},
-    onError: (error, params) => {},
+    onSuccess: (result, params) => {
+    },
+    onError: (error, params) => {
+    },
   });
 
   const onListFileSessionRun = (sessionid, operation, filepath = null, arg = '') => {
@@ -3333,8 +3368,10 @@ const FileSession = () => {
 
   const updateFileSessionReq = useRequest(putMsgrpcFileSessionAPI, {
     manual: true,
-    onSuccess: (result, params) => {},
-    onError: (error, params) => {},
+    onSuccess: (result, params) => {
+    },
+    onError: (error, params) => {
+    },
   });
 
   const onUpdateFileSession = values => {
@@ -3373,16 +3410,18 @@ const FileSession = () => {
                 <Form.Item>
                   <Button onClick={() => copytoclipboard(result.data)}>拷贝到剪切板</Button>
                 </Form.Item>
-                <Form.Item name="sessionid" initialValue={hostAndSessionActive.session.id} />
-                <Form.Item name="filepath" initialValue={result.reason} />
+                <Form.Item name="sessionid" initialValue={hostAndSessionActive.session.id}/>
+                <Form.Item name="filepath" initialValue={result.reason}/>
               </Space>
             </Form>
           </Fragment>
         ),
-        onOk() {},
+        onOk() {
+        },
       });
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const onListFileSessionCat = (sessionid, filepath = null) => {
@@ -3398,7 +3437,8 @@ const FileSession = () => {
     onSuccess: (result, params) => {
       onListFileSession(hostAndSessionActive.session.id, 'list', null, fileSessionListActive.path);
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const onCreateFileSession = (sessionid, operation, dirpath = '/') => {
@@ -3412,7 +3452,8 @@ const FileSession = () => {
     onSuccess: (result, params) => {
       onListFileSession(hostAndSessionActive.session.id, 'list', null, fileSessionListActive.path);
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const onDestoryFileSession = (record, operation) => {
@@ -3432,7 +3473,7 @@ const FileSession = () => {
             <Tooltip placement="bottom" mouseEnterDelay={0.3} title="根目录">
               <Button
                 style={{ marginLeft: 8, width: 56 }}
-                icon={<DesktopOutlined />}
+                icon={<DesktopOutlined/>}
                 onClick={() =>
                   onListFileSession(hostAndSessionActive.session.id, 'list', null, '/')
                 }
@@ -3441,7 +3482,7 @@ const FileSession = () => {
             <Tooltip placement="bottom" title="默认目录">
               <Button
                 style={{ width: 56 }}
-                icon={<HomeOutlined />}
+                icon={<HomeOutlined/>}
                 onClick={() => onListFileSession(hostAndSessionActive.session.id, 'pwd')}
               />
             </Tooltip>
@@ -3454,10 +3495,10 @@ const FileSession = () => {
                     hostAndSessionActive.session.id,
                     'list',
                     null,
-                    `${fileSessionListActive.path}/..`
+                    `${fileSessionListActive.path}/..`,
                   )
                 }
-                icon={<ArrowUpOutlined />}
+                icon={<ArrowUpOutlined/>}
               />
             </Tooltip>
           </ButtonGroup>
@@ -3466,7 +3507,7 @@ const FileSession = () => {
               width: 'calc(80vw - 560px)',
             }}
             // prefix={<HddOutlined className="site-form-item-icon" />}
-            prefix={<FolderOpenOutlined />}
+            prefix={<FolderOpenOutlined/>}
             placeholder="请输入目录"
             onChange={event => setFileSessionInputPathActive(event.target.value)}
             value={fileSessionInputPathActive}
@@ -3478,7 +3519,7 @@ const FileSession = () => {
                 loading={listFileSessionReq.loading}
                 type="primary"
                 htmlType="submit"
-                icon={<ArrowRightOutlined />}
+                icon={<ArrowRightOutlined/>}
               />
             }
           />
@@ -3492,10 +3533,10 @@ const FileSession = () => {
                   hostAndSessionActive.session.id,
                   'list',
                   null,
-                  fileSessionListActive.path
+                  fileSessionListActive.path,
                 )
               }
-              icon={<SyncOutlined />}
+              icon={<SyncOutlined/>}
             />
           </Tooltip>
           <Tooltip placement="bottom" mouseEnterDelay={0.3} title="切换工作目录到当前目录">
@@ -3507,10 +3548,10 @@ const FileSession = () => {
                 onListFileSessionCd(
                   hostAndSessionActive.session.id,
                   'cd',
-                  fileSessionListActive.path
+                  fileSessionListActive.path,
                 )
               }
-              icon={<PushpinOutlined />}
+              icon={<PushpinOutlined/>}
             />
           </Tooltip>
           <Popover
@@ -3525,7 +3566,7 @@ const FileSession = () => {
                   onCreateFileSession(
                     hostAndSessionActive.session.id,
                     'create_dir',
-                    `${fileSessionListActive.path}/${value}`
+                    `${fileSessionListActive.path}/${value}`,
                   )
                 }
               />
@@ -3536,7 +3577,7 @@ const FileSession = () => {
               loading={createFileSessionReq.loading}
               style={{ width: 56 }}
               disabled={hostAndSessionActive.session.id === -1}
-              icon={<FolderAddOutlined />}
+              icon={<FolderAddOutlined/>}
             />
           </Popover>
           <Popover
@@ -3554,7 +3595,7 @@ const FileSession = () => {
               type="primary"
               style={{ width: 56 }}
               disabled={hostAndSessionActive.session.id === -1}
-              icon={<UploadOutlined />}
+              icon={<UploadOutlined/>}
             />
           </Popover>
         </Space>
@@ -3588,7 +3629,7 @@ const FileSession = () => {
                   hostAndSessionActive.session.id,
                   'list',
                   null,
-                  record.absolute_path
+                  record.absolute_path,
                 );
               }
             },
@@ -3609,28 +3650,28 @@ const FileSession = () => {
                 if (text === 'file') {
                   return (
                     <div style={{ textAlign: 'center' }}>
-                      <MyIcon type="icon-wenjian1" style={{ fontSize: '22px' }} />
+                      <MyIcon type="icon-wenjian1" style={{ fontSize: '22px' }}/>
                     </div>
                   );
                 }
                 if (text === 'directory') {
                   return (
                     <div style={{ textAlign: 'center' }}>
-                      <MyIcon type="icon-wenjian" style={{ fontSize: '26px' }} />
+                      <MyIcon type="icon-wenjian" style={{ fontSize: '26px' }}/>
                     </div>
                   );
                 }
                 if (text === 'fixed') {
                   return (
                     <div style={{ textAlign: 'center' }}>
-                      <MyIcon type="icon-yingpan" style={{ fontSize: '26px' }} />
+                      <MyIcon type="icon-yingpan" style={{ fontSize: '26px' }}/>
                     </div>
                   );
                 }
                 if (text === 'remote') {
                   return (
                     <div style={{ textAlign: 'center' }}>
-                      <MyIcon type="icon-zhichixiezaiguazai" style={{ fontSize: '26px' }} />
+                      <MyIcon type="icon-zhichixiezaiguazai" style={{ fontSize: '26px' }}/>
                     </div>
                   );
                 }
@@ -3638,13 +3679,13 @@ const FileSession = () => {
                 if (text === 'cdrom') {
                   return (
                     <div style={{ textAlign: 'center' }}>
-                      <MyIcon type="icon-CD" style={{ fontSize: '22px' }} />
+                      <MyIcon type="icon-CD" style={{ fontSize: '22px' }}/>
                     </div>
                   );
                 }
                 return (
                   <div style={{ textAlign: 'center' }}>
-                    <MyIcon type="icon-unknow" style={{ fontSize: '22px' }} />
+                    <MyIcon type="icon-unknow" style={{ fontSize: '22px' }}/>
                   </div>
                 );
               },
@@ -3718,7 +3759,7 @@ const FileSession = () => {
                             hostAndSessionActive.session.id,
                             'list',
                             null,
-                            record.absolute_path
+                            record.absolute_path,
                           )
                         }
                       >
@@ -3746,7 +3787,7 @@ const FileSession = () => {
                             hostAndSessionActive.session.id,
                             'list',
                             null,
-                            record.absolute_path
+                            record.absolute_path,
                           )
                         }
                       >
@@ -3765,7 +3806,7 @@ const FileSession = () => {
                             hostAndSessionActive.session.id,
                             'download',
                             record.absolute_path,
-                            null
+                            null,
                           )
                         }
                       >
@@ -3777,7 +3818,7 @@ const FileSession = () => {
                           onClick={() =>
                             onListFileSessionCat(
                               hostAndSessionActive.session.id,
-                              record.absolute_path
+                              record.absolute_path,
                             )
                           }
                         >
@@ -3799,7 +3840,7 @@ const FileSession = () => {
                                 hostAndSessionActive.session.id,
                                 'run',
                                 record.absolute_path,
-                                value
+                                value,
                               )
                             }
                           />
@@ -3866,8 +3907,9 @@ const HostInfo = () => {
           console.error(e);
         }
       },
-      onError: (error, params) => {},
-    }
+      onError: (error, params) => {
+      },
+    },
   );
   const listHostInfoReq = useRequest(getPostmodulePostModuleResultAPI, {
     manual: true,
@@ -3880,7 +3922,8 @@ const HostInfo = () => {
         console.error(e);
       }
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const onListHostInfo = record => {
@@ -3889,8 +3932,10 @@ const HostInfo = () => {
 
   const updateHostInfoReq = useRequest(postPostmodulePostModuleActuatorAPI, {
     manual: true,
-    onSuccess: (result, params) => {},
-    onError: (error, params) => {},
+    onSuccess: (result, params) => {
+    },
+    onError: (error, params) => {
+    },
   });
 
   const onUpdateHostInfo = () => {
@@ -4036,14 +4081,14 @@ const HostInfo = () => {
         <ButtonGroup>
           <Button
             type="primary"
-            icon={<SyncOutlined />}
+            icon={<SyncOutlined/>}
             onClick={() => onListHostInfo(hostAndSessionActive)}
             loading={listHostInfoReq.loading}
           >
             读取缓存
           </Button>
           <Button
-            icon={<RetweetOutlined />}
+            icon={<RetweetOutlined/>}
             loading={updateHostInfoReq.loading}
             onClick={() => onUpdateHostInfo()}
             disabled={
@@ -4194,15 +4239,17 @@ const PortService = () => {
       onSuccess: (result, params) => {
         setPortServiceActive(result);
       },
-      onError: (error, params) => {},
-    }
+      onError: (error, params) => {
+      },
+    },
   );
   const listPortServiceReq = useRequest(getPostlateralPortserviceAPI, {
     manual: true,
     onSuccess: (result, params) => {
       setPortServiceActive(result);
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const destoryPortServiceReq = useRequest(deletePostlateralPortserviceAPI, {
@@ -4210,7 +4257,8 @@ const PortService = () => {
     onSuccess: (result, params) => {
       listPortServiceReq.run({ ipaddress: hostAndSessionActive.ipaddress });
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const onDestoryPortService = record => {
@@ -4284,15 +4332,17 @@ const Vulnerability = () => {
       onSuccess: (result, params) => {
         setVulnerabilityActive(result);
       },
-      onError: (error, params) => {},
-    }
+      onError: (error, params) => {
+      },
+    },
   );
   const listVulnerabilityReq = useRequest(getPostlateralVulnerabilityAPI, {
     manual: true,
     onSuccess: (result, params) => {
       setVulnerabilityActive(result);
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const destoryVulnerabilityReq = useRequest(deletePostlateralVulnerabilityAPI, {
@@ -4300,7 +4350,8 @@ const Vulnerability = () => {
     onSuccess: (result, params) => {
       listVulnerabilityReq.run({ ipaddress: hostAndSessionActive.ipaddress });
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const onDestoryVulnerability = record => {
@@ -4366,7 +4417,8 @@ const UpdateHost = props => {
     onSuccess: (result, params) => {
       props.closeModal();
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const onUpdateHost = values => {
@@ -4382,18 +4434,18 @@ const UpdateHost = props => {
   };
   const hostTypeToAvatar = {
     ad_server: (
-      <Avatar shape="square" style={{ backgroundColor: '#177ddc' }} icon={<WindowsOutlined />} />
+      <Avatar shape="square" style={{ backgroundColor: '#177ddc' }} icon={<WindowsOutlined/>}/>
     ),
-    pc: <Avatar shape="square" style={{ backgroundColor: '#49aa19' }} icon={<LaptopOutlined />} />,
+    pc: <Avatar shape="square" style={{ backgroundColor: '#49aa19' }} icon={<LaptopOutlined/>}/>,
     web_server: (
-      <Avatar shape="square" style={{ backgroundColor: '#13a8a8' }} icon={<CloudOutlined />} />
+      <Avatar shape="square" style={{ backgroundColor: '#13a8a8' }} icon={<CloudOutlined/>}/>
     ),
-    cms: <Avatar shape="square" style={{ backgroundColor: '#d84a1b' }} icon={<BugOutlined />} />,
+    cms: <Avatar shape="square" style={{ backgroundColor: '#d84a1b' }} icon={<BugOutlined/>}/>,
     firewall: (
-      <Avatar shape="square" style={{ backgroundColor: '#d87a16' }} icon={<GatewayOutlined />} />
+      <Avatar shape="square" style={{ backgroundColor: '#d87a16' }} icon={<GatewayOutlined/>}/>
     ),
     other: (
-      <Avatar shape="square" style={{ backgroundColor: '#bfbfbf' }} icon={<QuestionOutlined />} />
+      <Avatar shape="square" style={{ backgroundColor: '#bfbfbf' }} icon={<QuestionOutlined/>}/>
     ),
   };
 
@@ -4435,11 +4487,11 @@ const UpdateHost = props => {
           rules={[{ message: '最长支持二十个字符', max: 20 }]}
           {...formLayout}
         >
-          <Input placeholder="最长支持二十个字符" />
+          <Input placeholder="最长支持二十个字符"/>
         </Form.Item>
         <Form.Item {...tailLayout}>
           <Button
-            icon={<DeliveredProcedureOutlined />}
+            icon={<DeliveredProcedureOutlined/>}
             block
             type="primary"
             htmlType="submit"

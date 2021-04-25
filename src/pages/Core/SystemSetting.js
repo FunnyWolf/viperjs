@@ -140,6 +140,27 @@ const SystemSetting = () => {
             </Row>
           </Card>
         </TabPane> : null}
+        {viperDebugFlag ? <TabPane tab="360Quake API" key="360Quake">
+          <Card style={{ marginTop: -16 }}>
+            <Row>
+              <Col span={16}>
+                <QuakeForm/>
+              </Col>
+              <Col span={8}>
+                <Typography>
+                  <Paragraph>
+                    <Title level={4}>配置方法</Title>
+                    <Text>申请开通Quake会员/账号,获取key</Text>
+                    <br/>
+                    <Text>参考 : </Text>
+                    <a href="https://quake.360.cn/quake/#/help?title=%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E">Quake
+                      API教程</a>
+                  </Paragraph>
+                </Typography>
+              </Col>
+            </Row>
+          </Card>
+        </TabPane> : null}
         <TabPane tab="Server酱 Bot" key="serverchan">
           <Card style={{ marginTop: -16 }}>
             <Row>
@@ -248,7 +269,18 @@ const SystemSetting = () => {
 };
 
 export const SystemSettingMemo = memo(SystemSetting);
-
+export const loginOut = () => {
+  const { query, pathname } = history.location;
+  const { redirect } = query;
+  setToken('guest');
+  reloadAuthorized();
+  // Note: There may be security issues, please note
+  if (window.location.pathname !== '/user/login' && !redirect) {
+    history.replace({
+      pathname: '/user/login',
+    });
+  }
+};
 const SystemInfo = () => {
   const {
     setPostModuleConfigListStateAll,
@@ -284,18 +316,6 @@ const SystemInfo = () => {
     },
   });
 
-  const loginOut = () => {
-    const { query, pathname } = history.location;
-    const { redirect } = query;
-    setToken('guest');
-    reloadAuthorized();
-    // Note: There may be security issues, please note
-    if (window.location.pathname !== '/user/login' && !redirect) {
-      history.replace({
-        pathname: '/user/login',
-      });
-    }
-  };
 
   return (
     <Card style={{ marginTop: -16 }}>
@@ -806,6 +826,84 @@ const FOFAForm = props => {
   );
 };
 
+const QuakeForm = props => {
+  const [quakeForm] = Form.useForm();
+  const [settingsQuake, setSettingsQuake] = useState({});
+
+  //初始化数据
+  const initListQuakeReq = useRequest(() => getCoreSettingAPI({ kind: 'Quake' }), {
+    onSuccess: (result, params) => {
+      setSettingsQuake(result);
+      quakeForm.setFieldsValue(result);
+    },
+    onError: (error, params) => {
+    },
+  });
+
+  const updateQuakeReq = useRequest(postCoreSettingAPI, {
+    manual: true,
+    onSuccess: (result, params) => {
+      setSettingsQuake(result);
+      quakeForm.setFieldsValue(result);
+    },
+    onError: (error, params) => {
+    },
+  });
+
+  const onUpdateFOFA = values => {
+    let params = {
+      kind: 'Quake',
+      tag: 'default',
+      setting: { ...values },
+    };
+    updateQuakeReq.run(params);
+  };
+
+  return (
+    <Form
+      form={quakeForm}
+      onFinish={onUpdateFOFA}
+      {...inputItemLayout}>
+      <Form.Item
+        label="key"
+        name="key"
+        rules={[
+          {
+            required: true,
+            message: '请输入key',
+          },
+        ]}
+      >
+        <Input/>
+      </Form.Item>
+      <Row>
+        <Col span={4}>
+        </Col>
+        <Col
+          style={{ marginTop: -16, marginBottom: 8 }}
+          span={4}>
+          {settingsQuake.alive ? (
+            <Badge status="processing" text="正常"/>
+          ) : (
+            <Badge status="error" text="不可用"/>
+          )}
+        </Col>
+      </Row>
+      <Form.Item {...buttonItemLayout}>
+        <Space>
+          <Button
+            icon={<DeliveredProcedureOutlined/>}
+            type="primary"
+            htmlType="submit"
+            loading={updateQuakeReq.loading}
+          >
+            更新
+          </Button>
+        </Space>
+      </Form.Item>
+    </Form>
+  );
+};
 
 const LHostForm = props => {
   const [lHostForm] = Form.useForm();

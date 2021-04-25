@@ -27,6 +27,7 @@ import {
   List,
   Modal,
   Popover,
+  Radio,
   Row,
   Select,
   Table,
@@ -124,7 +125,10 @@ export const RunModule = (props) => {
     REFERENCES: [],
     README: [],
     ATTCK: [],
-    SEARCH: null,
+    SEARCH: {
+      FOFA: null,
+      Quake: null,
+    },
   });
 
   const listPostModuleConfigReq = useRequest(getPostmodulePostModuleConfigAPI, {
@@ -907,6 +911,18 @@ export const RunBotModule = props => {
   const [ipportListState, setIpportListState] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
+  const [engineConfs, setEngineConfs] = useState({
+    FOFA: false,
+    Quake: false,
+  });
+
+  const listNetworkSearchEngineReq = useRequest(() => getCoreNetworkSearchAPI({ cmdtype: 'list_config' }), {
+    onSuccess: (result, params) => {
+      setEngineConfs(result);
+    },
+    onError: (error, params) => {
+    },
+  });
 
 
   const listPostModuleConfigReq = useRequest(getPostmodulePostModuleConfigAPI, {
@@ -972,6 +988,7 @@ export const RunBotModule = props => {
   const listNetworkSearchReq = useRequest(getCoreNetworkSearchAPI, {
     manual: true,
     onSuccess: (result, params) => {
+      console.log(result);
       setIpportListState(result);
     },
     onError: (error, params) => {
@@ -979,11 +996,14 @@ export const RunBotModule = props => {
   });
 
   const searchNetworkSubmit = values => {
-    let querystr = botModuleConfigActive.SEARCH;
-    if (values.inputstr !== undefined && values.inputstr !== null) {
-      querystr = querystr = '{0} && {1}'.format(botModuleConfigActive.SEARCH, values.inputstr);
-    }
-    listNetworkSearchReq.run({ engine: 'FOFA', querystr, page: values.page, size: values.size });
+    let moduleQuery = botModuleConfigActive.SEARCH[values.engine];
+    listNetworkSearchReq.run({
+      inputstr: values.inputstr,
+      moduleQuery: moduleQuery,
+      engine: values.engine,
+      page: values.page,
+      size: values.size,
+    });
   };
 
   const getOptions = botModuleConfigActive => {
@@ -1243,25 +1263,28 @@ export const RunBotModule = props => {
           padding: '0 0 0 0',
           marginRight: 8,
         }}
-        column={8}
+        column={12}
         bordered
       >
-        <Descriptions.Item label="名称" span={8}>
+        <Descriptions.Item label="名称" span={12}>
           {postModuleConfig.NAME}
         </Descriptions.Item>
-        <Descriptions.Item label="作者" span={4}>
+        <Descriptions.Item label="作者" span={12}>
           {authorCom}
         </Descriptions.Item>
-        <Descriptions.Item span={8} label="搜索关键字">
-          <pre>{postModuleConfig.SEARCH}</pre>
+        <Descriptions.Item span={12} label="FOFA">
+          <pre>{postModuleConfig.SEARCH.FOFA}</pre>
         </Descriptions.Item>
-        <Descriptions.Item label="使用文档" span={8}>
+        <Descriptions.Item span={12} label="360Quake">
+          <pre>{postModuleConfig.SEARCH.Quake}</pre>
+        </Descriptions.Item>
+        <Descriptions.Item label="使用文档" span={12}>
           {readmeCom}
         </Descriptions.Item>
-        <Descriptions.Item label="参考链接" span={8}>
+        <Descriptions.Item label="参考链接" span={12}>
           {referencesCom}
         </Descriptions.Item>
-        <Descriptions.Item span={8} label="简介">
+        <Descriptions.Item span={12} label="简介">
           <pre>{postModuleConfig.DESC}</pre>
         </Descriptions.Item>
       </Descriptions>
@@ -1276,18 +1299,16 @@ export const RunBotModule = props => {
 
   return (
     <Row>
-      <Col span={8}>
+      <Col span={6}>
         <Card bordered={false} className={styles.botModuleCard}>
-          <div style={{ display: 'flex' }}>
-            <Search
-              style={{}}
-              placeholder="搜索模块"
-              onSearch={value => handleModuleSearch(value)}
-            />
-          </div>
+          <Search
+            style={{}}
+            placeholder="搜索模块"
+            onSearch={value => handleModuleSearch(value)}
+          />
           <Table
             className={styles.botmoduleTableNew}
-            scroll={{ y: 'calc(100vh - 320px - 36px)' }}
+            scroll={{ y: 'calc(100vh - 120px)' }}
             rowClassName={styles.moduleTr}
             showHeader={false}
             onRow={record => ({
@@ -1301,67 +1322,92 @@ export const RunBotModule = props => {
             columns={postModuleConfigTableColumns}
             dataSource={botModuleConfigList}
           />
-          <Form layout="horizontal" onFinish={searchNetworkSubmit}>
-            <Form.Item name="inputstr">
-              <TextArea
-                placeholder="自定义搜索规则,参考FOFA官网"
-                autoSize={{ minRows: 2, maxRows: 2 }}
-              />
-            </Form.Item>
-            <Row>
-              <Col span={12}>
-                <Form.Item
-                  label="分页"
-                  name="page"
-                  initialValue={1}
-                  rules={[
-                    {
-                      type: 'number',
-                      min: 1,
-                    },
-                  ]}
-                >
-                  <InputNumber/>
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  label={<span>数量</span>}
-                  initialValue={100}
-                  rules={[
-                    {
-                      type: 'number',
-                      min: 1,
-                      max: 10000,
-                    },
-                  ]}
-                  name="size"
-                >
-                  <InputNumber/>
-                </Form.Item>
-              </Col>
-            </Row>
-            <Form.Item>
-              <Button
-                block
-                icon={<SearchOutlined/>}
-                type="primary"
-                htmlType="submit"
-                disabled={botModuleConfigActive.loadpath === null}
-                loading={listNetworkSearchReq.loading}
-              >
-                搜索
-              </Button>
-            </Form.Item>
-          </Form>
         </Card>
       </Col>
-      <Col span={16}>
+      <Col span={18}>
         <Tabs defaultActiveKey="ipportlist" style={{ marginTop: 12 }}>
           <TabPane
             tab={<span><RadarChartOutlined/>全网数据</span>}
             key="ipportlist"
           >
+            <Card
+              bordered={false}
+              bodyStyle={{ padding: '0px 8px 16px 0px' }}
+            >
+              <Form
+                layout="horizontal"
+                onFinish={searchNetworkSubmit}>
+                <Form.Item
+                  style={{ marginBottom: 12 }}
+                  name="inputstr"
+                  required>
+                  <TextArea
+                    placeholder='补充搜索规则,参考对应网络搜索引擎官网.&#13;&#10;FOFA: ip="172.172.172.172/24" && port="22"   360Quake: ip:"172.172.172.172/24" AND port:"22"'
+                    autoSize={{ minRows: 2, maxRows: 2 }}
+                  />
+                </Form.Item>
+                <Row
+                >
+                  <Col span={8}>
+                    <Form.Item
+                      label="搜索引擎"
+                      name="engine" required>
+                      <Radio.Group>
+                        <Radio.Button value="FOFA" disabled={!engineConfs.FOFA}>FOFA</Radio.Button>
+                        <Radio.Button value="Quake" disabled={!engineConfs.Quake}>360Quake</Radio.Button>
+                      </Radio.Group>
+                    </Form.Item>
+                  </Col>
+                  <Col span={4}>
+                    <Form.Item
+                      label="分页"
+                      name="page"
+                      required
+                      initialValue={1}
+                      rules={[
+                        {
+                          type: 'number',
+                          min: 1,
+                        },
+                      ]}
+                    >
+                      <InputNumber/>
+                    </Form.Item>
+                  </Col>
+                  <Col span={4}>
+                    <Form.Item
+                      required
+                      label={<span>数量</span>}
+                      initialValue={10}
+                      rules={[
+                        {
+                          type: 'number',
+                          min: 1,
+                          max: 1000,
+                        },
+                      ]}
+                      name="size"
+                    >
+                      <InputNumber/>
+                    </Form.Item>
+                  </Col>
+                  <Col span={8}>
+                    <Form.Item>
+                      <Button
+                        block
+                        icon={<SearchOutlined/>}
+                        type="primary"
+                        htmlType="submit"
+                        disabled={botModuleConfigActive.loadpath === null}
+                        loading={listNetworkSearchReq.loading}
+                      >
+                        搜索
+                      </Button>
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </Form>
+            </Card>
             <Card
               bordered={false}
               bodyStyle={{ padding: '0px 8px 16px 0px' }}
@@ -1371,7 +1417,7 @@ export const RunBotModule = props => {
                 style={{ marginTop: 0 }}
                 loading={listNetworkSearchReq.loading}
                 className={styles.searchHostsTable}
-                scroll={{ y: 'calc(100vh - 136px - 36px)' }}
+                scroll={{ y: 'calc(100vh - 320px)' }}
                 size="small"
                 bordered
                 pagination={false}
@@ -1434,7 +1480,7 @@ export const RunBotModule = props => {
             </Card>
           </TabPane>
           <TabPane
-            tab={<span><FormOutlined/>参数</span>}
+            tab={<span><FormOutlined/>模块参数</span>}
             key="params"
           >
             <Form
