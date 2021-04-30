@@ -6,7 +6,6 @@ import defaultSettings from '../src/defaultSettings';
 
 export default {
   // add for transfer to umi
-
   antd: {
     dark: true, // 开启暗色主题
     // compact: true, // 开启紧凑主题
@@ -19,7 +18,7 @@ export default {
     ios: false,
   },
   locale: {
-    antd: true, // default false
+    antd: false, // default false
     default: 'zh-CN', // default zh-CN
     baseNavigator: true, // default true, when it is true, will use `navigator.language` overwrite default
   },
@@ -59,7 +58,7 @@ export default {
       target: 'http://127.0.0.1:8002/',
       changeOrigin: true,
       ws: false,
-      pathRewrite: { '^/api/v1': '/api/v1' }, // /server/api/currentUser -> /api/currentUser
+      pathRewrite: { '^/api/v1': '/api/v1' },
     },
     '/ws/v1/': {
       target: 'ws://127.0.0.1:8002/',
