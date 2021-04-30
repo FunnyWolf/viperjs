@@ -7,8 +7,7 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { setAuthority, setToken } from '@/utils/authority';
 import { reloadAuthorized } from '@/utils/Authorized';
 
-
-const LoginPage = (props) => {
+const LoginPage = props => {
   const createBaseauthReq = useRequest(postCoreBaseauthAPI, {
     manual: true,
     onSuccess: (result, params) => {
@@ -17,10 +16,8 @@ const LoginPage = (props) => {
       reloadAuthorized();
       history.push('/');
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
-
 
   return (
     <div className={styles.main}>
@@ -41,9 +38,10 @@ const LoginPage = (props) => {
               message: '请输入用户名 (root)',
             },
           ]}
+          style={{ display: 'None' }}
           defaultValue={'root'}
         >
-          <Input prefix={<UserOutlined/>} placeholder="用户名"/>
+          <Input prefix={<UserOutlined />} placeholder="用户名" />
         </Form.Item>
         <Form.Item
           name="password"
@@ -54,11 +52,7 @@ const LoginPage = (props) => {
             },
           ]}
         >
-          <Input
-            prefix={<LockOutlined/>}
-            type="password"
-            placeholder="密码"
-          />
+          <Input prefix={<LockOutlined />} type="password" placeholder="密码" />
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" block loading={createBaseauthReq.loading}>
