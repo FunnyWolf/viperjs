@@ -385,6 +385,24 @@ export async function postCoreNoticesAPI(params) {
 }
 
 
+export async function getPostModuleAutoAPI(params) {
+  return request('/api/v1/postmodule/postmoduleauto/', {
+    params,
+  });
+}
 
+export async function postPostModuleAutoAPI(params) {
+  return request('/api/v1/postmodule/postmoduleauto/', {
+    method: 'POST',
+    data: params,
+  });
+}
+
+export async function deletePostModuleAutoAPI(params) {
+  return request('/api/v1/postmodule/postmoduleauto/', {
+    method: 'DELETE',
+    params,
+  });
+}
 
 

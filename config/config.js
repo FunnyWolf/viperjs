@@ -18,7 +18,7 @@ export default {
     ios: false,
   },
   locale: {
-    antd: false, // default false
+    antd: true, // default false
     default: 'zh-CN', // default zh-CN
     baseNavigator: true, // default true, when it is true, will use `navigator.language` overwrite default
   },

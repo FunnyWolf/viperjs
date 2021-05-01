@@ -43,6 +43,7 @@ import {
   deleteMsgrpcJobAPI,
   getCoreNetworkSearchAPI,
   getPostmodulePostModuleConfigAPI,
+  postPostModuleAutoAPI,
   postPostmodulePostModuleActuatorAPI,
 } from '@/services/apiv1';
 
@@ -864,6 +865,555 @@ export const RunModule = (props) => {
   );
 };
 export const RunModuleMemo = React.memo(RunModule);
+
+
+export const RunAutoModule = (props) => {
+  console.log('RunAutoModule');
+  const { closeModel, listData } = props;
+  const {
+    postModuleConfigListStateAll,
+  } = useModel('HostAndSessionModel', model => ({
+    postModuleConfigListStateAll: model.postModuleConfigListStateAll,
+  }));
+  const [text, setText] = useState('');
+
+  const getPins = () => {
+    if (localStorage.getItem('Pins') === null) {
+      localStorage.setItem('Pins', JSON.stringify([]));
+      return [];
+    }
+    return JSON.parse(localStorage.getItem('Pins'));
+  };
+
+  const changePin = loadpath => {
+    const pins = getPins();
+    const index = pins.indexOf(loadpath);
+    if (index > -1) {
+      pins.splice(index, 1);
+      localStorage.setItem('Pins', JSON.stringify(pins));
+      return pins;
+    }
+    pins.push(loadpath);
+    localStorage.setItem('Pins', JSON.stringify(pins));
+    return pins;
+  };
+
+  let postModuleConfigListStateSort = postModuleConfigListStateAll
+    .map(record => {
+      if (record.REQUIRE_SESSION) {
+        return { ...record };
+      } else {
+        return null;
+      }
+    }).filter(record => !!record);
+
+  const pins = getPins();
+  postModuleConfigListStateSort.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath));
+
+  const [postModuleConfigListState, setPostModuleConfigListState] = useState(postModuleConfigListStateSort);
+  const [postModuleConfigListStateTmp, setPostModuleConfigListStateTmp] = useState(postModuleConfigListStateSort);
+  const [postModuleConfigActive, setPostModuleConfigActive] = useState({
+    NAME: null,
+    DESC: null,
+    WARN: null,
+    AUTHOR: [],
+    OPTIONS: [],
+    REQUIRE_SESSION: true,
+    loadpath: null,
+    PERMISSIONS: [],
+    PLATFORM: [],
+    REFERENCES: [],
+    README: [],
+    ATTCK: [],
+    SEARCH: {
+      FOFA: null,
+      Quake: null,
+    },
+  });
+
+  const listPostModuleConfigReq = useRequest(getPostmodulePostModuleConfigAPI, {
+    manual: true,
+    onSuccess: (result, params) => {
+      setPostModuleConfigActive(result);
+    },
+    onError: (error, params) => {
+    },
+  });
+
+  const createPostModuleAutoReq = useRequest(postPostModuleAutoAPI, {
+    manual: true,
+    onSuccess: (result, params) => {
+      closeModel();
+      listData();
+    },
+    onError: (error, params) => {
+    },
+  });
+
+  const onCreatePostModuleAuto = (params) => {
+    createPostModuleAutoReq.run({
+      loadpath: postModuleConfigActive.loadpath,
+      custom_param: JSON.stringify(params),
+    });
+  };
+
+  const onPostModuleConfigListChange = postModuleConfigListState => {
+    const pins = getPins();
+    postModuleConfigListState.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath));
+    setPostModuleConfigListState(postModuleConfigListState);
+  };
+
+  const handleModuleSearch = value => {
+    const reg = new RegExp(value, 'gi');
+    onPostModuleConfigListChange(
+      postModuleConfigListStateTmp
+        .map(record => {
+          let NAMEMatch = false;
+          let DESCMatch = false;
+          let REFERENCESMatch = false;
+          try {
+            // toString().
+            // NAMEMatch = record.NAME.includes(value);
+            NAMEMatch = record.NAME.match(reg);
+            DESCMatch = record.DESC.match(reg);
+            REFERENCESMatch = record.REFERENCES.toString().match(reg);
+          } catch (error) {
+          }
+
+          if (NAMEMatch || DESCMatch || REFERENCESMatch) {
+            return {
+              ...record,
+            };
+          }
+          return null;
+        }).filter(record => !!record),
+    );
+  };
+
+
+  const moduleTypeOnChange = value => {
+    if (value === undefined) {
+      onPostModuleConfigListChange(postModuleConfigListStateTmp);
+      return;
+    }
+    if (value.length <= 0) {
+      onPostModuleConfigListChange(postModuleConfigListStateTmp);
+    } else {
+      const newpostModuleConfigListState = postModuleConfigListStateTmp.filter(
+        item => value.indexOf(item.MODULETYPE) >= 0,
+      );
+      onPostModuleConfigListChange(newpostModuleConfigListState);
+    }
+  };
+
+  const getOptions = () => {
+    const options = [];
+    for (const oneOption of postModuleConfigActive.OPTIONS) {
+      if (oneOption.type === 'str') {
+        options.push(
+          <Col span={oneOption.option_length}>
+            <Form.Item
+              label={
+                <Tooltip title={oneOption.desc}>
+                  <span>{oneOption.name_tag}</span>
+                </Tooltip>
+              }
+              name={oneOption.name}
+              initialValue={oneOption.default}
+              rules={[{ required: oneOption.required, message: '请输入' }]}
+            >
+              <Input style={{ width: '90%' }}
+                // defaultValue={oneOption.default}
+              />
+            </Form.Item>
+          </Col>,
+        );
+      } else if (oneOption.type === 'bool') {
+        options.push(
+          <Col span={oneOption.option_length}>
+            <Form.Item
+              label={
+                <Tooltip title={oneOption.desc}>
+                  <span>{oneOption.name_tag}</span>
+                </Tooltip>
+              }
+              name={oneOption.name}
+              valuePropName="checked"
+              initialValue={oneOption.default}
+              rules={[{ required: oneOption.required, message: '请输入' }]}
+            >
+              <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
+            </Form.Item>
+          </Col>,
+        );
+      } else if (oneOption.type === 'integer') {
+        options.push(
+          <Col span={oneOption.option_length}>
+            <Form.Item
+              label={
+                <Tooltip title={oneOption.desc}>
+                  <span>{oneOption.name_tag}</span>
+                </Tooltip>
+              }
+              name={oneOption.name}
+              initialValue={oneOption.default}
+              rules={[{ required: oneOption.required, message: '请输入' }]}
+              wrapperCol={{ span: 24 }}
+            >
+              <InputNumber style={{ width: '90%' }}
+                // defaultValue={oneOption.default}
+              />
+            </Form.Item>
+          </Col>,
+        );
+      } else if (oneOption.type === 'float') {
+        options.push(
+          <Col span={oneOption.option_length}>
+            <Form.Item
+              label={
+                <Tooltip title={oneOption.desc}>
+                  <span>{oneOption.name_tag}</span>
+                </Tooltip>
+              }
+              name={oneOption.name}
+              initialValue={oneOption.default}
+              rules={[{ required: oneOption.required, message: '请输入' }]}
+              wrapperCol={{ span: 24 }}
+            >
+              <InputNumber step={0.1} style={{ width: '90%' }}
+                // defaultValue={oneOption.default}
+              />
+            </Form.Item>
+          </Col>,
+        );
+      } else if (oneOption.type === 'enum') {
+        const selectOptions = [];
+        for (const oneselect of oneOption.enum_list) {
+          selectOptions.push(
+            <Option value={oneselect.value}>
+              <Tooltip mouseEnterDelay={0.3} title={oneselect.name}>
+                {oneselect.name}
+              </Tooltip>
+            </Option>,
+          );
+        }
+        options.push(
+          <Col span={oneOption.option_length}>
+            <Form.Item
+              label={
+                <Tooltip title={oneOption.desc}>
+                  <span>{oneOption.name_tag}</span>
+                </Tooltip>
+              }
+              name={oneOption.name}
+              initialValue={oneOption.default}
+              rules={[{ required: oneOption.required, message: '请输入' }]}
+              wrapperCol={{ span: 24 }}
+            >
+              <Select
+                allowClear
+                // defaultValue={oneOption.default}
+                style={{
+                  // minWidth: '90%',
+                  width: '90%',
+                }}
+              >
+                {selectOptions}
+              </Select>
+            </Form.Item>
+          </Col>,
+        );
+      } else {
+        options.push(
+          <Col span={oneOption.option_length}>
+            <Form.Item
+              label={
+                <Tooltip title={oneOption.desc}>
+                  <span>{oneOption.name_tag}</span>
+                </Tooltip>
+              }
+              name={oneOption.name}
+              initialValue={oneOption.default}
+              rules={[{ required: oneOption.required, message: '请输入' }]}
+              wrapperCol={{ span: 24 }}
+            >
+              <Input style={{ width: '90%' }}
+                // defaultValue={oneOption.default}
+              />
+            </Form.Item>
+          </Col>,
+        );
+      }
+    }
+    return options;
+  };
+
+  const ModuleInfoContent = props => {
+    const { postModuleConfig } = props;
+    if (postModuleConfig === undefined) {
+      return null;
+    }
+    const platform = postModuleConfig.PLATFORM;
+    const platformCom = [];
+    for (let i = 0; i < platform.length; i++) {
+      if (platform[i].toLowerCase() === 'windows') {
+        platformCom.push(<Tag color="blue">{platform[i]}</Tag>);
+      } else {
+        platformCom.push(<Tag color="magenta">{platform[i]}</Tag>);
+      }
+    }
+
+    const permissions = postModuleConfig.PERMISSIONS;
+    const permissionsCom = [];
+    for (let i = 0; i < permissions.length; i++) {
+      if (['system', 'root'].indexOf(permissions[i].toLowerCase()) >= 0) {
+        permissionsCom.push(<Tag color="volcano">{permissions[i]}</Tag>);
+      } else if (['administrator'].indexOf(permissions[i].toLowerCase()) >= 0) {
+        permissionsCom.push(<Tag color="orange">{permissions[i]}</Tag>);
+      } else {
+        permissionsCom.push(<Tag color="lime">{permissions[i]}</Tag>);
+      }
+    }
+    const readme = postModuleConfig.README;
+    const readmeCom = [];
+    for (let i = 0; i < readme.length; i++) {
+      readmeCom.push(
+        <div>
+          <a href={readme[i]} target="_blank">
+            {readme[i]}
+          </a>
+        </div>,
+      );
+    }
+
+    const references = postModuleConfig.REFERENCES;
+    const referencesCom = [];
+    for (let i = 0; i < references.length; i++) {
+      referencesCom.push(
+        <div>
+          <a href={references[i]} target="_blank">
+            {references[i]}
+          </a>
+        </div>,
+      );
+    }
+    const attcks = postModuleConfig.ATTCK;
+    const attckCom = [];
+    for (let i = 0; i < attcks.length; i++) {
+      attckCom.push(<Tag color="gold">{attcks[i]}</Tag>);
+    }
+
+    const authors = postModuleConfig.AUTHOR;
+    const authorCom = [];
+    for (let i = 0; i < authors.length; i++) {
+      authorCom.push(<Tag color="lime">{authors[i]}</Tag>);
+    }
+
+    return (
+      <Descriptions
+        size="small"
+        style={{
+          padding: '0 0 0 0',
+          marginRight: 8,
+        }}
+        column={8}
+        bordered
+      >
+        <Descriptions.Item label="名称" span={8}>
+          {postModuleConfig.NAME}
+        </Descriptions.Item>
+        <Descriptions.Item label="作者" span={4}>
+          {authorCom}
+        </Descriptions.Item>
+        <Descriptions.Item label="TTPs" span={4}>
+          {attckCom}
+        </Descriptions.Item>
+        <Descriptions.Item label="适用系统" span={4}>
+          {platformCom}
+        </Descriptions.Item>
+        <Descriptions.Item label="适用权限" span={4}>
+          {permissionsCom}
+        </Descriptions.Item>
+        <Descriptions.Item label="使用文档" span={8}>
+          {readmeCom}
+        </Descriptions.Item>
+        <Descriptions.Item label="参考链接" span={8}>
+          {referencesCom}
+        </Descriptions.Item>
+        <Descriptions.Item span={8} label="简介">
+          <pre>{postModuleConfig.DESC}</pre>
+        </Descriptions.Item>
+      </Descriptions>
+    );
+  };
+
+  const postModuleConfigTableColumns = [
+    {
+      dataIndex: 'NAME',
+      render: (text, record) => {
+        let selectStyles = {};
+        let tag = null;
+        if (record.loadpath === postModuleConfigActive.loadpath) {
+          selectStyles = {
+            color: '#d89614',
+            fontWeight: 'bolder',
+            fontSize: 15,
+          };
+        }
+        const pins = getPins();
+        const pinIcon =
+          pins.indexOf(record.loadpath) > -1 ? (
+            <StarTwoTone
+              twoToneColor="#d89614"
+              onClick={() => {
+                changePin(record.loadpath);
+                onPostModuleConfigListChange(postModuleConfigListState);
+              }}
+              style={{
+                marginTop: 4,
+                marginLeft: 4,
+                marginRight: 8,
+                float: 'left',
+                fontSize: '18px',
+              }}
+            />
+          ) : (
+            <StarOutlined
+              onClick={() => {
+                changePin(record.loadpath);
+                onPostModuleConfigListChange(postModuleConfigListState);
+              }}
+              style={{
+                marginTop: 4,
+                marginLeft: 4,
+                marginRight: 8,
+                float: 'left',
+                fontSize: '18px',
+              }}
+            />
+          );
+
+        return (
+          <div style={{ display: 'inline' }}>
+            {pinIcon}
+            <a style={{ ...selectStyles }}>{text}</a>
+          </div>
+        );
+      },
+    },
+  ];
+
+  return (
+    <Fragment>
+      <Row>
+        <Col span={8}>
+          <Card bordered={false}>
+            <div style={{ display: 'flex' }}>
+              <Select style={{ width: 146 }} onChange={moduleTypeOnChange} allowClear>
+                <Option value="Initial_Access">初始访问</Option>
+                <Option value="Execution">执行</Option>
+                <Option value="Persistence">持久化</Option>
+                <Option value="Privilege_Escalation">权限提升</Option>
+                <Option value="Defense_Evasion">防御绕过</Option>
+                <Option value="Credential_Access">凭证访问</Option>
+                <Option value="Discovery">信息收集</Option>
+                <Option value="Lateral_Movement">横向移动</Option>
+                {/*<Option value="Collection">数据采集</Option>*/}
+                {/*<Option value="Command_and_Control">命令控制</Option>*/}
+              </Select>
+              <Input
+                allowClear
+                prefix={<SearchOutlined/>}
+                style={{ width: '100%' }}
+                placeholder="名称/说明/TTPs"
+                value={text}
+                onChange={e => {
+                  setText(e.target.value);
+                  handleModuleSearch(e.target.value);
+                }}
+              />
+            </div>
+            <Table
+              className={styles.moduleTableNew}
+              scroll={{ y: 'calc(80vh)' }}
+              rowClassName={styles.moduleTr}
+              showHeader={false}
+              onRow={record => ({
+                onClick: () => listPostModuleConfigReq.run({ loadpath: record.loadpath }),
+              })}
+              size="small"
+              bordered
+              pagination={false}
+              rowKey={item => item.loadpath}
+              columns={postModuleConfigTableColumns}
+              dataSource={postModuleConfigListState}
+            />
+          </Card>
+        </Col>
+        <Col span={16}>
+          <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
+            <TabPane
+              tab={
+                <span><FormOutlined/>参数</span>
+              }
+              key="params"
+            >
+              <Form
+                className={styles.moduleCardNew}
+                style={{ marginBottom: 16 }}
+                layout="vertical"
+                wrapperCol={{ span: 24 }}
+                onFinish={onCreatePostModuleAuto}
+              >
+                <Row>{getOptions()}</Row>
+                <Row>
+                  {postModuleConfigActive.WARN === null ||
+                  postModuleConfigActive.WARN === undefined ? null : (
+                    <Col span={22}>
+                      <Alert
+                        style={{ marginBottom: 16 }}
+                        type="warning"
+                        showIcon
+                        message={postModuleConfigActive.WARN}
+                      />
+                    </Col>
+                  )}
+                  <Col span={22}>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      block
+                      disabled={postModuleConfigActive.loadpath === null}
+                      icon={<CaretRightOutlined/>}
+                      loading={
+                        createPostModuleAutoReq.loading || listPostModuleConfigReq.loading
+                      }
+                    >
+                      执行
+                    </Button>
+                  </Col>
+                </Row>
+              </Form>
+            </TabPane>
+            <TabPane
+              tab={
+                <span>
+                    <InfoCircleOutlined/>
+                    说明
+                  </span>
+              }
+              key="desc"
+            >
+              <ModuleInfoContent postModuleConfig={postModuleConfigActive}/>
+            </TabPane>
+          </Tabs>
+        </Col>
+      </Row>
+    </Fragment>
+  );
+};
+export const RunAutoModuleMemo = React.memo(RunAutoModule);
+
 
 export const RunBotModule = props => {
   console.log('RunBotModule');
@@ -1920,6 +2470,7 @@ export const PostModule = props => {
   );
 };
 export const PostModuleMemo = memo(PostModule);
+
 
 export const ModuleInfo = ({ postModuleConfig }) => {
   const references = postModuleConfig.REFERENCES;
