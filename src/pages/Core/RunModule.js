@@ -59,17 +59,16 @@ String.prototype.format = function() {
   });
 };
 
-
-export const RunModule = (props) => {
+export const RunModule = props => {
   console.log('RunModule');
   const { closeModel } = props;
-  const {
-    hostAndSessionActive,
-    postModuleConfigListStateAll,
-  } = useModel('HostAndSessionModel', model => ({
-    hostAndSessionActive: model.hostAndSessionActive,
-    postModuleConfigListStateAll: model.postModuleConfigListStateAll,
-  }));
+  const { hostAndSessionActive, postModuleConfigListStateAll } = useModel(
+    'HostAndSessionModel',
+    model => ({
+      hostAndSessionActive: model.hostAndSessionActive,
+      postModuleConfigListStateAll: model.postModuleConfigListStateAll,
+    })
+  );
   const [text, setText] = useState('');
 
   const getPins = () => {
@@ -106,13 +105,18 @@ export const RunModule = (props) => {
         return null;
       }
       return { ...record };
-    }).filter(record => !!record);
+    })
+    .filter(record => !!record);
 
   const pins = getPins();
   postModuleConfigListStateSort.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath));
 
-  const [postModuleConfigListState, setPostModuleConfigListState] = useState(postModuleConfigListStateSort);
-  const [postModuleConfigListStateTmp, setPostModuleConfigListStateTmp] = useState(postModuleConfigListStateSort);
+  const [postModuleConfigListState, setPostModuleConfigListState] = useState(
+    postModuleConfigListStateSort
+  );
+  const [postModuleConfigListStateTmp, setPostModuleConfigListStateTmp] = useState(
+    postModuleConfigListStateSort
+  );
   const [postModuleConfigActive, setPostModuleConfigActive] = useState({
     NAME: null,
     DESC: null,
@@ -137,8 +141,7 @@ export const RunModule = (props) => {
     onSuccess: (result, params) => {
       setPostModuleConfigActive(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const createPostModuleActuatorReq = useRequest(postPostmodulePostModuleActuatorAPI, {
@@ -146,11 +149,10 @@ export const RunModule = (props) => {
     onSuccess: (result, params) => {
       closeModel();
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
-  const onCreatePostModuleActuator = (params) => {
+  const onCreatePostModuleActuator = params => {
     createPostModuleActuatorReq.run({
       ipaddress: hostAndSessionActive.ipaddress,
       sessionid: hostAndSessionActive.session.id,
@@ -179,8 +181,7 @@ export const RunModule = (props) => {
             NAMEMatch = record.NAME.match(reg);
             DESCMatch = record.DESC.match(reg);
             REFERENCESMatch = record.REFERENCES.toString().match(reg);
-          } catch (error) {
-          }
+          } catch (error) {}
 
           if (NAMEMatch || DESCMatch || REFERENCESMatch) {
             return {
@@ -188,10 +189,10 @@ export const RunModule = (props) => {
             };
           }
           return null;
-        }).filter(record => !!record),
+        })
+        .filter(record => !!record)
     );
   };
-
 
   const moduleTypeOnChange = value => {
     if (value === undefined) {
@@ -202,7 +203,7 @@ export const RunModule = (props) => {
       onPostModuleConfigListChange(postModuleConfigListStateTmp);
     } else {
       const newpostModuleConfigListState = postModuleConfigListStateTmp.filter(
-        item => value.indexOf(item.MODULETYPE) >= 0,
+        item => value.indexOf(item.MODULETYPE) >= 0
       );
       onPostModuleConfigListChange(newpostModuleConfigListState);
     }
@@ -224,11 +225,12 @@ export const RunModule = (props) => {
               initialValue={oneOption.default}
               rules={[{ required: oneOption.required, message: '请输入' }]}
             >
-              <Input style={{ width: '90%' }}
+              <Input
+                style={{ width: '90%' }}
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>,
+          </Col>
         );
       } else if (oneOption.type === 'bool') {
         options.push(
@@ -244,9 +246,9 @@ export const RunModule = (props) => {
               initialValue={oneOption.default}
               rules={[{ required: oneOption.required, message: '请输入' }]}
             >
-              <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
+              <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default} />
             </Form.Item>
-          </Col>,
+          </Col>
         );
       } else if (oneOption.type === 'integer') {
         options.push(
@@ -262,11 +264,12 @@ export const RunModule = (props) => {
               rules={[{ required: oneOption.required, message: '请输入' }]}
               wrapperCol={{ span: 24 }}
             >
-              <InputNumber style={{ width: '90%' }}
+              <InputNumber
+                style={{ width: '90%' }}
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>,
+          </Col>
         );
       } else if (oneOption.type === 'float') {
         options.push(
@@ -282,11 +285,13 @@ export const RunModule = (props) => {
               rules={[{ required: oneOption.required, message: '请输入' }]}
               wrapperCol={{ span: 24 }}
             >
-              <InputNumber step={0.1} style={{ width: '90%' }}
+              <InputNumber
+                step={0.1}
+                style={{ width: '90%' }}
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>,
+          </Col>
         );
       } else if (oneOption.type === 'enum') {
         const selectOptions = [];
@@ -296,7 +301,7 @@ export const RunModule = (props) => {
               <Tooltip mouseEnterDelay={0.3} title={oneselect.name}>
                 {oneselect.name}
               </Tooltip>
-            </Option>,
+            </Option>
           );
         }
         options.push(
@@ -323,7 +328,7 @@ export const RunModule = (props) => {
                 {selectOptions}
               </Select>
             </Form.Item>
-          </Col>,
+          </Col>
         );
       } else {
         options.push(
@@ -339,11 +344,12 @@ export const RunModule = (props) => {
               rules={[{ required: oneOption.required, message: '请输入' }]}
               wrapperCol={{ span: 24 }}
             >
-              <Input style={{ width: '90%' }}
+              <Input
+                style={{ width: '90%' }}
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>,
+          </Col>
         );
       }
     }
@@ -384,7 +390,7 @@ export const RunModule = (props) => {
           <a href={readme[i]} target="_blank">
             {readme[i]}
           </a>
-        </div>,
+        </div>
       );
     }
 
@@ -396,7 +402,7 @@ export const RunModule = (props) => {
           <a href={references[i]} target="_blank">
             {references[i]}
           </a>
-        </div>,
+        </div>
       );
     }
     const attcks = postModuleConfig.ATTCK;
@@ -505,7 +511,6 @@ export const RunModule = (props) => {
     },
   ];
 
-
   // session 信息
   const record = hostAndSessionActive;
   if (record.session === null || record.session === undefined) {
@@ -582,10 +587,10 @@ export const RunModule = (props) => {
   // 连接标签
   const connecttooltip = (
     <span>
-        {' '}
+      {' '}
       {record.session.tunnel_peer_locate} {record.session.tunnel_peer} {'-> '}
       {record.session.tunnel_local}
-      </span>
+    </span>
   );
   const connectTag = (
     <Tooltip mouseEnterDelay={1} placement="right" title={connecttooltip}>
@@ -604,16 +609,13 @@ export const RunModule = (props) => {
   );
   // handler标签
   const jobidTagTooltip = (
-    <span>{record.session.job_info.PAYLOAD}{' '}
-      {record.session.job_info.LHOST}{' '}
-      {record.session.job_info.RHOST}{' '}
-      {record.session.job_info.LPORT}{' '}</span>
+    <span>
+      {record.session.job_info.PAYLOAD} {record.session.job_info.LHOST}{' '}
+      {record.session.job_info.RHOST} {record.session.job_info.LPORT}{' '}
+    </span>
   );
   const jobidTag = (
-    <Tooltip
-      mouseEnterDelay={1}
-      placement="bottomLeft"
-      title={jobidTagTooltip}>
+    <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={jobidTagTooltip}>
       <Tag
         color="lime"
         style={{
@@ -729,7 +731,6 @@ export const RunModule = (props) => {
     );
   }
 
-
   return (
     <Fragment>
       <Row>
@@ -750,7 +751,7 @@ export const RunModule = (props) => {
               </Select>
               <Input
                 allowClear
-                prefix={<SearchOutlined/>}
+                prefix={<SearchOutlined />}
                 style={{ width: '100%' }}
                 placeholder="名称/说明/TTPs"
                 value={text}
@@ -781,7 +782,10 @@ export const RunModule = (props) => {
           <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
             <TabPane
               tab={
-                <span><FormOutlined/>参数</span>
+                <span>
+                  <FormOutlined />
+                  参数
+                </span>
               }
               key="params"
             >
@@ -836,7 +840,7 @@ export const RunModule = (props) => {
                       htmlType="submit"
                       block
                       disabled={postModuleConfigActive.loadpath === null}
-                      icon={<CaretRightOutlined/>}
+                      icon={<CaretRightOutlined />}
                       loading={
                         createPostModuleActuatorReq.loading || listPostModuleConfigReq.loading
                       }
@@ -850,13 +854,13 @@ export const RunModule = (props) => {
             <TabPane
               tab={
                 <span>
-                    <InfoCircleOutlined/>
-                    说明
-                  </span>
+                  <InfoCircleOutlined />
+                  说明
+                </span>
               }
               key="desc"
             >
-              <ModuleInfoContent postModuleConfig={postModuleConfigActive}/>
+              <ModuleInfoContent postModuleConfig={postModuleConfigActive} />
             </TabPane>
           </Tabs>
         </Col>
@@ -866,13 +870,10 @@ export const RunModule = (props) => {
 };
 export const RunModuleMemo = React.memo(RunModule);
 
-
-export const RunAutoModule = (props) => {
+export const RunAutoModule = props => {
   console.log('RunAutoModule');
   const { closeModel, listData } = props;
-  const {
-    postModuleConfigListStateAll,
-  } = useModel('HostAndSessionModel', model => ({
+  const { postModuleConfigListStateAll } = useModel('HostAndSessionModel', model => ({
     postModuleConfigListStateAll: model.postModuleConfigListStateAll,
   }));
   const [text, setText] = useState('');
@@ -905,13 +906,18 @@ export const RunAutoModule = (props) => {
       } else {
         return null;
       }
-    }).filter(record => !!record);
+    })
+    .filter(record => !!record);
 
   const pins = getPins();
   postModuleConfigListStateSort.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath));
 
-  const [postModuleConfigListState, setPostModuleConfigListState] = useState(postModuleConfigListStateSort);
-  const [postModuleConfigListStateTmp, setPostModuleConfigListStateTmp] = useState(postModuleConfigListStateSort);
+  const [postModuleConfigListState, setPostModuleConfigListState] = useState(
+    postModuleConfigListStateSort
+  );
+  const [postModuleConfigListStateTmp, setPostModuleConfigListStateTmp] = useState(
+    postModuleConfigListStateSort
+  );
   const [postModuleConfigActive, setPostModuleConfigActive] = useState({
     NAME: null,
     DESC: null,
@@ -936,8 +942,7 @@ export const RunAutoModule = (props) => {
     onSuccess: (result, params) => {
       setPostModuleConfigActive(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const createPostModuleAutoReq = useRequest(postPostModuleAutoAPI, {
@@ -946,11 +951,10 @@ export const RunAutoModule = (props) => {
       closeModel();
       listData();
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
-  const onCreatePostModuleAuto = (params) => {
+  const onCreatePostModuleAuto = params => {
     createPostModuleAutoReq.run({
       loadpath: postModuleConfigActive.loadpath,
       custom_param: JSON.stringify(params),
@@ -977,8 +981,7 @@ export const RunAutoModule = (props) => {
             NAMEMatch = record.NAME.match(reg);
             DESCMatch = record.DESC.match(reg);
             REFERENCESMatch = record.REFERENCES.toString().match(reg);
-          } catch (error) {
-          }
+          } catch (error) {}
 
           if (NAMEMatch || DESCMatch || REFERENCESMatch) {
             return {
@@ -986,10 +989,10 @@ export const RunAutoModule = (props) => {
             };
           }
           return null;
-        }).filter(record => !!record),
+        })
+        .filter(record => !!record)
     );
   };
-
 
   const moduleTypeOnChange = value => {
     if (value === undefined) {
@@ -1000,7 +1003,7 @@ export const RunAutoModule = (props) => {
       onPostModuleConfigListChange(postModuleConfigListStateTmp);
     } else {
       const newpostModuleConfigListState = postModuleConfigListStateTmp.filter(
-        item => value.indexOf(item.MODULETYPE) >= 0,
+        item => value.indexOf(item.MODULETYPE) >= 0
       );
       onPostModuleConfigListChange(newpostModuleConfigListState);
     }
@@ -1022,11 +1025,12 @@ export const RunAutoModule = (props) => {
               initialValue={oneOption.default}
               rules={[{ required: oneOption.required, message: '请输入' }]}
             >
-              <Input style={{ width: '90%' }}
+              <Input
+                style={{ width: '90%' }}
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>,
+          </Col>
         );
       } else if (oneOption.type === 'bool') {
         options.push(
@@ -1042,9 +1046,9 @@ export const RunAutoModule = (props) => {
               initialValue={oneOption.default}
               rules={[{ required: oneOption.required, message: '请输入' }]}
             >
-              <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
+              <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default} />
             </Form.Item>
-          </Col>,
+          </Col>
         );
       } else if (oneOption.type === 'integer') {
         options.push(
@@ -1060,11 +1064,12 @@ export const RunAutoModule = (props) => {
               rules={[{ required: oneOption.required, message: '请输入' }]}
               wrapperCol={{ span: 24 }}
             >
-              <InputNumber style={{ width: '90%' }}
+              <InputNumber
+                style={{ width: '90%' }}
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>,
+          </Col>
         );
       } else if (oneOption.type === 'float') {
         options.push(
@@ -1080,11 +1085,13 @@ export const RunAutoModule = (props) => {
               rules={[{ required: oneOption.required, message: '请输入' }]}
               wrapperCol={{ span: 24 }}
             >
-              <InputNumber step={0.1} style={{ width: '90%' }}
+              <InputNumber
+                step={0.1}
+                style={{ width: '90%' }}
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>,
+          </Col>
         );
       } else if (oneOption.type === 'enum') {
         const selectOptions = [];
@@ -1094,7 +1101,7 @@ export const RunAutoModule = (props) => {
               <Tooltip mouseEnterDelay={0.3} title={oneselect.name}>
                 {oneselect.name}
               </Tooltip>
-            </Option>,
+            </Option>
           );
         }
         options.push(
@@ -1121,7 +1128,7 @@ export const RunAutoModule = (props) => {
                 {selectOptions}
               </Select>
             </Form.Item>
-          </Col>,
+          </Col>
         );
       } else {
         options.push(
@@ -1137,11 +1144,12 @@ export const RunAutoModule = (props) => {
               rules={[{ required: oneOption.required, message: '请输入' }]}
               wrapperCol={{ span: 24 }}
             >
-              <Input style={{ width: '90%' }}
+              <Input
+                style={{ width: '90%' }}
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>,
+          </Col>
         );
       }
     }
@@ -1182,7 +1190,7 @@ export const RunAutoModule = (props) => {
           <a href={readme[i]} target="_blank">
             {readme[i]}
           </a>
-        </div>,
+        </div>
       );
     }
 
@@ -1194,7 +1202,7 @@ export const RunAutoModule = (props) => {
           <a href={references[i]} target="_blank">
             {references[i]}
           </a>
-        </div>,
+        </div>
       );
     }
     const attcks = postModuleConfig.ATTCK;
@@ -1323,7 +1331,7 @@ export const RunAutoModule = (props) => {
               </Select>
               <Input
                 allowClear
-                prefix={<SearchOutlined/>}
+                prefix={<SearchOutlined />}
                 style={{ width: '100%' }}
                 placeholder="名称/说明/TTPs"
                 value={text}
@@ -1354,7 +1362,10 @@ export const RunAutoModule = (props) => {
           <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
             <TabPane
               tab={
-                <span><FormOutlined/>参数</span>
+                <span>
+                  <FormOutlined />
+                  参数
+                </span>
               }
               key="params"
             >
@@ -1384,10 +1395,8 @@ export const RunAutoModule = (props) => {
                       htmlType="submit"
                       block
                       disabled={postModuleConfigActive.loadpath === null}
-                      icon={<CaretRightOutlined/>}
-                      loading={
-                        createPostModuleAutoReq.loading || listPostModuleConfigReq.loading
-                      }
+                      icon={<CaretRightOutlined />}
+                      loading={createPostModuleAutoReq.loading || listPostModuleConfigReq.loading}
                     >
                       执行
                     </Button>
@@ -1398,13 +1407,13 @@ export const RunAutoModule = (props) => {
             <TabPane
               tab={
                 <span>
-                    <InfoCircleOutlined/>
-                    说明
-                  </span>
+                  <InfoCircleOutlined />
+                  说明
+                </span>
               }
               key="desc"
             >
-              <ModuleInfoContent postModuleConfig={postModuleConfigActive}/>
+              <ModuleInfoContent postModuleConfig={postModuleConfigActive} />
             </TabPane>
           </Tabs>
         </Col>
@@ -1413,7 +1422,6 @@ export const RunAutoModule = (props) => {
   );
 };
 export const RunAutoModuleMemo = React.memo(RunAutoModule);
-
 
 export const RunBotModule = props => {
   console.log('RunBotModule');
@@ -1466,14 +1474,15 @@ export const RunBotModule = props => {
     Quake: false,
   });
 
-  const listNetworkSearchEngineReq = useRequest(() => getCoreNetworkSearchAPI({ cmdtype: 'list_config' }), {
-    onSuccess: (result, params) => {
-      setEngineConfs(result);
-    },
-    onError: (error, params) => {
-    },
-  });
-
+  const listNetworkSearchEngineReq = useRequest(
+    () => getCoreNetworkSearchAPI({ cmdtype: 'list_config' }),
+    {
+      onSuccess: (result, params) => {
+        setEngineConfs(result);
+      },
+      onError: (error, params) => {},
+    }
+  );
 
   const listPostModuleConfigReq = useRequest(getPostmodulePostModuleConfigAPI, {
     manual: true,
@@ -1482,20 +1491,16 @@ export const RunBotModule = props => {
       setSelectedRowKeys([]);
       setSelectedRows([]);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const createPostModuleActuatorReq = useRequest(postPostmodulePostModuleActuatorAPI, {
     manual: true,
-    onSuccess: (result, params) => {
-
-    },
-    onError: (error, params) => {
-    },
+    onSuccess: (result, params) => {},
+    onError: (error, params) => {},
   });
 
-  const onCreatePostModuleActuator = (params) => {
+  const onCreatePostModuleActuator = params => {
     createPostModuleActuatorReq.run({
       moduletype: 'Bot',
       ipportlist: selectedRows,
@@ -1522,8 +1527,7 @@ export const RunBotModule = props => {
             NAMEMatch = record.NAME.match(reg);
             DESCMatch = record.DESC.match(reg);
             REFERENCESMatch = record.REFERENCES.toString().match(reg);
-          } catch (error) {
-          }
+          } catch (error) {}
 
           if (NAMEMatch || DESCMatch || REFERENCESMatch) {
             return {
@@ -1531,7 +1535,8 @@ export const RunBotModule = props => {
             };
           }
           return null;
-        }).filter(record => !!record),
+        })
+        .filter(record => !!record)
     );
   };
 
@@ -1541,8 +1546,7 @@ export const RunBotModule = props => {
       console.log(result);
       setIpportListState(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const searchNetworkSubmit = values => {
@@ -1572,11 +1576,12 @@ export const RunBotModule = props => {
               name={oneOption.name}
               rules={[{ required: oneOption.required, message: '请输入' }]}
             >
-              <Input style={{ width: '90%' }}
+              <Input
+                style={{ width: '90%' }}
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>,
+          </Col>
         );
       } else if (oneOption.type === 'bool') {
         options.push(
@@ -1592,9 +1597,9 @@ export const RunBotModule = props => {
               valuePropName="checked"
               rules={[{ required: oneOption.required, message: '请输入' }]}
             >
-              <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
+              <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default} />
             </Form.Item>
-          </Col>,
+          </Col>
         );
       } else if (oneOption.type === 'integer') {
         options.push(
@@ -1610,11 +1615,12 @@ export const RunBotModule = props => {
               rules={[{ required: oneOption.required, message: '请输入' }]}
               wrapperCol={{ span: 24 }}
             >
-              <InputNumber style={{ width: '90%' }}
+              <InputNumber
+                style={{ width: '90%' }}
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>,
+          </Col>
         );
       } else if (oneOption.type === 'float') {
         options.push(
@@ -1630,11 +1636,13 @@ export const RunBotModule = props => {
               rules={[{ required: oneOption.required, message: '请输入' }]}
               wrapperCol={{ span: 24 }}
             >
-              <InputNumber step={0.1} style={{ width: '90%' }}
+              <InputNumber
+                step={0.1}
+                style={{ width: '90%' }}
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>,
+          </Col>
         );
       } else if (oneOption.type === 'enum') {
         const selectOptions = [];
@@ -1644,7 +1652,7 @@ export const RunBotModule = props => {
               <Tooltip mouseEnterDelay={0.3} title={oneselect.name}>
                 {oneselect.name}
               </Tooltip>
-            </Option>,
+            </Option>
           );
         }
         options.push(
@@ -1671,7 +1679,7 @@ export const RunBotModule = props => {
                 {selectOptions}
               </Select>
             </Form.Item>
-          </Col>,
+          </Col>
         );
       } else {
         options.push(
@@ -1687,17 +1695,17 @@ export const RunBotModule = props => {
               rules={[{ required: oneOption.required, message: '请输入' }]}
               wrapperCol={{ span: 24 }}
             >
-              <Input style={{ width: '90%' }}
+              <Input
+                style={{ width: '90%' }}
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>,
+          </Col>
         );
       }
     }
     return options;
   };
-
 
   const onSelectChange = (selectedRowKeys, selectedRows) => {
     setSelectedRowKeys(selectedRowKeys);
@@ -1708,7 +1716,6 @@ export const RunBotModule = props => {
     {
       dataIndex: 'NAME',
       render: (text, record) => {
-
         const pins = getPins();
         const pinIcon =
           pins.indexOf(record.loadpath) > -1 ? (
@@ -1758,17 +1765,12 @@ export const RunBotModule = props => {
             }}
           >
             {pinIcon}
-            <a
-              style={{ marginLeft: 4, ...selectStyles }}
-            >
-              {text}
-            </a>
+            <a style={{ marginLeft: 4, ...selectStyles }}>{text}</a>
           </div>
         );
       },
     },
   ];
-
 
   const options = getOptions(botModuleConfigActive);
 
@@ -1785,7 +1787,7 @@ export const RunBotModule = props => {
           <a href={readme[i]} target="_blank">
             {readme[i]}
           </a>
-        </div>,
+        </div>
       );
     }
     const references = postModuleConfig.REFERENCES;
@@ -1796,7 +1798,7 @@ export const RunBotModule = props => {
           <a href={references[i]} target="_blank">
             {references[i]}
           </a>
-        </div>,
+        </div>
       );
     }
 
@@ -1846,16 +1848,11 @@ export const RunBotModule = props => {
     onChange: onSelectChange,
   };
 
-
   return (
     <Row>
       <Col span={6}>
         <Card bordered={false} className={styles.botModuleCard}>
-          <Search
-            style={{}}
-            placeholder="搜索模块"
-            onSearch={value => handleModuleSearch(value)}
-          />
+          <Search style={{}} placeholder="搜索模块" onSearch={value => handleModuleSearch(value)} />
           <Table
             className={styles.botmoduleTableNew}
             scroll={{ y: 'calc(100vh - 120px)' }}
@@ -1877,34 +1874,32 @@ export const RunBotModule = props => {
       <Col span={18}>
         <Tabs defaultActiveKey="ipportlist" style={{ marginTop: 12 }}>
           <TabPane
-            tab={<span><RadarChartOutlined/>全网数据</span>}
+            tab={
+              <span>
+                <RadarChartOutlined />
+                全网数据
+              </span>
+            }
             key="ipportlist"
           >
-            <Card
-              bordered={false}
-              bodyStyle={{ padding: '0px 8px 16px 0px' }}
-            >
-              <Form
-                layout="horizontal"
-                onFinish={searchNetworkSubmit}>
-                <Form.Item
-                  style={{ marginBottom: 12 }}
-                  name="inputstr"
-                  required>
+            <Card bordered={false} bodyStyle={{ padding: '0px 8px 16px 0px' }}>
+              <Form layout="horizontal" onFinish={searchNetworkSubmit}>
+                <Form.Item style={{ marginBottom: 12 }} name="inputstr" required>
                   <TextArea
                     placeholder='补充搜索规则,参考对应网络搜索引擎官网.&#13;&#10;FOFA: ip="172.172.172.172/24" && port="22"   360Quake: ip:"172.172.172.172/24" AND port:"22"'
                     autoSize={{ minRows: 2, maxRows: 2 }}
                   />
                 </Form.Item>
-                <Row
-                >
+                <Row>
                   <Col span={8}>
-                    <Form.Item
-                      label="搜索引擎"
-                      name="engine" required>
+                    <Form.Item label="搜索引擎" name="engine" required>
                       <Radio.Group>
-                        <Radio.Button value="FOFA" disabled={!engineConfs.FOFA}>FOFA</Radio.Button>
-                        <Radio.Button value="Quake" disabled={!engineConfs.Quake}>360Quake</Radio.Button>
+                        <Radio.Button value="FOFA" disabled={!engineConfs.FOFA}>
+                          FOFA
+                        </Radio.Button>
+                        <Radio.Button value="Quake" disabled={!engineConfs.Quake}>
+                          360Quake
+                        </Radio.Button>
                       </Radio.Group>
                     </Form.Item>
                   </Col>
@@ -1921,7 +1916,7 @@ export const RunBotModule = props => {
                         },
                       ]}
                     >
-                      <InputNumber/>
+                      <InputNumber />
                     </Form.Item>
                   </Col>
                   <Col span={4}>
@@ -1938,14 +1933,14 @@ export const RunBotModule = props => {
                       ]}
                       name="size"
                     >
-                      <InputNumber/>
+                      <InputNumber />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
                     <Form.Item>
                       <Button
                         block
-                        icon={<SearchOutlined/>}
+                        icon={<SearchOutlined />}
                         type="primary"
                         htmlType="submit"
                         disabled={botModuleConfigActive.loadpath === null}
@@ -2030,7 +2025,12 @@ export const RunBotModule = props => {
             </Card>
           </TabPane>
           <TabPane
-            tab={<span><FormOutlined/>模块参数</span>}
+            tab={
+              <span>
+                <FormOutlined />
+                模块参数
+              </span>
+            }
             key="params"
           >
             <Form
@@ -2046,13 +2046,9 @@ export const RunBotModule = props => {
                     type="primary"
                     htmlType="submit"
                     block
-                    disabled={
-                      botModuleConfigActive.loadpath === null || selectedRows.length === 0
-                    }
-                    icon={<PlayCircleOutlined/>}
-                    loading={
-                      createPostModuleActuatorReq.loading || listPostModuleConfigReq.loading
-                    }
+                    disabled={botModuleConfigActive.loadpath === null || selectedRows.length === 0}
+                    icon={<PlayCircleOutlined />}
+                    loading={createPostModuleActuatorReq.loading || listPostModuleConfigReq.loading}
                   >
                     运行
                   </Button>
@@ -2061,10 +2057,15 @@ export const RunBotModule = props => {
             </Form>
           </TabPane>
           <TabPane
-            tab={<span><InfoCircleOutlined/>说明</span>}
+            tab={
+              <span>
+                <InfoCircleOutlined />
+                说明
+              </span>
+            }
             key="desc"
           >
-            <ModuleInfoContent postModuleConfig={botModuleConfigActive}/>
+            <ModuleInfoContent postModuleConfig={botModuleConfigActive} />
           </TabPane>
         </Tabs>
       </Col>
@@ -2076,42 +2077,40 @@ export const RunBotModuleMemo = memo(RunBotModule);
 
 export const BotScan = () => {
   const [runBotModuleModalVisable, setRunBotModuleModalVisable] = useState(false);
-  return <Fragment>
-    <Row style={{ marginTop: -16 }} gutter={0}>
-      <Col span={12}>
-        <Button
-          block
-          type="dashed"
-          icon={<PlusOutlined/>}
-          onClick={() => setRunBotModuleModalVisable(true)}
-        >
-          新建任务
-        </Button>
-      </Col>
-    </Row>
-    <RealTimeBotWaitListMemo/>
-    <Modal
-      mask={false}
-      style={{ top: 16 }}
-      width="90vw"
-      destroyOnClose
-      visible={runBotModuleModalVisable}
-      onCancel={() => setRunBotModuleModalVisable(false)}
-      footer={null}
-      bodyStyle={{ padding: '0px 0px 0px 0px' }}
-    >
-      <RunBotModuleMemo/>
-    </Modal>
-  </Fragment>;
+  return (
+    <Fragment>
+      <Row style={{ marginTop: -16 }} gutter={0}>
+        <Col span={12}>
+          <Button
+            block
+            type="dashed"
+            icon={<PlusOutlined />}
+            onClick={() => setRunBotModuleModalVisable(true)}
+          >
+            新建任务
+          </Button>
+        </Col>
+      </Row>
+      <RealTimeBotWaitListMemo />
+      <Modal
+        mask={false}
+        style={{ top: 16 }}
+        width="90vw"
+        destroyOnClose
+        visible={runBotModuleModalVisable}
+        onCancel={() => setRunBotModuleModalVisable(false)}
+        footer={null}
+        bodyStyle={{ padding: '0px 0px 0px 0px' }}
+      >
+        <RunBotModuleMemo />
+      </Modal>
+    </Fragment>
+  );
 };
-
 
 const RealTimeBotWaitList = () => {
   console.log('RealTimeBotWaitList');
-  const {
-    botWaitList,
-    setBotWaitList,
-  } = useModel('HostAndSessionModel', model => ({
+  const { botWaitList, setBotWaitList } = useModel('HostAndSessionModel', model => ({
     botWaitList: model.botWaitList,
     setBotWaitList: model.setBotWaitList,
   }));
@@ -2121,12 +2120,15 @@ const RealTimeBotWaitList = () => {
       const { uuid } = result;
       setBotWaitList(botWaitList.filter(item => item.group_uuid !== uuid));
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
-  const onDestoryBotWait = (record) => {
-    destoryBotWaitReq.run({ uuid: record.group_uuid, job_id: record.job_id, broker: record.broker });
+  const onDestoryBotWait = record => {
+    destoryBotWaitReq.run({
+      uuid: record.group_uuid,
+      job_id: record.job_id,
+      broker: record.broker,
+    });
   };
 
   const taskDetail = item => {
@@ -2165,7 +2167,7 @@ const RealTimeBotWaitList = () => {
       render: (text, record) => (
         <Popover
           placement="right"
-          content={<ModuleInfoMemo postModuleConfig={record.moduleinfo}/>}
+          content={<ModuleInfoMemo postModuleConfig={record.moduleinfo} />}
           trigger="click"
         >
           <a>{record.moduleinfo.NAME}</a>
@@ -2243,29 +2245,25 @@ const RealTimeBotWaitList = () => {
   ];
 
   return (
-    <Card style={{ marginTop: 0 }} bodyStyle={{ padding: '0px 0px 0px 0px' }}>
-      <Table
-        className={styles.botWaitListTable}
-        size="small"
-        rowKey="uuid"
-        pagination={false}
-        dataSource={botWaitList}
-        bordered
-        columns={columns}
-      />
-    </Card>
+    <Table
+      style={{ marginTop: 0 }}
+      className={styles.botWaitListTable}
+      size="small"
+      rowKey="uuid"
+      pagination={false}
+      dataSource={botWaitList}
+      bordered
+      columns={columns}
+    />
   );
 };
 
 const RealTimeBotWaitListMemo = memo(RealTimeBotWaitList);
 
-
 export const PostModule = props => {
   console.log('PostModule');
   const { loadpath, initialValues } = props;
-  const {
-    hostAndSessionActive,
-  } = useModel('HostAndSessionModel', model => ({
+  const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
   const [postModuleConfigActive, setPostModuleConfigActive] = useState({
@@ -2280,23 +2278,23 @@ export const PostModule = props => {
     REFERENCES: [],
     ATTCK: [],
   });
-  const initGetPostModuleConfigReq = useRequest(() => getPostmodulePostModuleConfigAPI({ loadpath }), {
-    onSuccess: (result, params) => {
-      setPostModuleConfigActive(result);
-    },
-    onError: (error, params) => {
-    },
-  });
+  const initGetPostModuleConfigReq = useRequest(
+    () => getPostmodulePostModuleConfigAPI({ loadpath }),
+    {
+      onSuccess: (result, params) => {
+        setPostModuleConfigActive(result);
+      },
+      onError: (error, params) => {},
+    }
+  );
 
   const createPostModuleActuatorReq = useRequest(postPostmodulePostModuleActuatorAPI, {
     manual: true,
-    onSuccess: (result, params) => {
-    },
-    onError: (error, params) => {
-    },
+    onSuccess: (result, params) => {},
+    onError: (error, params) => {},
   });
 
-  const onCreatePostModuleActuator = (params) => {
+  const onCreatePostModuleActuator = params => {
     createPostModuleActuatorReq.run({
       ipaddress: hostAndSessionActive.ipaddress,
       sessionid: hostAndSessionActive.session.id,
@@ -2324,11 +2322,12 @@ export const PostModule = props => {
             name={oneOption.name}
             rules={[{ required: oneOption.required, message: '请输入' }]}
           >
-            <Input style={{ width: '90%' }}
+            <Input
+              style={{ width: '90%' }}
               // defaultValue={oneOption.default}
             />
           </Form.Item>
-        </Col>,
+        </Col>
       );
     } else if (oneOption.type === 'bool') {
       options.push(
@@ -2343,9 +2342,9 @@ export const PostModule = props => {
             valuePropName="checked"
             rules={[{ required: oneOption.required, message: '请输入' }]}
           >
-            <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
+            <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default} />
           </Form.Item>
-        </Col>,
+        </Col>
       );
     } else if (oneOption.type === 'integer') {
       options.push(
@@ -2360,11 +2359,12 @@ export const PostModule = props => {
             rules={[{ required: oneOption.required, message: '请输入' }]}
             wrapperCol={{ span: 24 }}
           >
-            <InputNumber style={{ width: '90%' }}
+            <InputNumber
+              style={{ width: '90%' }}
               // defaultValue={oneOption.default}
             />
           </Form.Item>
-        </Col>,
+        </Col>
       );
     } else if (oneOption.type === 'float') {
       options.push(
@@ -2379,11 +2379,13 @@ export const PostModule = props => {
             rules={[{ required: oneOption.required, message: '请输入' }]}
             wrapperCol={{ span: 24 }}
           >
-            <InputNumber step={0.1} style={{ width: '90%' }}
+            <InputNumber
+              step={0.1}
+              style={{ width: '90%' }}
               // defaultValue={oneOption.default}
             />
           </Form.Item>
-        </Col>,
+        </Col>
       );
     } else if (oneOption.type === 'enum') {
       const selectOptions = [];
@@ -2393,7 +2395,7 @@ export const PostModule = props => {
             <Tooltip mouseEnterDelay={0.3} title={oneselect.name}>
               {oneselect.name}
             </Tooltip>
-          </Option>,
+          </Option>
         );
       }
       options.push(
@@ -2418,7 +2420,7 @@ export const PostModule = props => {
               {selectOptions}
             </Select>
           </Form.Item>
-        </Col>,
+        </Col>
       );
     } else {
       options.push(
@@ -2433,11 +2435,12 @@ export const PostModule = props => {
             rules={[{ required: oneOption.required, message: '请输入' }]}
             wrapperCol={{ span: 24 }}
           >
-            <Input style={{ width: '90%' }}
+            <Input
+              style={{ width: '90%' }}
               // defaultValue={oneOption.default}
             />
           </Form.Item>
-        </Col>,
+        </Col>
       );
     }
   }
@@ -2457,10 +2460,8 @@ export const PostModule = props => {
             type="primary"
             htmlType="submit"
             block
-            icon={<PlayCircleOutlined/>}
-            loading={
-              createPostModuleActuatorReq.loading
-            }
+            icon={<PlayCircleOutlined />}
+            loading={createPostModuleActuatorReq.loading}
           >
             运行
           </Button>
@@ -2471,7 +2472,6 @@ export const PostModule = props => {
 };
 export const PostModuleMemo = memo(PostModule);
 
-
 export const ModuleInfo = ({ postModuleConfig }) => {
   const references = postModuleConfig.REFERENCES;
   const referencesCom = [];
@@ -2481,7 +2481,7 @@ export const ModuleInfo = ({ postModuleConfig }) => {
         <a href={references[i]} target="_blank">
           {references[i]}
         </a>
-      </div>,
+      </div>
     );
   }
 
@@ -2493,7 +2493,7 @@ export const ModuleInfo = ({ postModuleConfig }) => {
         <a href={readme[i]} target="_blank">
           {readme[i]}
         </a>
-      </div>,
+      </div>
     );
   }
 
@@ -2502,7 +2502,6 @@ export const ModuleInfo = ({ postModuleConfig }) => {
   for (let i = 0; i < authors.length; i++) {
     authorCom.push(<Tag color="lime">{authors[i]}</Tag>);
   }
-
 
   return (
     <Descriptions

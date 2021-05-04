@@ -3,7 +3,21 @@ import copy from 'copy-to-clipboard';
 import { formatMessage, useRequest } from 'umi';
 import moment from 'moment';
 import '@ant-design/compatible/assets/index.css';
-import { Avatar, Button, Card, Col, Form, Input, message, Modal, Radio, Row, Space, Table, Tag } from 'antd';
+import {
+  Avatar,
+  Button,
+  Card,
+  Col,
+  Form,
+  Input,
+  message,
+  Modal,
+  Radio,
+  Row,
+  Space,
+  Table,
+  Tag,
+} from 'antd';
 import {
   BugOutlined,
   CloudOutlined,
@@ -36,7 +50,7 @@ const host_type_to_avatar = {
       size="small"
       shape="square"
       style={{ backgroundColor: '#177ddc' }}
-      icon={<WindowsOutlined/>}
+      icon={<WindowsOutlined />}
     />
   ),
   pc: (
@@ -44,7 +58,7 @@ const host_type_to_avatar = {
       size="small"
       shape="square"
       style={{ backgroundColor: '#49aa19' }}
-      icon={<LaptopOutlined/>}
+      icon={<LaptopOutlined />}
     />
   ),
   web_server: (
@@ -52,7 +66,7 @@ const host_type_to_avatar = {
       size="small"
       shape="square"
       style={{ backgroundColor: '#13a8a8' }}
-      icon={<CloudOutlined/>}
+      icon={<CloudOutlined />}
     />
   ),
   cms: (
@@ -60,7 +74,7 @@ const host_type_to_avatar = {
       size="small"
       shape="square"
       style={{ backgroundColor: '#d84a1b' }}
-      icon={<BugOutlined/>}
+      icon={<BugOutlined />}
     />
   ),
   firewall: (
@@ -68,7 +82,7 @@ const host_type_to_avatar = {
       size="small"
       shape="square"
       style={{ backgroundColor: '#d87a16' }}
-      icon={<GatewayOutlined/>}
+      icon={<GatewayOutlined />}
     />
   ),
   other: (
@@ -76,7 +90,7 @@ const host_type_to_avatar = {
       size="small"
       shape="square"
       style={{ backgroundColor: '#bfbfbf' }}
-      icon={<QuestionOutlined/>}
+      icon={<QuestionOutlined />}
     />
   ),
 };
@@ -97,8 +111,7 @@ const MuitHosts = () => {
       setSelectedRowKeys([]);
       setSelectedRows([]);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const listHostReq = useRequest(getCoreHostAPI, {
@@ -109,14 +122,12 @@ const MuitHosts = () => {
       setSelectedRowKeys([]);
       setSelectedRows([]);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const showUpdateHostModal = record => {
     setUpdateHostModalVisable(true);
     setHostAcvtive(record);
-
   };
   const closeUpdateHostModal = () => {
     setUpdateHostModalVisable(false);
@@ -128,18 +139,15 @@ const MuitHosts = () => {
       closeUpdateHostModal();
       listHostReq.run();
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
-
 
   const destoryHostReq = useRequest(deleteCoreHostAPI, {
     manual: true,
     onSuccess: (result, params) => {
       listHostReq.run();
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const getSelectHostIPaddress = () => {
@@ -149,7 +157,7 @@ const MuitHosts = () => {
     }
     copy(ipaddressArray.join());
     message.success(
-      `${ipaddressArray.join()} ${formatMessage({ id: 'app.response.copytoclipboard' })}`,
+      `${ipaddressArray.join()} ${formatMessage({ id: 'app.response.copytoclipboard' })}`
     );
   };
 
@@ -162,38 +170,38 @@ const MuitHosts = () => {
     const templist = hostListTmp;
     const reg = new RegExp(value, 'gi');
     setHostList(
-      templist.map(record => {
-        let ipaddressMatch = false;
-        let commentMatch = false;
-        let techMatch = false;
-        try {
-          ipaddressMatch = record.ipaddress.includes(value);
-          if (record.comment === null) {
-            commentMatch = false;
-          } else {
-            commentMatch = record.comment.includes(value);
-          }
-
-          for (let i = 0; i < record.portService.length; i++) {
-            const portServiceStr = JSON.stringify(record.portService[i]);
-            techMatch = portServiceStr.match(reg);
-            if (techMatch) {
-              break;
+      templist
+        .map(record => {
+          let ipaddressMatch = false;
+          let commentMatch = false;
+          let techMatch = false;
+          try {
+            ipaddressMatch = record.ipaddress.includes(value);
+            if (record.comment === null) {
+              commentMatch = false;
+            } else {
+              commentMatch = record.comment.includes(value);
             }
-          }
-        } catch (error) {
-        }
 
-        if (ipaddressMatch || commentMatch || techMatch) {
-          return {
-            ...record,
-          };
-        }
-        return null;
-      }).filter(record => !!record),
+            for (let i = 0; i < record.portService.length; i++) {
+              const portServiceStr = JSON.stringify(record.portService[i]);
+              techMatch = portServiceStr.match(reg);
+              if (techMatch) {
+                break;
+              }
+            }
+          } catch (error) {}
+
+          if (ipaddressMatch || commentMatch || techMatch) {
+            return {
+              ...record,
+            };
+          }
+          return null;
+        })
+        .filter(record => !!record)
     );
   };
-
 
   const onSelectChange = (selectedRowKeys, selectedRows) => {
     setSelectedRowKeys(selectedRowKeys);
@@ -255,20 +263,18 @@ const MuitHosts = () => {
 
   const hostTypeToAvatar = {
     ad_server: (
-      <Avatar shape="square" style={{ backgroundColor: '#177ddc' }} icon={<WindowsOutlined/>}/>
+      <Avatar shape="square" style={{ backgroundColor: '#177ddc' }} icon={<WindowsOutlined />} />
     ),
-    pc: (
-      <Avatar shape="square" style={{ backgroundColor: '#49aa19' }} icon={<LaptopOutlined/>}/>
-    ),
+    pc: <Avatar shape="square" style={{ backgroundColor: '#49aa19' }} icon={<LaptopOutlined />} />,
     web_server: (
-      <Avatar shape="square" style={{ backgroundColor: '#13a8a8' }} icon={<CloudOutlined/>}/>
+      <Avatar shape="square" style={{ backgroundColor: '#13a8a8' }} icon={<CloudOutlined />} />
     ),
-    cms: <Avatar shape="square" style={{ backgroundColor: '#d84a1b' }} icon={<BugOutlined/>}/>,
+    cms: <Avatar shape="square" style={{ backgroundColor: '#d84a1b' }} icon={<BugOutlined />} />,
     firewall: (
-      <Avatar shape="square" style={{ backgroundColor: '#d87a16' }} icon={<GatewayOutlined/>}/>
+      <Avatar shape="square" style={{ backgroundColor: '#d87a16' }} icon={<GatewayOutlined />} />
     ),
     other: (
-      <Avatar shape="square" style={{ backgroundColor: '#bfbfbf' }} icon={<QuestionOutlined/>}/>
+      <Avatar shape="square" style={{ backgroundColor: '#bfbfbf' }} icon={<QuestionOutlined />} />
     ),
   };
 
@@ -283,7 +289,7 @@ const MuitHosts = () => {
         <Col span={10}>
           <Input
             allowClear
-            prefix={<SearchOutlined/>}
+            prefix={<SearchOutlined />}
             style={{ width: '100%' }}
             placeholder="搜索 : IP地址/端口/服务"
             value={text}
@@ -298,7 +304,7 @@ const MuitHosts = () => {
             onClick={() => getSelectHostIPaddress()}
             block
             disabled={selectedRowKeys.length === 0}
-            icon={<CopyOutlined/>}
+            icon={<CopyOutlined />}
           >
             拷贝
           </Button>
@@ -310,94 +316,101 @@ const MuitHosts = () => {
             disabled={selectedRowKeys.length === 0}
             danger
           >
-            <DeleteOutlined/> 删除
+            <DeleteOutlined /> 删除
           </Button>
         </Col>
         <Col span={10}>
-          <Button icon={<SyncOutlined/>} onClick={() => listHostReq.run()} block
-                  loading={listHostReq.loading || destoryHostReq.loading}>
+          <Button
+            icon={<SyncOutlined />}
+            onClick={() => listHostReq.run()}
+            block
+            loading={listHostReq.loading || destoryHostReq.loading}
+          >
             刷新
           </Button>
         </Col>
-
       </Row>
-      <Card bordered bodyStyle={{ padding: '0px 0px 0px 0px' }} style={{ marginTop: 0 }}>
-        <Table
-          className={styles.muitHostsTable}
-          size="small"
-          bordered
-          pagination={false}
-          rowKey="ipaddress"
-          expandable={{
-            expandedRowRender: expandedRowRender,
-            rowExpandable: record => record.portService.length > 0,
-          }}
-          rowSelection={rowSelection}
-          columns={[
-            {
-              title: '主机',
-              dataIndex: 'ipaddress',
-              key: 'ipaddress',
-              width: 120,
-              render: (text, record) => (
+      <Table
+        style={{ marginTop: 0 }}
+        className={styles.muitHostsTable}
+        size="small"
+        bordered
+        pagination={false}
+        rowKey="ipaddress"
+        expandable={{
+          expandedRowRender: expandedRowRender,
+          rowExpandable: record => record.portService.length > 0,
+        }}
+        rowSelection={rowSelection}
+        columns={[
+          {
+            title: '主机',
+            dataIndex: 'ipaddress',
+            key: 'ipaddress',
+            width: 120,
+            render: (text, record) => (
+              <strong
+                style={{
+                  color: '#d8bd14',
+                }}
+              >
+                {text}
+              </strong>
+            ),
+          },
+          {
+            title: '端口数',
+            dataIndex: 'portService',
+            key: 'portService',
+            width: 80,
+            sorter: (a, b) => a.portService.length >= b.portService.length,
+            render: (text, record) => {
+              return (
                 <strong
-                  style={{
-                    color: '#d8bd14',
-                  }}
-                >
-                  {text}
-                </strong>
-              ),
-            },
-            {
-              title: '端口数',
-              dataIndex: 'portService',
-              key: 'portService',
-              width: 80,
-              sorter: (a, b) => a.portService.length >= b.portService.length,
-              render: (text, record) => {
-                return <strong
                   style={{
                     color: '#13a8a8',
                   }}
                 >
                   {record.portService.length} 个
-                </strong>;
-              },
+                </strong>
+              );
             },
-            {
-              title: '备注',
-              dataIndex: 'comment',
-              key: 'comment',
-              // width: '10%',
-              render: (text, record) => {
-                return (
-                  <Fragment>
-                    {host_type_to_avatar[record.tag]}
-                    <span style={{ marginLeft: 8 }}>{text}</span>
-                  </Fragment>
-                );
-              },
+          },
+          {
+            title: '备注',
+            dataIndex: 'comment',
+            key: 'comment',
+            // width: '10%',
+            render: (text, record) => {
+              return (
+                <Fragment>
+                  {host_type_to_avatar[record.tag]}
+                  <span style={{ marginLeft: 8 }}>{text}</span>
+                </Fragment>
+              );
             },
-            {
-              title: '操作',
-              dataIndex: 'operation',
-              width: 96,
-              render: (text, record) => (
-                <div style={{ textAlign: 'center' }}>
-                  <Space size="middle">
-                    <a onClick={() => showUpdateHostModal(record)}>编辑</a>
-                    <a onClick={() => destoryHostReq.run({ ipaddress: record.ipaddress })} style={{ color: 'red' }}>
-                      删除
-                    </a>
-                  </Space>
-                </div>
-              ),
-            },
-          ]}
-          dataSource={hostList}
-        />
-      </Card>
+          },
+          {
+            title: '操作',
+            dataIndex: 'operation',
+            width: 96,
+            render: (text, record) => (
+              <div style={{ textAlign: 'center' }}>
+                <Space size="middle">
+                  <a onClick={() => showUpdateHostModal(record)}>编辑</a>
+                  <a
+                    onClick={() => destoryHostReq.run({ ipaddress: record.ipaddress })}
+                    style={{ color: 'red' }}
+                  >
+                    删除
+                  </a>
+                </Space>
+              </div>
+            ),
+          },
+        ]}
+        dataSource={hostList}
+      />
       <Modal
         width="50vw"
         bodyStyle={{ padding: '32px 8px 8px 1px' }}
@@ -445,11 +458,11 @@ const MuitHosts = () => {
             rules={[{ message: '最多支持二十个字符', max: 20 }]}
             {...formLayout}
           >
-            <Input placeholder="最大支持二十个字符"/>
+            <Input placeholder="最大支持二十个字符" />
           </Form.Item>
           <Form.Item {...tailLayout}>
             <Button
-              icon={<DeliveredProcedureOutlined/>}
+              icon={<DeliveredProcedureOutlined />}
               block
               type="primary"
               htmlType="submit"

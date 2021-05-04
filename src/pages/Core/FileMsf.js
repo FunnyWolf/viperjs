@@ -1,14 +1,18 @@
 import React, { Fragment, memo, useImperativeHandle, useState } from 'react';
 import moment from 'moment';
 import { formatMessage, useRequest } from 'umi';
-import { deleteMsgrpcFileMsfAPI, getMsgrpcFileMsfAPI, postPostmodulePostModuleActuatorAPI } from '@/services/apiv1';
+import {
+  deleteMsgrpcFileMsfAPI,
+  getMsgrpcFileMsfAPI,
+  postPostmodulePostModuleActuatorAPI,
+} from '@/services/apiv1';
 import '@ant-design/compatible/assets/index.css';
 import { Button, Card, Col, message, Modal, Row, Space, Table, Tag, Upload } from 'antd';
 import { CopyOutlined, SyncOutlined, UploadOutlined } from '@ant-design/icons';
-
 import copy from 'copy-to-clipboard';
 import styles from './FileMsf.less';
 import { getToken } from '@/utils/authority';
+import { Downheight } from '@/utils/utils';
 
 String.prototype.format = function() {
   let args = arguments;
@@ -88,7 +92,7 @@ const downloadFileWayDetail = item => {
       render: (text, record) => (
         <Button
           block
-          icon={<CopyOutlined/>}
+          icon={<CopyOutlined />}
           onClick={() => {
             copy(record.cmd);
             message.success(formatMessage({ id: 'app.response.copytoclipboard' }));
@@ -106,18 +110,16 @@ const downloadFileWayDetail = item => {
     bodyStyle: { padding: '0px 0px 0px 0px' },
     mask: false,
     width: '60vw',
-    content: <Table size="small" columns={columns} dataSource={data} pagination={false}/>,
+    content: <Table size="small" columns={columns} dataSource={data} pagination={false} />,
     okText: '关闭',
-    onOk() {
-    },
+    onOk() {},
   });
 };
 
-const FileMsf = (props) => {
+const FileMsf = props => {
   console.log('FileMsf');
   const [msfUploading, setMsfUploading] = useState(false);
   const [fileMsfListActive, setFileMsfListActive] = useState([]);
-
 
   useImperativeHandle(props.onRef, () => {
     return {
@@ -130,8 +132,7 @@ const FileMsf = (props) => {
     onSuccess: (result, params) => {
       setFileMsfListActive(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const listFileMsfForViewReq = useRequest(getMsgrpcFileMsfAPI, {
@@ -143,10 +144,9 @@ const FileMsf = (props) => {
           bodyStyle: { padding: '0 0 0 0' },
           mask: false,
           width: '80vw',
-          content: <img style={{ width: '100%' }} src={`data:image/png;base64,${result.data}`}/>,
+          content: <img style={{ width: '100%' }} src={`data:image/png;base64,${result.data}`} />,
           okText: '关闭',
-          onOk() {
-          },
+          onOk() {},
         });
       } else {
         Modal.info({
@@ -181,13 +181,11 @@ const FileMsf = (props) => {
             </Fragment>
           ),
           okText: '关闭',
-          onOk() {
-          },
+          onOk() {},
         });
       }
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const listFileMsfForView = name => {
@@ -196,10 +194,8 @@ const FileMsf = (props) => {
 
   const listFileMsfForDownloadReq = useRequest(getMsgrpcFileMsfAPI, {
     manual: true,
-    onSuccess: (result, params) => {
-    },
-    onError: (error, params) => {
-    },
+    onSuccess: (result, params) => {},
+    onError: (error, params) => {},
   });
 
   const listFileMsfForDownload = name => {
@@ -211,8 +207,7 @@ const FileMsf = (props) => {
     onSuccess: (result, params) => {
       setFileMsfListActive(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const createFileMsfUploadOnChange = info => {
@@ -238,8 +233,7 @@ const FileMsf = (props) => {
     onSuccess: (result, params) => {
       listFileMsfReq.run();
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   return (
@@ -259,13 +253,13 @@ const FileMsf = (props) => {
             showUploadList={false}
             loading={msfUploading}
           >
-            <UploadOutlined/> 拖拽文件到此处上传
+            <UploadOutlined /> 拖拽文件到此处上传
           </Dragger>
         </Col>
         <Col span={18}>
           <Button
             block
-            icon={<SyncOutlined/>}
+            icon={<SyncOutlined />}
             onClick={() => listFileMsfReq.run()}
             loading={
               listFileMsfReq.loading ||
@@ -276,71 +270,70 @@ const FileMsf = (props) => {
           >
             刷新
           </Button>
-          <Card style={{ marginTop: 0 }} bordered bodyStyle={{ padding: '0px 0px 0px 0px' }}>
-            <Table
-              className={styles.filesTable}
-              size="small"
-              bordered
-              pagination={false}
-              rowKey="id"
-              columns={[
-                {
-                  title: '文件名',
-                  dataIndex: 'name',
-                  key: 'name',
-                  render: (text, record) => <span>{record.name}</span>,
-                },
-                {
-                  title: '大小',
-                  dataIndex: 'format_size',
-                  key: 'format_size',
-                  width: 96,
-                },
-                {
-                  title: '修改时间',
-                  dataIndex: 'mtime',
-                  key: 'mtime',
-                  width: 120,
-                  render: (text, record) => (
-                    <Tag color="cyan">{moment(record.mtime * 1000).format('YYYY-MM-DD HH:mm')}</Tag>
-                  ),
-                },
-                {
-                  title: '操作',
-                  dataIndex: 'operation',
-                  width: 224,
-                  render: (text, record) => (
-                    <div style={{ textAlign: 'center' }}>
-                      <Space size="middle">
-                        {record.size <= 1024 * 1024 ? (
-                          <Fragment>
-                            <a
-                              style={{ color: 'green' }}
-                              onClick={() => listFileMsfForView(record.name)}
-                            >
-                              查看
-                            </a>
-                          </Fragment>
-                        ) : (
-                          <Fragment>
-                            <a style={{ visibility: 'Hidden' }}>占位</a>
-                          </Fragment>
-                        )}
-                        <a onClick={() => listFileMsfForDownload(record.name)}>下载</a>
-                        <a style={{ color: '#faad14' }} onClick={() => downloadFileWayDetail(record)}>
-                          一句话下载
-                        </a>
-                        <a onClick={() => destoryFileMsfReq.run(record)} style={{ color: 'red' }}>
-                          删除
-                        </a>
-                      </Space>
-                    </div>
-                  ),
-                },
-              ]}
-              dataSource={fileMsfListActive}
-            />
-          </Card>
+          <Table
+            className={styles.filesTable}
+            scroll={{ y: 'calc({0} - 32px)'.format(Downheight) }}
+            size="small"
+            bordered
+            pagination={false}
+            rowKey="id"
+            columns={[
+              {
+                title: '文件名',
+                dataIndex: 'name',
+                key: 'name',
+                render: (text, record) => <span>{record.name}</span>,
+              },
+              {
+                title: '大小',
+                dataIndex: 'format_size',
+                key: 'format_size',
+                width: 96,
+              },
+              {
+                title: '修改时间',
+                dataIndex: 'mtime',
+                key: 'mtime',
+                width: 120,
+                render: (text, record) => (
+                  <Tag color="cyan">{moment(record.mtime * 1000).format('YYYY-MM-DD HH:mm')}</Tag>
+                ),
+              },
+              {
+                title: '操作',
+                dataIndex: 'operation',
+                width: 224,
+                render: (text, record) => (
+                  <div style={{ textAlign: 'center' }}>
+                    <Space size="middle">
+                      {record.size <= 1024 * 1024 ? (
+                        <Fragment>
+                          <a
+                            style={{ color: 'green' }}
+                            onClick={() => listFileMsfForView(record.name)}
+                          >
+                            查看
+                          </a>
+                        </Fragment>
+                      ) : (
+                        <Fragment>
+                          <a style={{ visibility: 'Hidden' }}>占位</a>
+                        </Fragment>
+                      )}
+                      <a onClick={() => listFileMsfForDownload(record.name)}>下载</a>
+                      <a style={{ color: '#faad14' }} onClick={() => downloadFileWayDetail(record)}>
+                        一句话下载
+                      </a>
+                      <a onClick={() => destoryFileMsfReq.run(record)} style={{ color: 'red' }}>
+                        删除
+                      </a>
+                    </Space>
+                  </div>
+                ),
+              },
+            ]}
+            dataSource={fileMsfListActive}
+          />
         </Col>
       </Row>
     </Fragment>
@@ -358,8 +351,7 @@ export const FileMsfModal = props => {
     onSuccess: (result, params) => {
       setFileMsfListActive(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const listFileMsfReq = useRequest(getMsgrpcFileMsfAPI, {
@@ -367,24 +359,19 @@ export const FileMsfModal = props => {
     onSuccess: (result, params) => {
       setFileMsfListActive(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const listFileMsfForDownloadReq = useRequest(getMsgrpcFileMsfAPI, {
     manual: true,
-    onSuccess: (result, params) => {
-    },
-    onError: (error, params) => {
-    },
+    onSuccess: (result, params) => {},
+    onError: (error, params) => {},
   });
 
   const createPostModuleActuatorReq = useRequest(postPostmodulePostModuleActuatorAPI, {
     manual: true,
-    onSuccess: (result, params) => {
-    },
-    onError: (error, params) => {
-    },
+    onSuccess: (result, params) => {},
+    onError: (error, params) => {},
   });
 
   const destoryFileMsfReq = useRequest(deleteMsgrpcFileMsfAPI, {
@@ -392,8 +379,7 @@ export const FileMsfModal = props => {
     onSuccess: (result, params) => {
       listFileMsfReq.run();
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const createFileMsfUploadOnChange = info => {
@@ -413,7 +399,6 @@ export const FileMsfModal = props => {
       message.error(`${info.file.name} 上传失败.`);
     }
   };
-
 
   return (
     <Fragment>
@@ -464,19 +449,27 @@ export const FileMsfModal = props => {
                   <Space size="middle">
                     <a
                       style={{ color: 'green' }}
-                      onClick={() => createPostModuleActuatorReq.run({
-                        ipaddress: hostAndSessionActive.ipaddress,
-                        loadpath: 'MODULES.FileSessionUploadModule',
-                        sessionid: hostAndSessionActive.session.id,
-                        custom_param: JSON.stringify({ SESSION_DIR: dirpath, MSF_FILE: record.name }),
-                      })}
+                      onClick={() =>
+                        createPostModuleActuatorReq.run({
+                          ipaddress: hostAndSessionActive.ipaddress,
+                          loadpath: 'MODULES.FileSessionUploadModule',
+                          sessionid: hostAndSessionActive.session.id,
+                          custom_param: JSON.stringify({
+                            SESSION_DIR: dirpath,
+                            MSF_FILE: record.name,
+                          }),
+                        })
+                      }
                     >
                       上传到目标
                     </a>
 
                     <a onClick={() => listFileMsfForDownloadReq.run({ name: record.name })}>下载</a>
 
-                    <a onClick={() => destoryFileMsfReq.run({ name: record.name })} style={{ color: 'red' }}>
+                    <a
+                      onClick={() => destoryFileMsfReq.run({ name: record.name })}
+                      style={{ color: 'red' }}
+                    >
                       删除
                     </a>
                   </Space>
@@ -510,16 +503,20 @@ export const FileMsfModal = props => {
               showDownloadIcon: false,
             }}
           >
-            <UploadOutlined/> 拖拽文件到此处上传
+            <UploadOutlined /> 拖拽文件到此处上传
           </Dragger>
         </Col>
         <Col span={8}>
           <Button
             block
             style={{ height: 64 }}
-            icon={<SyncOutlined/>}
+            icon={<SyncOutlined />}
             onClick={() => listFileMsfReq.run()}
-            loading={listFileMsfReq.loading || listFileMsfForDownloadReq.loading || createPostModuleActuatorReq.loading}
+            loading={
+              listFileMsfReq.loading ||
+              listFileMsfForDownloadReq.loading ||
+              createPostModuleActuatorReq.loading
+            }
           >
             刷新
           </Button>
@@ -528,6 +525,5 @@ export const FileMsfModal = props => {
     </Fragment>
   );
 };
-
 
 export default FileMsf;

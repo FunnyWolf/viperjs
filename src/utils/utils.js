@@ -1,6 +1,13 @@
 import moment from 'moment';
 import React from 'react';
 import { parse } from 'qs';
+//字符串格式化函数
+String.prototype.format = function() {
+  let args = arguments;
+  return this.replace(/\{(\d+)\}/g, function(m, i) {
+    return args[i];
+  });
+};
 
 export function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;
@@ -69,7 +76,6 @@ export function getPlainNode(nodeList, parentPath = '') {
   return arr;
 }
 
-
 function getRelation(str1, str2) {
   if (str1 === str2) {
     console.warn('Two path are equal!'); // eslint-disable-line
@@ -108,7 +114,7 @@ function getRenderArr(routes) {
  */
 export function getRoutes(path, routerData) {
   let routes = Object.keys(routerData).filter(
-    routePath => routePath.indexOf(path) === 0 && routePath !== path,
+    routePath => routePath.indexOf(path) === 0 && routePath !== path
   );
   // Replace path to '' eg. path='user' /user/name => name
   routes = routes.map(item => item.replace(path, ''));
@@ -138,4 +144,6 @@ export function isUrl(path) {
   return reg.test(path);
 }
 
-
+export const heightCon = '16vh';
+export const Upheight = '120px + {0}'.format(heightCon);
+export const Downheight = '100vh - 164px - {0}'.format(heightCon);

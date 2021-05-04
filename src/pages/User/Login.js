@@ -38,7 +38,6 @@ const LoginPage = props => {
               message: '请输入用户名 (root)',
             },
           ]}
-          style={{ display: 'None' }}
           defaultValue={'root'}
         >
           <Input prefix={<UserOutlined />} placeholder="用户名" />

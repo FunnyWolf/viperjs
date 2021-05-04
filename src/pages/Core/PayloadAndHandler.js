@@ -13,7 +13,6 @@ import {
   Alert,
   Avatar,
   Button,
-  Card,
   Cascader,
   Checkbox,
   Col,
@@ -29,7 +28,12 @@ import {
   Table,
   Tooltip,
 } from 'antd';
-import { BlockOutlined, CustomerServiceOutlined, InfoCircleOutlined, SyncOutlined } from '@ant-design/icons';
+import {
+  BlockOutlined,
+  CustomerServiceOutlined,
+  InfoCircleOutlined,
+  SyncOutlined,
+} from '@ant-design/icons';
 import { useRequest } from 'umi';
 
 const { Panel } = Collapse;
@@ -383,8 +387,7 @@ const CreateHandlerModalContent = props => {
       }
       setPemfiles(result.pem_files);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const createHandlerReq = useRequest(postMsgrpcHandlerAPI, {
@@ -392,8 +395,7 @@ const CreateHandlerModalContent = props => {
     onSuccess: (result, params) => {
       createHandlerFinish();
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const onCreateHandlerBySubmit = params => {
@@ -432,7 +434,7 @@ const CreateHandlerModalContent = props => {
               showIcon
             />
           </Col>
-        </Row>,
+        </Row>
       );
     }
 
@@ -446,7 +448,7 @@ const CreateHandlerModalContent = props => {
               showIcon
             />
           </Col>
-        </Row>,
+        </Row>
       );
     }
 
@@ -472,7 +474,7 @@ const CreateHandlerModalContent = props => {
               <Option value={`~/.msf4/loot/${encoder}`}>{encoder}</Option>
             ))}
           </Select>
-        </FormNew.Item>,
+        </FormNew.Item>
       );
       options.push(
         <FormNew.Item
@@ -492,8 +494,8 @@ const CreateHandlerModalContent = props => {
             },
           ]}
         >
-          <Checkbox defaultChecked/>
-        </FormNew.Item>,
+          <Checkbox defaultChecked />
+        </FormNew.Item>
       );
     }
 
@@ -509,16 +511,15 @@ const CreateHandlerModalContent = props => {
           initialValue={rString}
           name="LURI"
         >
-          <Input placeholder="请输入自定义的URI"/>
-        </FormNew.Item>,
+          <Input placeholder="请输入自定义的URI" />
+        </FormNew.Item>
       );
 
       options.push(
         <FormNew.Item
           {...formLayout}
           label={
-            <Tooltip
-              title="The returned HTML response body when the handler receives a request that is not from a payload">
+            <Tooltip title="The returned HTML response body when the handler receives a request that is not from a payload">
               <span>http服务默认返回报文</span>
             </Tooltip>
           }
@@ -531,8 +532,8 @@ const CreateHandlerModalContent = props => {
             },
           ]}
         >
-          <TextArea placeholder="请输入Https服务默认返回的报文"/>
-        </FormNew.Item>,
+          <TextArea placeholder="请输入Https服务默认返回的报文" />
+        </FormNew.Item>
       );
 
       options.push(
@@ -552,16 +553,15 @@ const CreateHandlerModalContent = props => {
             },
           ]}
         >
-          <TextArea placeholder="请输入https的UserAgent"/>
-        </FormNew.Item>,
+          <TextArea placeholder="请输入https的UserAgent" />
+        </FormNew.Item>
       );
 
       options.push(
         <FormNew.Item
           {...formLayout}
           label={
-            <Tooltip
-              title="Forces a specific host and port instead of using what the client requests, defaults to LHOST:LPORT">
+            <Tooltip title="Forces a specific host and port instead of using what the client requests, defaults to LHOST:LPORT">
               <span>OverrideRequestHost</span>
             </Tooltip>
           }
@@ -570,8 +570,8 @@ const CreateHandlerModalContent = props => {
           valuePropName="checked"
           rules={[]}
         >
-          <Checkbox/>
-        </FormNew.Item>,
+          <Checkbox />
+        </FormNew.Item>
       );
       options.push(
         <FormNew.Item
@@ -584,15 +584,14 @@ const CreateHandlerModalContent = props => {
           name="HttpHostHeader"
           rules={[]}
         >
-          <Input placeholder=""/>
-        </FormNew.Item>,
+          <Input placeholder="" />
+        </FormNew.Item>
       );
       options.push(
         <FormNew.Item
           {...formLayout}
           label={
-            <Tooltip
-              title="When OverrideRequestHost is set, use this value as the scheme for secondary requests, e.g http or https">
+            <Tooltip title="When OverrideRequestHost is set, use this value as the scheme for secondary requests, e.g http or https">
               <span>OverrideScheme</span>
             </Tooltip>
           }
@@ -603,7 +602,7 @@ const CreateHandlerModalContent = props => {
             <Option value="http">http</Option>
             <Option value="https">https</Option>
           </Select>
-        </FormNew.Item>,
+        </FormNew.Item>
       );
 
       options.push(
@@ -617,8 +616,8 @@ const CreateHandlerModalContent = props => {
           name="OverrideLHOST"
           rules={[]}
         >
-          <Input placeholder=""/>
-        </FormNew.Item>,
+          <Input placeholder="" />
+        </FormNew.Item>
       );
       options.push(
         <FormNew.Item
@@ -631,8 +630,8 @@ const CreateHandlerModalContent = props => {
           name="OverrideLPORT"
           rules={[]}
         >
-          <InputNumber style={{ width: 160 }}/>
-        </FormNew.Item>,
+          <InputNumber style={{ width: 160 }} />
+        </FormNew.Item>
       );
     }
 
@@ -654,13 +653,13 @@ const CreateHandlerModalContent = props => {
             },
           ]}
         >
-          <Input placeholder="请输入RC4密码"/>
-        </FormNew.Item>,
+          <Input placeholder="请输入RC4密码" />
+        </FormNew.Item>
       );
       options.push(
         <FormNew.Item {...formLayout} label="说明">
           <span>RC4初始生成Session时较慢,请耐心等待,Session生成后速度不受影响.</span>
-        </FormNew.Item>,
+        </FormNew.Item>
       );
     }
 
@@ -708,7 +707,7 @@ const CreateHandlerModalContent = props => {
                 },
               ]}
             >
-              <Input placeholder="请输入正向连接的IP地址"/>
+              <Input placeholder="请输入正向连接的IP地址" />
             </FormNew.Item>
           ) : null}
           {showLhost ? (
@@ -724,7 +723,7 @@ const CreateHandlerModalContent = props => {
                 },
               ]}
             >
-              <Input placeholder="请输入反向连接的IP地址"/>
+              <Input placeholder="请输入反向连接的IP地址" />
             </FormNew.Item>
           ) : null}
           <FormNew.Item
@@ -738,17 +737,17 @@ const CreateHandlerModalContent = props => {
               },
             ]}
           >
-            <InputNumber style={{ width: 160 }}/>
+            <InputNumber style={{ width: 160 }} />
           </FormNew.Item>
           <FormNew.Item {...formLayout} label="别名" name="HandlerName" rules={[]}>
-            <Input placeholder="自定义监听名称"/>
+            <Input placeholder="自定义监听名称" />
           </FormNew.Item>
           <FormNew.Item
             {...formLayout}
             label={
               <Tooltip title="VIPER缓存监听配置,但渗透服务器不会生成正真的监听,此选项用于结合端口转发的反向SHELL/无需监听的payload生成">
                 <span>
-                  <InfoCircleOutlined/>
+                  <InfoCircleOutlined />
                   &nbsp;虚拟监听
                 </span>
               </Tooltip>
@@ -757,7 +756,7 @@ const CreateHandlerModalContent = props => {
             valuePropName="checked"
             rules={[]}
           >
-            <Checkbox/>
+            <Checkbox />
           </FormNew.Item>
         </Panel>
         {handlerPayloadSpecialOption()}
@@ -767,7 +766,7 @@ const CreateHandlerModalContent = props => {
             label={
               <Tooltip title="权限(Session)初始化完成后自动执行脚本,请注意该参数只有在监听中生效,在载荷中使用不生效">
                 <span>
-                  <InfoCircleOutlined/>
+                  <InfoCircleOutlined />
                   &nbsp;自动执行脚本
                 </span>
               </Tooltip>
@@ -786,7 +785,7 @@ const CreateHandlerModalContent = props => {
             label={
               <Tooltip title="Payload执行后自动迁移到指定进程,请注意 1)必须使用该监听生成的载荷才能生效 2)迁移进程后原进程不会关闭,并且占用loader文件">
                 <span>
-                  <InfoCircleOutlined/>
+                  <InfoCircleOutlined />
                   &nbsp;自动迁移
                 </span>
               </Tooltip>
@@ -796,7 +795,7 @@ const CreateHandlerModalContent = props => {
             initialValue={false}
             rules={[]}
           >
-            <Checkbox/>
+            <Checkbox />
           </FormNew.Item>
           <FormNew.Item {...formLayout} label="自动迁移到进程" name="PrependMigrateProc" rules={[]}>
             <Select style={{ width: 200 }} allowClear>
@@ -810,7 +809,7 @@ const CreateHandlerModalContent = props => {
             label={
               <Tooltip title="自动加载unhook插件unhook杀软对进程的hook操作">
                 <span>
-                  <InfoCircleOutlined/>
+                  <InfoCircleOutlined />
                   &nbsp;自动unhook
                 </span>
               </Tooltip>
@@ -820,14 +819,14 @@ const CreateHandlerModalContent = props => {
             rules={[]}
             initialValue={false}
           >
-            <Checkbox/>
+            <Checkbox />
           </FormNew.Item>
           <FormNew.Item
             {...formLayout}
             label={
               <Tooltip title="监听生成Session后自动关闭,reverse_http(s)会自动忽略改选项">
                 <span>
-                  <InfoCircleOutlined/>
+                  <InfoCircleOutlined />
                   &nbsp;自动关闭监听
                 </span>
               </Tooltip>
@@ -837,7 +836,7 @@ const CreateHandlerModalContent = props => {
             rules={[]}
             initialValue={false}
           >
-            <Checkbox/>
+            <Checkbox />
           </FormNew.Item>
         </Panel>
         <Panel header="自定义参数" key="3">
@@ -848,7 +847,7 @@ const CreateHandlerModalContent = props => {
             rules={[]}
             initialValue={300}
           >
-            <InputNumber style={{ width: 160 }} placeholder="请输入正确的连接超时时间"/>
+            <InputNumber style={{ width: 160 }} placeholder="请输入正确的连接超时时间" />
           </FormNew.Item>
           <FormNew.Item
             {...formLayout}
@@ -857,7 +856,7 @@ const CreateHandlerModalContent = props => {
             rules={[]}
             initialValue={3600 * 24 * 30}
           >
-            <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间"/>
+            <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间" />
           </FormNew.Item>
           <FormNew.Item
             {...formLayout}
@@ -866,7 +865,7 @@ const CreateHandlerModalContent = props => {
             rules={[]}
             initialValue={3600}
           >
-            <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间"/>
+            <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间" />
           </FormNew.Item>
 
           <FormNew.Item
@@ -876,7 +875,7 @@ const CreateHandlerModalContent = props => {
             rules={[]}
             initialValue={10}
           >
-            <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间"/>
+            <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间" />
           </FormNew.Item>
           <FormNew.Item {...formLayout} label="ShellCode编码" name="StageEncoder" rules={[]}>
             <Select placeholder="请选择编码">
@@ -893,7 +892,7 @@ const CreateHandlerModalContent = props => {
             rules={[]}
             initialValue
           >
-            <Checkbox defaultChecked/>
+            <Checkbox defaultChecked />
           </FormNew.Item>
 
           <FormNew.Item
@@ -901,7 +900,7 @@ const CreateHandlerModalContent = props => {
             label={
               <Tooltip title="正向监听会通过填写的代理进行连接,反向Payload无法使用代理">
                 <span>
-                  <InfoCircleOutlined/>
+                  <InfoCircleOutlined />
                   &nbsp;代理信息
                 </span>
               </Tooltip>
@@ -917,7 +916,7 @@ const CreateHandlerModalContent = props => {
                 </Select>
               </FormNew.Item>
               <FormNew.Item name="proxies_ipport" noStyle rules={[]}>
-                <Input style={{ width: '70%' }} placeholder="IP:PORT"/>
+                <Input style={{ width: '70%' }} placeholder="IP:PORT" />
               </FormNew.Item>
             </Input.Group>
           </FormNew.Item>
@@ -927,7 +926,7 @@ const CreateHandlerModalContent = props => {
         <Button
           block
           loading={createHandlerReq.loading}
-          icon={<CustomerServiceOutlined/>}
+          icon={<CustomerServiceOutlined />}
           htmlType="submit"
           type="primary"
         >
@@ -1362,7 +1361,7 @@ const CreatePayloadModalContent = props => {
               showIcon
             />
           </Col>
-        </Row>,
+        </Row>
       );
     }
 
@@ -1388,7 +1387,7 @@ const CreatePayloadModalContent = props => {
               <Option value={`~/.msf4/loot/${encoder}`}>{encoder}</Option>
             ))}
           </Select>
-        </FormNew.Item>,
+        </FormNew.Item>
       );
       options.push(
         <FormNew.Item
@@ -1408,8 +1407,8 @@ const CreatePayloadModalContent = props => {
             },
           ]}
         >
-          <Checkbox defaultChecked/>
-        </FormNew.Item>,
+          <Checkbox defaultChecked />
+        </FormNew.Item>
       );
     }
 
@@ -1425,16 +1424,15 @@ const CreatePayloadModalContent = props => {
           initialValue={rString}
           name="LURI"
         >
-          <Input placeholder="请输入自定义的URI"/>
-        </FormNew.Item>,
+          <Input placeholder="请输入自定义的URI" />
+        </FormNew.Item>
       );
 
       options.push(
         <FormNew.Item
           {...formLayout}
           label={
-            <Tooltip
-              title="The returned HTML response body when the handler receives a request that is not from a payload">
+            <Tooltip title="The returned HTML response body when the handler receives a request that is not from a payload">
               <span>http服务默认返回报文</span>
             </Tooltip>
           }
@@ -1447,8 +1445,8 @@ const CreatePayloadModalContent = props => {
             },
           ]}
         >
-          <TextArea placeholder="请输入Https服务默认返回的报文"/>
-        </FormNew.Item>,
+          <TextArea placeholder="请输入Https服务默认返回的报文" />
+        </FormNew.Item>
       );
 
       options.push(
@@ -1468,16 +1466,15 @@ const CreatePayloadModalContent = props => {
             },
           ]}
         >
-          <TextArea placeholder="请输入https的UserAgent"/>
-        </FormNew.Item>,
+          <TextArea placeholder="请输入https的UserAgent" />
+        </FormNew.Item>
       );
 
       options.push(
         <FormNew.Item
           {...formLayout}
           label={
-            <Tooltip
-              title="Forces a specific host and port instead of using what the client requests, defaults to LHOST:LPORT">
+            <Tooltip title="Forces a specific host and port instead of using what the client requests, defaults to LHOST:LPORT">
               <span>OverrideRequestHost</span>
             </Tooltip>
           }
@@ -1486,8 +1483,8 @@ const CreatePayloadModalContent = props => {
           valuePropName="checked"
           rules={[]}
         >
-          <Checkbox/>
-        </FormNew.Item>,
+          <Checkbox />
+        </FormNew.Item>
       );
       options.push(
         <FormNew.Item
@@ -1500,15 +1497,14 @@ const CreatePayloadModalContent = props => {
           name="HttpHostHeader"
           rules={[]}
         >
-          <Input placeholder=""/>
-        </FormNew.Item>,
+          <Input placeholder="" />
+        </FormNew.Item>
       );
       options.push(
         <FormNew.Item
           {...formLayout}
           label={
-            <Tooltip
-              title="When OverrideRequestHost is set, use this value as the scheme for secondary requests, e.g http or https">
+            <Tooltip title="When OverrideRequestHost is set, use this value as the scheme for secondary requests, e.g http or https">
               <span>OverrideScheme</span>
             </Tooltip>
           }
@@ -1519,7 +1515,7 @@ const CreatePayloadModalContent = props => {
             <Option value="http">http</Option>
             <Option value="https">https</Option>
           </Select>
-        </FormNew.Item>,
+        </FormNew.Item>
       );
 
       options.push(
@@ -1533,8 +1529,8 @@ const CreatePayloadModalContent = props => {
           name="OverrideLHOST"
           rules={[]}
         >
-          <Input placeholder=""/>
-        </FormNew.Item>,
+          <Input placeholder="" />
+        </FormNew.Item>
       );
       options.push(
         <FormNew.Item
@@ -1547,8 +1543,8 @@ const CreatePayloadModalContent = props => {
           name="OverrideLPORT"
           rules={[]}
         >
-          <InputNumber style={{ width: 160 }}/>
-        </FormNew.Item>,
+          <InputNumber style={{ width: 160 }} />
+        </FormNew.Item>
       );
     }
 
@@ -1570,13 +1566,13 @@ const CreatePayloadModalContent = props => {
             },
           ]}
         >
-          <Input placeholder="请输入RC4密码"/>
-        </FormNew.Item>,
+          <Input placeholder="请输入RC4密码" />
+        </FormNew.Item>
       );
       options.push(
         <FormNew.Item {...formLayout} label="说明">
           <span>RC4初始生成Session时较慢,请耐心等待,Session生成后速度不受影响.</span>
-        </FormNew.Item>,
+        </FormNew.Item>
       );
     }
 
@@ -1600,16 +1596,13 @@ const CreatePayloadModalContent = props => {
       }
       setPemfiles(result.pem_files);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const createHandlerReq = useRequest(postMsgrpcHandlerAPI, {
     manual: true,
-    onSuccess: (result, params) => {
-    },
-    onError: (error, params) => {
-    },
+    onSuccess: (result, params) => {},
+    onError: (error, params) => {},
   });
 
   const createPayloadReq = useRequest(postMsgrpcPayloadAPI, {
@@ -1618,8 +1611,7 @@ const CreatePayloadModalContent = props => {
       // message.success(decodeURI(response.headers.get('Message')));
       createPayloadFinish();
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const onCreatePayloadBySubmit = values => {
@@ -1666,7 +1658,7 @@ const CreatePayloadModalContent = props => {
                 },
               ]}
             >
-              <Input placeholder="请输入正向连接的IP地址"/>
+              <Input placeholder="请输入正向连接的IP地址" />
             </FormNew.Item>
           ) : null}
           {showLhost ? (
@@ -1682,7 +1674,7 @@ const CreatePayloadModalContent = props => {
                 },
               ]}
             >
-              <Input placeholder="请输入反向连接的IP地址"/>
+              <Input placeholder="请输入反向连接的IP地址" />
             </FormNew.Item>
           ) : null}
           <FormNew.Item
@@ -1696,7 +1688,7 @@ const CreatePayloadModalContent = props => {
               },
             ]}
           >
-            <InputNumber style={{ width: 160 }}/>
+            <InputNumber style={{ width: 160 }} />
           </FormNew.Item>
           {payloadFormatOption()}
         </Panel>
@@ -1707,7 +1699,7 @@ const CreatePayloadModalContent = props => {
             label={
               <Tooltip title="Payload执行后自动迁移到指定进程,请注意 1)必须使用该监听生成的载荷才能生效 2)迁移进程后原进程不会关闭,并且占用loader文件">
                 <span>
-                  <InfoCircleOutlined/>
+                  <InfoCircleOutlined />
                   &nbsp;自动迁移
                 </span>
               </Tooltip>
@@ -1717,7 +1709,7 @@ const CreatePayloadModalContent = props => {
             initialValue={false}
             rules={[]}
           >
-            <Checkbox/>
+            <Checkbox />
           </FormNew.Item>
           <FormNew.Item {...formLayout} label="自动迁移到进程" name="PrependMigrateProc" rules={[]}>
             <Select style={{ width: 200 }} allowClear>
@@ -1731,7 +1723,7 @@ const CreatePayloadModalContent = props => {
             label={
               <Tooltip title="生成载荷同时添加对应的监听(生成的监听无法使用代理,无法设置为永久监听,请手工点击刷新按钮刷新)">
                 <span>
-                  <InfoCircleOutlined/>
+                  <InfoCircleOutlined />
                   &nbsp;自动监听
                 </span>
               </Tooltip>
@@ -1741,7 +1733,7 @@ const CreatePayloadModalContent = props => {
             initialValue={false}
             rules={[]}
           >
-            <Checkbox/>
+            <Checkbox />
           </FormNew.Item>
         </Panel>
 
@@ -1754,7 +1746,7 @@ const CreatePayloadModalContent = props => {
             </Select>
           </FormNew.Item>
           <FormNew.Item {...formLayout} label="编码次数" name="Iterations" rules={[]}>
-            <InputNumber style={{ width: 160 }}/>
+            <InputNumber style={{ width: 160 }} />
           </FormNew.Item>
           <FormNew.Item
             {...formLayout}
@@ -1764,11 +1756,11 @@ const CreatePayloadModalContent = props => {
             initialValue={false}
             rules={[]}
           >
-            <Checkbox/>
+            <Checkbox />
           </FormNew.Item>
 
           <FormNew.Item {...formLayout} label="避免字符" name="BadChars" rules={[]}>
-            <Input/>
+            <Input />
           </FormNew.Item>
           <FormNew.Item
             {...formLayout}
@@ -1777,7 +1769,7 @@ const CreatePayloadModalContent = props => {
             rules={[]}
             initialValue={300}
           >
-            <InputNumber style={{ width: 160 }} placeholder="请输入正确的连接超时时间"/>
+            <InputNumber style={{ width: 160 }} placeholder="请输入正确的连接超时时间" />
           </FormNew.Item>
           <FormNew.Item
             {...formLayout}
@@ -1786,7 +1778,7 @@ const CreatePayloadModalContent = props => {
             rules={[]}
             initialValue={3600 * 24 * 30}
           >
-            <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间"/>
+            <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间" />
           </FormNew.Item>
           <FormNew.Item
             {...formLayout}
@@ -1795,7 +1787,7 @@ const CreatePayloadModalContent = props => {
             rules={[]}
             initialValue={3600}
           >
-            <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间"/>
+            <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间" />
           </FormNew.Item>
           <FormNew.Item
             {...formLayout}
@@ -1804,7 +1796,7 @@ const CreatePayloadModalContent = props => {
             rules={[]}
             initialValue={10}
           >
-            <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间"/>
+            <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间" />
           </FormNew.Item>
         </Panel>
       </Collapse>
@@ -1812,7 +1804,7 @@ const CreatePayloadModalContent = props => {
         <Button
           block
           loading={createPayloadReq.loading}
-          icon={<BlockOutlined/>}
+          icon={<BlockOutlined />}
           htmlType="submit"
           type="primary"
         >
@@ -1833,8 +1825,7 @@ const PayloadAndHandler = () => {
     onSuccess: (result, params) => {
       setHandlerListActive(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const listHanderReq = useRequest(getMsgrpcHandlerAPI, {
@@ -1842,8 +1833,7 @@ const PayloadAndHandler = () => {
     onSuccess: (result, params) => {
       setHandlerListActive(result);
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const createHandlerReq = useRequest(postMsgrpcHandlerAPI, {
@@ -1851,8 +1841,7 @@ const PayloadAndHandler = () => {
     onSuccess: (result, params) => {
       listHanderReq.run();
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
 
   const onCreateHandlerByVirtual = params => {
@@ -1870,15 +1859,12 @@ const PayloadAndHandler = () => {
     onSuccess: (result, params) => {
       listHanderReq.run();
     },
-    onError: (error, params) => {
-    },
+    onError: (error, params) => {},
   });
   const createPayloadReq = useRequest(postMsgrpcPayloadAPI, {
     manual: true,
-    onSuccess: (result, params) => {
-    },
-    onError: (error, params) => {
-    },
+    onSuccess: (result, params) => {},
+    onError: (error, params) => {},
   });
 
   const onCreatePayloadByHandler = params => {
@@ -1921,8 +1907,7 @@ const PayloadAndHandler = () => {
           {Descriptions_Items}
         </Descriptions>
       ),
-      onOk() {
-      },
+      onOk() {},
     });
   };
 
@@ -1932,7 +1917,7 @@ const PayloadAndHandler = () => {
         <Col span={8}>
           <Button
             block
-            icon={<CustomerServiceOutlined/>}
+            icon={<CustomerServiceOutlined />}
             onClick={() => setCreateHandlerModalVisible(true)}
           >
             新增监听
@@ -1942,7 +1927,7 @@ const PayloadAndHandler = () => {
           <Button
             loading={createPayloadReq.loading}
             block
-            icon={<BlockOutlined/>}
+            icon={<BlockOutlined />}
             onClick={() => setCreatePayloadModalVisible(true)}
           >
             生成载荷
@@ -1950,7 +1935,7 @@ const PayloadAndHandler = () => {
         </Col>
         <Col span={8}>
           <Button
-            icon={<SyncOutlined/>}
+            icon={<SyncOutlined />}
             style={{
               width: '100%',
             }}
@@ -1961,145 +1946,138 @@ const PayloadAndHandler = () => {
           </Button>
         </Col>
       </Row>
-      <Card style={{ marginTop: 0 }} bodyStyle={{ padding: '0px 0px 0px 0px' }}>
-        <Table
-          className={styles.handlerTable}
-          size="small"
-          bordered
-          pagination={false}
-          rowKey="ID"
-          dataSource={handlerListActive}
-          columns={[
-            {
-              title: 'ID',
-              dataIndex: 'ID',
-              key: 'ID',
-              width: 48,
-              render: (text, record) =>
-                record.ID >= 0 ? (
-                  <Avatar
-                    style={{ backgroundColor: '#49aa19', width: '100%' }}
-                    shape="square"
-                    size={24}
-                  >
-                    <Tooltip placement="right" title="真实监听">
-                      {record.ID}
-                    </Tooltip>
-                  </Avatar>
-                ) : (
-                  <Avatar style={{ width: '100%' }} shape="square" size={24}>
-                    <Tooltip placement="right" title="虚拟监听">
-                      {-record.ID}
-                    </Tooltip>
-                  </Avatar>
-                ),
+      <Table
+        style={{ marginTop: 0 }}
+        className={styles.handlerTable}
+        size="small"
+        bordered
+        pagination={false}
+        rowKey="ID"
+        dataSource={handlerListActive}
+        columns={[
+          {
+            title: 'ID',
+            dataIndex: 'ID',
+            key: 'ID',
+            width: 48,
+            render: (text, record) =>
+              record.ID >= 0 ? (
+                <Avatar
+                  style={{ backgroundColor: '#49aa19', width: '100%' }}
+                  shape="square"
+                  size={24}
+                >
+                  <Tooltip placement="right" title="真实监听">
+                    {record.ID}
+                  </Tooltip>
+                </Avatar>
+              ) : (
+                <Avatar style={{ width: '100%' }} shape="square" size={24}>
+                  <Tooltip placement="right" title="虚拟监听">
+                    {-record.ID}
+                  </Tooltip>
+                </Avatar>
+              ),
+          },
+          {
+            title: '载荷',
+            dataIndex: 'PAYLOAD',
+            key: 'PAYLOAD',
+            width: 280,
+            render: (text, record) => record.PAYLOAD,
+          },
+          {
+            title: 'LHOST/RHOST',
+            dataIndex: 'PAYLOAD',
+            key: 'PAYLOAD',
+            width: 136,
+            render: (text, record) => {
+              if (record.RHOST !== undefined && record.RHOST !== null) {
+                return <span>{record.RHOST}</span>;
+              }
+              if (record.LHOST !== undefined && record.LHOST !== null) {
+                return <span>{record.LHOST}</span>;
+              }
+              return null;
             },
-            {
-              title: '载荷',
-              dataIndex: 'PAYLOAD',
-              key: 'PAYLOAD',
-              width: 280,
-              render: (text, record) => record.PAYLOAD,
-            },
-            {
-              title: 'LHOST/RHOST',
-              dataIndex: 'PAYLOAD',
-              key: 'PAYLOAD',
-              width: 136,
-              render: (text, record) => {
-                if (record.RHOST !== undefined && record.RHOST !== null) {
-                  return <span>{record.RHOST}</span>;
-                }
-                if (record.LHOST !== undefined && record.LHOST !== null) {
-                  return <span>{record.LHOST}</span>;
-                }
-                return null;
-              },
-            },
-            {
-              title: 'PORT',
-              dataIndex: 'LPORT',
-              key: 'LPORT',
-              width: 64,
-              render: (text, record) => <span>{record.LPORT}</span>,
-            },
-            {
-              title: '其他参数',
-              dataIndex: 'PAYLOAD',
-              key: 'PAYLOAD',
-              render: (text, record) => {
-                const items = [];
+          },
+          {
+            title: 'PORT',
+            dataIndex: 'LPORT',
+            key: 'LPORT',
+            width: 64,
+            render: (text, record) => <span>{record.LPORT}</span>,
+          },
+          {
+            title: '其他参数',
+            dataIndex: 'PAYLOAD',
+            key: 'PAYLOAD',
+            render: (text, record) => {
+              const items = [];
 
-                if (record.LURI !== undefined && record.LURI !== null) {
-                  items.push(<span>{` LURI: ${record.LURI}`}</span>);
-                }
-                if (record.HandlerSSLCert !== undefined && record.HandlerSSLCert !== null) {
-                  const pos = record.HandlerSSLCert.lastIndexOf('/');
-                  items.push(<span>{` 证书: ${record.HandlerSSLCert.substr(pos + 1)}`}</span>);
-                }
+              if (record.LURI !== undefined && record.LURI !== null) {
+                items.push(<span>{` LURI: ${record.LURI}`}</span>);
+              }
+              if (record.HandlerSSLCert !== undefined && record.HandlerSSLCert !== null) {
+                const pos = record.HandlerSSLCert.lastIndexOf('/');
+                items.push(<span>{` 证书: ${record.HandlerSSLCert.substr(pos + 1)}`}</span>);
+              }
 
-                if (record.RC4PASSWORD !== undefined && record.RC4PASSWORD !== null) {
-                  items.push(<span>{` RC4密码: ${record.RC4PASSWORD}`}</span>);
-                }
-                if (record.proxies !== undefined && record.proxies !== null) {
-                  items.push(<span>{` 代理: ${record.proxies}`}</span>);
-                }
-                return <Space style={{ display: 'flex' }}>{items}</Space>;
-              },
+              if (record.RC4PASSWORD !== undefined && record.RC4PASSWORD !== null) {
+                items.push(<span>{` RC4密码: ${record.RC4PASSWORD}`}</span>);
+              }
+              if (record.proxies !== undefined && record.proxies !== null) {
+                items.push(<span>{` 代理: ${record.proxies}`}</span>);
+              }
+              return <Space style={{ display: 'flex' }}>{items}</Space>;
             },
-            {
-              title: '别名',
-              dataIndex: 'HandlerName',
-              key: 'HandlerName',
-              render: (text, record) => record.HandlerName,
-            },
-            {
-              title: '操作',
-              dataIndex: 'operation',
-              width: 256,
-              render: (text, record) => {
-                let transformAction = null;
-                if (record.ID >= 0) {
-                  transformAction = (
-                    <a style={{ color: '#faad14' }} onClick={() => onCreateVirtualHandler(record)}>
-                      虚拟化
-                    </a>
-                  );
-                } else {
-                  transformAction = (
-                    <a
-                      style={{ color: '#faad14' }}
-                      onClick={() => onCreateHandlerByVirtual(record)}
-                    >
-                      实例化
-                    </a>
-                  );
-                }
-                return (
-                  <div style={{ textAlign: 'center' }}>
-                    <Space size="middle">
-                      <a
-                        style={{ color: 'green' }}
-                        onClick={() => onCreatePayloadByHandler(record)}
-                      >
-                        生成载荷
-                      </a>
-                      <a onClick={() => handlerDetail(record)}>详细参数</a>
-                      {transformAction}
-                      <a
-                        onClick={() => destoryHandlerReq.run({ jobid: record.ID })}
-                        style={{ color: 'red' }}
-                      >
-                        删除
-                      </a>
-                    </Space>
-                  </div>
+          },
+          {
+            title: '别名',
+            dataIndex: 'HandlerName',
+            key: 'HandlerName',
+            render: (text, record) => record.HandlerName,
+          },
+          {
+            title: '操作',
+            dataIndex: 'operation',
+            width: 256,
+            render: (text, record) => {
+              let transformAction = null;
+              if (record.ID >= 0) {
+                transformAction = (
+                  <a style={{ color: '#faad14' }} onClick={() => onCreateVirtualHandler(record)}>
+                    虚拟化
+                  </a>
                 );
-              },
+              } else {
+                transformAction = (
+                  <a style={{ color: '#faad14' }} onClick={() => onCreateHandlerByVirtual(record)}>
+                    实例化
+                  </a>
+                );
+              }
+              return (
+                <div style={{ textAlign: 'center' }}>
+                  <Space size="middle">
+                    <a style={{ color: 'green' }} onClick={() => onCreatePayloadByHandler(record)}>
+                      生成载荷
+                    </a>
+                    <a onClick={() => handlerDetail(record)}>详细参数</a>
+                    {transformAction}
+                    <a
+                      onClick={() => destoryHandlerReq.run({ jobid: record.ID })}
+                      style={{ color: 'red' }}
+                    >
+                      删除
+                    </a>
+                  </Space>
+                </div>
+              );
             },
-          ]}
-        />
-      </Card>
+          },
+        ]}
+      />
       <Modal
         // title="添加监听"
         style={{ top: 20 }}
@@ -2110,7 +2088,7 @@ const PayloadAndHandler = () => {
         footer={null}
         onCancel={() => setCreateHandlerModalVisible(false)}
       >
-        <CreateHandlerModalContent createHandlerFinish={createHandlerFinish}/>
+        <CreateHandlerModalContent createHandlerFinish={createHandlerFinish} />
       </Modal>
       <Modal
         // title="生成载荷"
@@ -2122,7 +2100,7 @@ const PayloadAndHandler = () => {
         footer={null}
         onCancel={() => setCreatePayloadModalVisible(false)}
       >
-        <CreatePayloadModalContent createPayloadFinish={createPayloadFinish}/>
+        <CreatePayloadModalContent createPayloadFinish={createPayloadFinish} />
       </Modal>
     </Fragment>
   );
