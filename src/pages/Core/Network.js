@@ -8,7 +8,7 @@ import Graphin, { Behaviors, Utils } from '@antv/graphin';
 import './iconfont.css';
 import fonts from './iconfont.json';
 
-const { ActivateRelations } = Behaviors;
+const { ActivateRelations, FitView } = Behaviors;
 const iconLoader = () => {
   return {
     fontFamily: 'iconfont',
@@ -38,7 +38,7 @@ const Network = () => {
     if (data.type === 'session') {
       return 75;
     } else {
-      return 150;
+      return 100;
     }
   };
 
@@ -219,12 +219,13 @@ const Network = () => {
                 theme={{ mode: 'dark' }}
                 layout={{
                   type: 'dagre',
-                  rankdir: 'LR',
-                  align: 'UL',
+                  rankdir: 'TB',
+                  align: 'DL',
                   ranksepFunc: ranksepFunc,
                 }}
               >
-                <ActivateRelations />
+                <FitView/>
+                <ActivateRelations/>
               </Graphin>
             </div>
           </Card>
