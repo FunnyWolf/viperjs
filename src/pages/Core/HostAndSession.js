@@ -23,6 +23,7 @@ import {
   deletePostlateralVulnerabilityAPI,
   deletePostModuleAutoAPI,
   deletePostmodulePostModuleResultHistoryAPI,
+  getCoreCurrentUserAPI,
   getCoreSettingAPI,
   getMsgrpcFileSessionAPI,
   getMsgrpcPortFwdAPI,
@@ -218,6 +219,12 @@ const HostAndSession = props => {
     onError: (error, params) => {},
   });
 
+  const listCurrentUserReq = useRequest(getCoreCurrentUserAPI, {
+    manual: true,
+    onSuccess: (result, params) => {},
+    onError: (error, params) => {},
+  });
+
   const urlpatterns = '/ws/v1/websocket/heartbeat/?';
   const urlargs = `&token=${getToken()}`;
   const socketUrl = protocol + webHost + urlpatterns + urlargs;
@@ -225,14 +232,20 @@ const HostAndSession = props => {
   const ws = useRef(null);
 
   const initHeartBeat = () => {
-    ws.current = new WebSocket(socketUrl);
+    try {
+      listCurrentUserReq.run();
+      ws.current = new WebSocket(socketUrl);
+    } catch (error) {
+      return;
+    }
+
     ws.current.onopen = () => {
       setHeatbeatsocketalive(true);
     };
     ws.current.onclose = CloseEvent => {
       setHeatbeatsocketalive(false);
     };
-    ws.current.onerror = () => {
+    ws.current.onerror = ErrorEvent => {
       setHeatbeatsocketalive(false);
     };
     ws.current.onmessage = event => {
