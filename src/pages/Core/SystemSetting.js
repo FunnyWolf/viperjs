@@ -42,8 +42,8 @@ const { Option } = Select;
 const { TabPane } = Tabs;
 const { Title, Paragraph, Text } = Typography;
 
-const viper_version = 'v1.3.5';
-const viper_update_date = '2021-05-03';
+const viper_version = 'v1.3.6';
+const viper_update_date = '2021-05-09';
 const datas = [
   {
     name: 'metasploit-framework',
@@ -92,27 +92,22 @@ const SystemSetting = () => {
         <TabPane tab="关于VIPER" key="system_info">
           <SystemInfo/>
         </TabPane>
-        <TabPane tab="网络配置" key="lhost">
+        <TabPane tab="360Quake API" key="360Quake">
           <Card style={{ marginTop: -16 }}>
             <Row>
               <Col span={16}>
-                <LHostForm/>
+                <QuakeForm/>
               </Col>
               <Col span={8}>
                 <Typography>
                   <Paragraph>
-                    <Title level={4}>配置说明</Title>
-                    <Text strong>回连地址</Text>填写为VPS的互联网IP/域名
+                    <Title level={4}>配置方法</Title>
+                    <Text>申请开通Quake会员/账号,获取key</Text>
                     <br/>
-                    <Text>VIPER已占用端口.</Text>
-                    <br/>
-                    Nginx:<Text code>0.0.0.0:60000</Text>
-                    <br/>
-                    Redis:<Text code>127.0.0.1:60004</Text>
-                    <br/>
-                    Msfrpcd:<Text code>127.0.0.1:60005</Text>
-                    <br/>
-                    SSH(默认关闭):<Text code>127.0.0.1:60010</Text>
+                    <Text>参考 : </Text>
+                    <a href="https://quake.360.cn/quake/#/help?title=%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E">
+                      Quake API教程
+                    </a>
                   </Paragraph>
                 </Typography>
               </Col>
@@ -133,28 +128,6 @@ const SystemSetting = () => {
                     <br/>
                     <Text>参考 : </Text>
                     <a href="https://fofa.so/static_pages/api_help">FOFA API教程</a>
-                  </Paragraph>
-                </Typography>
-              </Col>
-            </Row>
-          </Card>
-        </TabPane>
-        <TabPane tab="360Quake API" key="360Quake">
-          <Card style={{ marginTop: -16 }}>
-            <Row>
-              <Col span={16}>
-                <QuakeForm/>
-              </Col>
-              <Col span={8}>
-                <Typography>
-                  <Paragraph>
-                    <Title level={4}>配置方法</Title>
-                    <Text>申请开通Quake会员/账号,获取key</Text>
-                    <br/>
-                    <Text>参考 : </Text>
-                    <a href="https://quake.360.cn/quake/#/help?title=%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E">
-                      Quake API教程
-                    </a>
                   </Paragraph>
                 </Typography>
               </Col>
@@ -251,6 +224,33 @@ const SystemSetting = () => {
                       当激活Session监控后,每当平台新增Session时都会发送通知. 需要结合Bot使用.
                     </Text>
                     <br/>
+                  </Paragraph>
+                </Typography>
+              </Col>
+            </Row>
+          </Card>
+        </TabPane>
+        <TabPane tab="网络配置" key="lhost">
+          <Card style={{ marginTop: -16 }}>
+            <Row>
+              <Col span={16}>
+                <LHostForm/>
+              </Col>
+              <Col span={8}>
+                <Typography>
+                  <Paragraph>
+                    <Title level={4}>配置说明</Title>
+                    <Text strong>回连地址</Text>填写为VPS的互联网IP/域名
+                    <br/>
+                    <Text>VIPER已占用端口.</Text>
+                    <br/>
+                    Nginx:<Text code>0.0.0.0:60000</Text>
+                    <br/>
+                    Redis:<Text code>127.0.0.1:60004</Text>
+                    <br/>
+                    Msfrpcd:<Text code>127.0.0.1:60005</Text>
+                    <br/>
+                    SSH(默认关闭):<Text code>127.0.0.1:60010</Text>
                   </Paragraph>
                 </Typography>
               </Col>
