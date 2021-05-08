@@ -20,7 +20,7 @@ export default {
   Password: {
     props: {
       size: 'large',
-      prefix: <Icon type="lock" className={styles.prefixIcon} />,
+      prefix: <Icon type="lock" className={styles.prefixIcon}/>,
       type: 'password',
       id: 'password',
       placeholder: '888888',
@@ -35,7 +35,7 @@ export default {
   Mobile: {
     props: {
       size: 'large',
-      prefix: <Icon type="mobile" className={styles.prefixIcon} />,
+      prefix: <Icon type="mobile" className={styles.prefixIcon}/>,
       placeholder: 'mobile number',
     },
     rules: [
@@ -52,7 +52,7 @@ export default {
   Captcha: {
     props: {
       size: 'large',
-      prefix: <Icon type="mail" className={styles.prefixIcon} />,
+      prefix: <Icon type="mail" className={styles.prefixIcon}/>,
       placeholder: 'captcha',
     },
     rules: [

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Chart, Axis, Tooltip, Geom } from 'bizcharts';
+import { Axis, Chart, Geom, Tooltip } from 'bizcharts';
 import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
 import autoHeight from '../autoHeight';
@@ -100,9 +100,9 @@ class Bar extends Component {
               label={autoHideXLabels ? false : {}}
               tickLine={autoHideXLabels ? false : {}}
             />
-            <Axis name="y" min={0} />
-            <Tooltip showTitle={false} crosshairs={false} />
-            <Geom type="interval" position="x*y" color={color} tooltip={tooltip} />
+            <Axis name="y" min={0}/>
+            <Tooltip showTitle={false} crosshairs={false}/>
+            <Geom type="interval" position="x*y" color={color} tooltip={tooltip}/>
           </Chart>
         </div>
       </div>

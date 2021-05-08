@@ -1,12 +1,9 @@
 import React, { PureComponent } from 'react';
 import { Icon as LegacyIcon } from '@ant-design/compatible';
-import { Spin, Tag, Menu, Avatar, Tooltip } from 'antd';
+import { Avatar, Menu, Spin, Tag, Tooltip } from 'antd';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
-import NoticeIcon from '../NoticeIcon';
-import HeaderSearch from '../HeaderSearch';
 import HeaderDropdown from '../HeaderDropdown';
-import SelectLang from '../SelectLang';
 import styles from './index.less';
 import adminLogo from '../../assets/userlogo.svg';
 import userLogo from '../../assets/userlogo.svg';
@@ -142,7 +139,7 @@ export default class GlobalHeaderRight extends PureComponent {
         {/*    console.log('enter', value); // eslint-disable-line*/}
         {/*  }}*/}
         {/*/>*/}
-        <Tooltip title='使用文档'>
+        <Tooltip title="使用文档">
           <a
             target="_blank"
             href="https://shimo.im/docs/C5dqkCBoTWIxCuwG"

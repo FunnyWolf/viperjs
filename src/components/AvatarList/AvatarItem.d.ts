@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 export interface IAvatarItemProps {
   tips: React.ReactNode;
   src: string;

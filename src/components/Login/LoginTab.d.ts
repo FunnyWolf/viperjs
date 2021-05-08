@@ -8,4 +8,6 @@ export interface LoginTabProps {
     removeTab: (id: any) => void;
   };
 }
-export default class LoginTab extends React.Component<LoginTabProps, any> {}
+
+export default class LoginTab extends React.Component<LoginTabProps, any> {
+}

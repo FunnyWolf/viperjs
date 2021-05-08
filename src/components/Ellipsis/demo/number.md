@@ -1,8 +1,6 @@
 ---
-order: 0
-title: 
-  zh-CN: 按照字符数省略
-  en-US: Truncate according to the number of character
+order: 0 title:
+zh-CN: 按照字符数省略 en-US: Truncate according to the number of character
 ---
 
 ## zh-CN
@@ -24,5 +22,5 @@ ReactDOM.render(
     <h4 style={{ marginTop: 24 }}>Show Tooltip</h4>
     <Ellipsis length={100} tooltip>{article}</Ellipsis>
   </div>
-, mountNode);
+  , mountNode);
 ````

@@ -1,10 +1,6 @@
 ---
-title: 
-  en-US: Trend
-  zh-CN: Trend
-subtitle: 趋势标记
-cols: 1
-order: 14
+title:
+en-US: Trend zh-CN: Trend subtitle: 趋势标记 cols: 1 order: 14
 ---
 
 趋势符号，标记上升和下降趋势。通常用绿色代表“好”，红色代表“不好”，股票涨跌场景除外。
@@ -12,6 +8,7 @@ order: 14
 ## API
 
 ```html
+
 <Trend flag="up">50%</Trend>
 ```
 

@@ -3,6 +3,7 @@ import { Icon as LegacyIcon } from '@ant-design/compatible';
 import { Tooltip } from 'antd';
 import styles from './ThemeColor.less';
 import { formatMessage } from 'umi';
+
 const Tag = ({ color, check, ...rest }) => (
   <div
     {...rest}
@@ -10,7 +11,7 @@ const Tag = ({ color, check, ...rest }) => (
       backgroundColor: color,
     }}
   >
-    {check ? <LegacyIcon type="check" /> : ''}
+    {check ? <LegacyIcon type="check"/> : ''}
   </div>
 );
 

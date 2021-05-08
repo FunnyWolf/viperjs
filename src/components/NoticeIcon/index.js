@@ -1,7 +1,7 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { Fragment, PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import { Icon as LegacyIcon } from '@ant-design/compatible';
-import { Tabs, Badge, Spin } from 'antd';
+import { Badge, Spin, Tabs } from 'antd';
 import classNames from 'classnames';
 import HeaderDropdown from '../HeaderDropdown';
 import List from './NoticeList';
@@ -13,10 +13,14 @@ export default class NoticeIcon extends PureComponent {
   static Tab = TabPane;
 
   static defaultProps = {
-    onItemClick: () => {},
-    onPopupVisibleChange: () => {},
-    onTabChange: () => {},
-    onClear: () => {},
+    onItemClick: () => {
+    },
+    onPopupVisibleChange: () => {
+    },
+    onTabChange: () => {
+    },
+    onClear: () => {
+    },
     loading: false,
     clearClose: false,
     locale: {
@@ -127,7 +131,7 @@ export default class NoticeIcon extends PureComponent {
     const { visible } = this.state;
     const noticeButtonClass = classNames(className, styles.noticeButton);
     const notificationBox = this.getNotificationBox();
-    const NoticeBellIcon = bell || <LegacyIcon type="bell" className={styles.icon} />;
+    const NoticeBellIcon = bell || <LegacyIcon type="bell" className={styles.icon}/>;
     const trigger = (
       <span className={classNames(noticeButtonClass, { opened: visible })}>
         <Badge count={count} style={{ boxShadow: 'none' }} className={styles.badge}>

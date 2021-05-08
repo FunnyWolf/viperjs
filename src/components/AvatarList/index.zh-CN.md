@@ -1,8 +1,5 @@
 ---
-title: AvatarList
-subtitle: 用户头像列表
-order: 1
-cols: 1
+title: AvatarList subtitle: 用户头像列表 order: 1 cols: 1
 ---
 
 一组用户头像，常用在项目/团队成员列表。可通过设置 `size` 属性来指定头像大小。

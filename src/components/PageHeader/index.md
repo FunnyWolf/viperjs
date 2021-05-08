@@ -1,10 +1,6 @@
 ---
 title:
-  en-US: PageHeader
-  zh-CN: PageHeader
-subtitle: 页头
-cols: 1
-order: 11
+en-US: PageHeader zh-CN: PageHeader subtitle: 页头 cols: 1 order: 11
 ---
 
 页头用来声明页面的主题，包含了用户所关注的最重要的信息，使用户可以快速理解当前页面是什么以及它的功能。

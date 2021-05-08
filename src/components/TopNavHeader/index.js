@@ -31,7 +31,7 @@ export default class TopNavHeader extends PureComponent {
           <div className={styles.left}>
             <div className={styles.logo} key="logo" id="logo">
               <Link to="/">
-                <img src={logo} alt="logo" />
+                <img src={logo} alt="logo"/>
                 {/*<h1>VIPER</h1>*/}
                 {/*导航栏代码*/}
               </Link>
@@ -41,7 +41,7 @@ export default class TopNavHeader extends PureComponent {
                 maxWidth,
               }}
             >
-              <BaseMenu {...this.props} flatMenuKeys={flatMenuKeys} className={styles.menu} />
+              <BaseMenu {...this.props} flatMenuKeys={flatMenuKeys} className={styles.menu}/>
             </div>
           </div>
           <RightContent {...this.props} />

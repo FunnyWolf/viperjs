@@ -2,12 +2,15 @@
 
 .pie {
   position: relative;
+
   .chart {
     position: relative;
   }
+
   &.hasLegend .chart {
     width: ~'calc(100% - 240px)';
   }
+
   .legend {
     position: absolute;
     right: 0;
@@ -17,16 +20,19 @@
     margin: 0 20px;
     list-style: none;
     padding: 0;
+
     li {
       cursor: pointer;
       margin-bottom: 16px;
       height: 22px;
       line-height: 22px;
+
       &:last-child {
         margin-bottom: 0;
       }
     }
   }
+
   .dot {
     border-radius: 8px;
     display: inline-block;
@@ -36,6 +42,7 @@
     height: 8px;
     width: 8px;
   }
+
   .line {
     background-color: @border-color-split;
     display: inline-block;
@@ -43,19 +50,24 @@
     width: 1px;
     height: 16px;
   }
+
   .legendTitle {
     color: @text-color;
   }
+
   .percent {
     color: @text-color-secondary;
   }
+
   .value {
     position: absolute;
     right: 0;
   }
+
   .title {
     margin-bottom: 8px;
   }
+
   .total {
     position: absolute;
     left: 50%;
@@ -63,6 +75,7 @@
     text-align: center;
     max-height: 62px;
     transform: translate(-50%, -50%);
+
     & > h4 {
       color: @text-color-secondary;
       font-size: 14px;
@@ -71,6 +84,7 @@
       margin-bottom: 8px;
       font-weight: normal;
     }
+
     & > p {
       color: @heading-color;
       display: block;
@@ -87,6 +101,7 @@
     width: 100%;
     margin: 0 0 32px 0;
   }
+
   .legend {
     position: relative;
     transform: none;

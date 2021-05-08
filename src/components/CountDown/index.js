@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;
 }
+
 const initTime = props => {
   let lastTime = 0;
   let targetTime = 0;
@@ -93,7 +94,7 @@ class CountDown extends Component {
             if (onEnd) {
               onEnd();
             }
-          }
+          },
         );
       } else {
         lastTime -= this.interval;
@@ -103,7 +104,7 @@ class CountDown extends Component {
           },
           () => {
             this.tick();
-          }
+          },
         );
       }
     }, this.interval);

@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 export interface IMiniBarProps {
   color?: string;
   height: number;
@@ -9,4 +10,5 @@ export interface IMiniBarProps {
   style?: React.CSSProperties;
 }
 
-export default class MiniBar extends React.Component<IMiniBarProps, any> {}
+export default class MiniBar extends React.Component<IMiniBarProps, any> {
+}

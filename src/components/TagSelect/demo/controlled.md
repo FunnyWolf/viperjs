@@ -1,6 +1,5 @@
 ---
-order: 3
-title: 受控模式
+order: 3 title: 受控模式
 ---
 
 结合 `Tag` 的 `TagSelect` 组件，方便的应用于筛选类目的业务场景中。
@@ -23,6 +22,7 @@ class Demo extends React.Component {
       value: ['cat1', 'cat2', 'cat3', 'cat4', 'cat5', 'cat6'],
     });
   };
+
   render() {
     return (
       <div>
@@ -46,5 +46,5 @@ class Demo extends React.Component {
   }
 }
 
-ReactDOM.render(<Demo />, mountNode);
+ReactDOM.render(<Demo/>, mountNode);
 ```

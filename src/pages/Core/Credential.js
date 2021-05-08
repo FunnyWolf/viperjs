@@ -1,26 +1,7 @@
 import React, { Fragment, memo, useState } from 'react';
 import '@ant-design/compatible/assets/index.css';
-import {
-  ChromeOutlined,
-  MehOutlined,
-  PlusOutlined,
-  SyncOutlined,
-  WindowsOutlined,
-} from '@ant-design/icons';
-import {
-  Button,
-  Col,
-  Collapse,
-  Form,
-  Input,
-  Modal,
-  Popover,
-  Radio,
-  Row,
-  Space,
-  Table,
-  Tooltip,
-} from 'antd';
+import { ChromeOutlined, MehOutlined, PlusOutlined, SyncOutlined, WindowsOutlined } from '@ant-design/icons';
+import { Button, Col, Collapse, Form, Input, Modal, Popover, Radio, Row, Space, Table, Tooltip } from 'antd';
 import Ellipsis from '@/components/Ellipsis';
 import styles from './Credential.less';
 import {
@@ -52,7 +33,8 @@ const Credential = () => {
     onSuccess: (result, params) => {
       setCredentialList(result);
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const listCredentialReq = useRequest(getPostlateralCredentialAPI, {
@@ -60,7 +42,8 @@ const Credential = () => {
     onSuccess: (result, params) => {
       setCredentialList(result);
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const createCredentialReq = useRequest(postPostlateralCredentialAPI, {
@@ -69,14 +52,16 @@ const Credential = () => {
       setCreateCredentialModalVisible(false);
       listCredentialReq.run();
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
   const updateCredentialReq = useRequest(putPostlateralCredentialAPI, {
     manual: true,
     onSuccess: (result, params) => {
       listCredentialReq.run();
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const destoryCredentialReq = useRequest(deletePostlateralCredentialAPI, {
@@ -84,7 +69,8 @@ const Credential = () => {
     onSuccess: (result, params) => {
       listCredentialReq.run();
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const formLayout = {
@@ -102,7 +88,7 @@ const Credential = () => {
           <Button
             block
             type="dashed"
-            icon={<PlusOutlined />}
+            icon={<PlusOutlined/>}
             onClick={() => setCreateCredentialModalVisible(true)}
           >
             手动添加
@@ -111,7 +97,7 @@ const Credential = () => {
         <Col span={12}>
           <Button
             block
-            icon={<SyncOutlined />}
+            icon={<SyncOutlined/>}
             onClick={() => listCredentialReq.run()}
             loading={listCredentialReq.loading || destoryCredentialReq.loading}
           >
@@ -158,17 +144,17 @@ const Credential = () => {
               const typetoicon = {
                 windows: (
                   <div style={{ textAlign: 'center' }}>
-                    <WindowsOutlined />
+                    <WindowsOutlined/>
                   </div>
                 ),
                 userinput: (
                   <div style={{ textAlign: 'center' }}>
-                    <MehOutlined />
+                    <MehOutlined/>
                   </div>
                 ),
                 browsers: (
                   <div style={{ textAlign: 'center' }}>
-                    <ChromeOutlined />
+                    <ChromeOutlined/>
                   </div>
                 ),
               };
@@ -279,7 +265,7 @@ const Credential = () => {
                 name="username"
                 rules={[{ required: true, message: '请输入用户名' }]}
               >
-                <Input placeholder="请输入用户名" />
+                <Input placeholder="请输入用户名"/>
               </Form.Item>
               <Form.Item
                 {...formLayout}
@@ -287,12 +273,12 @@ const Credential = () => {
                 name="password"
                 rules={[{ required: true, message: '请输入密码' }]}
               >
-                <Input placeholder="请输入密码信息" />
+                <Input placeholder="请输入密码信息"/>
               </Form.Item>
             </Panel>
             <Panel header="Windows凭证" key="2">
               <Form.Item {...formLayout} label={<span>Domain</span>} name="windows-domain">
-                <Input placeholder="请输入域名称" />
+                <Input placeholder="请输入域名称"/>
               </Form.Item>
 
               <Form.Item {...formLayout} label={<span>凭证类型</span>} name="windows-type">
@@ -305,7 +291,7 @@ const Credential = () => {
             <Form.Item {...tailLayout}>
               <Button
                 block
-                icon={<PlusOutlined />}
+                icon={<PlusOutlined/>}
                 type="primary"
                 htmlType="submit"
                 loading={createCredentialReq.loading}

@@ -1,6 +1,5 @@
 ---
-order: 3
-title: Simple
+order: 3 title: Simple
 ---
 
 简单的页头。
@@ -20,9 +19,9 @@ const breadcrumbList = [{
 
 ReactDOM.render(
   <div>
-    <PageHeader title="页面标题" breadcrumbList={breadcrumbList} />
+    <PageHeader title="页面标题" breadcrumbList={breadcrumbList}/>
   </div>
-, mountNode);
+  , mountNode);
 ````
 
 <style>

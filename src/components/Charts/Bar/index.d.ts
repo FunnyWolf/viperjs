@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 export interface IBarProps {
   title: React.ReactNode;
   color?: string;
@@ -12,4 +13,5 @@ export interface IBarProps {
   style?: React.CSSProperties;
 }
 
-export default class Bar extends React.Component<IBarProps, any> {}
+export default class Bar extends React.Component<IBarProps, any> {
+}

@@ -1,10 +1,6 @@
 ---
 title:
-  en-US: Authorized
-  zh-CN: Authorized
-subtitle: 权限
-cols: 1
-order: 15
+en-US: Authorized zh-CN: Authorized subtitle: 权限 cols: 1 order: 15
 ---
 
 权限组件，通过比对现有权限与准入权限，决定相关元素的展示。
@@ -16,7 +12,6 @@ order: 15
 `RenderAuthorized: (currentAuthority: string | () => string) => Authorized`
 
 权限组件默认 export RenderAuthorized 函数，它接收当前权限作为参数，返回一个权限对象，该对象提供以下几种使用方式。
-
 
 ### Authorized
 

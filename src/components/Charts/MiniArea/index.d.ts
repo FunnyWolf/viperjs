@@ -26,4 +26,5 @@ export interface IMiniAreaProps {
   }>;
 }
 
-export default class MiniArea extends React.Component<IMiniAreaProps, any> {}
+export default class MiniArea extends React.Component<IMiniAreaProps, any> {
+}

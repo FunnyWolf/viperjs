@@ -1,6 +1,5 @@
 ---
-order: 1
-title: Standard
+order: 1 title: Standard
 ---
 
 标准页头。
@@ -36,7 +35,7 @@ const action = (
       <Button>操作</Button>
       <Button>操作</Button>
       <Dropdown overlay={menu} placement="bottomRight">
-        <Button><Icon type="ellipsis" /></Button>
+        <Button><Icon type="ellipsis"/></Button>
       </Dropdown>
     </ButtonGroup>
     <Button type="primary">主操作</Button>
@@ -82,7 +81,7 @@ ReactDOM.render(
   <div>
     <PageHeader
       title="单号：234231029431"
-      logo={<img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png" />}
+      logo={<img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png"/>}
       action={action}
       content={description}
       extraContent={extra}
@@ -92,7 +91,7 @@ ReactDOM.render(
       onTabChange={onTabChange}
     />
   </div>
-, mountNode);
+  , mountNode);
 ````
 
 <style>

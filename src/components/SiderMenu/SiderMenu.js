@@ -71,7 +71,7 @@ export default class SiderMenu extends PureComponent {
             <h1>VIPER</h1>
           </Link>
         </div>
-        <Suspense fallback={<PageLoading />}>
+        <Suspense fallback={<PageLoading/>}>
           <BaseMenu
             {...this.props}
             mode="inline"

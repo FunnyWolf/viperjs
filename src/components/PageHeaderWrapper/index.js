@@ -1,5 +1,4 @@
 import React from 'react';
-import { useIntl } from 'umi';
 import { Link } from 'umi';
 import PageHeader from '@/components/PageHeader';
 import { connect } from 'dva';
@@ -14,14 +13,14 @@ const PageHeaderWrapper = ({ children, contentWidth, wrapperClassName, top, ...r
       {value => (
         <PageHeader
           wide={contentWidth === 'Fixed'}
-          home={<FormattedMessage id="menu.home" defaultMessage="Home" />}
+          home={<FormattedMessage id="menu.home" defaultMessage="Home"/>}
           {...value}
           key="pageheader"
           {...restProps}
           linkElement={Link}
           itemRender={item => {
             if (item.locale) {
-              return <FormattedMessage id={item.locale} defaultMessage={item.title} />;
+              return <FormattedMessage id={item.locale} defaultMessage={item.title}/>;
             }
             return item.title;
           }}

@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 export interface IGaugeProps {
   title: React.ReactNode;
   color?: string;
@@ -8,4 +9,5 @@ export interface IGaugeProps {
   style?: React.CSSProperties;
 }
 
-export default class Gauge extends React.Component<IGaugeProps, any> {}
+export default class Gauge extends React.Component<IGaugeProps, any> {
+}

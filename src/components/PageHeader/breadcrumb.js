@@ -1,4 +1,4 @@
-import React, { PureComponent, createElement } from 'react';
+import React, { createElement, PureComponent } from 'react';
 import pathToRegexp from 'path-to-regexp';
 import { Breadcrumb } from 'antd';
 import styles from './index.less';
@@ -64,12 +64,12 @@ export default class BreadcrumbView extends PureComponent {
             <Breadcrumb.Item key={item.title}>
               {item.href
                 ? createElement(
-                    linkElement,
-                    {
-                      [linkElement === 'a' ? 'href' : 'to']: item.href,
-                    },
-                    title
-                  )
+                  linkElement,
+                  {
+                    [linkElement === 'a' ? 'href' : 'to']: item.href,
+                  },
+                  title,
+                )
                 : title}
             </Breadcrumb.Item>
           );
@@ -95,7 +95,7 @@ export default class BreadcrumbView extends PureComponent {
           {createElement(
             isLinkable ? linkElement : 'span',
             { [linkElement === 'a' ? 'href' : 'to']: url },
-            name
+            name,
           )}
         </Breadcrumb.Item>
       ) : null;
@@ -108,9 +108,9 @@ export default class BreadcrumbView extends PureComponent {
           {
             [linkElement === 'a' ? 'href' : 'to']: '/',
           },
-          home || 'Home'
+          home || 'Home',
         )}
-      </Breadcrumb.Item>
+      </Breadcrumb.Item>,
     );
     return (
       <Breadcrumb className={styles.breadcrumb} separator={breadcrumbSeparator}>
@@ -164,7 +164,7 @@ export default class BreadcrumbView extends PureComponent {
           href: paths.join('/') || '/',
           to: paths.join('/') || '/',
         },
-        route.breadcrumbName
+        route.breadcrumbName,
       )
     );
   };

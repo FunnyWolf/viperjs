@@ -1,10 +1,6 @@
 ---
 title:
-  en-US: HeaderSearch
-  zh-CN: HeaderSearch
-subtitle: 顶部搜索框
-cols: 1
-order: 8
+en-US: HeaderSearch zh-CN: HeaderSearch subtitle: 顶部搜索框 cols: 1 order: 8
 ---
 
 通常作为全局搜索的入口，放置在导航工具条右侧。

@@ -1,8 +1,6 @@
 ---
-order: 0
-title:
-  zh-CN: 基本
-  en-US: Basic
+order: 0 title:
+zh-CN: 基本 en-US: Basic
 ---
 
 ## zh-CN
@@ -39,5 +37,5 @@ ReactDOM.render(
       volunteers.
     </Description>
   </DescriptionList>
-, mountNode);
+  , mountNode);
 ````

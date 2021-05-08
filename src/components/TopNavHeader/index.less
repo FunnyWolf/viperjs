@@ -6,31 +6,38 @@
   height: @layout-header-height;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   position: relative;
+
   :global {
     .ant-menu-submenu.ant-menu-submenu-horizontal {
       line-height: @layout-header-height;
       height: 100%;
+
       .ant-menu-submenu-title {
         height: 100%;
       }
     }
   }
+
   &.light {
     background-color: #fff;
   }
+
   .main {
     display: flex;
     height: @layout-header-height;
     padding-left: 16px;
+
     &.wide {
       max-width: 1200px;
       margin: auto;
       padding-left: 0;
     }
+
     .left {
       flex: 1;
       display: flex;
     }
+
     .right {
       width: 324px;
     }
@@ -44,12 +51,14 @@
   line-height: @layout-header-height;
   transition: all 0.3s;
   overflow: hidden;
+
   img {
-    margin-bottom:4px;
+    margin-bottom: 4px;
     display: inline-block;
     vertical-align: middle;
     height: 28px;
   }
+
   h1 {
     color: #fff;
     display: inline-block;

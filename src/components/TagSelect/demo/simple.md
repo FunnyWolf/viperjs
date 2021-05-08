@@ -1,6 +1,5 @@
 ---
-order: 0
-title: 基础样例
+order: 0 title: 基础样例
 ---
 
 结合 `Tag` 的 `TagSelect` 组件，方便的应用于筛选类目的业务场景中。
@@ -21,5 +20,5 @@ ReactDOM.render(
     <TagSelect.Option value="cat5">类目五</TagSelect.Option>
     <TagSelect.Option value="cat6">类目六</TagSelect.Option>
   </TagSelect>
-, mountNode);
+  , mountNode);
 ````

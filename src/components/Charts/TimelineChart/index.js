@@ -1,5 +1,5 @@
 import React from 'react';
-import { Chart, Tooltip, Geom, Legend, Axis } from 'bizcharts';
+import { Axis, Chart, Geom, Legend, Tooltip } from 'bizcharts';
 import DataSet from '@antv/data-set';
 import Slider from 'bizcharts-plugin-slider';
 import autoHeight from '../autoHeight';
@@ -32,7 +32,7 @@ class TimelineChart extends React.Component {
     if (data[0] && data[0].y1 && data[0].y2) {
       max = Math.max(
         [...data].sort((a, b) => b.y1 - a.y1)[0].y1,
-        [...data].sort((a, b) => b.y2 - a.y2)[0].y2
+        [...data].sort((a, b) => b.y2 - a.y2)[0].y2,
       );
     }
 
@@ -107,13 +107,13 @@ class TimelineChart extends React.Component {
         <div>
           {title && <h4>{title}</h4>}
           <Chart height={height} padding={padding} data={dv} scale={cols} forceFit>
-            <Axis name="x" />
-            <Tooltip />
-            <Legend name="key" position="top" />
-            <Geom type="line" position="x*value" size={borderWidth} color="key" />
+            <Axis name="x"/>
+            <Tooltip/>
+            <Legend name="key" position="top"/>
+            <Geom type="line" position="x*value" size={borderWidth} color="key"/>
           </Chart>
           <div style={{ marginRight: -20 }}>
-            <SliderGen />
+            <SliderGen/>
           </div>
         </div>
       </div>

@@ -1,6 +1,5 @@
 ---
-order: 0
-title: 全局搜索
+order: 0 title: 全局搜索
 ---
 
 通常放置在导航工具条右侧。（点击搜索图标预览效果）
@@ -30,5 +29,5 @@ ReactDOM.render(
       }}
     />
   </div>
-, mountNode);
+  , mountNode);
 ````

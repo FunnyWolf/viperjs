@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { TooltipProps } from 'antd/lib/tooltip';
+import * as React from 'react';
 
 // @ts-ignore
 export interface IEllipsisTooltipProps extends TooltipProps {
@@ -17,6 +17,8 @@ export interface IEllipsisProps {
 }
 
 export function getStrFullLength(str: string): number;
+
 export function cutStrByFullLength(str: string, maxLength: number): number;
 
-export default class Ellipsis extends React.Component<IEllipsisProps, any> {}
+export default class Ellipsis extends React.Component<IEllipsisProps, any> {
+}

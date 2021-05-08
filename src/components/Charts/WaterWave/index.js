@@ -4,6 +4,7 @@ import styles from './index.less';
 
 /* eslint no-return-assign: 0 */
 /* eslint no-mixed-operators: 0 */
+
 // riddle: https://riddle.alibaba-inc.com/riddles/2d9a4b90
 
 @autoHeight()
@@ -20,7 +21,7 @@ class WaterWave extends PureComponent {
       () => {
         requestAnimationFrame(() => this.resize());
       },
-      { passive: true }
+      { passive: true },
     );
   }
 
@@ -181,6 +182,7 @@ class WaterWave extends PureComponent {
       }
       self.timer = requestAnimationFrame(render);
     }
+
     render();
   }
 

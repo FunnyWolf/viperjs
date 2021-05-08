@@ -1,8 +1,5 @@
 ---
-title: DescriptionList
-subtitle: 描述列表
-cols: 1
-order: 4
+title: DescriptionList subtitle: 描述列表 cols: 1 order: 4
 ---
 
 成组展示多个只读字段，常见于详情页的信息展示。
@@ -32,6 +29,3 @@ order: 4
 | 参数      | 说明                                      | 类型         | 默认值 |
 |----------|------------------------------------------|-------------|-------|
 | term     | 列表项标题                                 | ReactNode  | - |
-
-
-

@@ -1,8 +1,6 @@
 ---
-order: 0
-title: 
-  zh-CN: 演示
-  en-US: Demo
+order: 0 title:
+zh-CN: 演示 en-US: Demo
 ---
 
 ## zh-CN
@@ -26,5 +24,5 @@ ReactDOM.render(
       subTotal={17.1}
     />
   </div>
-, mountNode);
+  , mountNode);
 ````

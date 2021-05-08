@@ -1,8 +1,5 @@
 ---
-title: CountDown 
-subtitle: 倒计时
-cols: 1
-order: 3
+title: CountDown subtitle: 倒计时 cols: 1 order: 3
 ---
 
 倒计时组件。

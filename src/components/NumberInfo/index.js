@@ -31,7 +31,7 @@ const NumberInfo = ({ theme, title, subTitle, total, subTotal, status, suffix, g
       {(status || subTotal) && (
         <span className={styles.subTotal}>
           {subTotal}
-          {status && <LegacyIcon type={`caret-${status}`} />}
+          {status && <LegacyIcon type={`caret-${status}`}/>}
         </span>
       )}
     </div>

@@ -1,8 +1,6 @@
 ---
-order: 1
-title:
-  zh-CN: 垂直型
-  en-US: Vertical
+order: 1 title:
+zh-CN: 垂直型 en-US: Vertical
 ---
 
 ## zh-CN
@@ -39,5 +37,5 @@ ReactDOM.render(
       volunteers.
     </Description>
   </DescriptionList>
-, mountNode);
+  , mountNode);
 ````

@@ -6,26 +6,26 @@ import styles from './NoticeList.less';
 let ListElement = null;
 
 export default function NoticeList({
-  data = [],
-  onClick,
-  onClear,
-  title,
-  locale,
-  emptyText,
-  emptyImage,
-  loading,
-  onLoadMore,
-  visible,
-  loadedAll = true,
-  scrollToLoad = true,
-  showClear = true,
-  skeletonCount = 5,
-  skeletonProps = {},
-}) {
+                                     data = [],
+                                     onClick,
+                                     onClear,
+                                     title,
+                                     locale,
+                                     emptyText,
+                                     emptyImage,
+                                     loading,
+                                     onLoadMore,
+                                     visible,
+                                     loadedAll = true,
+                                     scrollToLoad = true,
+                                     showClear = true,
+                                     skeletonCount = 5,
+                                     skeletonProps = {},
+                                   }) {
   if (data.length === 0) {
     return (
       <div className={styles.notFound}>
-        {emptyImage ? <img src={emptyImage} alt="not found" /> : null}
+        {emptyImage ? <img src={emptyImage} alt="not found"/> : null}
         <div>{emptyText || locale.emptyText}</div>
       </div>
     );
@@ -66,7 +66,7 @@ export default function NoticeList({
           // eslint-disable-next-line no-nested-ternary
           const leftIcon = item.avatar ? (
             typeof item.avatar === 'string' ? (
-              <Avatar className={styles.avatar} src={item.avatar} />
+              <Avatar className={styles.avatar} src={item.avatar}/>
             ) : (
               <span className={styles.iconElement}>{item.avatar}</span>
             )

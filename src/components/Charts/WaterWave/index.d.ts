@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 export interface IWaterWaveProps {
   title: React.ReactNode;
   color?: string;
@@ -7,4 +8,5 @@ export interface IWaterWaveProps {
   style?: React.CSSProperties;
 }
 
-export default class WaterWave extends React.Component<IWaterWaveProps, any> {}
+export default class WaterWave extends React.Component<IWaterWaveProps, any> {
+}

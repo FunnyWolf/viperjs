@@ -1,6 +1,5 @@
 ---
-order: 7
-title: 雷达图
+order: 7 title: 雷达图
 ---
 
 ````jsx
@@ -60,5 +59,5 @@ ReactDOM.render(
       data={radarData}
     />
   </ChartCard>
-, mountNode);
+  , mountNode);
 ````

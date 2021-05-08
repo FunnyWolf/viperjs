@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Chart, Geom, Coord, Shape, Tooltip } from 'bizcharts';
+import { Chart, Coord, Geom, Shape, Tooltip } from 'bizcharts';
 import DataSet from '@antv/data-set';
 import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
@@ -63,7 +63,7 @@ class TagCloud extends Component {
           fill: cfg.color,
           textBaseline: 'Alphabetic',
         },
-        cfg.style
+        cfg.style,
       );
     }
 
@@ -158,8 +158,8 @@ class TagCloud extends Component {
               y: { nice: false },
             }}
           >
-            <Tooltip showTitle={false} />
-            <Coord reflect="y" />
+            <Tooltip showTitle={false}/>
+            <Coord reflect="y"/>
             <Geom
               type="point"
               position="x*y"

@@ -36,13 +36,13 @@ export default class EditableItem extends PureComponent {
       <div className={styles.editableItem}>
         {editable ? (
           <div className={styles.wrapper}>
-            <Input value={value} onChange={this.handleChange} onPressEnter={this.check} />
-            <LegacyIcon type="check" className={styles.icon} onClick={this.check} />
+            <Input value={value} onChange={this.handleChange} onPressEnter={this.check}/>
+            <LegacyIcon type="check" className={styles.icon} onClick={this.check}/>
           </div>
         ) : (
           <div className={styles.wrapper}>
             <span>{value || ' '}</span>
-            <LegacyIcon type="edit" className={styles.icon} onClick={this.edit} />
+            <LegacyIcon type="edit" className={styles.icon} onClick={this.edit}/>
           </div>
         )}
       </div>

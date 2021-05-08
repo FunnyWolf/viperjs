@@ -1,10 +1,6 @@
 ---
 title:
-  en-US: GlobalFooter
-  zh-CN: GlobalFooter
-subtitle: 全局页脚
-cols: 1
-order: 7
+en-US: GlobalFooter zh-CN: GlobalFooter subtitle: 全局页脚 cols: 1 order: 7
 ---
 
 页脚属于全局导航的一部分，作为对顶部导航的补充，通过传递数据控制展示内容。

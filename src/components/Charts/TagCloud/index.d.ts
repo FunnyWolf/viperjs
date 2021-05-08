@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 export interface ITagCloudProps {
   data: Array<{
     name: string;
@@ -8,4 +9,5 @@ export interface ITagCloudProps {
   style?: React.CSSProperties;
 }
 
-export default class TagCloud extends React.Component<ITagCloudProps, any> {}
+export default class TagCloud extends React.Component<ITagCloudProps, any> {
+}

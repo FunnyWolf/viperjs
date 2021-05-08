@@ -1,10 +1,6 @@
 ---
 title:
-  en-US: HeaderSearch
-  zh-CN: HeaderSearch
-subtitle: Top search box
-cols: 1
-order: 8
+en-US: HeaderSearch zh-CN: HeaderSearch subtitle: Top search box cols: 1 order: 8
 ---
 
 Usually placed as an entry to the global search, placed on the right side of the navigation toolbar.

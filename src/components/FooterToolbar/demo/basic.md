@@ -1,9 +1,6 @@
 ---
-order: 0
-title:
-  zh-CN: 演示
-  en-US: demo
-iframe: 400
+order: 0 title:
+zh-CN: 演示 en-US: demo iframe: 400
 ---
 
 ## zh-CN
@@ -40,5 +37,5 @@ ReactDOM.render(
       <Button type="primary">Submit</Button>
     </FooterToolbar>
   </div>
-, mountNode);
+  , mountNode);
 ````

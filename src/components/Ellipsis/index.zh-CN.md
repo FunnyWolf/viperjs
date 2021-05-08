@@ -1,8 +1,5 @@
 ---
-title: Ellipsis
-subtitle: 文本自动省略号
-cols: 1
-order: 10
+title: Ellipsis subtitle: 文本自动省略号 cols: 1 order: 10
 ---
 
 文本过长自动处理省略号，支持按照文本长度和最大行数两种方式截取。

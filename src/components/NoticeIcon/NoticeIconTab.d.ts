@@ -25,4 +25,5 @@ export interface INoticeIconTabProps {
   title?: string;
 }
 
-export default class NoticeIconTab extends React.Component<INoticeIconTabProps, any> {}
+export default class NoticeIconTab extends React.Component<INoticeIconTabProps, any> {
+}

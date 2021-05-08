@@ -1,7 +1,5 @@
 ---
-order: 0
-title: 演示
-iframe: 400
+order: 0 title: 演示 iframe: 400
 ---
 
 基本页脚。
@@ -16,7 +14,7 @@ const links = [{
   href: '',
 }, {
   key: 'github',
-  title: <Icon type="github" />,
+  title: <Icon type="github"/>,
   href: 'https://github.com/ant-design/ant-design-pro',
   blankTarget: true,
 }, {
@@ -26,12 +24,12 @@ const links = [{
   blankTarget: true,
 }];
 
-const copyright = <div>Copyright <Icon type="copyright" /> 2017 蚂蚁金服体验技术部出品</div>;
+const copyright = <div>Copyright <Icon type="copyright"/> 2017 蚂蚁金服体验技术部出品</div>;
 
 ReactDOM.render(
   <div style={{ background: '#f5f5f5', overflow: 'hidden' }}>
-    <div style={{ height: 280 }} />
-    <GlobalFooter links={links} copyright={copyright} />
+    <div style={{ height: 280 }}/>
+    <GlobalFooter links={links} copyright={copyright}/>
   </div>
-, mountNode);
+  , mountNode);
 ````

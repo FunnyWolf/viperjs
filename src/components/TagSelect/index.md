@@ -1,10 +1,6 @@
 ---
-title: 
-  en-US: TagSelect
-  zh-CN: TagSelect
-subtitle: 标签选择器
-cols: 1
-order: 13
+title:
+en-US: TagSelect zh-CN: TagSelect subtitle: 标签选择器 cols: 1 order: 13
 ---
 
 可进行多选，带折叠收起和展开更多功能，常用于对列表进行筛选。

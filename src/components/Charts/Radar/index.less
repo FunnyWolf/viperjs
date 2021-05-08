@@ -3,15 +3,18 @@
 .radar {
   .legend {
     margin-top: 16px;
+
     .legendItem {
       position: relative;
       text-align: center;
       cursor: pointer;
       color: @text-color-secondary;
       line-height: 22px;
+
       p {
         margin: 0;
       }
+
       h6 {
         color: @heading-color;
         padding-left: 16px;
@@ -20,6 +23,7 @@
         margin-top: 4px;
         margin-bottom: 0;
       }
+
       &:after {
         background-color: @border-color-split;
         position: absolute;
@@ -30,9 +34,11 @@
         content: '';
       }
     }
+
     > :last-child .legendItem:after {
       display: none;
     }
+
     .dot {
       border-radius: 6px;
       display: inline-block;

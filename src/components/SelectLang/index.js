@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { formatMessage, setLocale, getLocale } from 'umi/locale';
+import { formatMessage, getLocale, setLocale } from 'umi/locale';
 import { Icon as LegacyIcon } from '@ant-design/compatible';
 import { Menu } from 'antd';
 import classNames from 'classnames';
@@ -42,7 +42,7 @@ export default class SelectLang extends PureComponent {
     return (
       <HeaderDropdown overlay={langMenu} placement="bottomRight">
         <span className={classNames(styles.dropDown, className)}>
-          <LegacyIcon type="global" title={formatMessage({ id: 'navBar.lang' })} />
+          <LegacyIcon type="global" title={formatMessage({ id: 'navBar.lang' })}/>
         </span>
       </HeaderDropdown>
     );

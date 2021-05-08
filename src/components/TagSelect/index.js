@@ -105,20 +105,20 @@ class TagSelect extends Component {
           </CheckableTag>
         )}
         {value &&
-          React.Children.map(children, child => {
-            if (this.isTagSelectOption(child)) {
-              return React.cloneElement(child, {
-                key: `tag-select-${child.props.value}`,
-                value: child.props.value,
-                checked: value.indexOf(child.props.value) > -1,
-                onChange: this.handleTagChange,
-              });
-            }
-            return child;
-          })}
+        React.Children.map(children, child => {
+          if (this.isTagSelectOption(child)) {
+            return React.cloneElement(child, {
+              key: `tag-select-${child.props.value}`,
+              value: child.props.value,
+              checked: value.indexOf(child.props.value) > -1,
+              onChange: this.handleTagChange,
+            });
+          }
+          return child;
+        })}
         {expandable && (
           <a className={styles.trigger} onClick={this.handleExpand}>
-            {expand ? '收起' : '展开'} <LegacyIcon type={expand ? 'up' : 'down'} />
+            {expand ? '收起' : '展开'} <LegacyIcon type={expand ? 'up' : 'down'}/>
           </a>
         )}
       </div>

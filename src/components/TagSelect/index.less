@@ -8,6 +8,7 @@
   max-height: 32px;
   line-height: 32px;
   transition: all 0.3s;
+
   :global {
     .ant-tag {
       padding: 0 8px;
@@ -15,18 +16,22 @@
       font-size: @font-size-base;
     }
   }
+
   &.expanded {
     transition: all 0.3s;
     max-height: 200px;
   }
+
   .trigger {
     position: absolute;
     top: 0;
     right: 0;
+
     i {
       font-size: 12px;
     }
   }
+
   &.hasExpandTag {
     padding-right: 50px;
   }

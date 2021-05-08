@@ -1,6 +1,5 @@
 ---
-order: 1
-title: Classic
+order: 1 title: Classic
 ---
 
 典型结果页面。
@@ -15,7 +14,7 @@ const desc1 = (
   <div style={{ fontSize: 14, position: 'relative', left: 38 }}>
     <div style={{ marginTop: 8, marginBottom: 4 }}>
       曲丽丽
-      <Icon type="dingding" style={{ marginLeft: 8 }} />
+      <Icon type="dingding" style={{ marginLeft: 8 }}/>
     </div>
     <div style={{ marginTop: 8, marginBottom: 4 }}>2016-12-12 12:32</div>
   </div>
@@ -25,7 +24,7 @@ const desc2 = (
   <div style={{ fontSize: 14, position: 'relative', left: 38 }}>
     <div style={{ marginTop: 8, marginBottom: 4 }}>
       周毛毛
-      <Icon type="dingding" style={{ color: '#00A0E9', marginLeft: 8 }} />
+      <Icon type="dingding" style={{ color: '#00A0E9', marginLeft: 8 }}/>
     </div>
     <div style={{ marginTop: 8, marginBottom: 4 }}><a href="">催一下</a></div>
   </div>
@@ -51,10 +50,10 @@ const extra = (
       </Col>
     </Row>
     <Steps progressDot current={1}>
-      <Step title="创建项目" description={desc1} />
-      <Step title="部门初审" description={desc2} />
-      <Step title="财务复核" />
-      <Step title="完成" />
+      <Step title="创建项目" description={desc1}/>
+      <Step title="部门初审" description={desc2}/>
+      <Step title="财务复核"/>
+      <Step title="完成"/>
     </Steps>
   </div>
 );
@@ -76,5 +75,5 @@ ReactDOM.render(
     actions={actions}
     style={{ width: '100%' }}
   />
-, mountNode);
+  , mountNode);
 ````

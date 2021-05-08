@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 export interface IExceptionProps {
   type?: '403' | '404' | '500';
   title?: React.ReactNode;
@@ -12,4 +13,5 @@ export interface IExceptionProps {
   redirect?: string;
 }
 
-export default class Exception extends React.Component<IExceptionProps, any> {}
+export default class Exception extends React.Component<IExceptionProps, any> {
+}

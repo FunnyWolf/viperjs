@@ -16,7 +16,8 @@ const LoginPage = props => {
       reloadAuthorized();
       history.push('/');
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   return (
@@ -40,7 +41,7 @@ const LoginPage = props => {
           ]}
           defaultValue={'root'}
         >
-          <Input prefix={<UserOutlined />} placeholder="用户名" />
+          <Input prefix={<UserOutlined/>} placeholder="用户名"/>
         </Form.Item>
         <Form.Item
           name="password"
@@ -51,7 +52,7 @@ const LoginPage = props => {
             },
           ]}
         >
-          <Input prefix={<LockOutlined />} type="password" placeholder="密码" />
+          <Input prefix={<LockOutlined/>} type="password" placeholder="密码"/>
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" block loading={createBaseauthReq.loading}>

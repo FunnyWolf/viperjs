@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 export interface IHeaderSearchProps {
   placeholder?: string;
   dataSource?: string[];
@@ -12,4 +13,5 @@ export interface IHeaderSearchProps {
   className?: string;
 }
 
-export default class HeaderSearch extends React.Component<IHeaderSearchProps, any> {}
+export default class HeaderSearch extends React.Component<IHeaderSearchProps, any> {
+}

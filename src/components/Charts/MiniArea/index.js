@@ -1,5 +1,5 @@
 import React from 'react';
-import { Chart, Axis, Tooltip, Geom } from 'bizcharts';
+import { Axis, Chart, Geom, Tooltip } from 'bizcharts';
 import autoHeight from '../autoHeight';
 import styles from '../index.less';
 
@@ -74,7 +74,7 @@ class MiniArea extends React.PureComponent {
                 grid={false}
                 {...yAxis}
               />
-              <Tooltip showTitle={false} crosshairs={false} />
+              <Tooltip showTitle={false} crosshairs={false}/>
               <Geom
                 type="area"
                 position="x*y"
@@ -95,7 +95,7 @@ class MiniArea extends React.PureComponent {
                   tooltip={false}
                 />
               ) : (
-                <span style={{ display: 'none' }} />
+                <span style={{ display: 'none' }}/>
               )}
             </Chart>
           )}

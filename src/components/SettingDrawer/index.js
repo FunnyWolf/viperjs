@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Icon as LegacyIcon } from '@ant-design/compatible';
-import { Select, message, Drawer, List, Switch, Divider, Button, Alert, Tooltip } from 'antd';
+import { Alert, Button, Divider, Drawer, List, message, Select, Switch, Tooltip } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { connect } from 'dva';
 import omit from 'omit.js';
@@ -8,6 +8,7 @@ import styles from './index.less';
 import ThemeColor from './ThemeColor';
 import BlockCheckbox from './BlockCheckbox';
 import { formatMessage } from 'umi';
+
 const { Option } = Select;
 
 const Body = ({ children, title, style }) => (
@@ -178,7 +179,7 @@ class SettingDrawer extends PureComponent {
             onChange={color => this.changeSetting('primaryColor', color)}
           />
 
-          <Divider />
+          <Divider/>
 
           <Body title={formatMessage({ id: 'app.setting.navigationmode' })}>
             <BlockCheckbox
@@ -205,7 +206,7 @@ class SettingDrawer extends PureComponent {
             renderItem={this.renderLayoutSettingItem}
           />
 
-          <Divider />
+          <Divider/>
 
           <Body title={formatMessage({ id: 'app.setting.othersettings' })}>
             <List.Item
@@ -220,12 +221,12 @@ class SettingDrawer extends PureComponent {
               {formatMessage({ id: 'app.setting.weakmode' })}
             </List.Item>
           </Body>
-          <Divider />
+          <Divider/>
           <CopyToClipboard
             text={JSON.stringify(omit(setting, ['colorWeak']), null, 2)}
             onCopy={() => message.success(formatMessage({ id: 'app.setting.copyinfo' }))}
           >
-            <Button block icon={<LegacyIcon type="copy" />}>
+            <Button block icon={<LegacyIcon type="copy"/>}>
               {formatMessage({ id: 'app.setting.copy' })}
             </Button>
           </CopyToClipboard>

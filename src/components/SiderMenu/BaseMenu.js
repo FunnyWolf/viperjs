@@ -16,10 +16,10 @@ const { SubMenu } = Menu;
 //   icon: <Icon type="setting" />,
 const getIcon = icon => {
   if (typeof icon === 'string' && isUrl(icon)) {
-    return <img src={icon} alt="icon" className={styles.icon} />;
+    return <img src={icon} alt="icon" className={styles.icon}/>;
   }
   if (typeof icon === 'string') {
-    return <LegacyIcon type={icon} />;
+    return <LegacyIcon type={icon}/>;
   }
   return icon;
 };
@@ -101,8 +101,8 @@ export default class BaseMenu extends PureComponent {
         onClick={
           isMobile
             ? () => {
-                onCollapse(true);
-              }
+              onCollapse(true);
+            }
             : undefined
         }
       >

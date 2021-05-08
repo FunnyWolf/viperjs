@@ -8,6 +8,8 @@ type authority = string | string[] | authorityFN | Promise<any>;
 export interface IAuthorizedRouteProps extends RouteProps {
   authority: authority;
 }
+
 export { authority };
 
-export class AuthorizedRoute extends React.Component<IAuthorizedRouteProps, any> {}
+export class AuthorizedRoute extends React.Component<IAuthorizedRouteProps, any> {
+}

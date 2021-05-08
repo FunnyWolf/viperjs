@@ -1,8 +1,6 @@
 ---
-order: 0
-title:
-  zh-CN: 标准登录
-  en-US: Standard Login
+order: 0 title:
+zh-CN: 标准登录 en-US: Standard Login
 ---
 
 Support login with account and mobile number.
@@ -51,6 +49,7 @@ class LoginDemo extends React.Component {
       autoLogin: e.target.checked,
     });
   };
+
   render() {
     return (
       <div className="login-warp">
@@ -69,12 +68,12 @@ class LoginDemo extends React.Component {
                 closable
               />
             )}
-            <UserName name="username" />
-            <Password name="password" />
+            <UserName name="username"/>
+            <Password name="password"/>
           </Tab>
           <Tab key="tab2" tab="Mobile">
-            <Mobile name="mobile" />
-            <Captcha onGetCaptcha={() => console.log('Get captcha!')} name="captcha" />
+            <Mobile name="mobile"/>
+            <Captcha onGetCaptcha={() => console.log('Get captcha!')} name="captcha"/>
           </Tab>
           <div>
             <Checkbox checked={this.state.autoLogin} onChange={this.changeAutoLogin}>
@@ -87,9 +86,9 @@ class LoginDemo extends React.Component {
           <Submit>Login</Submit>
           <div>
             Other login methods
-            <span className="icon icon-alipay" />
-            <span className="icon icon-taobao" />
-            <span className="icon icon-weibo" />
+            <span className="icon icon-alipay"/>
+            <span className="icon icon-taobao"/>
+            <span className="icon icon-weibo"/>
             <a style={{ float: 'right' }} href="">
               Register
             </a>
@@ -100,7 +99,7 @@ class LoginDemo extends React.Component {
   }
 }
 
-ReactDOM.render(<LoginDemo />, mountNode);
+ReactDOM.render(<LoginDemo/>, mountNode);
 ```
 
 <style>

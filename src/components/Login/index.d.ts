@@ -1,9 +1,8 @@
-import Button from 'antd/lib/button';
-import React from 'react';
-import LoginItem, { LoginItemProps, LoginItemType } from './LoginItem';
-import LoginTab from './LoginTab';
 import { WrappedFormUtils } from 'antd/es/form/Form';
+import React from 'react';
+import { LoginItemProps } from './LoginItem';
 import LoginSubmit from './LoginSubmit';
+import LoginTab from './LoginTab';
 
 export interface LoginProps {
   defaultActiveKey?: string;
@@ -13,7 +12,9 @@ export interface LoginProps {
   className?: string;
 }
 
-interface Login extends WrappedFormUtils {}
+interface Login extends WrappedFormUtils {
+}
+
 declare class Login extends React.Component<LoginProps, any> {
   public static Tab: typeof LoginTab;
   public static UserName: React.FC<LoginItemProps>;
@@ -22,4 +23,5 @@ declare class Login extends React.Component<LoginProps, any> {
   public static Captcha: React.FC<LoginItemProps>;
   public static Submit: typeof LoginSubmit;
 }
+
 export default Login;

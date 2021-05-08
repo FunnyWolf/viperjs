@@ -1,7 +1,7 @@
-import React from 'react';
-import { WrappedFormUtils } from 'antd/es/form/Form';
-import ItemMap from './map';
 import { Omit } from 'antd/es/_util/type';
+import { WrappedFormUtils } from 'antd/es/form/Form';
+import React from 'react';
+import ItemMap from './map';
 
 export type WrappedLoginItemProps = Omit<LoginItemProps, 'form' | 'type' | 'updateActive'>;
 export type LoginItemType = { [K in keyof typeof ItemMap]: React.FC<WrappedLoginItemProps> };
@@ -25,4 +25,5 @@ export interface LoginItemProps {
   onChange?: (e: any) => void;
 }
 
-export default class LoginItem extends React.Component<LoginItemProps, any> {}
+export default class LoginItem extends React.Component<LoginItemProps, any> {
+}

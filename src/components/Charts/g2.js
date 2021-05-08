@@ -1,5 +1,5 @@
 // 全局 G2 设置
-import { track, setTheme } from 'bizcharts';
+import { setTheme, track } from 'bizcharts';
 
 track(false);
 

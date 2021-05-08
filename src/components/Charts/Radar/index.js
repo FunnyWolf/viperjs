@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Chart, Tooltip, Geom, Coord, Axis } from 'bizcharts';
-import { Row, Col } from 'antd';
+import { Axis, Chart, Coord, Geom, Tooltip } from 'bizcharts';
+import { Col, Row } from 'antd';
 import autoHeight from '../autoHeight';
 import styles from './index.less';
 
@@ -121,8 +121,8 @@ class Radar extends Component {
           animate={animate}
           onGetG2Instance={this.getG2Instance}
         >
-          <Tooltip />
-          <Coord type="polar" />
+          <Tooltip/>
+          <Coord type="polar"/>
           <Axis
             name="label"
             line={null}
@@ -143,7 +143,7 @@ class Radar extends Component {
               },
             }}
           />
-          <Geom type="line" position="label*value" color={['name', colors]} size={1} />
+          <Geom type="line" position="label*value" color={['name', colors]} size={1}/>
           <Geom
             type="point"
             position="label*value"

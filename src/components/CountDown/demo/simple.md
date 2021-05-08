@@ -1,8 +1,6 @@
 ---
-order: 0
-title:
-  zh-CN: 基本
-  en-US: Basic
+order: 0 title:
+zh-CN: 基本 en-US: Basic
 ---
 
 ## zh-CN
@@ -19,6 +17,6 @@ import CountDown from 'ant-design-pro/lib/CountDown';
 const targetTime = new Date().getTime() + 3900000;
 
 ReactDOM.render(
-  <CountDown style={{ fontSize: 20 }} target={targetTime} />
-, mountNode);
+  <CountDown style={{ fontSize: 20 }} target={targetTime}/>
+  , mountNode);
 ````

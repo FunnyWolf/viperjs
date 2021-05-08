@@ -1,8 +1,5 @@
 ---
-title: NumberInfo
-subtitle: 数据文本
-cols: 1
-order: 10
+title: NumberInfo subtitle: 数据文本 cols: 1 order: 10
 ---
 
 常用在数据卡片中，用于突出展示某个业务数据。

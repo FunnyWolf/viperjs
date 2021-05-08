@@ -11,4 +11,5 @@ export interface IChartCardProps extends CardProps {
   style?: React.CSSProperties;
 }
 
-export default class ChartCard extends React.Component<IChartCardProps, any> {}
+export default class ChartCard extends React.Component<IChartCardProps, any> {
+}

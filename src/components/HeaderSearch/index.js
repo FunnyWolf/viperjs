@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Icon as LegacyIcon } from '@ant-design/compatible';
-import { Input, AutoComplete } from 'antd';
+import { AutoComplete, Input } from 'antd';
 import classNames from 'classnames';
 import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
@@ -22,15 +22,27 @@ export default class HeaderSearch extends PureComponent {
 
   static defaultProps = {
     defaultActiveFirstOption: false,
-    onPressEnter: () => {},
-    onSearch: () => {},
-    onChange: () => {},
+    onPressEnter: () => {
+    },
+    onSearch: () => {
+    },
+    onChange: () => {
+    },
     className: '',
     placeholder: '',
     dataSource: [],
     defaultOpen: false,
-    onVisibleChange: () => {},
+    onVisibleChange: () => {
+    },
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchMode: props.defaultOpen,
+      value: '',
+    };
+  }
 
   static getDerivedStateFromProps(props) {
     if ('open' in props) {
@@ -39,14 +51,6 @@ export default class HeaderSearch extends PureComponent {
       };
     }
     return null;
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchMode: props.defaultOpen,
-      value: '',
-    };
   }
 
   componentWillUnmount() {
@@ -122,7 +126,7 @@ export default class HeaderSearch extends PureComponent {
           }
         }}
       >
-        <LegacyIcon type="search" key="Icon" />
+        <LegacyIcon type="search" key="Icon"/>
         <AutoComplete
           key="AutoComplete"
           {...restProps}

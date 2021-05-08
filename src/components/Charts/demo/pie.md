@@ -1,6 +1,5 @@
 ---
-order: 5
-title: 饼状图
+order: 5 title: 饼状图
 ---
 
 ```jsx
@@ -46,7 +45,7 @@ ReactDOM.render(
       />
     )}
     data={salesPieData}
-    valueFormat={val => <span dangerouslySetInnerHTML={{ __html: yuan(val) }} />}
+    valueFormat={val => <span dangerouslySetInnerHTML={{ __html: yuan(val) }}/>}
     height={294}
   />,
   mountNode,

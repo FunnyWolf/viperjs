@@ -20,8 +20,10 @@ class Login extends Component {
   static defaultProps = {
     className: '',
     defaultActiveKey: '',
-    onTabChange: () => {},
-    onSubmit: () => {},
+    onTabChange: () => {
+    },
+    onSubmit: () => {
+    },
   };
 
   constructor(props) {

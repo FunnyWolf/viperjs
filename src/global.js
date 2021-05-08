@@ -1,5 +1,5 @@
 import React from 'react';
-import { notification, Button, message } from 'antd';
+import { Button, message, notification } from 'antd';
 import { formatMessage } from 'umi';
 // Notify user if offline now
 window.addEventListener('sw.offline', () => {

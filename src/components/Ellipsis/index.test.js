@@ -1,4 +1,4 @@
-import { getStrFullLength, cutStrByFullLength } from './index';
+import { cutStrByFullLength, getStrFullLength } from './index';
 
 describe('test calculateShowLength', () => {
   it('get full length', () => {

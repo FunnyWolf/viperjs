@@ -1,5 +1,5 @@
 import React from 'react';
-import { Chart, Tooltip, Geom } from 'bizcharts';
+import { Chart, Geom, Tooltip } from 'bizcharts';
 import autoHeight from '../autoHeight';
 import styles from '../index.less';
 
@@ -40,12 +40,13 @@ class MiniBar extends React.Component {
             data={data}
             padding={padding}
           >
-            <Tooltip showTitle={false} crosshairs={false} />
-            <Geom type="interval" position="x*y" color={color} tooltip={tooltip} />
+            <Tooltip showTitle={false} crosshairs={false}/>
+            <Geom type="interval" position="x*y" color={color} tooltip={tooltip}/>
           </Chart>
         </div>
       </div>
     );
   }
 }
+
 export default MiniBar;

@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 export interface INumberInfoProps {
   title?: React.ReactNode | string;
   subTitle?: React.ReactNode | string;
@@ -10,4 +11,5 @@ export interface INumberInfoProps {
   style?: React.CSSProperties;
 }
 
-export default class NumberInfo extends React.Component<INumberInfoProps, any> {}
+export default class NumberInfo extends React.Component<INumberInfoProps, any> {
+}

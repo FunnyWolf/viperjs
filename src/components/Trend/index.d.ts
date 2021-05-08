@@ -7,4 +7,5 @@ export interface ITrendProps {
   reverseColor?: boolean;
 }
 
-export default class Trend extends React.Component<ITrendProps, any> {}
+export default class Trend extends React.Component<ITrendProps, any> {
+}

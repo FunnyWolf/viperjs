@@ -1,8 +1,5 @@
 ---
-title: NoticeIcon
-subtitle: Notification Menu
-cols: 1
-order: 9
+title: NoticeIcon subtitle: Notification Menu cols: 1 order: 9
 ---
 
 用在导航工具栏上，作为整个产品统一的通知中心。

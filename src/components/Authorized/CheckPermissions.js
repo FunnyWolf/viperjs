@@ -58,7 +58,7 @@ const checkPermissions = (authority, currentAuthority, target, Exception) => {
 
   // Promise 处理
   if (isPromise(authority)) {
-    return <PromiseRender ok={target} error={Exception} promise={authority} />;
+    return <PromiseRender ok={target} error={Exception} promise={authority}/>;
   }
 
   // Function 处理
@@ -67,7 +67,7 @@ const checkPermissions = (authority, currentAuthority, target, Exception) => {
       const bool = authority(currentAuthority);
       // 函数执行后返回值是 Promise
       if (isPromise(bool)) {
-        return <PromiseRender ok={target} error={Exception} promise={bool} />;
+        return <PromiseRender ok={target} error={Exception} promise={bool}/>;
       }
       if (bool) {
         return target;

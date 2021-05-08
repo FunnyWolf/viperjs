@@ -10,14 +10,14 @@ const Trend = ({ colorful = true, reverseColor = false, flag, children, classNam
       [styles.trendItemGrey]: !colorful,
       [styles.reverseColor]: reverseColor && colorful,
     },
-    className
+    className,
   );
   return (
     <div {...rest} className={classString} title={typeof children === 'string' ? children : ''}>
       <span>{children}</span>
       {flag && (
         <span className={styles[flag]}>
-          <LegacyIcon type={`caret-${flag}`} />
+          <LegacyIcon type={`caret-${flag}`}/>
         </span>
       )}
     </div>

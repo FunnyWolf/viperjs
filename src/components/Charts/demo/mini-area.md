@@ -1,7 +1,5 @@
 ---
-order: 2
-col: 2
-title: 迷你区域图
+order: 2 col: 2 title: 迷你区域图
 ---
 
 ````jsx
@@ -24,5 +22,5 @@ ReactDOM.render(
     height={45}
     data={visitData}
   />
-, mountNode);
+  , mountNode);
 ````

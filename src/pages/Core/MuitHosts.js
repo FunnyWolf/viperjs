@@ -3,21 +3,7 @@ import copy from 'copy-to-clipboard';
 import { formatMessage, useRequest } from 'umi';
 import moment from 'moment';
 import '@ant-design/compatible/assets/index.css';
-import {
-  Avatar,
-  Button,
-  Card,
-  Col,
-  Form,
-  Input,
-  message,
-  Modal,
-  Radio,
-  Row,
-  Space,
-  Table,
-  Tag,
-} from 'antd';
+import { Avatar, Button, Col, Form, Input, message, Modal, Radio, Row, Space, Table, Tag } from 'antd';
 import {
   BugOutlined,
   CloudOutlined,
@@ -50,7 +36,7 @@ const host_type_to_avatar = {
       size="small"
       shape="square"
       style={{ backgroundColor: '#177ddc' }}
-      icon={<WindowsOutlined />}
+      icon={<WindowsOutlined/>}
     />
   ),
   pc: (
@@ -58,7 +44,7 @@ const host_type_to_avatar = {
       size="small"
       shape="square"
       style={{ backgroundColor: '#49aa19' }}
-      icon={<LaptopOutlined />}
+      icon={<LaptopOutlined/>}
     />
   ),
   web_server: (
@@ -66,7 +52,7 @@ const host_type_to_avatar = {
       size="small"
       shape="square"
       style={{ backgroundColor: '#13a8a8' }}
-      icon={<CloudOutlined />}
+      icon={<CloudOutlined/>}
     />
   ),
   cms: (
@@ -74,7 +60,7 @@ const host_type_to_avatar = {
       size="small"
       shape="square"
       style={{ backgroundColor: '#d84a1b' }}
-      icon={<BugOutlined />}
+      icon={<BugOutlined/>}
     />
   ),
   firewall: (
@@ -82,7 +68,7 @@ const host_type_to_avatar = {
       size="small"
       shape="square"
       style={{ backgroundColor: '#d87a16' }}
-      icon={<GatewayOutlined />}
+      icon={<GatewayOutlined/>}
     />
   ),
   other: (
@@ -90,7 +76,7 @@ const host_type_to_avatar = {
       size="small"
       shape="square"
       style={{ backgroundColor: '#bfbfbf' }}
-      icon={<QuestionOutlined />}
+      icon={<QuestionOutlined/>}
     />
   ),
 };
@@ -111,7 +97,8 @@ const MuitHosts = () => {
       setSelectedRowKeys([]);
       setSelectedRows([]);
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const listHostReq = useRequest(getCoreHostAPI, {
@@ -122,7 +109,8 @@ const MuitHosts = () => {
       setSelectedRowKeys([]);
       setSelectedRows([]);
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const showUpdateHostModal = record => {
@@ -139,7 +127,8 @@ const MuitHosts = () => {
       closeUpdateHostModal();
       listHostReq.run();
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const destoryHostReq = useRequest(deleteCoreHostAPI, {
@@ -147,7 +136,8 @@ const MuitHosts = () => {
     onSuccess: (result, params) => {
       listHostReq.run();
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const getSelectHostIPaddress = () => {
@@ -157,7 +147,7 @@ const MuitHosts = () => {
     }
     copy(ipaddressArray.join());
     message.success(
-      `${ipaddressArray.join()} ${formatMessage({ id: 'app.response.copytoclipboard' })}`
+      `${ipaddressArray.join()} ${formatMessage({ id: 'app.response.copytoclipboard' })}`,
     );
   };
 
@@ -190,7 +180,8 @@ const MuitHosts = () => {
                 break;
               }
             }
-          } catch (error) {}
+          } catch (error) {
+          }
 
           if (ipaddressMatch || commentMatch || techMatch) {
             return {
@@ -199,7 +190,7 @@ const MuitHosts = () => {
           }
           return null;
         })
-        .filter(record => !!record)
+        .filter(record => !!record),
     );
   };
 
@@ -263,18 +254,18 @@ const MuitHosts = () => {
 
   const hostTypeToAvatar = {
     ad_server: (
-      <Avatar shape="square" style={{ backgroundColor: '#177ddc' }} icon={<WindowsOutlined />} />
+      <Avatar shape="square" style={{ backgroundColor: '#177ddc' }} icon={<WindowsOutlined/>}/>
     ),
-    pc: <Avatar shape="square" style={{ backgroundColor: '#49aa19' }} icon={<LaptopOutlined />} />,
+    pc: <Avatar shape="square" style={{ backgroundColor: '#49aa19' }} icon={<LaptopOutlined/>}/>,
     web_server: (
-      <Avatar shape="square" style={{ backgroundColor: '#13a8a8' }} icon={<CloudOutlined />} />
+      <Avatar shape="square" style={{ backgroundColor: '#13a8a8' }} icon={<CloudOutlined/>}/>
     ),
-    cms: <Avatar shape="square" style={{ backgroundColor: '#d84a1b' }} icon={<BugOutlined />} />,
+    cms: <Avatar shape="square" style={{ backgroundColor: '#d84a1b' }} icon={<BugOutlined/>}/>,
     firewall: (
-      <Avatar shape="square" style={{ backgroundColor: '#d87a16' }} icon={<GatewayOutlined />} />
+      <Avatar shape="square" style={{ backgroundColor: '#d87a16' }} icon={<GatewayOutlined/>}/>
     ),
     other: (
-      <Avatar shape="square" style={{ backgroundColor: '#bfbfbf' }} icon={<QuestionOutlined />} />
+      <Avatar shape="square" style={{ backgroundColor: '#bfbfbf' }} icon={<QuestionOutlined/>}/>
     ),
   };
 
@@ -289,7 +280,7 @@ const MuitHosts = () => {
         <Col span={10}>
           <Input
             allowClear
-            prefix={<SearchOutlined />}
+            prefix={<SearchOutlined/>}
             style={{ width: '100%' }}
             placeholder="搜索 : IP地址/端口/服务"
             value={text}
@@ -304,7 +295,7 @@ const MuitHosts = () => {
             onClick={() => getSelectHostIPaddress()}
             block
             disabled={selectedRowKeys.length === 0}
-            icon={<CopyOutlined />}
+            icon={<CopyOutlined/>}
           >
             拷贝
           </Button>
@@ -316,12 +307,12 @@ const MuitHosts = () => {
             disabled={selectedRowKeys.length === 0}
             danger
           >
-            <DeleteOutlined /> 删除
+            <DeleteOutlined/> 删除
           </Button>
         </Col>
         <Col span={10}>
           <Button
-            icon={<SyncOutlined />}
+            icon={<SyncOutlined/>}
             onClick={() => listHostReq.run()}
             block
             loading={listHostReq.loading || destoryHostReq.loading}
@@ -458,11 +449,11 @@ const MuitHosts = () => {
             rules={[{ message: '最多支持二十个字符', max: 20 }]}
             {...formLayout}
           >
-            <Input placeholder="最大支持二十个字符" />
+            <Input placeholder="最大支持二十个字符"/>
           </Form.Item>
           <Form.Item {...tailLayout}>
             <Button
-              icon={<DeliveredProcedureOutlined />}
+              icon={<DeliveredProcedureOutlined/>}
               block
               type="primary"
               htmlType="submit"

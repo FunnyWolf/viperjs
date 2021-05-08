@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tooltip, Avatar } from 'antd';
+import { Avatar, Tooltip } from 'antd';
 import classNames from 'classnames';
 
 import styles from './index.less';
@@ -20,7 +20,7 @@ const AvatarList = ({ children, size, maxLength, excessItemsStyle, ...other }) =
     .map(child =>
       React.cloneElement(child, {
         size,
-      })
+      }),
     );
 
   if (numToShow < numOfChildren) {
@@ -29,7 +29,7 @@ const AvatarList = ({ children, size, maxLength, excessItemsStyle, ...other }) =
     childrenWithProps.push(
       <li key="exceed" className={cls}>
         <Avatar size={size} style={excessItemsStyle}>{`+${numOfChildren - maxLength}`}</Avatar>
-      </li>
+      </li>,
     );
   }
 
@@ -40,17 +40,20 @@ const AvatarList = ({ children, size, maxLength, excessItemsStyle, ...other }) =
   );
 };
 
-const Item = ({ src, size, tips, onClick = () => {} }) => {
+const Item = ({
+                src, size, tips, onClick = () => {
+  },
+              }) => {
   const cls = avatarSizeToClassName(size);
 
   return (
     <li className={cls} onClick={onClick}>
       {tips ? (
         <Tooltip title={tips}>
-          <Avatar src={src} size={size} style={{ cursor: 'pointer' }} />
+          <Avatar src={src} size={size} style={{ cursor: 'pointer' }}/>
         </Tooltip>
       ) : (
-        <Avatar src={src} size={size} />
+        <Avatar src={src} size={size}/>
       )}
     </li>
   );

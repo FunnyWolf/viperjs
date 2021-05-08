@@ -1,7 +1,5 @@
 ---
-title: NumberInfo
-cols: 1
-order: 10
+title: NumberInfo cols: 1 order: 10
 ---
 
 Often used in data cards for highlighting the business data.

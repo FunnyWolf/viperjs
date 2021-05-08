@@ -1,6 +1,5 @@
 ---
-order: 0
-title: 图表套件组合展示
+order: 0 title: 图表套件组合展示
 ---
 
 利用 Ant Design Pro 提供的图表套件，可以灵活组合符合设计规范的图表来满足复杂的业务需求。
@@ -46,9 +45,9 @@ ReactDOM.render(
     <Col span={24} style={{ marginTop: 24 }}>
       <ChartCard
         title="访问量"
-        action={<Tooltip title="指标说明"><Icon type="info-circle-o" /></Tooltip>}
+        action={<Tooltip title="指标说明"><Icon type="info-circle-o"/></Tooltip>}
         total={numeral(8846).format('0,0')}
-        footer={<Field label="日访问量" value={numeral(1234).format('0,0')} />}
+        footer={<Field label="日访问量" value={numeral(1234).format('0,0')}/>}
         contentHeight={46}
       >
         <MiniBar
@@ -60,7 +59,7 @@ ReactDOM.render(
     <Col span={24} style={{ marginTop: 24 }}>
       <ChartCard
         title="线上购物转化率"
-        action={<Tooltip title="指标说明"><Icon type="info-circle-o" /></Tooltip>}
+        action={<Tooltip title="指标说明"><Icon type="info-circle-o"/></Tooltip>}
         total="78%"
         footer={
           <div>
@@ -76,9 +75,9 @@ ReactDOM.render(
         }
         contentHeight={46}
       >
-        <MiniProgress percent={78} strokeWidth={8} target={80} />
+        <MiniProgress percent={78} strokeWidth={8} target={80}/>
       </ChartCard>
     </Col>
   </Row>
-, mountNode);
+  , mountNode);
 ````

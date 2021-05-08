@@ -67,7 +67,7 @@ export const RunModule = props => {
     model => ({
       hostAndSessionActive: model.hostAndSessionActive,
       postModuleConfigListStateAll: model.postModuleConfigListStateAll,
-    })
+    }),
   );
   const [text, setText] = useState('');
 
@@ -112,10 +112,10 @@ export const RunModule = props => {
   postModuleConfigListStateSort.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath));
 
   const [postModuleConfigListState, setPostModuleConfigListState] = useState(
-    postModuleConfigListStateSort
+    postModuleConfigListStateSort,
   );
   const [postModuleConfigListStateTmp, setPostModuleConfigListStateTmp] = useState(
-    postModuleConfigListStateSort
+    postModuleConfigListStateSort,
   );
   const [postModuleConfigActive, setPostModuleConfigActive] = useState({
     NAME: null,
@@ -141,7 +141,8 @@ export const RunModule = props => {
     onSuccess: (result, params) => {
       setPostModuleConfigActive(result);
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const createPostModuleActuatorReq = useRequest(postPostmodulePostModuleActuatorAPI, {
@@ -149,7 +150,8 @@ export const RunModule = props => {
     onSuccess: (result, params) => {
       closeModel();
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const onCreatePostModuleActuator = params => {
@@ -181,7 +183,8 @@ export const RunModule = props => {
             NAMEMatch = record.NAME.match(reg);
             DESCMatch = record.DESC.match(reg);
             REFERENCESMatch = record.REFERENCES.toString().match(reg);
-          } catch (error) {}
+          } catch (error) {
+          }
 
           if (NAMEMatch || DESCMatch || REFERENCESMatch) {
             return {
@@ -190,7 +193,7 @@ export const RunModule = props => {
           }
           return null;
         })
-        .filter(record => !!record)
+        .filter(record => !!record),
     );
   };
 
@@ -203,7 +206,7 @@ export const RunModule = props => {
       onPostModuleConfigListChange(postModuleConfigListStateTmp);
     } else {
       const newpostModuleConfigListState = postModuleConfigListStateTmp.filter(
-        item => value.indexOf(item.MODULETYPE) >= 0
+        item => value.indexOf(item.MODULETYPE) >= 0,
       );
       onPostModuleConfigListChange(newpostModuleConfigListState);
     }
@@ -230,7 +233,7 @@ export const RunModule = props => {
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>
+          </Col>,
         );
       } else if (oneOption.type === 'bool') {
         options.push(
@@ -246,9 +249,9 @@ export const RunModule = props => {
               initialValue={oneOption.default}
               rules={[{ required: oneOption.required, message: '请输入' }]}
             >
-              <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default} />
+              <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
             </Form.Item>
-          </Col>
+          </Col>,
         );
       } else if (oneOption.type === 'integer') {
         options.push(
@@ -269,7 +272,7 @@ export const RunModule = props => {
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>
+          </Col>,
         );
       } else if (oneOption.type === 'float') {
         options.push(
@@ -291,7 +294,7 @@ export const RunModule = props => {
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>
+          </Col>,
         );
       } else if (oneOption.type === 'enum') {
         const selectOptions = [];
@@ -301,7 +304,7 @@ export const RunModule = props => {
               <Tooltip mouseEnterDelay={0.3} title={oneselect.name}>
                 {oneselect.name}
               </Tooltip>
-            </Option>
+            </Option>,
           );
         }
         options.push(
@@ -328,7 +331,7 @@ export const RunModule = props => {
                 {selectOptions}
               </Select>
             </Form.Item>
-          </Col>
+          </Col>,
         );
       } else {
         options.push(
@@ -349,7 +352,7 @@ export const RunModule = props => {
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>
+          </Col>,
         );
       }
     }
@@ -390,7 +393,7 @@ export const RunModule = props => {
           <a href={readme[i]} target="_blank">
             {readme[i]}
           </a>
-        </div>
+        </div>,
       );
     }
 
@@ -402,7 +405,7 @@ export const RunModule = props => {
           <a href={references[i]} target="_blank">
             {references[i]}
           </a>
-        </div>
+        </div>,
       );
     }
     const attcks = postModuleConfig.ATTCK;
@@ -751,7 +754,7 @@ export const RunModule = props => {
               </Select>
               <Input
                 allowClear
-                prefix={<SearchOutlined />}
+                prefix={<SearchOutlined/>}
                 style={{ width: '100%' }}
                 placeholder="名称/说明/TTPs"
                 value={text}
@@ -783,7 +786,7 @@ export const RunModule = props => {
             <TabPane
               tab={
                 <span>
-                  <FormOutlined />
+                  <FormOutlined/>
                   参数
                 </span>
               }
@@ -840,7 +843,7 @@ export const RunModule = props => {
                       htmlType="submit"
                       block
                       disabled={postModuleConfigActive.loadpath === null}
-                      icon={<CaretRightOutlined />}
+                      icon={<CaretRightOutlined/>}
                       loading={
                         createPostModuleActuatorReq.loading || listPostModuleConfigReq.loading
                       }
@@ -854,13 +857,13 @@ export const RunModule = props => {
             <TabPane
               tab={
                 <span>
-                  <InfoCircleOutlined />
+                  <InfoCircleOutlined/>
                   说明
                 </span>
               }
               key="desc"
             >
-              <ModuleInfoContent postModuleConfig={postModuleConfigActive} />
+              <ModuleInfoContent postModuleConfig={postModuleConfigActive}/>
             </TabPane>
           </Tabs>
         </Col>
@@ -913,10 +916,10 @@ export const RunAutoModule = props => {
   postModuleConfigListStateSort.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath));
 
   const [postModuleConfigListState, setPostModuleConfigListState] = useState(
-    postModuleConfigListStateSort
+    postModuleConfigListStateSort,
   );
   const [postModuleConfigListStateTmp, setPostModuleConfigListStateTmp] = useState(
-    postModuleConfigListStateSort
+    postModuleConfigListStateSort,
   );
   const [postModuleConfigActive, setPostModuleConfigActive] = useState({
     NAME: null,
@@ -942,7 +945,8 @@ export const RunAutoModule = props => {
     onSuccess: (result, params) => {
       setPostModuleConfigActive(result);
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const createPostModuleAutoReq = useRequest(postPostModuleAutoAPI, {
@@ -951,7 +955,8 @@ export const RunAutoModule = props => {
       closeModel();
       listData();
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const onCreatePostModuleAuto = params => {
@@ -981,7 +986,8 @@ export const RunAutoModule = props => {
             NAMEMatch = record.NAME.match(reg);
             DESCMatch = record.DESC.match(reg);
             REFERENCESMatch = record.REFERENCES.toString().match(reg);
-          } catch (error) {}
+          } catch (error) {
+          }
 
           if (NAMEMatch || DESCMatch || REFERENCESMatch) {
             return {
@@ -990,7 +996,7 @@ export const RunAutoModule = props => {
           }
           return null;
         })
-        .filter(record => !!record)
+        .filter(record => !!record),
     );
   };
 
@@ -1003,7 +1009,7 @@ export const RunAutoModule = props => {
       onPostModuleConfigListChange(postModuleConfigListStateTmp);
     } else {
       const newpostModuleConfigListState = postModuleConfigListStateTmp.filter(
-        item => value.indexOf(item.MODULETYPE) >= 0
+        item => value.indexOf(item.MODULETYPE) >= 0,
       );
       onPostModuleConfigListChange(newpostModuleConfigListState);
     }
@@ -1030,7 +1036,7 @@ export const RunAutoModule = props => {
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>
+          </Col>,
         );
       } else if (oneOption.type === 'bool') {
         options.push(
@@ -1046,9 +1052,9 @@ export const RunAutoModule = props => {
               initialValue={oneOption.default}
               rules={[{ required: oneOption.required, message: '请输入' }]}
             >
-              <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default} />
+              <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
             </Form.Item>
-          </Col>
+          </Col>,
         );
       } else if (oneOption.type === 'integer') {
         options.push(
@@ -1069,7 +1075,7 @@ export const RunAutoModule = props => {
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>
+          </Col>,
         );
       } else if (oneOption.type === 'float') {
         options.push(
@@ -1091,7 +1097,7 @@ export const RunAutoModule = props => {
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>
+          </Col>,
         );
       } else if (oneOption.type === 'enum') {
         const selectOptions = [];
@@ -1101,7 +1107,7 @@ export const RunAutoModule = props => {
               <Tooltip mouseEnterDelay={0.3} title={oneselect.name}>
                 {oneselect.name}
               </Tooltip>
-            </Option>
+            </Option>,
           );
         }
         options.push(
@@ -1128,7 +1134,7 @@ export const RunAutoModule = props => {
                 {selectOptions}
               </Select>
             </Form.Item>
-          </Col>
+          </Col>,
         );
       } else {
         options.push(
@@ -1149,7 +1155,7 @@ export const RunAutoModule = props => {
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>
+          </Col>,
         );
       }
     }
@@ -1190,7 +1196,7 @@ export const RunAutoModule = props => {
           <a href={readme[i]} target="_blank">
             {readme[i]}
           </a>
-        </div>
+        </div>,
       );
     }
 
@@ -1202,7 +1208,7 @@ export const RunAutoModule = props => {
           <a href={references[i]} target="_blank">
             {references[i]}
           </a>
-        </div>
+        </div>,
       );
     }
     const attcks = postModuleConfig.ATTCK;
@@ -1331,7 +1337,7 @@ export const RunAutoModule = props => {
               </Select>
               <Input
                 allowClear
-                prefix={<SearchOutlined />}
+                prefix={<SearchOutlined/>}
                 style={{ width: '100%' }}
                 placeholder="名称/说明/TTPs"
                 value={text}
@@ -1363,7 +1369,7 @@ export const RunAutoModule = props => {
             <TabPane
               tab={
                 <span>
-                  <FormOutlined />
+                  <FormOutlined/>
                   参数
                 </span>
               }
@@ -1395,7 +1401,7 @@ export const RunAutoModule = props => {
                       htmlType="submit"
                       block
                       disabled={postModuleConfigActive.loadpath === null}
-                      icon={<CaretRightOutlined />}
+                      icon={<CaretRightOutlined/>}
                       loading={createPostModuleAutoReq.loading || listPostModuleConfigReq.loading}
                     >
                       执行
@@ -1407,13 +1413,13 @@ export const RunAutoModule = props => {
             <TabPane
               tab={
                 <span>
-                  <InfoCircleOutlined />
+                  <InfoCircleOutlined/>
                   说明
                 </span>
               }
               key="desc"
             >
-              <ModuleInfoContent postModuleConfig={postModuleConfigActive} />
+              <ModuleInfoContent postModuleConfig={postModuleConfigActive}/>
             </TabPane>
           </Tabs>
         </Col>
@@ -1480,8 +1486,9 @@ export const RunBotModule = props => {
       onSuccess: (result, params) => {
         setEngineConfs(result);
       },
-      onError: (error, params) => {},
-    }
+      onError: (error, params) => {
+      },
+    },
   );
 
   const listPostModuleConfigReq = useRequest(getPostmodulePostModuleConfigAPI, {
@@ -1491,13 +1498,16 @@ export const RunBotModule = props => {
       setSelectedRowKeys([]);
       setSelectedRows([]);
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const createPostModuleActuatorReq = useRequest(postPostmodulePostModuleActuatorAPI, {
     manual: true,
-    onSuccess: (result, params) => {},
-    onError: (error, params) => {},
+    onSuccess: (result, params) => {
+    },
+    onError: (error, params) => {
+    },
   });
 
   const onCreatePostModuleActuator = params => {
@@ -1527,7 +1537,8 @@ export const RunBotModule = props => {
             NAMEMatch = record.NAME.match(reg);
             DESCMatch = record.DESC.match(reg);
             REFERENCESMatch = record.REFERENCES.toString().match(reg);
-          } catch (error) {}
+          } catch (error) {
+          }
 
           if (NAMEMatch || DESCMatch || REFERENCESMatch) {
             return {
@@ -1536,7 +1547,7 @@ export const RunBotModule = props => {
           }
           return null;
         })
-        .filter(record => !!record)
+        .filter(record => !!record),
     );
   };
 
@@ -1546,7 +1557,8 @@ export const RunBotModule = props => {
       console.log(result);
       setIpportListState(result);
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const searchNetworkSubmit = values => {
@@ -1581,7 +1593,7 @@ export const RunBotModule = props => {
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>
+          </Col>,
         );
       } else if (oneOption.type === 'bool') {
         options.push(
@@ -1597,9 +1609,9 @@ export const RunBotModule = props => {
               valuePropName="checked"
               rules={[{ required: oneOption.required, message: '请输入' }]}
             >
-              <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default} />
+              <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
             </Form.Item>
-          </Col>
+          </Col>,
         );
       } else if (oneOption.type === 'integer') {
         options.push(
@@ -1620,7 +1632,7 @@ export const RunBotModule = props => {
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>
+          </Col>,
         );
       } else if (oneOption.type === 'float') {
         options.push(
@@ -1642,7 +1654,7 @@ export const RunBotModule = props => {
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>
+          </Col>,
         );
       } else if (oneOption.type === 'enum') {
         const selectOptions = [];
@@ -1652,7 +1664,7 @@ export const RunBotModule = props => {
               <Tooltip mouseEnterDelay={0.3} title={oneselect.name}>
                 {oneselect.name}
               </Tooltip>
-            </Option>
+            </Option>,
           );
         }
         options.push(
@@ -1679,7 +1691,7 @@ export const RunBotModule = props => {
                 {selectOptions}
               </Select>
             </Form.Item>
-          </Col>
+          </Col>,
         );
       } else {
         options.push(
@@ -1700,7 +1712,7 @@ export const RunBotModule = props => {
                 // defaultValue={oneOption.default}
               />
             </Form.Item>
-          </Col>
+          </Col>,
         );
       }
     }
@@ -1787,7 +1799,7 @@ export const RunBotModule = props => {
           <a href={readme[i]} target="_blank">
             {readme[i]}
           </a>
-        </div>
+        </div>,
       );
     }
     const references = postModuleConfig.REFERENCES;
@@ -1798,7 +1810,7 @@ export const RunBotModule = props => {
           <a href={references[i]} target="_blank">
             {references[i]}
           </a>
-        </div>
+        </div>,
       );
     }
 
@@ -1852,7 +1864,7 @@ export const RunBotModule = props => {
     <Row>
       <Col span={6}>
         <Card bordered={false} className={styles.botModuleCard}>
-          <Search style={{}} placeholder="搜索模块" onSearch={value => handleModuleSearch(value)} />
+          <Search style={{}} placeholder="搜索模块" onSearch={value => handleModuleSearch(value)}/>
           <Table
             className={styles.botmoduleTableNew}
             scroll={{ y: 'calc(100vh - 120px)' }}
@@ -1876,7 +1888,7 @@ export const RunBotModule = props => {
           <TabPane
             tab={
               <span>
-                <RadarChartOutlined />
+                <RadarChartOutlined/>
                 全网数据
               </span>
             }
@@ -1916,7 +1928,7 @@ export const RunBotModule = props => {
                         },
                       ]}
                     >
-                      <InputNumber />
+                      <InputNumber/>
                     </Form.Item>
                   </Col>
                   <Col span={4}>
@@ -1933,14 +1945,14 @@ export const RunBotModule = props => {
                       ]}
                       name="size"
                     >
-                      <InputNumber />
+                      <InputNumber/>
                     </Form.Item>
                   </Col>
                   <Col span={8}>
                     <Form.Item>
                       <Button
                         block
-                        icon={<SearchOutlined />}
+                        icon={<SearchOutlined/>}
                         type="primary"
                         htmlType="submit"
                         disabled={botModuleConfigActive.loadpath === null}
@@ -2027,7 +2039,7 @@ export const RunBotModule = props => {
           <TabPane
             tab={
               <span>
-                <FormOutlined />
+                <FormOutlined/>
                 模块参数
               </span>
             }
@@ -2047,7 +2059,7 @@ export const RunBotModule = props => {
                     htmlType="submit"
                     block
                     disabled={botModuleConfigActive.loadpath === null || selectedRows.length === 0}
-                    icon={<PlayCircleOutlined />}
+                    icon={<PlayCircleOutlined/>}
                     loading={createPostModuleActuatorReq.loading || listPostModuleConfigReq.loading}
                   >
                     运行
@@ -2059,13 +2071,13 @@ export const RunBotModule = props => {
           <TabPane
             tab={
               <span>
-                <InfoCircleOutlined />
+                <InfoCircleOutlined/>
                 说明
               </span>
             }
             key="desc"
           >
-            <ModuleInfoContent postModuleConfig={botModuleConfigActive} />
+            <ModuleInfoContent postModuleConfig={botModuleConfigActive}/>
           </TabPane>
         </Tabs>
       </Col>
@@ -2084,14 +2096,14 @@ export const BotScan = () => {
           <Button
             block
             type="dashed"
-            icon={<PlusOutlined />}
+            icon={<PlusOutlined/>}
             onClick={() => setRunBotModuleModalVisable(true)}
           >
             新建任务
           </Button>
         </Col>
       </Row>
-      <RealTimeBotWaitListMemo />
+      <RealTimeBotWaitListMemo/>
       <Modal
         mask={false}
         style={{ top: 16 }}
@@ -2102,7 +2114,7 @@ export const BotScan = () => {
         footer={null}
         bodyStyle={{ padding: '0px 0px 0px 0px' }}
       >
-        <RunBotModuleMemo />
+        <RunBotModuleMemo/>
       </Modal>
     </Fragment>
   );
@@ -2120,7 +2132,8 @@ const RealTimeBotWaitList = () => {
       const { uuid } = result;
       setBotWaitList(botWaitList.filter(item => item.group_uuid !== uuid));
     },
-    onError: (error, params) => {},
+    onError: (error, params) => {
+    },
   });
 
   const onDestoryBotWait = record => {
@@ -2167,7 +2180,7 @@ const RealTimeBotWaitList = () => {
       render: (text, record) => (
         <Popover
           placement="right"
-          content={<ModuleInfoMemo postModuleConfig={record.moduleinfo} />}
+          content={<ModuleInfoMemo postModuleConfig={record.moduleinfo}/>}
           trigger="click"
         >
           <a>{record.moduleinfo.NAME}</a>
@@ -2284,14 +2297,17 @@ export const PostModule = props => {
       onSuccess: (result, params) => {
         setPostModuleConfigActive(result);
       },
-      onError: (error, params) => {},
-    }
+      onError: (error, params) => {
+      },
+    },
   );
 
   const createPostModuleActuatorReq = useRequest(postPostmodulePostModuleActuatorAPI, {
     manual: true,
-    onSuccess: (result, params) => {},
-    onError: (error, params) => {},
+    onSuccess: (result, params) => {
+    },
+    onError: (error, params) => {
+    },
   });
 
   const onCreatePostModuleActuator = params => {
@@ -2327,7 +2343,7 @@ export const PostModule = props => {
               // defaultValue={oneOption.default}
             />
           </Form.Item>
-        </Col>
+        </Col>,
       );
     } else if (oneOption.type === 'bool') {
       options.push(
@@ -2342,9 +2358,9 @@ export const PostModule = props => {
             valuePropName="checked"
             rules={[{ required: oneOption.required, message: '请输入' }]}
           >
-            <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default} />
+            <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
           </Form.Item>
-        </Col>
+        </Col>,
       );
     } else if (oneOption.type === 'integer') {
       options.push(
@@ -2364,7 +2380,7 @@ export const PostModule = props => {
               // defaultValue={oneOption.default}
             />
           </Form.Item>
-        </Col>
+        </Col>,
       );
     } else if (oneOption.type === 'float') {
       options.push(
@@ -2385,7 +2401,7 @@ export const PostModule = props => {
               // defaultValue={oneOption.default}
             />
           </Form.Item>
-        </Col>
+        </Col>,
       );
     } else if (oneOption.type === 'enum') {
       const selectOptions = [];
@@ -2395,7 +2411,7 @@ export const PostModule = props => {
             <Tooltip mouseEnterDelay={0.3} title={oneselect.name}>
               {oneselect.name}
             </Tooltip>
-          </Option>
+          </Option>,
         );
       }
       options.push(
@@ -2420,7 +2436,7 @@ export const PostModule = props => {
               {selectOptions}
             </Select>
           </Form.Item>
-        </Col>
+        </Col>,
       );
     } else {
       options.push(
@@ -2440,7 +2456,7 @@ export const PostModule = props => {
               // defaultValue={oneOption.default}
             />
           </Form.Item>
-        </Col>
+        </Col>,
       );
     }
   }
@@ -2460,7 +2476,7 @@ export const PostModule = props => {
             type="primary"
             htmlType="submit"
             block
-            icon={<PlayCircleOutlined />}
+            icon={<PlayCircleOutlined/>}
             loading={createPostModuleActuatorReq.loading}
           >
             运行
@@ -2481,7 +2497,7 @@ export const ModuleInfo = ({ postModuleConfig }) => {
         <a href={references[i]} target="_blank">
           {references[i]}
         </a>
-      </div>
+      </div>,
     );
   }
 
@@ -2493,7 +2509,7 @@ export const ModuleInfo = ({ postModuleConfig }) => {
         <a href={readme[i]} target="_blank">
           {readme[i]}
         </a>
-      </div>
+      </div>,
     );
   }
 

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import AuthorizedRoute, { authority } from './AuthorizedRoute';
+
 export type IReactComponent<P = any> =
   | React.StatelessComponent<P>
   | React.ComponentClass<P>
@@ -7,13 +8,13 @@ export type IReactComponent<P = any> =
 
 type Secured = (
   authority: authority,
-  error?: React.ReactNode
+  error?: React.ReactNode,
 ) => <T extends IReactComponent>(target: T) => T;
 
 type check = <T extends IReactComponent, S extends IReactComponent>(
   authority: authority,
   target: T,
-  Exception: S
+  Exception: S,
 ) => T | S;
 
 export interface IAuthorizedProps {

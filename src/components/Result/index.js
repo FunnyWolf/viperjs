@@ -4,17 +4,17 @@ import { Icon as LegacyIcon } from '@ant-design/compatible';
 import styles from './index.less';
 
 export default function Result({
-  className,
-  type,
-  title,
-  description,
-  extra,
-  actions,
-  ...restProps
-}) {
+                                 className,
+                                 type,
+                                 title,
+                                 description,
+                                 extra,
+                                 actions,
+                                 ...restProps
+                               }) {
   const iconMap = {
-    error: <LegacyIcon className={styles.error} type="close-circle" theme="filled" />,
-    success: <LegacyIcon className={styles.success} type="check-circle" theme="filled" />,
+    error: <LegacyIcon className={styles.error} type="close-circle" theme="filled"/>,
+    success: <LegacyIcon className={styles.success} type="check-circle" theme="filled"/>,
   };
   const clsString = classNames(styles.result, className);
   return (
