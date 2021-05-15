@@ -313,7 +313,7 @@ const SystemInfo = () => {
       <Row>
         <Col span={20}>
           <Row>
-            <Descriptions size="small" style={{ marginLeft: 64 }} column={8}>
+            <Descriptions size="small" style={{ marginLeft: 64 }} column={6}>
               <Descriptions.Item label="渗透服务">
                 {serviceStatusActive.json_rpc.status ? (
                   <Tag color="green">正常</Tag>

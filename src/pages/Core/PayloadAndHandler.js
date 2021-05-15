@@ -1281,6 +1281,7 @@ const CreatePayloadModalContent = props => {
         { show: '分离免杀dll', value: 'dll-diy' },
         { show: '分离免杀dll(mutex)', value: 'dll-mutex-diy' },
         { show: '分离免杀elf', value: 'elf-diy' },
+        { show: '源码免杀elf', value: 'elf-src' },
         { show: 'msbuild', value: 'msbuild' },
         { show: 'c', value: 'c' },
         { show: 'csharp', value: 'csharp' },
@@ -1299,6 +1300,7 @@ const CreatePayloadModalContent = props => {
     }
     if (selectPayload.includes('linux')) {
       options = [
+        { show: '源码免杀elf', value: 'elf-src' },
         { show: '分离免杀elf', value: 'elf-diy' },
         { show: 'raw', value: 'raw' },
         { show: 'hex', value: 'hex' },
