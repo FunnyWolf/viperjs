@@ -1658,12 +1658,7 @@ const CreatePayloadModalContent = props => {
               {...formLayout}
               label="RHOST"
               name="RHOST"
-              rules={[
-                {
-                  required: true,
-                  message: '请输入正向连接的IP地址',
-                },
-              ]}
+              initialValue="0.0.0.0"
             >
               <Input placeholder="请输入正向连接的IP地址"/>
             </FormNew.Item>
