@@ -87,7 +87,6 @@ const Credential = () => {
         <Col span={12}>
           <Button
             block
-            type="dashed"
             icon={<PlusOutlined/>}
             onClick={() => setCreateCredentialModalVisible(true)}
           >

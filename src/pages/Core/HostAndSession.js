@@ -523,131 +523,297 @@ const HostAndSessionCard = () => {
       </Menu>
     );
   };
-
   return (
     <Fragment>
-      <Card bordered bodyStyle={{ padding: '0px 0px 0px 0px' }}>
-        <Table
-          loading={!heatbeatsocketalive}
-          className={styles.hostandsessionTable}
-          rowKey="order_id"
-          size="small"
-          locale={{ emptyText: null }}
-          pagination={false}
-          dataSource={hostAndSessionList}
-          showHeader={false}
-          columns={[
-            {
-              dataIndex: 'ipaddress',
-              width: 120,
-              render: (text, record) => {
-                return (
-                  <Button
-                    onClick={() => {
-                      setRunModuleModalVisable(true);
-                      setActiveHostAndSession(record);
-                    }}
-                    style={{
-                      width: 96,
-                      backgroundColor: '#15395b',
-                      textAlign: 'center',
-                      cursor: 'pointer',
-                    }}
-                    size="small"
-                  >
-                    <CaretRightOutlined/>
-                  </Button>
-                );
-              },
-            },
-            {
-              dataIndex: 'ipaddress',
-              width: 144,
-              render: (text, record) => (
-                <div
+      <Table
+        loading={!heatbeatsocketalive}
+        className={styles.hostandsessionTable}
+        rowKey="order_id"
+        size="small"
+        locale={{ emptyText: null }}
+        pagination={false}
+        dataSource={hostAndSessionList}
+        showHeader={false}
+        columns={[
+          {
+            dataIndex: 'ipaddress',
+            width: 120,
+            render: (text, record) => {
+              return (
+                <Button
+                  onClick={() => {
+                    setRunModuleModalVisable(true);
+                    setActiveHostAndSession(record);
+                  }}
                   style={{
-                    display: 'flex',
+                    width: 96,
+                    backgroundColor: '#15395b',
+                    textAlign: 'center',
                     cursor: 'pointer',
                   }}
+                  size="small"
                 >
-                  <Dropdown overlay={() => HostMenu(record)} trigger={['contextMenu', 'click']}>
+                  <CaretRightOutlined/>
+                </Button>
+              );
+            },
+          },
+          {
+            dataIndex: 'ipaddress',
+            width: 144,
+            render: (text, record) => (
+              <div
+                style={{
+                  display: 'flex',
+                  cursor: 'pointer',
+                }}
+              >
+                <Dropdown overlay={() => HostMenu(record)} trigger={['contextMenu', 'click']}>
+                  <Tag
+                    color="gold"
+                    style={{
+                      width: 120,
+                      textAlign: 'center',
+                      marginRight: 4,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <strong>{record.ipaddress}</strong>
+                  </Tag>
+                </Dropdown>
+              </div>
+            ),
+          },
+          {
+            title: 'Session',
+            render: (text, record) => {
+              if (record.session === null || record.session === undefined) {
+                return null;
+              }
+              // 心跳标签
+              const fromnowTime = (moment().unix() - record.session.fromnow) * 1000;
+              const timepass = record.session.fromnow;
+              let heartbeat = null;
+
+              if (timepass <= 60) {
+                heartbeat = (
+                  <Tooltip title={timepass + 's'} placement="left">
                     <Tag
-                      color="gold"
+                      color="green"
                       style={{
-                        width: 120,
+                        width: 72,
                         textAlign: 'center',
-                        marginRight: 4,
                         cursor: 'pointer',
                       }}
                     >
-                      <strong>{record.ipaddress}</strong>
+                      {timepass + 's'}
                     </Tag>
-                  </Dropdown>
-                </div>
-              ),
-            },
-            {
-              title: 'Session',
-              render: (text, record) => {
-                if (record.session === null || record.session === undefined) {
-                  return null;
-                }
-                // 心跳标签
-                const fromnowTime = (moment().unix() - record.session.fromnow) * 1000;
-                const timepass = record.session.fromnow;
-                let heartbeat = null;
+                  </Tooltip>
+                );
+              } else if (60 < timepass && timepass <= 90) {
+                heartbeat = (
+                  <Tooltip title={timepass + 's'} placement="left">
+                    <Tag
+                      color="orange"
+                      style={{
+                        width: 72,
+                        textAlign: 'center',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {timepass + 's'}
+                    </Tag>
+                  </Tooltip>
+                );
+              } else {
+                heartbeat = (
+                  <Tooltip title={timepass + 's'} placement="left">
+                    <Tag
+                      color="red"
+                      style={{
+                        width: 72,
+                        textAlign: 'center',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {moment(fromnowTime).fromNow()}
+                    </Tag>
+                  </Tooltip>
+                );
+              }
 
-                if (timepass <= 60) {
-                  heartbeat = (
-                    <Tooltip title={timepass + 's'} placement="left">
-                      <Tag
-                        color="green"
-                        style={{
-                          width: 72,
-                          textAlign: 'center',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        {timepass + 's'}
-                      </Tag>
-                    </Tooltip>
-                  );
-                } else if (60 < timepass && timepass <= 90) {
-                  heartbeat = (
-                    <Tooltip title={timepass + 's'} placement="left">
-                      <Tag
-                        color="orange"
-                        style={{
-                          width: 72,
-                          textAlign: 'center',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        {timepass + 's'}
-                      </Tag>
-                    </Tooltip>
-                  );
-                } else {
-                  heartbeat = (
-                    <Tooltip title={timepass + 's'} placement="left">
-                      <Tag
-                        color="red"
-                        style={{
-                          width: 72,
-                          textAlign: 'center',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        {moment(fromnowTime).fromNow()}
-                      </Tag>
-                    </Tooltip>
-                  );
-                }
+              // sessionid
+              const sessionidTag = (
+                <Tag
+                  color="purple"
+                  style={{
+                    minWidth: 48,
+                    marginLeft: -6,
+                    textAlign: 'center',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <strong>{record.session.id}</strong>
+                </Tag>
+              );
 
-                // sessionid
-                const sessionidTag = (
+              // sessionid
+              const pidTag = (
+                <Tooltip
+                  mouseEnterDelay={1}
+                  placement="bottomLeft"
+                  title={<span>Pid {record.session.pid}</span>}
+                >
                   <Tag
-                    color="purple"
+                    color="magenta"
+                    style={{
+                      // width: 64,
+                      marginLeft: -6,
+                      textAlign: 'center',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <span>{record.session.pid}</span>
+                  </Tag>
+                </Tooltip>
+              );
+
+              // 连接标签
+              const connecttooltip = (
+                <div>
+                  {record.session.tunnel_local}
+                  {' <- '}
+                  {record.session.tunnel_peer} {record.session.tunnel_peer_locate}
+                </div>
+              );
+              const connectTag = (
+                <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={connecttooltip}>
+                  <Tag
+                    color="cyan"
+                    style={{
+                      width: 120,
+                      textAlign: 'center',
+                      marginLeft: -6,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {record.session.tunnel_peer_ip}
+                  </Tag>
+                </Tooltip>
+              );
+
+              // arch
+              const archTag =
+                record.session.arch === 'x64' ? (
+                  <Tag
+                    color="geekblue"
+                    style={{
+                      cursor: 'pointer',
+                      marginLeft: -6,
+                    }}
+                  >
+                    {record.session.arch}
+                  </Tag>
+                ) : (
+                  <Tag
+                    color="volcano"
+                    style={{
+                      cursor: 'pointer',
+                      marginLeft: -6,
+                    }}
+                  >
+                    {record.session.arch}
+                  </Tag>
+                );
+
+              // os标签
+              const os_tag =
+                record.session.platform === 'windows' ? (
+                  <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={record.session.os}>
+                    <Tag
+                      color="blue"
+                      style={{
+                        marginLeft: -6,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <div className={styles.sessionOSTextOverflow}>
+                        <MyIcon
+                          type="icon-windows"
+                          style={{
+                            marginBottom: 0,
+                            marginRight: 4,
+                            fontSize: '14px',
+                          }}
+                        />
+                        {record.session.os_short}
+                      </div>
+                    </Tag>
+                  </Tooltip>
+                ) : (
+                  <Tooltip mouseEnterDelay={1} placement="right" title={record.session.os}>
+                    <Tag
+                      color="magenta"
+                      style={{
+                        marginLeft: -6,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <div className={styles.sessionOSTextOverflow}>
+                        <MyIcon
+                          type="icon-linux"
+                          style={{
+                            fontSize: '14px',
+                            marginRight: 4,
+                          }}
+                        />
+                        {record.session.os_short}
+                      </div>
+                    </Tag>
+                  </Tooltip>
+                );
+
+              // user标签
+              let user = null;
+              if (record.session.available === true && record.session.isadmin === true) {
+                user = (
+                  <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={record.session.info}>
+                    <Tag
+                      color="orange"
+                      style={{
+                        marginLeft: -6,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <div className={styles.sessionInfoTextOverflow}>{record.session.info}</div>
+                    </Tag>
+                  </Tooltip>
+                );
+              } else {
+                user = (
+                  <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={record.session.info}>
+                    <Tag
+                      style={{
+                        marginLeft: -6,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <div className={styles.sessionInfoTextOverflow}>{record.session.info}</div>
+                    </Tag>
+                  </Tooltip>
+                );
+              }
+              // handler标签
+              const jobidTagTooltip = (
+                <span>
+                    {record.session.job_info.PAYLOAD} {record.session.job_info.LHOST}{' '}
+                  {record.session.job_info.RHOST} {record.session.job_info.LPORT}{' '}
+                  </span>
+              );
+              const jobidTag = (
+                <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={jobidTagTooltip}>
+                  <Tag
+                    color="lime"
                     style={{
                       minWidth: 48,
                       marginLeft: -6,
@@ -655,251 +821,82 @@ const HostAndSessionCard = () => {
                       cursor: 'pointer',
                     }}
                   >
-                    <strong>{record.session.id}</strong>
+                    <span>{record.session.job_info.job_id}</span>
                   </Tag>
-                );
+                </Tooltip>
+              );
 
-                // sessionid
-                const pidTag = (
-                  <Tooltip
-                    mouseEnterDelay={1}
-                    placement="bottomLeft"
-                    title={<span>Pid {record.session.pid}</span>}
-                  >
-                    <Tag
-                      color="gold"
-                      style={{
-                        // width: 64,
-                        marginLeft: -6,
-                        textAlign: 'center',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      <span>{record.session.pid}</span>
-                    </Tag>
-                  </Tooltip>
-                );
-
-                // 连接标签
-                const connecttooltip = (
-                  <div>
-                    {record.session.tunnel_local}
-                    {' <- '}
-                    {record.session.tunnel_peer} {record.session.tunnel_peer_locate}
-                  </div>
-                );
-                const connectTag = (
-                  <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={connecttooltip}>
-                    <Tag
-                      color="cyan"
-                      style={{
-                        width: 120,
-                        textAlign: 'center',
-                        marginLeft: -6,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      {record.session.tunnel_peer_ip}
-                    </Tag>
-                  </Tooltip>
-                );
-
-                // arch
-                const archTag =
-                  record.session.arch === 'x64' ? (
-                    <Tag
-                      color="geekblue"
-                      style={{
-                        cursor: 'pointer',
-                        marginLeft: -6,
-                      }}
-                    >
-                      {record.session.arch}
-                    </Tag>
-                  ) : (
-                    <Tag
-                      color="volcano"
-                      style={{
-                        cursor: 'pointer',
-                        marginLeft: -6,
-                      }}
-                    >
-                      {record.session.arch}
-                    </Tag>
-                  );
-
-                // os标签
-                const os_tag =
-                  record.session.platform === 'windows' ? (
-                    <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={record.session.os}>
-                      <Tag
-                        color="blue"
-                        style={{
-                          marginLeft: -6,
-                          cursor: 'pointer',
-                        }}
-                      >
-                        <div className={styles.sessionOSTextOverflow}>
-                          <MyIcon
-                            type="icon-windows"
-                            style={{
-                              marginBottom: 0,
-                              marginRight: 4,
-                              fontSize: '14px',
-                            }}
-                          />
-                          {record.session.os_short}
-                        </div>
-                      </Tag>
-                    </Tooltip>
-                  ) : (
-                    <Tooltip mouseEnterDelay={1} placement="right" title={record.session.os}>
-                      <Tag
-                        color="magenta"
-                        style={{
-                          marginLeft: -6,
-                          cursor: 'pointer',
-                        }}
-                      >
-                        <div className={styles.sessionOSTextOverflow}>
-                          <MyIcon
-                            type="icon-linux"
-                            style={{
-                              fontSize: '14px',
-                              marginRight: 4,
-                            }}
-                          />
-                          {record.session.os_short}
-                        </div>
-                      </Tag>
-                    </Tooltip>
-                  );
-
-                // user标签
-                let user = null;
-                if (record.session.available === true && record.session.isadmin === true) {
-                  user = (
-                    <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={record.session.info}>
-                      <Tag
-                        color="orange"
-                        style={{
-                          marginLeft: -6,
-                          cursor: 'pointer',
-                        }}
-                      >
-                        <div className={styles.sessionInfoTextOverflow}>{record.session.info}</div>
-                      </Tag>
-                    </Tooltip>
-                  );
-                } else {
-                  user = (
-                    <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={record.session.info}>
-                      <Tag
-                        style={{
-                          marginLeft: -6,
-                          cursor: 'pointer',
-                        }}
-                      >
-                        <div className={styles.sessionInfoTextOverflow}>{record.session.info}</div>
-                      </Tag>
-                    </Tooltip>
-                  );
-                }
-                // handler标签
-                const jobidTagTooltip = (
-                  <span>
-                    {record.session.job_info.PAYLOAD} {record.session.job_info.LHOST}{' '}
-                    {record.session.job_info.RHOST} {record.session.job_info.LPORT}{' '}
-                  </span>
-                );
-                const jobidTag = (
-                  <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={jobidTagTooltip}>
-                    <Tag
-                      color="lime"
-                      style={{
-                        minWidth: 48,
-                        marginLeft: -6,
-                        textAlign: 'center',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      <span>{record.session.job_info.job_id}</span>
-                    </Tag>
-                  </Tooltip>
-                );
-
-                return (
-                  <Dropdown
-                    overlay={() => SessionMenu(record)}
-                    trigger={['contextMenu', 'click']}
-                    placement="bottomLeft"
-                  >
-                    <div
-                      style={{
-                        display: 'flex',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      {heartbeat}
-                      {sessionidTag}
-                      {jobidTag}
-                      {connectTag}
-                      {archTag}
-                      {os_tag}
-                      {user}
-                      {pidTag}
-                    </div>
-                  </Dropdown>
-                );
-              },
-            },
-            {
-              dataIndex: 'ipaddress',
-              width: 240,
-              render: (text, record) => (
-                <div
-                  style={{
-                    display: 'flex',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => {
-                    setActiveHostAndSession(record);
-                    setUpdateHostModalVisable(true);
-                  }}
+              return (
+                <Dropdown
+                  overlay={() => SessionMenu(record)}
+                  trigger={['contextMenu', 'click']}
+                  placement="bottomLeft"
                 >
-                  <Text
-                    className={styles.percent}
-                    ellipsis={{
-                      rows: 1,
-                      tooltip: true,
+                  <div
+                    style={{
+                      display: 'flex',
+                      cursor: 'pointer',
                     }}
                   >
-                    {record.comment}
-                  </Text>
-                </div>
-              ),
+                    {heartbeat}
+                    {sessionidTag}
+                    {jobidTag}
+                    {connectTag}
+                    {archTag}
+                    {os_tag}
+                    {user}
+                    {pidTag}
+                  </div>
+                </Dropdown>
+              );
             },
-            {
-              dataIndex: 'ipaddress',
-              width: 64,
-              render: (text, record) => (
-                <div
-                  style={{
-                    display: 'flex',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => {
-                    setActiveHostAndSession(record);
-                    setUpdateHostModalVisable(true);
+          },
+          {
+            dataIndex: 'ipaddress',
+            width: 240,
+            render: (text, record) => (
+              <div
+                style={{
+                  display: 'flex',
+                  cursor: 'pointer',
+                }}
+                onClick={() => {
+                  setActiveHostAndSession(record);
+                  setUpdateHostModalVisable(true);
+                }}
+              >
+                <Text
+                  className={styles.percent}
+                  ellipsis={{
+                    rows: 1,
+                    tooltip: true,
                   }}
                 >
-                  {host_type_to_avatar_table[record.tag]}
-                </div>
-              ),
-            },
-          ]}
-        />
-      </Card>
+                  {record.comment}
+                </Text>
+              </div>
+            ),
+          },
+          {
+            dataIndex: 'ipaddress',
+            width: 64,
+            render: (text, record) => (
+              <div
+                style={{
+                  display: 'flex',
+                  cursor: 'pointer',
+                }}
+                onClick={() => {
+                  setActiveHostAndSession(record);
+                  setUpdateHostModalVisable(true);
+                }}
+              >
+                {host_type_to_avatar_table[record.tag]}
+              </div>
+            ),
+          },
+        ]}
+      />
       <Modal
         mask={false}
         style={{ top: 32 }}
@@ -1223,7 +1220,6 @@ const TabsBottom = () => {
         } else {
           filemsfRef.current.updateData();
         }
-
         break;
       case 'Credential':
         break;
@@ -1244,10 +1240,10 @@ const TabsBottom = () => {
       <Tabs style={{ marginTop: 4 }} type="card" onChange={tabActiveOnChange}>
         <TabPane
           tab={
-            <span>
+            <div>
               <FundViewOutlined/>
               实时输出
-            </span>
+            </div>
           }
           key="notices"
         >
@@ -1687,48 +1683,46 @@ const RealTimeModuleResult = () => {
           </Tooltip>
         </Col>
       </Row>
-      <Card bordered={false} style={{ marginTop: 0 }} bodyStyle={{ padding: '0px 0px 0px 0px' }}>
-        <List
-          id="moduleresultlist"
-          bordered
-          className={styles.moduleresultlist}
-          itemLayout="vertical"
-          size="small"
-          dataSource={postModuleResultHistoryActive}
-          renderItem={item => (
-            <List.Item key={item.id} style={{ padding: '4px 0px 0px 4px' }}>
-              <div>
-                <Tooltip title={moment(item.update_time * 1000).format('YYYY-MM-DD HH:mm:ss')}>
-                  <Tag style={{ width: '68px' }} color="cyan">
-                    {moment(item.update_time * 1000).fromNow()}
-                  </Tag>
-                </Tooltip>
-                <strong
-                  style={{
-                    color: '#642ab5',
-                    // marginLeft: 8,
-                  }}
-                >
-                  {item.module_name}
-                </strong>
-                <strong
-                  style={{
-                    color: '#d8bd14',
-                    width: 120,
-                    marginLeft: 8,
-                  }}
-                >
-                  {item.ipaddress}
-                </strong>
-              </div>
-              <div
+      <List
+        id="moduleresultlist"
+        bordered
+        className={styles.moduleresultlist}
+        itemLayout="vertical"
+        size="small"
+        dataSource={postModuleResultHistoryActive}
+        renderItem={item => (
+          <List.Item key={item.id} style={{ padding: '4px 0px 0px 4px' }}>
+            <div>
+              <Tooltip title={moment(item.update_time * 1000).format('YYYY-MM-DD HH:mm:ss')}>
+                <Tag style={{ width: '68px' }} color="cyan">
+                  {moment(item.update_time * 1000).fromNow()}
+                </Tag>
+              </Tooltip>
+              <strong
                 style={{
-                  marginTop: 0,
+                  color: '#642ab5',
                 }}
               >
-                {postModuleOpts(item.opts)}
-              </div>
-              <Row>
+                {item.module_name}
+              </strong>
+              <strong
+                style={{
+                  color: '#d8bd14',
+                  width: 120,
+                  marginLeft: 8,
+                }}
+              >
+                {item.ipaddress}
+              </strong>
+            </div>
+            <div
+              style={{
+                marginTop: 0,
+              }}
+            >
+              {postModuleOpts(item.opts)}
+            </div>
+            <Row>
                 <pre
                   style={{
                     whiteSpace: 'pre-wrap',
@@ -1740,33 +1734,33 @@ const RealTimeModuleResult = () => {
                 >
                   {item.result}
                 </pre>
-              </Row>
-            </List.Item>
-          )}
+            </Row>
+          </List.Item>
+        )}
+      >
+        <BackTop
+          style={{
+            right: 'calc(41vw + 32px)',
+          }}
+          target={() => document.getElementById('moduleresultlist')}
         >
-          <BackTop
+          <div
             style={{
-              right: 'calc(41vw + 32px)',
+              height: 40,
+              width: 40,
+              lineHeight: '40px',
+              borderRadius: 4,
+              backgroundColor: 'rgba(64, 64, 64, 0.6)',
+              color: '#fff',
+              textAlign: 'center',
+              fontSize: 14,
             }}
-            target={() => document.getElementById('moduleresultlist')}
           >
-            <div
-              style={{
-                height: 40,
-                width: 40,
-                lineHeight: '40px',
-                borderRadius: 4,
-                backgroundColor: 'rgba(64, 64, 64, 0.6)',
-                color: '#fff',
-                textAlign: 'center',
-                fontSize: 14,
-              }}
-            >
-              <VerticalAlignTopOutlined/>
-            </div>
-          </BackTop>
-        </List>
-      </Card>
+            <VerticalAlignTopOutlined/>
+          </div>
+        </BackTop>
+      </List>
+
     </Fragment>
   );
 };
@@ -2030,9 +2024,7 @@ const RealTimeNotices = () => {
           </Tooltip>
         </Col>
       </Row>
-      <Card bordered={false} style={{ marginTop: 0 }} bodyStyle={{ padding: '0px 0px 0px 0px' }}>
-        <NoticesList notices={notices}/>
-      </Card>
+      <NoticesList notices={notices}/>
     </Fragment>
   );
 };

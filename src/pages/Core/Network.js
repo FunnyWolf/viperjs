@@ -1,5 +1,4 @@
-import React, { Fragment, memo } from 'react';
-import { Card, Col, Row } from 'antd';
+import React, { memo } from 'react';
 import { useModel } from 'umi';
 import '@ant-design/compatible/assets/index.css';
 
@@ -209,29 +208,25 @@ const Network = () => {
   let data = formatData(networkData);
 
   return (
-    <Fragment>
-      <Row style={{ marginTop: -16 }}>
-        <Col span={24}>
-          <Card bodyStyle={{ padding: '0px 0px 0px 0px' }} className={styles.networkCardOut}>
-            <div className={styles.networkCard}>
-              <Graphin
-                data={data}
-                theme={{ mode: 'dark' }}
-                layout={{
-                  type: 'dagre',
-                  rankdir: 'TB',
-                  align: 'DL',
-                  ranksepFunc: ranksepFunc,
-                }}
-              >
-                <FitView/>
-                <ActivateRelations/>
-              </Graphin>
-            </div>
-          </Card>
-        </Col>
-      </Row>
-    </Fragment>
+    <div
+      style={{
+        marginTop: -16,
+      }}
+      className={styles.networkCard}>
+      <Graphin
+        data={data}
+        theme={{ mode: 'dark' }}
+        layout={{
+          type: 'dagre',
+          rankdir: 'TB',
+          align: 'DL',
+          ranksepFunc: ranksepFunc,
+        }}
+      >
+        <FitView/>
+        <ActivateRelations/>
+      </Graphin>
+    </div>
   );
 };
 export const NetworkMemo = memo(Network);

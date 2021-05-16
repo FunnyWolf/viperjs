@@ -120,7 +120,6 @@ const MsfSocks = props => {
       <Row gutter={0} style={{ marginTop: -16 }}>
         <Col span={12}>
           <Button
-            type="dashed"
             style={{ marginTop: 0 }}
             block
             icon={<PlusOutlined/>}

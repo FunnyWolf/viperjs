@@ -2092,10 +2092,9 @@ export const BotScan = () => {
   return (
     <Fragment>
       <Row style={{ marginTop: -16 }} gutter={0}>
-        <Col span={12}>
+        <Col span={24}>
           <Button
             block
-            type="dashed"
             icon={<PlusOutlined/>}
             onClick={() => setRunBotModuleModalVisable(true)}
           >
