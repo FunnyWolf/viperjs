@@ -156,13 +156,15 @@ const { TabPane } = Tabs;
 //websocket连接地址设置
 let webHost = '127.0.0.1:8002';
 let protocol = 'ws://';
-if (location.hostname === '127.0.0.1' || location.hostname === 'localhost') {
-  webHost = '127.0.0.1:8002';
-  protocol = 'ws://';
-} else {
+if (process.env.NODE_ENV === 'production') {
   webHost = location.hostname + (location.port ? `:${location.port}` : '');
   protocol = 'wss://';
+} else {
+  webHost = '127.0.0.1:8002';
+  protocol = 'ws://';
 }
+console.log(protocol);
+console.log(webHost);
 const inputItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -325,8 +327,8 @@ const HostAndSession = props => {
 
   return (
     <GridContent>
-      <HostAndSessionCard/>
-      <TabsBottom/>
+      <HostAndSessionCard />
+      <TabsBottom />
     </GridContent>
   );
 };
@@ -448,32 +450,32 @@ const HostAndSessionCard = () => {
 
     return (
       <Menu style={{ width: 104 }} onClick={onClick}>
-        <Menu.Item key="SessionInfo">
-          <ContactsOutlined/>
+        <Menu.Item key='SessionInfo'>
+          <ContactsOutlined />
           权限信息
         </Menu.Item>
-        <Menu.Item key="FileSession">
-          <DesktopOutlined/>
+        <Menu.Item key='FileSession'>
+          <DesktopOutlined />
           文件管理
         </Menu.Item>
-        <Menu.Item key="Route">
-          <PartitionOutlined/>
+        <Menu.Item key='Route'>
+          <PartitionOutlined />
           内网路由
         </Menu.Item>
-        <Menu.Item key="PortFwd">
-          <SwapOutlined/>
+        <Menu.Item key='PortFwd'>
+          <SwapOutlined />
           端口转发
         </Menu.Item>
-        <Menu.Item key="Transport">
-          <NodeIndexOutlined/>
+        <Menu.Item key='Transport'>
+          <NodeIndexOutlined />
           传输协议
         </Menu.Item>
-        <Menu.Item key="SessionIO">
-          <CodeOutlined/>
+        <Menu.Item key='SessionIO'>
+          <CodeOutlined />
           命令终端
         </Menu.Item>
-        <Menu.Item key="DestorySession">
-          <CloseCircleOutlined style={{ color: 'red' }}/>
+        <Menu.Item key='DestorySession'>
+          <CloseCircleOutlined style={{ color: 'red' }} />
           <span style={{ color: 'red' }}>删除权限</span>
         </Menu.Item>
       </Menu>
@@ -504,20 +506,20 @@ const HostAndSessionCard = () => {
 
     return (
       <Menu style={{ width: 104 }} onClick={onClick}>
-        <Menu.Item key="HostInfo">
-          <ProfileOutlined/>
+        <Menu.Item key='HostInfo'>
+          <ProfileOutlined />
           主机信息
         </Menu.Item>
-        <Menu.Item key="PortService">
-          <InteractionOutlined/>
+        <Menu.Item key='PortService'>
+          <InteractionOutlined />
           开放端口
         </Menu.Item>
-        <Menu.Item key="Vulnerability">
-          <BugOutlined/>
+        <Menu.Item key='Vulnerability'>
+          <BugOutlined />
           已知漏洞
         </Menu.Item>
-        <Menu.Item key="DestoryHost">
-          <DeleteOutlined style={{ color: 'red' }}/>
+        <Menu.Item key='DestoryHost'>
+          <DeleteOutlined style={{ color: 'red' }} />
           <span style={{ color: 'red' }}>删除主机</span>
         </Menu.Item>
       </Menu>
@@ -528,8 +530,8 @@ const HostAndSessionCard = () => {
       <Table
         loading={!heatbeatsocketalive}
         className={styles.hostandsessionTable}
-        rowKey="order_id"
-        size="small"
+        rowKey='order_id'
+        size='small'
         locale={{ emptyText: null }}
         pagination={false}
         dataSource={hostAndSessionList}
@@ -551,9 +553,9 @@ const HostAndSessionCard = () => {
                     textAlign: 'center',
                     cursor: 'pointer',
                   }}
-                  size="small"
+                  size='small'
                 >
-                  <CaretRightOutlined/>
+                  <CaretRightOutlined />
                 </Button>
               );
             },
@@ -570,7 +572,7 @@ const HostAndSessionCard = () => {
               >
                 <Dropdown overlay={() => HostMenu(record)} trigger={['contextMenu', 'click']}>
                   <Tag
-                    color="gold"
+                    color='gold'
                     style={{
                       width: 120,
                       textAlign: 'center',
@@ -597,9 +599,9 @@ const HostAndSessionCard = () => {
 
               if (timepass <= 60) {
                 heartbeat = (
-                  <Tooltip title={timepass + 's'} placement="left">
+                  <Tooltip title={timepass + 's'} placement='left'>
                     <Tag
-                      color="green"
+                      color='green'
                       style={{
                         width: 72,
                         textAlign: 'center',
@@ -612,9 +614,9 @@ const HostAndSessionCard = () => {
                 );
               } else if (60 < timepass && timepass <= 90) {
                 heartbeat = (
-                  <Tooltip title={timepass + 's'} placement="left">
+                  <Tooltip title={timepass + 's'} placement='left'>
                     <Tag
-                      color="orange"
+                      color='orange'
                       style={{
                         width: 72,
                         textAlign: 'center',
@@ -627,9 +629,9 @@ const HostAndSessionCard = () => {
                 );
               } else {
                 heartbeat = (
-                  <Tooltip title={timepass + 's'} placement="left">
+                  <Tooltip title={timepass + 's'} placement='left'>
                     <Tag
-                      color="red"
+                      color='red'
                       style={{
                         width: 72,
                         textAlign: 'center',
@@ -645,7 +647,7 @@ const HostAndSessionCard = () => {
               // sessionid
               const sessionidTag = (
                 <Tag
-                  color="purple"
+                  color='purple'
                   style={{
                     minWidth: 48,
                     marginLeft: -6,
@@ -661,11 +663,11 @@ const HostAndSessionCard = () => {
               const pidTag = (
                 <Tooltip
                   mouseEnterDelay={1}
-                  placement="bottomLeft"
+                  placement='bottomLeft'
                   title={<span>Pid {record.session.pid}</span>}
                 >
                   <Tag
-                    color="magenta"
+                    color='magenta'
                     style={{
                       // width: 64,
                       marginLeft: -6,
@@ -687,9 +689,9 @@ const HostAndSessionCard = () => {
                 </div>
               );
               const connectTag = (
-                <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={connecttooltip}>
+                <Tooltip mouseEnterDelay={1} placement='bottomLeft' title={connecttooltip}>
                   <Tag
-                    color="cyan"
+                    color='cyan'
                     style={{
                       width: 120,
                       textAlign: 'center',
@@ -706,7 +708,7 @@ const HostAndSessionCard = () => {
               const archTag =
                 record.session.arch === 'x64' ? (
                   <Tag
-                    color="geekblue"
+                    color='geekblue'
                     style={{
                       cursor: 'pointer',
                       marginLeft: -6,
@@ -716,7 +718,7 @@ const HostAndSessionCard = () => {
                   </Tag>
                 ) : (
                   <Tag
-                    color="volcano"
+                    color='volcano'
                     style={{
                       cursor: 'pointer',
                       marginLeft: -6,
@@ -729,9 +731,9 @@ const HostAndSessionCard = () => {
               // os标签
               const os_tag =
                 record.session.platform === 'windows' ? (
-                  <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={record.session.os}>
+                  <Tooltip mouseEnterDelay={1} placement='bottomLeft' title={record.session.os}>
                     <Tag
-                      color="blue"
+                      color='blue'
                       style={{
                         marginLeft: -6,
                         cursor: 'pointer',
@@ -739,7 +741,7 @@ const HostAndSessionCard = () => {
                     >
                       <div className={styles.sessionOSTextOverflow}>
                         <MyIcon
-                          type="icon-windows"
+                          type='icon-windows'
                           style={{
                             marginBottom: 0,
                             marginRight: 4,
@@ -751,9 +753,9 @@ const HostAndSessionCard = () => {
                     </Tag>
                   </Tooltip>
                 ) : (
-                  <Tooltip mouseEnterDelay={1} placement="right" title={record.session.os}>
+                  <Tooltip mouseEnterDelay={1} placement='right' title={record.session.os}>
                     <Tag
-                      color="magenta"
+                      color='magenta'
                       style={{
                         marginLeft: -6,
                         cursor: 'pointer',
@@ -761,7 +763,7 @@ const HostAndSessionCard = () => {
                     >
                       <div className={styles.sessionOSTextOverflow}>
                         <MyIcon
-                          type="icon-linux"
+                          type='icon-linux'
                           style={{
                             fontSize: '14px',
                             marginRight: 4,
@@ -777,9 +779,9 @@ const HostAndSessionCard = () => {
               let user = null;
               if (record.session.available === true && record.session.isadmin === true) {
                 user = (
-                  <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={record.session.info}>
+                  <Tooltip mouseEnterDelay={1} placement='bottomLeft' title={record.session.info}>
                     <Tag
-                      color="orange"
+                      color='orange'
                       style={{
                         marginLeft: -6,
                         cursor: 'pointer',
@@ -791,7 +793,7 @@ const HostAndSessionCard = () => {
                 );
               } else {
                 user = (
-                  <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={record.session.info}>
+                  <Tooltip mouseEnterDelay={1} placement='bottomLeft' title={record.session.info}>
                     <Tag
                       style={{
                         marginLeft: -6,
@@ -811,9 +813,9 @@ const HostAndSessionCard = () => {
                   </span>
               );
               const jobidTag = (
-                <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={jobidTagTooltip}>
+                <Tooltip mouseEnterDelay={1} placement='bottomLeft' title={jobidTagTooltip}>
                   <Tag
-                    color="lime"
+                    color='lime'
                     style={{
                       minWidth: 48,
                       marginLeft: -6,
@@ -830,7 +832,7 @@ const HostAndSessionCard = () => {
                 <Dropdown
                   overlay={() => SessionMenu(record)}
                   trigger={['contextMenu', 'click']}
-                  placement="bottomLeft"
+                  placement='bottomLeft'
                 >
                   <div
                     style={{
@@ -900,134 +902,134 @@ const HostAndSessionCard = () => {
       <Modal
         mask={false}
         style={{ top: 32 }}
-        width="90vw"
+        width='90vw'
         destroyOnClose
         visible={runModuleModalVisable}
         onCancel={() => setRunModuleModalVisable(false)}
         footer={null}
         bodyStyle={{ padding: '0px 0px 0px 0px' }}
       >
-        <RunModuleMemo closeModel={() => setRunModuleModalVisable(false)}/>
+        <RunModuleMemo closeModel={() => setRunModuleModalVisable(false)} />
       </Modal>
 
       <Modal
         style={{ top: 32 }}
-        width="70vw"
+        width='70vw'
         destroyOnClose
         visible={sessionInfoModalVisable}
         onCancel={() => setSessionInfoModalVisable(false)}
         footer={null}
         bodyStyle={{ padding: '8px 8px 8px 8px' }}
       >
-        <SessionInfoMemo/>
+        <SessionInfoMemo />
       </Modal>
 
       <Modal
         style={{ top: 32 }}
-        width="80vw"
+        width='80vw'
         destroyOnClose
         visible={fileSessionModalVisable}
         onCancel={() => setFileSessionModalVisable(false)}
         footer={null}
         bodyStyle={{ padding: '8px 0px 0px 0px' }}
       >
-        <FileSessionMemo/>
+        <FileSessionMemo />
       </Modal>
 
       <Modal
-        title="内网路由"
+        title='内网路由'
         style={{ top: 32 }}
-        width="70vw"
+        width='70vw'
         destroyOnClose
         visible={routeModalVisable}
         onCancel={() => setRouteModalVisable(false)}
         footer={null}
         bodyStyle={{ padding: '0px 0px 16px 0px' }}
       >
-        <MsfRouteMemo/>
+        <MsfRouteMemo />
       </Modal>
 
       <Modal
-        title="端口转发"
+        title='端口转发'
         style={{ top: 32 }}
-        width="80vw"
+        width='80vw'
         destroyOnClose
         visible={portFwdModalVisable}
         onCancel={() => setPortFwdModalVisable(false)}
         footer={null}
         bodyStyle={{ padding: '0px 0px 16px 0px' }}
       >
-        <PortFwdMemo/>
+        <PortFwdMemo />
       </Modal>
 
       <Modal
-        title="传输协议"
+        title='传输协议'
         style={{ top: 32 }}
-        width="80vw"
+        width='80vw'
         destroyOnClose
         visible={transportModalVisable}
         onCancel={() => setTransportModalVisable(false)}
         footer={null}
         bodyStyle={{ padding: '0px 0px 16px 0px' }}
       >
-        <TransportMemo closeModal={closeTransportModel}/>
+        <TransportMemo closeModal={closeTransportModel} />
       </Modal>
 
       <Modal
         style={{ top: 32 }}
-        width="70vw"
+        width='70vw'
         destroyOnClose
         visible={sessionIOModalVisable}
         onCancel={() => setSessionIOModalVisable(false)}
         footer={null}
         bodyStyle={{ padding: '8px 8px 8px 8px' }}
       >
-        <SessionIOMemo/>
+        <SessionIOMemo />
       </Modal>
 
       <Modal
         style={{ top: 32 }}
-        width="80vw"
+        width='80vw'
         destroyOnClose
         visible={hostInfoModalVisable}
         onCancel={() => setHostInfoModalVisable(false)}
         footer={null}
         bodyStyle={{ padding: '8px 8px 8px 8px' }}
       >
-        <HostInfoMemo/>
+        <HostInfoMemo />
       </Modal>
 
       <Modal
-        title="开放端口"
+        title='开放端口'
         style={{ top: 32 }}
-        width="70vw"
+        width='70vw'
         destroyOnClose
         visible={portServiceModalVisable}
         onCancel={() => setPortServiceModalVisable(false)}
         footer={null}
         bodyStyle={{ padding: '0px 8px 0px 8px' }}
       >
-        <PortServiceMemo/>
+        <PortServiceMemo />
       </Modal>
 
       <Modal
-        title="漏洞信息"
+        title='漏洞信息'
         style={{ top: 32 }}
-        width="70vw"
+        width='70vw'
         destroyOnClose
         visible={vulnerabilityModalVisable}
         onCancel={() => setVulnerabilityModalVisable(false)}
         footer={null}
         bodyStyle={{ padding: '0px 0px 0px 0px' }}
       >
-        <VulnerabilityMemo/>
+        <VulnerabilityMemo />
       </Modal>
       <Modal
         style={{
           top: 32,
           left: 'calc(20vw)',
         }}
-        width="548px"
+        width='548px'
         bodyStyle={{ padding: '0px 0px 0px 0px' }}
         destroyOnClose
         visible={updateHostModalVisable}
@@ -1035,7 +1037,7 @@ const HostAndSessionCard = () => {
         mask={false}
         onCancel={() => setUpdateHostModalVisable(false)}
       >
-        <UpdateHostMemo closeModal={() => setUpdateHostModalVisable(false)}/>
+        <UpdateHostMemo closeModal={() => setUpdateHostModalVisable(false)} />
       </Modal>
     </Fragment>
   );
@@ -1140,7 +1142,7 @@ const Msfconsole = props => {
 
   return (
     <Card style={{ marginTop: -16 }} bodyStyle={{ padding: '0px 0px 0px 0px' }} bordered>
-      <div className={styles.msfconsolediv} id="msfconsole_terminal">
+      <div className={styles.msfconsolediv} id='msfconsole_terminal'>
         <Space
           style={{
             top: 16,
@@ -1148,22 +1150,22 @@ const Msfconsole = props => {
             position: 'absolute',
             zIndex: 10000,
           }}
-          direction="vertical"
+          direction='vertical'
         >
           <Button
             style={{
               backgroundColor: 'rgba(40,40,40,0.7)',
             }}
-            size="large"
+            size='large'
             onClick={() => clearConsole()}
-            icon={<ClearOutlined/>}
+            icon={<ClearOutlined />}
           />
           <Button
             style={{
               backgroundColor: 'rgba(40,40,40,0.7)',
             }}
-            size="large"
-            icon={<InteractionOutlined/>}
+            size='large'
+            icon={<InteractionOutlined />}
             onClick={() => resetBackendConsole()}
           />
         </Space>
@@ -1195,7 +1197,7 @@ const TaskQueueTag = () => {
       />
     );
   } else {
-    return <FieldTimeOutlined/>;
+    return <FieldTimeOutlined />;
   }
 };
 const TaskQueueTagMemo = memo(TaskQueueTag);
@@ -1237,159 +1239,159 @@ const TabsBottom = () => {
 
   return (
     <Fragment>
-      <Tabs style={{ marginTop: 4 }} type="card" onChange={tabActiveOnChange}>
+      <Tabs style={{ marginTop: 4 }} type='card' onChange={tabActiveOnChange}>
         <TabPane
           tab={
             <div>
-              <FundViewOutlined/>
+              <FundViewOutlined />
               实时输出
             </div>
           }
-          key="notices"
+          key='notices'
         >
           <Row gutter={0}>
             <Col span={14}>
-              <RealTimeModuleResultMemo/>
+              <RealTimeModuleResultMemo />
             </Col>
             <Col span={10}>
-              <RealTimeNoticesMemo/>
+              <RealTimeNoticesMemo />
             </Col>
           </Row>
         </TabPane>
         <TabPane
           tab={
             <span>
-              <TaskQueueTagMemo/>
+              <TaskQueueTagMemo />
               任务列表
             </span>
           }
-          key="JobList"
+          key='JobList'
         >
-          <RealTimeJobsMemo/>
+          <RealTimeJobsMemo />
         </TabPane>
         <TabPane
           tab={
             <span>
-              <CustomerServiceOutlined/>
+              <CustomerServiceOutlined />
               监听载荷
             </span>
           }
-          key="PayloadAndHandler"
+          key='PayloadAndHandler'
         >
-          <PayloadAndHandlerMemo/>
+          <PayloadAndHandlerMemo />
         </TabPane>
         <TabPane
           tab={
             <span>
-              <FolderOpenOutlined/>
+              <FolderOpenOutlined />
               文件列表
             </span>
           }
-          key="filemsf"
+          key='filemsf'
         >
-          <FileMsfMemo onRef={filemsfRef}/>
+          <FileMsfMemo onRef={filemsfRef} />
         </TabPane>
         <TabPane
           tab={
             <span>
-              <ShareAltOutlined/>
+              <ShareAltOutlined />
               网络拓扑
             </span>
           }
-          key="Network"
+          key='Network'
         >
-          <NetworkMemo/>
+          <NetworkMemo />
         </TabPane>
         <TabPane
           tab={
             <span>
-              <RobotOutlined/>
+              <RobotOutlined />
               自动编排
             </span>
           }
-          key="AutoRobot"
+          key='AutoRobot'
         >
-          <AutoRobotMemo/>
+          <AutoRobotMemo />
         </TabPane>
         <TabPane
           tab={
             <span>
-              <SisternodeOutlined/>
+              <SisternodeOutlined />
               内网代理
             </span>
           }
-          key="Socks"
+          key='Socks'
         >
-          <MsfSocksMemo/>
+          <MsfSocksMemo />
         </TabPane>
         <TabPane
           tab={
             <span>
-              <GroupOutlined/>
+              <GroupOutlined />
               主机列表
             </span>
           }
-          key="MuitHosts"
+          key='MuitHosts'
         >
-          <MuitHostsMemo/>
+          <MuitHostsMemo />
         </TabPane>
         <TabPane
           tab={
             <span>
-              <KeyOutlined/>
+              <KeyOutlined />
               凭证列表
             </span>
           }
-          key="Credential"
+          key='Credential'
         >
-          <CredentialMemo/>
+          <CredentialMemo />
         </TabPane>
         {viperDebugFlag ? (
           <TabPane
             tab={
               <span>
-                <MailOutlined/>
+                <MailOutlined />
                 钓鱼管理
               </span>
             }
-            key="LazyLoader"
+            key='LazyLoader'
           >
-            <LazyLoaderMemo/>
+            <LazyLoaderMemo />
           </TabPane>
         ) : null}
         <TabPane
           tab={
             <span>
-              <RadarChartOutlined/>
+              <RadarChartOutlined />
               全网扫描
             </span>
           }
-          key="BotScan"
+          key='BotScan'
         >
-          <BotScan/>
+          <BotScan />
         </TabPane>
         <TabPane
           tab={
             <span>
-              <CodeOutlined/>
+              <CodeOutlined />
               CONSOLE
             </span>
           }
-          key="msfconsole"
+          key='msfconsole'
           // forceRender
         >
-          <MsfconsoleMemo onRef={consoleRef}/>
+          <MsfconsoleMemo onRef={consoleRef} />
         </TabPane>
         <TabPane
           tab={
             <span>
-              <SettingOutlined/>
+              <SettingOutlined />
               平台设置
             </span>
           }
-          key="SystemSetting"
+          key='SystemSetting'
         >
-          <SystemSettingMemo/>
+          <SystemSettingMemo />
         </TabPane>
       </Tabs>
     </Fragment>
@@ -1401,9 +1403,9 @@ const PostModuleInfoContent = postModuleConfig => {
   const platformCom = [];
   for (let i = 0; i < platform.length; i++) {
     if (platform[i].toLowerCase() === 'windows') {
-      platformCom.push(<Tag color="green">{platform[i]}</Tag>);
+      platformCom.push(<Tag color='green'>{platform[i]}</Tag>);
     } else {
-      platformCom.push(<Tag color="magenta">{platform[i]}</Tag>);
+      platformCom.push(<Tag color='magenta'>{platform[i]}</Tag>);
     }
   }
 
@@ -1411,11 +1413,11 @@ const PostModuleInfoContent = postModuleConfig => {
   const permissionsCom = [];
   for (let i = 0; i < permissions.length; i++) {
     if (['system', 'root'].indexOf(permissions[i].toLowerCase()) >= 0) {
-      permissionsCom.push(<Tag color="volcano">{permissions[i]}</Tag>);
+      permissionsCom.push(<Tag color='volcano'>{permissions[i]}</Tag>);
     } else if (['administrator'].indexOf(permissions[i].toLowerCase()) >= 0) {
-      permissionsCom.push(<Tag color="orange">{permissions[i]}</Tag>);
+      permissionsCom.push(<Tag color='orange'>{permissions[i]}</Tag>);
     } else {
-      permissionsCom.push(<Tag color="lime">{permissions[i]}</Tag>);
+      permissionsCom.push(<Tag color='lime'>{permissions[i]}</Tag>);
     }
   }
 
@@ -1424,7 +1426,7 @@ const PostModuleInfoContent = postModuleConfig => {
   for (let i = 0; i < references.length; i++) {
     referencesCom.push(
       <div>
-        <a href={references[i]} target="_blank">
+        <a href={references[i]} target='_blank'>
           {references[i]}
         </a>
       </div>,
@@ -1436,7 +1438,7 @@ const PostModuleInfoContent = postModuleConfig => {
   for (let i = 0; i < readme.length; i++) {
     readmeCom.push(
       <div>
-        <a href={readme[i]} target="_blank">
+        <a href={readme[i]} target='_blank'>
           {readme[i]}
         </a>
       </div>,
@@ -1446,18 +1448,18 @@ const PostModuleInfoContent = postModuleConfig => {
   const attcks = postModuleConfig.ATTCK;
   const attckCom = [];
   for (let i = 0; i < attcks.length; i++) {
-    attckCom.push(<Tag color="gold">{attcks[i]}</Tag>);
+    attckCom.push(<Tag color='gold'>{attcks[i]}</Tag>);
   }
 
   const authors = postModuleConfig.AUTHOR;
   const authorCom = [];
   for (let i = 0; i < authors.length; i++) {
-    authorCom.push(<Tag color="lime">{authors[i]}</Tag>);
+    authorCom.push(<Tag color='lime'>{authors[i]}</Tag>);
   }
 
   return (
     <Descriptions
-      size="small"
+      size='small'
       style={{
         padding: '0 0 0 0',
         marginRight: 8,
@@ -1465,28 +1467,28 @@ const PostModuleInfoContent = postModuleConfig => {
       column={8}
       bordered
     >
-      <Descriptions.Item label="名称" span={8}>
+      <Descriptions.Item label='名称' span={8}>
         {postModuleConfig.NAME}
       </Descriptions.Item>
-      <Descriptions.Item label="作者" span={4}>
+      <Descriptions.Item label='作者' span={4}>
         {authorCom}
       </Descriptions.Item>
-      <Descriptions.Item label="TTPs" span={4}>
+      <Descriptions.Item label='TTPs' span={4}>
         {attckCom}
       </Descriptions.Item>
-      <Descriptions.Item label="适用系统" span={4}>
+      <Descriptions.Item label='适用系统' span={4}>
         {platformCom}
       </Descriptions.Item>
-      <Descriptions.Item label="适用权限" span={4}>
+      <Descriptions.Item label='适用权限' span={4}>
         {permissionsCom}
       </Descriptions.Item>
-      <Descriptions.Item label="使用文档" span={8}>
+      <Descriptions.Item label='使用文档' span={8}>
         {readmeCom}
       </Descriptions.Item>
-      <Descriptions.Item label="参考链接" span={8}>
+      <Descriptions.Item label='参考链接' span={8}>
         {referencesCom}
       </Descriptions.Item>
-      <Descriptions.Item span={8} label="简介">
+      <Descriptions.Item span={8} label='简介'>
         <pre>{postModuleConfig.DESC}</pre>
       </Descriptions.Item>
     </Descriptions>
@@ -1518,8 +1520,8 @@ const RealTimeJobs = () => {
     <Table
       style={{ marginTop: -16 }}
       className={styles.jobListTable}
-      size="small"
-      rowKey="job_id"
+      size='small'
+      rowKey='job_id'
       pagination={false}
       dataSource={jobList}
       bordered
@@ -1529,7 +1531,7 @@ const RealTimeJobs = () => {
           dataIndex: 'time',
           key: 'time',
           width: 80,
-          render: (text, record) => <Tag color="cyan">{moment(record.time * 1000).fromNow()}</Tag>,
+          render: (text, record) => <Tag color='cyan'>{moment(record.time * 1000).fromNow()}</Tag>,
         },
         {
           title: '模块',
@@ -1538,9 +1540,9 @@ const RealTimeJobs = () => {
           width: 240,
           render: (text, record) => (
             <Popover
-              placement="right"
+              placement='right'
               content={PostModuleInfoContent(record.moduleinfo)}
-              trigger="click"
+              trigger='click'
             >
               <a>{record.moduleinfo.NAME}</a>
             </Popover>
@@ -1660,9 +1662,9 @@ const RealTimeModuleResult = () => {
         <Col span={21}>
           <Input
             allowClear
-            prefix={<SearchOutlined/>}
+            prefix={<SearchOutlined />}
             style={{ width: '100%' }}
-            placeholder=" 主机IP/模块/参数/结果"
+            placeholder=' 主机IP/模块/参数/结果'
             value={text}
             onChange={e => {
               setText(e.target.value);
@@ -1671,12 +1673,12 @@ const RealTimeModuleResult = () => {
           />
         </Col>
         <Col span={3}>
-          <Tooltip mouseEnterDelay={0.3} title="清空结果">
+          <Tooltip mouseEnterDelay={0.3} title='清空结果'>
             <Button
               block
               danger
               onClick={() => deletePostModuleResultHistoryReq.run()}
-              icon={<DeleteOutlined/>}
+              icon={<DeleteOutlined />}
             >
               清空
             </Button>
@@ -1684,17 +1686,17 @@ const RealTimeModuleResult = () => {
         </Col>
       </Row>
       <List
-        id="moduleresultlist"
+        id='moduleresultlist'
         bordered
         className={styles.moduleresultlist}
-        itemLayout="vertical"
-        size="small"
+        itemLayout='vertical'
+        size='small'
         dataSource={postModuleResultHistoryActive}
         renderItem={item => (
           <List.Item key={item.id} style={{ padding: '4px 0px 0px 4px' }}>
             <div>
               <Tooltip title={moment(item.update_time * 1000).format('YYYY-MM-DD HH:mm:ss')}>
-                <Tag style={{ width: '68px' }} color="cyan">
+                <Tag style={{ width: '68px' }} color='cyan'>
                   {moment(item.update_time * 1000).fromNow()}
                 </Tag>
               </Tooltip>
@@ -1756,7 +1758,7 @@ const RealTimeModuleResult = () => {
               fontSize: 14,
             }}
           >
-            <VerticalAlignTopOutlined/>
+            <VerticalAlignTopOutlined />
           </div>
         </BackTop>
       </List>
@@ -1819,15 +1821,15 @@ const UserInput = props => {
       <Popover
         content={
           <Radio.Group onChange={onChange} value={getUserIconKey()}>
-            <Radio value="0">{userIcon('0')}</Radio>
-            <Radio value="1">{userIcon('1')}</Radio>
-            <Radio value="2">{userIcon('2')}</Radio>
-            <Radio value="3">{userIcon('3')}</Radio>
-            <Radio value="4">{userIcon('4')}</Radio>
-            <Radio value="5">{userIcon('5')}</Radio>
+            <Radio value='0'>{userIcon('0')}</Radio>
+            <Radio value='1'>{userIcon('1')}</Radio>
+            <Radio value='2'>{userIcon('2')}</Radio>
+            <Radio value='3'>{userIcon('3')}</Radio>
+            <Radio value='4'>{userIcon('4')}</Radio>
+            <Radio value='5'>{userIcon('5')}</Radio>
           </Radio.Group>
         }
-        trigger="click"
+        trigger='click'
       >
         {userIcon(iconkey)}
       </Popover>
@@ -1837,9 +1839,9 @@ const UserInput = props => {
   return (
     <Input
       style={{ width: '100%' }}
-      placeholder="发送消息"
+      placeholder='发送消息'
       value={text}
-      prefix={<PrefixIcon/>}
+      prefix={<PrefixIcon />}
       onPressEnter={() => {
         props.createNotice({ userkey: iconkey, content: text });
         onInputChange('');
@@ -1887,14 +1889,14 @@ const RealTimeNotices = () => {
       }
       if (item.level === 2) {
         return (
-          <Text type="warning" className={styles.wordBreakClass}>
+          <Text type='warning' className={styles.wordBreakClass}>
             {item.content}
           </Text>
         );
       }
       if (item.level === 3) {
         return (
-          <Text type="danger" className={styles.wordBreakClass}>
+          <Text type='danger' className={styles.wordBreakClass}>
             {item.content}
           </Text>
         );
@@ -1927,19 +1929,19 @@ const RealTimeNotices = () => {
         );
       }
       return (
-        <Text type="warning" className={styles.wordBreakClass}>
+        <Text type='warning' className={styles.wordBreakClass}>
           {item.content}
         </Text>
       );
     };
     return (
       <List
-        id="noticescard"
+        id='noticescard'
         className={styles.noticelist}
         split={false}
-        size="small"
+        size='small'
         bordered
-        itemLayout="horizontal"
+        itemLayout='horizontal'
         dataSource={props.notices}
         renderItem={item => (
           <List.Item style={{ padding: '0px 0px 0px 0px' }}>
@@ -1952,7 +1954,7 @@ const RealTimeNotices = () => {
             >
               <Tooltip title={moment(item.time * 1000).format('YYYY-MM-DD HH:mm:ss')}>
                 <Tag
-                  color="cyan"
+                  color='cyan'
                   style={{
                     marginLeft: -1,
                     width: 68,
@@ -1985,7 +1987,7 @@ const RealTimeNotices = () => {
               fontSize: 14,
             }}
           >
-            <VerticalAlignTopOutlined/>
+            <VerticalAlignTopOutlined />
           </div>
         </BackTop>
       </List>
@@ -2014,17 +2016,17 @@ const RealTimeNotices = () => {
     <Fragment>
       <Row style={{ marginTop: -16 }}>
         <Col span={20}>
-          <UserInput createNotice={params => createNoticeReq.run(params)}/>
+          <UserInput createNotice={params => createNoticeReq.run(params)} />
         </Col>
         <Col span={4}>
-          <Tooltip mouseEnterDelay={0.3} title="清空日志">
-            <Button icon={<DeleteOutlined/>} block danger onClick={() => deleteNoticesReq.run()}>
+          <Tooltip mouseEnterDelay={0.3} title='清空日志'>
+            <Button icon={<DeleteOutlined />} block danger onClick={() => deleteNoticesReq.run()}>
               清空
             </Button>
           </Tooltip>
         </Col>
       </Row>
-      <NoticesList notices={notices}/>
+      <NoticesList notices={notices} />
     </Fragment>
   );
 };
@@ -2097,28 +2099,28 @@ const SessionInfo = () => {
   });
 
   const integrity_to_tag = {
-    low: <Tag color="volcano">低</Tag>,
-    medium: <Tag color="orange">中</Tag>,
-    high: <Tag color="green">高</Tag>,
-    system: <Tag color="green">高</Tag>,
+    low: <Tag color='volcano'>低</Tag>,
+    medium: <Tag color='orange'>中</Tag>,
+    high: <Tag color='green'>高</Tag>,
+    system: <Tag color='green'>高</Tag>,
   };
   const is_in_admin_group_to_tag = flag => {
     if (flag === null) {
       return <Tag>未知</Tag>;
     } else if (flag === true) {
-      return <Tag color="green">是</Tag>;
+      return <Tag color='green'>是</Tag>;
     } else if (flag === false) {
-      return <Tag color="volcano">否</Tag>;
+      return <Tag color='volcano'>否</Tag>;
     }
   };
   const uac_to_tag = {
-    '-1': <Tag color="red">未知</Tag>,
-    '0': <Tag color="green">关闭</Tag>,
-    '1': <Tag color="magenta">总是通知</Tag>,
-    '2': <Tag color="magenta">总是通知</Tag>,
-    '3': <Tag color="magenta">总是通知</Tag>,
-    '4': <Tag color="magenta">总是通知</Tag>,
-    '5': <Tag color="orange">默认</Tag>,
+    '-1': <Tag color='red'>未知</Tag>,
+    '0': <Tag color='green'>关闭</Tag>,
+    '1': <Tag color='magenta'>总是通知</Tag>,
+    '2': <Tag color='magenta'>总是通知</Tag>,
+    '3': <Tag color='magenta'>总是通知</Tag>,
+    '4': <Tag color='magenta'>总是通知</Tag>,
+    '5': <Tag color='orange'>默认</Tag>,
   };
   const processColumns = [
     {
@@ -2161,16 +2163,16 @@ const SessionInfo = () => {
         <Popover
           style={{ width: '50vw' }}
           arrowPointAtCenter
-          placement="left"
+          placement='left'
           content={
             <PostModuleMemo
-              loadpath="MODULES.DefenseEvasion_ProcessInjection_ProcessHandle"
+              loadpath='MODULES.DefenseEvasion_ProcessInjection_ProcessHandle'
               hostAndSessionActive={hostAndSessionActive}
               initialValues={{ PID: record.pid }}
             />
           }
-          title="操作进程"
-          trigger="click"
+          title='操作进程'
+          trigger='click'
         >
           <a>操作</a>
         </Popover>
@@ -2180,9 +2182,9 @@ const SessionInfo = () => {
 
   const os_tag_new =
     sessionInfoActive.platform === 'windows' ? (
-      <Tag color="blue" style={{ marginLeft: -6 }}>
+      <Tag color='blue' style={{ marginLeft: -6 }}>
         <MyIcon
-          type="icon-windows"
+          type='icon-windows'
           style={{
             marginBottom: 0,
             marginRight: 4,
@@ -2193,9 +2195,9 @@ const SessionInfo = () => {
         {sessionInfoActive.os}
       </Tag>
     ) : (
-      <Tag color="magenta" style={{ marginLeft: -6 }}>
+      <Tag color='magenta' style={{ marginLeft: -6 }}>
         <MyIcon
-          type="icon-linux"
+          type='icon-linux'
           style={{
             fontSize: '14px',
             marginRight: 4,
@@ -2209,106 +2211,106 @@ const SessionInfo = () => {
   const fromnowTime = (moment().unix() - sessionInfoActive.fromnow) * 1000;
   return (
     <Fragment>
-      <Tabs defaultActiveKey="sessioninfo" size="small">
-        <TabPane tab="权限信息" key="sessioninfo">
+      <Tabs defaultActiveKey='sessioninfo' size='small'>
+        <TabPane tab='权限信息' key='sessioninfo'>
           <Descriptions
             style={{ marginTop: -16, width: '100%' }}
-            size="small"
+            size='small'
             column={12}
             bordered
             loading={initListSessionInfoReq.loading || updateSessionInfoReq.loading}
           >
-            <Descriptions.Item label="心跳" span={4}>
-              <Tag color="cyan">{moment(fromnowTime).fromNow()}</Tag>
+            <Descriptions.Item label='心跳' span={4}>
+              <Tag color='cyan'>{moment(fromnowTime).fromNow()}</Tag>
             </Descriptions.Item>
-            <Descriptions.Item label="ID" span={4}>
+            <Descriptions.Item label='ID' span={4}>
               {SidTag(sessionInfoActive.sessionid)}
             </Descriptions.Item>
-            <Descriptions.Item label="主机IP" span={8}>
+            <Descriptions.Item label='主机IP' span={8}>
               <strong style={{ color: '#d8bd14' }}>{sessionInfoActive.session_host}</strong>
             </Descriptions.Item>
-            <Descriptions.Item label="Arch" span={4}>
+            <Descriptions.Item label='Arch' span={4}>
               {sessionInfoActive.arch}
             </Descriptions.Item>
-            <Descriptions.Item label="OS" span={8}>
+            <Descriptions.Item label='OS' span={8}>
               {os_tag_new}
             </Descriptions.Item>
-            <Descriptions.Item label="管理员权限" span={4}>
+            <Descriptions.Item label='管理员权限' span={4}>
               {sessionInfoActive.is_admin ? (
-                <Tag color="green">是</Tag>
+                <Tag color='green'>是</Tag>
               ) : (
-                <Tag color="volcano">否</Tag>
+                <Tag color='volcano'>否</Tag>
               )}
             </Descriptions.Item>
-            <Descriptions.Item label="本地管理员组" span={4}>
+            <Descriptions.Item label='本地管理员组' span={4}>
               {is_in_admin_group_to_tag(sessionInfoActive.is_in_admin_group)}
             </Descriptions.Item>
-            <Descriptions.Item label="用户" span={4}>
+            <Descriptions.Item label='用户' span={4}>
               {sessionInfoActive.user}
             </Descriptions.Item>
-            <Descriptions.Item label="UAC状态" span={4}>
+            <Descriptions.Item label='UAC状态' span={4}>
               {sessionInfoActive.is_uac_enable ? (
-                <Tag color="magenta">打开</Tag>
+                <Tag color='magenta'>打开</Tag>
               ) : (
-                <Tag color="green">关闭</Tag>
+                <Tag color='green'>关闭</Tag>
               )}
             </Descriptions.Item>
-            <Descriptions.Item label="UAC等级" span={4}>
+            <Descriptions.Item label='UAC等级' span={4}>
               {uac_to_tag[sessionInfoActive.uac_level.toString()]}
             </Descriptions.Item>
-            <Descriptions.Item label="完整性" span={4}>
+            <Descriptions.Item label='完整性' span={4}>
               {sessionInfoActive.integrity === null ? (
                 <Tag>未知</Tag>
               ) : (
                 integrity_to_tag[sessionInfoActive.integrity]
               )}
             </Descriptions.Item>
-            <Descriptions.Item label="域用户" span={4}>
+            <Descriptions.Item label='域用户' span={4}>
               {sessionInfoActive.is_in_domain ? (
-                <Tag color="lime">是</Tag>
+                <Tag color='lime'>是</Tag>
               ) : (
-                <Tag color="magenta">否</Tag>
+                <Tag color='magenta'>否</Tag>
               )}
             </Descriptions.Item>
-            <Descriptions.Item label="域" span={4}>
+            <Descriptions.Item label='域' span={4}>
               {sessionInfoActive.domain}
             </Descriptions.Item>
-            <Descriptions.Item label="主机名" span={4}>
+            <Descriptions.Item label='主机名' span={4}>
               {sessionInfoActive.computer}
             </Descriptions.Item>
-            <Descriptions.Item label="Powershell插件" span={6}>
+            <Descriptions.Item label='Powershell插件' span={6}>
               {sessionInfoActive.load_powershell ? (
-                <Tag color="lime">已加载</Tag>
+                <Tag color='lime'>已加载</Tag>
               ) : (
                 <Tag>未加载</Tag>
               )}
             </Descriptions.Item>
-            <Descriptions.Item label="Python插件" span={6}>
-              {sessionInfoActive.load_python ? <Tag color="lime">已加载</Tag> : <Tag>未加载</Tag>}
+            <Descriptions.Item label='Python插件' span={6}>
+              {sessionInfoActive.load_python ? <Tag color='lime'>已加载</Tag> : <Tag>未加载</Tag>}
             </Descriptions.Item>
-            <Descriptions.Item label="远程端口" span={6}>
+            <Descriptions.Item label='远程端口' span={6}>
               {sessionInfoActive.tunnel_peer}
             </Descriptions.Item>
-            <Descriptions.Item label="本地端口" span={6}>
+            <Descriptions.Item label='本地端口' span={6}>
               {sessionInfoActive.tunnel_local}
             </Descriptions.Item>
-            <Descriptions.Item label="地理信息" span={6}>
+            <Descriptions.Item label='地理信息' span={6}>
               {sessionInfoActive.tunnel_peer_locate}
             </Descriptions.Item>
-            <Descriptions.Item label="运营商" span={6}>
+            <Descriptions.Item label='运营商' span={6}>
               {sessionInfoActive.tunnel_peer_asn}
             </Descriptions.Item>
-            <Descriptions.Item label="模块" span={6}>
+            <Descriptions.Item label='模块' span={6}>
               {sessionInfoActive.via_exploit}
             </Descriptions.Item>
-            <Descriptions.Item label="载荷" span={6}>
+            <Descriptions.Item label='载荷' span={6}>
               {sessionInfoActive.via_payload}
             </Descriptions.Item>
           </Descriptions>
           <Space style={{ marginTop: 8 }}>
             <Button
-              type="primary"
-              icon={<SyncOutlined/>}
+              type='primary'
+              icon={<SyncOutlined />}
               loading={updateSessionInfoReq.loading || initListSessionInfoReq.loading}
               onClick={() =>
                 updateSessionInfoReq.run({ sessionid: hostAndSessionActive.session.id })
@@ -2318,36 +2320,36 @@ const SessionInfo = () => {
             </Button>
           </Space>
         </TabPane>
-        <TabPane tab="进程列表" key="processes">
+        <TabPane tab='进程列表' key='processes'>
           <Table
             className={styles.processesTable}
             columns={processColumns}
             dataSource={sessionInfoActive.processes}
             pagination={false}
             scroll={{ y: '40vh' }}
-            size="small"
+            size='small'
           />
           <Descriptions
             style={{ marginTop: 8, width: '100%' }}
-            size="small"
+            size='small'
             column={12}
             bordered
             loading={updateSessionInfoReq.loading || initListSessionInfoReq.loading}
           >
-            <Descriptions.Item label="PID" span={4}>
+            <Descriptions.Item label='PID' span={4}>
               {sessionInfoActive.pid}
             </Descriptions.Item>
-            <Descriptions.Item label="进程" span={4}>
+            <Descriptions.Item label='进程' span={4}>
               {sessionInfoActive.pname}
             </Descriptions.Item>
-            <Descriptions.Item label="进程路径" span={4}>
+            <Descriptions.Item label='进程路径' span={4}>
               {sessionInfoActive.ppath}
             </Descriptions.Item>
           </Descriptions>
           <Space style={{ marginTop: 8 }}>
             <Button
-              type="primary"
-              icon={<SyncOutlined/>}
+              type='primary'
+              icon={<SyncOutlined />}
               loading={updateSessionInfoReq.loading || initListSessionInfoReq.loading}
               onClick={() =>
                 updateSessionInfoReq.run({ sessionid: hostAndSessionActive.session.id })
@@ -2452,49 +2454,49 @@ const SessionIO = () => {
 
   return (
     <Fragment>
-      <pre id="sessionIOPre" className={styles.sessioniopre}>
+      <pre id='sessionIOPre' className={styles.sessioniopre}>
         {sessionIOOutput}
       </pre>
       <Row>
-        <Button type="primary" size="small" onClick={() => onCreateSessionio('help')}>
+        <Button type='primary' size='small' onClick={() => onCreateSessionio('help')}>
           显示帮助
         </Button>
-        <Button size="small" onClick={() => onCreateSessionio('keyscan_start')}>
+        <Button size='small' onClick={() => onCreateSessionio('keyscan_start')}>
           开始键盘记录
         </Button>
-        <Button size="small" onClick={() => onCreateSessionio('keyscan_dump')}>
+        <Button size='small' onClick={() => onCreateSessionio('keyscan_dump')}>
           获取键盘记录
         </Button>
-        <Button size="small" onClick={() => onCreateSessionio('keyscan_stop')}>
+        <Button size='small' onClick={() => onCreateSessionio('keyscan_stop')}>
           关闭键盘记录
         </Button>
-        <Button size="small" onClick={() => onCreateSessionio('screenshot')}>
+        <Button size='small' onClick={() => onCreateSessionio('screenshot')}>
           屏幕截图
         </Button>
-        <Button size="small" onClick={() => onCreateSessionio('idletime')}>
+        <Button size='small' onClick={() => onCreateSessionio('idletime')}>
           用户离开时间
         </Button>
       </Row>
       <Row>
-        <Button size="small" onClick={() => onCreateSessionio('sysinfo')}>
+        <Button size='small' onClick={() => onCreateSessionio('sysinfo')}>
           SystemInfo
         </Button>
-        <Button size="small" onClick={() => onCreateSessionio('hashdump')}>
+        <Button size='small' onClick={() => onCreateSessionio('hashdump')}>
           hashdump
         </Button>
-        <Button size="small" onClick={() => onCreateSessionio('getsystem')}>
+        <Button size='small' onClick={() => onCreateSessionio('getsystem')}>
           获取系统权限
         </Button>
-        <Button size="small" onClick={() => onCreateSessionio('load unhook')}>
+        <Button size='small' onClick={() => onCreateSessionio('load unhook')}>
           加载Unhook插件
         </Button>
-        <Button size="small" onClick={() => onCreateSessionio('load powershell')}>
+        <Button size='small' onClick={() => onCreateSessionio('load powershell')}>
           加载Powershell插件
         </Button>
-        <Button size="small" onClick={() => onCreateSessionio('load python')}>
+        <Button size='small' onClick={() => onCreateSessionio('load python')}>
           加载Python插件
         </Button>
-        <Button size="small" onClick={() => onCreateSessionio('python_reset')}>
+        <Button size='small' onClick={() => onCreateSessionio('python_reset')}>
           重置Python插件
         </Button>
       </Row>
@@ -2503,9 +2505,9 @@ const SessionIO = () => {
           <Input
             style={{ width: '100%' }}
             disabled={sessiondisabled}
-            placeholder=""
+            placeholder=''
             value={shellInput}
-            prefix={<RightOutlined/>}
+            prefix={<RightOutlined />}
             onPressEnter={() => onCreateSessionio(shellInput)}
             onChange={e => {
               setShellInput(e.target.value);
@@ -2516,7 +2518,7 @@ const SessionIO = () => {
           <Button
             danger
             block
-            icon={<DeleteOutlined/>}
+            icon={<DeleteOutlined />}
             onClick={() => destorySessionioReq.run({ ipaddress: hostAndSessionActive.ipaddress })}
           >
             清空
@@ -2599,8 +2601,8 @@ const MsfRoute = () => {
       <Table
         className={styles.sessionNetTable}
         // width="70vw"
-        size="small"
-        rowKey="subnet"
+        size='small'
+        rowKey='subnet'
         pagination={paginationProps}
         dataSource={routeActive}
         loading={listRouteReq.loading || destoryRouteReq.loading}
@@ -2631,36 +2633,36 @@ const MsfRoute = () => {
           marginLeft: 16,
           marginTop: 8,
         }}
-        layout="inline"
+        layout='inline'
         onFinish={onCreateRoute}
         initialValues={{
           autoroute: false,
           netmask: '255.255.255.0',
         }}
       >
-        <Form.Item label={<span>自动</span>} name="autoroute" valuePropName="checked">
-          <Checkbox onChange={e => setAutoRouteCheck(e.target.checked)}/>
+        <Form.Item label={<span>自动</span>} name='autoroute' valuePropName='checked'>
+          <Checkbox onChange={e => setAutoRouteCheck(e.target.checked)} />
         </Form.Item>
         <Form.Item
           label={<span>子网</span>}
-          name="subnet"
+          name='subnet'
           rules={[{ required: !autoRouteCheck, message: '请输入子网' }]}
         >
-          <Input disabled={autoRouteCheck} placeholder="请输入子网(10.10.10.0)"/>
+          <Input disabled={autoRouteCheck} placeholder='请输入子网(10.10.10.0)' />
         </Form.Item>
         <Form.Item
           label={<span>掩码</span>}
-          name="netmask"
+          name='netmask'
           rules={[{ required: !autoRouteCheck, message: '请输入掩码' }]}
         >
-          <Input disabled={autoRouteCheck} placeholder="请输入掩码(255.255.255.0)"/>
+          <Input disabled={autoRouteCheck} placeholder='请输入掩码(255.255.255.0)' />
         </Form.Item>
         <Form.Item>
           <Button
             loading={createRouteReq.loading}
-            icon={<PlusOutlined/>}
-            type="primary"
-            htmlType="submit"
+            icon={<PlusOutlined />}
+            type='primary'
+            htmlType='submit'
           >
             新增
           </Button>
@@ -2668,7 +2670,7 @@ const MsfRoute = () => {
         <Form.Item>
           <Button
             block
-            icon={<SyncOutlined/>}
+            icon={<SyncOutlined />}
             onClick={() => listRouteReq.run({ sessionid: hostAndSessionActive.session.id })}
             loading={listRouteReq.loading}
           >
@@ -2748,8 +2750,8 @@ const PortFwd = () => {
         className={styles.portFwdTable}
         // width="70vw"
         // bordered
-        size="small"
-        rowKey="local"
+        size='small'
+        rowKey='local'
         pagination={false}
         dataSource={portFwdActive}
         loading={listPortFwdReq.loading || destoryPortFwdReq.loading}
@@ -2763,13 +2765,13 @@ const PortFwd = () => {
               if (record.type === 'Forward') {
                 return (
                   <div>
-                    <Tag color="cyan">正向转发</Tag>
+                    <Tag color='cyan'>正向转发</Tag>
                   </div>
                 );
               }
               return (
                 <div>
-                  <Tag color="geekblue">反向转发</Tag>
+                  <Tag color='geekblue'>反向转发</Tag>
                 </div>
               );
             },
@@ -2782,7 +2784,7 @@ const PortFwd = () => {
               if (record.type === 'Forward') {
                 return (
                   <div>
-                    <Tag style={{ marginRight: 8 }} color="green">
+                    <Tag style={{ marginRight: 8 }} color='green'>
                       监听
                     </Tag>
                     <span>{`${record.lhost}:${record.lport}`}</span>
@@ -2791,7 +2793,7 @@ const PortFwd = () => {
               }
               return (
                 <div>
-                  <Tag style={{ marginRight: 8 }} color="gold">
+                  <Tag style={{ marginRight: 8 }} color='gold'>
                     目标
                   </Tag>
                   <span>{`${record.lhost}:${record.lport}`}</span>
@@ -2808,7 +2810,7 @@ const PortFwd = () => {
               if (record.type === 'Forward') {
                 return (
                   <div>
-                    <Tag style={{ marginRight: 8 }} color="gold">
+                    <Tag style={{ marginRight: 8 }} color='gold'>
                       目标
                     </Tag>
                     <span>{`${record.rhost}:${record.rport}`}</span>
@@ -2817,7 +2819,7 @@ const PortFwd = () => {
               }
               return (
                 <div>
-                  <Tag style={{ marginRight: 8 }} color="green">
+                  <Tag style={{ marginRight: 8 }} color='green'>
                     监听
                   </Tag>
                   <span>{`${record.rhost}:${record.rport}`}</span>
@@ -2838,42 +2840,42 @@ const PortFwd = () => {
         ]}
       />
       <Row style={{ marginTop: 8 }}>
-        <Tabs defaultActiveKey="Forward" size="small">
+        <Tabs defaultActiveKey='Forward' size='small'>
           <TabPane
             tab={
               <span>
-                <SwapRightOutlined/> 正向
+                <SwapRightOutlined /> 正向
               </span>
             }
-            key="Forward"
+            key='Forward'
           >
-            <Form style={{ marginLeft: 16 }} layout="inline" onFinish={onCreatePortFwdForward}>
+            <Form style={{ marginLeft: 16 }} layout='inline' onFinish={onCreatePortFwdForward}>
               <Form.Item
                 label={<span>本地端口(监听)</span>}
-                name="lport"
+                name='lport'
                 rules={[{ required: true, message: '请输入本地监听端口' }]}
               >
-                <InputNumber style={{ width: 120 }} placeholder="VPS端口"/>
+                <InputNumber style={{ width: 120 }} placeholder='VPS端口' />
               </Form.Item>
               <Form.Item
                 label={<span>远程IP(目标)</span>}
-                name="rhost"
+                name='rhost'
                 rules={[{ required: true, message: '请输入远程IP' }]}
               >
-                <Input style={{ width: 160 }} placeholder="内网IP/127.0.0.1"/>
+                <Input style={{ width: 160 }} placeholder='内网IP/127.0.0.1' />
               </Form.Item>
               <Form.Item
                 label={<span>远程端口(目标)</span>}
-                name="rport"
+                name='rport'
                 rules={[{ required: true, message: '请输入远程端口' }]}
               >
-                <InputNumber style={{ width: 120 }} placeholder="目标端口"/>
+                <InputNumber style={{ width: 120 }} placeholder='目标端口' />
               </Form.Item>
               <Form.Item>
                 <Button
-                  icon={<PlusOutlined/>}
-                  type="primary"
-                  htmlType="submit"
+                  icon={<PlusOutlined />}
+                  type='primary'
+                  htmlType='submit'
                   loading={createPortFwdReq.loading}
                 >
                   新增
@@ -2882,7 +2884,7 @@ const PortFwd = () => {
               <Form.Item>
                 <Button
                   block
-                  icon={<SyncOutlined/>}
+                  icon={<SyncOutlined />}
                   onClick={() => listPortFwdReq.run({ sessionid: hostAndSessionActive.session.id })}
                   loading={listPortFwdReq.loading}
                 >
@@ -2898,7 +2900,7 @@ const PortFwd = () => {
               }}
             >
               将VPS的网络端口转发到内网的某IP某端口.
-              <br/>
+              <br />
               例如:通过192.168.3.13的Session将VPS的10.10.10.10:2000转发到内网192.168.3.14:3389.本地端口(监听):2000
               远程IP(目标):192.168.3.14 远程端口(目标):3389
             </Paragraph>
@@ -2906,39 +2908,39 @@ const PortFwd = () => {
           <TabPane
             tab={
               <span>
-                <SwapLeftOutlined/> 反向
+                <SwapLeftOutlined /> 反向
               </span>
             }
-            key="Reverse"
+            key='Reverse'
           >
-            <Form style={{ marginLeft: 16 }} layout="inline" onFinish={onCreatePortFwdReverse}>
+            <Form style={{ marginLeft: 16 }} layout='inline' onFinish={onCreatePortFwdReverse}>
               <Form.Item
                 label={<span>本地IP(目标)</span>}
-                name="lhost"
+                name='lhost'
                 rules={[{ required: true, message: '请输入本地目标IP' }]}
               >
-                <Input style={{ width: 160 }} placeholder="VPSIP/目标IP"/>
+                <Input style={{ width: 160 }} placeholder='VPSIP/目标IP' />
               </Form.Item>
               <Form.Item
                 label={<span>本地端口(目标)</span>}
-                name="lport"
+                name='lport'
                 rules={[{ required: true, message: '请输入本地端口' }]}
               >
-                <InputNumber style={{ width: 120 }} placeholder="目标端口"/>
+                <InputNumber style={{ width: 120 }} placeholder='目标端口' />
               </Form.Item>
               <Form.Item
                 label={<span>远程端口(监听)</span>}
-                name="rport"
+                name='rport'
                 rules={[{ required: true, message: '请输入远程端口' }]}
               >
-                <InputNumber style={{ width: 120 }} placeholder="监听端口"/>
+                <InputNumber style={{ width: 120 }} placeholder='监听端口' />
               </Form.Item>
               <Form.Item>
                 <Button
                   loading={createPortFwdReq.loading}
-                  type="primary"
-                  htmlType="submit"
-                  icon={<PlusOutlined/>}
+                  type='primary'
+                  htmlType='submit'
+                  icon={<PlusOutlined />}
                 >
                   新增
                 </Button>
@@ -2946,7 +2948,7 @@ const PortFwd = () => {
               <Form.Item>
                 <Button
                   block
-                  icon={<SyncOutlined/>}
+                  icon={<SyncOutlined />}
                   onClick={() => listPortFwdReq.run({ sessionid: hostAndSessionActive.session.id })}
                   loading={listPortFwdReq.loading}
                 >
@@ -2962,10 +2964,10 @@ const PortFwd = () => {
               }}
             >
               将内网的某IP某端口转发到VPS的网络端口.
-              <br/>
+              <br />
               例如:通过192.168.3.13的session将内网192.168.3.13:20000转发到10.10.10.10:2000.
               本地IP(目标):10.10.10.10 本地端口(监听):2000 远程端口(监听):20000.
-              <br/>
+              <br />
               (10.10.10.10:2000开启handler监听,192.168.3.14连接192.168.3.13:20000生成反向shell)
             </Paragraph>
           </TabPane>
@@ -3062,21 +3064,21 @@ const Transport = props => {
   };
 
   const portServiceExpandedRowRender = record => (
-    <Descriptions size="small" column={3} bordered>
+    <Descriptions size='small' column={3} bordered>
       {record.proxy_host !== null && record.proxy_host !== undefined ? (
-        <Descriptions.Item label="Proxy Host">{record.proxy_host}</Descriptions.Item>
+        <Descriptions.Item label='Proxy Host'>{record.proxy_host}</Descriptions.Item>
       ) : null}
       {record.proxy_user !== null && record.proxy_user !== undefined ? (
-        <Descriptions.Item label="Proxy User">{record.proxy_user}</Descriptions.Item>
+        <Descriptions.Item label='Proxy User'>{record.proxy_user}</Descriptions.Item>
       ) : null}
       {record.proxy_pass !== null && record.proxy_pass !== undefined ? (
-        <Descriptions.Item label="Proxy Pass">{record.proxy_pass}</Descriptions.Item>
+        <Descriptions.Item label='Proxy Pass'>{record.proxy_pass}</Descriptions.Item>
       ) : null}
       {record.ua !== null && record.ua !== undefined ? (
-        <Descriptions.Item label="User Agent">{record.ua}</Descriptions.Item>
+        <Descriptions.Item label='User Agent'>{record.ua}</Descriptions.Item>
       ) : null}
       {record.cert_hash !== null && record.cert_hash !== undefined ? (
-        <Descriptions.Item label="Cert Hash">{record.cert_hash}</Descriptions.Item>
+        <Descriptions.Item label='Cert Hash'>{record.cert_hash}</Descriptions.Item>
       ) : null}
     </Descriptions>
   );
@@ -3095,8 +3097,8 @@ const Transport = props => {
     <Fragment>
       <Table
         className={styles.sessionNetTable}
-        size="small"
-        rowKey="url"
+        size='small'
+        rowKey='url'
         pagination={false}
         dataSource={transports}
         loading={
@@ -3114,10 +3116,10 @@ const Transport = props => {
               if (record.active === true) {
                 return (
                   <Avatar
-                    shape="square"
+                    shape='square'
                     size={20}
                     style={{ backgroundColor: '#1890ff' }}
-                    icon={<CheckOutlined/>}
+                    icon={<CheckOutlined />}
                   />
                 );
               } else {
@@ -3176,7 +3178,7 @@ const Transport = props => {
                   style={{
                     marginLeft: 16,
                   }}
-                  color="cyan"
+                  color='cyan'
                 >
                   {moment(time_exp * 1000).fromNow()}
                 </Tag>
@@ -3207,11 +3209,11 @@ const Transport = props => {
           marginTop: 8,
           display: 'flex',
         }}
-        layout="inline"
+        layout='inline'
         onFinish={onCreateTransport}
         initialValues={{}}
       >
-        <Form.Item label="监听" name="handler" rules={[{ required: true, message: '请选择监听' }]}>
+        <Form.Item label='监听' name='handler' rules={[{ required: true, message: '请选择监听' }]}>
           <Select
             allowClear
             style={{
@@ -3224,29 +3226,29 @@ const Transport = props => {
         <Form.Item>
           <Button
             loading={createTransportReq.loading}
-            type="primary"
-            htmlType="submit"
-            icon={<PlusOutlined/>}
+            type='primary'
+            htmlType='submit'
+            icon={<PlusOutlined />}
           >
             添加
           </Button>
         </Form.Item>
         <Form.Item>
           <Popconfirm
-            title="确认切换Session传输,此操作会删除当前Session?"
+            title='确认切换Session传输,此操作会删除当前Session?'
             onConfirm={() => onUpdateTransport('prev')}
           >
-            <Button loading={updateTransportReq.loading} danger icon={<UpOutlined/>}>
+            <Button loading={updateTransportReq.loading} danger icon={<UpOutlined />}>
               切换
             </Button>
           </Popconfirm>
         </Form.Item>
         <Form.Item>
           <Popconfirm
-            title="确认切换Session传输,此操作会删除当前Session?"
+            title='确认切换Session传输,此操作会删除当前Session?'
             onConfirm={() => onUpdateTransport('next')}
           >
-            <Button loading={updateTransportReq.loading} danger icon={<DownOutlined/>}>
+            <Button loading={updateTransportReq.loading} danger icon={<DownOutlined />}>
               切换
             </Button>
           </Popconfirm>
@@ -3254,7 +3256,7 @@ const Transport = props => {
         <Form.Item>
           <Button
             block
-            icon={<SyncOutlined/>}
+            icon={<SyncOutlined />}
             onClick={() => listTransportReq.run({ sessionid: hostAndSessionActive.session.id })}
             loading={listTransportReq.loading}
           >
@@ -3268,11 +3270,11 @@ const Transport = props => {
           marginTop: 8,
           display: 'flex',
         }}
-        layout="inline"
+        layout='inline'
         onFinish={onSleepSession}
         initialValues={{}}
       >
-        <Form.Item name="sleep" rules={[{ required: true, message: '请选择监听' }]} label="休眠">
+        <Form.Item name='sleep' rules={[{ required: true, message: '请选择监听' }]} label='休眠'>
           <Select style={{ width: 120 }}>
             <Option value={60}>1分钟</Option>
             <Option value={60 * 60}>1小时</Option>
@@ -3285,8 +3287,8 @@ const Transport = props => {
           <Button
             loading={updateTransportReq.loading}
             danger
-            htmlType="submit"
-            icon={<RestOutlined/>}
+            htmlType='submit'
+            icon={<RestOutlined />}
           >
             休眠
           </Button>
@@ -3412,7 +3414,7 @@ const FileSession = () => {
         content: (
           <Fragment>
             <Form preserve={false} onFinish={onUpdateFileSession}>
-              <Form.Item name="filedata" initialValue={result.data}>
+              <Form.Item name='filedata' initialValue={result.data}>
                 <TextArea
                   // defaultValue={result.data}
                   autoSize={{ minRows: 5, maxRows: 15 }}
@@ -3420,15 +3422,15 @@ const FileSession = () => {
               </Form.Item>
               <Space style={{ marginBottom: 0 }}>
                 <Form.Item>
-                  <Button type="primary" htmlType="submit" loading={updateFileSessionReq.loading}>
+                  <Button type='primary' htmlType='submit' loading={updateFileSessionReq.loading}>
                     保存修改
                   </Button>
                 </Form.Item>
                 <Form.Item>
                   <Button onClick={() => copytoclipboard(result.data)}>拷贝到剪切板</Button>
                 </Form.Item>
-                <Form.Item name="sessionid" initialValue={hostAndSessionActive.session.id}/>
-                <Form.Item name="filepath" initialValue={result.reason}/>
+                <Form.Item name='sessionid' initialValue={hostAndSessionActive.session.id} />
+                <Form.Item name='filepath' initialValue={result.reason} />
               </Space>
             </Form>
           </Fragment>
@@ -3487,23 +3489,23 @@ const FileSession = () => {
       <Row>
         <Space style={{ display: 'flex' }}>
           <ButtonGroup>
-            <Tooltip placement="bottom" mouseEnterDelay={0.3} title="根目录">
+            <Tooltip placement='bottom' mouseEnterDelay={0.3} title='根目录'>
               <Button
                 style={{ marginLeft: 8, width: 56 }}
-                icon={<DesktopOutlined/>}
+                icon={<DesktopOutlined />}
                 onClick={() =>
                   onListFileSession(hostAndSessionActive.session.id, 'list', null, '/')
                 }
               />
             </Tooltip>
-            <Tooltip placement="bottom" title="默认目录">
+            <Tooltip placement='bottom' title='默认目录'>
               <Button
                 style={{ width: 56 }}
-                icon={<HomeOutlined/>}
+                icon={<HomeOutlined />}
                 onClick={() => onListFileSession(hostAndSessionActive.session.id, 'pwd')}
               />
             </Tooltip>
-            <Tooltip placement="bottom" mouseEnterDelay={0.3} title="上级目录">
+            <Tooltip placement='bottom' mouseEnterDelay={0.3} title='上级目录'>
               <Button
                 // type="primary"
                 style={{ width: 56 }}
@@ -3515,7 +3517,7 @@ const FileSession = () => {
                     `${fileSessionListActive.path}/..`,
                   )
                 }
-                icon={<ArrowUpOutlined/>}
+                icon={<ArrowUpOutlined />}
               />
             </Tooltip>
           </ButtonGroup>
@@ -3524,8 +3526,8 @@ const FileSession = () => {
               width: 'calc(80vw - 560px)',
             }}
             // prefix={<HddOutlined className="site-form-item-icon" />}
-            prefix={<FolderOpenOutlined/>}
-            placeholder="请输入目录"
+            prefix={<FolderOpenOutlined />}
+            placeholder='请输入目录'
             onChange={event => setFileSessionInputPathActive(event.target.value)}
             value={fileSessionInputPathActive}
             onSearch={value =>
@@ -3534,13 +3536,13 @@ const FileSession = () => {
             enterButton={
               <Button
                 loading={listFileSessionReq.loading}
-                type="primary"
-                htmlType="submit"
-                icon={<ArrowRightOutlined/>}
+                type='primary'
+                htmlType='submit'
+                icon={<ArrowRightOutlined />}
               />
             }
           />
-          <Tooltip placement="bottom" mouseEnterDelay={0.3} title="重新加载当前目录">
+          <Tooltip placement='bottom' mouseEnterDelay={0.3} title='重新加载当前目录'>
             <Button
               // type="primary"
               loading={listFileSessionReq.loading}
@@ -3553,10 +3555,10 @@ const FileSession = () => {
                   fileSessionListActive.path,
                 )
               }
-              icon={<SyncOutlined/>}
+              icon={<SyncOutlined />}
             />
           </Tooltip>
-          <Tooltip placement="bottom" mouseEnterDelay={0.3} title="切换工作目录到当前目录">
+          <Tooltip placement='bottom' mouseEnterDelay={0.3} title='切换工作目录到当前目录'>
             <Button
               // type="primary"
               loading={listFileSessionRunReq.loading}
@@ -3568,17 +3570,17 @@ const FileSession = () => {
                   fileSessionListActive.path,
                 )
               }
-              icon={<PushpinOutlined/>}
+              icon={<PushpinOutlined />}
             />
           </Tooltip>
           <Popover
-            title="新建文件夹名称"
-            placement="bottomRight"
+            title='新建文件夹名称'
+            placement='bottomRight'
             content={
               <Search
                 style={{ width: '300px' }}
-                enterButton="新建"
-                size="default"
+                enterButton='新建'
+                size='default'
                 onSearch={value =>
                   onCreateFileSession(
                     hostAndSessionActive.session.id,
@@ -3588,17 +3590,17 @@ const FileSession = () => {
                 }
               />
             }
-            trigger="click"
+            trigger='click'
           >
             <Button
               loading={createFileSessionReq.loading}
               style={{ width: 56 }}
               disabled={hostAndSessionActive.session.id === -1}
-              icon={<FolderAddOutlined/>}
+              icon={<FolderAddOutlined />}
             />
           </Popover>
           <Popover
-            placement="bottomRight"
+            placement='bottomRight'
             overlayStyle={{ padding: '0px 0px 0px 0px' }}
             content={
               <FileMsfModal
@@ -3606,13 +3608,13 @@ const FileSession = () => {
                 dirpath={fileSessionListActive.path}
               />
             }
-            trigger="click"
+            trigger='click'
           >
             <Button
-              type="primary"
+              type='primary'
               style={{ width: 56 }}
               disabled={hostAndSessionActive.session.id === -1}
-              icon={<UploadOutlined/>}
+              icon={<UploadOutlined />}
             />
           </Popover>
         </Space>
@@ -3621,8 +3623,8 @@ const FileSession = () => {
         <Table
           className={styles.filelistTable}
           scroll={{ y: 'calc(80vh - 40px)' }}
-          size="small"
-          rowKey="name"
+          size='small'
+          rowKey='name'
           pagination={false}
           dataSource={fileSessionListActive.entries}
           loading={
@@ -3667,28 +3669,28 @@ const FileSession = () => {
                 if (text === 'file') {
                   return (
                     <div style={{ textAlign: 'center' }}>
-                      <MyIcon type="icon-wenjian1" style={{ fontSize: '22px' }}/>
+                      <MyIcon type='icon-wenjian1' style={{ fontSize: '22px' }} />
                     </div>
                   );
                 }
                 if (text === 'directory') {
                   return (
                     <div style={{ textAlign: 'center' }}>
-                      <MyIcon type="icon-wenjian" style={{ fontSize: '26px' }}/>
+                      <MyIcon type='icon-wenjian' style={{ fontSize: '26px' }} />
                     </div>
                   );
                 }
                 if (text === 'fixed') {
                   return (
                     <div style={{ textAlign: 'center' }}>
-                      <MyIcon type="icon-yingpan" style={{ fontSize: '26px' }}/>
+                      <MyIcon type='icon-yingpan' style={{ fontSize: '26px' }} />
                     </div>
                   );
                 }
                 if (text === 'remote') {
                   return (
                     <div style={{ textAlign: 'center' }}>
-                      <MyIcon type="icon-zhichixiezaiguazai" style={{ fontSize: '26px' }}/>
+                      <MyIcon type='icon-zhichixiezaiguazai' style={{ fontSize: '26px' }} />
                     </div>
                   );
                 }
@@ -3696,13 +3698,13 @@ const FileSession = () => {
                 if (text === 'cdrom') {
                   return (
                     <div style={{ textAlign: 'center' }}>
-                      <MyIcon type="icon-CD" style={{ fontSize: '22px' }}/>
+                      <MyIcon type='icon-CD' style={{ fontSize: '22px' }} />
                     </div>
                   );
                 }
                 return (
                   <div style={{ textAlign: 'center' }}>
-                    <MyIcon type="icon-unknow" style={{ fontSize: '22px' }}/>
+                    <MyIcon type='icon-unknow' style={{ fontSize: '22px' }} />
                   </div>
                 );
               },
@@ -3758,7 +3760,7 @@ const FileSession = () => {
                 multiple: 2,
               },
               render: (text, record) => (
-                <Tag color="cyan">{moment(record.mtime * 1000).format('YYYY-MM-DD HH:mm')}</Tag>
+                <Tag color='cyan'>{moment(record.mtime * 1000).format('YYYY-MM-DD HH:mm')}</Tag>
               ),
             },
             {
@@ -3769,7 +3771,7 @@ const FileSession = () => {
                 if (record.type === 'directory') {
                   // 文件夹打开类操作
                   return (
-                    <Space size="middle">
+                    <Space size='middle'>
                       <a
                         onClick={() =>
                           onListFileSession(
@@ -3785,8 +3787,8 @@ const FileSession = () => {
                       <a style={{ visibility: 'Hidden' }}>占位</a>
                       <a style={{ visibility: 'Hidden' }}>占位</a>
                       <Popconfirm
-                        placement="topRight"
-                        title="确认删除文件夹(无法撤销)?"
+                        placement='topRight'
+                        title='确认删除文件夹(无法撤销)?'
                         onConfirm={() => onDestoryFileSession(record, 'destory_dir')}
                       >
                         <a style={{ color: 'red' }}>删除</a>
@@ -3816,7 +3818,7 @@ const FileSession = () => {
                 if (record.type === 'file') {
                   // 文件类操作
                   return (
-                    <Space size="middle">
+                    <Space size='middle'>
                       <a
                         onClick={() =>
                           onListFileSession(
@@ -3845,13 +3847,13 @@ const FileSession = () => {
                         <a style={{ visibility: 'Hidden' }}>占位</a>
                       )}
                       <Popover
-                        placement="left"
-                        title="命令行参数"
+                        placement='left'
+                        title='命令行参数'
                         content={
                           <Search
                             style={{ width: 400 }}
-                            enterButton="执行"
-                            size="default"
+                            enterButton='执行'
+                            size='default'
                             onSearch={value =>
                               onListFileSessionRun(
                                 hostAndSessionActive.session.id,
@@ -3862,13 +3864,13 @@ const FileSession = () => {
                             }
                           />
                         }
-                        trigger="click"
+                        trigger='click'
                       >
                         <a style={{ color: '#faad14' }}>执行</a>
                       </Popover>
                       <Popconfirm
-                        placement="topRight"
-                        title="确认删除文件(无法撤销)?"
+                        placement='topRight'
+                        title='确认删除文件(无法撤销)?'
                         onConfirm={() => onDestoryFileSession(record, 'destory_file')}
                       >
                         <a style={{ color: 'red' }}>删除</a>
@@ -4097,15 +4099,15 @@ const HostInfo = () => {
       <Row>
         <ButtonGroup>
           <Button
-            type="primary"
-            icon={<SyncOutlined/>}
+            type='primary'
+            icon={<SyncOutlined />}
             onClick={() => onListHostInfo(hostAndSessionActive)}
             loading={listHostInfoReq.loading}
           >
             读取缓存
           </Button>
           <Button
-            icon={<RetweetOutlined/>}
+            icon={<RetweetOutlined />}
             loading={updateHostInfoReq.loading}
             onClick={() => onUpdateHostInfo()}
             disabled={
@@ -4124,7 +4126,7 @@ const HostInfo = () => {
             style={{
               marginLeft: 16,
             }}
-            color="red"
+            color='red'
           >
             未更新
           </Tag>
@@ -4133,7 +4135,7 @@ const HostInfo = () => {
             style={{
               marginLeft: 16,
             }}
-            color="cyan"
+            color='cyan'
           >
             {moment(hostAndSessionBaseInfo.UPDATE_TIME * 1000).fromNow()}
           </Tag>
@@ -4141,99 +4143,99 @@ const HostInfo = () => {
       </Row>
       <Row>
         <Tabs
-          size="small"
-          defaultActiveKey="1"
+          size='small'
+          defaultActiveKey='1'
           style={{
             minHeight: '80vh',
           }}
         >
-          <TabPane tab={<span>主机信息</span>} key="1">
-            <Descriptions size="small" column={1} bordered>
-              <Descriptions.Item label="主机名">
+          <TabPane tab={<span>主机信息</span>} key='1'>
+            <Descriptions size='small' column={1} bordered>
+              <Descriptions.Item label='主机名'>
                 {hostAndSessionBaseInfo.Computer}
               </Descriptions.Item>
-              <Descriptions.Item label="操作系统">
+              <Descriptions.Item label='操作系统'>
                 {hostAndSessionBaseInfo.OS} {hostAndSessionBaseInfo.ARCH}
               </Descriptions.Item>
-              <Descriptions.Item label="DOMAIN">{hostAndSessionBaseInfo.DOMAIN}</Descriptions.Item>
-              <Descriptions.Item label="当前登录用户数">
+              <Descriptions.Item label='DOMAIN'>{hostAndSessionBaseInfo.DOMAIN}</Descriptions.Item>
+              <Descriptions.Item label='当前登录用户数'>
                 {hostAndSessionBaseInfo.LoggedOnUsers}
               </Descriptions.Item>
             </Descriptions>
           </TabPane>
-          <TabPane tab={<span>网卡信息</span>} key="8">
+          <TabPane tab={<span>网卡信息</span>} key='8'>
             <Table
               className={styles.hostinfoTable}
               columns={interfaceColumns}
               dataSource={hostAndSessionBaseInfo.INTERFACE}
               pagination={false}
-              rowKey="Name"
-              size="small"
+              rowKey='Name'
+              size='small'
               expandRowByClick
             />
           </TabPane>
-          <TabPane tab={<span>本地监听</span>} key="10">
+          <TabPane tab={<span>本地监听</span>} key='10'>
             <Table
               className={styles.hostinfoTable}
               columns={netstatColumns}
               dataSource={hostAndSessionBaseInfo.listen_address}
               pagination={false}
-              size="small"
+              size='small'
             />
           </TabPane>
-          <TabPane tab={<span>外网连接</span>} key="5">
+          <TabPane tab={<span>外网连接</span>} key='5'>
             <Table
               className={styles.hostinfoTable}
               columns={netstatColumns}
               dataSource={hostAndSessionBaseInfo.public_ipaddress}
               pagination={false}
-              size="small"
+              size='small'
             />
           </TabPane>
-          <TabPane tab={<span>内网连接</span>} key="6">
+          <TabPane tab={<span>内网连接</span>} key='6'>
             <Table
               className={styles.hostinfoTable}
               columns={netstatColumns}
               dataSource={hostAndSessionBaseInfo.private_ipaddress}
               pagination={false}
-              size="small"
+              size='small'
             />
           </TabPane>
-          <TabPane tab={<span>ARP信息</span>} key="7">
+          <TabPane tab={<span>ARP信息</span>} key='7'>
             <Table
               className={styles.hostinfoTable}
               columns={arpColumns}
               dataSource={hostAndSessionBaseInfo.ARP}
               pagination={false}
-              size="small"
+              size='small'
             />
           </TabPane>
-          <TabPane tab={<span>重要进程</span>} key="9">
+          <TabPane tab={<span>重要进程</span>} key='9'>
             <Table
               className={styles.hostinfoTable}
               scroll={{ x: 'calc(70vw - 16px)' }}
               columns={usefulProcessColumns}
               dataSource={hostAndSessionBaseInfo.useful_processes}
               pagination={false}
-              size="small"
+              size='small'
             />
           </TabPane>
-          <TabPane tab={<span>所有连接</span>} key="4">
+          <TabPane tab={<span>所有连接</span>} key='4'>
             <Table
               className={styles.hostinfoTable}
               columns={netstatColumns}
               dataSource={hostAndSessionBaseInfo.NETSTAT}
               pagination={false}
-              size="small"
+              size='small'
             />
           </TabPane>
-          <TabPane tab={<span>所有进程</span>} key="2">
+          <TabPane tab={<span>所有进程</span>} key='2'>
             <Table
               className={styles.hostinfoTable}
               columns={processColumns}
               dataSource={hostAndSessionBaseInfo.PROCESSES}
               pagination={false}
-              size="small"
+              size='small'
             />
           </TabPane>
         </Tabs>
@@ -4288,8 +4290,8 @@ const PortService = () => {
 
   return (
     <Table
-      size="small"
-      rowKey="port"
+      size='small'
+      rowKey='port'
       pagination={paginationProps}
       dataSource={portServiceActive}
       loading={listPortServiceReq.loading || initListPortServiceReq.loading}
@@ -4317,7 +4319,7 @@ const PortService = () => {
           key: 'update_time',
           width: '10%',
           render: (text, record) => (
-            <Tag color="cyan">{moment(record.update_time * 1000).fromNow()}</Tag>
+            <Tag color='cyan'>{moment(record.update_time * 1000).fromNow()}</Tag>
           ),
         },
         {
@@ -4382,8 +4384,8 @@ const Vulnerability = () => {
 
   return (
     <Table
-      size="small"
-      rowKey="source_module_name"
+      size='small'
+      rowKey='source_module_name'
       pagination={paginationProps}
       dataSource={vulnerabilityActive}
       loading={listVulnerabilityReq.loading || initListVulnerabilityeReq.loading}
@@ -4405,7 +4407,7 @@ const Vulnerability = () => {
           key: 'update_time',
           width: 80,
           render: (text, record) => (
-            <Tag color="cyan">{moment(record.update_time * 1000).fromNow()}</Tag>
+            <Tag color='cyan'>{moment(record.update_time * 1000).fromNow()}</Tag>
           ),
         },
         {
@@ -4451,18 +4453,18 @@ const UpdateHost = props => {
   };
   const hostTypeToAvatar = {
     ad_server: (
-      <Avatar shape="square" style={{ backgroundColor: '#177ddc' }} icon={<WindowsOutlined/>}/>
+      <Avatar shape='square' style={{ backgroundColor: '#177ddc' }} icon={<WindowsOutlined />} />
     ),
-    pc: <Avatar shape="square" style={{ backgroundColor: '#49aa19' }} icon={<LaptopOutlined/>}/>,
+    pc: <Avatar shape='square' style={{ backgroundColor: '#49aa19' }} icon={<LaptopOutlined />} />,
     web_server: (
-      <Avatar shape="square" style={{ backgroundColor: '#13a8a8' }} icon={<CloudOutlined/>}/>
+      <Avatar shape='square' style={{ backgroundColor: '#13a8a8' }} icon={<CloudOutlined />} />
     ),
-    cms: <Avatar shape="square" style={{ backgroundColor: '#d84a1b' }} icon={<BugOutlined/>}/>,
+    cms: <Avatar shape='square' style={{ backgroundColor: '#d84a1b' }} icon={<BugOutlined />} />,
     firewall: (
-      <Avatar shape="square" style={{ backgroundColor: '#d87a16' }} icon={<GatewayOutlined/>}/>
+      <Avatar shape='square' style={{ backgroundColor: '#d87a16' }} icon={<GatewayOutlined />} />
     ),
     other: (
-      <Avatar shape="square" style={{ backgroundColor: '#bfbfbf' }} icon={<QuestionOutlined/>}/>
+      <Avatar shape='square' style={{ backgroundColor: '#bfbfbf' }} icon={<QuestionOutlined />} />
     ),
   };
 
@@ -4481,37 +4483,37 @@ const UpdateHost = props => {
       >
         <Form.Item
           label={<span>ipaddress</span>}
-          name="ipaddress"
+          name='ipaddress'
           rules={[{ required: true, message: '请输入' }]}
           style={{ display: 'None' }}
           {...formLayout}
         >
           <span>{hostAndSessionActive.ipaddress}</span>
         </Form.Item>
-        <Form.Item label={<span>标签</span>} name="tag" {...formLayout}>
+        <Form.Item label={<span>标签</span>} name='tag' {...formLayout}>
           <Radio.Group>
-            <Radio value="ad_server">{hostTypeToAvatar.ad_server}</Radio>
-            <Radio value="pc">{hostTypeToAvatar.pc}</Radio>
-            <Radio value="web_server">{hostTypeToAvatar.web_server}</Radio>
-            <Radio value="cms">{hostTypeToAvatar.cms}</Radio>
-            <Radio value="firewall">{hostTypeToAvatar.firewall}</Radio>
-            <Radio value="other">{hostTypeToAvatar.other}</Radio>
+            <Radio value='ad_server'>{hostTypeToAvatar.ad_server}</Radio>
+            <Radio value='pc'>{hostTypeToAvatar.pc}</Radio>
+            <Radio value='web_server'>{hostTypeToAvatar.web_server}</Radio>
+            <Radio value='cms'>{hostTypeToAvatar.cms}</Radio>
+            <Radio value='firewall'>{hostTypeToAvatar.firewall}</Radio>
+            <Radio value='other'>{hostTypeToAvatar.other}</Radio>
           </Radio.Group>
         </Form.Item>
         <Form.Item
           label={<span>备注</span>}
-          name="comment"
+          name='comment'
           rules={[{ message: '最长支持二十个字符', max: 20 }]}
           {...formLayout}
         >
-          <Input placeholder="最长支持二十个字符"/>
+          <Input placeholder='最长支持二十个字符' />
         </Form.Item>
         <Form.Item {...tailLayout}>
           <Button
-            icon={<DeliveredProcedureOutlined/>}
+            icon={<DeliveredProcedureOutlined />}
             block
-            type="primary"
-            htmlType="submit"
+            type='primary'
+            htmlType='submit'
             loading={updateHostReq.loading}
           >
             更新
@@ -4560,21 +4562,21 @@ const PostModuleAutoConfForm = props => {
   };
 
   return (
-    <Form labelCol={{ span: 24 }} wrapperCol={{ span: 24 }} layout="vertical">
-      <Form.Item label="开关">
+    <Form labelCol={{ span: 24 }} wrapperCol={{ span: 24 }} layout='vertical'>
+      <Form.Item label='开关'>
         <Switch
-          checkedChildren={<CheckOutlined/>}
-          unCheckedChildren={<MinusOutlined/>}
+          checkedChildren={<CheckOutlined />}
+          unCheckedChildren={<MinusOutlined />}
           checked={settingsPostModuleAutoConf.flag}
           onClick={() => onUpdateSessionMonitor({ flag: !settingsPostModuleAutoConf.flag })}
         />
       </Form.Item>
-      <Form.Item label="时间间隔" tooltip="执行每个模块的间隔时间">
+      <Form.Item label='时间间隔' tooltip='执行每个模块的间隔时间'>
         <Radio.Group
           onChange={e => onUpdateSessionMonitor({ interval: e.target.value })}
           value={settingsPostModuleAutoConf.interval}
         >
-          <Space direction="vertical">
+          <Space direction='vertical'>
             <Radio value={1}>1秒</Radio>
             <Radio value={10}>10秒</Radio>
             <Radio value={60}>1分钟</Radio>
@@ -4583,14 +4585,14 @@ const PostModuleAutoConfForm = props => {
         </Radio.Group>
       </Form.Item>
       <Form.Item
-        label="单一主机最大权限数量"
-        tooltip="当同一个ip地址的权限大于N个时,不再执行编排(防止编排模块生成权限,权限又执行编排,造成死循环)"
+        label='单一主机最大权限数量'
+        tooltip='当同一个ip地址的权限大于N个时,不再执行编排(防止编排模块生成权限,权限又执行编排,造成死循环)'
       >
         <Radio.Group
           onChange={e => onUpdateSessionMonitor({ max_session: e.target.value })}
           value={settingsPostModuleAutoConf.max_session}
         >
-          <Space direction="vertical">
+          <Space direction='vertical'>
             <Radio value={3}>3个</Radio>
             <Radio value={5}>5个</Radio>
           </Space>
@@ -4649,7 +4651,7 @@ const AutoRobot = () => {
         <Col span={12}>
           <Button
             block
-            icon={<PlusOutlined/>}
+            icon={<PlusOutlined />}
             onClick={() => setRunAutoModuleModalModalVisable(true)}
           >
             添加模块
@@ -4657,7 +4659,7 @@ const AutoRobot = () => {
         </Col>
         <Col span={12}>
           <Button
-            icon={<SyncOutlined/>}
+            icon={<SyncOutlined />}
             style={{
               width: '100%',
             }}
@@ -4676,8 +4678,8 @@ const AutoRobot = () => {
         <Col span={20}>
           <Table
             className={styles.postModuleAutoTable}
-            size="small"
-            rowKey="job_id"
+            size='small'
+            rowKey='job_id'
             pagination={false}
             dataSource={postModuleAutoList}
             bordered
@@ -4689,9 +4691,9 @@ const AutoRobot = () => {
                 width: 240,
                 render: (text, record) => (
                   <Popover
-                    placement="right"
+                    placement='right'
                     content={PostModuleInfoContent(record.moduleinfo)}
-                    trigger="click"
+                    trigger='click'
                   >
                     <a>{record.moduleinfo.NAME}</a>
                   </Popover>
@@ -4738,14 +4740,14 @@ const AutoRobot = () => {
         </Col>
         <Col span={4}>
           <Card style={{ marginTop: 0 }}>
-            <PostModuleAutoConfFormMemo/>
+            <PostModuleAutoConfFormMemo />
           </Card>
         </Col>
       </Row>
       <Modal
         mask={false}
         style={{ top: 32 }}
-        width="90vw"
+        width='90vw'
         destroyOnClose
         visible={runAutoModuleModalVisable}
         onCancel={() => setRunAutoModuleModalModalVisable(false)}
