@@ -126,14 +126,15 @@ import {
   Tooltip,
   Typography,
 } from 'antd';
-
+import { DraggableModal, DraggableModalProvider } from 'ant-design-draggable-modal';
+import 'ant-design-draggable-modal/dist/index.css';
 import copy from 'copy-to-clipboard';
 import { Terminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 import './xterm.css';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import moment from 'moment';
-import { FileMsfMemo, FileMsfModal } from '@/pages/Core/FileMsf';
+import { FileMsfMemo, FileMsfModal, FileMsfNewMemo } from '@/pages/Core/FileMsf';
 import PayloadAndHandler, { PayloadAndHandlerMemo } from '@/pages/Core/PayloadAndHandler';
 import MuitHosts, { MuitHostsMemo } from '@/pages/Core/MuitHosts';
 import { host_type_to_avatar_table, MyIcon, SidTag } from '@/pages/Core/Common';
@@ -1191,8 +1192,24 @@ const TaskQueueTag = () => {
 };
 const TaskQueueTagMemo = memo(TaskQueueTag);
 
+const ModalWithButton = () => {
+  const [visible, setVisible] = useState(false);
+  const onOk = useCallback(() => setVisible(true), []);
+  const onCancel = useCallback(() => setVisible(false), []);
+  return (
+    <>
+      <Button onClick={onOk}>Open</Button>
+      <DraggableModal visible={visible} onOk={onOk} onCancel={onCancel}>
+        Body text.
+      </DraggableModal>
+    </>
+  );
+};
+
+
 const TabsBottom = () => {
   console.log('TabsBottom');
+  const [showFileMsfModel, setShowFileMsfModel] = useState(false);
   let filemsfRef = React.createRef();
   let consoleRef = React.createRef();
   const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState('viper-debug-flag', false);
@@ -1228,6 +1245,38 @@ const TabsBottom = () => {
 
   return (
     <Fragment>
+      <DraggableModalProvider>
+        <DraggableModal
+          footer={null}
+          initialHeight={400}
+          visible={showFileMsfModel}
+          onCancel={() => setShowFileMsfModel(false)}>
+          <FileMsfNewMemo/>
+        </DraggableModal>
+      </DraggableModalProvider>
+      <Space
+        style={{
+          top: 'calc(112px + 16vh)',
+          right: 16,
+          position: 'fixed',
+          zIndex: 10000,
+        }}
+      >{
+        showFileMsfModel ? <Button
+          danger
+          shape="circle"
+          size="large"
+          onClick={() => setShowFileMsfModel(!showFileMsfModel)}
+          icon={<FolderOpenOutlined/>}
+        /> : <Button
+          type="primary"
+          shape="circle"
+          size="large"
+          onClick={() => setShowFileMsfModel(!showFileMsfModel)}
+          icon={<FolderOpenOutlined/>}
+        />
+      }
+      </Space>
       <Tabs style={{ marginTop: 4 }} type="card" onChange={tabActiveOnChange}>
         <TabPane
           tab={
