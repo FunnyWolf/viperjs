@@ -18,6 +18,7 @@ import {
   Input,
   List,
   message,
+  Popover,
   Row,
   Select,
   Space,
@@ -310,85 +311,88 @@ const SystemInfo = () => {
 
   return (
     <Card style={{ marginTop: -16 }}>
+
       <Row>
-        <Col span={20}>
-          <Row>
-            <Descriptions size="small" style={{ marginLeft: 64 }} column={6}>
-              <Descriptions.Item label="渗透服务">
-                {serviceStatusActive.json_rpc.status ? (
-                  <Tag color="green">正常</Tag>
-                ) : (
-                  <Tag color="red">不可用</Tag>
-                )}
-              </Descriptions.Item>
-              <Descriptions.Item label="平台版本">
-                <Tag color="blue">{viper_version}</Tag>
-              </Descriptions.Item>
-              <Descriptions.Item label="更新时间">
-                <Tag color="blue">{viper_update_date}</Tag>
-              </Descriptions.Item>
-              <Descriptions.Item label="最新版本">
-                <a
-                  target="_blank"
-                  href="https://github.com/FunnyWolf/Viper/releases"
-                  className={styles.action}>
-                  Github Releases
-                </a>
-              </Descriptions.Item>
-              <Descriptions.Item label="官方文档">
-                <a target="_blank" href="https://www.yuque.com/vipersec" className={styles.action}>
-                  语雀文档
-                </a>
-              </Descriptions.Item>
-              <Descriptions.Item label="实验功能">
-                <Switch
-                  checkedChildren={<CheckOutlined/>}
-                  unCheckedChildren={<MinusOutlined/>}
-                  checked={viperDebugFlag}
-                  onClick={() => {
-                    setViperDebugFlag(!viperDebugFlag);
-                    message.info('刷新页面后生效');
-                  }}
-                />
-              </Descriptions.Item>
-            </Descriptions>
-          </Row>
-          <Row>
-            <Space style={{ marginTop: 16, marginLeft: 64 }}>
-              <Button
-                icon={<SyncOutlined/>}
-                onClick={() => listServiceStatusReq.run()}
-                loading={listServiceStatusReq.loading}
-              >
-                更新渗透服务状态
-              </Button>
-              <Button
-                type="primary"
-                icon={<ReloadOutlined/>}
-                onClick={() => updatePostmodulePostModuleConfigReq.run()}
-                loading={updatePostmodulePostModuleConfigReq.loading}
-              >
-                重新加载所有模块
-              </Button>
-              <Button danger icon={<LogoutOutlined/>} onClick={loginOut}>
-                退出平台
-              </Button>
-            </Space>
-          </Row>
-        </Col>
-        <Col span={4}>
-          <List
-            size="small"
-            header={<div>平台使用以下开源软件</div>}
-            bordered
-            dataSource={datas}
-            renderItem={item => (
-              <List.Item>
-                <a href={item.url}>{item.name}</a>
-              </List.Item>
+        <Descriptions size="small" style={{ marginLeft: 64 }} column={8}>
+          <Descriptions.Item label="渗透服务">
+            {serviceStatusActive.json_rpc.status ? (
+              <Tag color="green">正常</Tag>
+            ) : (
+              <Tag color="red">不可用</Tag>
             )}
-          />
-        </Col>
+          </Descriptions.Item>
+          <Descriptions.Item label="平台版本">
+            <Tag color="blue">{viper_version}</Tag>
+          </Descriptions.Item>
+          <Descriptions.Item label="更新时间">
+            <Tag color="blue">{viper_update_date}</Tag>
+          </Descriptions.Item>
+          <Descriptions.Item label="最新版本">
+            <a
+              target="_blank"
+              href="https://github.com/FunnyWolf/Viper/releases"
+              className={styles.action}>
+              Github Releases
+            </a>
+          </Descriptions.Item>
+          <Descriptions.Item label="官方文档">
+            <a target="_blank" href="https://www.yuque.com/vipersec" className={styles.action}>
+              语雀文档
+            </a>
+          </Descriptions.Item>
+          <Descriptions.Item label="开源软件">
+            <Popover content={
+              <List
+                size="small"
+                bordered
+                dataSource={datas}
+                renderItem={item => (
+                  <List.Item>
+                    <a href={item.url}>{item.name}</a>
+                  </List.Item>
+                )}
+              />}
+                     placement="left"
+                     trigger="click">
+              <a className={styles.action}>
+                软件列表
+              </a>
+            </Popover>
+          </Descriptions.Item>
+          <Descriptions.Item label="实验功能">
+            <Switch
+              checkedChildren={<CheckOutlined/>}
+              unCheckedChildren={<MinusOutlined/>}
+              checked={viperDebugFlag}
+              onClick={() => {
+                setViperDebugFlag(!viperDebugFlag);
+                message.info('刷新页面后生效');
+              }}
+            />
+          </Descriptions.Item>
+        </Descriptions>
+      </Row>
+      <Row>
+        <Space style={{ marginTop: 16, marginLeft: 64 }}>
+          <Button
+            icon={<SyncOutlined/>}
+            onClick={() => listServiceStatusReq.run()}
+            loading={listServiceStatusReq.loading}
+          >
+            更新渗透服务状态
+          </Button>
+          <Button
+            type="primary"
+            icon={<ReloadOutlined/>}
+            onClick={() => updatePostmodulePostModuleConfigReq.run()}
+            loading={updatePostmodulePostModuleConfigReq.loading}
+          >
+            重新加载所有模块
+          </Button>
+          <Button danger icon={<LogoutOutlined/>} onClick={loginOut}>
+            退出平台
+          </Button>
+        </Space>
       </Row>
     </Card>
   );
