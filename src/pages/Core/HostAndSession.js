@@ -1270,17 +1270,20 @@ const TabsBottom = () => {
         showFileMsfModel ? <Button
           danger
           shape="circle"
-          size="large"
           onClick={() => setShowFileMsfModel(!showFileMsfModel)}
           icon={<FolderOpenOutlined/>}
         /> : <Button
           type="primary"
           shape="circle"
-          size="large"
           onClick={() => setShowFileMsfModel(!showFileMsfModel)}
           icon={<FolderOpenOutlined/>}
         />
       }
+        <Button
+          shape="circle"
+          onClick={() => window.open('https://www.yuque.com/vipersec')}
+          icon={<QuestionOutlined/>}
+        />
       </Space>
       <Tabs style={{ marginTop: 4 }} type="card" onChange={tabActiveOnChange}>
         <TabPane
