@@ -1,4 +1,4 @@
-import React, { Fragment, memo, useState } from 'react';
+import React, { Fragment, memo, useImperativeHandle, useState } from 'react';
 import {
   deleteMsgrpcHandlerAPI,
   getCoreSettingAPI,
@@ -854,7 +854,7 @@ const CreateHandlerModalContent = props => {
             label="Session强制过期时间(秒)"
             name="SessionExpirationTimeout"
             rules={[]}
-            initialValue={3600 * 24 * 30}
+            initialValue={3600 * 24 * 365}
           >
             <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间"/>
           </FormNew.Item>
@@ -1780,7 +1780,7 @@ const CreatePayloadModalContent = props => {
             label="Session强制过期时间(秒)"
             name="SessionExpirationTimeout"
             rules={[]}
-            initialValue={3600 * 24 * 30}
+            initialValue={3600 * 24 * 365}
           >
             <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间"/>
           </FormNew.Item>
@@ -1791,7 +1791,7 @@ const CreatePayloadModalContent = props => {
             rules={[]}
             initialValue={3600}
           >
-            <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间"/>
+            <InputNumber style={{ width: 160 }} placeholder="请输入正确的网络断开重试次数"/>
           </FormNew.Item>
           <FormNew.Item
             {...formLayout}
@@ -1800,7 +1800,7 @@ const CreatePayloadModalContent = props => {
             rules={[]}
             initialValue={10}
           >
-            <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间"/>
+            <InputNumber style={{ width: 160 }} placeholder="请输入正确的网络断开重试间隔"/>
           </FormNew.Item>
         </Panel>
       </Collapse>
@@ -1819,12 +1819,19 @@ const CreatePayloadModalContent = props => {
   );
 };
 
-const PayloadAndHandler = () => {
+const PayloadAndHandler = (props) => {
   console.log('PayloadAndHandler');
   const [createHandlerModalVisible, setCreateHandlerModalVisible] = useState(false);
   const [createPayloadModalVisible, setCreatePayloadModalVisible] = useState(false);
   const [handlerListActive, setHandlerListActive] = useState([]);
   //初始化数据
+  useImperativeHandle(props.onRef, () => {
+    return {
+      updateData: () => {
+        listHanderReq.run();
+      },
+    };
+  });
   const initListHanderReq = useRequest(getMsgrpcHandlerAPI, {
     onSuccess: (result, params) => {
       setHandlerListActive(result);

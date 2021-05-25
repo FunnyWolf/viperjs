@@ -1210,6 +1210,7 @@ const ModalWithButton = () => {
 const TabsBottom = () => {
   console.log('TabsBottom');
   const [showFileMsfModel, setShowFileMsfModel] = useState(false);
+  let payloadandhandlerRef = React.createRef();
   let filemsfRef = React.createRef();
   let consoleRef = React.createRef();
   const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState('viper-debug-flag', false);
@@ -1234,6 +1235,10 @@ const TabsBottom = () => {
       case 'LazyLoader':
         break;
       case 'PayloadAndHandler':
+        if (payloadandhandlerRef.current === null) {
+        } else {
+          payloadandhandlerRef.current.updateData();
+        }
         break;
       case 'MuitHosts':
         break;
@@ -1316,7 +1321,7 @@ const TabsBottom = () => {
           }
           key="PayloadAndHandler"
         >
-          <PayloadAndHandlerMemo/>
+          <PayloadAndHandlerMemo onRef={payloadandhandlerRef}/>
         </TabPane>
         <TabPane
           tab={
