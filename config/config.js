@@ -67,4 +67,5 @@ export default {
       pathRewrite: { '^/ws/v1': '/ws/v1' },
     },
   },
+  fastRefresh: {},
 };

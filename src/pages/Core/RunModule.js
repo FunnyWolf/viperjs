@@ -741,6 +741,7 @@ export const RunModule = props => {
           <Card bordered={false}>
             <div style={{ display: 'flex' }}>
               <Select style={{ width: 146 }} onChange={moduleTypeOnChange} allowClear>
+                <Option value="Reconnaissance">侦查</Option>
                 <Option value="Initial_Access">初始访问</Option>
                 <Option value="Execution">执行</Option>
                 <Option value="Persistence">持久化</Option>
@@ -1324,6 +1325,7 @@ export const RunAutoModule = props => {
           <Card bordered={false}>
             <div style={{ display: 'flex' }}>
               <Select style={{ width: 146 }} onChange={moduleTypeOnChange} allowClear>
+                <Option value="Reconnaissance">侦查</Option>
                 <Option value="Initial_Access">初始访问</Option>
                 <Option value="Execution">执行</Option>
                 <Option value="Persistence">持久化</Option>
