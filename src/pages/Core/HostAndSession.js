@@ -504,13 +504,13 @@ const HostAndSessionCard = () => {
 
     return (
       <Menu style={{ width: 104 }} onClick={onClick}>
-        <Menu.Item key="HostRuningInfo">
-          <DashboardOutlined/>
-          运行信息
-        </Menu.Item>
         <Menu.Item key="HostInfo">
           <ProfileOutlined/>
           主机信息
+        </Menu.Item>
+        <Menu.Item key="HostRuningInfo">
+          <DashboardOutlined/>
+          运行信息
         </Menu.Item>
         <Menu.Item key="PortService">
           <InteractionOutlined/>
