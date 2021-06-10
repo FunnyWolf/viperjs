@@ -16,6 +16,7 @@ import {
   deletePostModuleAutoAPI,
   deletePostmodulePostModuleResultHistoryAPI,
   getCoreCurrentUserAPI,
+  getCoreHostInfoAPI,
   getCoreSettingAPI,
   getMsgrpcFileSessionAPI,
   getMsgrpcPortFwdAPI,
@@ -55,6 +56,7 @@ import {
   CodeOutlined,
   ContactsOutlined,
   CustomerServiceOutlined,
+  DashboardOutlined,
   DeleteOutlined,
   DeliveredProcedureOutlined,
   DesktopOutlined,
@@ -146,6 +148,7 @@ import Credential, { CredentialMemo } from '@/pages/Core/Credential';
 import { getToken } from '@/utils/authority';
 import styles from './HostAndSession.less';
 import NetworkMemo from '@/pages/Core/Network';
+import ReactJson from 'react-json-view';
 
 const { Text } = Typography;
 const { Paragraph } = Typography;
@@ -368,6 +371,7 @@ const HostAndSessionCard = () => {
   const [portFwdModalVisable, setPortFwdModalVisable] = useState(false);
   const [transportModalVisable, setTransportModalVisable] = useState(false);
   const [sessionInfoModalVisable, setSessionInfoModalVisable] = useState(false);
+  const [hostRunningInfoModalVisable, setHostRunningInfoModalVisable] = useState(false);
   const [hostInfoModalVisable, setHostInfoModalVisable] = useState(false);
   const [portServiceModalVisable, setPortServiceModalVisable] = useState(false);
   const [vulnerabilityModalVisable, setVulnerabilityModalVisable] = useState(false);
@@ -474,6 +478,10 @@ const HostAndSessionCard = () => {
   const HostMenu = record => {
     const onClick = ({ key }) => {
       switch (key) {
+        case 'HostRuningInfo':
+          setActiveHostAndSession(record);
+          setHostRunningInfoModalVisable(true);
+          break;
         case 'HostInfo':
           setActiveHostAndSession(record);
           setHostInfoModalVisable(true);
@@ -496,6 +504,10 @@ const HostAndSessionCard = () => {
 
     return (
       <Menu style={{ width: 104 }} onClick={onClick}>
+        <Menu.Item key="HostRuningInfo">
+          <DashboardOutlined/>
+          运行信息
+        </Menu.Item>
         <Menu.Item key="HostInfo">
           <ProfileOutlined/>
           主机信息
@@ -980,6 +992,19 @@ const HostAndSessionCard = () => {
       <Modal
         style={{ top: 32 }}
         width="80vw"
+        destroyOnClose
+        visible={hostRunningInfoModalVisable}
+        onCancel={() => setHostRunningInfoModalVisable(false)}
+        footer={null}
+        bodyStyle={{ padding: '8px 8px 8px 8px' }}
+      >
+        <HostRunningInfoMemo/>
+      </Modal>
+
+      <Modal
+        title="主机信息"
+        style={{ top: 32 }}
+        width="50vw"
         destroyOnClose
         visible={hostInfoModalVisable}
         onCancel={() => setHostInfoModalVisable(false)}
@@ -3935,8 +3960,8 @@ const FileSession = () => {
 
 const FileSessionMemo = memo(FileSession);
 
-const HostInfo = () => {
-  console.log('HostInfo');
+const HostRuningInfo = () => {
+  console.log('HostRuningInfo');
   const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
@@ -4010,10 +4035,7 @@ const HostInfo = () => {
       sessionid: hostAndSessionActive.session.id,
     });
   };
-  const paginationProps = {
-    simple: true,
-    pageSize: 10,
-  };
+
   const processColumns = [
     {
       title: 'PID',
@@ -4195,7 +4217,7 @@ const HostInfo = () => {
             minHeight: '80vh',
           }}
         >
-          <TabPane tab={<span>主机信息</span>} key="1">
+          <TabPane tab={<span>基本信息</span>} key="1">
             <Descriptions size="small" column={1} bordered>
               <Descriptions.Item label="主机名">
                 {hostAndSessionBaseInfo.Computer}
@@ -4289,7 +4311,42 @@ const HostInfo = () => {
     </Fragment>
   );
 };
+const HostRunningInfoMemo = memo(HostRuningInfo);
+
+
+const HostInfo = () => {
+  console.log('HostInfo');
+  const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
+    hostAndSessionActive: model.hostAndSessionActive,
+  }));
+  const [hostinfo, setHostInfo] = useState({});
+  const initListHostInfoReq = useRequest(() => getCoreHostInfoAPI({ ipaddress: hostAndSessionActive.ipaddress }),
+    {
+      onSuccess: (result, params) => {
+        setHostInfo(result);
+      },
+      onError: (error, params) => {
+      },
+    },
+  );
+
+  return (
+    <Card
+      className={styles.hostinfoCard}
+      bodyStyle={{ padding: '0px 0px 0px 0px' }}
+    >
+      <ReactJson
+        src={hostinfo}
+        theme="colors"
+        displayDataTypes={false}
+        displayObjectSize={false}
+      />
+    </Card>
+  );
+};
+
 const HostInfoMemo = memo(HostInfo);
+
 
 const PortService = () => {
   console.log('PortService');

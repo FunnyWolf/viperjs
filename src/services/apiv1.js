@@ -355,8 +355,8 @@ export async function deleteMsgrpcTransportAPI(params) {
   });
 }
 
-export async function getCoreNetworkTopologyAPI(params) {
-  return request('/api/v1/core/networktopology/', { params });
+export async function getCoreHostInfoAPI(params) {
+  return request('/api/v1/core/hostinfo/', { params });
 }
 
 export async function getCoreNetworkSearchAPI(params) {
@@ -404,5 +404,3 @@ export async function deletePostModuleAutoAPI(params) {
     params,
   });
 }
-
-
