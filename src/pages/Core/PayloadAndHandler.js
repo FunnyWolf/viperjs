@@ -459,12 +459,6 @@ const CreateHandlerModalContent = props => {
             </Tooltip>
           }
           name="HandlerSSLCert"
-          rules={[
-            {
-              required: true,
-              message: '请选择证书文件',
-            },
-          ]}
         >
           <Select placeholder="请选择证书文件">
             {pem_files.map((encoder, i) => (
@@ -484,12 +478,6 @@ const CreateHandlerModalContent = props => {
           initialValue={false}
           name="StagerVerifySSLCert"
           valuePropName="checked"
-          rules={[
-            {
-              required: true,
-              message: '请选择证书文件',
-            },
-          ]}
         >
           <Checkbox defaultChecked/>
         </FormNew.Item>,
@@ -1377,12 +1365,6 @@ const CreatePayloadModalContent = props => {
             </Tooltip>
           }
           name="HandlerSSLCert"
-          rules={[
-            {
-              required: true,
-              message: '请选择证书文件',
-            },
-          ]}
         >
           <Select placeholder="请选择证书文件">
             {pem_files.map((encoder, i) => (
@@ -1402,12 +1384,6 @@ const CreatePayloadModalContent = props => {
           initialValue
           name="StagerVerifySSLCert"
           valuePropName="checked"
-          rules={[
-            {
-              required: true,
-              message: '请选择证书文件',
-            },
-          ]}
         >
           <Checkbox defaultChecked/>
         </FormNew.Item>,
