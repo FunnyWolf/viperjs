@@ -212,6 +212,7 @@ export const RunModule = props => {
     }
   };
 
+
   const getOptions = () => {
     const options = [];
     for (const oneOption of postModuleConfigActive.OPTIONS) {
@@ -739,35 +740,39 @@ export const RunModule = props => {
       <Row>
         <Col span={8}>
           <Card bordered={false}>
-            <div style={{ display: 'flex' }}>
-              <Select style={{ width: 146 }} onChange={moduleTypeOnChange} allowClear>
-                <Option value="Reconnaissance">侦查</Option>
-                <Option value="Initial_Access">初始访问</Option>
-                <Option value="Execution">执行</Option>
-                <Option value="Persistence">持久化</Option>
-                <Option value="Privilege_Escalation">权限提升</Option>
-                <Option value="Defense_Evasion">防御绕过</Option>
-                <Option value="Credential_Access">凭证访问</Option>
-                <Option value="Discovery">信息收集</Option>
-                <Option value="Lateral_Movement">横向移动</Option>
-                {/*<Option value="Collection">数据采集</Option>*/}
-                {/*<Option value="Command_and_Control">命令控制</Option>*/}
-              </Select>
-              <Input
-                allowClear
-                prefix={<SearchOutlined/>}
-                style={{ width: '100%' }}
-                placeholder="名称/说明/TTPs"
-                value={text}
-                onChange={e => {
-                  setText(e.target.value);
-                  handleModuleSearch(e.target.value);
-                }}
-              />
-            </div>
+            <Input
+              allowClear
+              prefix={<SearchOutlined/>}
+              style={{ width: '100%' }}
+              placeholder="名称/说明/TTPs"
+              value={text}
+              onChange={e => {
+                setText(e.target.value);
+                handleModuleSearch(e.target.value);
+              }}
+            />
+            <Radio.Group
+              defaultValue="a"
+              style={{ marginTop: 8 }}
+              buttonStyle="solid"
+              onChange={(e) => moduleTypeOnChange(e.target.value)}
+            >
+              <Radio.Button value="">全部</Radio.Button>
+              <Radio.Button value="Reconnaissance">侦查</Radio.Button>
+              <Radio.Button value="Initial_Access">初始访问</Radio.Button>
+              <Radio.Button value="Execution">执行</Radio.Button>
+              <Radio.Button value="Persistence">持久化</Radio.Button>
+              <Radio.Button value="Privilege_Escalation">权限提升</Radio.Button>
+              <Radio.Button value="Defense_Evasion">防御绕过</Radio.Button>
+              <Radio.Button value="Credential_Access">凭证访问</Radio.Button>
+              <Radio.Button value="Discovery">信息收集</Radio.Button>
+              <Radio.Button value="Lateral_Movement">横向移动</Radio.Button>
+              {/*<Option value="Collection">数据采集</Option>*/}
+              {/*<Option value="Command_and_Control">命令控制</Option>*/}
+            </Radio.Group>
             <Table
-              className={styles.moduleTableNew}
-              scroll={{ y: 'calc(80vh)' }}
+              className={styles.moduleConfigTable}
+              scroll={{ y: 'calc(80vh - 88px)' }}
               rowClassName={styles.moduleTr}
               showHeader={false}
               onRow={record => ({
@@ -1323,35 +1328,39 @@ export const RunAutoModule = props => {
       <Row>
         <Col span={8}>
           <Card bordered={false}>
-            <div style={{ display: 'flex' }}>
-              <Select style={{ width: 146 }} onChange={moduleTypeOnChange} allowClear>
-                <Option value="Reconnaissance">侦查</Option>
-                <Option value="Initial_Access">初始访问</Option>
-                <Option value="Execution">执行</Option>
-                <Option value="Persistence">持久化</Option>
-                <Option value="Privilege_Escalation">权限提升</Option>
-                <Option value="Defense_Evasion">防御绕过</Option>
-                <Option value="Credential_Access">凭证访问</Option>
-                <Option value="Discovery">信息收集</Option>
-                <Option value="Lateral_Movement">横向移动</Option>
-                {/*<Option value="Collection">数据采集</Option>*/}
-                {/*<Option value="Command_and_Control">命令控制</Option>*/}
-              </Select>
-              <Input
-                allowClear
-                prefix={<SearchOutlined/>}
-                style={{ width: '100%' }}
-                placeholder="名称/说明/TTPs"
-                value={text}
-                onChange={e => {
-                  setText(e.target.value);
-                  handleModuleSearch(e.target.value);
-                }}
-              />
-            </div>
+            <Input
+              allowClear
+              prefix={<SearchOutlined/>}
+              style={{ width: '100%' }}
+              placeholder="名称/说明/TTPs"
+              value={text}
+              onChange={e => {
+                setText(e.target.value);
+                handleModuleSearch(e.target.value);
+              }}
+            />
+            <Radio.Group
+              defaultValue="a"
+              style={{ marginTop: 8 }}
+              buttonStyle="solid"
+              onChange={(e) => moduleTypeOnChange(e.target.value)}
+            >
+              <Radio.Button value="">全部</Radio.Button>
+              <Radio.Button value="Reconnaissance">侦查</Radio.Button>
+              <Radio.Button value="Initial_Access">初始访问</Radio.Button>
+              <Radio.Button value="Execution">执行</Radio.Button>
+              <Radio.Button value="Persistence">持久化</Radio.Button>
+              <Radio.Button value="Privilege_Escalation">权限提升</Radio.Button>
+              <Radio.Button value="Defense_Evasion">防御绕过</Radio.Button>
+              <Radio.Button value="Credential_Access">凭证访问</Radio.Button>
+              <Radio.Button value="Discovery">信息收集</Radio.Button>
+              <Radio.Button value="Lateral_Movement">横向移动</Radio.Button>
+              {/*<Option value="Collection">数据采集</Option>*/}
+              {/*<Option value="Command_and_Control">命令控制</Option>*/}
+            </Radio.Group>
             <Table
-              className={styles.moduleTableNew}
-              scroll={{ y: 'calc(80vh)' }}
+              className={styles.moduleConfigTable}
+              scroll={{ y: 'calc(80vh - 88px)' }}
               rowClassName={styles.moduleTr}
               showHeader={false}
               onRow={record => ({
