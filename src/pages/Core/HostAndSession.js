@@ -59,6 +59,7 @@ import {
   DashboardOutlined,
   DeleteOutlined,
   DeliveredProcedureOutlined,
+  DeploymentUnitOutlined,
   DesktopOutlined,
   DownOutlined,
   FieldTimeOutlined,
@@ -86,7 +87,6 @@ import {
   RobotOutlined,
   SearchOutlined,
   SettingOutlined,
-  ShareAltOutlined,
   SisternodeOutlined,
   SwapLeftOutlined,
   SwapOutlined,
@@ -147,8 +147,9 @@ import LazyLoader, { LazyLoaderMemo } from '@/pages/Core/LazyLoader';
 import Credential, { CredentialMemo } from '@/pages/Core/Credential';
 import { getToken } from '@/utils/authority';
 import styles from './HostAndSession.less';
-import NetworkMemo from '@/pages/Core/Network';
+import NetworkMemo, { NetworkWindowMemo } from '@/pages/Core/Network';
 import ReactJson from 'react-json-view';
+import NewWindow from 'rc-new-window';
 
 const { Text } = Typography;
 const { Paragraph } = Typography;
@@ -443,34 +444,28 @@ const HostAndSessionCard = () => {
     };
 
     return (
-      <Menu style={{ width: 104 }} onClick={onClick}>
+      <Menu style={{ width: 96 }} onClick={onClick}>
         <Menu.Item key="SessionInfo">
-          <ContactsOutlined/>
-          权限信息
+          <ContactsOutlined/> 权限信息
         </Menu.Item>
         <Menu.Item key="FileSession">
-          <DesktopOutlined/>
-          文件管理
+          <DesktopOutlined/> 文件管理
         </Menu.Item>
         <Menu.Item key="Route">
-          <PartitionOutlined/>
-          内网路由
+          <PartitionOutlined/> 内网路由
         </Menu.Item>
         <Menu.Item key="PortFwd">
-          <SwapOutlined/>
-          端口转发
+          <SwapOutlined/> 端口转发
         </Menu.Item>
         <Menu.Item key="Transport">
-          <NodeIndexOutlined/>
-          传输协议
+          <NodeIndexOutlined/> 传输协议
         </Menu.Item>
         <Menu.Item key="SessionIO">
-          <CodeOutlined/>
-          命令终端
+          <CodeOutlined/> 命令终端
         </Menu.Item>
         <Menu.Item key="DestorySession">
           <CloseCircleOutlined style={{ color: 'red' }}/>
-          <span style={{ color: 'red' }}>删除权限</span>
+          <span style={{ color: 'red' }}> 删除权限</span>
         </Menu.Item>
       </Menu>
     );
@@ -503,26 +498,22 @@ const HostAndSessionCard = () => {
     };
 
     return (
-      <Menu style={{ width: 104 }} onClick={onClick}>
+      <Menu style={{ width: 96 }} onClick={onClick}>
         <Menu.Item key="HostInfo">
-          <ProfileOutlined/>
-          主机信息
+          <ProfileOutlined/> 主机信息
         </Menu.Item>
         <Menu.Item key="HostRuningInfo">
-          <DashboardOutlined/>
-          运行信息
+          <DashboardOutlined/> 运行信息
         </Menu.Item>
         <Menu.Item key="PortService">
-          <InteractionOutlined/>
-          开放端口
+          <InteractionOutlined/> 开放端口
         </Menu.Item>
         <Menu.Item key="Vulnerability">
-          <BugOutlined/>
-          已知漏洞
+          <BugOutlined/> 已知漏洞
         </Menu.Item>
         <Menu.Item key="DestoryHost">
           <DeleteOutlined style={{ color: 'red' }}/>
-          <span style={{ color: 'red' }}>删除主机</span>
+          <span style={{ color: 'red' }}> 删除主机</span>
         </Menu.Item>
       </Menu>
     );
@@ -1235,6 +1226,7 @@ const ModalWithButton = () => {
 const TabsBottom = () => {
   console.log('TabsBottom');
   const [showFileMsfModel, setShowFileMsfModel] = useState(false);
+  const [showNetworkWindow, setShowNetworkWindow] = useState(false);
   let payloadandhandlerRef = React.createRef();
   let filemsfRef = React.createRef();
   let consoleRef = React.createRef();
@@ -1284,28 +1276,45 @@ const TabsBottom = () => {
           <FileMsfNewMemo/>
         </DraggableModal>
       </DraggableModalProvider>
+
+      {showNetworkWindow ? <NewWindow
+        height={window.innerHeight / 10 * 8}
+        width={window.innerWidth / 10 * 8}
+        title="网络拓扑"
+        onClose={() => setShowNetworkWindow(false)}
+      >
+        <NetworkWindowMemo/>
+      </NewWindow> : null}
+
       <Space
         style={{
-          top: 'calc(112px + 16vh)',
-          right: 16,
+          // top: 'calc(124px + 16vh)',
+          top: 'calc(90vh)',
+          right: 8,
           position: 'fixed',
           zIndex: 10000,
         }}
-      >{
-        showFileMsfModel ? <Button
+      >{showFileMsfModel ? <Button
+        danger
+        shape="round"
+        onClick={() => setShowFileMsfModel(!showFileMsfModel)}
+        icon={<FolderOpenOutlined/>}
+      /> : <Button
+        type="primary"
+        onClick={() => setShowFileMsfModel(!showFileMsfModel)}
+        icon={<FolderOpenOutlined/>}
+      />
+      }
+        {showNetworkWindow ? <Button
           danger
-          shape="circle"
-          onClick={() => setShowFileMsfModel(!showFileMsfModel)}
-          icon={<FolderOpenOutlined/>}
+          onClick={() => setShowNetworkWindow(!showFileMsfModel)}
+          icon={<DeploymentUnitOutlined/>}
         /> : <Button
           type="primary"
-          shape="circle"
-          onClick={() => setShowFileMsfModel(!showFileMsfModel)}
-          icon={<FolderOpenOutlined/>}
-        />
-      }
+          onClick={() => setShowNetworkWindow(!showNetworkWindow)}
+          icon={<DeploymentUnitOutlined/>}
+        />}
         <Button
-          shape="circle"
           onClick={() => window.open('https://www.yuque.com/vipersec')}
           icon={<QuestionOutlined/>}
         />
@@ -1365,7 +1374,7 @@ const TabsBottom = () => {
         <TabPane
           tab={
             <span>
-              <ShareAltOutlined/>
+              <DeploymentUnitOutlined/>
               网络拓扑
             </span>
           }
