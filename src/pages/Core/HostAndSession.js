@@ -1296,7 +1296,6 @@ const TabsBottom = () => {
         }}
       >{showFileMsfModel ? <Button
         danger
-        shape="round"
         onClick={() => setShowFileMsfModel(!showFileMsfModel)}
         icon={<FolderOpenOutlined/>}
       /> : <Button
