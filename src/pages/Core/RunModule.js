@@ -752,7 +752,7 @@ export const RunModule = props => {
               }}
             />
             <Radio.Group
-              defaultValue="a"
+              defaultValue=""
               style={{ marginTop: 8 }}
               buttonStyle="solid"
               onChange={(e) => moduleTypeOnChange(e.target.value)}
@@ -772,7 +772,7 @@ export const RunModule = props => {
             </Radio.Group>
             <Table
               className={styles.moduleConfigTable}
-              scroll={{ y: 'calc(80vh - 88px)' }}
+              scroll={{ y: 'calc(80vh - 104px)' }}
               rowClassName={styles.moduleTr}
               showHeader={false}
               onRow={record => ({
@@ -1340,7 +1340,7 @@ export const RunAutoModule = props => {
               }}
             />
             <Radio.Group
-              defaultValue="a"
+              defaultValue=""
               style={{ marginTop: 8 }}
               buttonStyle="solid"
               onChange={(e) => moduleTypeOnChange(e.target.value)}
@@ -1360,7 +1360,7 @@ export const RunAutoModule = props => {
             </Radio.Group>
             <Table
               className={styles.moduleConfigTable}
-              scroll={{ y: 'calc(80vh - 88px)' }}
+              scroll={{ y: 'calc(80vh - 104px)' }}
               rowClassName={styles.moduleTr}
               showHeader={false}
               onRow={record => ({
