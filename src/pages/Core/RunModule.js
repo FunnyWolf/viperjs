@@ -758,7 +758,8 @@ export const RunModule = props => {
               onChange={(e) => moduleTypeOnChange(e.target.value)}
             >
               <Radio.Button value="">全部</Radio.Button>
-              <Radio.Button value="Reconnaissance">侦查</Radio.Button>
+              {/*<Radio.Button value="Reconnaissance">前期侦查</Radio.Button>*/}
+              <Radio.Button value="Resource_Development">资源部署</Radio.Button>
               <Radio.Button value="Initial_Access">初始访问</Radio.Button>
               <Radio.Button value="Execution">执行</Radio.Button>
               <Radio.Button value="Persistence">持久化</Radio.Button>
@@ -767,7 +768,7 @@ export const RunModule = props => {
               <Radio.Button value="Credential_Access">凭证访问</Radio.Button>
               <Radio.Button value="Discovery">信息收集</Radio.Button>
               <Radio.Button value="Lateral_Movement">横向移动</Radio.Button>
-              {/*<Option value="Collection">数据采集</Option>*/}
+              <Radio.Button value="Collection">数据采集</Radio.Button>
               {/*<Option value="Command_and_Control">命令控制</Option>*/}
             </Radio.Group>
             <Table
@@ -1346,7 +1347,7 @@ export const RunAutoModule = props => {
               onChange={(e) => moduleTypeOnChange(e.target.value)}
             >
               <Radio.Button value="">全部</Radio.Button>
-              <Radio.Button value="Reconnaissance">侦查</Radio.Button>
+              <Radio.Button value="Resource_Development">资源部署</Radio.Button>
               <Radio.Button value="Initial_Access">初始访问</Radio.Button>
               <Radio.Button value="Execution">执行</Radio.Button>
               <Radio.Button value="Persistence">持久化</Radio.Button>
@@ -1355,7 +1356,7 @@ export const RunAutoModule = props => {
               <Radio.Button value="Credential_Access">凭证访问</Radio.Button>
               <Radio.Button value="Discovery">信息收集</Radio.Button>
               <Radio.Button value="Lateral_Movement">横向移动</Radio.Button>
-              {/*<Option value="Collection">数据采集</Option>*/}
+              <Radio.Button value="Collection">数据采集</Radio.Button>
               {/*<Option value="Command_and_Control">命令控制</Option>*/}
             </Radio.Group>
             <Table
