@@ -1821,6 +1821,7 @@ const RealTimeModuleResult = () => {
       >
         <BackTop
           style={{
+            top: 'calc(90vh - 48px)',
             right: 'calc(41vw + 32px)',
           }}
           target={() => document.getElementById('moduleresultlist')}
@@ -2050,6 +2051,7 @@ const RealTimeNotices = () => {
       >
         <BackTop
           style={{
+            top: 'calc(90vh - 48px)',
             right: 24,
           }}
           target={() => document.getElementById('noticescard')}
