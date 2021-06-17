@@ -367,6 +367,7 @@ const CreateHandlerModalContent = props => {
     },
   ];
   const StageEncoder = ['x86/shikata_ga_nai', 'x86/xor_dynamic', 'x64/xor', 'x64/xor_dynamic'];
+
   const [selectPayload, setStateSelectPayload] = useState(null);
   const [showLhost, setShowLhost] = useState(false);
   const [showRhost, setShowRhost] = useState(false);
@@ -420,7 +421,7 @@ const CreateHandlerModalContent = props => {
     if (selectPayload === null || selectPayload === undefined) {
       return null;
     }
-
+    //添加警告信息
     if (selectPayload.endsWith('reverse_http') || selectPayload.endsWith('reverse_winhttp')) {
       options.push(
         <Row style={{ marginBottom: 16 }}>
@@ -446,6 +447,24 @@ const CreateHandlerModalContent = props => {
             />
           </Col>
         </Row>,
+      );
+    }
+
+    //添加配置信息
+    if (selectPayload.includes('reverse_http') || selectPayload.includes('reverse_winhttp')) {
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label={
+            <Tooltip title="The HTTP Path">
+              <span>LURI</span>
+            </Tooltip>
+          }
+          initialValue={rString}
+          name="LURI"
+        >
+          <Input placeholder="请输入自定义的URI"/>
+        </FormNew.Item>,
       );
     }
 
@@ -485,21 +504,6 @@ const CreateHandlerModalContent = props => {
     }
 
     if (selectPayload.includes('reverse_http') || selectPayload.includes('reverse_winhttp')) {
-      options.push(
-        <FormNew.Item
-          {...formLayout}
-          label={
-            <Tooltip title="The HTTP Path">
-              <span>LURI</span>
-            </Tooltip>
-          }
-          initialValue={rString}
-          name="LURI"
-        >
-          <Input placeholder="请输入自定义的URI"/>
-        </FormNew.Item>,
-      );
-
       options.push(
         <FormNew.Item
           {...formLayout}
@@ -560,20 +564,7 @@ const CreateHandlerModalContent = props => {
           <Checkbox/>
         </FormNew.Item>,
       );
-      options.push(
-        <FormNew.Item
-          {...formLayout}
-          label={
-            <Tooltip title="An optional value to use for the Host HTTP header">
-              <span>HttpHostHeader</span>
-            </Tooltip>
-          }
-          name="HttpHostHeader"
-          rules={[]}
-        >
-          <Input placeholder=""/>
-        </FormNew.Item>,
-      );
+
       options.push(
         <FormNew.Item
           {...formLayout}
@@ -619,6 +610,111 @@ const CreateHandlerModalContent = props => {
           rules={[]}
         >
           <InputNumber style={{ width: 160 }}/>
+        </FormNew.Item>,
+      );
+
+
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label={
+            <Tooltip title="An optional value to use for the Cookie HTTP header">
+              <span>HttpCookie</span>
+            </Tooltip>
+          }
+          name="HttpCookie"
+          rules={[]}
+        >
+          <Input placeholder=""/>
+        </FormNew.Item>,
+      );
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label={
+            <Tooltip title="An optional value to use for the Host HTTP header">
+              <span>HttpHostHeader</span>
+            </Tooltip>
+          }
+          name="HttpHostHeader"
+          rules={[]}
+        >
+          <Input placeholder=""/>
+        </FormNew.Item>,
+      );
+
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label={
+            <Tooltip title="The type of HTTP proxy (Accepted: HTTP, SOCKS)">
+              <span>HttpProxyType</span>
+            </Tooltip>
+          }
+          name="HttpProxyType"
+          rules={[]}
+        >
+          <Select placeholder="请选择协议">
+            <Option value="HTTP">HTTP</Option>
+            <Option value="SOCKS">SOCKS</Option>
+          </Select>
+        </FormNew.Item>,
+      );
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label={
+            <Tooltip title="An optional proxy server IP address or hostname">
+              <span>HttpProxyHost</span>
+            </Tooltip>
+          }
+          name="HttpProxyHost"
+          rules={[]}
+        >
+          <Input placeholder=""/>
+        </FormNew.Item>,
+      );
+
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label={
+            <Tooltip title="An optional proxy server port">
+              <span>HttpProxyPort</span>
+            </Tooltip>
+          }
+          name="HttpProxyPort"
+          rules={[]}
+        >
+          <InputNumber style={{ width: 160 }}/>
+        </FormNew.Item>,
+      );
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label={
+            <Tooltip title="An optional proxy server username Max parameter length: 63 characters">
+              <span>HttpProxyUser</span>
+            </Tooltip>
+          }
+          name="HttpProxyUser"
+          rules={[]}
+        >
+          <Input placeholder=""/>
+        </FormNew.Item>,
+      );
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label={
+            <Tooltip title="An optional proxy server password Max parameter length: 63 characters">
+              <span>HttpProxyPass</span>
+            </Tooltip>
+          }
+          name="HttpProxyPass"
+          rules={[]}
+        >
+          <Input placeholder=""/>
         </FormNew.Item>,
       );
     }
@@ -1355,6 +1451,25 @@ const CreatePayloadModalContent = props => {
       );
     }
 
+
+    //添加配置信息
+    if (selectPayload.includes('reverse_http') || selectPayload.includes('reverse_winhttp')) {
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label={
+            <Tooltip title="The HTTP Path">
+              <span>LURI</span>
+            </Tooltip>
+          }
+          initialValue={rString}
+          name="LURI"
+        >
+          <Input placeholder="请输入自定义的URI"/>
+        </FormNew.Item>,
+      );
+    }
+
     if (selectPayload.includes('reverse_https') || selectPayload.includes('reverse_winhttps')) {
       options.push(
         <FormNew.Item
@@ -1391,20 +1506,6 @@ const CreatePayloadModalContent = props => {
     }
 
     if (selectPayload.includes('reverse_http') || selectPayload.includes('reverse_winhttp')) {
-      options.push(
-        <FormNew.Item
-          {...formLayout}
-          label={
-            <Tooltip title="The HTTP Path">
-              <span>LURI</span>
-            </Tooltip>
-          }
-          initialValue={rString}
-          name="LURI"
-        >
-          <Input placeholder="请输入自定义的URI"/>
-        </FormNew.Item>,
-      );
 
       options.push(
         <FormNew.Item
@@ -1466,20 +1567,7 @@ const CreatePayloadModalContent = props => {
           <Checkbox/>
         </FormNew.Item>,
       );
-      options.push(
-        <FormNew.Item
-          {...formLayout}
-          label={
-            <Tooltip title="An optional value to use for the Host HTTP header">
-              <span>HttpHostHeader</span>
-            </Tooltip>
-          }
-          name="HttpHostHeader"
-          rules={[]}
-        >
-          <Input placeholder=""/>
-        </FormNew.Item>,
-      );
+
       options.push(
         <FormNew.Item
           {...formLayout}
@@ -1527,6 +1615,111 @@ const CreatePayloadModalContent = props => {
           <InputNumber style={{ width: 160 }}/>
         </FormNew.Item>,
       );
+
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label={
+            <Tooltip title="An optional value to use for the Cookie HTTP header">
+              <span>HttpCookie</span>
+            </Tooltip>
+          }
+          name="HttpCookie"
+          rules={[]}
+        >
+          <Input placeholder=""/>
+        </FormNew.Item>,
+      );
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label={
+            <Tooltip title="An optional value to use for the Host HTTP header">
+              <span>HttpHostHeader</span>
+            </Tooltip>
+          }
+          name="HttpHostHeader"
+          rules={[]}
+        >
+          <Input placeholder=""/>
+        </FormNew.Item>,
+      );
+
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label={
+            <Tooltip title="The type of HTTP proxy (Accepted: HTTP, SOCKS)">
+              <span>HttpProxyType</span>
+            </Tooltip>
+          }
+          name="HttpProxyType"
+          rules={[]}
+        >
+          <Select placeholder="请选择协议">
+            <Option value="HTTP">HTTP</Option>
+            <Option value="SOCKS">SOCKS</Option>
+          </Select>
+        </FormNew.Item>,
+      );
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label={
+            <Tooltip title="An optional proxy server IP address or hostname">
+              <span>HttpProxyHost</span>
+            </Tooltip>
+          }
+          name="HttpProxyHost"
+          rules={[]}
+        >
+          <Input placeholder=""/>
+        </FormNew.Item>,
+      );
+
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label={
+            <Tooltip title="An optional proxy server port">
+              <span>HttpProxyPort</span>
+            </Tooltip>
+          }
+          name="HttpProxyPort"
+          rules={[]}
+        >
+          <InputNumber style={{ width: 160 }}/>
+        </FormNew.Item>,
+      );
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label={
+            <Tooltip title="An optional proxy server username Max parameter length: 63 characters">
+              <span>HttpProxyUser</span>
+            </Tooltip>
+          }
+          name="HttpProxyUser"
+          rules={[]}
+        >
+          <Input placeholder=""/>
+        </FormNew.Item>,
+      );
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label={
+            <Tooltip title="An optional proxy server password Max parameter length: 63 characters">
+              <span>HttpProxyPass</span>
+            </Tooltip>
+          }
+          name="HttpProxyPass"
+          rules={[]}
+        >
+          <Input placeholder=""/>
+        </FormNew.Item>,
+      );
+
     }
 
     if (selectPayload.includes('rc4')) {
