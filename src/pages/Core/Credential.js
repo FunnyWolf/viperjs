@@ -1,5 +1,4 @@
 import React, { Fragment, memo, useState } from 'react';
-import '@ant-design/compatible/assets/index.css';
 import { ChromeOutlined, MehOutlined, PlusOutlined, SyncOutlined, WindowsOutlined } from '@ant-design/icons';
 import { Button, Col, Collapse, Form, Input, Modal, Popover, Radio, Row, Space, Table, Tooltip } from 'antd';
 import Ellipsis from '@/components/Ellipsis';

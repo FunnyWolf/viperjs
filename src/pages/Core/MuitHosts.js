@@ -2,7 +2,7 @@ import React, { Fragment, memo, useState } from 'react';
 import copy from 'copy-to-clipboard';
 import { formatMessage, useRequest } from 'umi';
 import moment from 'moment';
-import '@ant-design/compatible/assets/index.css';
+
 import { Avatar, Button, Col, Form, Input, message, Modal, Radio, Row, Space, Table, Tag } from 'antd';
 import {
   BugOutlined,

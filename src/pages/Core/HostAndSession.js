@@ -43,7 +43,7 @@ import {
   putMsgrpcSessionioAPI,
   putMsgrpcTransportAPI,
 } from '@/services/apiv1';
-import '@ant-design/compatible/assets/index.css';
+
 import {
   ArrowRightOutlined,
   ArrowUpOutlined,

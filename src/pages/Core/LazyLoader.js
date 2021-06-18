@@ -1,5 +1,5 @@
 import React, { Fragment, memo, useState } from 'react';
-import '@ant-design/compatible/assets/index.css';
+
 import { DownloadOutlined, SyncOutlined } from '@ant-design/icons';
 import { useRequest } from 'umi';
 import {

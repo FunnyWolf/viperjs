@@ -6,7 +6,7 @@ import {
   putPostmodulePostModuleConfigAPI,
 } from '@/services/apiv1';
 import { history, useModel, useRequest } from 'umi';
-import '@ant-design/compatible/assets/index.css';
+
 import { setToken } from '@/utils/authority';
 import {
   Badge,
@@ -36,15 +36,15 @@ import {
   SyncOutlined,
 } from '@ant-design/icons';
 import { useLocalStorageState } from 'ahooks';
-import styles from '@/components/GlobalHeader/index.less';
+
 import { reloadAuthorized } from '@/utils/Authorized';
 
 const { Option } = Select;
 const { TabPane } = Tabs;
 const { Title, Paragraph, Text } = Typography;
 
-const viper_version = 'v1.3.11';
-const viper_update_date = '2021-06-13';
+const viper_version = 'v1.3.12';
+const viper_update_date = '2021-06-20';
 const datas = [
   {
     name: 'metasploit-framework',
@@ -331,12 +331,12 @@ const SystemInfo = () => {
             <a
               target="_blank"
               href="https://github.com/FunnyWolf/Viper/releases"
-              className={styles.action}>
+            >
               Github Releases
             </a>
           </Descriptions.Item>
           <Descriptions.Item label="官方文档">
-            <a target="_blank" href="https://www.yuque.com/vipersec" className={styles.action}>
+            <a target="_blank" href="https://www.yuque.com/vipersec">
               语雀文档
             </a>
           </Descriptions.Item>
@@ -354,7 +354,7 @@ const SystemInfo = () => {
               />}
                      placement="left"
                      trigger="click">
-              <a className={styles.action}>
+              <a>
                 软件列表
               </a>
             </Popover>

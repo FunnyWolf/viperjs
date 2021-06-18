@@ -1,5 +1,5 @@
 import React, { Fragment, memo, useState } from 'react';
-import '@ant-design/compatible/assets/index.css';
+
 import { PlusOutlined, SyncOutlined } from '@ant-design/icons';
 
 import {

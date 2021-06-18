@@ -8,7 +8,7 @@ import {
 } from '@/services/apiv1';
 // import { useControllableValue, useBoolean, useMount } from '@umijs/hooks';
 import styles from './PayloadAndHandler.less';
-import '@ant-design/compatible/assets/index.css';
+
 import {
   Alert,
   Avatar,

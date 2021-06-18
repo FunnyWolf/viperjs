@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { useModel } from 'umi';
-import '@ant-design/compatible/assets/index.css';
+
 
 import styles from './Network.less';
 import Graphin, { Behaviors, Utils } from '@antv/graphin';

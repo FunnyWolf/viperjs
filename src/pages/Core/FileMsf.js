@@ -2,7 +2,7 @@ import React, { Fragment, memo, useImperativeHandle, useState } from 'react';
 import moment from 'moment';
 import { formatMessage, useRequest } from 'umi';
 import { deleteMsgrpcFileMsfAPI, getMsgrpcFileMsfAPI, postPostmodulePostModuleActuatorAPI } from '@/services/apiv1';
-import '@ant-design/compatible/assets/index.css';
+
 import { Button, Card, Col, message, Modal, Row, Space, Table, Tag, Upload } from 'antd';
 import { CopyOutlined, SyncOutlined, UploadOutlined } from '@ant-design/icons';
 import copy from 'copy-to-clipboard';

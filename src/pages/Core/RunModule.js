@@ -1,6 +1,6 @@
 import React, { Fragment, memo, useState } from 'react';
 import { useModel, useRequest } from 'umi';
-import '@ant-design/compatible/assets/index.css';
+
 import {
   CaretRightOutlined,
   FormOutlined,
