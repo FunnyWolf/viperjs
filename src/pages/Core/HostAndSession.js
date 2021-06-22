@@ -444,28 +444,28 @@ const HostAndSessionCard = () => {
     };
 
     return (
-      <Menu style={{ width: 96 }} onClick={onClick}>
+      <Menu style={{ width: 100 }} onClick={onClick}>
         <Menu.Item key="SessionInfo">
-          <ContactsOutlined/> 权限信息
+          <Space><ContactsOutlined/><span>权限信息</span></Space>
         </Menu.Item>
         <Menu.Item key="FileSession">
-          <DesktopOutlined/> 文件管理
+          <Space><DesktopOutlined/><span>文件管理</span></Space>
         </Menu.Item>
         <Menu.Item key="Route">
-          <PartitionOutlined/> 内网路由
+          <Space><PartitionOutlined/><span>内网路由</span></Space>
         </Menu.Item>
         <Menu.Item key="PortFwd">
-          <SwapOutlined/> 端口转发
+          <Space><SwapOutlined/><span>端口转发</span></Space>
         </Menu.Item>
         <Menu.Item key="Transport">
-          <NodeIndexOutlined/> 传输协议
+          <Space><NodeIndexOutlined/><span>传输协议</span></Space>
         </Menu.Item>
         <Menu.Item key="SessionIO">
-          <CodeOutlined/> 命令终端
+          <Space><CodeOutlined/><span>命令终端</span></Space>
         </Menu.Item>
-        <Menu.Item key="DestorySession">
-          <CloseCircleOutlined style={{ color: 'red' }}/>
-          <span style={{ color: 'red' }}> 删除权限</span>
+        <Menu.Item danger key="DestorySession">
+          <Space><CloseCircleOutlined style={{ color: 'red' }}/>
+            <span>删除权限</span></Space>
         </Menu.Item>
       </Menu>
     );
@@ -498,22 +498,22 @@ const HostAndSessionCard = () => {
     };
 
     return (
-      <Menu style={{ width: 96 }} onClick={onClick}>
+      <Menu style={{ width: 100 }} onClick={onClick}>
         <Menu.Item key="HostInfo">
-          <ProfileOutlined/> 主机信息
+          <Space><ProfileOutlined/><span>主机信息</span></Space>
         </Menu.Item>
         <Menu.Item key="HostRuningInfo">
-          <DashboardOutlined/> 运行信息
+          <Space><DashboardOutlined/><span>运行信息</span></Space>
         </Menu.Item>
         <Menu.Item key="PortService">
-          <InteractionOutlined/> 开放端口
+          <Space><InteractionOutlined/><span>开放端口</span></Space>
         </Menu.Item>
         <Menu.Item key="Vulnerability">
-          <BugOutlined/> 已知漏洞
+          <Space><BugOutlined/><span>已知漏洞</span></Space>
         </Menu.Item>
-        <Menu.Item key="DestoryHost">
-          <DeleteOutlined style={{ color: 'red' }}/>
-          <span style={{ color: 'red' }}> 删除主机</span>
+        <Menu.Item danger key="DestoryHost">
+          <Space><DeleteOutlined style={{ color: 'red' }}/>
+            <span>删除主机</span></Space>
         </Menu.Item>
       </Menu>
     );
