@@ -37,11 +37,13 @@ const { TextArea } = Input;
 const migrateProcess = ['explorer.exe', 'notepad.exe', 'svchost.exe'];
 
 const initialAutoRunScript = ['post/windows/manage/migrate NAME=explorer.exe SPAWN=false'];
-const randomString = (length, chars) => {
+const randomString = (length) => {
   let result = '';
+  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
   for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
   return result;
 };
+
 const CreateHandlerModalContent = props => {
   const { createHandlerFinish } = props;
   const formLayout = {
@@ -97,6 +99,10 @@ const CreateHandlerModalContent = props => {
                   value: 'reverse_winhttps',
                   label: 'reverse_winhttps',
                 },
+                {
+                  value: 'reverse_dns',
+                  label: 'reverse_dns',
+                },
               ],
             },
             {
@@ -114,6 +120,10 @@ const CreateHandlerModalContent = props => {
             {
               value: 'meterpreter_reverse_tcp',
               label: 'meterpreter_reverse_tcp',
+            },
+            {
+              value: 'meterpreter_reverse_dns',
+              label: 'meterpreter_reverse_dns',
             },
           ],
         },
@@ -158,6 +168,10 @@ const CreateHandlerModalContent = props => {
               value: 'reverse_winhttps',
               label: 'reverse_winhttps',
             },
+            {
+              value: 'reverse_dns',
+              label: 'reverse_dns',
+            },
           ],
         },
         {
@@ -175,6 +189,10 @@ const CreateHandlerModalContent = props => {
         {
           value: 'meterpreter_reverse_tcp',
           label: 'meterpreter_reverse_tcp',
+        },
+        {
+          value: 'meterpreter_reverse_dns',
+          label: 'meterpreter_reverse_dns',
         },
       ],
     },
@@ -369,8 +387,6 @@ const CreateHandlerModalContent = props => {
   const StageEncoder = ['x86/shikata_ga_nai', 'x86/xor_dynamic', 'x64/xor', 'x64/xor_dynamic'];
 
   const [selectPayload, setStateSelectPayload] = useState(null);
-  const [showLhost, setShowLhost] = useState(false);
-  const [showRhost, setShowRhost] = useState(false);
   const [pem_files, setPemfiles] = useState([]);
   const [lhost, setLhost] = useState(null);
 
@@ -405,17 +421,109 @@ const CreateHandlerModalContent = props => {
   const changePayloadOption = (value, selectedOptions) => {
     const payload = value.join('/');
     setStateSelectPayload(payload);
-    if (payload.includes('reverse')) {
-      setShowLhost(true);
-      setShowRhost(false);
-    } else {
-      setShowLhost(false);
-      setShowRhost(true);
-    }
   };
 
-  let rString = randomString(8, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
 
+  const handlerPayloadBaseOption = () => {
+    let options = [];
+    if (selectPayload === null || selectPayload === undefined) {
+      return null;
+    }
+    if (selectPayload.includes('reverse')) {
+      if (selectPayload.includes('reverse_dns')) {
+        options.push(
+          <FormNew.Item
+            {...formLayout}
+            label="RHOST"
+            name="RHOST"
+            initialValue="127.0.0.1"
+            style={{ display: 'None' }}
+          ><Fragment/>
+          </FormNew.Item>,
+        );
+        options.push(
+          <FormNew.Item
+            {...formLayout}
+            label="LPORT"
+            name="LPORT"
+            initialValue={60006}
+            style={{ display: 'None' }}
+          >
+            <Fragment/>
+          </FormNew.Item>,
+        );
+      } else {
+        options.push(
+          <FormNew.Item
+            {...formLayout}
+            label="LHOST"
+            name="LHOST"
+            initialValue={lhost}
+            rules={[
+              {
+                required: true,
+                message: '请输入反向连接的IP地址',
+              },
+            ]}
+          >
+            <Input placeholder="请输入反向连接的IP地址"/>
+          </FormNew.Item>,
+        );
+        options.push(
+          <FormNew.Item
+            {...formLayout}
+            label="LPORT"
+            name="LPORT"
+            rules={[
+              {
+                required: true,
+                message: '请输入端口',
+              },
+            ]}
+          >
+            <InputNumber style={{ width: 160 }}/>
+          </FormNew.Item>,
+        );
+      }
+
+    } else {
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label="RHOST"
+          name="RHOST"
+          rules={[
+            {
+              required: true,
+              message: '请输入正向连接的IP地址',
+            },
+          ]}
+        >
+          <Input placeholder="请输入正向连接的IP地址"/>
+        </FormNew.Item>,
+      );
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label="LPORT"
+          name="LPORT"
+          rules={[
+            {
+              required: true,
+              message: '请输入端口',
+            },
+          ]}
+        >
+          <InputNumber style={{ width: 160 }}/>
+        </FormNew.Item>,
+      );
+    }
+    if (options.length === 0) {
+      return null;
+    } else {
+      return options;
+    }
+  };
   const handlerPayloadSpecialOption = () => {
     let options = [];
     if (selectPayload === null || selectPayload === undefined) {
@@ -460,7 +568,7 @@ const CreateHandlerModalContent = props => {
               <span>LURI</span>
             </Tooltip>
           }
-          initialValue={rString}
+          initialValue={randomString(8)}
           name="LURI"
         >
           <Input placeholder="请输入自定义的URI"/>
@@ -728,7 +836,7 @@ const CreateHandlerModalContent = props => {
               <span>RC4密码</span>
             </Tooltip>
           }
-          initialValue={rString}
+          initialValue={randomString(8)}
           name="RC4PASSWORD"
           rules={[
             {
@@ -746,7 +854,69 @@ const CreateHandlerModalContent = props => {
         </FormNew.Item>,
       );
     }
-
+    if (selectPayload.includes('reverse_dns')) {
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label={
+            <Tooltip title="DOMAIN参数,例如手工指定 aaa.com 的ns服务器为 ns1.bbb.com ns2.bbb.com,则这里输入aaa.com">
+              <span>DOMAIN</span>
+            </Tooltip>
+          }
+          name="DOMAIN"
+          rules={[
+            {
+              required: true,
+              message: '请输入DOMAIN',
+            },
+          ]}
+        >
+          <Input placeholder="请输入DOMAIN (鼠标到DOMAIN标签显示帮助)"/>
+        </FormNew.Item>,
+      );
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label={
+            <Tooltip title="DNS数据传输方式,DNSKEY速度快,IPv6适配性强">
+              <span>REQ_TYPE</span>
+            </Tooltip>
+          }
+          name="REQ_TYPE"
+          initialValue="DNSKEY"
+          rules={[
+            {
+              required: true,
+              message: '请选择REQ_TYPE',
+            },
+          ]}>
+          <Select style={{ width: 200 }}>
+            <Option value="DNSKEY">DNSKEY (速度快)</Option>
+            <Option value="IPv6">IPv6 (适配性强)</Option>
+          </Select>
+        </FormNew.Item>,
+      );
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label={
+            <Tooltip title="Viper会根据不同的SERVER_ID生成不同的子域名">
+              <span>SERVER_ID</span>
+            </Tooltip>
+          }
+          initialValue={randomString(8)}
+          name="SERVER_ID"
+          rules={[
+            {
+              required: true,
+              message: '请输入SERVER_ID,建议在6位以上',
+            },
+          ]}
+        >
+          <Input placeholder="请输入SERVER_ID"/>
+        </FormNew.Item>,
+      );
+    }
     if (options.length === 0) {
       return null;
     } else {
@@ -779,50 +949,7 @@ const CreateHandlerModalContent = props => {
               placeholder="请选择有效载荷"
             />
           </FormNew.Item>
-          {showRhost ? (
-            <FormNew.Item
-              {...formLayout}
-              label="RHOST"
-              name="RHOST"
-              rules={[
-                {
-                  required: true,
-                  message: '请输入正向连接的IP地址',
-                },
-              ]}
-            >
-              <Input placeholder="请输入正向连接的IP地址"/>
-            </FormNew.Item>
-          ) : null}
-          {showLhost ? (
-            <FormNew.Item
-              {...formLayout}
-              label="LHOST"
-              name="LHOST"
-              initialValue={lhost}
-              rules={[
-                {
-                  required: true,
-                  message: '请输入反向连接的IP地址',
-                },
-              ]}
-            >
-              <Input placeholder="请输入反向连接的IP地址"/>
-            </FormNew.Item>
-          ) : null}
-          <FormNew.Item
-            {...formLayout}
-            label="LPORT"
-            name="LPORT"
-            rules={[
-              {
-                required: true,
-                message: '请输入端口',
-              },
-            ]}
-          >
-            <InputNumber style={{ width: 160 }}/>
-          </FormNew.Item>
+          {handlerPayloadBaseOption()}
           <FormNew.Item {...formLayout} label="别名" name="HandlerName" rules={[]}>
             <Input placeholder="自定义监听名称"/>
           </FormNew.Item>
@@ -842,6 +969,7 @@ const CreateHandlerModalContent = props => {
           >
             <Checkbox/>
           </FormNew.Item>
+
         </Panel>
         {handlerPayloadSpecialOption()}
         <Panel header="自动化" key="auto">
@@ -1025,8 +1153,6 @@ const CreatePayloadModalContent = props => {
   const { createPayloadFinish } = props;
 
   const [selectPayload, setStateSelectPayload] = useState(null);
-  const [showLhost, setShowLhost] = useState(false);
-  const [showRhost, setShowRhost] = useState(false);
   const [pem_files, setPemfiles] = useState([]);
   const [lhost, setLhost] = useState(null);
 
@@ -1083,6 +1209,10 @@ const CreatePayloadModalContent = props => {
                   value: 'reverse_winhttps',
                   label: 'reverse_winhttps',
                 },
+                {
+                  value: 'reverse_dns',
+                  label: 'reverse_dns',
+                },
               ],
             },
             {
@@ -1100,6 +1230,10 @@ const CreatePayloadModalContent = props => {
             {
               value: 'meterpreter_reverse_tcp',
               label: 'meterpreter_reverse_tcp',
+            },
+            {
+              value: 'meterpreter_reverse_dns',
+              label: 'meterpreter_reverse_dns',
             },
           ],
         },
@@ -1123,10 +1257,6 @@ const CreatePayloadModalContent = props => {
               value: 'reverse_https',
               label: 'reverse_https',
             },
-            // {
-            //   value: 'reverse_https_proxy',
-            //   label: 'reverse_https_proxy',
-            // },
             {
               value: 'reverse_tcp',
               label: 'reverse_tcp',
@@ -1143,6 +1273,10 @@ const CreatePayloadModalContent = props => {
             {
               value: 'reverse_winhttps',
               label: 'reverse_winhttps',
+            },
+            {
+              value: 'reverse_dns',
+              label: 'reverse_dns',
             },
           ],
         },
@@ -1161,6 +1295,10 @@ const CreatePayloadModalContent = props => {
         {
           value: 'meterpreter_reverse_tcp',
           label: 'meterpreter_reverse_tcp',
+        },
+        {
+          value: 'meterpreter_reverse_dns',
+          label: 'meterpreter_reverse_dns',
         },
       ],
     },
@@ -1343,13 +1481,6 @@ const CreatePayloadModalContent = props => {
   const changePayloadOption = (value, selectedOptions) => {
     const payload = value.join('/');
     setStateSelectPayload(payload);
-    if (payload.includes('reverse')) {
-      setShowLhost(true);
-      setShowRhost(false);
-    } else {
-      setShowLhost(false);
-      setShowRhost(true);
-    }
   };
 
   const payloadFormatOption = () => {
@@ -1428,8 +1559,105 @@ const CreatePayloadModalContent = props => {
     );
   };
 
+
+  const payloadBaseOption = () => {
+    let options = [];
+    if (selectPayload === null || selectPayload === undefined) {
+      return null;
+    }
+    if (selectPayload.includes('reverse')) {
+      if (selectPayload.includes('reverse_dns')) {
+        options.push(
+          <FormNew.Item
+            {...formLayout}
+            label="RHOST"
+            name="RHOST"
+            initialValue="127.0.0.1"
+            style={{ display: 'None' }}
+          ><Fragment/>
+          </FormNew.Item>,
+        );
+        options.push(
+          <FormNew.Item
+            {...formLayout}
+            label="LPORT"
+            name="LPORT"
+            initialValue={60006}
+            style={{ display: 'None' }}
+          >
+            <Fragment/>
+          </FormNew.Item>,
+        );
+      } else {
+        options.push(
+          <FormNew.Item
+            {...formLayout}
+            label="LHOST"
+            name="LHOST"
+            initialValue={lhost}
+            rules={[
+              {
+                required: true,
+                message: '请输入反向连接的IP地址',
+              },
+            ]}
+          >
+            <Input placeholder="请输入反向连接的IP地址"/>
+          </FormNew.Item>,
+        );
+        options.push(
+          <FormNew.Item
+            {...formLayout}
+            label="LPORT"
+            name="LPORT"
+            rules={[
+              {
+                required: true,
+                message: '请输入端口',
+              },
+            ]}
+          >
+            <InputNumber style={{ width: 160 }}/>
+          </FormNew.Item>,
+        );
+      }
+
+    } else {
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label="RHOST"
+          name="RHOST"
+          initialValue="0.0.0.0"
+        >
+          <Input placeholder="请输入正向连接的IP地址"/>
+        </FormNew.Item>,
+      );
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label="LPORT"
+          name="LPORT"
+          rules={[
+            {
+              required: true,
+              message: '请输入端口',
+            },
+          ]}
+        >
+          <InputNumber style={{ width: 160 }}/>
+        </FormNew.Item>,
+      );
+    }
+    if (options.length === 0) {
+      return null;
+    } else {
+      return options;
+    }
+  };
+
+
   const payloadSpecialOption = () => {
-    let rString = randomString(8, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
 
     let options = [];
 
@@ -1451,7 +1679,6 @@ const CreatePayloadModalContent = props => {
       );
     }
 
-
     //添加配置信息
     if (selectPayload.includes('reverse_http') || selectPayload.includes('reverse_winhttp')) {
       options.push(
@@ -1462,7 +1689,7 @@ const CreatePayloadModalContent = props => {
               <span>LURI</span>
             </Tooltip>
           }
-          initialValue={rString}
+          initialValue={randomString(8)}
           name="LURI"
         >
           <Input placeholder="请输入自定义的URI"/>
@@ -1731,7 +1958,7 @@ const CreatePayloadModalContent = props => {
               <span>RC4密码</span>
             </Tooltip>
           }
-          initialValue={rString}
+          initialValue={randomString(8)}
           name="RC4PASSWORD"
           rules={[
             {
@@ -1746,6 +1973,70 @@ const CreatePayloadModalContent = props => {
       options.push(
         <FormNew.Item {...formLayout} label="说明">
           <span>RC4初始生成Session时较慢,请耐心等待,Session生成后速度不受影响.</span>
+        </FormNew.Item>,
+      );
+    }
+
+    if (selectPayload.includes('reverse_dns')) {
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label={
+            <Tooltip title="DOMAIN参数,例如手工指定 aaa.com 的ns服务器为 ns1.bbb.com ns2.bbb.com,则这里输入aaa.com">
+              <span>DOMAIN</span>
+            </Tooltip>
+          }
+          name="DOMAIN"
+          rules={[
+            {
+              required: true,
+              message: '请输入DOMAIN',
+            },
+          ]}
+        >
+          <Input placeholder="请输入DOMAIN (鼠标到DOMAIN标签显示帮助)"/>
+        </FormNew.Item>,
+      );
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label={
+            <Tooltip title="DNS数据传输方式,DNSKEY速度快,IPv6适配性强">
+              <span>REQ_TYPE</span>
+            </Tooltip>
+          }
+          name="REQ_TYPE"
+          initialValue="DNSKEY"
+          rules={[
+            {
+              required: true,
+              message: '请选择REQ_TYPE',
+            },
+          ]}>
+          <Select style={{ width: 200 }}>
+            <Option value="DNSKEY">DNSKEY (速度快)</Option>
+            <Option value="IPv6">IPv6 (适配性强)</Option>
+          </Select>
+        </FormNew.Item>,
+      );
+      options.push(
+        <FormNew.Item
+          {...formLayout}
+          label={
+            <Tooltip title="Viper会根据不同的SERVER_ID生成不同的子域名">
+              <span>SERVER_ID</span>
+            </Tooltip>
+          }
+          initialValue={randomString(8)}
+          name="SERVER_ID"
+          rules={[
+            {
+              required: true,
+              message: '请输入SERVER_ID,建议在6位以上',
+            },
+          ]}
+        >
+          <Input placeholder="请输入SERVER_ID"/>
         </FormNew.Item>,
       );
     }
@@ -1824,45 +2115,7 @@ const CreatePayloadModalContent = props => {
               placeholder="请选择有效载荷"
             />
           </FormNew.Item>
-          {showRhost ? (
-            <FormNew.Item
-              {...formLayout}
-              label="RHOST"
-              name="RHOST"
-              initialValue="0.0.0.0"
-            >
-              <Input placeholder="请输入正向连接的IP地址"/>
-            </FormNew.Item>
-          ) : null}
-          {showLhost ? (
-            <FormNew.Item
-              {...formLayout}
-              label="LHOST"
-              name="LHOST"
-              initialValue={lhost}
-              rules={[
-                {
-                  required: true,
-                  message: '请输入反向连接的IP地址',
-                },
-              ]}
-            >
-              <Input placeholder="请输入反向连接的IP地址"/>
-            </FormNew.Item>
-          ) : null}
-          <FormNew.Item
-            {...formLayout}
-            label="LPORT"
-            name="LPORT"
-            rules={[
-              {
-                required: true,
-                message: '请输入端口',
-              },
-            ]}
-          >
-            <InputNumber style={{ width: 160 }}/>
-          </FormNew.Item>
+          {payloadBaseOption()}
           {payloadFormatOption()}
         </Panel>
         {payloadSpecialOption()}
@@ -2216,6 +2469,18 @@ const PayloadAndHandler = (props) => {
               if (record.proxies !== undefined && record.proxies !== null) {
                 items.push(<span>{` 代理: ${record.proxies}`}</span>);
               }
+
+              if (record.DOMAIN !== undefined && record.DOMAIN !== null) {
+                items.push(<span>{` DOMAIN: ${record.DOMAIN}`}</span>);
+              }
+              if (record.REQ_TYPE !== undefined && record.REQ_TYPE !== null) {
+                items.push(<span>{` REQ_TYPE: ${record.REQ_TYPE}`}</span>);
+              }
+              if (record.SERVER_ID !== undefined && record.SERVER_ID !== null) {
+                items.push(<span>{` SERVER_ID: ${record.SERVER_ID}`}</span>);
+              }
+
+
               return <Space style={{ display: 'flex' }}>{items}</Space>;
             },
           },
