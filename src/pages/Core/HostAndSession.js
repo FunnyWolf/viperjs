@@ -1,4 +1,4 @@
-import React, { Fragment, memo, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, { Fragment, memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useModel, useRequest } from 'umi';
 import { useControllableValue, useInterval, useLocalStorageState } from 'ahooks';
 import {
@@ -128,15 +128,14 @@ import {
   Tooltip,
   Typography,
 } from 'antd';
-import { DraggableModal, DraggableModalProvider } from 'ant-design-draggable-modal';
-import 'ant-design-draggable-modal/dist/index.css';
 import copy from 'copy-to-clipboard';
 import { Terminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 import './xterm.css';
+
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import moment from 'moment';
-import { FileMsfMemo, FileMsfModal, FileMsfNewMemo } from '@/pages/Core/FileMsf';
+import { FileMsfMemo, FileMsfModal } from '@/pages/Core/FileMsf';
 import PayloadAndHandler, { PayloadAndHandlerMemo } from '@/pages/Core/PayloadAndHandler';
 import MuitHosts, { MuitHostsMemo } from '@/pages/Core/MuitHosts';
 import { host_type_to_avatar_table, MyIcon, SidTag } from '@/pages/Core/Common';
@@ -147,7 +146,7 @@ import LazyLoader, { LazyLoaderMemo } from '@/pages/Core/LazyLoader';
 import Credential, { CredentialMemo } from '@/pages/Core/Credential';
 import { getToken } from '@/utils/authority';
 import styles from './HostAndSession.less';
-import NetworkMemo, { NetworkWindowMemo } from '@/pages/Core/Network';
+import NetworkMemo from '@/pages/Core/Network';
 import ReactJson from 'react-json-view';
 import NewWindow from 'rc-new-window';
 
@@ -1054,17 +1053,7 @@ const Msfconsole = props => {
   const fitAddon = useRef(new FitAddon());
   const msfConsoleTerm = useRef(null);
   const wsmsf = useRef(null);
-
-  useImperativeHandle(props.onRef, () => {
-    return {
-      autoInit: () => {
-        try {
-        } catch (error) {
-          console.error(error);
-        }
-      },
-    };
-  });
+  const terminalRef = useRef(null);
 
   useEffect(() => {
     initMsfconsole();
@@ -1112,7 +1101,7 @@ const Msfconsole = props => {
         });
       }
 
-      msfConsoleTerm.current.open(document.getElementById('msfconsole_terminal'));
+      msfConsoleTerm.current.open(terminalRef.current);
       msfConsoleTerm.current.loadAddon(fitAddon.current);
       fitAddon.current.fit();
 
@@ -1147,36 +1136,38 @@ const Msfconsole = props => {
   };
 
   return (
-    <Card style={{ marginTop: -16 }} bodyStyle={{ padding: '0px 0px 0px 0px' }} bordered>
-      <div className={styles.msfconsolediv} id="msfconsole_terminal">
-        <Space
+    <Fragment>
+      <Space
+        style={{
+          top: 'calc(16vh + 184px)',
+          right: 8,
+          position: 'fixed',
+          zIndex: 10000,
+        }}
+        direction="vertical"
+      >
+        <Button
           style={{
-            top: 16,
-            right: 16,
-            position: 'absolute',
-            zIndex: 10000,
+            backgroundColor: 'rgba(40,40,40,0.7)',
           }}
-          direction="vertical"
-        >
-          <Button
-            style={{
-              backgroundColor: 'rgba(40,40,40,0.7)',
-            }}
-            size="large"
-            onClick={() => clearConsole()}
-            icon={<ClearOutlined/>}
-          />
-          <Button
-            style={{
-              backgroundColor: 'rgba(40,40,40,0.7)',
-            }}
-            size="large"
-            icon={<InteractionOutlined/>}
-            onClick={() => resetBackendConsole()}
-          />
-        </Space>
-      </div>
-    </Card>
+          size="large"
+          onClick={() => clearConsole()}
+          icon={<ClearOutlined/>}
+        />
+        <Button
+          style={{
+            backgroundColor: 'rgba(40,40,40,0.7)',
+          }}
+          size="large"
+          icon={<InteractionOutlined/>}
+          onClick={() => resetBackendConsole()}
+        />
+      </Space>
+      <div className={styles.msfconsolediv}
+           ref={terminalRef}
+           id="msfconsole_terminal"
+      />
+    </Fragment>
   );
 };
 
@@ -1208,36 +1199,16 @@ const TaskQueueTag = () => {
 };
 const TaskQueueTagMemo = memo(TaskQueueTag);
 
-const ModalWithButton = () => {
-  const [visible, setVisible] = useState(false);
-  const onOk = useCallback(() => setVisible(true), []);
-  const onCancel = useCallback(() => setVisible(false), []);
-  return (
-    <>
-      <Button onClick={onOk}>Open</Button>
-      <DraggableModal visible={visible} onOk={onOk} onCancel={onCancel}>
-        Body text.
-      </DraggableModal>
-    </>
-  );
-};
-
 
 const TabsBottom = () => {
   console.log('TabsBottom');
-  const [showFileMsfModel, setShowFileMsfModel] = useState(false);
   const [showNetworkWindow, setShowNetworkWindow] = useState(false);
   let payloadandhandlerRef = React.createRef();
   let filemsfRef = React.createRef();
-  let consoleRef = React.createRef();
   const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState('viper-debug-flag', false);
   const tabActiveOnChange = activeKey => {
     switch (activeKey) {
       case 'msfconsole':
-        if (consoleRef.current === null) {
-        } else {
-          consoleRef.current.autoInit();
-        }
         break;
       case 'Socks':
         break;
@@ -1267,25 +1238,22 @@ const TabsBottom = () => {
 
   return (
     <Fragment>
-      <DraggableModalProvider>
-        <DraggableModal
-          footer={null}
-          initialHeight={400}
-          visible={showFileMsfModel}
-          onCancel={() => setShowFileMsfModel(false)}>
-          <FileMsfNewMemo/>
-        </DraggableModal>
-      </DraggableModalProvider>
-
+      {/*{showNetworkWindow ? <NewWindow*/}
+      {/*  height={window.innerHeight / 10 * 8}*/}
+      {/*  width={window.innerWidth / 10 * 8}*/}
+      {/*  title="网络拓扑"*/}
+      {/*  onClose={() => setShowNetworkWindow(false)}*/}
+      {/*>*/}
+      {/*  <NetworkWindowMemo/>*/}
+      {/*</NewWindow> : null}*/}
       {showNetworkWindow ? <NewWindow
         height={window.innerHeight / 10 * 8}
         width={window.innerWidth / 10 * 8}
         title="网络拓扑"
         onClose={() => setShowNetworkWindow(false)}
       >
-        <NetworkWindowMemo/>
+        <MsfconsoleMemo/>
       </NewWindow> : null}
-
       <Space
         style={{
           // top: 'calc(124px + 16vh)',
@@ -1294,19 +1262,10 @@ const TabsBottom = () => {
           position: 'fixed',
           zIndex: 10000,
         }}
-      >{showFileMsfModel ? <Button
-        danger
-        onClick={() => setShowFileMsfModel(!showFileMsfModel)}
-        icon={<FolderOpenOutlined/>}
-      /> : <Button
-        type="primary"
-        onClick={() => setShowFileMsfModel(!showFileMsfModel)}
-        icon={<FolderOpenOutlined/>}
-      />
-      }
+      >
         {showNetworkWindow ? <Button
           danger
-          onClick={() => setShowNetworkWindow(!showFileMsfModel)}
+          onClick={() => setShowNetworkWindow(!showNetworkWindow)}
           icon={<DeploymentUnitOutlined/>}
         /> : <Button
           type="primary"
@@ -1459,7 +1418,7 @@ const TabsBottom = () => {
           key="msfconsole"
           // forceRender
         >
-          <MsfconsoleMemo onRef={consoleRef}/>
+          <MsfconsoleMemo/>
         </TabPane>
         <TabPane
           tab={
