@@ -146,9 +146,10 @@ import LazyLoader, { LazyLoaderMemo } from '@/pages/Core/LazyLoader';
 import Credential, { CredentialMemo } from '@/pages/Core/Credential';
 import { getToken } from '@/utils/authority';
 import styles from './HostAndSession.less';
-import NetworkMemo from '@/pages/Core/Network';
+import NetworkMemo, { NetworkWindowMemo } from '@/pages/Core/Network';
 import ReactJson from 'react-json-view';
 import NewWindow from 'rc-new-window';
+import MsfConsoleXTermMemo from '@/pages/Core/MsfConsoleXTerm';
 
 const { Text } = Typography;
 const { Paragraph } = Typography;
@@ -1085,7 +1086,7 @@ const Msfconsole = props => {
     wsmsf.current.onopen = () => {
       if (msfConsoleTerm.current === null) {
         msfConsoleTerm.current = new Terminal({
-          allowTransparency: true,
+          allowTransparency: false,
           useStyle: true,
           cursorBlink: true,
         });
@@ -1094,13 +1095,10 @@ const Msfconsole = props => {
           if (e.keyCode === 39 || e.keyCode === 37) {
             return false;
           }
-          if (e.keyCode === 45 || e.keyCode === 36) {
-            return false;
-          }
-          return true;
+          return !(e.keyCode === 45 || e.keyCode === 36);
+
         });
       }
-
       msfConsoleTerm.current.open(terminalRef.current);
       msfConsoleTerm.current.loadAddon(fitAddon.current);
       fitAddon.current.fit();
@@ -1163,9 +1161,9 @@ const Msfconsole = props => {
           onClick={() => resetBackendConsole()}
         />
       </Space>
-      <div className={styles.msfconsolediv}
-           ref={terminalRef}
-           id="msfconsole_terminal"
+      <div
+        className={styles.msfconsolediv}
+        ref={terminalRef}
       />
     </Fragment>
   );
@@ -1203,6 +1201,7 @@ const TaskQueueTagMemo = memo(TaskQueueTag);
 const TabsBottom = () => {
   console.log('TabsBottom');
   const [showNetworkWindow, setShowNetworkWindow] = useState(false);
+  const [showMsfconsoleWindow, setShowMsfconsoleWindow] = useState(false);
   let payloadandhandlerRef = React.createRef();
   let filemsfRef = React.createRef();
   const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState('viper-debug-flag', false);
@@ -1238,31 +1237,39 @@ const TabsBottom = () => {
 
   return (
     <Fragment>
-      {/*{showNetworkWindow ? <NewWindow*/}
-      {/*  height={window.innerHeight / 10 * 8}*/}
-      {/*  width={window.innerWidth / 10 * 8}*/}
-      {/*  title="网络拓扑"*/}
-      {/*  onClose={() => setShowNetworkWindow(false)}*/}
-      {/*>*/}
-      {/*  <NetworkWindowMemo/>*/}
-      {/*</NewWindow> : null}*/}
       {showNetworkWindow ? <NewWindow
         height={window.innerHeight / 10 * 8}
         width={window.innerWidth / 10 * 8}
         title="网络拓扑"
         onClose={() => setShowNetworkWindow(false)}
       >
-        <MsfconsoleMemo/>
+        <NetworkWindowMemo/>
+      </NewWindow> : null}
+      {showMsfconsoleWindow ? <NewWindow
+        height={window.innerHeight / 10 * 6}
+        width={window.innerWidth / 10 * 6}
+        title="网络拓扑"
+        onClose={() => setShowMsfconsoleWindow(false)}
+      >
+        <MsfConsoleXTermMemo/>
       </NewWindow> : null}
       <Space
         style={{
-          // top: 'calc(124px + 16vh)',
           top: 'calc(90vh)',
           right: 8,
           position: 'fixed',
           zIndex: 10000,
         }}
       >
+        {showMsfconsoleWindow ? <Button
+          danger
+          onClick={() => setShowMsfconsoleWindow(!showMsfconsoleWindow)}
+          icon={<CodeOutlined/>}
+        /> : <Button
+          type="primary"
+          onClick={() => setShowMsfconsoleWindow(!showMsfconsoleWindow)}
+          icon={<CodeOutlined/>}
+        />}
         {showNetworkWindow ? <Button
           danger
           onClick={() => setShowNetworkWindow(!showNetworkWindow)}

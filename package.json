@@ -75,9 +75,7 @@
     "react-virtualized": "^9.22.2",
     "react-window": "^1.8.5",
     "xterm": "^4.13.0",
-    "xterm-addon-attach": "^0.2.1",
-    "xterm-addon-fit": "^0.2.1",
-    "xterm-for-react": "^1.0.4"
+    "xterm-addon-fit": "^0.2.1"
   },
   "devDependencies": {
     "@types/react": "^16.14.8",
