@@ -50,7 +50,6 @@ import {
   BugOutlined,
   CaretRightOutlined,
   CheckOutlined,
-  ClearOutlined,
   CloseCircleOutlined,
   CloudOutlined,
   CodeOutlined,
@@ -129,8 +128,6 @@ import {
   Typography,
 } from 'antd';
 import copy from 'copy-to-clipboard';
-import { Terminal } from 'xterm';
-import { FitAddon } from 'xterm-addon-fit';
 import './xterm.css';
 
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
@@ -149,7 +146,7 @@ import styles from './HostAndSession.less';
 import NetworkMemo, { NetworkWindowMemo } from '@/pages/Core/Network';
 import ReactJson from 'react-json-view';
 import NewWindow from 'rc-new-window';
-import MsfConsoleXTermMemo from '@/pages/Core/MsfConsoleXTerm';
+import MsfConsoleXTermMemo, { MsfconsoleMemo } from '@/pages/Core/MsfConsoleXTerm';
 
 const { Text } = Typography;
 const { Paragraph } = Typography;
@@ -1049,127 +1046,6 @@ const HostAndSessionCard = () => {
   );
 };
 
-const Msfconsole = props => {
-  console.log('Msfconsole');
-  const fitAddon = useRef(new FitAddon());
-  const msfConsoleTerm = useRef(null);
-  const wsmsf = useRef(null);
-  const terminalRef = useRef(null);
-
-  useEffect(() => {
-    initMsfconsole();
-    return () => {
-      try {
-        wsmsf.current.close();
-        msfConsoleTerm.current.close();
-        msfConsoleTerm.current.dispose();
-      } catch (error) {
-      }
-    };
-  }, []);
-
-  const clearConsole = () => {
-    msfConsoleTerm.current.clear();
-  };
-  const resetBackendConsole = () => {
-    const sendMessage = { status: 0, cmd: 'reset' };
-    const sendData = JSON.stringify(sendMessage);
-    wsmsf.current.send(sendData);
-  };
-
-  const initMsfconsole = () => {
-    const urlargs = `&token=${getToken()}`;
-    const urlpatternsMsf = '/ws/v1/websocket/msfconsole/?';
-    const socketUrlMsf = protocol + webHost + urlpatternsMsf + urlargs;
-    wsmsf.current = new WebSocket(socketUrlMsf);
-
-    wsmsf.current.onopen = () => {
-      if (msfConsoleTerm.current === null) {
-        msfConsoleTerm.current = new Terminal({
-          allowTransparency: false,
-          useStyle: true,
-          cursorBlink: true,
-        });
-
-        msfConsoleTerm.current.attachCustomKeyEventHandler(e => {
-          if (e.keyCode === 39 || e.keyCode === 37) {
-            return false;
-          }
-          return !(e.keyCode === 45 || e.keyCode === 36);
-
-        });
-      }
-      msfConsoleTerm.current.open(terminalRef.current);
-      msfConsoleTerm.current.loadAddon(fitAddon.current);
-      fitAddon.current.fit();
-
-      msfConsoleTerm.current.onData(data => {
-        const sendMessage = { status: 0, data };
-        const sendData = JSON.stringify(sendMessage);
-        wsmsf.current.send(sendData);
-      });
-      msfConsoleTerm.current.onSelectionChange(e => {
-        if (msfConsoleTerm.current.hasSelection()) {
-          copy(msfConsoleTerm.current.getSelection());
-        }
-      });
-
-      const firstMessage = { status: 0, data: '\r' };
-      const firstData = JSON.stringify(firstMessage);
-      wsmsf.current.send(firstData);
-    };
-
-    wsmsf.current.onclose = CloseEvent => {
-      try {
-        msfConsoleTerm.current.close();
-        msfConsoleTerm.current.dispose();
-      } catch (error) {
-      }
-    };
-
-    wsmsf.current.onmessage = event => {
-      const recv_message = JSON.parse(event.data);
-      msfConsoleTerm.current.write(recv_message.data);
-    };
-  };
-
-  return (
-    <Fragment>
-      <Space
-        style={{
-          top: 'calc(16vh + 184px)',
-          right: 8,
-          position: 'fixed',
-          zIndex: 10000,
-        }}
-        direction="vertical"
-      >
-        <Button
-          style={{
-            backgroundColor: 'rgba(40,40,40,0.7)',
-          }}
-          size="large"
-          onClick={() => clearConsole()}
-          icon={<ClearOutlined/>}
-        />
-        <Button
-          style={{
-            backgroundColor: 'rgba(40,40,40,0.7)',
-          }}
-          size="large"
-          icon={<InteractionOutlined/>}
-          onClick={() => resetBackendConsole()}
-        />
-      </Space>
-      <div
-        className={styles.msfconsolediv}
-        ref={terminalRef}
-      />
-    </Fragment>
-  );
-};
-
-const MsfconsoleMemo = memo(Msfconsole);
 
 const TaskQueueTag = () => {
   console.log('TaskQueueTag');
@@ -1248,7 +1124,7 @@ const TabsBottom = () => {
       {showMsfconsoleWindow ? <NewWindow
         height={window.innerHeight / 10 * 6}
         width={window.innerWidth / 10 * 6}
-        title="网络拓扑"
+        title="msfconsole"
         onClose={() => setShowMsfconsoleWindow(false)}
       >
         <MsfConsoleXTermMemo/>

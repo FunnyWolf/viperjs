@@ -1,8 +1,15 @@
 @import '~antd/lib/style/themes/default.less';
 @import '../../utils/utils.less';
 
-.msfconsolediv {
+.msfconsolewindows {
   //margin-top: -16px;
   padding: 0 0 0 0;
   height: 100%;
+}
+
+.msfconsolediv {
+  margin-top: -16px;
+  padding: 0 0 0 0;
+  max-height: calc(~'@{Downheight}');
+  min-height: calc(~'@{Downheight}');
 }
