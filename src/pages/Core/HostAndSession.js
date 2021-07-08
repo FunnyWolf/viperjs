@@ -519,12 +519,12 @@ const HostAndSessionCard = () => {
     <Fragment>
       <Table
         loading={!heatbeatsocketalive}
+        dataSource={hostAndSessionList}
         className={styles.hostandsessionTable}
         rowKey="order_id"
         size="small"
         locale={{ emptyText: null }}
         pagination={false}
-        dataSource={hostAndSessionList}
         showHeader={false}
         columns={[
           {
