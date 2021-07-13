@@ -1016,7 +1016,6 @@ const HostAndSessionCard = () => {
       />
     );
   };
-
   return (
     <Fragment>
       <Table
@@ -3480,33 +3479,30 @@ const FileSession = () => {
         icon: null,
         title: result.reason,
         mask: false,
+        bodyStyle: { padding: 0 },
         style: { top: 32 },
         okText: '关闭',
         width: '70%',
-        content: (
-          <Fragment>
-            <Form preserve={false} onFinish={onUpdateFileSession}>
-              <Form.Item name="filedata" initialValue={result.data}>
-                <TextArea
-                  // defaultValue={result.data}
-                  autoSize={{ minRows: 5, maxRows: 15 }}
-                />
-              </Form.Item>
-              <Space style={{ marginBottom: 0 }}>
-                <Form.Item>
-                  <Button type="primary" htmlType="submit" loading={updateFileSessionReq.loading}>
-                    保存修改
-                  </Button>
-                </Form.Item>
-                <Form.Item>
-                  <Button onClick={() => copytoclipboard(result.data)}>拷贝到剪切板</Button>
-                </Form.Item>
-                <Form.Item name="sessionid" initialValue={hostAndSessionActive.session.id}/>
-                <Form.Item name="filepath" initialValue={result.reason}/>
-              </Space>
-            </Form>
-          </Fragment>
-        ),
+        closable: true,
+        content: (<Form preserve={false} onFinish={onUpdateFileSession}>
+          <Form.Item name="filedata" initialValue={result.data}>
+            <TextArea
+              autoSize={{ minRows: 5, maxRows: 25 }}
+            />
+          </Form.Item>
+          <Space style={{ marginBottom: 0 }}>
+            <Form.Item>
+              <Button type="primary" htmlType="submit" loading={updateFileSessionReq.loading}>
+                保存修改
+              </Button>
+            </Form.Item>
+            <Form.Item>
+              <Button onClick={() => copytoclipboard(result.data)}>拷贝到剪切板</Button>
+            </Form.Item>
+            <Form.Item name="sessionid" initialValue={hostAndSessionActive.session.id}/>
+            <Form.Item name="filepath" initialValue={result.reason}/>
+          </Space>
+        </Form>),
         onOk() {
         },
       });
