@@ -586,6 +586,7 @@ const CreateHandlerModalContent = props => {
             </Tooltip>
           }
           name="HandlerSSLCert"
+          initialValue={pem_files.length > 0 ? `~/.msf4/loot/${pem_files[0]}` : null}
         >
           <Select placeholder="请选择证书文件">
             {pem_files.map((encoder, i) => (
@@ -1707,6 +1708,7 @@ const CreatePayloadModalContent = props => {
             </Tooltip>
           }
           name="HandlerSSLCert"
+          initialValue={pem_files.length > 0 ? `~/.msf4/loot/${pem_files[0]}` : null}
         >
           <Select placeholder="请选择证书文件">
             {pem_files.map((encoder, i) => (
