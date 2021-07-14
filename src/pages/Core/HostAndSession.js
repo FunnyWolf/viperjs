@@ -1031,7 +1031,7 @@ const HostAndSessionCard = () => {
           expandedRowRender: sessionRowRender,
           rowExpandable: record => record.session.length > 0,
         }}
-        scroll={{ y: 'calc({0}'.format(Upheight) }}
+        scroll={{ y: 'calc({0})'.format(Upheight) }}
         className={styles.hostandsessionTable}
         rowKey="ipaddress"
         size="small"
@@ -1811,7 +1811,7 @@ const RealTimeModuleResult = () => {
       >
         <BackTop
           style={{
-            top: 'calc(90vh - 48px)',
+            top: 'calc({0} + 112px)'.format(Upheight),
             right: 'calc(41vw + 32px)',
           }}
           target={() => document.getElementById('moduleresultlist')}
@@ -2041,7 +2041,7 @@ const RealTimeNotices = () => {
       >
         <BackTop
           style={{
-            top: 'calc(90vh - 48px)',
+            top: 'calc({0} + 112px)'.format(Upheight),
             right: 24,
           }}
           target={() => document.getElementById('noticescard')}
