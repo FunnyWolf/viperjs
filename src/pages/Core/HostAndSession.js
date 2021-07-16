@@ -75,6 +75,7 @@ import {
   MinusOutlined,
   NodeIndexOutlined,
   PartitionOutlined,
+  PlayCircleOutlined,
   PlusOutlined,
   ProfileOutlined,
   PushpinOutlined,
@@ -95,7 +96,6 @@ import {
   UpOutlined,
   VerticalAlignTopOutlined,
   WindowsOutlined,
-  PlayCircleOutlined,
 } from '@ant-design/icons';
 
 import {
@@ -536,7 +536,7 @@ const HostAndSessionCard = () => {
     {
       //模块按钮
       dataIndex: 'ipaddress',
-      width: 112,
+      width: 104,
       render: (text, record) => {
         return (
           <Button
@@ -546,7 +546,7 @@ const HostAndSessionCard = () => {
               setActiveHostAndSession(record);
             }}
             style={{
-              marginLeft: -16,
+              marginLeft: -24,
               width: 104,
               backgroundColor: '#15395b',
               textAlign: 'center',
@@ -564,26 +564,20 @@ const HostAndSessionCard = () => {
       dataIndex: 'ipaddress',
       width: 128,
       render: (text, record) => {
-        return (<div
-            style={{
-              display: 'flex',
-              cursor: 'pointer',
+        return (
+          <Dropdown
+            overlay={() => {
+              return HostMenu(record);
             }}
+            trigger={['contextMenu', 'click']}
           >
-            <Dropdown
-              overlay={() => {
-                return HostMenu(record);
+            <Tag
+              color="gold"
+              style={{
+                width: 120,
+                textAlign: 'center',
+                cursor: 'pointer',
               }}
-              trigger={['contextMenu', 'click']}
-            >
-              <Tag
-                color="gold"
-                style={{
-                  width: 128,
-                  textAlign: 'center',
-                  marginRight: 4,
-                  cursor: 'pointer',
-                }}
                 onClick={(e) => {
                   e.stopPropagation();
                 }}
@@ -591,7 +585,6 @@ const HostAndSessionCard = () => {
                 <strong>{record.ipaddress}</strong>
               </Tag>
             </Dropdown>
-          </div>
         );
       },
     },

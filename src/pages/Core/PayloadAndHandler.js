@@ -526,6 +526,7 @@ const CreateHandlerModalContent = props => {
   };
   const handlerPayloadSpecialOption = () => {
     let options = [];
+    let options_second = [];
     if (selectPayload === null || selectPayload === undefined) {
       return null;
     }
@@ -588,7 +589,7 @@ const CreateHandlerModalContent = props => {
           name="HandlerSSLCert"
           initialValue={pem_files.length > 0 ? `~/.msf4/loot/${pem_files[0]}` : null}
         >
-          <Select placeholder="请选择证书文件">
+          <Select placeholder="请选择证书文件" allowClear>
             {pem_files.map((encoder, i) => (
               <Option value={`~/.msf4/loot/${encoder}`}>{encoder}</Option>
             ))}
@@ -656,7 +657,7 @@ const CreateHandlerModalContent = props => {
         </FormNew.Item>,
       );
 
-      options.push(
+      options_second.push(
         <FormNew.Item
           {...formLayout}
           label={
@@ -674,7 +675,7 @@ const CreateHandlerModalContent = props => {
         </FormNew.Item>,
       );
 
-      options.push(
+      options_second.push(
         <FormNew.Item
           {...formLayout}
           label={
@@ -693,7 +694,7 @@ const CreateHandlerModalContent = props => {
         </FormNew.Item>,
       );
 
-      options.push(
+      options_second.push(
         <FormNew.Item
           {...formLayout}
           label={
@@ -707,7 +708,7 @@ const CreateHandlerModalContent = props => {
           <Input placeholder=""/>
         </FormNew.Item>,
       );
-      options.push(
+      options_second.push(
         <FormNew.Item
           {...formLayout}
           label={
@@ -723,7 +724,7 @@ const CreateHandlerModalContent = props => {
       );
 
 
-      options.push(
+      options_second.push(
         <FormNew.Item
           {...formLayout}
           label={
@@ -737,7 +738,7 @@ const CreateHandlerModalContent = props => {
           <Input placeholder=""/>
         </FormNew.Item>,
       );
-      options.push(
+      options_second.push(
         <FormNew.Item
           {...formLayout}
           label={
@@ -752,7 +753,7 @@ const CreateHandlerModalContent = props => {
         </FormNew.Item>,
       );
 
-      options.push(
+      options_second.push(
         <FormNew.Item
           {...formLayout}
           label={
@@ -769,7 +770,7 @@ const CreateHandlerModalContent = props => {
           </Select>
         </FormNew.Item>,
       );
-      options.push(
+      options_second.push(
         <FormNew.Item
           {...formLayout}
           label={
@@ -784,7 +785,7 @@ const CreateHandlerModalContent = props => {
         </FormNew.Item>,
       );
 
-      options.push(
+      options_second.push(
         <FormNew.Item
           {...formLayout}
           label={
@@ -798,7 +799,7 @@ const CreateHandlerModalContent = props => {
           <InputNumber style={{ width: 160 }}/>
         </FormNew.Item>,
       );
-      options.push(
+      options_second.push(
         <FormNew.Item
           {...formLayout}
           label={
@@ -812,7 +813,7 @@ const CreateHandlerModalContent = props => {
           <Input placeholder=""/>
         </FormNew.Item>,
       );
-      options.push(
+      options_second.push(
         <FormNew.Item
           {...formLayout}
           label={
@@ -921,11 +922,23 @@ const CreateHandlerModalContent = props => {
     if (options.length === 0) {
       return null;
     } else {
-      return (
-        <Panel header="高级参数" key="advance">
-          {options}
-        </Panel>
-      );
+      if (options_second.length === 0) {
+        return (
+          <Panel header="高级参数" key="advance">
+            {options}
+          </Panel>
+        );
+      } else {
+        return (<Fragment>
+            <Panel header="高级参数" key="advance">
+              {options}
+            </Panel>
+            <Panel header="特殊参数" key="advance_second">
+              {options_second}
+            </Panel>
+          </Fragment>
+        );
+      }
     }
   };
 
@@ -1710,7 +1723,7 @@ const CreatePayloadModalContent = props => {
           name="HandlerSSLCert"
           initialValue={pem_files.length > 0 ? `~/.msf4/loot/${pem_files[0]}` : null}
         >
-          <Select placeholder="请选择证书文件">
+          <Select placeholder="请选择证书文件" allowClear>
             {pem_files.map((encoder, i) => (
               <Option value={`~/.msf4/loot/${encoder}`}>{encoder}</Option>
             ))}
