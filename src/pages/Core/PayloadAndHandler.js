@@ -22,6 +22,7 @@ import {
   Input,
   InputNumber,
   Modal,
+  Popover,
   Row,
   Select,
   Space,
@@ -1512,10 +1513,12 @@ const CreatePayloadModalContent = props => {
         { show: '分离免杀elf', value: 'elf-diy' },
         { show: '源码免杀elf', value: 'elf-src' },
         { show: 'msbuild', value: 'msbuild' },
+        { show: 'base64', value: 'base64' },
         { show: 'c', value: 'c' },
         { show: 'csharp', value: 'csharp' },
         { show: 'exe', value: 'exe' },
         { show: 'exe-service', value: 'exe-service' },
+        { show: 'macho', value: 'macho' },
         { show: 'powershell', value: 'powershell' },
         { show: 'psh-reflection', value: 'psh-reflection' },
         { show: 'psh-cmd', value: 'psh-cmd' },
@@ -1524,17 +1527,20 @@ const CreatePayloadModalContent = props => {
         { show: 'hta-psh', value: 'hta-psh' },
         { show: 'raw', value: 'raw' },
         { show: 'vba', value: 'vba' },
-        { show: 'vbscript', value: 'vbscript' },
+        { show: 'vbs', value: 'vbs' },
+        { show: 'loop-vbs', value: 'loop-vbs' },
+        { show: 'war', value: 'war' },
       ];
     }
     if (selectPayload.includes('linux')) {
       options = [
         { show: '源码免杀elf', value: 'elf-src' },
         { show: '分离免杀elf', value: 'elf-diy' },
+        { show: 'bash', value: 'bash' },
+        { show: 'c', value: 'c' },
         { show: 'raw', value: 'raw' },
         { show: 'hex', value: 'hex' },
         { show: 'elf', value: 'elf' },
-        { show: 'c', value: 'c' },
         { show: 'elf-so', value: 'elf-so' },
       ];
     }
@@ -2255,12 +2261,145 @@ const CreatePayloadModalContent = props => {
     </FormNew>
   );
 };
+const showHandlerDetail = item => {
+  const Descriptions_Items = [];
+  let showstr = null;
+  for (const key in item) {
+    if (item[key] === null || item[key] === '') {
+      continue;
+    } else if (item[key] === true || item[key] === false) {
+      showstr = item[key] ? 'True' : 'False';
+    } else {
+      showstr = item[key];
+    }
+    Descriptions_Items.push(<Descriptions.Item label={key}>{showstr}</Descriptions.Item>);
+  }
+  Modal.info({
+    mask: false,
+    style: { top: 20 },
+    width: '95%',
+    icon: '',
+    content: (
+      <Descriptions
+        style={{ marginTop: -32, marginRight: -24, marginLeft: -24, marginBottom: -16 }}
+        bordered
+        size="small"
+        column={3}
+      >
+        {Descriptions_Items}
+      </Descriptions>
+    ),
+    onOk() {
+    },
+  });
+};
+
+const genPayloadByHandler = (item) => {
+  const createPayloadReq = useRequest(postMsgrpcPayloadAPI, {
+    manual: true,
+    onSuccess: (result, params) => {
+    },
+    onError: (error, params) => {
+    },
+  });
+
+  const onCreatePayloadByHandler = (params, format) => {
+    params.Format = format;
+    createPayloadReq.run({ mname: params.PAYLOAD, opts: params });
+  };
+
+  const buttonTemple = (type) => {
+    return <Button onClick={() => onCreatePayloadByHandler(item, type)}>{type}</Button>;
+  };
+
+
+  const buttons = <Fragment>
+    <Space direction="vertical">
+      <Space>
+        {buttonTemple('asp')}
+        {buttonTemple('aspx')}
+        {buttonTemple('aspx-exe')}
+      </Space>
+      <Space>
+        {buttonTemple('base32')}
+        {buttonTemple('base64')}
+        {buttonTemple('bash')}
+      </Space>
+      <Space>
+        {buttonTemple('c')}
+        {buttonTemple('csharp')}
+      </Space>
+      <Space>
+        {buttonTemple('dll')}
+        {buttonTemple('dword')}
+      </Space>
+      <Space>
+        {buttonTemple('elf')}
+        {buttonTemple('elf-so')}
+        {buttonTemple('exe')}
+        {buttonTemple('exe-only')}
+        {buttonTemple('exe-service')}
+        {buttonTemple('exe-small')}
+      </Space>
+      <Space>
+        {buttonTemple('hex')}
+        {buttonTemple('hta-psh')}
+      </Space>
+      <Space>
+        {buttonTemple('jar')}
+        {buttonTemple('java')}
+        {buttonTemple('jsp')}
+        {buttonTemple('js_be')}
+        {buttonTemple('js_le')}
+      </Space>
+      <Space>
+        {buttonTemple('macho')}
+        {buttonTemple('msi')}
+        {buttonTemple('msi-nouac')}
+      </Space>
+      <Space>
+        {buttonTemple('powershell')}
+        {buttonTemple('psh')}
+        {buttonTemple('psh-cmd')}
+        {buttonTemple('psh-net')}
+        {buttonTemple('psh-reflection')}
+      </Space>
+      <Space>
+        {buttonTemple('python')}
+        {buttonTemple('python-reflection')}
+        {buttonTemple('perl')}
+      </Space>
+      <Space>
+        {buttonTemple('raw')}
+        {buttonTemple('ruby')}
+      </Space>
+      <Space>
+        {buttonTemple('vbapplication')}
+        {buttonTemple('vba')}
+        {buttonTemple('vba-exe')}
+        {buttonTemple('vba-psh')}
+      </Space>
+      <Space>
+        {buttonTemple('vbscript')}
+        {buttonTemple('vbs')}
+        {buttonTemple('loop-vbs')}
+      </Space>
+      <Space>
+        {buttonTemple('war')}
+      </Space>
+    </Space>
+  </Fragment>;
+  return buttons;
+};
+
 
 const PayloadAndHandler = (props) => {
   console.log('PayloadAndHandler');
   const [createHandlerModalVisible, setCreateHandlerModalVisible] = useState(false);
   const [createPayloadModalVisible, setCreatePayloadModalVisible] = useState(false);
   const [handlerListActive, setHandlerListActive] = useState([]);
+  const [genPayloadByHandlerVisible, setGenPayloadByHandlerVisible] = useState(false);
+
   //初始化数据
   useImperativeHandle(props.onRef, () => {
     return {
@@ -2269,6 +2408,8 @@ const PayloadAndHandler = (props) => {
       },
     };
   });
+
+
   const initListHanderReq = useRequest(getMsgrpcHandlerAPI, {
     onSuccess: (result, params) => {
       setHandlerListActive(result);
@@ -2313,6 +2454,7 @@ const PayloadAndHandler = (props) => {
     onError: (error, params) => {
     },
   });
+
   const createPayloadReq = useRequest(postMsgrpcPayloadAPI, {
     manual: true,
     onSuccess: (result, params) => {
@@ -2333,38 +2475,7 @@ const PayloadAndHandler = (props) => {
   const createPayloadFinish = () => {
     setCreatePayloadModalVisible(false);
   };
-  const handlerDetail = item => {
-    const Descriptions_Items = [];
-    let showstr = null;
-    for (const key in item) {
-      if (item[key] === null || item[key] === '') {
-        continue;
-      } else if (item[key] === true || item[key] === false) {
-        showstr = item[key] ? 'True' : 'False';
-      } else {
-        showstr = item[key];
-      }
-      Descriptions_Items.push(<Descriptions.Item label={key}>{showstr}</Descriptions.Item>);
-    }
-    Modal.info({
-      mask: false,
-      style: { top: 20 },
-      width: '95%',
-      icon: '',
-      content: (
-        <Descriptions
-          style={{ marginTop: -32, marginRight: -24, marginLeft: -24, marginBottom: -16 }}
-          bordered
-          size="small"
-          column={3}
-        >
-          {Descriptions_Items}
-        </Descriptions>
-      ),
-      onOk() {
-      },
-    });
-  };
+
 
   return (
     <Fragment>
@@ -2508,7 +2619,7 @@ const PayloadAndHandler = (props) => {
           {
             title: '操作',
             dataIndex: 'operation',
-            width: 256,
+            width: 344,
             render: (text, record) => {
               let transformAction = null;
               if (record.ID >= 0) {
@@ -2528,9 +2639,18 @@ const PayloadAndHandler = (props) => {
                 <div style={{ textAlign: 'center' }}>
                   <Space size="middle">
                     <a style={{ color: 'green' }} onClick={() => onCreatePayloadByHandler(record)}>
-                      生成载荷
+                      生成PE/ELF
                     </a>
-                    <a onClick={() => handlerDetail(record)}>详细参数</a>
+                    <Popover
+                      placement="left"
+                      title="选择载荷类型"
+                      content={genPayloadByHandler(record)}
+                      trigger="click">
+                      <a style={{ color: '#13a8a8' }}>
+                        生成载荷
+                      </a>
+                    </Popover>
+                    <a onClick={() => showHandlerDetail(record)}>详细参数</a>
                     {transformAction}
                     <a
                       onClick={() => destoryHandlerReq.run({ jobid: record.ID })}
