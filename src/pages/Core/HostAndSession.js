@@ -51,6 +51,7 @@ import {
   CaretRightOutlined,
   CheckOutlined,
   CloseCircleOutlined,
+  CloudDownloadOutlined,
   CloudOutlined,
   CodeOutlined,
   ContactsOutlined,
@@ -135,6 +136,7 @@ import GridContent from "@/components/PageHeaderWrapper/GridContent";
 import moment from "moment";
 import { FileMsfMemo, FileMsfModal } from "@/pages/Core/FileMsf";
 import PayloadAndHandler, { PayloadAndHandlerMemo } from "@/pages/Core/PayloadAndHandler";
+import { WebDeliveryMemo } from "@/pages/Core/WebDelivery";
 import MuitHosts, { MuitHostsMemo } from "@/pages/Core/MuitHosts";
 import { host_type_to_avatar_table, MyIcon, SidTag } from "@/pages/Core/Common";
 import SystemSetting, { SystemSettingMemo } from "@/pages/Core/SystemSetting";
@@ -1216,6 +1218,7 @@ const TabsBottom = () => {
   const [showNetworkWindow, setShowNetworkWindow] = useState(false);
   const [showMsfconsoleWindow, setShowMsfconsoleWindow] = useState(false);
   let payloadandhandlerRef = React.createRef();
+  let webDeliveryRef = React.createRef();
   let filemsfRef = React.createRef();
   const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState("viper-debug-flag", false);
   const tabActiveOnChange = activeKey => {
@@ -1238,6 +1241,12 @@ const TabsBottom = () => {
         if (payloadandhandlerRef.current === null) {
         } else {
           payloadandhandlerRef.current.updateData();
+        }
+        break;
+      case "WebDelivery":
+        if (webDeliveryRef.current === null) {
+        } else {
+          webDeliveryRef.current.updateData();
         }
         break;
       case "MuitHosts":
@@ -1337,6 +1346,17 @@ const TabsBottom = () => {
           key="PayloadAndHandler"
         >
           <PayloadAndHandlerMemo onRef={payloadandhandlerRef} />
+        </TabPane>
+        <TabPane
+          tab={
+            <span>
+              <CloudDownloadOutlined />
+              WebDelivery
+            </span>
+          }
+          key="WebDelivery"
+        >
+          <WebDeliveryMemo onRef={webDeliveryRef} />
         </TabPane>
         <TabPane
           tab={
