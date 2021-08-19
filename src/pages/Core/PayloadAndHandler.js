@@ -18,7 +18,7 @@ import {
   Col,
   Collapse,
   Descriptions,
-  Form as FormNew,
+  Form,
   Input,
   InputNumber,
   Modal,
@@ -433,17 +433,17 @@ const CreateHandlerModalContent = props => {
     if (selectPayload.includes('reverse')) {
       if (selectPayload.includes('reverse_dns')) {
         options.push(
-          <FormNew.Item
+          <Form.Item
             {...formLayout}
             label="RHOST"
             name="RHOST"
             initialValue="127.0.0.1"
             style={{ display: 'None' }}
           ><Fragment/>
-          </FormNew.Item>,
+          </Form.Item>,
         );
         options.push(
-          <FormNew.Item
+          <Form.Item
             {...formLayout}
             label="LPORT"
             name="LPORT"
@@ -451,11 +451,11 @@ const CreateHandlerModalContent = props => {
             style={{ display: 'None' }}
           >
             <Fragment/>
-          </FormNew.Item>,
+          </Form.Item>,
         );
       } else {
         options.push(
-          <FormNew.Item
+          <Form.Item
             {...formLayout}
             label="LHOST"
             name="LHOST"
@@ -468,10 +468,10 @@ const CreateHandlerModalContent = props => {
             ]}
           >
             <Input placeholder="请输入反向连接的IP地址"/>
-          </FormNew.Item>,
+          </Form.Item>,
         );
         options.push(
-          <FormNew.Item
+          <Form.Item
             {...formLayout}
             label="LPORT"
             name="LPORT"
@@ -483,13 +483,13 @@ const CreateHandlerModalContent = props => {
             ]}
           >
             <InputNumber style={{ width: 160 }}/>
-          </FormNew.Item>,
+          </Form.Item>,
         );
       }
 
     } else {
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label="RHOST"
           name="RHOST"
@@ -501,10 +501,10 @@ const CreateHandlerModalContent = props => {
           ]}
         >
           <Input placeholder="请输入正向连接的IP地址"/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label="LPORT"
           name="LPORT"
@@ -516,7 +516,7 @@ const CreateHandlerModalContent = props => {
           ]}
         >
           <InputNumber style={{ width: 160 }}/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
     }
     if (options.length === 0) {
@@ -563,7 +563,7 @@ const CreateHandlerModalContent = props => {
     //添加配置信息
     if (selectPayload.includes('reverse_http') || selectPayload.includes('reverse_winhttp')) {
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="The HTTP Path">
@@ -574,13 +574,13 @@ const CreateHandlerModalContent = props => {
           name="LURI"
         >
           <Input placeholder="请输入自定义的URI"/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
     }
 
     if (selectPayload.includes('reverse_https') || selectPayload.includes('reverse_winhttps')) {
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="请选择PEM格式的证书文件,文件内容可以参考<文件列表>中www.example.com.pem,证书文件中需要同时包含公私钥,配置证书后会自动过滤http请求">
@@ -595,10 +595,10 @@ const CreateHandlerModalContent = props => {
               <Option value={`~/.msf4/loot/${encoder}`}>{encoder}</Option>
             ))}
           </Select>
-        </FormNew.Item>,
+        </Form.Item>,
       );
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="是否验证Meterpreter中的SSL证书(只对reverse_winhttps及linux类型https监听有效)">
@@ -610,13 +610,13 @@ const CreateHandlerModalContent = props => {
           valuePropName="checked"
         >
           <Checkbox defaultChecked/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
     }
 
     if (selectPayload.includes('reverse_http') || selectPayload.includes('reverse_winhttp')) {
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip
@@ -634,11 +634,11 @@ const CreateHandlerModalContent = props => {
           ]}
         >
           <TextArea placeholder="请输入Https服务默认返回的报文"/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
 
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="The user-agent that the payload should use for communication">
@@ -655,11 +655,11 @@ const CreateHandlerModalContent = props => {
           ]}
         >
           <TextArea placeholder="请输入https的UserAgent"/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
 
       options_second.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip
@@ -673,11 +673,11 @@ const CreateHandlerModalContent = props => {
           rules={[]}
         >
           <Checkbox/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
 
       options_second.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip
@@ -692,11 +692,11 @@ const CreateHandlerModalContent = props => {
             <Option value="http">http</Option>
             <Option value="https">https</Option>
           </Select>
-        </FormNew.Item>,
+        </Form.Item>,
       );
 
       options_second.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="When OverrideRequestHost is set, use this value as the host name for secondary requests">
@@ -707,10 +707,10 @@ const CreateHandlerModalContent = props => {
           rules={[]}
         >
           <Input placeholder=""/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
       options_second.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="When OverrideRequestHost is set, use this value as the port number for secondary requests">
@@ -721,12 +721,12 @@ const CreateHandlerModalContent = props => {
           rules={[]}
         >
           <InputNumber style={{ width: 160 }}/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
 
 
       options_second.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="An optional value to use for the Cookie HTTP header">
@@ -737,10 +737,10 @@ const CreateHandlerModalContent = props => {
           rules={[]}
         >
           <Input placeholder=""/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
       options_second.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="An optional value to use for the Host HTTP header">
@@ -751,11 +751,11 @@ const CreateHandlerModalContent = props => {
           rules={[]}
         >
           <Input placeholder=""/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
 
       options_second.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="The type of HTTP proxy (Accepted: HTTP, SOCKS)">
@@ -769,10 +769,10 @@ const CreateHandlerModalContent = props => {
             <Option value="HTTP">HTTP</Option>
             <Option value="SOCKS">SOCKS</Option>
           </Select>
-        </FormNew.Item>,
+        </Form.Item>,
       );
       options_second.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="An optional proxy server IP address or hostname">
@@ -783,11 +783,11 @@ const CreateHandlerModalContent = props => {
           rules={[]}
         >
           <Input placeholder=""/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
 
       options_second.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="An optional proxy server port">
@@ -798,10 +798,10 @@ const CreateHandlerModalContent = props => {
           rules={[]}
         >
           <InputNumber style={{ width: 160 }}/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
       options_second.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="An optional proxy server username Max parameter length: 63 characters">
@@ -812,10 +812,10 @@ const CreateHandlerModalContent = props => {
           rules={[]}
         >
           <Input placeholder=""/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
       options_second.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="An optional proxy server password Max parameter length: 63 characters">
@@ -826,13 +826,13 @@ const CreateHandlerModalContent = props => {
           rules={[]}
         >
           <Input placeholder=""/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
     }
 
     if (selectPayload.includes('rc4')) {
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="Password to derive RC4 key from">
@@ -849,17 +849,17 @@ const CreateHandlerModalContent = props => {
           ]}
         >
           <Input placeholder="请输入RC4密码"/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
       options.push(
-        <FormNew.Item {...formLayout} label="说明">
+        <Form.Item {...formLayout} label="说明">
           <span>RC4初始生成Session时较慢,请耐心等待,Session生成后速度不受影响.</span>
-        </FormNew.Item>,
+        </Form.Item>,
       );
     }
     if (selectPayload.includes('reverse_dns')) {
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="DOMAIN参数,例如手工指定 aaa.com 的ns服务器为 ns1.bbb.com ns2.bbb.com,则这里输入aaa.com">
@@ -875,10 +875,10 @@ const CreateHandlerModalContent = props => {
           ]}
         >
           <Input placeholder="请输入DOMAIN (鼠标到DOMAIN标签显示帮助)"/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="DNS数据传输方式,DNSKEY速度快,IPv6适配性强">
@@ -897,10 +897,10 @@ const CreateHandlerModalContent = props => {
             <Option value="DNSKEY">DNSKEY (速度快)</Option>
             <Option value="IPv6">IPv6 (适配性强)</Option>
           </Select>
-        </FormNew.Item>,
+        </Form.Item>,
       );
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="Viper会根据不同的SERVER_ID生成不同的子域名">
@@ -917,7 +917,7 @@ const CreateHandlerModalContent = props => {
           ]}
         >
           <Input placeholder="请输入SERVER_ID"/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
     }
     if (options.length === 0) {
@@ -944,10 +944,10 @@ const CreateHandlerModalContent = props => {
   };
 
   return (
-    <FormNew onFinish={onCreateHandlerBySubmit}>
+    <Form onFinish={onCreateHandlerBySubmit}>
       <Collapse bordered={false} defaultActiveKey={['base', 'advance']}>
         <Panel header="基础参数" key="base">
-          <FormNew.Item
+          <Form.Item
             {...formLayout}
             label="载荷"
             name="PAYLOAD"
@@ -963,12 +963,12 @@ const CreateHandlerModalContent = props => {
               onChange={changePayloadOption}
               placeholder="请选择有效载荷"
             />
-          </FormNew.Item>
+          </Form.Item>
           {handlerPayloadBaseOption()}
-          <FormNew.Item {...formLayout} label="别名" name="HandlerName" rules={[]}>
+          <Form.Item {...formLayout} label="别名" name="HandlerName" rules={[]}>
             <Input placeholder="自定义监听名称"/>
-          </FormNew.Item>
-          <FormNew.Item
+          </Form.Item>
+          <Form.Item
             {...formLayout}
             label={
               <Tooltip title="VIPER缓存监听配置,但渗透服务器不会生成正真的监听,此选项用于结合端口转发的反向SHELL/无需监听的payload生成">
@@ -983,12 +983,12 @@ const CreateHandlerModalContent = props => {
             rules={[]}
           >
             <Checkbox/>
-          </FormNew.Item>
+          </Form.Item>
 
         </Panel>
         {handlerPayloadSpecialOption()}
         <Panel header="自动化" key="auto">
-          <FormNew.Item
+          <Form.Item
             {...formLayout}
             label={
               <Tooltip title="权限(Session)初始化完成后自动执行脚本,请注意该参数只有在监听中生效,在载荷中使用不生效">
@@ -1006,8 +1006,8 @@ const CreateHandlerModalContent = props => {
                 <Option value={encoder}>{encoder}</Option>
               ))}
             </Select>
-          </FormNew.Item>
-          <FormNew.Item
+          </Form.Item>
+          <Form.Item
             {...formLayout}
             label={
               <Tooltip title="Payload执行后自动迁移到指定进程,请注意 1)必须使用该监听生成的载荷才能生效 2)迁移进程后原进程不会关闭,并且占用loader文件">
@@ -1023,15 +1023,15 @@ const CreateHandlerModalContent = props => {
             rules={[]}
           >
             <Checkbox/>
-          </FormNew.Item>
-          <FormNew.Item {...formLayout} label="自动迁移到进程" name="PrependMigrateProc" rules={[]}>
+          </Form.Item>
+          <Form.Item {...formLayout} label="自动迁移到进程" name="PrependMigrateProc" rules={[]}>
             <Select style={{ width: 200 }} allowClear>
               {migrateProcess.map((encoder, i) => (
                 <Option value={encoder}>{encoder}</Option>
               ))}
             </Select>
-          </FormNew.Item>
-          <FormNew.Item
+          </Form.Item>
+          <Form.Item
             {...formLayout}
             label={
               <Tooltip title="自动加载unhook插件unhook杀软对进程的hook操作">
@@ -1047,8 +1047,8 @@ const CreateHandlerModalContent = props => {
             initialValue={false}
           >
             <Checkbox/>
-          </FormNew.Item>
-          <FormNew.Item
+          </Form.Item>
+          <Form.Item
             {...formLayout}
             label={
               <Tooltip title="监听生成Session后自动关闭,reverse_http(s)会自动忽略改选项">
@@ -1064,10 +1064,26 @@ const CreateHandlerModalContent = props => {
             initialValue={false}
           >
             <Checkbox/>
-          </FormNew.Item>
+          </Form.Item>
         </Panel>
         <Panel header="自定义参数" key="3">
-          <FormNew.Item
+          <Form.Item
+            {...formLayout}
+            label={
+              <Tooltip title="加载初始载荷的超时时间(metsrv.dll和stdapi.dll),如果目标机到viper的网络速度较差,可适当调高该值">
+                <span>
+                  <InfoCircleOutlined/>
+                  &nbsp;加载超时时间
+                </span>
+              </Tooltip>
+            }
+            name="AutoVerifySessionTimeout"
+            rules={[]}
+            initialValue={30}
+          >
+            <InputNumber style={{ width: 160 }} placeholder="请输入正确的连接超时时间"/>
+          </Form.Item>
+          <Form.Item
             {...formLayout}
             label="连接超时时间(秒)"
             name="SessionCommunicationTimeout"
@@ -1075,8 +1091,8 @@ const CreateHandlerModalContent = props => {
             initialValue={300}
           >
             <InputNumber style={{ width: 160 }} placeholder="请输入正确的连接超时时间"/>
-          </FormNew.Item>
-          <FormNew.Item
+          </Form.Item>
+          <Form.Item
             {...formLayout}
             label="Session强制过期时间(秒)"
             name="SessionExpirationTimeout"
@@ -1084,8 +1100,8 @@ const CreateHandlerModalContent = props => {
             initialValue={3600 * 24 * 365}
           >
             <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间"/>
-          </FormNew.Item>
-          <FormNew.Item
+          </Form.Item>
+          <Form.Item
             {...formLayout}
             label="网络断开重试次数"
             name="SessionRetryTotal"
@@ -1093,9 +1109,9 @@ const CreateHandlerModalContent = props => {
             initialValue={3600}
           >
             <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间"/>
-          </FormNew.Item>
+          </Form.Item>
 
-          <FormNew.Item
+          <Form.Item
             {...formLayout}
             label="网络断开重试间隔(秒)"
             name="SessionRetryWait"
@@ -1103,15 +1119,15 @@ const CreateHandlerModalContent = props => {
             initialValue={10}
           >
             <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间"/>
-          </FormNew.Item>
-          <FormNew.Item {...formLayout} label="ShellCode编码" name="StageEncoder" rules={[]}>
+          </Form.Item>
+          <Form.Item {...formLayout} label="ShellCode编码" name="StageEncoder" rules={[]}>
             <Select placeholder="请选择编码">
               {StageEncoder.map((encoder, i) => (
                 <Option value={encoder}>{encoder}</Option>
               ))}
             </Select>
-          </FormNew.Item>
-          <FormNew.Item
+          </Form.Item>
+          <Form.Item
             {...formLayout}
             label="ShellCode编码回退"
             name="StageEncodingFallback"
@@ -1120,9 +1136,9 @@ const CreateHandlerModalContent = props => {
             initialValue
           >
             <Checkbox defaultChecked/>
-          </FormNew.Item>
+          </Form.Item>
 
-          <FormNew.Item
+          <Form.Item
             {...formLayout}
             label={
               <Tooltip title="正向监听会通过填写的代理进行连接,反向Payload无法使用代理">
@@ -1134,22 +1150,22 @@ const CreateHandlerModalContent = props => {
             }
           >
             <Input.Group compact>
-              <FormNew.Item name="proxies_proto" noStyle initialValue="Direct" rules={[]}>
+              <Form.Item name="proxies_proto" noStyle initialValue="Direct" rules={[]}>
                 <Select style={{ width: 88 }}>
                   <Option value="Direct">直连</Option>
                   <Option value="Socks5">Socks5</Option>
                   <Option value="Socks4">Socks4</Option>
                   <Option value="Http">Http</Option>
                 </Select>
-              </FormNew.Item>
-              <FormNew.Item name="proxies_ipport" noStyle rules={[]}>
+              </Form.Item>
+              <Form.Item name="proxies_ipport" noStyle rules={[]}>
                 <Input style={{ width: '70%' }} placeholder="IP:PORT"/>
-              </FormNew.Item>
+              </Form.Item>
             </Input.Group>
-          </FormNew.Item>
+          </Form.Item>
         </Panel>
       </Collapse>
-      <FormNew.Item style={{ marginTop: 24 }} {...buttonLayout}>
+      <Form.Item style={{ marginTop: 24 }} {...buttonLayout}>
         <Button
           block
           loading={createHandlerReq.loading}
@@ -1159,8 +1175,8 @@ const CreateHandlerModalContent = props => {
         >
           新增监听
         </Button>
-      </FormNew.Item>
-    </FormNew>
+      </Form.Item>
+    </Form>
   );
 };
 
@@ -1559,7 +1575,7 @@ const CreatePayloadModalContent = props => {
     }
 
     return (
-      <FormNew.Item
+      <Form.Item
         {...formLayout}
         label="载荷类型"
         name="Format"
@@ -1575,7 +1591,7 @@ const CreatePayloadModalContent = props => {
             <Option value={format.value}>{format.show}</Option>
           ))}
         </Select>
-      </FormNew.Item>
+      </Form.Item>
     );
   };
 
@@ -1588,17 +1604,17 @@ const CreatePayloadModalContent = props => {
     if (selectPayload.includes('reverse')) {
       if (selectPayload.includes('reverse_dns')) {
         options.push(
-          <FormNew.Item
+          <Form.Item
             {...formLayout}
             label="RHOST"
             name="RHOST"
             initialValue="127.0.0.1"
             style={{ display: 'None' }}
           ><Fragment/>
-          </FormNew.Item>,
+          </Form.Item>,
         );
         options.push(
-          <FormNew.Item
+          <Form.Item
             {...formLayout}
             label="LPORT"
             name="LPORT"
@@ -1606,11 +1622,11 @@ const CreatePayloadModalContent = props => {
             style={{ display: 'None' }}
           >
             <Fragment/>
-          </FormNew.Item>,
+          </Form.Item>,
         );
       } else {
         options.push(
-          <FormNew.Item
+          <Form.Item
             {...formLayout}
             label="LHOST"
             name="LHOST"
@@ -1623,10 +1639,10 @@ const CreatePayloadModalContent = props => {
             ]}
           >
             <Input placeholder="请输入反向连接的IP地址"/>
-          </FormNew.Item>,
+          </Form.Item>,
         );
         options.push(
-          <FormNew.Item
+          <Form.Item
             {...formLayout}
             label="LPORT"
             name="LPORT"
@@ -1638,23 +1654,23 @@ const CreatePayloadModalContent = props => {
             ]}
           >
             <InputNumber style={{ width: 160 }}/>
-          </FormNew.Item>,
+          </Form.Item>,
         );
       }
 
     } else {
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label="RHOST"
           name="RHOST"
           initialValue="0.0.0.0"
         >
           <Input placeholder="请输入正向连接的IP地址"/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label="LPORT"
           name="LPORT"
@@ -1666,7 +1682,7 @@ const CreatePayloadModalContent = props => {
           ]}
         >
           <InputNumber style={{ width: 160 }}/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
     }
     if (options.length === 0) {
@@ -1702,7 +1718,7 @@ const CreatePayloadModalContent = props => {
     //添加配置信息
     if (selectPayload.includes('reverse_http') || selectPayload.includes('reverse_winhttp')) {
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="The HTTP Path">
@@ -1713,13 +1729,13 @@ const CreatePayloadModalContent = props => {
           name="LURI"
         >
           <Input placeholder="请输入自定义的URI"/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
     }
 
     if (selectPayload.includes('reverse_https') || selectPayload.includes('reverse_winhttps')) {
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="请选择PEM格式的证书文件,文件内容可以参考<文件列表>中www.example.com.pem,证书文件中需要同时包含公私钥,配置证书后会自动过滤http请求">
@@ -1734,10 +1750,10 @@ const CreatePayloadModalContent = props => {
               <Option value={`~/.msf4/loot/${encoder}`}>{encoder}</Option>
             ))}
           </Select>
-        </FormNew.Item>,
+        </Form.Item>,
       );
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="是否验证Meterpreter中的SSL证书(只对reverse_winhttps及linux类型https监听有效)">
@@ -1749,14 +1765,14 @@ const CreatePayloadModalContent = props => {
           valuePropName="checked"
         >
           <Checkbox defaultChecked/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
     }
 
     if (selectPayload.includes('reverse_http') || selectPayload.includes('reverse_winhttp')) {
 
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip
@@ -1774,11 +1790,11 @@ const CreatePayloadModalContent = props => {
           ]}
         >
           <TextArea placeholder="请输入Https服务默认返回的报文"/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
 
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="The user-agent that the payload should use for communication">
@@ -1795,11 +1811,11 @@ const CreatePayloadModalContent = props => {
           ]}
         >
           <TextArea placeholder="请输入https的UserAgent"/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
 
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip
@@ -1813,11 +1829,11 @@ const CreatePayloadModalContent = props => {
           rules={[]}
         >
           <Checkbox/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
 
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip
@@ -1832,11 +1848,11 @@ const CreatePayloadModalContent = props => {
             <Option value="http">http</Option>
             <Option value="https">https</Option>
           </Select>
-        </FormNew.Item>,
+        </Form.Item>,
       );
 
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="When OverrideRequestHost is set, use this value as the host name for secondary requests">
@@ -1847,10 +1863,10 @@ const CreatePayloadModalContent = props => {
           rules={[]}
         >
           <Input placeholder=""/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="When OverrideRequestHost is set, use this value as the port number for secondary requests">
@@ -1861,11 +1877,11 @@ const CreatePayloadModalContent = props => {
           rules={[]}
         >
           <InputNumber style={{ width: 160 }}/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
 
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="An optional value to use for the Cookie HTTP header">
@@ -1876,10 +1892,10 @@ const CreatePayloadModalContent = props => {
           rules={[]}
         >
           <Input placeholder=""/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="An optional value to use for the Host HTTP header">
@@ -1890,11 +1906,11 @@ const CreatePayloadModalContent = props => {
           rules={[]}
         >
           <Input placeholder=""/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
 
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="The type of HTTP proxy (Accepted: HTTP, SOCKS)">
@@ -1908,10 +1924,10 @@ const CreatePayloadModalContent = props => {
             <Option value="HTTP">HTTP</Option>
             <Option value="SOCKS">SOCKS</Option>
           </Select>
-        </FormNew.Item>,
+        </Form.Item>,
       );
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="An optional proxy server IP address or hostname">
@@ -1922,11 +1938,11 @@ const CreatePayloadModalContent = props => {
           rules={[]}
         >
           <Input placeholder=""/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
 
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="An optional proxy server port">
@@ -1937,10 +1953,10 @@ const CreatePayloadModalContent = props => {
           rules={[]}
         >
           <InputNumber style={{ width: 160 }}/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="An optional proxy server username Max parameter length: 63 characters">
@@ -1951,10 +1967,10 @@ const CreatePayloadModalContent = props => {
           rules={[]}
         >
           <Input placeholder=""/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="An optional proxy server password Max parameter length: 63 characters">
@@ -1965,14 +1981,14 @@ const CreatePayloadModalContent = props => {
           rules={[]}
         >
           <Input placeholder=""/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
 
     }
 
     if (selectPayload.includes('rc4')) {
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="Password to derive RC4 key from">
@@ -1989,18 +2005,18 @@ const CreatePayloadModalContent = props => {
           ]}
         >
           <Input placeholder="请输入RC4密码"/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
       options.push(
-        <FormNew.Item {...formLayout} label="说明">
+        <Form.Item {...formLayout} label="说明">
           <span>RC4初始生成Session时较慢,请耐心等待,Session生成后速度不受影响.</span>
-        </FormNew.Item>,
+        </Form.Item>,
       );
     }
 
     if (selectPayload.includes('reverse_dns')) {
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="DOMAIN参数,例如手工指定 aaa.com 的ns服务器为 ns1.bbb.com ns2.bbb.com,则这里输入aaa.com">
@@ -2016,10 +2032,10 @@ const CreatePayloadModalContent = props => {
           ]}
         >
           <Input placeholder="请输入DOMAIN (鼠标到DOMAIN标签显示帮助)"/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="DNS数据传输方式,DNSKEY速度快,IPv6适配性强">
@@ -2038,10 +2054,10 @@ const CreatePayloadModalContent = props => {
             <Option value="DNSKEY">DNSKEY (速度快)</Option>
             <Option value="IPv6">IPv6 (适配性强)</Option>
           </Select>
-        </FormNew.Item>,
+        </Form.Item>,
       );
       options.push(
-        <FormNew.Item
+        <Form.Item
           {...formLayout}
           label={
             <Tooltip title="Viper会根据不同的SERVER_ID生成不同的子域名">
@@ -2058,7 +2074,7 @@ const CreatePayloadModalContent = props => {
           ]}
         >
           <Input placeholder="请输入SERVER_ID"/>
-        </FormNew.Item>,
+        </Form.Item>,
       );
     }
 
@@ -2116,10 +2132,10 @@ const CreatePayloadModalContent = props => {
   };
 
   return (
-    <FormNew onFinish={onCreatePayloadBySubmit}>
+    <Form onFinish={onCreatePayloadBySubmit}>
       <Collapse bordered={false} defaultActiveKey={['base', 'advance']}>
         <Panel header="基础参数" key="base">
-          <FormNew.Item
+          <Form.Item
             {...formLayout}
             label="载荷"
             name="PAYLOAD"
@@ -2135,13 +2151,13 @@ const CreatePayloadModalContent = props => {
               onChange={changePayloadOption}
               placeholder="请选择有效载荷"
             />
-          </FormNew.Item>
+          </Form.Item>
           {payloadBaseOption()}
           {payloadFormatOption()}
         </Panel>
         {payloadSpecialOption()}
         <Panel header="自动化" key="auto">
-          <FormNew.Item
+          <Form.Item
             {...formLayout}
             label={
               <Tooltip title="Payload执行后自动迁移到指定进程,请注意 1)必须使用该监听生成的载荷才能生效 2)迁移进程后原进程不会关闭,并且占用loader文件">
@@ -2157,15 +2173,15 @@ const CreatePayloadModalContent = props => {
             rules={[]}
           >
             <Checkbox/>
-          </FormNew.Item>
-          <FormNew.Item {...formLayout} label="自动迁移到进程" name="PrependMigrateProc" rules={[]}>
+          </Form.Item>
+          <Form.Item {...formLayout} label="自动迁移到进程" name="PrependMigrateProc" rules={[]}>
             <Select style={{ width: 200 }} allowClear>
               {migrateProcess.map((encoder, i) => (
                 <Option value={encoder}>{encoder}</Option>
               ))}
             </Select>
-          </FormNew.Item>
-          <FormNew.Item
+          </Form.Item>
+          <Form.Item
             {...formLayout}
             label={
               <Tooltip title="生成载荷同时添加对应的监听(生成的监听无法使用代理,无法设置为永久监听,请手工点击刷新按钮刷新)">
@@ -2181,21 +2197,21 @@ const CreatePayloadModalContent = props => {
             rules={[]}
           >
             <Checkbox/>
-          </FormNew.Item>
+          </Form.Item>
         </Panel>
 
         <Panel header="自定义参数" key="3">
-          <FormNew.Item {...formLayout} label="编码" name="Encoder" rules={[]}>
+          <Form.Item {...formLayout} label="编码" name="Encoder" rules={[]}>
             <Select style={{ width: 200 }} allowClear>
               {payloadEncoder.map((encoder, i) => (
                 <Option value={encoder}>{encoder}</Option>
               ))}
             </Select>
-          </FormNew.Item>
-          <FormNew.Item {...formLayout} label="编码次数" name="Iterations" rules={[]}>
+          </Form.Item>
+          <Form.Item {...formLayout} label="编码次数" name="Iterations" rules={[]}>
             <InputNumber style={{ width: 160 }}/>
-          </FormNew.Item>
-          <FormNew.Item
+          </Form.Item>
+          <Form.Item
             {...formLayout}
             label="强制编码"
             name="ForceEncode"
@@ -2204,12 +2220,12 @@ const CreatePayloadModalContent = props => {
             rules={[]}
           >
             <Checkbox/>
-          </FormNew.Item>
+          </Form.Item>
 
-          <FormNew.Item {...formLayout} label="避免字符" name="BadChars" rules={[]}>
+          <Form.Item {...formLayout} label="避免字符" name="BadChars" rules={[]}>
             <Input/>
-          </FormNew.Item>
-          <FormNew.Item
+          </Form.Item>
+          <Form.Item
             {...formLayout}
             label="连接超时时间(秒)"
             name="SessionCommunicationTimeout"
@@ -2217,8 +2233,8 @@ const CreatePayloadModalContent = props => {
             initialValue={300}
           >
             <InputNumber style={{ width: 160 }} placeholder="请输入正确的连接超时时间"/>
-          </FormNew.Item>
-          <FormNew.Item
+          </Form.Item>
+          <Form.Item
             {...formLayout}
             label="Session强制过期时间(秒)"
             name="SessionExpirationTimeout"
@@ -2226,8 +2242,8 @@ const CreatePayloadModalContent = props => {
             initialValue={3600 * 24 * 365}
           >
             <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间"/>
-          </FormNew.Item>
-          <FormNew.Item
+          </Form.Item>
+          <Form.Item
             {...formLayout}
             label="网络断开重试次数"
             name="SessionRetryTotal"
@@ -2235,8 +2251,8 @@ const CreatePayloadModalContent = props => {
             initialValue={3600}
           >
             <InputNumber style={{ width: 160 }} placeholder="请输入正确的网络断开重试次数"/>
-          </FormNew.Item>
-          <FormNew.Item
+          </Form.Item>
+          <Form.Item
             {...formLayout}
             label="网络断开重试间隔(秒)"
             name="SessionRetryWait"
@@ -2244,10 +2260,10 @@ const CreatePayloadModalContent = props => {
             initialValue={10}
           >
             <InputNumber style={{ width: 160 }} placeholder="请输入正确的网络断开重试间隔"/>
-          </FormNew.Item>
+          </Form.Item>
         </Panel>
       </Collapse>
-      <FormNew.Item style={{ marginTop: 24 }} {...buttonLayout}>
+      <Form.Item style={{ marginTop: 24 }} {...buttonLayout}>
         <Button
           block
           loading={createPayloadReq.loading}
@@ -2257,8 +2273,8 @@ const CreatePayloadModalContent = props => {
         >
           生成载荷
         </Button>
-      </FormNew.Item>
-    </FormNew>
+      </Form.Item>
+    </Form>
   );
 };
 const showHandlerDetail = item => {
@@ -2624,7 +2640,7 @@ const PayloadAndHandler = (props) => {
               let transformAction = null;
               if (record.ID >= 0) {
                 transformAction = (
-                  <a style={{ color: '#faad14' }} onClick={() => onCreateVirtualHandler(record)}>
+                  <a style={{ color: '#a5a5a5' }} onClick={() => onCreateVirtualHandler(record)}>
                     虚拟化
                   </a>
                 );
