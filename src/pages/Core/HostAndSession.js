@@ -1045,7 +1045,7 @@ const HostAndSessionCard = () => {
 
       <Modal
         style={{ top: 32 }}
-        width="70vw"
+        width="60vw"
         destroyOnClose
         visible={sessionInfoModalVisable}
         onCancel={() => setSessionInfoModalVisable(false)}
@@ -1113,7 +1113,7 @@ const HostAndSessionCard = () => {
         visible={sessionIOModalVisable}
         onCancel={() => setSessionIOModalVisable(false)}
         footer={null}
-        bodyStyle={{ padding: '8px 8px 8px 8px' }}
+        bodyStyle={{ padding: '0px 0px 0px 0px' }}
       >
         <SessionIOMemo/>
       </Modal>
@@ -2534,11 +2534,16 @@ const SessionIO = () => {
   const sessiondisabled = hostAndSessionActive.session.id === -1;
 
   return (
-    <Fragment>
+    <Card
+      bodyStyle={{
+        padding: '0px 0px 0px 0px',
+        backgroundColor: '#000',
+      }}
+    >
       <pre id="sessionIOPre" className={styles.sessioniopre}>
         {sessionIOOutput}
       </pre>
-      <Row>
+      <Space>
         <Button type="primary" size="small" onClick={() => onCreateSessionio('help')}>
           显示帮助
         </Button>
@@ -2557,8 +2562,8 @@ const SessionIO = () => {
         <Button size="small" onClick={() => onCreateSessionio('idletime')}>
           用户离开时间
         </Button>
-      </Row>
-      <Row>
+      </Space>
+      <Space style={{ marginTop: 4 }}>
         <Button size="small" onClick={() => onCreateSessionio('sysinfo')}>
           SystemInfo
         </Button>
@@ -2580,15 +2585,15 @@ const SessionIO = () => {
         <Button size="small" onClick={() => onCreateSessionio('python_reset')}>
           重置Python插件
         </Button>
-      </Row>
+      </Space>
       <Row style={{ marginTop: 8 }} gutter={8}>
         <Col xs={24} sm={20}>
           <Input
-            style={{ width: '100%' }}
+            style={{ width: '100%', backgroundColor: '#000' }}
             disabled={sessiondisabled}
             placeholder=""
             value={shellInput}
-            prefix={<RightOutlined/>}
+            prefix={<Fragment>meterpreter<RightOutlined/></Fragment>}
             onPressEnter={() => onCreateSessionio(shellInput)}
             onChange={e => {
               setShellInput(e.target.value);
@@ -2606,7 +2611,7 @@ const SessionIO = () => {
           </Button>
         </Col>
       </Row>
-    </Fragment>
+    </Card>
   );
 };
 
