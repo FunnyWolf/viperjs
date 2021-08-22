@@ -1312,7 +1312,7 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <FundViewOutlined/>
-              <span>实时输出</span>
+              <span className={styles.tabPanespan}>实时输出</span>
             </div>
           }
           key="notices"
@@ -1330,7 +1330,7 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <TaskQueueTagMemo/>
-              任务列表
+              <span className={styles.tabPanespan}>任务列表</span>
             </div>
           }
           key="JobList"
@@ -1341,7 +1341,7 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <CustomerServiceOutlined/>
-              监听载荷
+              <span className={styles.tabPanespan}>监听载荷</span>
             </div>
           }
           key="PayloadAndHandler"
@@ -1352,7 +1352,7 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <CloudDownloadOutlined/>
-              WebDelivery
+              <span className={styles.tabPanespan}>WebDelivery</span>
             </div>
           }
           key="WebDelivery"
@@ -1363,7 +1363,7 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <FolderOpenOutlined/>
-              文件列表
+              <span className={styles.tabPanespan}>文件列表</span>
             </div>
           }
           key="filemsf"
@@ -1374,7 +1374,7 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <DeploymentUnitOutlined/>
-              网络拓扑
+              <span className={styles.tabPanespan}>网络拓扑</span>
             </div>
           }
           key="Network"
@@ -1385,7 +1385,7 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <RobotOutlined/>
-              自动编排
+              <span className={styles.tabPanespan}>自动编排</span>
             </div>
           }
           key="AutoRobot"
@@ -1396,7 +1396,7 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <SisternodeOutlined/>
-              内网代理
+              <span className={styles.tabPanespan}>内网代理</span>
             </div>
           }
           key="Socks"
@@ -1407,7 +1407,7 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <GroupOutlined/>
-              主机列表
+              <span className={styles.tabPanespan}>主机列表</span>
             </div>
           }
           key="MuitHosts"
@@ -1418,7 +1418,7 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <KeyOutlined/>
-              凭证列表
+              <span className={styles.tabPanespan}>凭证列表</span>
             </div>
           }
           key="Credential"
@@ -1430,7 +1430,7 @@ const TabsBottom = () => {
             tab={
               <div className={styles.tabPanediv}>
                 <MailOutlined/>
-                钓鱼管理
+                <span className={styles.tabPanespan}>钓鱼管理</span>
               </div>
             }
             key="LazyLoader"
@@ -1442,7 +1442,7 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <RadarChartOutlined/>
-              全网扫描
+              <span className={styles.tabPanespan}>全网扫描</span>
             </div>
           }
           key="BotScan"
@@ -1453,7 +1453,7 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <CodeOutlined/>
-              CONSOLE
+              <span className={styles.tabPanespan}>CONSOLE</span>
             </div>
           }
           key="msfconsole"
@@ -1465,7 +1465,7 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <SettingOutlined/>
-              平台设置
+              <span className={styles.tabPanespan}>平台设置</span>
             </div>
           }
           key="SystemSetting"
