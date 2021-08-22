@@ -1,13 +1,13 @@
-import React, { Fragment, memo, useState } from 'react';
+import React, { Fragment, memo, useState } from "react";
 import {
   getCoreSettingAPI,
   getServiceStatusAPI,
   postCoreSettingAPI,
-  putPostmodulePostModuleConfigAPI,
-} from '@/services/apiv1';
-import { history, useModel, useRequest } from 'umi';
+  putPostmodulePostModuleConfigAPI
+} from "@/services/apiv1";
+import { history, useModel, useRequest } from "umi";
 
-import { setToken } from '@/utils/authority';
+import { setToken } from "@/utils/authority";
 import {
   Badge,
   Button,
@@ -25,34 +25,34 @@ import {
   Switch,
   Tabs,
   Tag,
-  Typography,
-} from 'antd';
+  Typography
+} from "antd";
 import {
   CheckOutlined,
   DeliveredProcedureOutlined,
   LogoutOutlined,
   MinusOutlined,
   ReloadOutlined,
-  SyncOutlined,
-} from '@ant-design/icons';
-import { useLocalStorageState } from 'ahooks';
+  SyncOutlined
+} from "@ant-design/icons";
+import { useLocalStorageState } from "ahooks";
 
-import { reloadAuthorized } from '@/utils/Authorized';
+import { reloadAuthorized } from "@/utils/Authorized";
 
 const { Option } = Select;
 const { TabPane } = Tabs;
 const { Title, Paragraph, Text } = Typography;
 
-const viper_version = 'v1.3.20';
-const viper_update_date = '2021-08-15';
+const viper_version = "v1.3.21";
+const viper_update_date = "2021-08-22";
 const datas = [
   {
-    name: 'metasploit-framework',
-    url: 'https://github.com/rapid7/metasploit-framework/blob/master/LICENSE',
+    name: "metasploit-framework",
+    url: "https://github.com/rapid7/metasploit-framework/blob/master/LICENSE"
   },
   {
-    name: 'ant-design-pro',
-    url: 'https://github.com/ant-design/ant-design-pro/blob/master/LICENSE',
+    name: "ant-design-pro",
+    url: "https://github.com/ant-design/ant-design-pro/blob/master/LICENSE"
   },
   {
     name: 'django-rest-framework',
