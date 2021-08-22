@@ -43,7 +43,7 @@ const { Option } = Select;
 const { TabPane } = Tabs;
 const { Title, Paragraph, Text } = Typography;
 
-const viper_version = "v1.3.21";
+const viper_version = "v1.4.0";
 const viper_update_date = "2021-08-22";
 const datas = [
   {
