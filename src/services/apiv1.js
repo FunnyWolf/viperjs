@@ -93,13 +93,6 @@ export async function getMsgrpcFileMsfAPI(params) {
   });
 }
 
-export async function postMsgrpcFileMsfAPI(params) {
-  return request("/api/v1/msgrpc/filemsf/", {
-    method: "POST",
-    data: params
-  });
-}
-
 export async function deleteMsgrpcFileMsfAPI(params) {
   return request("/api/v1/msgrpc/filemsf/", {
     method: "DELETE",
@@ -134,12 +127,6 @@ export async function deletePostlateralCredentialAPI(params) {
   });
 }
 
-
-export async function getMsgrpcSocksAPI(params) {
-  return request("/api/v1/msgrpc/socks/", {
-    params
-  });
-}
 
 export async function postMsgrpcSocksAPI(params) {
   return request("/api/v1/msgrpc/socks/", {
@@ -288,10 +275,6 @@ export async function postPostmodulePostModuleActuatorAPI(params) {
 
 export async function getCoreCurrentUserAPI(params) {
   return request("/api/v1/core/currentuser/", { params });
-}
-
-export async function getMsgrpcSessionUploadDownloadAPI(params) {
-  return request("/api/v1/msgrpc/sessionuploaddownload/", { params });
 }
 
 
