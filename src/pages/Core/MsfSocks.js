@@ -1,35 +1,56 @@
 import React, { Fragment, memo, useState } from 'react';
-
-import { PlusOutlined, SyncOutlined } from '@ant-design/icons';
-
+import {
+  BugOutlined,
+  CloudOutlined,
+  CopyOutlined,
+  DeleteOutlined,
+  DeliveredProcedureOutlined,
+  GatewayOutlined,
+  LaptopOutlined,
+  PlusOutlined,
+  QuestionOutlined,
+  SearchOutlined,
+  SyncOutlined,
+  WindowsOutlined,
+} from '@ant-design/icons';
 import {
   Alert,
+  Avatar,
   Button,
   Col,
   Form as FormNew,
+  Form,
+  Input,
   InputNumber,
+  message,
   Modal,
+  Radio,
   Row,
   Select,
   Space,
   Table,
   Tabs,
   Tag,
-  Typography,
 } from 'antd';
-import { host_type_to_avatar_table, SidTag } from '@/pages/Core/Common';
+import { SidTag } from '@/pages/Core/Common';
 import styles from './MsfSocks.less';
-import { useRequest } from 'umi';
 import {
+  deleteCoreHostAPI,
   deleteMsgrpcPortFwdAPI,
   deleteMsgrpcRouteAPI,
   deleteMsgrpcSocksAPI,
-  getMsgrpcSocksAPI,
+  getCoreHostAPI,
   postMsgrpcSocksAPI,
+  putCoreHostAPI,
 } from '@/services/apiv1';
+
+import copy from 'copy-to-clipboard';
+import { formatMessage, useRequest } from 'umi';
+import moment from 'moment';
 
 const { Option } = Select;
 const { TabPane } = Tabs;
+const { Search } = Input;
 
 //字符串格式化函数
 String.prototype.format = function() {
@@ -38,42 +59,77 @@ String.prototype.format = function() {
     return args[i];
   });
 };
+const host_type_to_avatar = {
+  ad_server: (
+    <Avatar
+      size="small"
+      shape="square"
+      style={{ backgroundColor: '#177ddc' }}
+      icon={<WindowsOutlined/>}
+    />
+  ),
+  pc: (
+    <Avatar
+      size="small"
+      shape="square"
+      style={{ backgroundColor: '#49aa19' }}
+      icon={<LaptopOutlined/>}
+    />
+  ),
+  web_server: (
+    <Avatar
+      size="small"
+      shape="square"
+      style={{ backgroundColor: '#13a8a8' }}
+      icon={<CloudOutlined/>}
+    />
+  ),
+  cms: (
+    <Avatar
+      size="small"
+      shape="square"
+      style={{ backgroundColor: '#d84a1b' }}
+      icon={<BugOutlined/>}
+    />
+  ),
+  firewall: (
+    <Avatar
+      size="small"
+      shape="square"
+      style={{ backgroundColor: '#d87a16' }}
+      icon={<GatewayOutlined/>}
+    />
+  ),
+  other: (
+    <Avatar
+      size="small"
+      shape="square"
+      style={{ backgroundColor: '#bfbfbf' }}
+      icon={<QuestionOutlined/>}
+    />
+  ),
+};
 
-const MsfSocks = props => {
-  console.log('MsfSocks');
+
+const MuitHosts = () => {
+  console.log('MuitHosts');
+  const [updateHostModalVisable, setUpdateHostModalVisable] = useState(false);
+  const [hostList, setHostList] = useState([]);
+  const [hostListTmp, setHostListTmp] = useState([]);
+  const [hostAcvtive, setHostAcvtive] = useState({});
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [text, setText] = useState('');
   const [createSocksModalVisible, setCreateSocksModalVisible] = useState(false);
   const [socksActive, setSocksActive] = useState([]);
   const [routeAll, setRouteAll] = useState([]);
-  const [portfwds, setPortfwds] = useState({});
+  const [portfwds, setPortfwds] = useState([]);
   const [hostsRoute, setHostsRoute] = useState([]);
-
-  const initListSocksReq = useRequest(getMsgrpcSocksAPI, {
-    onSuccess: (result, params) => {
-      setSocksActive(result.socks);
-      setRouteAll(result.routes);
-      setPortfwds(result.portfwds);
-      setHostsRoute(result.hostsRoute);
-    },
-    onError: (error, params) => {
-    },
-  });
-
-  const listSocksReq = useRequest(getMsgrpcSocksAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
-      setSocksActive(result.socks);
-      setRouteAll(result.routes);
-      setPortfwds(result.portfwds);
-      setHostsRoute(result.hostsRoute);
-    },
-    onError: (error, params) => {
-    },
-  });
 
   const createSocksReq = useRequest(postMsgrpcSocksAPI, {
     manual: true,
     onSuccess: (result, params) => {
-      listSocksReq.run();
+      listHostReq.run();
       setCreateSocksModalVisible(false);
     },
     onError: (error, params) => {
@@ -83,7 +139,7 @@ const MsfSocks = props => {
   const destorySocksReq = useRequest(deleteMsgrpcSocksAPI, {
     manual: true,
     onSuccess: (result, params) => {
-      listSocksReq.run();
+      listHostReq.run();
     },
     onError: (error, params) => {
     },
@@ -92,7 +148,7 @@ const MsfSocks = props => {
   const destoryPortFwdReq = useRequest(deleteMsgrpcPortFwdAPI, {
     manual: true,
     onSuccess: (result, params) => {
-      listSocksReq.run();
+      listHostReq.run();
     },
     onError: (error, params) => {
     },
@@ -101,128 +157,302 @@ const MsfSocks = props => {
   const destoryRouteReq = useRequest(deleteMsgrpcRouteAPI, {
     manual: true,
     onSuccess: (result, params) => {
-      listSocksReq.run();
+      listHostReq.run();
     },
     onError: (error, params) => {
     },
   });
 
-  const formLayout = {
-    labelCol: { span: 4 },
-    wrapperCol: { span: 16 },
+
+  const initListHostReq = useRequest(getCoreHostAPI, {
+    onSuccess: (result, params) => {
+      setSocksActive(result.socks);
+      setPortfwds(result.portfwds);
+      setRouteAll(result.routes);
+      setHostList(result.hosts);
+
+      setHostListTmp(result.hosts);
+      setSelectedRowKeys([]);
+      setSelectedRows([]);
+    },
+    onError: (error, params) => {
+    },
+  });
+
+  const listHostReq = useRequest(getCoreHostAPI, {
+    manual: true,
+    onSuccess: (result, params) => {
+      setHostList(result.hosts);
+      setHostListTmp(result.hosts);
+      setSelectedRowKeys([]);
+      setSelectedRows([]);
+    },
+    onError: (error, params) => {
+    },
+  });
+
+  const showUpdateHostModal = record => {
+    setUpdateHostModalVisable(true);
+    setHostAcvtive(record);
   };
+
+  const closeUpdateHostModal = () => {
+    setUpdateHostModalVisable(false);
+  };
+
+  const updateHostReq = useRequest(putCoreHostAPI, {
+    manual: true,
+    onSuccess: (result, params) => {
+      closeUpdateHostModal();
+      listHostReq.run();
+    },
+    onError: (error, params) => {
+    },
+  });
+
+  const destoryHostReq = useRequest(deleteCoreHostAPI, {
+    manual: true,
+    onSuccess: (result, params) => {
+      listHostReq.run();
+    },
+    onError: (error, params) => {
+    },
+  });
+
+
+  const getSelectHostIPaddress = () => {
+    const ipaddressArray = [];
+    for (let i = 0; i < selectedRows.length; i += 1) {
+      ipaddressArray.push(selectedRows[i].ipaddress);
+    }
+    copy(ipaddressArray.join());
+    message.success(
+      `${ipaddressArray.join()} ${formatMessage({ id: 'app.response.copytoclipboard' })}`,
+    );
+  };
+
+  const reloadSearch = () => {
+    setHostList(hostListTmp);
+    setText('');
+  };
+
+  const handleSearch = value => {
+    const templist = hostListTmp;
+    const reg = new RegExp(value, 'gi');
+    setHostList(
+      templist
+        .map(record => {
+          let ipaddressMatch = false;
+          let commentMatch = false;
+          let techMatch = false;
+          try {
+            ipaddressMatch = record.ipaddress.includes(value);
+            if (record.comment === null) {
+              commentMatch = false;
+            } else {
+              commentMatch = record.comment.includes(value);
+            }
+
+            for (let i = 0; i < record.portService.length; i++) {
+              const portServiceStr = JSON.stringify(record.portService[i]);
+              techMatch = portServiceStr.match(reg);
+              if (techMatch) {
+                break;
+              }
+            }
+          } catch (error) {
+          }
+
+          if (ipaddressMatch || commentMatch || techMatch) {
+            return {
+              ...record,
+            };
+          }
+          return null;
+        })
+        .filter(record => !!record),
+    );
+  };
+
+  const onSelectChange = (selectedRowKeys, selectedRows) => {
+    setSelectedRowKeys(selectedRowKeys);
+    setSelectedRows(selectedRows);
+  };
+
+  const expandedRowRender = record => {
+    const portsColumns = [
+      {
+        title: '端口',
+        dataIndex: 'port',
+        width: 80,
+        render: (val, record) => <span>{val}</span>,
+      },
+      {
+        title: '服务',
+        dataIndex: 'service',
+        // width: '15%',
+      },
+      {
+        title: 'Banner',
+        dataIndex: 'banner',
+        // width: '20%',
+      },
+
+      {
+        title: '更新时间',
+        dataIndex: 'update_time',
+        width: 80,
+        render: val => <Tag color="cyan">{moment(val * 1000).fromNow()}</Tag>,
+      },
+    ];
+
+    return (
+      <Table
+        bordered
+        style={{ marginLeft: 23 }}
+        size="small"
+        columns={portsColumns}
+        rowKey={item => item.id}
+        dataSource={record.portService}
+        pagination={false}
+      />
+    );
+  };
+
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
+
+  const formLayout = {
+    labelCol: { span: 3 },
+    wrapperCol: { span: 18 },
+  };
+
+  const tailLayout = {
+    wrapperCol: { offset: 3, span: 18 },
+  };
+
   const buttonLayout = {
     wrapperCol: { offset: 4, span: 16 },
   };
 
+  const hostTypeToAvatar = {
+    ad_server: (
+      <Avatar shape="square" style={{ backgroundColor: '#177ddc' }} icon={<WindowsOutlined/>}/>
+    ),
+    pc: <Avatar shape="square" style={{ backgroundColor: '#49aa19' }} icon={<LaptopOutlined/>}/>,
+    web_server: (
+      <Avatar shape="square" style={{ backgroundColor: '#13a8a8' }} icon={<CloudOutlined/>}/>
+    ),
+    cms: <Avatar shape="square" style={{ backgroundColor: '#d84a1b' }} icon={<BugOutlined/>}/>,
+    firewall: (
+      <Avatar shape="square" style={{ backgroundColor: '#d87a16' }} icon={<GatewayOutlined/>}/>
+    ),
+    other: (
+      <Avatar shape="square" style={{ backgroundColor: '#bfbfbf' }} icon={<QuestionOutlined/>}/>
+    ),
+  };
+
   return (
-    <Fragment>
-      <Row gutter={0} style={{ marginTop: -16 }}>
-        <Col span={12}>
-          <Button
-            style={{ marginTop: 0 }}
-            block
-            icon={<PlusOutlined/>}
-            onClick={() => setCreateSocksModalVisible(true)}
-          >
-            新增代理
-          </Button>
-          <Tabs
-            style={{
-              padding: '0 0 0 0',
-            }}
-            type="card"
-            defaultActiveKey="socks"
-            tabPosition="top"
-          >
-            <TabPane tab="内网代理" key="socks">
-              <Table
-                bordered
-                style={{ marginTop: -16 }}
-                className={styles.routesTable}
-                size="small"
-                rowKey="port"
-                pagination={false}
-                dataSource={socksActive}
-                columns={[
-                  {
-                    title: '代理类型',
-                    dataIndex: 'type',
-                    key: 'type',
-                  },
-                  {
-                    title: '监听地址',
-                    dataIndex: 'lhost',
-                    key: 'lhost',
-                  },
-                  {
-                    title: '端口',
-                    dataIndex: 'port',
-                    key: 'port',
-                  },
-                  {
-                    title: '操作',
-                    dataIndex: 'operation',
-                    width: 64,
-                    render: (text, record) => (
-                      <a style={{ color: 'red' }} onClick={() => destorySocksReq.run(record)}>
-                        删除
-                      </a>
-                    ),
-                  },
-                ]}
+    <div
+      style={{ marginTop: -16 }}
+    >
+      <Row>
+        <Col span={20}>
+          <Row>
+            <Col span={8}>
+              <Input
+                allowClear
+                prefix={<SearchOutlined/>}
+                style={{ width: '100%' }}
+                placeholder="搜索 : IP地址/端口/服务"
+                value={text}
+                onChange={e => {
+                  setText(e.target.value);
+                  handleSearch(e.target.value);
+                }}
               />
-            </TabPane>
-          </Tabs>
-        </Col>
-        <Col span={12}>
-          <Button
-            icon={<SyncOutlined/>}
-            block
-            loading={
-              listSocksReq.loading ||
-              destorySocksReq.loading ||
-              destoryPortFwdReq.loading ||
-              destoryRouteReq.loading
-            }
-            onClick={() => listSocksReq.run()}
-          >
-            刷新
-          </Button>
-          <Tabs
-            style={{
-              marginTop: 0,
-              padding: '0 0 0 0',
-            }}
-            type="card"
-            animated
-            defaultActiveKey="hostsRoute"
-            tabPosition="top"
-          >
-            <TabPane tab=" 路由路径 " key="hostsRoute">
+            </Col>
+            <Col span={4}>
+              <Button
+                onClick={() => getSelectHostIPaddress()}
+                block
+                disabled={selectedRowKeys.length === 0}
+                icon={<CopyOutlined/>}
+              >
+                拷贝
+              </Button>
+            </Col>
+            <Col span={4}>
+              <Button
+                onClick={() => destoryHostReq.run({ ipaddress: selectedRowKeys.toString() })}
+                block
+                disabled={selectedRowKeys.length === 0}
+                danger
+              >
+                <DeleteOutlined/> 删除
+              </Button>
+            </Col>
+            <Col span={8}>
+              <Button
+                icon={<SyncOutlined/>}
+                onClick={() => listHostReq.run()}
+                block
+                loading={listHostReq.loading ||
+                destoryHostReq.loading ||
+                destorySocksReq.loading ||
+                destoryPortFwdReq.loading ||
+                destoryRouteReq.loading}
+              >
+                刷新
+              </Button>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={16}>
               <Table
-                bordered
-                style={{ marginTop: -16 }}
-                className={styles.routesTable}
+                style={{ marginTop: 0 }}
+                className={styles.muitHostsTable}
                 size="small"
-                rowKey="subnet"
+                bordered
                 pagination={false}
-                dataSource={hostsRoute}
+                rowKey="ipaddress"
+                expandable={{
+                  expandedRowRender: expandedRowRender,
+                  rowExpandable: record => record.portService.length > 0,
+                }}
+                rowSelection={rowSelection}
                 columns={[
                   {
                     title: '主机',
                     dataIndex: 'ipaddress',
                     key: 'ipaddress',
                     width: 120,
+                    render: (text, record) => (
+                      <strong
+                        style={{
+                          color: '#d8bd14',
+                        }}
+                      >
+                        {text}
+                      </strong>
+                    ),
+                  },
+                  {
+                    title: '开放端口',
+                    dataIndex: 'portService',
+                    key: 'portService',
+                    width: 80,
+                    sorter: (a, b) => a.portService.length >= b.portService.length,
                     render: (text, record) => {
                       return (
                         <strong
                           style={{
-                            textAlign: 'center',
-                            color: '#d8bd14',
+                            color: '#13a8a8',
                           }}
                         >
-                          {text}
+                          {record.portService.length} 个
                         </strong>
                       );
                     },
@@ -254,26 +484,45 @@ const MsfSocks = props => {
                     },
                   },
                   {
-                    title: '备注信息',
+                    title: '备注',
                     dataIndex: 'comment',
                     key: 'comment',
+                    // width: '10%',
+                    render: (text, record) => {
+                      return (
+                        <Fragment>
+                          {host_type_to_avatar[record.tag]}
+                          <span style={{ marginLeft: 8 }}>{text}</span>
+                        </Fragment>
+                      );
+                    },
+                  },
+                  {
+                    title: '操作',
+                    dataIndex: 'operation',
+                    width: 96,
                     render: (text, record) => (
-                      <div style={{ display: 'flex' }}>
-                        {host_type_to_avatar_table[record.tag]}
-                        <Typography.Text style={{ marginLeft: 4 }}>
-                          {record.comment}
-                        </Typography.Text>
+                      <div style={{ textAlign: 'center' }}>
+                        <Space size="middle">
+                          <a onClick={() => showUpdateHostModal(record)}>编辑</a>
+                          <a
+                            onClick={() => destoryHostReq.run({ ipaddress: record.ipaddress })}
+                            style={{ color: 'red' }}
+                          >
+                            删除
+                          </a>
+                        </Space>
                       </div>
                     ),
                   },
                 ]}
+                dataSource={hostList}
               />
-            </TabPane>
-            <TabPane tab=" 路由列表 " key="routes">
+            </Col>
+            <Col span={8}>
               <Table
                 bordered
-                style={{ marginTop: -16 }}
-                className={styles.routesTable}
+                className={styles.proxyTable}
                 size="small"
                 rowKey="subnet"
                 pagination={false}
@@ -292,6 +541,7 @@ const MsfSocks = props => {
                     title: '路由子网',
                     dataIndex: 'subnet',
                     key: 'subnet',
+                    // width: 120,
                   },
                   {
                     title: '路由掩码',
@@ -302,7 +552,7 @@ const MsfSocks = props => {
                   {
                     title: '操作',
                     dataIndex: 'operation',
-                    width: 64,
+                    width: 48,
                     render: (text, record) => (
                       <a
                         style={{ color: 'red' }}
@@ -320,11 +570,9 @@ const MsfSocks = props => {
                   },
                 ]}
               />
-            </TabPane>
-            <TabPane tab=" 端口转发 " key="portfwd">
               <Table
                 style={{ marginTop: -16 }}
-                className={styles.routesTable}
+                className={styles.portfwdTable}
                 bordered
                 size="small"
                 rowKey="index"
@@ -385,7 +633,6 @@ const MsfSocks = props => {
                       );
                     },
                   },
-
                   {
                     title: '远程(Session)',
                     dataIndex: 'remote',
@@ -423,10 +670,114 @@ const MsfSocks = props => {
                   },
                 ]}
               />
-            </TabPane>
-          </Tabs>
+            </Col>
+          </Row>
+        </Col>
+        <Col span={4}>
+          <Button
+            style={{ marginTop: 0 }}
+            block
+            icon={<PlusOutlined/>}
+            onClick={() => setCreateSocksModalVisible(true)}
+          >
+            新增代理
+          </Button>
+          <Table
+            bordered
+            className={styles.routesTable}
+            size="small"
+            rowKey="port"
+            pagination={false}
+            dataSource={socksActive}
+            columns={[
+              {
+                title: '代理类型',
+                dataIndex: 'type',
+                key: 'type',
+                width: 96,
+              },
+              {
+                title: '端口',
+                dataIndex: 'port',
+                key: 'port',
+                // width: 96,
+              },
+              {
+                title: '操作',
+                dataIndex: 'operation',
+                width: 64,
+                render: (text, record) => (
+                  <a style={{ color: 'red' }} onClick={() => destorySocksReq.run(record)}>
+                    删除
+                  </a>
+                ),
+              },
+            ]}
+          />
         </Col>
       </Row>
+      <Modal
+        width="50vw"
+        bodyStyle={{ padding: '32px 8px 8px 1px' }}
+        destroyOnClose
+        visible={updateHostModalVisable}
+        footer={null}
+        style={{ top: '30vh' }}
+        onCancel={closeUpdateHostModal}
+      >
+        <Form
+          initialValues={{
+            ipaddress: hostAcvtive.ipaddress,
+            tag: hostAcvtive.tag,
+            comment: hostAcvtive.comment,
+          }}
+          onFinish={updateHostReq.run}
+        >
+          <Form.Item
+            label={<span>ipaddress</span>}
+            name="ipaddress"
+            rules={[{ required: true, message: '请输入' }]}
+            style={{ display: 'None' }}
+            {...formLayout}
+          >
+            <span>{hostAcvtive.ipaddress}</span>
+          </Form.Item>
+          <Form.Item
+            label={<span>标签</span>}
+            name="tag"
+            rules={[{ required: true, message: '请选择标签' }]}
+            {...formLayout}
+          >
+            <Radio.Group>
+              <Radio value="ad_server">{hostTypeToAvatar.ad_server}</Radio>
+              <Radio value="pc">{hostTypeToAvatar.pc}</Radio>
+              <Radio value="web_server">{hostTypeToAvatar.web_server}</Radio>
+              <Radio value="cms">{hostTypeToAvatar.cms}</Radio>
+              <Radio value="firewall">{hostTypeToAvatar.firewall}</Radio>
+              <Radio value="other">{hostTypeToAvatar.other}</Radio>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item
+            label={<span>注释</span>}
+            name="comment"
+            rules={[{ message: '最多支持二十个字符', max: 20 }]}
+            {...formLayout}
+          >
+            <Input placeholder="最大支持二十个字符"/>
+          </Form.Item>
+          <Form.Item {...tailLayout}>
+            <Button
+              icon={<DeliveredProcedureOutlined/>}
+              block
+              type="primary"
+              htmlType="submit"
+              loading={updateHostReq.loading}
+            >
+              更新
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
       <Modal
         title="新增代理"
         centered
@@ -489,7 +840,8 @@ const MsfSocks = props => {
           </Row>
         </FormNew>
       </Modal>
-    </Fragment>
+    </div>
   );
 };
-export const MsfSocksMemo = memo(MsfSocks);
+
+export const MuitHostsMemo = memo(MuitHosts);

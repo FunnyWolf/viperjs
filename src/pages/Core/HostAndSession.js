@@ -67,7 +67,6 @@ import {
   FolderOpenOutlined,
   FundViewOutlined,
   GatewayOutlined,
-  GroupOutlined,
   HomeOutlined,
   InteractionOutlined,
   KeyOutlined,
@@ -137,11 +136,10 @@ import moment from 'moment';
 import { FileMsfMemo, FileMsfModal } from '@/pages/Core/FileMsf';
 import PayloadAndHandler, { PayloadAndHandlerMemo } from '@/pages/Core/PayloadAndHandler';
 import { WebDeliveryMemo } from '@/pages/Core/WebDelivery';
-import MuitHosts, { MuitHostsMemo } from '@/pages/Core/MuitHosts';
 import { host_type_to_avatar_table, MyIcon, SidTag } from '@/pages/Core/Common';
 import SystemSetting, { SystemSettingMemo } from '@/pages/Core/SystemSetting';
 import { BotScan, PostModuleMemo, RunAutoModuleMemo, RunModuleMemo } from '@/pages/Core/RunModule';
-import { MsfSocksMemo } from '@/pages/Core/MsfSocks';
+import { MuitHostsMemo } from '@/pages/Core/MsfSocks';
 import LazyLoader, { LazyLoaderMemo } from '@/pages/Core/LazyLoader';
 import Credential, { CredentialMemo } from '@/pages/Core/Credential';
 import { getToken } from '@/utils/authority';
@@ -1400,17 +1398,6 @@ const TabsBottom = () => {
             </div>
           }
           key="Socks"
-        >
-          <MsfSocksMemo/>
-        </TabPane>
-        <TabPane
-          tab={
-            <div className={styles.tabPanediv}>
-              <GroupOutlined/>
-              <span className={styles.tabPanespan}>主机列表</span>
-            </div>
-          }
-          key="MuitHosts"
         >
           <MuitHostsMemo/>
         </TabPane>
