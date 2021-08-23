@@ -30,7 +30,6 @@ import {
   Select,
   Space,
   Table,
-  Tabs,
   Tag
 } from "antd";
 import { SidTag } from "@/pages/Core/Common";
@@ -50,8 +49,6 @@ import { formatMessage, useRequest } from "umi";
 import moment from "moment";
 
 const { Option } = Select;
-const { TabPane } = Tabs;
-const { Search } = Input;
 
 //字符串格式化函数
 String.prototype.format = function() {

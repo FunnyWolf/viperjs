@@ -1,16 +1,23 @@
-import React, { Fragment, memo, useState } from 'react';
-import { ChromeOutlined, MehOutlined, PlusOutlined, SyncOutlined, WindowsOutlined } from '@ant-design/icons';
-import { Button, Col, Collapse, Form, Input, Modal, Popover, Radio, Row, Space, Table, Tooltip } from 'antd';
-import Ellipsis from '@/components/Ellipsis';
-import styles from './Credential.less';
+import React, { Fragment, memo, useState } from "react";
+import {
+  ChromeOutlined,
+  FormOutlined,
+  MehOutlined,
+  PlusOutlined,
+  SyncOutlined,
+  WindowsOutlined
+} from "@ant-design/icons";
+import { Button, Col, Collapse, Form, Input, Modal, Popover, Radio, Row, Table, Tooltip } from "antd";
+import Ellipsis from "@/components/Ellipsis";
+import styles from "./Credential.less";
 import {
   deletePostlateralCredentialAPI,
   getPostlateralCredentialAPI,
   postPostlateralCredentialAPI,
-  putPostlateralCredentialAPI,
-} from '@/services/apiv1';
+  putPostlateralCredentialAPI
+} from "@/services/apiv1";
 
-import { useRequest } from 'umi';
+import { useRequest } from "umi";
 
 const { Panel } = Collapse;
 const { Search } = Input;
@@ -24,7 +31,7 @@ String.prototype.format = function() {
 };
 
 const Credential = () => {
-  console.log('Credential');
+  console.log("Credential");
   const [createCredentialModalVisible, setCreateCredentialModalVisible] = useState(false);
   const [credentialList, setCredentialList] = useState([]);
 
@@ -33,7 +40,7 @@ const Credential = () => {
       setCredentialList(result);
     },
     onError: (error, params) => {
-    },
+    }
   });
 
   const listCredentialReq = useRequest(getPostlateralCredentialAPI, {
@@ -42,7 +49,7 @@ const Credential = () => {
       setCredentialList(result);
     },
     onError: (error, params) => {
-    },
+    }
   });
 
   const createCredentialReq = useRequest(postPostlateralCredentialAPI, {
@@ -52,7 +59,7 @@ const Credential = () => {
       listCredentialReq.run();
     },
     onError: (error, params) => {
-    },
+    }
   });
   const updateCredentialReq = useRequest(putPostlateralCredentialAPI, {
     manual: true,
@@ -60,7 +67,7 @@ const Credential = () => {
       listCredentialReq.run();
     },
     onError: (error, params) => {
-    },
+    }
   });
 
   const destoryCredentialReq = useRequest(deletePostlateralCredentialAPI, {
@@ -69,15 +76,15 @@ const Credential = () => {
       listCredentialReq.run();
     },
     onError: (error, params) => {
-    },
+    }
   });
 
   const formLayout = {
     labelCol: { span: 4 },
-    wrapperCol: { span: 16 },
+    wrapperCol: { span: 16 }
   };
   const tailLayout = {
-    wrapperCol: { offset: 4, span: 16 },
+    wrapperCol: { offset: 4, span: 16 }
   };
 
   return (
@@ -86,7 +93,7 @@ const Credential = () => {
         <Col span={12}>
           <Button
             block
-            icon={<PlusOutlined/>}
+            icon={<PlusOutlined />}
             onClick={() => setCreateCredentialModalVisible(true)}
           >
             手动添加
@@ -95,7 +102,7 @@ const Credential = () => {
         <Col span={12}>
           <Button
             block
-            icon={<SyncOutlined/>}
+            icon={<SyncOutlined />}
             onClick={() => listCredentialReq.run()}
             loading={listCredentialReq.loading || destoryCredentialReq.loading}
           >
@@ -112,70 +119,70 @@ const Credential = () => {
         rowKey="id"
         columns={[
           {
-            title: '用户名',
-            dataIndex: 'username',
-            key: 'username',
+            title: "用户名",
+            dataIndex: "username",
+            key: "username",
 
             render: (text, record) => (
               <Ellipsis tooltip lines={2}>
                 {text}
               </Ellipsis>
-            ),
+            )
           },
           {
-            title: '密码',
-            dataIndex: 'password',
-            key: 'password',
+            title: "密码",
+            dataIndex: "password",
+            key: "password",
             width: 280,
             render: (text, record) => (
               <Ellipsis tooltip lines={2}>
                 {text}
               </Ellipsis>
-            ),
+            )
           },
           {
-            title: '类型',
-            dataIndex: 'password_type',
-            key: 'password_type',
+            title: "类型",
+            dataIndex: "password_type",
+            key: "password_type",
             width: 40,
             render: (text, record) => {
               const typetoicon = {
                 windows: (
-                  <div style={{ textAlign: 'center' }}>
-                    <WindowsOutlined/>
+                  <div style={{ textAlign: "center" }}>
+                    <WindowsOutlined />
                   </div>
                 ),
                 userinput: (
-                  <div style={{ textAlign: 'center' }}>
-                    <MehOutlined/>
+                  <div style={{ textAlign: "center" }}>
+                    <MehOutlined />
                   </div>
                 ),
                 browsers: (
-                  <div style={{ textAlign: 'center' }}>
-                    <ChromeOutlined/>
+                  <div style={{ textAlign: "center" }}>
+                    <ChromeOutlined />
                   </div>
-                ),
+                )
               };
               if (typetoicon[text]) {
                 return typetoicon[text];
               }
               return <span>{text}</span>;
-            },
+            }
           },
           {
-            title: '标签',
-            dataIndex: 'tag',
-            key: 'tag',
+            title: "标签",
+            dataIndex: "tag",
+            key: "tag",
             render: (text, record) => (
               <Ellipsis tooltip lines={2}>
                 {text}
               </Ellipsis>
-            ),
+            )
           },
           {
-            title: '模块',
-            dataIndex: 'source_module',
-            key: 'source_module',
+            title: "模块",
+            dataIndex: "source_module",
+            key: "source_module",
             width: 200,
             render: (text, record) => {
               const test = text;
@@ -184,38 +191,29 @@ const Credential = () => {
                   <span>{text}</span>
                 </Tooltip>
               );
-            },
+            }
           },
           {
-            title: '主机',
-            dataIndex: 'host_ipaddress',
-            key: 'host_ipaddress',
+            title: "主机",
+            dataIndex: "host_ipaddress",
+            key: "host_ipaddress",
             width: 120,
             render: (text, record) => {
               const test = text;
-              return <strong style={{ color: '#d8bd14' }}>{text}</strong>;
-            },
+              return <strong style={{ color: "#d8bd14" }}>{text}</strong>;
+            }
           },
           {
-            title: '说明',
-            dataIndex: 'desc',
-            key: 'desc',
+            title: "说明",
+            dataIndex: "desc",
+            key: "desc",
             render: (text, record) => {
               const test = text;
               return (
-                <Ellipsis tooltip lines={2}>
-                  {text}
-                </Ellipsis>
-              );
-            },
-          },
-          {
-            title: '操作',
-            dataIndex: 'operation',
-            width: 96,
-            render: (text, record) => (
-              <div style={{ textAlign: 'center' }}>
-                <Space size="middle">
+                <Fragment>
+                  <span>
+                    {text}
+                  </span>
                   <Popover
                     title="说明"
                     content={
@@ -229,18 +227,27 @@ const Credential = () => {
                     }
                     trigger="click"
                   >
-                    <a>编辑</a>
+                    <a style={{ float: "right" }}><FormOutlined /></a>
                   </Popover>
-                  <a
-                    onClick={() => destoryCredentialReq.run({ id: record.id })}
-                    style={{ color: 'red' }}
-                  >
-                    删除
-                  </a>
-                </Space>
-              </div>
-            ),
+                </Fragment>
+              );
+            }
           },
+          {
+            title: "操作",
+            dataIndex: "operation",
+            width: 48,
+            render: (text, record) => (
+              <div style={{ textAlign: "center" }}>
+                <a
+                  onClick={() => destoryCredentialReq.run({ id: record.id })}
+                  style={{ color: "red" }}
+                >
+                  删除
+                </a>
+              </div>
+            )
+          }
         ]}
         dataSource={credentialList}
       />
@@ -248,35 +255,35 @@ const Credential = () => {
         title="新增凭证"
         style={{ top: 32 }}
         width="50vw"
-        bodyStyle={{ padding: '0px 0px 16px 0px' }}
+        bodyStyle={{ padding: "0px 0px 16px 0px" }}
         footer={null}
         destroyOnClose
         visible={createCredentialModalVisible}
         onCancel={() => setCreateCredentialModalVisible(false)}
       >
         <Form onFinish={createCredentialReq.run}>
-          <Collapse bordered={false} defaultActiveKey={['1', '2']}>
+          <Collapse bordered={false} defaultActiveKey={["1", "2"]}>
             <Panel header="基础信息" key="1">
               <Form.Item
                 {...formLayout}
                 label={<span>用户名</span>}
                 name="username"
-                rules={[{ required: true, message: '请输入用户名' }]}
+                rules={[{ required: true, message: "请输入用户名" }]}
               >
-                <Input placeholder="请输入用户名"/>
+                <Input placeholder="请输入用户名" />
               </Form.Item>
               <Form.Item
                 {...formLayout}
                 label="密码/哈希"
                 name="password"
-                rules={[{ required: true, message: '请输入密码' }]}
+                rules={[{ required: true, message: "请输入密码" }]}
               >
-                <Input placeholder="请输入密码信息"/>
+                <Input placeholder="请输入密码信息" />
               </Form.Item>
             </Panel>
             <Panel header="Windows凭证" key="2">
               <Form.Item {...formLayout} label={<span>Domain</span>} name="windows-domain">
-                <Input placeholder="请输入域名称"/>
+                <Input placeholder="请输入域名称" />
               </Form.Item>
 
               <Form.Item {...formLayout} label={<span>凭证类型</span>} name="windows-type">
@@ -289,7 +296,7 @@ const Credential = () => {
             <Form.Item {...tailLayout}>
               <Button
                 block
-                icon={<PlusOutlined/>}
+                icon={<PlusOutlined />}
                 type="primary"
                 htmlType="submit"
                 loading={createCredentialReq.loading}
