@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useState } from 'react';
 import {
   BugOutlined,
   CloudOutlined,
@@ -12,8 +12,8 @@ import {
   QuestionOutlined,
   SearchOutlined,
   SyncOutlined,
-  WindowsOutlined
-} from "@ant-design/icons";
+  WindowsOutlined,
+} from '@ant-design/icons';
 import {
   Alert,
   Avatar,
@@ -30,10 +30,10 @@ import {
   Select,
   Space,
   Table,
-  Tag
-} from "antd";
-import { SidTag } from "@/pages/Core/Common";
-import styles from "./MsfSocks.less";
+  Tag,
+} from 'antd';
+import { SidTag } from '@/pages/Core/Common';
+import styles from './MsfSocks.less';
 import {
   deleteCoreHostAPI,
   deleteMsgrpcPortFwdAPI,
@@ -41,12 +41,12 @@ import {
   deleteMsgrpcSocksAPI,
   getCoreHostAPI,
   postMsgrpcSocksAPI,
-  putCoreHostAPI
-} from "@/services/apiv1";
+  putCoreHostAPI,
+} from '@/services/apiv1';
 
-import copy from "copy-to-clipboard";
-import { formatMessage, useRequest } from "umi";
-import moment from "moment";
+import copy from 'copy-to-clipboard';
+import { formatMessage, useRequest } from 'umi';
+import moment from 'moment';
 
 const { Option } = Select;
 
@@ -62,67 +62,98 @@ const host_type_to_avatar = {
     <Avatar
       size="small"
       shape="square"
-      style={{ backgroundColor: "#177ddc" }}
-      icon={<WindowsOutlined />}
+      style={{ backgroundColor: '#177ddc' }}
+      icon={<WindowsOutlined/>}
     />
   ),
   pc: (
     <Avatar
       size="small"
       shape="square"
-      style={{ backgroundColor: "#49aa19" }}
-      icon={<LaptopOutlined />}
+      style={{ backgroundColor: '#49aa19' }}
+      icon={<LaptopOutlined/>}
     />
   ),
   web_server: (
     <Avatar
       size="small"
       shape="square"
-      style={{ backgroundColor: "#13a8a8" }}
-      icon={<CloudOutlined />}
+      style={{ backgroundColor: '#13a8a8' }}
+      icon={<CloudOutlined/>}
     />
   ),
   cms: (
     <Avatar
       size="small"
       shape="square"
-      style={{ backgroundColor: "#d84a1b" }}
-      icon={<BugOutlined />}
+      style={{ backgroundColor: '#d84a1b' }}
+      icon={<BugOutlined/>}
     />
   ),
   firewall: (
     <Avatar
       size="small"
       shape="square"
-      style={{ backgroundColor: "#d87a16" }}
-      icon={<GatewayOutlined />}
+      style={{ backgroundColor: '#d87a16' }}
+      icon={<GatewayOutlined/>}
     />
   ),
   other: (
     <Avatar
       size="small"
       shape="square"
-      style={{ backgroundColor: "#bfbfbf" }}
-      icon={<QuestionOutlined />}
+      style={{ backgroundColor: '#bfbfbf' }}
+      icon={<QuestionOutlined/>}
     />
-  )
+  ),
 };
 
 
 const MuitHosts = () => {
-  console.log("MuitHosts");
+  console.log('MuitHosts');
   const [updateHostModalVisable, setUpdateHostModalVisable] = useState(false);
   const [hostList, setHostList] = useState([]);
   const [hostListTmp, setHostListTmp] = useState([]);
   const [hostAcvtive, setHostAcvtive] = useState({});
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
-  const [text, setText] = useState("");
   const [createSocksModalVisible, setCreateSocksModalVisible] = useState(false);
   const [socksActive, setSocksActive] = useState([]);
   const [routeAll, setRouteAll] = useState([]);
   const [portfwds, setPortfwds] = useState([]);
   const [hostsRoute, setHostsRoute] = useState([]);
+
+
+  const initListHostReq = useRequest(getCoreHostAPI, {
+    onSuccess: (result, params) => {
+      setSocksActive(result.socks);
+      setPortfwds(result.portfwds);
+      setRouteAll(result.routes);
+
+      setHostList(result.hosts);
+      setHostListTmp(result.hosts);
+      setSelectedRowKeys([]);
+      setSelectedRows([]);
+    },
+    onError: (error, params) => {
+    },
+  });
+
+  const listHostReq = useRequest(getCoreHostAPI, {
+    manual: true,
+    onSuccess: (result, params) => {
+      setSocksActive(result.socks);
+      setPortfwds(result.portfwds);
+      setRouteAll(result.routes);
+
+      setHostList(result.hosts);
+      setHostListTmp(result.hosts);
+      setSelectedRowKeys([]);
+      setSelectedRows([]);
+    },
+    onError: (error, params) => {
+    },
+  });
 
   const createSocksReq = useRequest(postMsgrpcSocksAPI, {
     manual: true,
@@ -131,7 +162,7 @@ const MuitHosts = () => {
       setCreateSocksModalVisible(false);
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const destorySocksReq = useRequest(deleteMsgrpcSocksAPI, {
@@ -140,7 +171,7 @@ const MuitHosts = () => {
       listHostReq.run();
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const destoryPortFwdReq = useRequest(deleteMsgrpcPortFwdAPI, {
@@ -149,7 +180,7 @@ const MuitHosts = () => {
       listHostReq.run();
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const destoryRouteReq = useRequest(deleteMsgrpcRouteAPI, {
@@ -158,54 +189,23 @@ const MuitHosts = () => {
       listHostReq.run();
     },
     onError: (error, params) => {
-    }
-  });
-
-
-  const initListHostReq = useRequest(getCoreHostAPI, {
-    onSuccess: (result, params) => {
-      setSocksActive(result.socks);
-      setPortfwds(result.portfwds);
-      setRouteAll(result.routes);
-      setHostList(result.hosts);
-
-      setHostListTmp(result.hosts);
-      setSelectedRowKeys([]);
-      setSelectedRows([]);
     },
-    onError: (error, params) => {
-    }
   });
 
-  const listHostReq = useRequest(getCoreHostAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
-      setHostList(result.hosts);
-      setHostListTmp(result.hosts);
-      setSelectedRowKeys([]);
-      setSelectedRows([]);
-    },
-    onError: (error, params) => {
-    }
-  });
 
   const showUpdateHostModal = record => {
     setUpdateHostModalVisable(true);
     setHostAcvtive(record);
   };
 
-  const closeUpdateHostModal = () => {
-    setUpdateHostModalVisable(false);
-  };
-
   const updateHostReq = useRequest(putCoreHostAPI, {
     manual: true,
     onSuccess: (result, params) => {
-      closeUpdateHostModal();
+      setUpdateHostModalVisable(false);
       listHostReq.run();
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const destoryHostReq = useRequest(deleteCoreHostAPI, {
@@ -214,7 +214,7 @@ const MuitHosts = () => {
       listHostReq.run();
     },
     onError: (error, params) => {
-    }
+    },
   });
 
 
@@ -225,50 +225,43 @@ const MuitHosts = () => {
     }
     copy(ipaddressArray.join());
     message.success(
-      `${ipaddressArray.join()} ${formatMessage({ id: "app.response.copytoclipboard" })}`
+      `${ipaddressArray.join()} ${formatMessage({ id: 'app.response.copytoclipboard' })}`,
     );
-  };
-
-  const reloadSearch = () => {
-    setHostList(hostListTmp);
-    setText("");
   };
 
   const handleSearch = value => {
     const templist = hostListTmp;
-    const reg = new RegExp(value, "gi");
-    setHostList(
-      templist
-        .map(record => {
-          let ipaddressMatch = false;
-          let commentMatch = false;
-          let techMatch = false;
-          try {
-            ipaddressMatch = record.ipaddress.includes(value);
-            if (record.comment === null) {
-              commentMatch = false;
-            } else {
-              commentMatch = record.comment.includes(value);
-            }
-
-            for (let i = 0; i < record.portService.length; i++) {
-              const portServiceStr = JSON.stringify(record.portService[i]);
-              techMatch = portServiceStr.match(reg);
-              if (techMatch) {
-                break;
-              }
-            }
-          } catch (error) {
+    const reg = new RegExp(value, 'gi');
+    setHostList(templist.map(record => {
+        let ipaddressMatch = false;
+        let commentMatch = false;
+        let techMatch = false;
+        try {
+          ipaddressMatch = record.ipaddress.includes(value);
+          if (record.comment === null) {
+            commentMatch = false;
+          } else {
+            commentMatch = record.comment.includes(value);
           }
 
-          if (ipaddressMatch || commentMatch || techMatch) {
-            return {
-              ...record
-            };
+          for (let i = 0; i < record.portService.length; i++) {
+            const portServiceStr = JSON.stringify(record.portService[i]);
+            techMatch = portServiceStr.match(reg);
+            if (techMatch) {
+              break;
+            }
           }
-          return null;
-        })
-        .filter(record => !!record)
+        } catch (error) {
+        }
+
+        if (ipaddressMatch || commentMatch || techMatch) {
+          return {
+            ...record,
+          };
+        }
+        return null;
+      })
+        .filter(record => !!record),
     );
   };
 
@@ -280,28 +273,28 @@ const MuitHosts = () => {
   const expandedRowRender = record => {
     const portsColumns = [
       {
-        title: "端口",
-        dataIndex: "port",
+        title: '端口',
+        dataIndex: 'port',
         width: 80,
-        render: (val, record) => <span>{val}</span>
+        render: (val, record) => <span>{val}</span>,
       },
       {
-        title: "服务",
-        dataIndex: "service"
+        title: '服务',
+        dataIndex: 'service',
         // width: '15%',
       },
       {
-        title: "Banner",
-        dataIndex: "banner"
+        title: 'Banner',
+        dataIndex: 'banner',
         // width: '20%',
       },
 
       {
-        title: "更新时间",
-        dataIndex: "update_time",
+        title: '更新时间',
+        dataIndex: 'update_time',
         width: 80,
-        render: val => <Tag color="cyan">{moment(val * 1000).fromNow()}</Tag>
-      }
+        render: val => <Tag color="cyan">{moment(val * 1000).fromNow()}</Tag>,
+      },
     ];
 
     return (
@@ -319,37 +312,37 @@ const MuitHosts = () => {
 
   const rowSelection = {
     selectedRowKeys,
-    onChange: onSelectChange
+    onChange: onSelectChange,
   };
 
   const formLayout = {
     labelCol: { span: 3 },
-    wrapperCol: { span: 18 }
+    wrapperCol: { span: 18 },
   };
 
   const tailLayout = {
-    wrapperCol: { offset: 3, span: 18 }
+    wrapperCol: { offset: 3, span: 18 },
   };
 
   const buttonLayout = {
-    wrapperCol: { offset: 4, span: 16 }
+    wrapperCol: { offset: 4, span: 16 },
   };
 
   const hostTypeToAvatar = {
     ad_server: (
-      <Avatar shape="square" style={{ backgroundColor: "#177ddc" }} icon={<WindowsOutlined />} />
+      <Avatar shape="square" style={{ backgroundColor: '#177ddc' }} icon={<WindowsOutlined/>}/>
     ),
-    pc: <Avatar shape="square" style={{ backgroundColor: "#49aa19" }} icon={<LaptopOutlined />} />,
+    pc: <Avatar shape="square" style={{ backgroundColor: '#49aa19' }} icon={<LaptopOutlined/>}/>,
     web_server: (
-      <Avatar shape="square" style={{ backgroundColor: "#13a8a8" }} icon={<CloudOutlined />} />
+      <Avatar shape="square" style={{ backgroundColor: '#13a8a8' }} icon={<CloudOutlined/>}/>
     ),
-    cms: <Avatar shape="square" style={{ backgroundColor: "#d84a1b" }} icon={<BugOutlined />} />,
+    cms: <Avatar shape="square" style={{ backgroundColor: '#d84a1b' }} icon={<BugOutlined/>}/>,
     firewall: (
-      <Avatar shape="square" style={{ backgroundColor: "#d87a16" }} icon={<GatewayOutlined />} />
+      <Avatar shape="square" style={{ backgroundColor: '#d87a16' }} icon={<GatewayOutlined/>}/>
     ),
     other: (
-      <Avatar shape="square" style={{ backgroundColor: "#bfbfbf" }} icon={<QuestionOutlined />} />
-    )
+      <Avatar shape="square" style={{ backgroundColor: '#bfbfbf' }} icon={<QuestionOutlined/>}/>
+    ),
   };
 
   return (
@@ -362,12 +355,10 @@ const MuitHosts = () => {
             <Col span={8}>
               <Input
                 allowClear
-                prefix={<SearchOutlined />}
-                style={{ width: "100%" }}
+                prefix={<SearchOutlined/>}
+                style={{ width: '100%' }}
                 placeholder="搜索 : IP地址/端口/服务"
-                value={text}
                 onChange={e => {
-                  setText(e.target.value);
                   handleSearch(e.target.value);
                 }}
               />
@@ -377,7 +368,7 @@ const MuitHosts = () => {
                 onClick={() => getSelectHostIPaddress()}
                 block
                 disabled={selectedRowKeys.length === 0}
-                icon={<CopyOutlined />}
+                icon={<CopyOutlined/>}
               >
                 拷贝
               </Button>
@@ -389,12 +380,12 @@ const MuitHosts = () => {
                 disabled={selectedRowKeys.length === 0}
                 danger
               >
-                <DeleteOutlined /> 删除
+                <DeleteOutlined/> 删除
               </Button>
             </Col>
             <Col span={8}>
               <Button
-                icon={<SyncOutlined />}
+                icon={<SyncOutlined/>}
                 onClick={() => listHostReq.run()}
                 block
                 loading={listHostReq.loading ||
@@ -418,47 +409,47 @@ const MuitHosts = () => {
                 rowKey="ipaddress"
                 expandable={{
                   expandedRowRender: expandedRowRender,
-                  rowExpandable: record => record.portService.length > 0
+                  rowExpandable: record => record.portService.length > 0,
                 }}
                 rowSelection={rowSelection}
                 columns={[
                   {
-                    title: "主机",
-                    dataIndex: "ipaddress",
-                    key: "ipaddress",
+                    title: '主机',
+                    dataIndex: 'ipaddress',
+                    key: 'ipaddress',
                     width: 120,
                     render: (text, record) => (
                       <strong
                         style={{
-                          color: "#d8bd14"
+                          color: '#d8bd14',
                         }}
                       >
                         {text}
                       </strong>
-                    )
+                    ),
                   },
                   {
-                    title: "开放端口",
-                    dataIndex: "portService",
-                    key: "portService",
+                    title: '开放端口',
+                    dataIndex: 'portService',
+                    key: 'portService',
                     width: 80,
                     sorter: (a, b) => a.portService.length >= b.portService.length,
                     render: (text, record) => {
                       return (
                         <strong
                           style={{
-                            color: "#13a8a8"
+                            color: '#13a8a8',
                           }}
                         >
                           {record.portService.length} 个
                         </strong>
                       );
-                    }
+                    },
                   },
                   {
-                    title: "路由路径",
-                    dataIndex: "route",
-                    key: "route",
+                    title: '路由路径',
+                    dataIndex: 'route',
+                    key: 'route',
                     width: 120,
                     render: (text, record) => {
                       let routepath = null;
@@ -467,52 +458,52 @@ const MuitHosts = () => {
                         record.route === null ||
                         record.route === undefined
                       ) {
-                        routepath = <span style={{ color: "orange" }}>网络直连</span>;
-                      } else if (record.route.type === "DIRECT") {
-                        routepath = <span style={{ color: "orange" }}>网络直连</span>;
-                      } else if (record.route.type === "ROUTE") {
+                        routepath = <span style={{ color: 'orange' }}>网络直连</span>;
+                      } else if (record.route.type === 'DIRECT') {
+                        routepath = <span style={{ color: 'orange' }}>网络直连</span>;
+                      } else if (record.route.type === 'ROUTE') {
                         routepath = (
                           <Space>
-                            <span style={{ color: "green" }}>内网路由</span>
+                            <span style={{ color: 'green' }}>内网路由</span>
                             {SidTag(record.route.data)}
                           </Space>
                         );
                       }
                       return routepath;
-                    }
+                    },
                   },
                   {
-                    title: "备注",
-                    dataIndex: "comment",
-                    key: "comment",
+                    title: '备注',
+                    dataIndex: 'comment',
+                    key: 'comment',
                     // width: '10%',
                     render: (text, record) => {
                       return (
                         <div>
                           {host_type_to_avatar[record.tag]}
                           <span style={{ marginLeft: 8 }}>{text}</span>
-                          <a style={{ float: "right" }} onClick={() => showUpdateHostModal(record)}><FormOutlined /></a>
+                          <a style={{ float: 'right' }} onClick={() => showUpdateHostModal(record)}><FormOutlined/></a>
                         </div>
                       );
-                    }
+                    },
                   },
                   {
-                    title: "操作",
-                    dataIndex: "operation",
+                    title: '操作',
+                    dataIndex: 'operation',
                     width: 48,
                     render: (text, record) => (
-                      <div style={{ textAlign: "center" }}>
+                      <div style={{ textAlign: 'center' }}>
                         <Space size="middle">
                           <a
                             onClick={() => destoryHostReq.run({ ipaddress: record.ipaddress })}
-                            style={{ color: "red" }}
+                            style={{ color: 'red' }}
                           >
                             删除
                           </a>
                         </Space>
                       </div>
-                    )
-                  }
+                    ),
+                  },
                 ]}
                 dataSource={hostList}
               />
@@ -527,45 +518,45 @@ const MuitHosts = () => {
                 dataSource={routeAll}
                 columns={[
                   {
-                    title: "SID",
-                    dataIndex: "session",
-                    key: "session",
+                    title: 'SID',
+                    dataIndex: 'session',
+                    key: 'session',
                     width: 48,
                     render: (text, record) => {
                       return SidTag(text);
-                    }
+                    },
                   },
                   {
-                    title: "路由子网",
-                    dataIndex: "subnet",
-                    key: "subnet"
+                    title: '路由子网',
+                    dataIndex: 'subnet',
+                    key: 'subnet',
                     // width: 120,
                   },
                   {
-                    title: "路由掩码",
-                    dataIndex: "netmask",
-                    key: "netmask",
-                    width: 120
+                    title: '路由掩码',
+                    dataIndex: 'netmask',
+                    key: 'netmask',
+                    width: 120,
                   },
                   {
-                    title: "操作",
-                    dataIndex: "operation",
+                    title: '操作',
+                    dataIndex: 'operation',
                     width: 48,
                     render: (text, record) => (
                       <a
-                        style={{ color: "red" }}
+                        style={{ color: 'red' }}
                         onClick={() =>
                           destoryRouteReq.run({
                             sessionid: record.session,
                             subnet: record.subnet,
-                            netmask: record.netmask
+                            netmask: record.netmask,
                           })
                         }
                       >
                         删除
                       </a>
-                    )
-                  }
+                    ),
+                  },
                 ]}
               />
               <Table
@@ -578,21 +569,21 @@ const MuitHosts = () => {
                 dataSource={portfwds}
                 columns={[
                   {
-                    title: "SID",
-                    dataIndex: "sessionid",
-                    key: "index",
+                    title: 'SID',
+                    dataIndex: 'sessionid',
+                    key: 'index',
                     width: 48,
                     render: (text, record) => {
                       return SidTag(text);
-                    }
+                    },
                   },
                   {
-                    title: "转发方向",
-                    dataIndex: "type",
-                    key: "type",
+                    title: '转发方向',
+                    dataIndex: 'type',
+                    key: 'type',
                     width: 80,
                     render: (text, record) => {
-                      if (record.type === "Forward") {
+                      if (record.type === 'Forward') {
                         return (
                           <div>
                             <Tag color="cyan">正向转发</Tag>
@@ -604,14 +595,14 @@ const MuitHosts = () => {
                           <Tag color="geekblue">反向转发</Tag>
                         </div>
                       );
-                    }
+                    },
                   },
                   {
-                    title: "本地(Viper)",
-                    dataIndex: "local",
-                    key: "local",
+                    title: '本地(Viper)',
+                    dataIndex: 'local',
+                    key: 'local',
                     render: (text, record) => {
-                      if (record.type === "Forward") {
+                      if (record.type === 'Forward') {
                         return (
                           <div>
                             <Tag style={{ marginRight: 8 }} color="green">
@@ -629,14 +620,14 @@ const MuitHosts = () => {
                           <span>{`${record.lhost}:${record.lport}`}</span>
                         </div>
                       );
-                    }
+                    },
                   },
                   {
-                    title: "远程(Session)",
-                    dataIndex: "remote",
-                    key: "remote",
+                    title: '远程(Session)',
+                    dataIndex: 'remote',
+                    key: 'remote',
                     render: (text, record) => {
-                      if (record.type === "Forward") {
+                      if (record.type === 'Forward') {
                         return (
                           <div>
                             <Tag style={{ marginRight: 8 }} color="gold">
@@ -654,18 +645,18 @@ const MuitHosts = () => {
                           <span>{`${record.rhost}:${record.rport}`}</span>
                         </div>
                       );
-                    }
+                    },
                   },
                   {
-                    title: "操作",
-                    dataIndex: "operation",
+                    title: '操作',
+                    dataIndex: 'operation',
                     width: 64,
                     render: (text, record) => (
-                      <a style={{ color: "red" }} onClick={() => destoryPortFwdReq.run(record)}>
+                      <a style={{ color: 'red' }} onClick={() => destoryPortFwdReq.run(record)}>
                         删除
                       </a>
-                    )
-                  }
+                    ),
+                  },
                 ]}
               />
             </Col>
@@ -675,7 +666,7 @@ const MuitHosts = () => {
           <Button
             style={{ marginTop: 0 }}
             block
-            icon={<PlusOutlined />}
+            icon={<PlusOutlined/>}
             onClick={() => setCreateSocksModalVisible(true)}
           >
             新增代理
@@ -689,53 +680,53 @@ const MuitHosts = () => {
             dataSource={socksActive}
             columns={[
               {
-                title: "代理类型",
-                dataIndex: "type",
-                key: "type",
-                width: 96
+                title: '代理类型',
+                dataIndex: 'type',
+                key: 'type',
+                width: 96,
               },
               {
-                title: "端口",
-                dataIndex: "port",
-                key: "port"
+                title: '端口',
+                dataIndex: 'port',
+                key: 'port',
                 // width: 96,
               },
               {
-                title: "操作",
-                dataIndex: "operation",
+                title: '操作',
+                dataIndex: 'operation',
                 width: 64,
                 render: (text, record) => (
-                  <a style={{ color: "red" }} onClick={() => destorySocksReq.run(record)}>
+                  <a style={{ color: 'red' }} onClick={() => destorySocksReq.run(record)}>
                     删除
                   </a>
-                )
-              }
+                ),
+              },
             ]}
           />
         </Col>
       </Row>
       <Modal
         width="50vw"
-        bodyStyle={{ padding: "32px 8px 8px 1px" }}
+        bodyStyle={{ padding: '32px 8px 8px 1px' }}
         destroyOnClose
         visible={updateHostModalVisable}
         footer={null}
-        style={{ top: "30vh" }}
-        onCancel={closeUpdateHostModal}
+        style={{ top: '30vh' }}
+        onCancel={() => setUpdateHostModalVisable(false)}
       >
         <Form
           initialValues={{
             ipaddress: hostAcvtive.ipaddress,
             tag: hostAcvtive.tag,
-            comment: hostAcvtive.comment
+            comment: hostAcvtive.comment,
           }}
           onFinish={updateHostReq.run}
         >
           <Form.Item
             label={<span>ipaddress</span>}
             name="ipaddress"
-            rules={[{ required: true, message: "请输入" }]}
-            style={{ display: "None" }}
+            rules={[{ required: true, message: '请输入' }]}
+            style={{ display: 'None' }}
             {...formLayout}
           >
             <span>{hostAcvtive.ipaddress}</span>
@@ -743,7 +734,7 @@ const MuitHosts = () => {
           <Form.Item
             label={<span>标签</span>}
             name="tag"
-            rules={[{ required: true, message: "请选择标签" }]}
+            rules={[{ required: true, message: '请选择标签' }]}
             {...formLayout}
           >
             <Radio.Group>
@@ -758,14 +749,14 @@ const MuitHosts = () => {
           <Form.Item
             label={<span>注释</span>}
             name="comment"
-            rules={[{ message: "最多支持二十个字符", max: 20 }]}
+            rules={[{ message: '最多支持二十个字符', max: 20 }]}
             {...formLayout}
           >
-            <Input placeholder="最大支持二十个字符" />
+            <Input placeholder="最大支持二十个字符"/>
           </Form.Item>
           <Form.Item {...tailLayout}>
             <Button
-              icon={<DeliveredProcedureOutlined />}
+              icon={<DeliveredProcedureOutlined/>}
               block
               type="primary"
               htmlType="submit"
@@ -780,7 +771,7 @@ const MuitHosts = () => {
         title="新增代理"
         centered
         width="50vw"
-        bodyStyle={{ padding: "8 8 8 8" }}
+        bodyStyle={{ padding: '8 8 8 8' }}
         destroyOnClose
         visible={createSocksModalVisible}
         footer={null}
@@ -794,8 +785,8 @@ const MuitHosts = () => {
             rules={[
               {
                 required: true,
-                message: "请选择代理类型"
-              }
+                message: '请选择代理类型',
+              },
             ]}
           >
             <Select style={{ width: 160 }}>
@@ -810,17 +801,17 @@ const MuitHosts = () => {
             rules={[
               {
                 required: true,
-                message: "请输入本地监听端口"
-              }
+                message: '请输入本地监听端口',
+              },
             ]}
           >
-            <InputNumber style={{ width: 160 }} placeholder="socks监听端口" />
+            <InputNumber style={{ width: 160 }} placeholder="socks监听端口"/>
           </FormNew.Item>
           <FormNew.Item {...buttonLayout}>
             <Button
               block
               loading={createSocksReq.loading}
-              icon={<PlusOutlined />}
+              icon={<PlusOutlined/>}
               htmlType="submit"
               type="primary"
             >

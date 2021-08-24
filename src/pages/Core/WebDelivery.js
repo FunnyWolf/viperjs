@@ -187,8 +187,8 @@ const CreateWebDeliveryModalContent = props => {
       <FormNew.Item
         {...formLayout}
         initialValue={lhost}
-        label="SRVHOST"
-        name="SRVHOST"
+        label="URIHOST"
+        name="URIHOST"
         rules={[
           {
             required: true,
@@ -202,8 +202,8 @@ const CreateWebDeliveryModalContent = props => {
     options.push(
       <FormNew.Item
         {...formLayout}
-        label="SRVPORT"
-        name="SRVPORT"
+        label="URIPORT"
+        name="URIPORT"
         rules={[
           {
             required: true,
