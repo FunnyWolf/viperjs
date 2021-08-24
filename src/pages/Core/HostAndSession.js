@@ -1,6 +1,6 @@
-import React, { Fragment, memo, useCallback, useEffect, useRef, useState } from 'react';
-import { useModel, useRequest } from 'umi';
-import { useControllableValue, useInterval, useLocalStorageState } from 'ahooks';
+import React, { Fragment, memo, useCallback, useEffect, useRef, useState } from "react";
+import { useModel, useRequest } from "umi";
+import { useControllableValue, useInterval, useLocalStorageState } from "ahooks";
 import {
   deleteCoreHostAPI,
   deleteMsgrpcFileSessionAPI,
@@ -41,8 +41,8 @@ import {
   putMsgrpcFileSessionAPI,
   putMsgrpcSessionAPI,
   putMsgrpcSessionioAPI,
-  putMsgrpcTransportAPI,
-} from '@/services/apiv1';
+  putMsgrpcTransportAPI
+} from "@/services/apiv1";
 
 import {
   ArrowRightOutlined,
@@ -95,8 +95,8 @@ import {
   UploadOutlined,
   UpOutlined,
   VerticalAlignTopOutlined,
-  WindowsOutlined,
-} from '@ant-design/icons';
+  WindowsOutlined
+} from "@ant-design/icons";
 
 import {
   Avatar,
@@ -126,29 +126,29 @@ import {
   Tabs,
   Tag,
   Tooltip,
-  Typography,
-} from 'antd';
-import copy from 'copy-to-clipboard';
-import './xterm.css';
+  Typography
+} from "antd";
+import copy from "copy-to-clipboard";
+import "./xterm.css";
 
-import GridContent from '@/components/PageHeaderWrapper/GridContent';
-import moment from 'moment';
-import { FileMsfMemo, FileMsfModal } from '@/pages/Core/FileMsf';
-import PayloadAndHandler, { PayloadAndHandlerMemo } from '@/pages/Core/PayloadAndHandler';
-import { WebDeliveryMemo } from '@/pages/Core/WebDelivery';
-import { host_type_to_avatar_table, MyIcon, SidTag } from '@/pages/Core/Common';
-import SystemSetting, { SystemSettingMemo } from '@/pages/Core/SystemSetting';
-import { BotScan, PostModuleMemo, RunAutoModuleMemo, RunModuleMemo } from '@/pages/Core/RunModule';
-import { MuitHostsMemo } from '@/pages/Core/MsfSocks';
-import LazyLoader, { LazyLoaderMemo } from '@/pages/Core/LazyLoader';
-import Credential, { CredentialMemo } from '@/pages/Core/Credential';
-import { getToken } from '@/utils/authority';
-import styles from './HostAndSession.less';
-import NetworkMemo, { NetworkWindowMemo } from '@/pages/Core/Network';
-import ReactJson from 'react-json-view';
-import NewWindow from 'rc-new-window';
-import MsfConsoleXTermMemo, { MsfconsoleMemo } from '@/pages/Core/MsfConsoleXTerm';
-import { Upheight } from '@/utils/utils';
+import GridContent from "@/components/PageHeaderWrapper/GridContent";
+import moment from "moment";
+import { FileMsfMemo, FileMsfModal } from "@/pages/Core/FileMsf";
+import PayloadAndHandler, { PayloadAndHandlerMemo } from "@/pages/Core/PayloadAndHandler";
+import { WebDeliveryMemo } from "@/pages/Core/WebDelivery";
+import { host_type_to_avatar_table, MyIcon, SidTag } from "@/pages/Core/Common";
+import SystemSetting, { SystemSettingMemo } from "@/pages/Core/SystemSetting";
+import { BotScan, PostModuleMemo, RunAutoModuleMemo, RunModuleMemo } from "@/pages/Core/RunModule";
+import { MuitHostsMemo } from "@/pages/Core/MsfSocks";
+import LazyLoader, { LazyLoaderMemo } from "@/pages/Core/LazyLoader";
+import Credential, { CredentialMemo } from "@/pages/Core/Credential";
+import { getToken } from "@/utils/authority";
+import styles from "./HostAndSession.less";
+import NetworkMemo, { NetworkWindowMemo } from "@/pages/Core/Network";
+import ReactJson from "react-json-view";
+import NewWindow from "rc-new-window";
+import MsfConsoleXTermMemo, { MsfconsoleMemo } from "@/pages/Core/MsfConsoleXTerm";
+import { Upheight } from "@/utils/utils";
 
 const { Text } = Typography;
 const { Paragraph } = Typography;
@@ -158,7 +158,7 @@ const { Search, TextArea } = Input;
 const { TabPane } = Tabs;
 
 //websocket连接地址设置
-let webHost = '127.0.0.1:8002';
+let webHost = "127.0.0.1:8002";
 let protocol = 'ws://';
 if (process.env.NODE_ENV === 'production') {
   webHost = location.hostname + (location.port ? `:${location.port}` : '');
@@ -2224,12 +2224,12 @@ const SessionInfo = () => {
       sorter: (a, b) => a.arch >= b.arch,
     },
     {
-      title: '操作',
-      dataIndex: 'operation',
-      width: 60,
+      // title: '操作',
+      dataIndex: "operation",
+      width: 80,
       render: (text, record) => (
         <Popover
-          style={{ width: '50vw' }}
+          style={{ width: "50vw" }}
           arrowPointAtCenter
           placement="left"
           content={
@@ -2239,10 +2239,10 @@ const SessionInfo = () => {
               initialValues={{ PID: record.pid }}
             />
           }
-          title="操作进程"
+          title="进程操作"
           trigger="click"
         >
-          <a>操作</a>
+          <a>进程操作</a>
         </Popover>
       ),
     },
