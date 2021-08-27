@@ -45,7 +45,7 @@ import {
 } from '@/services/apiv1';
 
 import copy from 'copy-to-clipboard';
-import { formatMessage, useRequest } from 'umi';
+import { useRequest } from 'umi';
 import moment from 'moment';
 
 const { Option } = Select;
@@ -224,9 +224,7 @@ const MuitHosts = () => {
       ipaddressArray.push(selectedRows[i].ipaddress);
     }
     copy(ipaddressArray.join());
-    message.success(
-      `${ipaddressArray.join()} ${formatMessage({ id: 'app.response.copytoclipboard' })}`,
-    );
+    message.success(`${ipaddressArray.join()} 已复制到剪切板`);
   };
 
   const handleSearch = value => {

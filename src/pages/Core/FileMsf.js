@@ -1,6 +1,6 @@
 import React, { Fragment, memo, useImperativeHandle, useState } from 'react';
 import moment from 'moment';
-import { formatMessage, useRequest } from 'umi';
+import { useRequest } from 'umi';
 import { deleteMsgrpcFileMsfAPI, getMsgrpcFileMsfAPI, postPostmodulePostModuleActuatorAPI } from '@/services/apiv1';
 
 import { Button, Card, Col, message, Modal, Row, Space, Table, Tag, Upload } from 'antd';
@@ -91,7 +91,7 @@ const downloadFileWayDetail = item => {
           icon={<CopyOutlined/>}
           onClick={() => {
             copy(record.cmd);
-            message.success(formatMessage({ id: 'app.response.copytoclipboard' }));
+            message.success('已复制到剪切板');
           }}
         >
           复制
@@ -171,7 +171,7 @@ const FileMsf = props => {
                 <Button
                   onClick={() => {
                     copy(atob(result.data));
-                    message.success(formatMessage({ id: 'app.response.copytoclipboard' }));
+                    message.success('已复制到剪切板');
                   }}
                 >
                   拷贝到剪切板
@@ -598,7 +598,7 @@ const FileMsfNewModal = props => {
                 <Button
                   onClick={() => {
                     copy(atob(result.data));
-                    message.success(formatMessage({ id: 'app.response.copytoclipboard' }));
+                    message.success('已复制到剪切板');
                   }}
                 >
                   拷贝到剪切板

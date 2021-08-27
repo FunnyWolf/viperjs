@@ -1,13 +1,13 @@
-import React, { Fragment, memo, useState } from "react";
+import React, { Fragment, memo, useState } from 'react';
 import {
   getCoreSettingAPI,
   getServiceStatusAPI,
   postCoreSettingAPI,
-  putPostmodulePostModuleConfigAPI
-} from "@/services/apiv1";
-import { history, useModel, useRequest } from "umi";
+  putPostmodulePostModuleConfigAPI,
+} from '@/services/apiv1';
+import { getLocale, history, setLocale, useIntl, useModel, useRequest } from 'umi';
 
-import { setToken } from "@/utils/authority";
+import { setToken } from '@/utils/authority';
 import {
   Badge,
   Button,
@@ -19,46 +19,48 @@ import {
   List,
   message,
   Popover,
+  Radio,
   Row,
   Select,
   Space,
   Switch,
   Tabs,
   Tag,
-  Typography
-} from "antd";
+  Typography,
+} from 'antd';
 import {
   CheckOutlined,
   DeliveredProcedureOutlined,
   LogoutOutlined,
   MinusOutlined,
   ReloadOutlined,
-  SyncOutlined
-} from "@ant-design/icons";
-import { useLocalStorageState } from "ahooks";
+  SyncOutlined,
+} from '@ant-design/icons';
+import { useLocalStorageState } from 'ahooks';
 
-import { reloadAuthorized } from "@/utils/Authorized";
+import { reloadAuthorized } from '@/utils/Authorized';
 
 const { Option } = Select;
 const { TabPane } = Tabs;
 const { Title, Paragraph, Text } = Typography;
 
-const viper_version = "v1.4.0";
-const viper_update_date = "2021-08-22";
+const viper_version = 'v1.4.0';
+const viper_update_date = '2021-08-22';
 const datas = [
   {
-    name: "metasploit-framework",
-    url: "https://github.com/rapid7/metasploit-framework/blob/master/LICENSE"
+    name: 'metasploit-framework',
+    url: 'https://github.com/rapid7/metasploit-framework/blob/master/LICENSE',
   },
   {
-    name: "ant-design-pro",
-    url: "https://github.com/ant-design/ant-design-pro/blob/master/LICENSE"
+    name: 'ant-design-pro',
+    url: 'https://github.com/ant-design/ant-design-pro/blob/master/LICENSE',
   },
   {
     name: 'django-rest-framework',
     url: 'https://github.com/encode/django-rest-framework/blob/master/LICENSE.md',
   },
 ];
+
 
 const buttonItemLayout = {
   wrapperCol: {
@@ -102,7 +104,9 @@ const SystemSetting = () => {
               <Col span={8}>
                 <Typography>
                   <Paragraph>
-                    <Title level={4}>配置方法</Title>
+                    <Title level={4}>{useIntl().formatMessage({
+                      id: 'app.settings.menuMap.basic',
+                    })}配置方法</Title>
                     <Text>申请开通Quake会员/账号,获取key</Text>
                     <br/>
                     <Text>参考 : </Text>
@@ -373,6 +377,21 @@ const SystemInfo = () => {
                 setViperDebugFlag(!viperDebugFlag);
                 message.info('刷新页面后生效');
               }}
+            />
+          </Descriptions.Item>
+          <Descriptions.Item>
+            <Radio.Group
+              size="small"
+              options={[
+                { label: '简体中文', value: 'zh-CN' },
+                { label: 'English', value: 'en-US' },
+              ]}
+              onChange={(e) => {
+                setLocale(e.target.value, false);
+              }}
+              value={getLocale()}
+              optionType="button"
+              buttonStyle="solid"
             />
           </Descriptions.Item>
 
