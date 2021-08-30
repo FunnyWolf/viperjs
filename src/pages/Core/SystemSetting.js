@@ -5,7 +5,7 @@ import {
   postCoreSettingAPI,
   putPostmodulePostModuleConfigAPI,
 } from '@/services/apiv1';
-import { getLocale, history, setLocale, useIntl, useModel, useRequest } from 'umi';
+import { getLocale, history, setLocale, useModel, useRequest } from 'umi';
 
 import { setToken } from '@/utils/authority';
 import {
@@ -39,6 +39,7 @@ import {
 import { useLocalStorageState } from 'ahooks';
 
 import { reloadAuthorized } from '@/utils/Authorized';
+import { formatText } from '@/utils/locales';
 
 const { Option } = Select;
 const { TabPane } = Tabs;
@@ -92,7 +93,7 @@ const SystemSetting = () => {
   return (
     <Fragment>
       <Tabs style={{ marginTop: -16 }} type="card" defaultActiveKey="system_info">
-        <TabPane tab="关于VIPER" key="system_info">
+        <TabPane tab={formatText('app.systemsetting.aboutviper')} key="system_info">
           <SystemInfo/>
         </TabPane>
         <TabPane tab="360Quake API" key="360Quake">
@@ -104,14 +105,11 @@ const SystemSetting = () => {
               <Col span={8}>
                 <Typography>
                   <Paragraph>
-                    <Title level={4}>{useIntl().formatMessage({
-                      id: 'app.settings.menuMap.basic',
-                    })}配置方法</Title>
-                    <Text>申请开通Quake会员/账号,获取key</Text>
+                    <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+                    <Text>{formatText('app.systemsetting.openquakevip')}</Text>
                     <br/>
-                    <Text>参考 : </Text>
                     <a href="https://quake.360.cn/quake/#/help?title=%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E">
-                      Quake API教程
+                      {formatText('app.systemsetting.quakeapireadme')}
                     </a>
                   </Paragraph>
                 </Typography>
@@ -128,18 +126,17 @@ const SystemSetting = () => {
               <Col span={8}>
                 <Typography>
                   <Paragraph>
-                    <Title level={4}>配置方法</Title>
-                    <Text>申请开通FOFA会员/账号,获取邮箱及key</Text>
+                    <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+                    <Text>{formatText('app.systemsetting.openfofavip')}</Text>
                     <br/>
-                    <Text>参考 : </Text>
-                    <a href="https://fofa.so/static_pages/api_help">FOFA API教程</a>
+                    <a href="https://fofa.so/static_pages/api_help">{formatText('app.systemsetting.fofaapireadme')}</a>
                   </Paragraph>
                 </Typography>
               </Col>
             </Row>
           </Card>
         </TabPane>
-        <TabPane tab="Server酱 Bot" key="serverchan">
+        <TabPane tab={formatText('app.systemsetting.serverchan')} key="serverchan">
           <Card style={{ marginTop: -16 }}>
             <Row>
               <Col span={16}>
@@ -148,12 +145,11 @@ const SystemSetting = () => {
               <Col span={8}>
                 <Typography>
                   <Paragraph>
-                    <Title level={4}>配置方法</Title>
-                    <Text>登录Server酱,配置消息通道,获取SendKey,填入SendKey.</Text>
+                    <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+                    <Text>{formatText('app.systemsetting.openserverchan')}</Text>
                     <br/>
-                    <Text>参考:</Text>
                     <a target="_blank" href="https://sct.ftqq.com/">
-                      Server酱·Turbo版
+                      {formatText('app.systemsetting.serverchanapireadme')}
                     </a>
                   </Paragraph>
                 </Typography>
@@ -170,12 +166,11 @@ const SystemSetting = () => {
               <Col span={8}>
                 <Typography>
                   <Paragraph>
-                    <Title level={4}>配置方法</Title>
-                    <Text>新建一个DingDing Bot,并获取Token.</Text>
+                    <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+                    <Text>{formatText('app.systemsetting.opendingding')}</Text>
                     <br/>
-                    <Text>参考:</Text>
                     <a target="_blank" href="https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq">
-                      获取自定义机器人webhook
+                      {formatText('app.systemsetting.dingdingreadme')}
                     </a>
                   </Paragraph>
                 </Typography>
@@ -192,22 +187,22 @@ const SystemSetting = () => {
               <Col span={8}>
                 <Typography>
                   <Paragraph>
-                    <Title level={4}>配置方法</Title>
-                    <Text>新建一个Telegram Bot,并获取Token.</Text>
+                    <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+                    <Text>{formatText('app.systemsetting.opentelegram')}</Text>
                     <br/>
-                    <Text>参考:</Text>
                     <a
                       target="_blank"
                       href="https://longnight.github.io/2018/12/12/Telegram-Bot-notifications"
                     >
-                      使用Telegram Bot来实现推送通知
+                      {formatText('app.systemsetting.telegramreadme')}
                     </a>
                     <br/>
                     <Text>
-                      Chat_id可以填写多个
+                      {formatText('app.systemsetting.telegramdoc_1')}
                       <br/>
-                      填写token及proxy后点击<Text strong>获取chat_id</Text>
-                      获取备选chat_id列表
+                      {formatText('app.systemsetting.telegramdoc_2')}
+                      <Text code>{formatText('app.systemsetting.updateorgetchatid')}</Text>
+                      {formatText('app.systemsetting.telegramdoc_3')}
                     </Text>
                   </Paragraph>
                 </Typography>
@@ -215,7 +210,7 @@ const SystemSetting = () => {
             </Row>
           </Card>
         </TabPane>
-        <TabPane tab="Session监控" key="sessionmonitor">
+        <TabPane tab={formatText('app.systemsetting.sessionmonitor')} key="sessionmonitor">
           <Card style={{ marginTop: -16 }}>
             <Row>
               <Col xs={24} sm={16}>
@@ -224,9 +219,9 @@ const SystemSetting = () => {
               <Col span={8}>
                 <Typography>
                   <Paragraph>
-                    <Title level={4}>配置说明</Title>
+                    <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
                     <Text>
-                      当激活Session监控后,每当平台新增Session时都会发送通知. 需要结合Bot使用.
+                      {formatText('app.systemsetting.sessionmonitorreadme')}
                     </Text>
                     <br/>
                   </Paragraph>
@@ -235,7 +230,7 @@ const SystemSetting = () => {
             </Row>
           </Card>
         </TabPane>
-        <TabPane tab="网络配置" key="lhost">
+        <TabPane tab={formatText('app.systemsetting.networkconfig')} key="lhost">
           <Card style={{ marginTop: -16 }}>
             <Row>
               <Col span={16}>
@@ -244,10 +239,11 @@ const SystemSetting = () => {
               <Col span={8}>
                 <Typography>
                   <Paragraph>
-                    <Title level={4}>配置说明</Title>
-                    <Text strong>回连地址</Text>填写为VPS的互联网IP/域名
+                    <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+                    <Text strong>{formatText('app.systemsetting.defaultlhost')}</Text>
+                    {formatText('app.systemsetting.defaultlhostdoc_1')}
                     <br/>
-                    <Text>VIPER已占用端口.</Text>
+                    <Text>{formatText('app.systemsetting.defaultlhostdoc_2')}</Text>
                     <br/>
                     Nginx:<Text code>0.0.0.0:60000</Text>
                     <br/>
@@ -255,7 +251,8 @@ const SystemSetting = () => {
                     <br/>
                     Msfrpcd:<Text code>127.0.0.1:60005</Text>
                     <br/>
-                    SSH(默认关闭):<Text code>127.0.0.1:60010</Text>
+                    {formatText('app.systemsetting.defaultlhostdoc_ssh')}
+                    <Text code>127.0.0.1:60010</Text>
                   </Paragraph>
                 </Typography>
               </Col>
@@ -319,20 +316,20 @@ const SystemInfo = () => {
 
       <Row>
         <Descriptions size="small" style={{ marginLeft: 64 }} column={8}>
-          <Descriptions.Item label="渗透服务">
+          <Descriptions.Item label={formatText('app.systemsetting.msfstatus')}>
             {serviceStatusActive.json_rpc.status ? (
-              <Tag color="green">正常</Tag>
+              <Tag color="green">{formatText('app.systemsetting.working')}</Tag>
             ) : (
-              <Tag color="red">不可用</Tag>
+              <Tag color="red">{formatText('app.systemsetting.error')}</Tag>
             )}
           </Descriptions.Item>
-          <Descriptions.Item label="平台版本">
+          <Descriptions.Item label={formatText('app.systemsetting.version')}>
             <Tag color="blue">{viper_version}</Tag>
           </Descriptions.Item>
-          <Descriptions.Item label="更新时间">
+          <Descriptions.Item label={formatText('app.systemsetting.updatedate')}>
             <Tag color="blue">{viper_update_date}</Tag>
           </Descriptions.Item>
-          <Descriptions.Item label="最新版本">
+          <Descriptions.Item label={formatText('app.systemsetting.lastversion')}>
             <a
               target="_blank"
               href="https://github.com/FunnyWolf/Viper/releases"
@@ -340,12 +337,12 @@ const SystemInfo = () => {
               Github Releases
             </a>
           </Descriptions.Item>
-          <Descriptions.Item label="官方文档">
+          <Descriptions.Item label={formatText('app.systemsetting.documentation')}>
             <a target="_blank" href="https://www.yuque.com/vipersec">
-              语雀文档
+              {formatText('app.systemsetting.documentationlink')}
             </a>
           </Descriptions.Item>
-          <Descriptions.Item label="开源软件">
+          <Descriptions.Item label={formatText('app.systemsetting.opensourcesoftware')}>
             <Popover content={
               <List
                 size="small"
@@ -360,7 +357,7 @@ const SystemInfo = () => {
                      placement="left"
                      trigger="click">
               <a>
-                软件列表
+                {formatText('app.systemsetting.opensourcesoftwarelink')}
               </a>
             </Popover>
           </Descriptions.Item>
@@ -368,14 +365,14 @@ const SystemInfo = () => {
       </Row>
       <Row>
         <Descriptions size="small" style={{ marginLeft: 64, marginTop: 16 }} column={8}>
-          <Descriptions.Item label="实验功能">
+          <Descriptions.Item label={formatText('app.systemsetting.betafunction')}>
             <Switch
               checkedChildren={<CheckOutlined/>}
               unCheckedChildren={<MinusOutlined/>}
               checked={viperDebugFlag}
               onClick={() => {
                 setViperDebugFlag(!viperDebugFlag);
-                message.info('刷新页面后生效');
+                message.info(formatText('app.systemsetting.reloadpage'));
               }}
             />
           </Descriptions.Item>
@@ -387,7 +384,7 @@ const SystemInfo = () => {
                 { label: 'English', value: 'en-US' },
               ]}
               onChange={(e) => {
-                setLocale(e.target.value, false);
+                setLocale(e.target.value, true);
               }}
               value={getLocale()}
               optionType="button"
@@ -404,7 +401,7 @@ const SystemInfo = () => {
             onClick={() => listServiceStatusReq.run()}
             loading={listServiceStatusReq.loading}
           >
-            更新渗透服务状态
+            {formatText('app.systemsetting.updatemsfstatus')}
           </Button>
           <Button
             type="primary"
@@ -412,10 +409,10 @@ const SystemInfo = () => {
             onClick={() => updatePostmodulePostModuleConfigReq.run()}
             loading={updatePostmodulePostModuleConfigReq.loading}
           >
-            重新加载所有模块
+            {formatText('app.systemsetting.reloadallmodule')}
           </Button>
           <Button danger icon={<LogoutOutlined/>} onClick={loginOut}>
-            退出平台
+            {formatText('app.systemsetting.logout')}
           </Button>
         </Space>
       </Row>
@@ -463,7 +460,7 @@ const SessionMonitorForm = props => {
 
   return (
     <Form {...inputItemLayout}>
-      <Form.Item label="开关">
+      <Form.Item label={formatText('app.systemsetting.switch')}>
         <Switch
           checkedChildren={<CheckOutlined/>}
           unCheckedChildren={<MinusOutlined/>}
@@ -534,7 +531,7 @@ const TelegramForm = props => {
         rules={[
           {
             required: true,
-            message: '请输入token',
+            message: formatText('app.systemsetting.inputtoken'),
           },
         ]}
       >
@@ -544,7 +541,7 @@ const TelegramForm = props => {
         <Select
           mode="tags"
           style={{ width: '100%' }}
-          placeholder="请选择或输入chat_id"
+          placeholder={formatText('app.systemsetting.selectorinputchatid')}
           defaultValue={[]}
           optionLabelProp="label"
         >
@@ -557,9 +554,9 @@ const TelegramForm = props => {
       </Form.Item>
       <Form.Item label="状态">
         {settingsTelegram.alive ? (
-          <Badge status="processing" text="正常"/>
+          <Badge status="processing" text={formatText('app.systemsetting.working')}/>
         ) : (
-          <Badge status="error" text="不可用"/>
+          <Badge status="error" text={formatText('app.systemsetting.error')}/>
         )}
       </Form.Item>
       <Form.Item {...buttonItemLayout}>
@@ -569,7 +566,7 @@ const TelegramForm = props => {
           htmlType="submit"
           loading={updateTelegramReq.loading}
         >
-          更新/获取chat_id
+          {formatText('app.systemsetting.updateorgetchatid')}
         </Button>
       </Form.Item>
     </Form>
@@ -617,29 +614,29 @@ const DingDingForm = props => {
         rules={[
           {
             required: true,
-            message: '请输入access_token',
+            message: formatText('app.systemsetting.dingdingrules'),
           },
         ]}
       >
         <Input/>
       </Form.Item>
       <Form.Item
-        label="自定义关键词"
+        label={formatText('app.systemsetting.keyword')}
         name="keyword"
         rules={[
           {
             required: true,
-            message: '请输入自定义关键词',
+            message: formatText('app.systemsetting.inputkeyword'),
           },
         ]}
       >
         <Input/>
       </Form.Item>
-      <Form.Item label="状态">
+      <Form.Item label={formatText('app.systemsetting.status')}>
         {settingsDingDing.alive ? (
-          <Badge status="processing" text="正常"/>
+          <Badge status="processing" text={formatText('app.systemsetting.working')}/>
         ) : (
-          <Badge status="error" text="不可用"/>
+          <Badge status="error" text={formatText('app.systemsetting.error')}/>
         )}
       </Form.Item>
       <Form.Item {...buttonItemLayout}>
@@ -649,7 +646,7 @@ const DingDingForm = props => {
           htmlType="submit"
           loading={updateDingDingReq.loading}
         >
-          更新
+          {formatText('app.systemsetting.update')}
         </Button>
       </Form.Item>
     </Form>
@@ -697,17 +694,17 @@ const ServerChanForm = props => {
         rules={[
           {
             required: true,
-            message: '请输入SendKey',
+            message: formatText('app.systemsetting.inputsendkey'),
           },
         ]}
       >
         <Input/>
       </Form.Item>
-      <Form.Item label="状态">
+      <Form.Item label={formatText('app.systemsetting.status')}>
         {settingsServerChan.alive ? (
-          <Badge status="processing" text="正常"/>
+          <Badge status="processing" text={formatText('app.systemsetting.working')}/>
         ) : (
-          <Badge status="error" text="不可用"/>
+          <Badge status="error" text={formatText('app.systemsetting.error')}/>
         )}
       </Form.Item>
       <Form.Item {...buttonItemLayout}>
@@ -717,7 +714,7 @@ const ServerChanForm = props => {
           htmlType="submit"
           loading={updateServerChanReq.loading}
         >
-          更新
+          {formatText('app.systemsetting.update')}
         </Button>
       </Form.Item>
     </Form>
@@ -765,7 +762,7 @@ const FOFAForm = props => {
         rules={[
           {
             required: true,
-            message: '请输入email',
+            message: formatText('app.systemsetting.inputemail'),
           },
         ]}
       >
@@ -777,7 +774,7 @@ const FOFAForm = props => {
         rules={[
           {
             required: true,
-            message: '请输入key',
+            message: formatText('app.systemsetting.inputkey'),
           },
         ]}
       >
@@ -787,9 +784,9 @@ const FOFAForm = props => {
         <Col span={4}/>
         <Col style={{ marginTop: -16, marginBottom: 8 }} span={4}>
           {settingsFOFA.alive ? (
-            <Badge status="processing" text="正常"/>
+            <Badge status="processing" text={formatText('app.systemsetting.working')}/>
           ) : (
-            <Badge status="error" text="不可用"/>
+            <Badge status="error" text={formatText('app.systemsetting.error')}/>
           )}
         </Col>
       </Row>
@@ -801,7 +798,7 @@ const FOFAForm = props => {
             htmlType="submit"
             loading={updateFOFAReq.loading}
           >
-            更新
+            {formatText('app.systemsetting.update')}
           </Button>
         </Space>
       </Form.Item>
@@ -850,7 +847,7 @@ const QuakeForm = props => {
         rules={[
           {
             required: true,
-            message: '请输入key',
+            message: formatText('app.systemsetting.inputkey'),
           },
         ]}
       >
@@ -860,9 +857,9 @@ const QuakeForm = props => {
         <Col span={4}/>
         <Col style={{ marginTop: -16, marginBottom: 8 }} span={4}>
           {settingsQuake.alive ? (
-            <Badge status="processing" text="正常"/>
+            <Badge status="processing" text={formatText('app.systemsetting.working')}/>
           ) : (
-            <Badge status="error" text="不可用"/>
+            <Badge status="error" text={formatText('app.systemsetting.error')}/>
           )}
         </Col>
       </Row>
@@ -874,7 +871,7 @@ const QuakeForm = props => {
             htmlType="submit"
             loading={updateQuakeReq.loading}
           >
-            更新
+            {formatText('app.systemsetting.update')}
           </Button>
         </Space>
       </Form.Item>
@@ -925,16 +922,16 @@ const LHostForm = props => {
   return (
     <Form form={lHostForm} initialValue={lhost} onFinish={onUpdateLhost} {...lHostFormLayout}>
       <Form.Item
-        label="回连地址"
+        label={formatText('app.systemsetting.defaultlhost')}
         name="lhost"
         rules={[
           {
             required: true,
-            message: '请输入默认的回连地址(VPS的互联网IP/域名)',
+            message: formatText('app.systemsetting.defaultlhosttooltip'),
           },
         ]}
       >
-        <Input style={{ width: '80%' }} placeholder="VPS的互联网IP/域名"/>
+        <Input style={{ width: '80%' }} placeholder={formatText('app.systemsetting.defaultlhostplaceholder')}/>
       </Form.Item>
 
       <Form.Item {...buttonLHostFormLayout}>
@@ -944,7 +941,7 @@ const LHostForm = props => {
           htmlType="submit"
           loading={updateLHostReq.loading}
         >
-          更新
+          {formatText('app.systemsetting.update')}
         </Button>
       </Form.Item>
     </Form>
