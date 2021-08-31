@@ -8,7 +8,7 @@ import {
 } from '@/services/apiv1';
 // import { useControllableValue, useBoolean, useMount } from '@umijs/hooks';
 import styles from './PayloadAndHandler.less';
-
+import { randomstr } from '@/pages/Core/Common';
 import {
   Alert,
   Avatar,
@@ -35,15 +35,9 @@ import { useRequest } from 'umi';
 const { Panel } = Collapse;
 const { Option } = Select;
 const { TextArea } = Input;
-const migrateProcess = ['explorer.exe', 'notepad.exe', 'svchost.exe'];
 
+const migrateProcess = ['explorer.exe', 'notepad.exe', 'svchost.exe'];
 const initialAutoRunScript = ['post/windows/manage/migrate NAME=explorer.exe SPAWN=false'];
-const randomString = (length) => {
-  let result = '';
-  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
-  return result;
-};
 
 const CreateHandlerModalContent = props => {
   const { createHandlerFinish } = props;
@@ -385,6 +379,7 @@ const CreateHandlerModalContent = props => {
       ],
     },
   ];
+
   const StageEncoder = ['x86/shikata_ga_nai', 'x86/xor_dynamic', 'x64/xor', 'x64/xor_dynamic'];
 
   const [selectPayload, setStateSelectPayload] = useState(null);
@@ -570,7 +565,7 @@ const CreateHandlerModalContent = props => {
               <span>LURI</span>
             </Tooltip>
           }
-          initialValue={randomString(8)}
+          initialValue={randomstr(8)}
           name="LURI"
         >
           <Input placeholder="请输入自定义的URI"/>
@@ -839,7 +834,7 @@ const CreateHandlerModalContent = props => {
               <span>RC4密码</span>
             </Tooltip>
           }
-          initialValue={randomString(8)}
+          initialValue={randomstr(8)}
           name="RC4PASSWORD"
           rules={[
             {
@@ -907,7 +902,7 @@ const CreateHandlerModalContent = props => {
               <span>SERVER_ID</span>
             </Tooltip>
           }
-          initialValue={randomString(8)}
+          initialValue={randomstr(8)}
           name="SERVER_ID"
           rules={[
             {
@@ -1595,7 +1590,6 @@ const CreatePayloadModalContent = props => {
     );
   };
 
-
   const payloadBaseOption = () => {
     let options = [];
     if (selectPayload === null || selectPayload === undefined) {
@@ -1725,7 +1719,7 @@ const CreatePayloadModalContent = props => {
               <span>LURI</span>
             </Tooltip>
           }
-          initialValue={randomString(8)}
+          initialValue={randomstr(8)}
           name="LURI"
         >
           <Input placeholder="请输入自定义的URI"/>
@@ -1995,7 +1989,7 @@ const CreatePayloadModalContent = props => {
               <span>RC4密码</span>
             </Tooltip>
           }
-          initialValue={randomString(8)}
+          initialValue={randomstr(8)}
           name="RC4PASSWORD"
           rules={[
             {
@@ -2064,7 +2058,7 @@ const CreatePayloadModalContent = props => {
               <span>SERVER_ID</span>
             </Tooltip>
           }
-          initialValue={randomString(8)}
+          initialValue={randomstr(8)}
           name="SERVER_ID"
           rules={[
             {
@@ -2277,6 +2271,7 @@ const CreatePayloadModalContent = props => {
     </Form>
   );
 };
+
 const showHandlerDetail = item => {
   const Descriptions_Items = [];
   let showstr = null;

@@ -1,11 +1,17 @@
 import React, { memo } from 'react';
 import { useModel } from 'umi';
-
-
 import styles from './Network.less';
 import Graphin, { Behaviors, Utils } from '@antv/graphin';
 import './iconfont.css';
 import fonts from './iconfont.json';
+
+//字符串格式化函数
+String.prototype.format = function() {
+  let args = arguments;
+  return this.replace(/\{(\d+)\}/g, function(m, i) {
+    return args[i];
+  });
+};
 
 const { ActivateRelations, FitView } = Behaviors;
 const iconLoader = () => {
@@ -17,14 +23,6 @@ const iconLoader = () => {
 const { fontFamily } = iconLoader();
 
 const icons = Graphin.registerFontFamily(iconLoader);
-
-//字符串格式化函数
-String.prototype.format = function() {
-  let args = arguments;
-  return this.replace(/\{(\d+)\}/g, function(m, i) {
-    return args[i];
-  });
-};
 
 const Network = () => {
   console.log('Network');

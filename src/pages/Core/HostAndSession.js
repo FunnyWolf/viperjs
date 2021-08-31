@@ -126,7 +126,7 @@ import { WebDeliveryMemo } from '@/pages/Core/WebDelivery';
 import { host_type_to_avatar_table, MyIcon, SidTag } from '@/pages/Core/Common';
 import SystemSetting, { SystemSettingMemo } from '@/pages/Core/SystemSetting';
 import { AutoRobotMemo, BotScan, PostModuleMemo, RunModuleMemo } from '@/pages/Core/RunModule';
-import { MuitHostsMemo } from '@/pages/Core/MsfSocks';
+import { MsfSocksMemo } from '@/pages/Core/MsfSocks';
 import LazyLoader, { LazyLoaderMemo } from '@/pages/Core/LazyLoader';
 import Credential, { CredentialMemo } from '@/pages/Core/Credential';
 import { getToken } from '@/utils/authority';
@@ -1358,7 +1358,7 @@ const TabsBottom = () => {
           }
           key="Socks"
         >
-          <MuitHostsMemo/>
+          <MsfSocksMemo/>
         </TabPane>
         <TabPane
           tab={

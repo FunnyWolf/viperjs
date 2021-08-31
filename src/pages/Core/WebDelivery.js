@@ -29,15 +29,11 @@ import {
 import { CloudDownloadOutlined, SyncOutlined } from '@ant-design/icons';
 import { useRequest } from 'umi';
 
+import { randomstr } from '@/pages/Core/Common';
+
 const { Panel } = Collapse;
 const { Option } = Select;
 
-const randomString = (length) => {
-  let result = '';
-  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
-  return result;
-};
 
 const CreateWebDeliveryModalContent = props => {
   const { createWebDeliveryFinish } = props;
@@ -252,7 +248,7 @@ const CreateWebDeliveryModalContent = props => {
             <span>URIPATH</span>
           </Tooltip>
         }
-        initialValue={randomString(8)}
+        initialValue={randomstr(8)}
         name="URIPATH"
       >
         <Input placeholder="请输入自定义的URI"/>
@@ -342,7 +338,7 @@ const CreateWebDeliveryModalContent = props => {
   );
 };
 
-const showHandlerDetail = item => {
+const showDeliveryDetail = item => {
   const Descriptions_Items = [];
   let showstr = null;
   for (const key in item) {
@@ -561,7 +557,7 @@ const WebDelivery = (props) => {
                     >
                       <a style={{ color: '#faad14' }}>一句话执行</a>
                     </Popover>
-                    <a onClick={() => showHandlerDetail(record)}>详细参数</a>
+                    <a onClick={() => showDeliveryDetail(record)}>详细参数</a>
                     <a
                       onClick={() => destoryWebDeliveryReq.run({ jobid: record.ID })}
                       style={{ color: 'red' }}

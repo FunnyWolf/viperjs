@@ -155,7 +155,7 @@ export const MsfconsoleMemo = memo(Msfconsole);
 
 
 const MsfconsoleWindows = props => {
-  console.log('Msfconsole');
+  console.log('MsfconsoleWindows');
   const fitAddon = useRef(new FitAddon());
   const msfConsoleTerm = useRef(null);
   const wsmsf = useRef(null);

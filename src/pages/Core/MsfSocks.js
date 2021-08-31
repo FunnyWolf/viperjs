@@ -19,7 +19,6 @@ import {
   Avatar,
   Button,
   Col,
-  Form as FormNew,
   Form,
   Input,
   InputNumber,
@@ -57,6 +56,7 @@ String.prototype.format = function() {
     return args[i];
   });
 };
+
 const host_type_to_avatar = {
   ad_server: (
     <Avatar
@@ -109,7 +109,7 @@ const host_type_to_avatar = {
 };
 
 
-const MuitHosts = () => {
+const MsfSocks = () => {
   console.log('MuitHosts');
   const [updateHostModalVisable, setUpdateHostModalVisable] = useState(false);
   const [hostList, setHostList] = useState([]);
@@ -279,12 +279,10 @@ const MuitHosts = () => {
       {
         title: '服务',
         dataIndex: 'service',
-        // width: '15%',
       },
       {
         title: 'Banner',
         dataIndex: 'banner',
-        // width: '20%',
       },
 
       {
@@ -378,7 +376,7 @@ const MuitHosts = () => {
                 disabled={selectedRowKeys.length === 0}
                 danger
               >
-                <DeleteOutlined/> 删除
+                <DeleteOutlined/>删除
               </Button>
             </Col>
             <Col span={8}>
@@ -528,7 +526,6 @@ const MuitHosts = () => {
                     title: '路由子网',
                     dataIndex: 'subnet',
                     key: 'subnet',
-                    // width: 120,
                   },
                   {
                     title: '路由掩码',
@@ -687,7 +684,6 @@ const MuitHosts = () => {
                 title: '端口',
                 dataIndex: 'port',
                 key: 'port',
-                // width: 96,
               },
               {
                 title: '操作',
@@ -775,8 +771,8 @@ const MuitHosts = () => {
         footer={null}
         onCancel={() => setCreateSocksModalVisible(false)}
       >
-        <FormNew onFinish={createSocksReq.run}>
-          <FormNew.Item
+        <Form onFinish={createSocksReq.run}>
+          <Form.Item
             {...formLayout}
             label={<span>代理类型</span>}
             name="type"
@@ -791,8 +787,8 @@ const MuitHosts = () => {
               <Option value="msf_socks4a">Socks4a</Option>
               <Option value="msf_socks5">Socks5</Option>
             </Select>
-          </FormNew.Item>
-          <FormNew.Item
+          </Form.Item>
+          <Form.Item
             {...formLayout}
             label={<span>本地端口</span>}
             name="port"
@@ -804,8 +800,8 @@ const MuitHosts = () => {
             ]}
           >
             <InputNumber style={{ width: 160 }} placeholder="socks监听端口"/>
-          </FormNew.Item>
-          <FormNew.Item {...buttonLayout}>
+          </Form.Item>
+          <Form.Item {...buttonLayout}>
             <Button
               block
               loading={createSocksReq.loading}
@@ -815,7 +811,7 @@ const MuitHosts = () => {
             >
               新增
             </Button>
-          </FormNew.Item>
+          </Form.Item>
           <Row>
             <Col span={20} offset={4}>
               <Alert
@@ -825,10 +821,10 @@ const MuitHosts = () => {
               />
             </Col>
           </Row>
-        </FormNew>
+        </Form>
       </Modal>
     </div>
   );
 };
 
-export const MuitHostsMemo = memo(MuitHosts);
+export const MsfSocksMemo = memo(MsfSocks);
