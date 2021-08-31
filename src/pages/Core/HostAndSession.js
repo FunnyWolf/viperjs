@@ -1,23 +1,18 @@
-import React, { Fragment, memo, useCallback, useEffect, useRef, useState } from "react";
-import { useModel, useRequest } from "umi";
-import { useControllableValue, useInterval, useLocalStorageState } from "ahooks";
+import React, { Fragment, memo, useCallback, useEffect, useRef, useState } from 'react';
+import { useModel, useRequest } from 'umi';
+import { useInterval, useLocalStorageState } from 'ahooks';
 import {
   deleteCoreHostAPI,
   deleteMsgrpcFileSessionAPI,
-  deleteMsgrpcJobAPI,
   deleteMsgrpcPortFwdAPI,
   deleteMsgrpcRouteAPI,
   deleteMsgrpcSessionAPI,
   deleteMsgrpcSessionioAPI,
   deleteMsgrpcTransportAPI,
-  deleteNoticesAPI,
   deletePostlateralPortserviceAPI,
   deletePostlateralVulnerabilityAPI,
-  deletePostModuleAutoAPI,
-  deletePostmodulePostModuleResultHistoryAPI,
   getCoreCurrentUserAPI,
   getCoreHostInfoAPI,
-  getCoreSettingAPI,
   getMsgrpcFileSessionAPI,
   getMsgrpcPortFwdAPI,
   getMsgrpcRouteAPI,
@@ -25,24 +20,20 @@ import {
   getMsgrpcTransportAPI,
   getPostlateralPortserviceAPI,
   getPostlateralVulnerabilityAPI,
-  getPostModuleAutoAPI,
   getPostmodulePostModuleConfigAPI,
   getPostmodulePostModuleResultAPI,
-  postCoreNoticesAPI,
-  postCoreSettingAPI,
   postMsgrpcFileSessionAPI,
   postMsgrpcPortFwdAPI,
   postMsgrpcRouteAPI,
   postMsgrpcSessionioAPI,
   postMsgrpcTransportAPI,
-  postPostModuleAutoAPI,
   postPostmodulePostModuleActuatorAPI,
   putCoreHostAPI,
   putMsgrpcFileSessionAPI,
   putMsgrpcSessionAPI,
   putMsgrpcSessionioAPI,
-  putMsgrpcTransportAPI
-} from "@/services/apiv1";
+  putMsgrpcTransportAPI,
+} from '@/services/apiv1';
 
 import {
   ArrowRightOutlined,
@@ -62,7 +53,6 @@ import {
   DeploymentUnitOutlined,
   DesktopOutlined,
   DownOutlined,
-  FieldTimeOutlined,
   FolderAddOutlined,
   FolderOpenOutlined,
   FundViewOutlined,
@@ -72,7 +62,6 @@ import {
   KeyOutlined,
   LaptopOutlined,
   MailOutlined,
-  MinusOutlined,
   NodeIndexOutlined,
   PartitionOutlined,
   PlayCircleOutlined,
@@ -85,7 +74,6 @@ import {
   RetweetOutlined,
   RightOutlined,
   RobotOutlined,
-  SearchOutlined,
   SettingOutlined,
   SisternodeOutlined,
   SwapLeftOutlined,
@@ -94,14 +82,11 @@ import {
   SyncOutlined,
   UploadOutlined,
   UpOutlined,
-  VerticalAlignTopOutlined,
-  WindowsOutlined
-} from "@ant-design/icons";
+  WindowsOutlined,
+} from '@ant-design/icons';
 
 import {
   Avatar,
-  BackTop,
-  Badge,
   Button,
   Card,
   Checkbox,
@@ -111,7 +96,6 @@ import {
   Form,
   Input,
   InputNumber,
-  List,
   Menu,
   message,
   Modal,
@@ -121,34 +105,37 @@ import {
   Row,
   Select,
   Space,
-  Switch,
   Table,
   Tabs,
   Tag,
   Tooltip,
-  Typography
-} from "antd";
-import copy from "copy-to-clipboard";
-import "./xterm.css";
-
-import GridContent from "@/components/PageHeaderWrapper/GridContent";
-import moment from "moment";
-import { FileMsfMemo, FileMsfModal } from "@/pages/Core/FileMsf";
-import PayloadAndHandler, { PayloadAndHandlerMemo } from "@/pages/Core/PayloadAndHandler";
-import { WebDeliveryMemo } from "@/pages/Core/WebDelivery";
-import { host_type_to_avatar_table, MyIcon, SidTag } from "@/pages/Core/Common";
-import SystemSetting, { SystemSettingMemo } from "@/pages/Core/SystemSetting";
-import { BotScan, PostModuleMemo, RunAutoModuleMemo, RunModuleMemo } from "@/pages/Core/RunModule";
-import { MuitHostsMemo } from "@/pages/Core/MsfSocks";
-import LazyLoader, { LazyLoaderMemo } from "@/pages/Core/LazyLoader";
-import Credential, { CredentialMemo } from "@/pages/Core/Credential";
-import { getToken } from "@/utils/authority";
-import styles from "./HostAndSession.less";
-import NetworkMemo, { NetworkWindowMemo } from "@/pages/Core/Network";
-import ReactJson from "react-json-view";
-import NewWindow from "rc-new-window";
-import MsfConsoleXTermMemo, { MsfconsoleMemo } from "@/pages/Core/MsfConsoleXTerm";
-import { Upheight } from "@/utils/utils";
+  Typography,
+} from 'antd';
+import copy from 'copy-to-clipboard';
+import GridContent from '@/components/PageHeaderWrapper/GridContent';
+import moment from 'moment';
+import {
+  RealTimeJobsMemo,
+  RealTimeModuleResultMemo,
+  RealTimeNoticesMemo,
+  TaskQueueTagMemo,
+} from '@/pages/Core/RealTimeCard';
+import { FileMsfMemo, FileMsfModal } from '@/pages/Core/FileMsf';
+import PayloadAndHandler, { PayloadAndHandlerMemo } from '@/pages/Core/PayloadAndHandler';
+import { WebDeliveryMemo } from '@/pages/Core/WebDelivery';
+import { host_type_to_avatar_table, MyIcon, SidTag } from '@/pages/Core/Common';
+import SystemSetting, { SystemSettingMemo } from '@/pages/Core/SystemSetting';
+import { AutoRobotMemo, BotScan, PostModuleMemo, RunModuleMemo } from '@/pages/Core/RunModule';
+import { MuitHostsMemo } from '@/pages/Core/MsfSocks';
+import LazyLoader, { LazyLoaderMemo } from '@/pages/Core/LazyLoader';
+import Credential, { CredentialMemo } from '@/pages/Core/Credential';
+import { getToken } from '@/utils/authority';
+import styles from './HostAndSession.less';
+import NetworkMemo, { NetworkWindowMemo } from '@/pages/Core/Network';
+import ReactJson from 'react-json-view';
+import NewWindow from 'rc-new-window';
+import MsfConsoleXTermMemo, { MsfconsoleMemo } from '@/pages/Core/MsfConsoleXTerm';
+import { Upheight } from '@/utils/utils';
 
 const { Text } = Typography;
 const { Paragraph } = Typography;
@@ -158,7 +145,7 @@ const { Search, TextArea } = Input;
 const { TabPane } = Tabs;
 
 //websocket连接地址设置
-let webHost = "127.0.0.1:8002";
+let webHost = '127.0.0.1:8002';
 let protocol = 'ws://';
 if (process.env.NODE_ENV === 'production') {
   webHost = location.hostname + (location.port ? `:${location.port}` : '');
@@ -532,7 +519,7 @@ const HostAndSessionCard = () => {
     setExpandedRowKeys(expandedRowKeys);
   };
 
-  const hostTableColumns = [
+  const hostAndSessionTableColumns = [
     {
       //模块按钮
       dataIndex: 'ipaddress',
@@ -702,7 +689,6 @@ const HostAndSessionCard = () => {
     },
 
   ];
-
 
   const sessionRowRender = hostRecord => {
     const sessionTableColumns = [
@@ -1005,12 +991,13 @@ const HostAndSessionCard = () => {
       />
     );
   };
+
   return (
     <Fragment>
       <Table
         loading={!heatbeatsocketalive}
         dataSource={hostAndSessionList}
-        columns={hostTableColumns}
+        columns={hostAndSessionTableColumns}
         expandable={{
           onExpand: (expanded, record) => {
             handleExpand(expanded, record.ipaddress);
@@ -1182,34 +1169,6 @@ const HostAndSessionCard = () => {
     </Fragment>
   );
 };
-
-
-const TaskQueueTag = () => {
-  console.log('TaskQueueTag');
-  const { taskQueueLength } = useModel('HostAndSessionModel', model => ({
-    taskQueueLength: model.taskQueueLength,
-  }));
-  if (taskQueueLength > 0) {
-    return (
-      <Badge
-        showZero
-        style={{
-          marginTop: -4,
-          marginLeft: -4,
-          marginRight: 10,
-          color: '#73d13d',
-          backgroundColor: '#092b00',
-          boxShadow: '0 0 0 1px #237804 inset',
-        }}
-        count={taskQueueLength}
-      />
-    );
-  } else {
-    return <FieldTimeOutlined/>;
-  }
-};
-const TaskQueueTagMemo = memo(TaskQueueTag);
-
 
 const TabsBottom = () => {
   console.log('TabsBottom');
@@ -1464,643 +1423,6 @@ const TabsBottom = () => {
   );
 };
 
-const PostModuleInfoContent = postModuleConfig => {
-  const platform = postModuleConfig.PLATFORM;
-  const platformCom = [];
-  for (let i = 0; i < platform.length; i++) {
-    if (platform[i].toLowerCase() === 'windows') {
-      platformCom.push(<Tag color="green">{platform[i]}</Tag>);
-    } else {
-      platformCom.push(<Tag color="magenta">{platform[i]}</Tag>);
-    }
-  }
-
-  const permissions = postModuleConfig.PERMISSIONS;
-  const permissionsCom = [];
-  for (let i = 0; i < permissions.length; i++) {
-    if (['system', 'root'].indexOf(permissions[i].toLowerCase()) >= 0) {
-      permissionsCom.push(<Tag color="volcano">{permissions[i]}</Tag>);
-    } else if (['administrator'].indexOf(permissions[i].toLowerCase()) >= 0) {
-      permissionsCom.push(<Tag color="orange">{permissions[i]}</Tag>);
-    } else {
-      permissionsCom.push(<Tag color="lime">{permissions[i]}</Tag>);
-    }
-  }
-
-  const references = postModuleConfig.REFERENCES;
-  const referencesCom = [];
-  for (let i = 0; i < references.length; i++) {
-    referencesCom.push(
-      <div>
-        <a href={references[i]} target="_blank">
-          {references[i]}
-        </a>
-      </div>,
-    );
-  }
-
-  const readme = postModuleConfig.README;
-  const readmeCom = [];
-  for (let i = 0; i < readme.length; i++) {
-    readmeCom.push(
-      <div>
-        <a href={readme[i]} target="_blank">
-          {readme[i]}
-        </a>
-      </div>,
-    );
-  }
-
-  const attcks = postModuleConfig.ATTCK;
-  const attckCom = [];
-  for (let i = 0; i < attcks.length; i++) {
-    attckCom.push(<Tag color="gold">{attcks[i]}</Tag>);
-  }
-
-  const authors = postModuleConfig.AUTHOR;
-  const authorCom = [];
-  for (let i = 0; i < authors.length; i++) {
-    authorCom.push(<Tag color="lime">{authors[i]}</Tag>);
-  }
-
-  return (
-    <Descriptions
-      size="small"
-      style={{
-        padding: '0 0 0 0',
-        marginRight: 8,
-      }}
-      column={8}
-      bordered
-    >
-      <Descriptions.Item label="名称" span={8}>
-        {postModuleConfig.NAME}
-      </Descriptions.Item>
-      <Descriptions.Item label="作者" span={4}>
-        {authorCom}
-      </Descriptions.Item>
-      <Descriptions.Item label="TTPs" span={4}>
-        {attckCom}
-      </Descriptions.Item>
-      <Descriptions.Item label="适用系统" span={4}>
-        {platformCom}
-      </Descriptions.Item>
-      <Descriptions.Item label="适用权限" span={4}>
-        {permissionsCom}
-      </Descriptions.Item>
-      <Descriptions.Item label="使用文档" span={8}>
-        {readmeCom}
-      </Descriptions.Item>
-      <Descriptions.Item label="参考链接" span={8}>
-        {referencesCom}
-      </Descriptions.Item>
-      <Descriptions.Item span={8} label="简介">
-        <pre>{postModuleConfig.DESC}</pre>
-      </Descriptions.Item>
-    </Descriptions>
-  );
-};
-
-const RealTimeJobs = () => {
-  console.log('RealTimeJobs');
-  const { jobList, setJobList } = useModel('HostAndSessionModel', model => ({
-    jobList: model.jobList,
-    setJobList: model.setJobList,
-  }));
-
-  const destoryJobReq = useRequest(deleteMsgrpcJobAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
-      const { uuid } = result;
-      setJobList(jobList.filter(item => item.uuid !== uuid));
-    },
-    onError: (error, params) => {
-    },
-  });
-
-  const onDestoryJob = record => {
-    destoryJobReq.run({ uuid: record.uuid, job_id: record.job_id, broker: record.broker });
-  };
-
-  return (
-    <Table
-      style={{ marginTop: -16 }}
-      className={styles.jobListTable}
-      size="small"
-      rowKey="job_id"
-      pagination={false}
-      dataSource={jobList}
-      bordered
-      columns={[
-        {
-          title: '开始时间',
-          dataIndex: 'time',
-          key: 'time',
-          width: 80,
-          render: (text, record) => <Tag color="cyan">{moment(record.time * 1000).fromNow()}</Tag>,
-        },
-        {
-          title: '模块',
-          dataIndex: 'moduleinfo',
-          key: 'moduleinfo',
-          width: 240,
-          render: (text, record) => (
-            <Popover
-              placement="right"
-              content={PostModuleInfoContent(record.moduleinfo)}
-              trigger="click"
-            >
-              <a>{record.moduleinfo.NAME}</a>
-            </Popover>
-          ),
-        },
-        {
-          title: 'SID',
-          dataIndex: 'time',
-          key: 'time',
-          width: 48,
-          render: (text, record) => {
-            return SidTag(record.moduleinfo._sessionid);
-          },
-        },
-        {
-          title: '参数',
-          dataIndex: 'moduleinfo',
-          key: 'moduleinfo',
-          render: (text, record) => {
-            const component = [];
-            for (const key in record.moduleinfo._custom_param) {
-              const item = record.moduleinfo._custom_param[key];
-              component.push(
-                <span>
-                  {' '}
-                  <strong>{key}: </strong>
-                  {item}{' '}
-                </span>,
-              );
-            }
-            return <Fragment>{component}</Fragment>;
-          },
-        },
-        {
-          title: '操作',
-          dataIndex: 'operation',
-          width: 48,
-          render: (text, record) => (
-            <a style={{ color: 'red' }} onClick={() => onDestoryJob(record)}>
-              删除
-            </a>
-          ),
-        },
-      ]}
-    />
-  );
-};
-
-const RealTimeJobsMemo = memo(RealTimeJobs);
-
-const RealTimeModuleResult = () => {
-  console.log('RealTimeModuleResult');
-  const {
-    postModuleResultHistory,
-    setPostModuleResultHistory,
-    postModuleResultHistoryActive,
-    setPostModuleResultHistoryActive,
-  } = useModel('HostAndSessionModel', model => ({
-    postModuleResultHistory: model.postModuleResultHistory,
-    setPostModuleResultHistory: model.setPostModuleResultHistory,
-    postModuleResultHistoryActive: model.postModuleResultHistoryActive,
-    setPostModuleResultHistoryActive: model.setPostModuleResultHistoryActive,
-  }));
-
-  const [text, setText] = useState('');
-
-  const [refresh, setRefresh] = useState(false);
-  useInterval(() => setRefresh(!refresh), 60000);
-
-  const handlePostModuleResultHistorySearch = text => {
-    const reg = new RegExp(text, 'gi');
-    const afterFilterList = postModuleResultHistory
-      .map(record => {
-        let moduleNameMatch = false;
-        let resultMatch = false;
-        let optsMatch = false;
-        let hostMatch = false;
-        const optsStr = JSON.stringify(record.opts);
-        try {
-          moduleNameMatch = record.module_name.match(reg);
-          resultMatch = record.result.match(reg);
-          optsMatch = optsStr.match(reg);
-          hostMatch = record.ipaddress.match(reg);
-        } catch (error) {
-        }
-
-        if (moduleNameMatch || resultMatch || optsMatch || hostMatch) {
-          return { ...record };
-        }
-        return null;
-      })
-      .filter(record => !!record);
-    setPostModuleResultHistoryActive(afterFilterList);
-  };
-
-  const postModuleOpts = opts => {
-    let optStr = '';
-    for (const key in opts) {
-      optStr = `${optStr}  ${key}: ${opts[key]}`;
-    }
-    return <div className={styles.moduleresultoptions}>{optStr}</div>;
-  };
-
-  const deletePostModuleResultHistoryReq = useRequest(deletePostmodulePostModuleResultHistoryAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
-      setPostModuleResultHistory([]);
-      setPostModuleResultHistoryActive([]);
-    },
-    onError: (error, params) => {
-    },
-  });
-
-  return (
-    <Fragment>
-      <Row style={{ marginTop: -16 }}>
-        <Col span={21}>
-          <Input
-            allowClear
-            prefix={<SearchOutlined/>}
-            style={{ width: '100%' }}
-            placeholder=" 主机IP/模块/参数/结果"
-            value={text}
-            onChange={e => {
-              setText(e.target.value);
-              handlePostModuleResultHistorySearch(e.target.value);
-            }}
-          />
-        </Col>
-        <Col span={3}>
-          <Tooltip mouseEnterDelay={0.3} title="清空结果">
-            <Button
-              block
-              danger
-              onClick={() => deletePostModuleResultHistoryReq.run()}
-              icon={<DeleteOutlined/>}
-            >
-              清空
-            </Button>
-          </Tooltip>
-        </Col>
-      </Row>
-      <List
-        id="moduleresultlist"
-        bordered
-        className={styles.moduleresultlist}
-        itemLayout="vertical"
-        size="small"
-        dataSource={postModuleResultHistoryActive}
-        renderItem={item => (
-          <List.Item key={item.id} style={{ padding: '4px 0px 0px 4px' }}>
-            <div>
-              <Tooltip title={moment(item.update_time * 1000).format('YYYY-MM-DD HH:mm:ss')}>
-                <Tag style={{ width: '68px' }} color="cyan">
-                  {moment(item.update_time * 1000).fromNow()}
-                </Tag>
-              </Tooltip>
-              <strong
-                style={{
-                  color: '#642ab5',
-                }}
-              >
-                {item.module_name}
-              </strong>
-              <strong
-                style={{
-                  color: '#d8bd14',
-                  width: 120,
-                  marginLeft: 8,
-                }}
-              >
-                {item.ipaddress}
-              </strong>
-            </div>
-            <div
-              style={{
-                marginTop: 0,
-              }}
-            >
-              {postModuleOpts(item.opts)}
-            </div>
-            <Row>
-                <pre
-                  style={{
-                    whiteSpace: 'pre-wrap',
-                    overflowX: 'hidden',
-                    padding: '0 0 0 0',
-                    marginTop: 2,
-                    marginBottom: 2,
-                  }}
-                >
-                  {item.result}
-                </pre>
-            </Row>
-          </List.Item>
-        )}
-      >
-        <BackTop
-          style={{
-            top: 'calc({0} + 112px)'.format(Upheight),
-            right: 'calc(41vw + 32px)',
-          }}
-          target={() => document.getElementById('moduleresultlist')}
-        >
-          <div
-            style={{
-              height: 40,
-              width: 40,
-              lineHeight: '40px',
-              borderRadius: 4,
-              backgroundColor: 'rgba(64, 64, 64, 0.6)',
-              color: '#fff',
-              textAlign: 'center',
-              fontSize: 14,
-            }}
-          >
-            <VerticalAlignTopOutlined/>
-          </div>
-        </BackTop>
-      </List>
-
-    </Fragment>
-  );
-};
-
-const RealTimeModuleResultMemo = memo(RealTimeModuleResult);
-
-const KeyToUserIcon = {
-  '0': 'icon-yuanxingbaoshi',
-  '1': 'icon-sanjiaobaoshi',
-  '2': 'icon-shuidibaoshi',
-  '3': 'icon-liujiaobaoshi',
-  '4': 'icon-lingxingbaoshi',
-  '5': 'icon-duojiaobaoshi',
-};
-
-// 单独独立出来是为了不丢失焦点
-const UserInput = props => {
-  const [text, onInputChange] = useControllableValue(
-    {},
-    {
-      defaultValue: '',
-    },
-  );
-  const userIcon = key => {
-    return (
-      <MyIcon
-        type={KeyToUserIcon[key]}
-        style={{
-          padding: '0px 0px 0px 0px',
-          marginBottom: 0,
-          marginTop: 0,
-          marginLeft: -4,
-          marginRight: 4,
-          fontSize: '18px',
-        }}
-      />
-    );
-  };
-  const getUserIconKey = () => {
-    let key = '0';
-    if (localStorage.getItem('UserIcon') === null) {
-      localStorage.setItem('UserIcon', '0');
-    } else {
-      key = localStorage.getItem('UserIcon');
-    }
-    return key;
-  };
-  const [iconkey, setIconkey] = useState(getUserIconKey());
-  const PrefixIcon = () => {
-    const onChange = e => {
-      console.log('radio checked', e.target.value);
-      setIconkey(e.target.value);
-      localStorage.setItem('UserIcon', e.target.value);
-    };
-    return (
-      <Popover
-        content={
-          <Radio.Group onChange={onChange} value={getUserIconKey()}>
-            <Radio value="0">{userIcon('0')}</Radio>
-            <Radio value="1">{userIcon('1')}</Radio>
-            <Radio value="2">{userIcon('2')}</Radio>
-            <Radio value="3">{userIcon('3')}</Radio>
-            <Radio value="4">{userIcon('4')}</Radio>
-            <Radio value="5">{userIcon('5')}</Radio>
-          </Radio.Group>
-        }
-        trigger="click"
-      >
-        {userIcon(iconkey)}
-      </Popover>
-    );
-  };
-
-  return (
-    <Input
-      style={{ width: '100%' }}
-      placeholder="发送消息"
-      value={text}
-      prefix={<PrefixIcon/>}
-      onPressEnter={() => {
-        props.createNotice({ userkey: iconkey, content: text });
-        onInputChange('');
-      }}
-      onChange={e => onInputChange(e.target.value)}
-    />
-  );
-};
-
-const RealTimeNotices = () => {
-  console.log('RealTimeNotices');
-  const { notices, setNotices } = useModel('HostAndSessionModel', model => ({
-    notices: model.notices,
-    setNotices: model.setNotices,
-  }));
-  const [refresh, setRefresh] = useState(false);
-  useInterval(() => setRefresh(!refresh), 60000);
-
-  const userIconLarge = key => {
-    return (
-      <MyIcon
-        type={KeyToUserIcon[key]}
-        style={{
-          fontSize: '18px',
-        }}
-      />
-    );
-  };
-
-  const NoticesList = props => {
-    const getContent = item => {
-      if (item.level === 0) {
-        return (
-          <Text style={{ color: '#49aa19' }} className={styles.wordBreakClass}>
-            {item.content}
-          </Text>
-        );
-      }
-      if (item.level === 1) {
-        return (
-          <Text style={{ color: '#13a8a8' }} className={styles.wordBreakClass}>
-            {item.content}
-          </Text>
-        );
-      }
-      if (item.level === 2) {
-        return (
-          <Text type="warning" className={styles.wordBreakClass}>
-            {item.content}
-          </Text>
-        );
-      }
-      if (item.level === 3) {
-        return (
-          <Text type="danger" className={styles.wordBreakClass}>
-            {item.content}
-          </Text>
-        );
-      }
-      if (item.level === 4) {
-        return (
-          <Text mark className={styles.wordBreakClass}>
-            {item.content}
-          </Text>
-        );
-      }
-      if (item.level === 5) {
-        // 提醒
-        return (
-          <Text style={{ color: '#642ab5' }} className={styles.wordBreakClass}>
-            {item.content}
-          </Text>
-        );
-      }
-      if (item.level === 6) {
-        // 用户输入
-        return (
-          <Text style={{ color: '#cb2b83' }} className={styles.wordBreakClass}>
-            <Space>
-              {userIconLarge(item.userkey)}
-              {item.content}
-              {userIconLarge(item.userkey)}
-            </Space>
-          </Text>
-        );
-      }
-      return (
-        <Text type="warning" className={styles.wordBreakClass}>
-          {item.content}
-        </Text>
-      );
-    };
-    return (
-      <List
-        id="noticescard"
-        className={styles.noticelist}
-        split={false}
-        size="small"
-        bordered
-        itemLayout="horizontal"
-        dataSource={props.notices}
-        renderItem={item => (
-          <List.Item style={{ padding: '0px 0px 0px 0px' }}>
-            <div
-              style={{
-                display: 'inline',
-                marginTop: 0,
-                marginBottom: 0,
-              }}
-            >
-              <Tooltip title={moment(item.time * 1000).format('YYYY-MM-DD HH:mm:ss')}>
-                <Tag
-                  color="cyan"
-                  style={{
-                    marginLeft: -1,
-                    width: 68,
-                    marginRight: 4,
-                  }}
-                >
-                  {moment(item.time * 1000).fromNow()}
-                </Tag>
-              </Tooltip>
-              {getContent(item)}
-            </div>
-          </List.Item>
-        )}
-      >
-        <BackTop
-          style={{
-            top: 'calc({0} + 112px)'.format(Upheight),
-            right: 24,
-          }}
-          target={() => document.getElementById('noticescard')}
-        >
-          <div
-            style={{
-              height: 40,
-              width: 40,
-              lineHeight: '40px',
-              borderRadius: 4,
-              backgroundColor: 'rgba(64, 64, 64, 0.6)',
-              color: '#fff',
-              textAlign: 'center',
-              fontSize: 14,
-            }}
-          >
-            <VerticalAlignTopOutlined/>
-          </div>
-        </BackTop>
-      </List>
-    );
-  };
-  const createNoticeReq = useRequest(postCoreNoticesAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
-      // notices.unshift(result);
-      // setNotices(notices);
-    },
-    onError: (error, params) => {
-    },
-  });
-
-  const deleteNoticesReq = useRequest(deleteNoticesAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
-      setNotices([]);
-    },
-    onError: (error, params) => {
-    },
-  });
-
-  return (
-    <Fragment>
-      <Row style={{ marginTop: -16 }}>
-        <Col span={20}>
-          <UserInput createNotice={params => createNoticeReq.run(params)}/>
-        </Col>
-        <Col span={4}>
-          <Tooltip mouseEnterDelay={0.3} title="清空日志">
-            <Button icon={<DeleteOutlined/>} block danger onClick={() => deleteNoticesReq.run()}>
-              清空
-            </Button>
-          </Tooltip>
-        </Col>
-      </Row>
-      <NoticesList notices={notices}/>
-    </Fragment>
-  );
-};
-
-const RealTimeNoticesMemo = memo(RealTimeNotices);
-
 const SessionInfo = () => {
   console.log('SessionInfo');
   const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
@@ -2225,11 +1547,11 @@ const SessionInfo = () => {
     },
     {
       // title: '操作',
-      dataIndex: "operation",
+      dataIndex: 'operation',
       width: 80,
       render: (text, record) => (
         <Popover
-          style={{ width: "50vw" }}
+          style={{ width: '50vw' }}
           arrowPointAtCenter
           placement="left"
           content={
@@ -4649,249 +3971,5 @@ const UpdateHost = props => {
   );
 };
 const UpdateHostMemo = memo(UpdateHost);
-
-const PostModuleAutoConfForm = props => {
-  const [postModuleAutoConfForm] = Form.useForm();
-  const [settingsPostModuleAutoConf, setSettingsPostModuleAutoConf] = useState({});
-
-  //初始化数据
-  const initListPostModuleAutoConfReq = useRequest(
-    () => getCoreSettingAPI({ kind: 'postmoduleautoconf' }),
-    {
-      onSuccess: (result, params) => {
-        setSettingsPostModuleAutoConf(result);
-        postModuleAutoConfForm.setFieldsValue(result);
-      },
-      onError: (error, params) => {
-      },
-    },
-  );
-
-  const updateSessionMonitorReq = useRequest(postCoreSettingAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
-      setSettingsPostModuleAutoConf(result);
-      postModuleAutoConfForm.setFieldsValue(result);
-    },
-    onError: (error, params) => {
-    },
-  });
-
-  const onUpdateSessionMonitor = setting => {
-    let params = {
-      kind: 'postmoduleautoconf',
-      tag: 'default',
-      setting,
-    };
-    updateSessionMonitorReq.run(params);
-  };
-
-  return (
-    <Form labelCol={{ span: 24 }} wrapperCol={{ span: 24 }} layout="vertical">
-      <Form.Item label="开关">
-        <Switch
-          checkedChildren={<CheckOutlined/>}
-          unCheckedChildren={<MinusOutlined/>}
-          checked={settingsPostModuleAutoConf.flag}
-          onClick={() => onUpdateSessionMonitor({ flag: !settingsPostModuleAutoConf.flag })}
-        />
-      </Form.Item>
-      <Form.Item label="时间间隔" tooltip="执行每个模块的间隔时间">
-        <Radio.Group
-          onChange={e => onUpdateSessionMonitor({ interval: e.target.value })}
-          value={settingsPostModuleAutoConf.interval}
-        >
-          <Space direction="vertical">
-            <Radio value={1}>1秒</Radio>
-            <Radio value={10}>10秒</Radio>
-            <Radio value={60}>1分钟</Radio>
-            <Radio value={600}>10分钟</Radio>
-          </Space>
-        </Radio.Group>
-      </Form.Item>
-      <Form.Item
-        label="单一主机最大权限数量"
-        tooltip="当同一个ip地址的权限大于N个时,不再执行编排(防止编排模块生成权限,权限又执行编排,造成死循环)"
-      >
-        <Radio.Group
-          onChange={e => onUpdateSessionMonitor({ max_session: e.target.value })}
-          value={settingsPostModuleAutoConf.max_session}
-        >
-          <Space direction="vertical">
-            <Radio value={3}>3个</Radio>
-            <Radio value={5}>5个</Radio>
-          </Space>
-        </Radio.Group>
-      </Form.Item>
-    </Form>
-  );
-};
-
-const PostModuleAutoConfFormMemo = memo(PostModuleAutoConfForm);
-
-const AutoRobot = () => {
-  console.log('AutoRobot');
-  const [postModuleAutoList, setPostModuleAutoList] = useState([]);
-  const [runAutoModuleModalVisable, setRunAutoModuleModalModalVisable] = useState(false);
-  //初始化数据
-  const initListPostModuleAutoReq = useRequest(getPostModuleAutoAPI, {
-    onSuccess: (result, params) => {
-      setPostModuleAutoList(result);
-    },
-    onError: (error, params) => {
-    },
-  });
-
-  const listPostModuleAutoReq = useRequest(getPostModuleAutoAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
-      setPostModuleAutoList(result);
-    },
-    onError: (error, params) => {
-    },
-  });
-
-  const createPostModuleAutoReq = useRequest(postPostModuleAutoAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
-      listPostModuleAutoReq.run();
-    },
-    onError: (error, params) => {
-    },
-  });
-
-  const destoryPostModuleAutoReq = useRequest(deletePostModuleAutoAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
-      const { module_uuid } = result;
-      setPostModuleAutoList(postModuleAutoList.filter(item => item.module_uuid !== module_uuid));
-    },
-    onError: (error, params) => {
-    },
-  });
-
-  return (
-    <Fragment>
-      <Row gutter={0} style={{ marginTop: -16 }}>
-        <Col span={12}>
-          <Button
-            block
-            icon={<PlusOutlined/>}
-            onClick={() => setRunAutoModuleModalModalVisable(true)}
-          >
-            添加模块
-          </Button>
-        </Col>
-        <Col span={12}>
-          <Button
-            icon={<SyncOutlined/>}
-            style={{
-              width: '100%',
-            }}
-            loading={
-              listPostModuleAutoReq.loading ||
-              createPostModuleAutoReq.loading ||
-              destoryPostModuleAutoReq.loading
-            }
-            onClick={() => listPostModuleAutoReq.run()}
-          >
-            刷新
-          </Button>
-        </Col>
-      </Row>
-      <Row gutter={0}>
-        <Col span={20}>
-          <Table
-            className={styles.postModuleAutoTable}
-            size="small"
-            rowKey="job_id"
-            pagination={false}
-            dataSource={postModuleAutoList}
-            bordered
-            columns={[
-              {
-                title: '模块',
-                dataIndex: 'moduleinfo',
-                key: 'moduleinfo',
-                width: 240,
-                render: (text, record) => (
-                  <Popover
-                    placement="right"
-                    content={PostModuleInfoContent(record.moduleinfo)}
-                    trigger="click"
-                  >
-                    <a>{record.moduleinfo.NAME}</a>
-                  </Popover>
-                ),
-              },
-              {
-                title: '预配置参数',
-                dataIndex: 'custom_param',
-                key: 'custom_param',
-                render: (text, record) => {
-                  const component = [];
-                  for (const key in record.custom_param) {
-                    const item = record.custom_param[key];
-                    component.push(
-                      <span>
-                        {' '}
-                        <strong>{key}: </strong>
-                        {item}{' '}
-                      </span>,
-                    );
-                  }
-                  return <Fragment>{component}</Fragment>;
-                },
-              },
-              {
-                // title: '操作',
-                dataIndex: 'operation',
-                width: 56,
-                render: (text, record) => (
-                  <div style={{ textAlign: 'center' }}>
-                    <a
-                      style={{ color: 'red' }}
-                      onClick={() =>
-                        destoryPostModuleAutoReq.run({ module_uuid: record.module_uuid })
-                      }
-                    >
-                      删除
-                    </a>
-                  </div>
-                ),
-              },
-            ]}
-          />
-        </Col>
-        <Col span={4}>
-          <Card style={{ marginTop: 0 }}>
-            <PostModuleAutoConfFormMemo/>
-          </Card>
-        </Col>
-      </Row>
-      <Modal
-        mask={false}
-        style={{ top: 32 }}
-        width="90vw"
-        destroyOnClose
-        visible={runAutoModuleModalVisable}
-        onCancel={() => setRunAutoModuleModalModalVisable(false)}
-        footer={null}
-        bodyStyle={{ padding: '0px 0px 0px 0px' }}
-      >
-        <RunAutoModuleMemo
-          closeModel={() => {
-            setRunAutoModuleModalModalVisable(false);
-          }}
-          listData={() => {
-            listPostModuleAutoReq.run();
-          }}
-        />
-      </Modal>
-    </Fragment>
-  );
-};
-
-const AutoRobotMemo = memo(AutoRobot);
 
 export default HostAndSession;

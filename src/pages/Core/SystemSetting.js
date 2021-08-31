@@ -1,13 +1,13 @@
-import React, { Fragment, memo, useState } from "react";
+import React, { memo, useState } from 'react';
 import {
   getCoreSettingAPI,
   getServiceStatusAPI,
   postCoreSettingAPI,
-  putPostmodulePostModuleConfigAPI
-} from "@/services/apiv1";
-import { getLocale, history, setLocale, useModel, useRequest } from "umi";
+  putPostmodulePostModuleConfigAPI,
+} from '@/services/apiv1';
+import { getLocale, history, setLocale, useModel, useRequest } from 'umi';
 
-import { setToken } from "@/utils/authority";
+import { setToken } from '@/utils/authority';
 import {
   Badge,
   Button,
@@ -26,41 +26,27 @@ import {
   Switch,
   Tabs,
   Tag,
-  Typography
-} from "antd";
+  Typography,
+} from 'antd';
 import {
   CheckOutlined,
   DeliveredProcedureOutlined,
   LogoutOutlined,
   MinusOutlined,
   ReloadOutlined,
-  SyncOutlined
-} from "@ant-design/icons";
-import { useLocalStorageState } from "ahooks";
+  SyncOutlined,
+} from '@ant-design/icons';
+import { useLocalStorageState } from 'ahooks';
 
-import { reloadAuthorized } from "@/utils/Authorized";
-import { formatText } from "@/utils/locales";
+import { reloadAuthorized } from '@/utils/Authorized';
+import { formatText } from '@/utils/locales';
 
 const { Option } = Select;
 const { TabPane } = Tabs;
 const { Title, Paragraph, Text } = Typography;
 
-const viper_version = "v1.4.1";
-const viper_update_date = "2021-08-29";
-const datas = [
-  {
-    name: "metasploit-framework",
-    url: "https://github.com/rapid7/metasploit-framework/blob/master/LICENSE"
-  },
-  {
-    name: "ant-design-pro",
-    url: "https://github.com/ant-design/ant-design-pro/blob/master/LICENSE"
-  },
-  {
-    name: 'django-rest-framework',
-    url: 'https://github.com/encode/django-rest-framework/blob/master/LICENSE.md',
-  },
-];
+const viper_version = 'v1.4.1';
+const viper_update_date = '2021-08-29';
 
 
 const buttonItemLayout = {
@@ -91,193 +77,52 @@ const SystemSetting = () => {
   console.log('SystemSetting');
   const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState('viper-debug-flag', false);
   return (
-    <Fragment>
-      <Tabs style={{ marginTop: -16 }} type="card" defaultActiveKey="system_info">
-        <TabPane tab={formatText('app.systemsetting.aboutviper')} key="system_info">
-          <SystemInfo/>
-        </TabPane>
-        <TabPane tab="360Quake API" key="360Quake">
-          <Card style={{ marginTop: -16 }}>
-            <Row>
-              <Col span={16}>
-                <QuakeForm/>
-              </Col>
-              <Col span={8}>
-                <Typography>
-                  <Paragraph>
-                    <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
-                    <Text>{formatText('app.systemsetting.openquakevip')}</Text>
-                    <br/>
-                    <a href="https://quake.360.cn/quake/#/help?title=%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E">
-                      {formatText('app.systemsetting.quakeapireadme')}
-                    </a>
-                  </Paragraph>
-                </Typography>
-              </Col>
-            </Row>
-          </Card>
-        </TabPane>
-        <TabPane tab="FOFA API" key="FOFA">
-          <Card style={{ marginTop: -16 }}>
-            <Row>
-              <Col span={16}>
-                <FOFAForm/>
-              </Col>
-              <Col span={8}>
-                <Typography>
-                  <Paragraph>
-                    <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
-                    <Text>{formatText('app.systemsetting.openfofavip')}</Text>
-                    <br/>
-                    <a href="https://fofa.so/static_pages/api_help">{formatText('app.systemsetting.fofaapireadme')}</a>
-                  </Paragraph>
-                </Typography>
-              </Col>
-            </Row>
-          </Card>
-        </TabPane>
-        <TabPane tab={formatText('app.systemsetting.serverchan')} key="serverchan">
-          <Card style={{ marginTop: -16 }}>
-            <Row>
-              <Col span={16}>
-                <ServerChanForm/>
-              </Col>
-              <Col span={8}>
-                <Typography>
-                  <Paragraph>
-                    <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
-                    <Text>{formatText('app.systemsetting.openserverchan')}</Text>
-                    <br/>
-                    <a target="_blank" href="https://sct.ftqq.com/">
-                      {formatText('app.systemsetting.serverchanapireadme')}
-                    </a>
-                  </Paragraph>
-                </Typography>
-              </Col>
-            </Row>
-          </Card>
-        </TabPane>
-        <TabPane tab="DingDing Bot" key="dingding">
-          <Card style={{ marginTop: -16 }}>
-            <Row>
-              <Col span={16}>
-                <DingDingForm/>
-              </Col>
-              <Col span={8}>
-                <Typography>
-                  <Paragraph>
-                    <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
-                    <Text>{formatText('app.systemsetting.opendingding')}</Text>
-                    <br/>
-                    <a target="_blank" href="https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq">
-                      {formatText('app.systemsetting.dingdingreadme')}
-                    </a>
-                  </Paragraph>
-                </Typography>
-              </Col>
-            </Row>
-          </Card>
-        </TabPane>
-        <TabPane tab="Telegram Bot" key="telegram">
-          <Card style={{ marginTop: -16 }}>
-            <Row>
-              <Col span={16}>
-                <TelegramForm/>
-              </Col>
-              <Col span={8}>
-                <Typography>
-                  <Paragraph>
-                    <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
-                    <Text>{formatText('app.systemsetting.opentelegram')}</Text>
-                    <br/>
-                    <a
-                      target="_blank"
-                      href="https://longnight.github.io/2018/12/12/Telegram-Bot-notifications"
-                    >
-                      {formatText('app.systemsetting.telegramreadme')}
-                    </a>
-                    <br/>
-                    <Text>
-                      {formatText('app.systemsetting.telegramdoc_1')}
-                      <br/>
-                      {formatText('app.systemsetting.telegramdoc_2')}
-                      <Text code>{formatText('app.systemsetting.updateorgetchatid')}</Text>
-                      {formatText('app.systemsetting.telegramdoc_3')}
-                    </Text>
-                  </Paragraph>
-                </Typography>
-              </Col>
-            </Row>
-          </Card>
-        </TabPane>
-        <TabPane tab={formatText('app.systemsetting.sessionmonitor')} key="sessionmonitor">
-          <Card style={{ marginTop: -16 }}>
-            <Row>
-              <Col xs={24} sm={16}>
-                <SessionMonitorForm/>
-              </Col>
-              <Col span={8}>
-                <Typography>
-                  <Paragraph>
-                    <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
-                    <Text>
-                      {formatText('app.systemsetting.sessionmonitorreadme')}
-                    </Text>
-                    <br/>
-                  </Paragraph>
-                </Typography>
-              </Col>
-            </Row>
-          </Card>
-        </TabPane>
-        <TabPane tab={formatText('app.systemsetting.networkconfig')} key="lhost">
-          <Card style={{ marginTop: -16 }}>
-            <Row>
-              <Col span={16}>
-                <LHostForm/>
-              </Col>
-              <Col span={8}>
-                <Typography>
-                  <Paragraph>
-                    <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
-                    <Text strong>{formatText('app.systemsetting.defaultlhost')}</Text>
-                    {formatText('app.systemsetting.defaultlhostdoc_1')}
-                    <br/>
-                    <Text>{formatText('app.systemsetting.defaultlhostdoc_2')}</Text>
-                    <br/>
-                    Nginx:<Text code>0.0.0.0:60000</Text>
-                    <br/>
-                    Redis:<Text code>127.0.0.1:60004</Text>
-                    <br/>
-                    Msfrpcd:<Text code>127.0.0.1:60005</Text>
-                    <br/>
-                    {formatText('app.systemsetting.defaultlhostdoc_ssh')}
-                    <Text code>127.0.0.1:60010</Text>
-                  </Paragraph>
-                </Typography>
-              </Col>
-            </Row>
-          </Card>
-        </TabPane>
-      </Tabs>
-    </Fragment>
+    <Tabs style={{ marginTop: -16 }} type="card" defaultActiveKey="system_info">
+      <TabPane tab={formatText('app.systemsetting.aboutviper')} key="system_info">
+        <SystemInfo/>
+      </TabPane>
+      <TabPane tab="360Quake API" key="360Quake">
+        <QuakeForm/>
+      </TabPane>
+      <TabPane tab="FOFA API" key="FOFA">
+        <FOFAForm/>
+      </TabPane>
+      <TabPane tab={formatText('app.systemsetting.serverchan')} key="serverchan">
+        <ServerChanForm/>
+      </TabPane>
+      <TabPane tab="DingDing Bot" key="dingding">
+        <DingDingForm/>
+      </TabPane>
+      <TabPane tab="Telegram Bot" key="telegram">
+        <TelegramForm/>
+      </TabPane>
+      <TabPane tab={formatText('app.systemsetting.sessionmonitor')} key="sessionmonitor">
+        <SessionMonitorForm/>
+      </TabPane>
+      <TabPane tab={formatText('app.systemsetting.networkconfig')} key="lhost">
+        <LHostForm/>
+      </TabPane>
+    </Tabs>
   );
 };
 
 export const SystemSettingMemo = memo(SystemSetting);
-export const loginOut = () => {
-  const { query, pathname } = history.location;
-  const { redirect } = query;
-  setToken('guest');
-  reloadAuthorized();
-  // Note: There may be security issues, please note
-  if (window.location.pathname !== '/user/login' && !redirect) {
-    history.replace({
-      pathname: '/user/login',
-    });
-  }
-};
+
 const SystemInfo = () => {
+  const datas = [
+    {
+      name: 'metasploit-framework',
+      url: 'https://github.com/rapid7/metasploit-framework/blob/master/LICENSE',
+    },
+    {
+      name: 'ant-design-pro',
+      url: 'https://github.com/ant-design/ant-design-pro/blob/master/LICENSE',
+    },
+    {
+      name: 'django-rest-framework',
+      url: 'https://github.com/encode/django-rest-framework/blob/master/LICENSE.md',
+    },
+  ];
   const { setPostModuleConfigListStateAll } = useModel('HostAndSessionModel', model => ({
     setPostModuleConfigListStateAll: model.setPostModuleConfigListStateAll,
   }));
@@ -311,17 +156,37 @@ const SystemInfo = () => {
     },
   });
 
+  const loginOut = () => {
+    const { query, pathname } = history.location;
+    const { redirect } = query;
+    setToken('guest');
+    reloadAuthorized();
+    // Note: There may be security issues, please note
+    if (window.location.pathname !== '/user/login' && !redirect) {
+      history.replace({
+        pathname: '/user/login',
+      });
+    }
+  };
+
   return (
     <Card style={{ marginTop: -16 }}>
-
       <Row>
         <Descriptions size="small" style={{ marginLeft: 64 }} column={8}>
           <Descriptions.Item label={formatText('app.systemsetting.msfstatus')}>
-            {serviceStatusActive.json_rpc.status ? (
+            <Space>{serviceStatusActive.json_rpc.status ? (
               <Tag color="green">{formatText('app.systemsetting.working')}</Tag>
             ) : (
               <Tag color="red">{formatText('app.systemsetting.error')}</Tag>
             )}
+              <Button
+                size="small"
+                icon={<SyncOutlined/>}
+                onClick={() => listServiceStatusReq.run()}
+                loading={listServiceStatusReq.loading}
+              >
+              </Button>
+            </Space>
           </Descriptions.Item>
           <Descriptions.Item label={formatText('app.systemsetting.version')}>
             <Tag color="blue">{viper_version}</Tag>
@@ -391,18 +256,10 @@ const SystemInfo = () => {
               buttonStyle="solid"
             />
           </Descriptions.Item>
-
         </Descriptions>
       </Row>
       <Row>
         <Space style={{ marginTop: 16, marginLeft: 64 }}>
-          <Button
-            icon={<SyncOutlined/>}
-            onClick={() => listServiceStatusReq.run()}
-            loading={listServiceStatusReq.loading}
-          >
-            {formatText('app.systemsetting.updatemsfstatus')}
-          </Button>
           <Button
             type="primary"
             icon={<ReloadOutlined/>}
@@ -458,18 +315,33 @@ const SessionMonitorForm = props => {
     updateSessionMonitorReq.run(params);
   };
 
-  return (
-    <Form {...inputItemLayout}>
-      <Form.Item label={formatText('app.systemsetting.switch')}>
-        <Switch
-          checkedChildren={<CheckOutlined/>}
-          unCheckedChildren={<MinusOutlined/>}
-          checked={settingsSessionMonitor.flag}
-          onClick={() => onUpdateSessionMonitor()}
-        />
-      </Form.Item>
-    </Form>
-  );
+  return (<Card style={{ marginTop: -16 }}>
+    <Row>
+      <Col xs={24} sm={16}>
+        <Form {...inputItemLayout}>
+          <Form.Item label={formatText('app.systemsetting.switch')}>
+            <Switch
+              checkedChildren={<CheckOutlined/>}
+              unCheckedChildren={<MinusOutlined/>}
+              checked={settingsSessionMonitor.flag}
+              onClick={() => onUpdateSessionMonitor()}
+            />
+          </Form.Item>
+        </Form>
+      </Col>
+      <Col span={8}>
+        <Typography>
+          <Paragraph>
+            <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+            <Text>
+              {formatText('app.systemsetting.sessionmonitorreadme')}
+            </Text>
+            <br/>
+          </Paragraph>
+        </Typography>
+      </Col>
+    </Row>
+  </Card>);
 };
 const TelegramForm = props => {
   const [telegramForm] = Form.useForm();
@@ -523,54 +395,81 @@ const TelegramForm = props => {
     updateTelegramReq.run(params);
   };
 
-  return (
-    <Form onFinish={onUpdateTelegram} form={telegramForm} {...inputItemLayout}>
-      <Form.Item
-        label="token"
-        name="token"
-        rules={[
-          {
-            required: true,
-            message: formatText('app.systemsetting.inputtoken'),
-          },
-        ]}
-      >
-        <Input/>
-      </Form.Item>
-      <Form.Item label="chat_id" name="chat_id" rules={[]}>
-        <Select
-          mode="tags"
-          style={{ width: '100%' }}
-          placeholder={formatText('app.systemsetting.selectorinputchatid')}
-          defaultValue={[]}
-          optionLabelProp="label"
-        >
-          {chat_id_options}
-        </Select>
-      </Form.Item>
+  return (<Card style={{ marginTop: -16 }}>
+    <Row>
+      <Col span={16}>
+        <Form onFinish={onUpdateTelegram} form={telegramForm} {...inputItemLayout}>
+          <Form.Item
+            label="token"
+            name="token"
+            rules={[
+              {
+                required: true,
+                message: formatText('app.systemsetting.inputtoken'),
+              },
+            ]}
+          >
+            <Input/>
+          </Form.Item>
+          <Form.Item label="chat_id" name="chat_id" rules={[]}>
+            <Select
+              mode="tags"
+              style={{ width: '100%' }}
+              placeholder={formatText('app.systemsetting.selectorinputchatid')}
+              defaultValue={[]}
+              optionLabelProp="label"
+            >
+              {chat_id_options}
+            </Select>
+          </Form.Item>
 
-      <Form.Item label="proxy" name="proxy" rules={[]}>
-        <Input/>
-      </Form.Item>
-      <Form.Item label="状态">
-        {settingsTelegram.alive ? (
-          <Badge status="processing" text={formatText('app.systemsetting.working')}/>
-        ) : (
-          <Badge status="error" text={formatText('app.systemsetting.error')}/>
-        )}
-      </Form.Item>
-      <Form.Item {...buttonItemLayout}>
-        <Button
-          icon={<DeliveredProcedureOutlined/>}
-          type="primary"
-          htmlType="submit"
-          loading={updateTelegramReq.loading}
-        >
-          {formatText('app.systemsetting.updateorgetchatid')}
-        </Button>
-      </Form.Item>
-    </Form>
-  );
+          <Form.Item label="proxy" name="proxy" rules={[]}>
+            <Input/>
+          </Form.Item>
+          <Form.Item label="状态">
+            {settingsTelegram.alive ? (
+              <Badge status="processing" text={formatText('app.systemsetting.working')}/>
+            ) : (
+              <Badge status="error" text={formatText('app.systemsetting.error')}/>
+            )}
+          </Form.Item>
+          <Form.Item {...buttonItemLayout}>
+            <Button
+              icon={<DeliveredProcedureOutlined/>}
+              type="primary"
+              htmlType="submit"
+              loading={updateTelegramReq.loading}
+            >
+              {formatText('app.systemsetting.updateorgetchatid')}
+            </Button>
+          </Form.Item>
+        </Form>
+      </Col>
+      <Col span={8}>
+        <Typography>
+          <Paragraph>
+            <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+            <Text>{formatText('app.systemsetting.opentelegram')}</Text>
+            <br/>
+            <a
+              target="_blank"
+              href="https://longnight.github.io/2018/12/12/Telegram-Bot-notifications"
+            >
+              {formatText('app.systemsetting.telegramreadme')}
+            </a>
+            <br/>
+            <Text>
+              {formatText('app.systemsetting.telegramdoc_1')}
+              <br/>
+              {formatText('app.systemsetting.telegramdoc_2')}
+              <Text code>{formatText('app.systemsetting.updateorgetchatid')}</Text>
+              {formatText('app.systemsetting.telegramdoc_3')}
+            </Text>
+          </Paragraph>
+        </Typography>
+      </Col>
+    </Row>
+  </Card>);
 };
 
 const DingDingForm = props => {
@@ -606,51 +505,67 @@ const DingDingForm = props => {
     updateDingDingReq.run(params);
   };
 
-  return (
-    <Form onFinish={onUpdateDingDing} form={dingdingForm} {...inputItemLayout}>
-      <Form.Item
-        label="access_token"
-        name="access_token"
-        rules={[
-          {
-            required: true,
-            message: formatText('app.systemsetting.dingdingrules'),
-          },
-        ]}
-      >
-        <Input/>
-      </Form.Item>
-      <Form.Item
-        label={formatText('app.systemsetting.keyword')}
-        name="keyword"
-        rules={[
-          {
-            required: true,
-            message: formatText('app.systemsetting.inputkeyword'),
-          },
-        ]}
-      >
-        <Input/>
-      </Form.Item>
-      <Form.Item label={formatText('app.systemsetting.status')}>
-        {settingsDingDing.alive ? (
-          <Badge status="processing" text={formatText('app.systemsetting.working')}/>
-        ) : (
-          <Badge status="error" text={formatText('app.systemsetting.error')}/>
-        )}
-      </Form.Item>
-      <Form.Item {...buttonItemLayout}>
-        <Button
-          icon={<DeliveredProcedureOutlined/>}
-          type="primary"
-          htmlType="submit"
-          loading={updateDingDingReq.loading}
-        >
-          {formatText('app.systemsetting.update')}
-        </Button>
-      </Form.Item>
-    </Form>
-  );
+  return (<Card style={{ marginTop: -16 }}>
+    <Row>
+      <Col span={16}>
+        <Form onFinish={onUpdateDingDing} form={dingdingForm} {...inputItemLayout}>
+          <Form.Item
+            label="access_token"
+            name="access_token"
+            rules={[
+              {
+                required: true,
+                message: formatText('app.systemsetting.dingdingrules'),
+              },
+            ]}
+          >
+            <Input/>
+          </Form.Item>
+          <Form.Item
+            label={formatText('app.systemsetting.keyword')}
+            name="keyword"
+            rules={[
+              {
+                required: true,
+                message: formatText('app.systemsetting.inputkeyword'),
+              },
+            ]}
+          >
+            <Input/>
+          </Form.Item>
+          <Form.Item label={formatText('app.systemsetting.status')}>
+            {settingsDingDing.alive ? (
+              <Badge status="processing" text={formatText('app.systemsetting.working')}/>
+            ) : (
+              <Badge status="error" text={formatText('app.systemsetting.error')}/>
+            )}
+          </Form.Item>
+          <Form.Item {...buttonItemLayout}>
+            <Button
+              icon={<DeliveredProcedureOutlined/>}
+              type="primary"
+              htmlType="submit"
+              loading={updateDingDingReq.loading}
+            >
+              {formatText('app.systemsetting.update')}
+            </Button>
+          </Form.Item>
+        </Form>
+      </Col>
+      <Col span={8}>
+        <Typography>
+          <Paragraph>
+            <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+            <Text>{formatText('app.systemsetting.opendingding')}</Text>
+            <br/>
+            <a target="_blank" href="https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq">
+              {formatText('app.systemsetting.dingdingreadme')}
+            </a>
+          </Paragraph>
+        </Typography>
+      </Col>
+    </Row>
+  </Card>);
 };
 
 const ServerChanForm = props => {
@@ -686,38 +601,55 @@ const ServerChanForm = props => {
     updateServerChanReq.run(params);
   };
 
-  return (
-    <Form onFinish={onUpdateServerChan} form={serverchanForm} {...inputItemLayout}>
-      <Form.Item
-        label="SendKey"
-        name="sendkey"
-        rules={[
-          {
-            required: true,
-            message: formatText('app.systemsetting.inputsendkey'),
-          },
-        ]}
-      >
-        <Input/>
-      </Form.Item>
-      <Form.Item label={formatText('app.systemsetting.status')}>
-        {settingsServerChan.alive ? (
-          <Badge status="processing" text={formatText('app.systemsetting.working')}/>
-        ) : (
-          <Badge status="error" text={formatText('app.systemsetting.error')}/>
-        )}
-      </Form.Item>
-      <Form.Item {...buttonItemLayout}>
-        <Button
-          icon={<DeliveredProcedureOutlined/>}
-          type="primary"
-          htmlType="submit"
-          loading={updateServerChanReq.loading}
-        >
-          {formatText('app.systemsetting.update')}
-        </Button>
-      </Form.Item>
-    </Form>
+  return (<Card style={{ marginTop: -16 }}>
+      <Row>
+        <Col span={16}>
+          <Form onFinish={onUpdateServerChan} form={serverchanForm} {...inputItemLayout}>
+            <Form.Item
+              label="SendKey"
+              name="sendkey"
+              rules={[
+                {
+                  required: true,
+                  message: formatText('app.systemsetting.inputsendkey'),
+                },
+              ]}
+            >
+              <Input/>
+            </Form.Item>
+            <Form.Item label={formatText('app.systemsetting.status')}>
+              {settingsServerChan.alive ? (
+                <Badge status="processing" text={formatText('app.systemsetting.working')}/>
+              ) : (
+                <Badge status="error" text={formatText('app.systemsetting.error')}/>
+              )}
+            </Form.Item>
+            <Form.Item {...buttonItemLayout}>
+              <Button
+                icon={<DeliveredProcedureOutlined/>}
+                type="primary"
+                htmlType="submit"
+                loading={updateServerChanReq.loading}
+              >
+                {formatText('app.systemsetting.update')}
+              </Button>
+            </Form.Item>
+          </Form>
+        </Col>
+        <Col span={8}>
+          <Typography>
+            <Paragraph>
+              <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+              <Text>{formatText('app.systemsetting.openserverchan')}</Text>
+              <br/>
+              <a target="_blank" href="https://sct.ftqq.com/">
+                {formatText('app.systemsetting.serverchanapireadme')}
+              </a>
+            </Paragraph>
+          </Typography>
+        </Col>
+      </Row>
+    </Card>
   );
 };
 
@@ -755,55 +687,70 @@ const FOFAForm = props => {
   };
 
   return (
-    <Form form={fofaForm} onFinish={onUpdateFOFA} {...inputItemLayout}>
-      <Form.Item
-        label="email"
-        name="email"
-        rules={[
-          {
-            required: true,
-            message: formatText('app.systemsetting.inputemail'),
-          },
-        ]}
-      >
-        <Input/>
-      </Form.Item>
-      <Form.Item
-        label="key"
-        name="key"
-        rules={[
-          {
-            required: true,
-            message: formatText('app.systemsetting.inputkey'),
-          },
-        ]}
-      >
-        <Input/>
-      </Form.Item>
+    <Card style={{ marginTop: -16 }}>
       <Row>
-        <Col span={4}/>
-        <Col style={{ marginTop: -16, marginBottom: 8 }} span={4}>
-          {settingsFOFA.alive ? (
-            <Badge status="processing" text={formatText('app.systemsetting.working')}/>
-          ) : (
-            <Badge status="error" text={formatText('app.systemsetting.error')}/>
-          )}
+        <Col span={16}>
+          <Form form={fofaForm} onFinish={onUpdateFOFA} {...inputItemLayout}>
+            <Form.Item
+              label="email"
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: formatText('app.systemsetting.inputemail'),
+                },
+              ]}
+            >
+              <Input/>
+            </Form.Item>
+            <Form.Item
+              label="key"
+              name="key"
+              rules={[
+                {
+                  required: true,
+                  message: formatText('app.systemsetting.inputkey'),
+                },
+              ]}
+            >
+              <Input/>
+            </Form.Item>
+            <Row>
+              <Col span={4}/>
+              <Col style={{ marginTop: -16, marginBottom: 8 }} span={4}>
+                {settingsFOFA.alive ? (
+                  <Badge status="processing" text={formatText('app.systemsetting.working')}/>
+                ) : (
+                  <Badge status="error" text={formatText('app.systemsetting.error')}/>
+                )}
+              </Col>
+            </Row>
+            <Form.Item {...buttonItemLayout}>
+              <Space>
+                <Button
+                  icon={<DeliveredProcedureOutlined/>}
+                  type="primary"
+                  htmlType="submit"
+                  loading={updateFOFAReq.loading}
+                >
+                  {formatText('app.systemsetting.update')}
+                </Button>
+              </Space>
+            </Form.Item>
+          </Form>
+        </Col>
+        <Col span={8}>
+          <Typography>
+            <Paragraph>
+              <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+              <Text>{formatText('app.systemsetting.openfofavip')}</Text>
+              <br/>
+              <a href="https://fofa.so/static_pages/api_help">{formatText('app.systemsetting.fofaapireadme')}</a>
+            </Paragraph>
+          </Typography>
         </Col>
       </Row>
-      <Form.Item {...buttonItemLayout}>
-        <Space>
-          <Button
-            icon={<DeliveredProcedureOutlined/>}
-            type="primary"
-            htmlType="submit"
-            loading={updateFOFAReq.loading}
-          >
-            {formatText('app.systemsetting.update')}
-          </Button>
-        </Space>
-      </Form.Item>
-    </Form>
-  );
+    </Card>);
 };
 
 const QuakeForm = props => {
@@ -840,43 +787,60 @@ const QuakeForm = props => {
   };
 
   return (
-    <Form form={quakeForm} onFinish={onUpdateFOFA} {...inputItemLayout}>
-      <Form.Item
-        label="key"
-        name="key"
-        rules={[
-          {
-            required: true,
-            message: formatText('app.systemsetting.inputkey'),
-          },
-        ]}
-      >
-        <Input/>
-      </Form.Item>
+    <Card style={{ marginTop: -16 }}>
       <Row>
-        <Col span={4}/>
-        <Col style={{ marginTop: -16, marginBottom: 8 }} span={4}>
-          {settingsQuake.alive ? (
-            <Badge status="processing" text={formatText('app.systemsetting.working')}/>
-          ) : (
-            <Badge status="error" text={formatText('app.systemsetting.error')}/>
-          )}
+        <Col span={16}>
+          <Form form={quakeForm} onFinish={onUpdateFOFA} {...inputItemLayout}>
+            <Form.Item
+              label="key"
+              name="key"
+              rules={[
+                {
+                  required: true,
+                  message: formatText('app.systemsetting.inputkey'),
+                },
+              ]}
+            >
+              <Input/>
+            </Form.Item>
+            <Row>
+              <Col span={4}/>
+              <Col style={{ marginTop: -16, marginBottom: 8 }} span={4}>
+                {settingsQuake.alive ? (
+                  <Badge status="processing" text={formatText('app.systemsetting.working')}/>
+                ) : (
+                  <Badge status="error" text={formatText('app.systemsetting.error')}/>
+                )}
+              </Col>
+            </Row>
+            <Form.Item {...buttonItemLayout}>
+              <Space>
+                <Button
+                  icon={<DeliveredProcedureOutlined/>}
+                  type="primary"
+                  htmlType="submit"
+                  loading={updateQuakeReq.loading}
+                >
+                  {formatText('app.systemsetting.update')}
+                </Button>
+              </Space>
+            </Form.Item>
+          </Form>
+        </Col>
+        <Col span={8}>
+          <Typography>
+            <Paragraph>
+              <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+              <Text>{formatText('app.systemsetting.openquakevip')}</Text>
+              <br/>
+              <a href="https://quake.360.cn/quake/#/help?title=%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E">
+                {formatText('app.systemsetting.quakeapireadme')}
+              </a>
+            </Paragraph>
+          </Typography>
         </Col>
       </Row>
-      <Form.Item {...buttonItemLayout}>
-        <Space>
-          <Button
-            icon={<DeliveredProcedureOutlined/>}
-            type="primary"
-            htmlType="submit"
-            loading={updateQuakeReq.loading}
-          >
-            {formatText('app.systemsetting.update')}
-          </Button>
-        </Space>
-      </Form.Item>
-    </Form>
-  );
+    </Card>);
 };
 
 const LHostForm = props => {
@@ -919,33 +883,57 @@ const LHostForm = props => {
     updateLHostReq.run(params);
   };
 
-  return (
-    <Form form={lHostForm} initialValue={lhost} onFinish={onUpdateLhost} {...lHostFormLayout}>
-      <Form.Item
-        label={formatText('app.systemsetting.defaultlhost')}
-        name="lhost"
-        rules={[
-          {
-            required: true,
-            message: formatText('app.systemsetting.defaultlhosttooltip'),
-          },
-        ]}
-      >
-        <Input style={{ width: '80%' }} placeholder={formatText('app.systemsetting.defaultlhostplaceholder')}/>
-      </Form.Item>
+  return (<Card style={{ marginTop: -16 }}>
+    <Row>
+      <Col span={16}>
+        <Form form={lHostForm} initialValue={lhost} onFinish={onUpdateLhost} {...lHostFormLayout}>
+          <Form.Item
+            label={formatText('app.systemsetting.defaultlhost')}
+            name="lhost"
+            rules={[
+              {
+                required: true,
+                message: formatText('app.systemsetting.defaultlhosttooltip'),
+              },
+            ]}
+          >
+            <Input style={{ width: '80%' }} placeholder={formatText('app.systemsetting.defaultlhostplaceholder')}/>
+          </Form.Item>
 
-      <Form.Item {...buttonLHostFormLayout}>
-        <Button
-          icon={<DeliveredProcedureOutlined/>}
-          type="primary"
-          htmlType="submit"
-          loading={updateLHostReq.loading}
-        >
-          {formatText('app.systemsetting.update')}
-        </Button>
-      </Form.Item>
-    </Form>
-  );
+          <Form.Item {...buttonLHostFormLayout}>
+            <Button
+              icon={<DeliveredProcedureOutlined/>}
+              type="primary"
+              htmlType="submit"
+              loading={updateLHostReq.loading}
+            >
+              {formatText('app.systemsetting.update')}
+            </Button>
+          </Form.Item>
+        </Form>
+      </Col>
+      <Col span={8}>
+        <Typography>
+          <Paragraph>
+            <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+            <Text strong>{formatText('app.systemsetting.defaultlhost')}</Text>
+            {formatText('app.systemsetting.defaultlhostdoc_1')}
+            <br/>
+            <Text>{formatText('app.systemsetting.defaultlhostdoc_2')}</Text>
+            <br/>
+            Nginx:<Text code>0.0.0.0:60000</Text>
+            <br/>
+            Redis:<Text code>127.0.0.1:60004</Text>
+            <br/>
+            Msfrpcd:<Text code>127.0.0.1:60005</Text>
+            <br/>
+            {formatText('app.systemsetting.defaultlhostdoc_ssh')}
+            <Text code>0.0.0.0:60010</Text>
+          </Paragraph>
+        </Typography>
+      </Col>
+    </Row>
+  </Card>);
 };
 
 export default SystemSetting;

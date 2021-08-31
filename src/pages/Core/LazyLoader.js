@@ -17,7 +17,6 @@ import {
   Tag,
   Tooltip,
 } from 'antd';
-import './xterm.css';
 import Ellipsis from '@/components/Ellipsis';
 import moment from 'moment';
 import styles from './LazyLoader.less';
