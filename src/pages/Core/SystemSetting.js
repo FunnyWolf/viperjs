@@ -175,9 +175,9 @@ const SystemInfo = () => {
         <Descriptions size="small" style={{ marginLeft: 64 }} column={8}>
           <Descriptions.Item label={formatText('app.systemsetting.msfstatus')}>
             <Space>{serviceStatusActive.json_rpc.status ? (
-              <Tag color="green">{formatText('app.systemsetting.working')}</Tag>
+              <Tag color="green">{formatText('app.core.working')}</Tag>
             ) : (
-              <Tag color="red">{formatText('app.systemsetting.error')}</Tag>
+              <Tag color="red">{formatText('app.core.error')}</Tag>
             )}
               <Button
                 size="small"
@@ -426,13 +426,15 @@ const TelegramForm = props => {
           <Form.Item label="proxy" name="proxy" rules={[]}>
             <Input/>
           </Form.Item>
-          <Form.Item label="状态">
-            {settingsTelegram.alive ? (
-              <Badge status="processing" text={formatText('app.systemsetting.working')}/>
-            ) : (
-              <Badge status="error" text={formatText('app.systemsetting.error')}/>
-            )}
-          </Form.Item>
+          <Row>
+            <Col style={{ marginBottom: 24 }} span={4} offset={4}>
+              {settingsTelegram.alive ? (
+                <Badge status="processing" text={formatText('app.core.working')}/>
+              ) : (
+                <Badge status="error" text={formatText('app.core.error')}/>
+              )}
+            </Col>
+          </Row>
           <Form.Item {...buttonItemLayout}>
             <Button
               icon={<DeliveredProcedureOutlined/>}
@@ -533,13 +535,15 @@ const DingDingForm = props => {
           >
             <Input/>
           </Form.Item>
-          <Form.Item label={formatText('app.systemsetting.status')}>
-            {settingsDingDing.alive ? (
-              <Badge status="processing" text={formatText('app.systemsetting.working')}/>
-            ) : (
-              <Badge status="error" text={formatText('app.systemsetting.error')}/>
-            )}
-          </Form.Item>
+          <Row>
+            <Col style={{ marginBottom: 24 }} span={4} offset={4}>
+              {settingsDingDing.alive ? (
+                <Badge status="processing" text={formatText('app.core.working')}/>
+              ) : (
+                <Badge status="error" text={formatText('app.core.error')}/>
+              )}
+            </Col>
+          </Row>
           <Form.Item {...buttonItemLayout}>
             <Button
               icon={<DeliveredProcedureOutlined/>}
@@ -547,7 +551,7 @@ const DingDingForm = props => {
               htmlType="submit"
               loading={updateDingDingReq.loading}
             >
-              {formatText('app.systemsetting.update')}
+              {formatText('app.core.update')}
             </Button>
           </Form.Item>
         </Form>
@@ -617,13 +621,15 @@ const ServerChanForm = props => {
             >
               <Input/>
             </Form.Item>
-            <Form.Item label={formatText('app.systemsetting.status')}>
-              {settingsServerChan.alive ? (
-                <Badge status="processing" text={formatText('app.systemsetting.working')}/>
-              ) : (
-                <Badge status="error" text={formatText('app.systemsetting.error')}/>
-              )}
-            </Form.Item>
+            <Row>
+              <Col style={{ marginBottom: 24 }} span={4} offset={4}>
+                {settingsServerChan.alive ? (
+                  <Badge status="processing" text={formatText('app.core.working')}/>
+                ) : (
+                  <Badge status="error" text={formatText('app.core.error')}/>
+                )}
+              </Col>
+            </Row>
             <Form.Item {...buttonItemLayout}>
               <Button
                 icon={<DeliveredProcedureOutlined/>}
@@ -631,7 +637,7 @@ const ServerChanForm = props => {
                 htmlType="submit"
                 loading={updateServerChanReq.loading}
               >
-                {formatText('app.systemsetting.update')}
+                {formatText('app.core.update')}
               </Button>
             </Form.Item>
           </Form>
@@ -716,15 +722,15 @@ const FOFAForm = props => {
               <Input/>
             </Form.Item>
             <Row>
-              <Col span={4}/>
-              <Col style={{ marginTop: -16, marginBottom: 8 }} span={4}>
+              <Col style={{ marginBottom: 24 }} span={4} offset={4}>
                 {settingsFOFA.alive ? (
-                  <Badge status="processing" text={formatText('app.systemsetting.working')}/>
+                  <Badge status="processing" text={formatText('app.core.working')}/>
                 ) : (
-                  <Badge status="error" text={formatText('app.systemsetting.error')}/>
+                  <Badge status="error" text={formatText('app.core.error')}/>
                 )}
               </Col>
             </Row>
+
             <Form.Item {...buttonItemLayout}>
               <Space>
                 <Button
@@ -733,7 +739,7 @@ const FOFAForm = props => {
                   htmlType="submit"
                   loading={updateFOFAReq.loading}
                 >
-                  {formatText('app.systemsetting.update')}
+                  {formatText('app.core.update')}
                 </Button>
               </Space>
             </Form.Item>
@@ -804,12 +810,11 @@ const QuakeForm = props => {
               <Input/>
             </Form.Item>
             <Row>
-              <Col span={4}/>
-              <Col style={{ marginTop: -16, marginBottom: 8 }} span={4}>
+              <Col style={{ marginBottom: 24 }} span={4} offset={4}>
                 {settingsQuake.alive ? (
-                  <Badge status="processing" text={formatText('app.systemsetting.working')}/>
+                  <Badge status="processing" text={formatText('app.core.working')}/>
                 ) : (
-                  <Badge status="error" text={formatText('app.systemsetting.error')}/>
+                  <Badge status="error" text={formatText('app.core.error')}/>
                 )}
               </Col>
             </Row>
@@ -821,7 +826,7 @@ const QuakeForm = props => {
                   htmlType="submit"
                   loading={updateQuakeReq.loading}
                 >
-                  {formatText('app.systemsetting.update')}
+                  {formatText('app.core.update')}
                 </Button>
               </Space>
             </Form.Item>
@@ -907,7 +912,7 @@ const LHostForm = props => {
               htmlType="submit"
               loading={updateLHostReq.loading}
             >
-              {formatText('app.systemsetting.update')}
+              {formatText('app.core.update')}
             </Button>
           </Form.Item>
         </Form>
