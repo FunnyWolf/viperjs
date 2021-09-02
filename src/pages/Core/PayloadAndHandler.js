@@ -6,7 +6,6 @@ import {
   postMsgrpcHandlerAPI,
   postMsgrpcPayloadAPI,
 } from '@/services/apiv1';
-// import { useControllableValue, useBoolean, useMount } from '@umijs/hooks';
 import styles from './PayloadAndHandler.less';
 import { randomstr } from '@/pages/Core/Common';
 import {
@@ -31,6 +30,7 @@ import {
 } from 'antd';
 import { BlockOutlined, CustomerServiceOutlined, InfoCircleOutlined, SyncOutlined } from '@ant-design/icons';
 import { useRequest } from 'umi';
+import { formatText } from '@/utils/locales';
 
 const { Panel } = Collapse;
 const { Option } = Select;
@@ -142,10 +142,6 @@ const CreateHandlerModalContent = props => {
               value: 'reverse_https',
               label: 'reverse_https',
             },
-            // {
-            //   value: 'reverse_https_proxy',
-            //   label: 'reverse_https_proxy',
-            // },
             {
               value: 'reverse_tcp',
               label: 'reverse_tcp',
@@ -458,11 +454,11 @@ const CreateHandlerModalContent = props => {
             rules={[
               {
                 required: true,
-                message: '请输入反向连接的IP地址',
+                message: formatText('app.payloadandhandler.lhost_rule'),
               },
             ]}
           >
-            <Input placeholder="请输入反向连接的IP地址"/>
+            <Input placeholder={formatText('app.payloadandhandler.lhost_rule')}/>
           </Form.Item>,
         );
         options.push(
@@ -473,7 +469,7 @@ const CreateHandlerModalContent = props => {
             rules={[
               {
                 required: true,
-                message: '请输入端口',
+                message: formatText('app.payloadandhandler.port_rule'),
               },
             ]}
           >
@@ -491,11 +487,11 @@ const CreateHandlerModalContent = props => {
           rules={[
             {
               required: true,
-              message: '请输入正向连接的IP地址',
+              message: formatText('app.payloadandhandler.rhost_rule'),
             },
           ]}
         >
-          <Input placeholder="请输入正向连接的IP地址"/>
+          <Input placeholder={formatText('app.payloadandhandler.rhost_rule')}/>
         </Form.Item>,
       );
       options.push(
@@ -506,7 +502,7 @@ const CreateHandlerModalContent = props => {
           rules={[
             {
               required: true,
-              message: '请输入端口',
+              message: formatText('app.payloadandhandler.port_rule'),
             },
           ]}
         >
@@ -530,9 +526,9 @@ const CreateHandlerModalContent = props => {
     if (selectPayload.endsWith('reverse_http') || selectPayload.endsWith('reverse_winhttp')) {
       options.push(
         <Row style={{ marginBottom: 16 }}>
-          <Col span={14} offset={6}>
+          <Col span={16} offset={4}>
             <Alert
-              message="reverse_http类型payload不免杀,建议使用reverse_https类型"
+              message={formatText('app.payloadandhandler.alert_1')}
               type="warning"
               showIcon
             />
@@ -544,9 +540,9 @@ const CreateHandlerModalContent = props => {
     if (selectPayload.includes('reverse_tcp')) {
       options.push(
         <Row style={{ marginBottom: 16 }}>
-          <Col span={14} offset={6}>
+          <Col span={16} offset={4}>
             <Alert
-              message="reverse_tcp及reverse_tcp_rc4类型监听请勿开放到外网80,443等常用端口,防范DDos攻击"
+              message={formatText('app.payloadandhandler.alert_2')}
               type="warning"
               showIcon
             />
@@ -568,7 +564,7 @@ const CreateHandlerModalContent = props => {
           initialValue={randomstr(8)}
           name="LURI"
         >
-          <Input placeholder="请输入自定义的URI"/>
+          <Input placeholder={formatText('app.payloadandhandler.luri_rule')}/>
         </Form.Item>,
       );
     }
@@ -578,14 +574,14 @@ const CreateHandlerModalContent = props => {
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip title="请选择PEM格式的证书文件,文件内容可以参考<文件列表>中www.example.com.pem,证书文件中需要同时包含公私钥,配置证书后会自动过滤http请求">
-              <span>证书文件</span>
+            <Tooltip title={formatText('app.payloadandhandler.pem_tip')}>
+              <span>{formatText('app.payloadandhandler.pem_label')}</span>
             </Tooltip>
           }
           name="HandlerSSLCert"
           initialValue={pem_files.length > 0 ? `~/.msf4/loot/${pem_files[0]}` : null}
         >
-          <Select placeholder="请选择证书文件" allowClear>
+          <Select placeholder={formatText('app.payloadandhandler.pem_rule')} allowClear>
             {pem_files.map((encoder, i) => (
               <Option value={`~/.msf4/loot/${encoder}`}>{encoder}</Option>
             ))}
@@ -596,8 +592,8 @@ const CreateHandlerModalContent = props => {
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip title="是否验证Meterpreter中的SSL证书(只对reverse_winhttps及linux类型https监听有效)">
-              <span>验证证书</span>
+            <Tooltip title={formatText('app.payloadandhandler.ssl_tip')}>
+              <span>{formatText('app.payloadandhandler.ssl_label')}</span>
             </Tooltip>
           }
           initialValue={false}
@@ -614,28 +610,6 @@ const CreateHandlerModalContent = props => {
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip
-              title="The returned HTML response body when the handler receives a request that is not from a payload">
-              <span>http服务默认返回报文</span>
-            </Tooltip>
-          }
-          initialValue={'<html><body><h1>It works!</h1></body></html>'}
-          name="HttpUnknownRequestResponse"
-          rules={[
-            {
-              required: true,
-              message: '请填写http服务默认返回报文',
-            },
-          ]}
-        >
-          <TextArea placeholder="请输入Https服务默认返回的报文"/>
-        </Form.Item>,
-      );
-
-      options.push(
-        <Form.Item
-          {...formLayout}
-          label={
             <Tooltip title="The user-agent that the payload should use for communication">
               <span>User Agent</span>
             </Tooltip>
@@ -645,14 +619,13 @@ const CreateHandlerModalContent = props => {
           rules={[
             {
               required: true,
-              message: '请输入http的UserAgent',
+              message: 'Please input UserAgent',
             },
           ]}
         >
-          <TextArea placeholder="请输入https的UserAgent"/>
+          <TextArea placeholder="Please input UserAgent"/>
         </Form.Item>,
       );
-
       options_second.push(
         <Form.Item
           {...formLayout}
@@ -683,7 +656,7 @@ const CreateHandlerModalContent = props => {
           name="OverrideScheme"
           rules={[]}
         >
-          <Select placeholder="请选择协议">
+          <Select placeholder="Please select scheme">
             <Option value="http">http</Option>
             <Option value="https">https</Option>
           </Select>
@@ -760,7 +733,7 @@ const CreateHandlerModalContent = props => {
           name="HttpProxyType"
           rules={[]}
         >
-          <Select placeholder="请选择协议">
+          <Select placeholder="Please select protocol">
             <Option value="HTTP">HTTP</Option>
             <Option value="SOCKS">SOCKS</Option>
           </Select>
@@ -831,7 +804,7 @@ const CreateHandlerModalContent = props => {
           {...formLayout}
           label={
             <Tooltip title="Password to derive RC4 key from">
-              <span>RC4密码</span>
+              <span>{formatText('app.payloadandhandler.rc4password')}</span>
             </Tooltip>
           }
           initialValue={randomstr(8)}
@@ -839,16 +812,11 @@ const CreateHandlerModalContent = props => {
           rules={[
             {
               required: true,
-              message: '请输入RC4协议密码,建议在8位以上',
+              message: formatText('app.payloadandhandler.rc4password_rule'),
             },
           ]}
         >
-          <Input placeholder="请输入RC4密码"/>
-        </Form.Item>,
-      );
-      options.push(
-        <Form.Item {...formLayout} label="说明">
-          <span>RC4初始生成Session时较慢,请耐心等待,Session生成后速度不受影响.</span>
+          <Input placeholder={formatText('app.payloadandhandler.rc4password_rule')}/>
         </Form.Item>,
       );
     }
@@ -857,7 +825,7 @@ const CreateHandlerModalContent = props => {
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip title="DOMAIN参数,例如手工指定 aaa.com 的ns服务器为 ns1.bbb.com ns2.bbb.com,则这里输入aaa.com">
+            <Tooltip title={formatText('app.payloadandhandler.domain')}>
               <span>DOMAIN</span>
             </Tooltip>
           }
@@ -865,18 +833,18 @@ const CreateHandlerModalContent = props => {
           rules={[
             {
               required: true,
-              message: '请输入DOMAIN',
+              message: formatText('app.payloadandhandler.domain_rule'),
             },
           ]}
         >
-          <Input placeholder="请输入DOMAIN (鼠标到DOMAIN标签显示帮助)"/>
+          <Input placeholder={formatText('app.payloadandhandler.domain_rule')}/>
         </Form.Item>,
       );
       options.push(
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip title="DNS数据传输方式,DNSKEY速度快,IPv6适配性强">
+            <Tooltip title={formatText('app.payloadandhandler.req_type_tip')}>
               <span>REQ_TYPE</span>
             </Tooltip>
           }
@@ -885,12 +853,12 @@ const CreateHandlerModalContent = props => {
           rules={[
             {
               required: true,
-              message: '请选择REQ_TYPE',
+              message: formatText('app.payloadandhandler.req_type_rule'),
             },
           ]}>
           <Select style={{ width: 200 }}>
-            <Option value="DNSKEY">DNSKEY (速度快)</Option>
-            <Option value="IPv6">IPv6 (适配性强)</Option>
+            <Option value="DNSKEY">{formatText('app.payloadandhandler.DNSKEY')}</Option>
+            <Option value="IPv6">{formatText('app.payloadandhandler.IPv6')}</Option>
           </Select>
         </Form.Item>,
       );
@@ -898,7 +866,7 @@ const CreateHandlerModalContent = props => {
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip title="Viper会根据不同的SERVER_ID生成不同的子域名">
+            <Tooltip title={formatText('app.payloadandhandler.SERVER_ID_tip')}>
               <span>SERVER_ID</span>
             </Tooltip>
           }
@@ -907,11 +875,11 @@ const CreateHandlerModalContent = props => {
           rules={[
             {
               required: true,
-              message: '请输入SERVER_ID,建议在6位以上',
+              message: formatText('app.payloadandhandler.SERVER_ID_rule'),
             },
           ]}
         >
-          <Input placeholder="请输入SERVER_ID"/>
+          <Input placeholder={formatText('app.payloadandhandler.SERVER_ID_rule')}/>
         </Form.Item>,
       );
     }
@@ -920,16 +888,16 @@ const CreateHandlerModalContent = props => {
     } else {
       if (options_second.length === 0) {
         return (
-          <Panel header="高级参数" key="advance">
+          <Panel header={formatText('app.payloadandhandler.advance')} key="advance">
             {options}
           </Panel>
         );
       } else {
         return (<Fragment>
-            <Panel header="高级参数" key="advance">
+            <Panel header={formatText('app.payloadandhandler.advance')} key="advance">
               {options}
             </Panel>
-            <Panel header="特殊参数" key="advance_second">
+            <Panel header={formatText('app.payloadandhandler.advance_second')} key="advance_second">
               {options_second}
             </Panel>
           </Fragment>
@@ -941,35 +909,39 @@ const CreateHandlerModalContent = props => {
   return (
     <Form onFinish={onCreateHandlerBySubmit}>
       <Collapse bordered={false} defaultActiveKey={['base', 'advance']}>
-        <Panel header="基础参数" key="base">
+        <Panel header={formatText('app.payloadandhandler.base')} key="base">
           <Form.Item
             {...formLayout}
-            label="载荷"
+            label={formatText('app.payloadandhandler.payload')}
             name="PAYLOAD"
             rules={[
               {
                 required: true,
-                message: '请选择有效载荷',
+                message: formatText('app.payloadandhandler.payload_rule'),
               },
             ]}
           >
             <Cascader
               options={handlerPayloadOptions}
               onChange={changePayloadOption}
-              placeholder="请选择有效载荷"
+              placeholder={formatText('app.payloadandhandler.payload_rule')}
             />
           </Form.Item>
           {handlerPayloadBaseOption()}
-          <Form.Item {...formLayout} label="别名" name="HandlerName" rules={[]}>
-            <Input placeholder="自定义监听名称"/>
+          <Form.Item
+            {...formLayout}
+            label={formatText('app.payloadandhandler.handlername')}
+            name="HandlerName"
+            rules={[]}>
+            <Input placeholder={formatText('app.payloadandhandler.handlername_ph')}/>
           </Form.Item>
           <Form.Item
             {...formLayout}
             label={
-              <Tooltip title="VIPER缓存监听配置,但渗透服务器不会生成正真的监听,此选项用于结合端口转发的反向SHELL/无需监听的payload生成">
+              <Tooltip title={formatText('app.payloadandhandler.VIRTUALHANDLER_tip')}>
                 <span>
                   <InfoCircleOutlined/>
-                  &nbsp;虚拟监听
+                  &nbsp;{formatText('app.payloadandhandler.VIRTUALHANDLER')}
                 </span>
               </Tooltip>
             }
@@ -982,14 +954,14 @@ const CreateHandlerModalContent = props => {
 
         </Panel>
         {handlerPayloadSpecialOption()}
-        <Panel header="自动化" key="auto">
+        <Panel header={formatText('app.payloadandhandler.auto')} key="auto">
           <Form.Item
             {...formLayout}
             label={
-              <Tooltip title="权限(Session)初始化完成后自动执行脚本,请注意该参数只有在监听中生效,在载荷中使用不生效">
+              <Tooltip title={formatText('app.payloadandhandler.AutoRunScript_tip')}>
                 <span>
                   <InfoCircleOutlined/>
-                  &nbsp;自动执行脚本
+                  &nbsp;{formatText('app.payloadandhandler.AutoRunScript')}
                 </span>
               </Tooltip>
             }
@@ -1005,10 +977,10 @@ const CreateHandlerModalContent = props => {
           <Form.Item
             {...formLayout}
             label={
-              <Tooltip title="Payload执行后自动迁移到指定进程,请注意 1)必须使用该监听生成的载荷才能生效 2)迁移进程后原进程不会关闭,并且占用loader文件">
+              <Tooltip title={formatText('app.payloadandhandler.PrependMigrate_tip')}>
                 <span>
                   <InfoCircleOutlined/>
-                  &nbsp;自动迁移
+                  &nbsp;{formatText('app.payloadandhandler.PrependMigrate')}
                 </span>
               </Tooltip>
             }
@@ -1019,7 +991,10 @@ const CreateHandlerModalContent = props => {
           >
             <Checkbox/>
           </Form.Item>
-          <Form.Item {...formLayout} label="自动迁移到进程" name="PrependMigrateProc" rules={[]}>
+          <Form.Item
+            {...formLayout}
+            label={formatText('app.payloadandhandler.PrependMigrateProc')}
+            name="PrependMigrateProc" rules={[]}>
             <Select style={{ width: 200 }} allowClear>
               {migrateProcess.map((encoder, i) => (
                 <Option value={encoder}>{encoder}</Option>
@@ -1029,10 +1004,10 @@ const CreateHandlerModalContent = props => {
           <Form.Item
             {...formLayout}
             label={
-              <Tooltip title="自动加载unhook插件unhook杀软对进程的hook操作">
+              <Tooltip title={formatText('app.payloadandhandler.AutoUnhookProcess_tip')}>
                 <span>
                   <InfoCircleOutlined/>
-                  &nbsp;自动unhook
+                  &nbsp;{formatText('app.payloadandhandler.AutoUnhookProcess')}
                 </span>
               </Tooltip>
             }
@@ -1046,10 +1021,10 @@ const CreateHandlerModalContent = props => {
           <Form.Item
             {...formLayout}
             label={
-              <Tooltip title="监听生成Session后自动关闭,reverse_http(s)会自动忽略改选项">
+              <Tooltip title={formatText('app.payloadandhandler.EXITONSESSION_tip')}>
                 <span>
                   <InfoCircleOutlined/>
-                  &nbsp;自动关闭监听
+                  &nbsp;{formatText('app.payloadandhandler.EXITONSESSION')}
                 </span>
               </Tooltip>
             }
@@ -1061,14 +1036,14 @@ const CreateHandlerModalContent = props => {
             <Checkbox/>
           </Form.Item>
         </Panel>
-        <Panel header="自定义参数" key="3">
+        <Panel header={formatText('app.payloadandhandler.diy')} key="diy">
           <Form.Item
             {...formLayout}
             label={
-              <Tooltip title="加载初始载荷的超时时间(metsrv.dll和stdapi.dll),如果目标机到viper的网络速度较差,可适当调高该值">
+              <Tooltip title={formatText('app.payloadandhandler.AutoVerifySessionTimeout_tip')}>
                 <span>
                   <InfoCircleOutlined/>
-                  &nbsp;加载超时时间
+                  &nbsp;{formatText('app.payloadandhandler.AutoVerifySessionTimeout')}
                 </span>
               </Tooltip>
             }
@@ -1076,47 +1051,53 @@ const CreateHandlerModalContent = props => {
             rules={[]}
             initialValue={30}
           >
-            <InputNumber style={{ width: 160 }} placeholder="请输入正确的连接超时时间"/>
+            <InputNumber
+              style={{ width: 160 }}
+              placeholder={formatText('app.payloadandhandler.AutoVerifySessionTimeout_ph')}/>
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label="连接超时时间(秒)"
+            label={formatText('app.payloadandhandler.SessionCommunicationTimeout')}
             name="SessionCommunicationTimeout"
             rules={[]}
             initialValue={300}
           >
-            <InputNumber style={{ width: 160 }} placeholder="请输入正确的连接超时时间"/>
+            <InputNumber
+              style={{ width: 160 }}
+              placeholder={formatText('app.payloadandhandler.SessionCommunicationTimeout_ph')}/>
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label="Session强制过期时间(秒)"
+            label={formatText('app.payloadandhandler.SessionExpirationTimeout')}
             name="SessionExpirationTimeout"
             rules={[]}
             initialValue={3600 * 24 * 365}
           >
-            <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间"/>
+            <InputNumber
+              style={{ width: 160 }}
+              placeholder={formatText('app.payloadandhandler.SessionExpirationTimeout_ph')}/>
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label="网络断开重试次数"
+            label="SessionRetryTotal(second)"
             name="SessionRetryTotal"
             rules={[]}
             initialValue={3600}
           >
-            <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间"/>
+            <InputNumber style={{ width: 160 }}/>
           </Form.Item>
 
           <Form.Item
             {...formLayout}
-            label="网络断开重试间隔(秒)"
+            label="SessionRetryWait(second)"
             name="SessionRetryWait"
             rules={[]}
             initialValue={10}
           >
-            <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间"/>
+            <InputNumber style={{ width: 160 }}/>
           </Form.Item>
-          <Form.Item {...formLayout} label="ShellCode编码" name="StageEncoder" rules={[]}>
-            <Select placeholder="请选择编码">
+          <Form.Item {...formLayout} label="StageEncoder" name="StageEncoder" rules={[]}>
+            <Select placeholder="Please select encoder">
               {StageEncoder.map((encoder, i) => (
                 <Option value={encoder}>{encoder}</Option>
               ))}
@@ -1124,7 +1105,7 @@ const CreateHandlerModalContent = props => {
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label="ShellCode编码回退"
+            label="StageEncodingFallback"
             name="StageEncodingFallback"
             valuePropName="checked"
             rules={[]}
@@ -1136,10 +1117,10 @@ const CreateHandlerModalContent = props => {
           <Form.Item
             {...formLayout}
             label={
-              <Tooltip title="正向监听会通过填写的代理进行连接,反向Payload无法使用代理">
+              <Tooltip title={formatText('app.payloadandhandler.proxies_proto_tip')}>
                 <span>
                   <InfoCircleOutlined/>
-                  &nbsp;代理信息
+                  &nbsp;{formatText('app.payloadandhandler.proxies_proto')}
                 </span>
               </Tooltip>
             }
@@ -1147,7 +1128,7 @@ const CreateHandlerModalContent = props => {
             <Input.Group compact>
               <Form.Item name="proxies_proto" noStyle initialValue="Direct" rules={[]}>
                 <Select style={{ width: 88 }}>
-                  <Option value="Direct">直连</Option>
+                  <Option value="Direct">Direct</Option>
                   <Option value="Socks5">Socks5</Option>
                   <Option value="Socks4">Socks4</Option>
                   <Option value="Http">Http</Option>
@@ -1168,7 +1149,7 @@ const CreateHandlerModalContent = props => {
           htmlType="submit"
           type="primary"
         >
-          新增监听
+          {formatText('app.payloadandhandler.addhandler')}
         </Button>
       </Form.Item>
     </Form>
@@ -1516,13 +1497,11 @@ const CreatePayloadModalContent = props => {
     }
     if (selectPayload.includes('windows')) {
       options = [
-        { show: '源码免杀exe', value: 'exe-src' },
-        { show: '源码免杀exe(服务)', value: 'exe-src-service' },
-        { show: '分离免杀exe', value: 'exe-diy' },
-        { show: '分离免杀dll', value: 'dll-diy' },
-        { show: '分离免杀dll(mutex)', value: 'dll-mutex-diy' },
-        { show: '分离免杀elf', value: 'elf-diy' },
-        { show: '源码免杀elf', value: 'elf-src' },
+        { show: formatText('app.payloadandhandler.src.bypass.exe'), value: 'exe-src' },
+        { show: formatText('app.payloadandhandler.src.bypass.exe.service'), value: 'exe-src-service' },
+        { show: formatText('app.payloadandhandler.separate.bypass.exe'), value: 'exe-diy' },
+        { show: formatText('app.payloadandhandler.separate.bypass.dll'), value: 'dll-diy' },
+        { show: formatText('app.payloadandhandler.separate.bypass.dll.mutex'), value: 'dll-mutex-diy' },
         { show: 'msbuild', value: 'msbuild' },
         { show: 'base64', value: 'base64' },
         { show: 'c', value: 'c' },
@@ -1545,8 +1524,8 @@ const CreatePayloadModalContent = props => {
     }
     if (selectPayload.includes('linux')) {
       options = [
-        { show: '源码免杀elf', value: 'elf-src' },
-        { show: '分离免杀elf', value: 'elf-diy' },
+        { show: formatText('app.payloadandhandler.src.bypass.elf'), value: 'elf-src' },
+        { show: formatText('app.payloadandhandler.separate.bypass.elf'), value: 'elf-diy' },
         { show: 'bash', value: 'bash' },
         { show: 'c', value: 'c' },
         { show: 'raw', value: 'raw' },
@@ -1572,12 +1551,12 @@ const CreatePayloadModalContent = props => {
     return (
       <Form.Item
         {...formLayout}
-        label="载荷类型"
+        label={formatText('app.payloadandhandler.format')}
         name="Format"
         rules={[
           {
             required: true,
-            message: '请选择载荷类型',
+            message: formatText('app.payloadandhandler.format_rule'),
           },
         ]}
       >
@@ -1628,11 +1607,11 @@ const CreatePayloadModalContent = props => {
             rules={[
               {
                 required: true,
-                message: '请输入反向连接的IP地址',
+                message: formatText('app.payloadandhandler.lhost_rule'),
               },
             ]}
           >
-            <Input placeholder="请输入反向连接的IP地址"/>
+            <Input placeholder={formatText('app.payloadandhandler.lhost_rule')}/>
           </Form.Item>,
         );
         options.push(
@@ -1643,7 +1622,7 @@ const CreatePayloadModalContent = props => {
             rules={[
               {
                 required: true,
-                message: '请输入端口',
+                message: formatText('app.payloadandhandler.port_rule'),
               },
             ]}
           >
@@ -1660,7 +1639,7 @@ const CreatePayloadModalContent = props => {
           name="RHOST"
           initialValue="0.0.0.0"
         >
-          <Input placeholder="请输入正向连接的IP地址"/>
+          <Input placeholder={formatText('app.payloadandhandler.rhost_rule')}/>
         </Form.Item>,
       );
       options.push(
@@ -1671,7 +1650,7 @@ const CreatePayloadModalContent = props => {
           rules={[
             {
               required: true,
-              message: '请输入端口',
+              message: formatText('app.payloadandhandler.port_rule'),
             },
           ]}
         >
@@ -1700,7 +1679,7 @@ const CreatePayloadModalContent = props => {
         <Row style={{ marginBottom: 16 }}>
           <Col span={14} offset={6}>
             <Alert
-              message="reverse_http类型payload不免杀,建议使用reverse_https类型"
+              message={formatText('app.payloadandhandler.http_alert')}
               type="warning"
               showIcon
             />
@@ -1722,7 +1701,7 @@ const CreatePayloadModalContent = props => {
           initialValue={randomstr(8)}
           name="LURI"
         >
-          <Input placeholder="请输入自定义的URI"/>
+          <Input placeholder={formatText('app.payloadandhandler.luri_rule')}/>
         </Form.Item>,
       );
     }
@@ -1732,14 +1711,14 @@ const CreatePayloadModalContent = props => {
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip title="请选择PEM格式的证书文件,文件内容可以参考<文件列表>中www.example.com.pem,证书文件中需要同时包含公私钥,配置证书后会自动过滤http请求">
-              <span>证书文件</span>
+            <Tooltip title={formatText('app.payloadandhandler.pem_tip')}>
+              <span>{formatText('app.payloadandhandler.pem_label')}</span>
             </Tooltip>
           }
           name="HandlerSSLCert"
           initialValue={pem_files.length > 0 ? `~/.msf4/loot/${pem_files[0]}` : null}
         >
-          <Select placeholder="请选择证书文件" allowClear>
+          <Select placeholder={formatText('app.payloadandhandler.pem_rule')} allowClear>
             {pem_files.map((encoder, i) => (
               <Option value={`~/.msf4/loot/${encoder}`}>{encoder}</Option>
             ))}
@@ -1750,8 +1729,8 @@ const CreatePayloadModalContent = props => {
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip title="是否验证Meterpreter中的SSL证书(只对reverse_winhttps及linux类型https监听有效)">
-              <span>验证证书</span>
+            <Tooltip title={formatText('app.payloadandhandler.ssl_tip')}>
+              <span>{formatText('app.payloadandhandler.ssl_label')}</span>
             </Tooltip>
           }
           initialValue
@@ -1769,28 +1748,6 @@ const CreatePayloadModalContent = props => {
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip
-              title="The returned HTML response body when the handler receives a request that is not from a payload">
-              <span>http服务默认返回报文</span>
-            </Tooltip>
-          }
-          initialValue={'<html><body><h1>It works!</h1></body></html>'}
-          name="HttpUnknownRequestResponse"
-          rules={[
-            {
-              required: true,
-              message: '请填写http服务默认返回报文',
-            },
-          ]}
-        >
-          <TextArea placeholder="请输入Https服务默认返回的报文"/>
-        </Form.Item>,
-      );
-
-      options.push(
-        <Form.Item
-          {...formLayout}
-          label={
             <Tooltip title="The user-agent that the payload should use for communication">
               <span>User Agent</span>
             </Tooltip>
@@ -1800,11 +1757,11 @@ const CreatePayloadModalContent = props => {
           rules={[
             {
               required: true,
-              message: '请输入http的UserAgent',
+              message: 'Please input UserAgent',
             },
           ]}
         >
-          <TextArea placeholder="请输入https的UserAgent"/>
+          <TextArea placeholder="Please input UserAgent"/>
         </Form.Item>,
       );
 
@@ -1838,7 +1795,7 @@ const CreatePayloadModalContent = props => {
           name="OverrideScheme"
           rules={[]}
         >
-          <Select placeholder="请选择协议">
+          <Select placeholder="Please select scheme">
             <Option value="http">http</Option>
             <Option value="https">https</Option>
           </Select>
@@ -1914,7 +1871,7 @@ const CreatePayloadModalContent = props => {
           name="HttpProxyType"
           rules={[]}
         >
-          <Select placeholder="请选择协议">
+          <Select placeholder="Please select proxy type">
             <Option value="HTTP">HTTP</Option>
             <Option value="SOCKS">SOCKS</Option>
           </Select>
@@ -1986,7 +1943,7 @@ const CreatePayloadModalContent = props => {
           {...formLayout}
           label={
             <Tooltip title="Password to derive RC4 key from">
-              <span>RC4密码</span>
+              <span>{formatText('app.payloadandhandler.rc4password')}</span>
             </Tooltip>
           }
           initialValue={randomstr(8)}
@@ -1994,16 +1951,11 @@ const CreatePayloadModalContent = props => {
           rules={[
             {
               required: true,
-              message: '请输入RC4协议密码,建议在8位以上',
+              message: formatText('app.payloadandhandler.rc4password_rule'),
             },
           ]}
         >
           <Input placeholder="请输入RC4密码"/>
-        </Form.Item>,
-      );
-      options.push(
-        <Form.Item {...formLayout} label="说明">
-          <span>RC4初始生成Session时较慢,请耐心等待,Session生成后速度不受影响.</span>
         </Form.Item>,
       );
     }
@@ -2013,7 +1965,7 @@ const CreatePayloadModalContent = props => {
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip title="DOMAIN参数,例如手工指定 aaa.com 的ns服务器为 ns1.bbb.com ns2.bbb.com,则这里输入aaa.com">
+            <Tooltip title={formatText('app.payloadandhandler.domain')}>
               <span>DOMAIN</span>
             </Tooltip>
           }
@@ -2021,18 +1973,18 @@ const CreatePayloadModalContent = props => {
           rules={[
             {
               required: true,
-              message: '请输入DOMAIN',
+              message: formatText('app.payloadandhandler.domain_rule'),
             },
           ]}
         >
-          <Input placeholder="请输入DOMAIN (鼠标到DOMAIN标签显示帮助)"/>
+          <Input placeholder={formatText('app.payloadandhandler.domain_rule')}/>
         </Form.Item>,
       );
       options.push(
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip title="DNS数据传输方式,DNSKEY速度快,IPv6适配性强">
+            <Tooltip title={formatText('app.payloadandhandler.req_type_tip')}>
               <span>REQ_TYPE</span>
             </Tooltip>
           }
@@ -2041,12 +1993,12 @@ const CreatePayloadModalContent = props => {
           rules={[
             {
               required: true,
-              message: '请选择REQ_TYPE',
+              message: formatText('app.payloadandhandler.req_type_rule'),
             },
           ]}>
           <Select style={{ width: 200 }}>
-            <Option value="DNSKEY">DNSKEY (速度快)</Option>
-            <Option value="IPv6">IPv6 (适配性强)</Option>
+            <Option value="DNSKEY">{formatText('app.payloadandhandler.DNSKEY')}</Option>
+            <Option value="IPv6">{formatText('app.payloadandhandler.IPv6')}</Option>
           </Select>
         </Form.Item>,
       );
@@ -2054,7 +2006,7 @@ const CreatePayloadModalContent = props => {
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip title="Viper会根据不同的SERVER_ID生成不同的子域名">
+            <Tooltip title={formatText('app.payloadandhandler.SERVER_ID_tip')}>
               <span>SERVER_ID</span>
             </Tooltip>
           }
@@ -2063,11 +2015,11 @@ const CreatePayloadModalContent = props => {
           rules={[
             {
               required: true,
-              message: '请输入SERVER_ID,建议在6位以上',
+              message: formatText('app.payloadandhandler.SERVER_ID_rule'),
             },
           ]}
         >
-          <Input placeholder="请输入SERVER_ID"/>
+          <Input placeholder={formatText('app.payloadandhandler.SERVER_ID_rule')}/>
         </Form.Item>,
       );
     }
@@ -2076,7 +2028,7 @@ const CreatePayloadModalContent = props => {
       return null;
     } else {
       return (
-        <Panel header="高级参数" key="advance">
+        <Panel header={formatText('app.payloadandhandler.advance')} key="advance">
           {options}
         </Panel>
       );
@@ -2128,36 +2080,36 @@ const CreatePayloadModalContent = props => {
   return (
     <Form onFinish={onCreatePayloadBySubmit}>
       <Collapse bordered={false} defaultActiveKey={['base', 'advance']}>
-        <Panel header="基础参数" key="base">
+        <Panel header={formatText('app.payloadandhandler.base')} key="base">
           <Form.Item
             {...formLayout}
-            label="载荷"
+            label={formatText('app.payloadandhandler.payload')}
             name="PAYLOAD"
             rules={[
               {
                 required: true,
-                message: '请选择有效载荷',
+                message: formatText('app.payloadandhandler.payload_rule'),
               },
             ]}
           >
             <Cascader
               options={payloadOptions}
               onChange={changePayloadOption}
-              placeholder="请选择有效载荷"
+              placeholder={formatText('app.payloadandhandler.payload_rule')}
             />
           </Form.Item>
           {payloadBaseOption()}
           {payloadFormatOption()}
         </Panel>
         {payloadSpecialOption()}
-        <Panel header="自动化" key="auto">
+        <Panel header={formatText('app.payloadandhandler.auto')} key="auto">
           <Form.Item
             {...formLayout}
             label={
-              <Tooltip title="Payload执行后自动迁移到指定进程,请注意 1)必须使用该监听生成的载荷才能生效 2)迁移进程后原进程不会关闭,并且占用loader文件">
+              <Tooltip title={formatText('app.payloadandhandler.PrependMigrate_tip')}>
                 <span>
                   <InfoCircleOutlined/>
-                  &nbsp;自动迁移
+                  &nbsp;{formatText('app.payloadandhandler.PrependMigrate')}
                 </span>
               </Tooltip>
             }
@@ -2168,7 +2120,11 @@ const CreatePayloadModalContent = props => {
           >
             <Checkbox/>
           </Form.Item>
-          <Form.Item {...formLayout} label="自动迁移到进程" name="PrependMigrateProc" rules={[]}>
+          <Form.Item
+            {...formLayout}
+            label={formatText('app.payloadandhandler.PrependMigrateProc')}
+            name="PrependMigrateProc"
+            rules={[]}>
             <Select style={{ width: 200 }} allowClear>
               {migrateProcess.map((encoder, i) => (
                 <Option value={encoder}>{encoder}</Option>
@@ -2178,10 +2134,10 @@ const CreatePayloadModalContent = props => {
           <Form.Item
             {...formLayout}
             label={
-              <Tooltip title="生成载荷同时添加对应的监听(生成的监听无法使用代理,无法设置为永久监听,请手工点击刷新按钮刷新)">
+              <Tooltip title={formatText('app.payloadandhandler.ADD_HANDLER_tip')}>
                 <span>
                   <InfoCircleOutlined/>
-                  &nbsp;自动监听
+                  &nbsp;{formatText('app.payloadandhandler.ADD_HANDLER')}
                 </span>
               </Tooltip>
             }
@@ -2194,20 +2150,24 @@ const CreatePayloadModalContent = props => {
           </Form.Item>
         </Panel>
 
-        <Panel header="自定义参数" key="3">
-          <Form.Item {...formLayout} label="编码" name="Encoder" rules={[]}>
+        <Panel header={formatText('app.payloadandhandler.diy')} key="diy">
+          <Form.Item {...formLayout} label="Encoder" name="Encoder" rules={[]}>
             <Select style={{ width: 200 }} allowClear>
               {payloadEncoder.map((encoder, i) => (
                 <Option value={encoder}>{encoder}</Option>
               ))}
             </Select>
           </Form.Item>
-          <Form.Item {...formLayout} label="编码次数" name="Iterations" rules={[]}>
+          <Form.Item
+            {...formLayout}
+            label={formatText('app.payloadandhandler.Iterations')}
+            name="Iterations"
+            rules={[]}>
             <InputNumber style={{ width: 160 }}/>
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label="强制编码"
+            label={formatText('app.payloadandhandler.ForceEncode')}
             name="ForceEncode"
             valuePropName="checked"
             initialValue={false}
@@ -2216,44 +2176,44 @@ const CreatePayloadModalContent = props => {
             <Checkbox/>
           </Form.Item>
 
-          <Form.Item {...formLayout} label="避免字符" name="BadChars" rules={[]}>
+          <Form.Item {...formLayout} label={formatText('app.payloadandhandler.BadChars')} name="BadChars" rules={[]}>
             <Input/>
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label="连接超时时间(秒)"
+            label="SessionCommunicationTimeout(Second)"
             name="SessionCommunicationTimeout"
             rules={[]}
             initialValue={300}
           >
-            <InputNumber style={{ width: 160 }} placeholder="请输入正确的连接超时时间"/>
+            <InputNumber style={{ width: 160 }}/>
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label="Session强制过期时间(秒)"
+            label="SessionExpirationTimeout(Second)"
             name="SessionExpirationTimeout"
             rules={[]}
             initialValue={3600 * 24 * 365}
           >
-            <InputNumber style={{ width: 160 }} placeholder="请输入正确的强制过期时间"/>
+            <InputNumber style={{ width: 160 }}/>
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label="网络断开重试次数"
+            label="SessionRetryTotal(Second)"
             name="SessionRetryTotal"
             rules={[]}
             initialValue={3600}
           >
-            <InputNumber style={{ width: 160 }} placeholder="请输入正确的网络断开重试次数"/>
+            <InputNumber style={{ width: 160 }}/>
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label="网络断开重试间隔(秒)"
+            label="SessionRetryWait(Second)"
             name="SessionRetryWait"
             rules={[]}
             initialValue={10}
           >
-            <InputNumber style={{ width: 160 }} placeholder="请输入正确的网络断开重试间隔"/>
+            <InputNumber style={{ width: 160 }}/>
           </Form.Item>
         </Panel>
       </Collapse>
@@ -2265,7 +2225,7 @@ const CreatePayloadModalContent = props => {
           htmlType="submit"
           type="primary"
         >
-          生成载荷
+          {formatText('app.payloadandhandler.genpayload')}
         </Button>
       </Form.Item>
     </Form>
@@ -2497,7 +2457,7 @@ const PayloadAndHandler = (props) => {
             icon={<CustomerServiceOutlined/>}
             onClick={() => setCreateHandlerModalVisible(true)}
           >
-            新增监听
+            {formatText('app.payloadandhandler.addhandler')}
           </Button>
         </Col>
         <Col span={8}>
@@ -2507,7 +2467,7 @@ const PayloadAndHandler = (props) => {
             icon={<BlockOutlined/>}
             onClick={() => setCreatePayloadModalVisible(true)}
           >
-            生成载荷
+            {formatText('app.payloadandhandler.genpayload')}
           </Button>
         </Col>
         <Col span={8}>
@@ -2519,7 +2479,7 @@ const PayloadAndHandler = (props) => {
             loading={listHanderReq.loading || createHandlerReq.loading || destoryHandlerReq.loading}
             onClick={() => listHanderReq.run()}
           >
-            刷新
+            {formatText('app.core.refresh')}
           </Button>
         </Col>
       </Row>
@@ -2544,20 +2504,20 @@ const PayloadAndHandler = (props) => {
                   shape="square"
                   size={24}
                 >
-                  <Tooltip placement="right" title="真实监听">
+                  <Tooltip placement="right" title={formatText('app.payloadandhandler.realhandler')}>
                     {record.ID}
                   </Tooltip>
                 </Avatar>
               ) : (
                 <Avatar style={{ width: '100%' }} shape="square" size={24}>
-                  <Tooltip placement="right" title="虚拟监听">
+                  <Tooltip placement="right" title={formatText('app.payloadandhandler.virlhandler')}>
                     {-record.ID}
                   </Tooltip>
                 </Avatar>
               ),
           },
           {
-            title: '载荷',
+            title: formatText('app.payloadandhandler.payload'),
             dataIndex: 'PAYLOAD',
             key: 'PAYLOAD',
             width: 280,
@@ -2586,7 +2546,7 @@ const PayloadAndHandler = (props) => {
             render: (text, record) => <span>{record.LPORT}</span>,
           },
           {
-            title: '其他参数',
+            title: formatText('app.payloadandhandler.params'),
             dataIndex: 'PAYLOAD',
             key: 'PAYLOAD',
             render: (text, record) => {
@@ -2597,14 +2557,15 @@ const PayloadAndHandler = (props) => {
               }
               if (record.HandlerSSLCert !== undefined && record.HandlerSSLCert !== null) {
                 const pos = record.HandlerSSLCert.lastIndexOf('/');
-                items.push(<span>{` 证书: ${record.HandlerSSLCert.substr(pos + 1)}`}</span>);
+                items.push(
+                  <span>{` ${formatText('app.payloadandhandler.pemfile')}: ${record.HandlerSSLCert.substr(pos + 1)}`}</span>);
               }
 
               if (record.RC4PASSWORD !== undefined && record.RC4PASSWORD !== null) {
-                items.push(<span>{` RC4密码: ${record.RC4PASSWORD}`}</span>);
+                items.push(<span>{` ${formatText('app.payloadandhandler.rc4password')}: ${record.RC4PASSWORD}`}</span>);
               }
               if (record.proxies !== undefined && record.proxies !== null) {
-                items.push(<span>{` 代理: ${record.proxies}`}</span>);
+                items.push(<span>{` ${formatText('app.payloadandhandler.proxy')}: ${record.proxies}`}</span>);
               }
 
               if (record.DOMAIN !== undefined && record.DOMAIN !== null) {
@@ -2616,19 +2577,16 @@ const PayloadAndHandler = (props) => {
               if (record.SERVER_ID !== undefined && record.SERVER_ID !== null) {
                 items.push(<span>{` SERVER_ID: ${record.SERVER_ID}`}</span>);
               }
-
-
               return <Space style={{ display: 'flex' }}>{items}</Space>;
             },
           },
           {
-            title: '别名',
+            title: formatText('app.payloadandhandler.handlername'),
             dataIndex: 'HandlerName',
             key: 'HandlerName',
             render: (text, record) => record.HandlerName,
           },
           {
-            title: '操作',
             dataIndex: 'operation',
             width: 344,
             render: (text, record) => {
@@ -2636,13 +2594,13 @@ const PayloadAndHandler = (props) => {
               if (record.ID >= 0) {
                 transformAction = (
                   <a style={{ color: '#a5a5a5' }} onClick={() => onCreateVirtualHandler(record)}>
-                    虚拟化
+                    {formatText('app.payloadandhandler.getvirl')}
                   </a>
                 );
               } else {
                 transformAction = (
                   <a style={{ color: '#faad14' }} onClick={() => onCreateHandlerByVirtual(record)}>
-                    实例化
+                    {formatText('app.payloadandhandler.getreal')}
                   </a>
                 );
               }
@@ -2650,24 +2608,24 @@ const PayloadAndHandler = (props) => {
                 <div style={{ textAlign: 'center' }}>
                   <Space size="middle">
                     <a style={{ color: 'green' }} onClick={() => onCreatePayloadByHandler(record)}>
-                      生成PE/ELF
+                      {formatText('app.payloadandhandler.genpe')}
                     </a>
                     <Popover
                       placement="left"
-                      title="选择载荷类型"
+                      title={formatText('app.payloadandhandler.format_rule')}
                       content={genPayloadByHandler(record)}
                       trigger="click">
                       <a style={{ color: '#13a8a8' }}>
-                        生成载荷
+                        {formatText('app.payloadandhandler.genpayload')}
                       </a>
                     </Popover>
-                    <a onClick={() => showHandlerDetail(record)}>详细参数</a>
+                    <a onClick={() => showHandlerDetail(record)}>{formatText('app.payloadandhandler.Detail')}</a>
                     {transformAction}
                     <a
                       onClick={() => destoryHandlerReq.run({ jobid: record.ID })}
                       style={{ color: 'red' }}
                     >
-                      删除
+                      {formatText('app.core.delete')}
                     </a>
                   </Space>
                 </div>
@@ -2677,7 +2635,6 @@ const PayloadAndHandler = (props) => {
         ]}
       />
       <Modal
-        // title="添加监听"
         style={{ top: 20 }}
         width="60vw"
         bodyStyle={{ padding: '0px 0px 1px 0px' }}
@@ -2689,7 +2646,6 @@ const PayloadAndHandler = (props) => {
         <CreateHandlerModalContent createHandlerFinish={createHandlerFinish}/>
       </Modal>
       <Modal
-        // title="生成载荷"
         style={{ top: 20 }}
         width="60vw"
         bodyStyle={{ padding: '0px 0px 2px 0px' }}

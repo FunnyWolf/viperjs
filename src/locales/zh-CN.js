@@ -5,6 +5,7 @@ import pwa from './zh-CN/pwa';
 import systemsetting from './zh-CN/systemsetting';
 import core from './zh-CN/core';
 import realtimecard from './zh-CN/realtimecard';
+import payloadandhandler from './zh-CN/payloadandhandler';
 
 export default {
   ...exception,
@@ -14,4 +15,5 @@ export default {
   ...systemsetting,
   ...core,
   ...realtimecard,
+  ...payloadandhandler,
 };
