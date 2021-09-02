@@ -675,7 +675,7 @@ const HostAndSessionCard = () => {
             }}
           >
             <Text
-              className={styles.percent}
+              className={styles.comment}
               ellipsis={{
                 rows: 1,
                 tooltip: true,

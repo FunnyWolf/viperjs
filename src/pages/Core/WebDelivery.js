@@ -454,7 +454,7 @@ const WebDelivery = (props) => {
       </Row>
       <Table
         style={{ marginTop: 0 }}
-        className={styles.handlerTable}
+        className={styles.deliveryTable}
         size="small"
         bordered
         pagination={false}
