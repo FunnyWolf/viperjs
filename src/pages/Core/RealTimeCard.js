@@ -31,6 +31,7 @@ import { MyIcon, SidTag } from '@/pages/Core/Common';
 import styles from './RealTimeCard.less';
 import { Upheight } from '@/utils/utils';
 import { PostModuleInfoContent } from '@/pages/Core/RunModule';
+import { formatText } from '@/utils/locales';
 
 const { Text } = Typography;
 const { Paragraph } = Typography;
@@ -117,7 +118,7 @@ const RealTimeModuleResult = () => {
             allowClear
             prefix={<SearchOutlined/>}
             style={{ width: '100%' }}
-            placeholder=" 主机IP/模块/参数/结果"
+            placeholder={formatText('app.realtimecard.moduleresult_search')}
             value={text}
             onChange={e => {
               setText(e.target.value);
@@ -126,16 +127,14 @@ const RealTimeModuleResult = () => {
           />
         </Col>
         <Col span={3}>
-          <Tooltip mouseEnterDelay={0.3} title="清空结果">
-            <Button
-              block
-              danger
-              onClick={() => deletePostModuleResultHistoryReq.run()}
-              icon={<DeleteOutlined/>}
-            >
-              清空
-            </Button>
-          </Tooltip>
+          <Button
+            block
+            danger
+            onClick={() => deletePostModuleResultHistoryReq.run()}
+            icon={<DeleteOutlined/>}
+          >
+            {formatText('app.core.clear')}
+          </Button>
         </Col>
       </Row>
       <List
@@ -291,7 +290,7 @@ const UserInput = props => {
   return (
     <Input
       style={{ width: '100%' }}
-      placeholder="发送消息"
+      placeholder={formatText('app.realtimecard.sendmsg')}
       value={text}
       prefix={<PrefixIcon/>}
       onPressEnter={() => {
@@ -370,7 +369,6 @@ const RealTimeNotices = () => {
         );
       }
       if (item.level === 6) {
-        // 用户输入
         return (
           <Text style={{ color: '#cb2b83' }} className={styles.wordBreakClass}>
             <Space>
@@ -473,11 +471,9 @@ const RealTimeNotices = () => {
           <UserInput createNotice={params => createNoticeReq.run(params)}/>
         </Col>
         <Col span={4}>
-          <Tooltip mouseEnterDelay={0.3} title="清空日志">
-            <Button icon={<DeleteOutlined/>} block danger onClick={() => deleteNoticesReq.run()}>
-              清空
-            </Button>
-          </Tooltip>
+          <Button icon={<DeleteOutlined/>} block danger onClick={() => deleteNoticesReq.run()}>
+            {formatText('app.core.clear')}
+          </Button>
         </Col>
       </Row>
       <NoticesList notices={notices}/>
@@ -519,14 +515,14 @@ const RealTimeJobs = () => {
       bordered
       columns={[
         {
-          title: '开始时间',
+          title: formatText('app.realtimecard.jobtable_starttime'),
           dataIndex: 'time',
           key: 'time',
           width: 80,
           render: (text, record) => <Tag color="cyan">{moment(record.time * 1000).fromNow()}</Tag>,
         },
         {
-          title: '模块',
+          title: formatText('app.realtimecard.jobtable_module'),
           dataIndex: 'moduleinfo',
           key: 'moduleinfo',
           width: 240,
@@ -550,7 +546,7 @@ const RealTimeJobs = () => {
           },
         },
         {
-          title: '参数',
+          title: formatText('app.realtimecard.jobtable_params'),
           dataIndex: 'moduleinfo',
           key: 'moduleinfo',
           render: (text, record) => {
@@ -569,12 +565,11 @@ const RealTimeJobs = () => {
           },
         },
         {
-          title: '操作',
           dataIndex: 'operation',
           width: 48,
           render: (text, record) => (
             <a style={{ color: 'red' }} onClick={() => onDestoryJob(record)}>
-              删除
+              {formatText('app.core.delete')}
             </a>
           ),
         },

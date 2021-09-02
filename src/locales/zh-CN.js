@@ -3,7 +3,8 @@ import login from './zh-CN/login';
 import menu from './zh-CN/menu';
 import pwa from './zh-CN/pwa';
 import systemsetting from './zh-CN/systemsetting';
-import core from '@/locales/zh-CN/core';
+import core from './zh-CN/core';
+import realtimecard from './zh-CN/realtimecard';
 
 export default {
   ...exception,
@@ -12,4 +13,5 @@ export default {
   ...pwa,
   ...systemsetting,
   ...core,
+  ...realtimecard,
 };

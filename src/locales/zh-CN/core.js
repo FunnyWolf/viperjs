@@ -3,4 +3,6 @@ export default {
   'app.core.error': '异常',
   'app.core.status': '状态',
   'app.core.update': '更新',
+  'app.core.clear': '清空',
+  'app.core.delete': '删除',
 };
