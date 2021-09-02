@@ -172,7 +172,7 @@ const SystemInfo = () => {
   return (
     <Card style={{ marginTop: -16 }}>
       <Row>
-        <Descriptions size="small" style={{ marginLeft: 64 }} column={8}>
+        <Descriptions size="small" style={{ marginLeft: 64 }} column={6}>
           <Descriptions.Item label={formatText('app.systemsetting.msfstatus')}>
             <Space>{serviceStatusActive.json_rpc.status ? (
               <Tag color="green">{formatText('app.core.working')}</Tag>
@@ -229,7 +229,7 @@ const SystemInfo = () => {
         </Descriptions>
       </Row>
       <Row>
-        <Descriptions size="small" style={{ marginLeft: 64, marginTop: 16 }} column={8}>
+        <Descriptions size="small" style={{ marginLeft: 64, marginTop: 16 }} column={6}>
           <Descriptions.Item label={formatText('app.systemsetting.betafunction')}>
             <Switch
               checkedChildren={<CheckOutlined/>}
