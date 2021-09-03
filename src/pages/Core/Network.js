@@ -4,6 +4,7 @@ import styles from './Network.less';
 import Graphin, { Behaviors, Utils } from '@antv/graphin';
 import './iconfont.css';
 import fonts from './iconfont.json';
+import { formatText } from '@/utils/locales';
 
 //字符串格式化函数
 String.prototype.format = function() {
@@ -163,7 +164,7 @@ const Network = () => {
         const { sid } = data;
         edge.style = {
           label: {
-            value: ` 内网路由 `,
+            value: ` ${formatText('app.network.msfroute')} `,
             fill: '#3c9ae8',
             fontSize: 14,
           },
@@ -176,7 +177,7 @@ const Network = () => {
         const { method } = data;
         edge.style = {
           label: {
-            value: ` 内网扫描 ${method}`,
+            value: ` ${formatText('app.network.NetScan')} ${method}`,
             fill: '#f3ea62',
             fontSize: 14,
           },
@@ -371,7 +372,7 @@ const NetworkWindow = () => {
         const { sid } = data;
         edge.style = {
           label: {
-            value: ` 内网路由 `,
+            value: ` ${formatText('app.network.msfroute')} `,
             fill: '#3c9ae8',
             fontSize: 14,
           },
@@ -384,7 +385,7 @@ const NetworkWindow = () => {
         const { method } = data;
         edge.style = {
           label: {
-            value: ` 内网扫描 ${method}`,
+            value: ` ${formatText('app.network.NetScan')} ${method}`,
             fill: '#f3ea62',
             fontSize: 14,
           },

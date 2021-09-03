@@ -8,6 +8,8 @@ import realtimecard from './en-US/realtimecard';
 import payloadandhandler from './en-US/payloadandhandler';
 import webdelivery from './en-US/webdelivery';
 import filemsf from './en-US/filemsf';
+import network from './en-US/network';
+
 export default {
   ...exception,
   ...login,
@@ -19,4 +21,5 @@ export default {
   ...payloadandhandler,
   ...webdelivery,
   ...filemsf,
+  ...network,
 };
