@@ -9,6 +9,7 @@ import copy from 'copy-to-clipboard';
 import styles from './FileMsf.less';
 import { getToken } from '@/utils/authority';
 import { Downheight } from '@/utils/utils';
+import { formatText } from '@/utils/locales';
 
 String.prototype.format = function() {
   let args = arguments;
@@ -143,9 +144,6 @@ const FileMsf = props => {
           mask: false,
           width: '80vw',
           content: <img style={{ width: '100%' }} src={`data:image/png;base64,${result.data}`}/>,
-          okText: '关闭',
-          onOk() {
-          },
         });
       } else {
         Modal.info({
@@ -154,7 +152,6 @@ const FileMsf = props => {
             top: 40,
             padding: '0px 0px 0px 0px',
           },
-          // bodyStyle: { padding: '0 0 0 0' },
           mask: false,
           width: '70vw',
           content: (
@@ -171,17 +168,14 @@ const FileMsf = props => {
                 <Button
                   onClick={() => {
                     copy(atob(result.data));
-                    message.success('已复制到剪切板');
+                    message.success('Copyed to clipboard');
                   }}
                 >
-                  拷贝到剪切板
+                  Copy to clipboard
                 </Button>
               </Row>
             </Fragment>
           ),
-          okText: '关闭',
-          onOk() {
-          },
         });
       }
     },
@@ -228,7 +222,7 @@ const FileMsf = props => {
       setMsfUploading(false);
     } else if (info.file.status === 'error') {
       setMsfUploading(false);
-      message.error(`${info.file.name} 上传失败.`);
+      message.error(`${info.file.name} ${formatText('app.filemsf.uploaderror')}`);
     }
   };
 
@@ -258,7 +252,7 @@ const FileMsf = props => {
             showUploadList={false}
             loading={msfUploading}
           >
-            <UploadOutlined/> 拖拽文件到此处上传
+            <UploadOutlined/> {formatText('app.filemsf.uploadlabel')}
           </Dragger>
         </Col>
         <Col span={18}>
@@ -273,7 +267,7 @@ const FileMsf = props => {
               msfUploading
             }
           >
-            刷新
+            {formatText('app.core.refresh')}
           </Button>
           <Table
             className={styles.filesTable}
@@ -284,19 +278,19 @@ const FileMsf = props => {
             rowKey="id"
             columns={[
               {
-                title: '文件名',
+                title: formatText('app.filemsf.filename'),
                 dataIndex: 'name',
                 key: 'name',
                 render: (text, record) => <span>{record.name}</span>,
               },
               {
-                title: '大小',
+                title: formatText('app.filemsf.size'),
                 dataIndex: 'format_size',
                 key: 'format_size',
                 width: 96,
               },
               {
-                title: '修改时间',
+                title: formatText('app.filemsf.mtime'),
                 dataIndex: 'mtime',
                 key: 'mtime',
                 width: 120,
@@ -305,9 +299,8 @@ const FileMsf = props => {
                 ),
               },
               {
-                title: '操作',
                 dataIndex: 'operation',
-                width: 224,
+                width: 320,
                 render: (text, record) => (
                   <div style={{ textAlign: 'center' }}>
                     <Space size="middle">
@@ -317,7 +310,7 @@ const FileMsf = props => {
                             style={{ color: 'green' }}
                             onClick={() => listFileMsfForView(record.name)}
                           >
-                            查看
+                            {formatText('app.filemsf.view')}
                           </a>
                         </Fragment>
                       ) : (
@@ -325,12 +318,12 @@ const FileMsf = props => {
                           <a style={{ visibility: 'Hidden' }}>占位</a>
                         </Fragment>
                       )}
-                      <a onClick={() => listFileMsfForDownload(record.name)}>下载</a>
+                      <a onClick={() => listFileMsfForDownload(record.name)}>{formatText('app.filemsf.download')}</a>
                       <a style={{ color: '#faad14' }} onClick={() => downloadFileWayDetail(record)}>
-                        一句话下载
+                        {formatText('app.filemsf.onelinecmd')}
                       </a>
                       <a onClick={() => destoryFileMsfReq.run(record)} style={{ color: 'red' }}>
-                        删除
+                        {formatText('app.core.delete')}
                       </a>
                     </Space>
                   </div>
@@ -409,7 +402,7 @@ export const FileMsfModal = props => {
       setMsfUploading(false);
     } else if (info.file.status === 'error') {
       setMsfUploading(false);
-      message.error(`${info.file.name} 上传失败.`);
+      message.error(`${info.file.name} ${formatText('app.filemsf.uploaderror')}`);
     }
   };
 
@@ -433,19 +426,19 @@ export const FileMsfModal = props => {
           rowKey="id"
           columns={[
             {
-              title: '文件名',
+              title: formatText('app.filemsf.filename'),
               dataIndex: 'name',
               key: 'name',
               render: (text, record) => <span>{record.name}</span>,
             },
             {
-              title: '大小',
+              title: formatText('app.filemsf.size'),
               dataIndex: 'format_size',
               key: 'format_size',
               width: 96,
             },
             {
-              title: '修改时间',
+              title: formatText('app.filemsf.mtime'),
               dataIndex: 'mtime',
               key: 'mtime',
               width: 120,
@@ -454,7 +447,6 @@ export const FileMsfModal = props => {
               ),
             },
             {
-              title: '操作',
               dataIndex: 'operation',
               width: 176,
               render: (text, record) => (
@@ -474,16 +466,15 @@ export const FileMsfModal = props => {
                         })
                       }
                     >
-                      上传到目标
+                      {formatText('app.filemsf.uploadtotarget')}
                     </a>
-
-                    <a onClick={() => listFileMsfForDownloadReq.run({ name: record.name })}>下载</a>
-
+                    <a
+                      onClick={() => listFileMsfForDownloadReq.run({ name: record.name })}>{formatText('app.filemsf.download')}</a>
                     <a
                       onClick={() => destoryFileMsfReq.run({ name: record.name })}
                       style={{ color: 'red' }}
                     >
-                      删除
+                      {formatText('app.core.delete')}
                     </a>
                   </Space>
                 </div>
@@ -495,7 +486,6 @@ export const FileMsfModal = props => {
       </Card>
       <Row
         style={{
-          // marginTop: 4,
           marginLeft: -16,
           marginRight: -16,
           marginBottom: -12,
@@ -509,14 +499,13 @@ export const FileMsfModal = props => {
             headers={{ Authorization: `Token ${getToken()}` }}
             onChange={createFileMsfUploadOnChange}
             loading={msfUploading}
-            // showUploadList={false}
             showUploadList={{
               showRemoveIcon: true,
               showPreviewIcon: false,
               showDownloadIcon: false,
             }}
           >
-            <UploadOutlined/> 拖拽文件到此处上传
+            <UploadOutlined/> {formatText('app.filemsf.uploadlabel')}
           </Dragger>
         </Col>
         <Col span={8}>
@@ -531,7 +520,7 @@ export const FileMsfModal = props => {
               createPostModuleActuatorReq.loading
             }
           >
-            刷新
+            {formatText('app.core.refresh')}
           </Button>
         </Col>
       </Row>

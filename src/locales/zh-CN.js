@@ -7,6 +7,7 @@ import core from './zh-CN/core';
 import realtimecard from './zh-CN/realtimecard';
 import payloadandhandler from './zh-CN/payloadandhandler';
 import webdelivery from './zh-CN/webdelivery';
+import filemsf from './zh-CN/filemsf';
 
 export default {
   ...exception,
@@ -18,4 +19,5 @@ export default {
   ...realtimecard,
   ...payloadandhandler,
   ...webdelivery,
+  ...filemsf,
 };

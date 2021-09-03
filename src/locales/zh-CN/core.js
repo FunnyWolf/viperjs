@@ -6,4 +6,6 @@ export default {
   'app.core.clear': '清空',
   'app.core.delete': '删除',
   'app.core.refresh': '刷新',
+  'app.core.copyedtoclipboard': '已复制到剪切板',
+  'app.core.copytoclipboard': '复制到剪切板',
 };

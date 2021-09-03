@@ -7,7 +7,7 @@ import core from './en-US/core';
 import realtimecard from './en-US/realtimecard';
 import payloadandhandler from './en-US/payloadandhandler';
 import webdelivery from './en-US/webdelivery';
-
+import filemsf from './en-US/filemsf';
 export default {
   ...exception,
   ...login,
@@ -18,4 +18,5 @@ export default {
   ...realtimecard,
   ...payloadandhandler,
   ...webdelivery,
+  ...filemsf,
 };

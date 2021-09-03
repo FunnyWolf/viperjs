@@ -6,4 +6,6 @@ export default {
   'app.core.clear': 'Clear',
   'app.core.delete': 'Delete',
   'app.core.refresh': 'Refresh',
+  'app.core.copytoclipboard': 'Copy to clipboard',
+  'app.core.copyedtoclipboard': 'Copied to clipboard',
 };
