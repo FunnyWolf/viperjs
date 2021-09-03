@@ -448,7 +448,7 @@ export const FileMsfModal = props => {
             },
             {
               dataIndex: 'operation',
-              width: 176,
+              // width: 176,
               render: (text, record) => (
                 <div style={{ textAlign: 'center' }}>
                   <Space size="middle">
