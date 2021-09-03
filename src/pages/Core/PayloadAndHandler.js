@@ -382,7 +382,7 @@ const CreateHandlerModalContent = props => {
   const [pem_files, setPemfiles] = useState([]);
   const [lhost, setLhost] = useState(null);
 
-  const initListLHostReq = useRequest(() => getCoreSettingAPI({ kind: 'lhost' }), {
+  useRequest(() => getCoreSettingAPI({ kind: 'lhost' }), {
     onSuccess: (result, params) => {
       if (result.lhost === null || result.lhost === '') {
         setLhost(location.hostname);
@@ -406,7 +406,6 @@ const CreateHandlerModalContent = props => {
 
   const onCreateHandlerBySubmit = params => {
     params.PAYLOAD = params.PAYLOAD.join('/');
-    params.timestamp = Date.parse(new Date()) / 1000;
     createHandlerReq.run({ opts: params });
   };
 
@@ -557,7 +556,7 @@ const CreateHandlerModalContent = props => {
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip title="The HTTP Path">
+            <Tooltip title={formatText('app.payloadandhandler.luri_tip')}>
               <span>LURI</span>
             </Tooltip>
           }
@@ -1057,29 +1056,28 @@ const CreateHandlerModalContent = props => {
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label={formatText('app.payloadandhandler.SessionCommunicationTimeout')}
+            label="CommunicationTimeout(second)"
             name="SessionCommunicationTimeout"
             rules={[]}
             initialValue={300}
           >
             <InputNumber
-              style={{ width: 160 }}
-              placeholder={formatText('app.payloadandhandler.SessionCommunicationTimeout_ph')}/>
+              style={{ width: 160 }}/>
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label={formatText('app.payloadandhandler.SessionExpirationTimeout')}
+            label="ExpirationTimeout(second)"
             name="SessionExpirationTimeout"
             rules={[]}
             initialValue={3600 * 24 * 365}
           >
             <InputNumber
               style={{ width: 160 }}
-              placeholder={formatText('app.payloadandhandler.SessionExpirationTimeout_ph')}/>
+            />
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label="SessionRetryTotal(second)"
+            label="RetryTotal(second)"
             name="SessionRetryTotal"
             rules={[]}
             initialValue={3600}
@@ -1089,7 +1087,7 @@ const CreateHandlerModalContent = props => {
 
           <Form.Item
             {...formLayout}
-            label="SessionRetryWait(second)"
+            label="RetryWait(second)"
             name="SessionRetryWait"
             rules={[]}
             initialValue={10}
@@ -1477,6 +1475,7 @@ const CreatePayloadModalContent = props => {
       ],
     },
   ];
+
   const payloadEncoder = [
     'x86/shikata_ga_nai',
     'x86/xor_dynamic',
@@ -1485,10 +1484,37 @@ const CreatePayloadModalContent = props => {
     'cmd/powershell_base64',
   ];
 
-  const changePayloadOption = (value, selectedOptions) => {
-    const payload = value.join('/');
-    setStateSelectPayload(payload);
-  };
+
+  useRequest(() => getCoreSettingAPI({ kind: 'lhost' }), {
+    onSuccess: (result, params) => {
+      if (result.lhost === null || result.lhost === '') {
+        setLhost(location.hostname);
+      } else {
+        setLhost(result.lhost);
+      }
+      setPemfiles(result.pem_files);
+    },
+    onError: (error, params) => {
+    },
+  });
+
+  const createHandlerReq = useRequest(postMsgrpcHandlerAPI, {
+    manual: true,
+    onSuccess: (result, params) => {
+    },
+    onError: (error, params) => {
+    },
+  });
+
+  const createPayloadReq = useRequest(postMsgrpcPayloadAPI, {
+    manual: true,
+    onSuccess: (result, params) => {
+      // message.success(decodeURI(response.headers.get('Message')));
+      createPayloadFinish();
+    },
+    onError: (error, params) => {
+    },
+  });
 
   const payloadFormatOption = () => {
     let options = [];
@@ -1664,7 +1690,6 @@ const CreatePayloadModalContent = props => {
       return options;
     }
   };
-
 
   const payloadSpecialOption = () => {
 
@@ -2035,36 +2060,10 @@ const CreatePayloadModalContent = props => {
     }
   };
 
-  const initListLHostReq = useRequest(() => getCoreSettingAPI({ kind: 'lhost' }), {
-    onSuccess: (result, params) => {
-      if (result.lhost === null || result.lhost === '') {
-        setLhost(location.hostname);
-      } else {
-        setLhost(result.lhost);
-      }
-      setPemfiles(result.pem_files);
-    },
-    onError: (error, params) => {
-    },
-  });
-
-  const createHandlerReq = useRequest(postMsgrpcHandlerAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
-    },
-    onError: (error, params) => {
-    },
-  });
-
-  const createPayloadReq = useRequest(postMsgrpcPayloadAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
-      // message.success(decodeURI(response.headers.get('Message')));
-      createPayloadFinish();
-    },
-    onError: (error, params) => {
-    },
-  });
+  const changePayloadOption = (value, selectedOptions) => {
+    const payload = value.join('/');
+    setStateSelectPayload(payload);
+  };
 
   const onCreatePayloadBySubmit = values => {
     const opts = values;
@@ -2176,12 +2175,16 @@ const CreatePayloadModalContent = props => {
             <Checkbox/>
           </Form.Item>
 
-          <Form.Item {...formLayout} label={formatText('app.payloadandhandler.BadChars')} name="BadChars" rules={[]}>
+          <Form.Item
+            {...formLayout}
+            label={formatText('app.payloadandhandler.BadChars')}
+            name="BadChars"
+            rules={[]}>
             <Input/>
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label="SessionCommunicationTimeout(Second)"
+            label="CommunicationTimeout(second)"
             name="SessionCommunicationTimeout"
             rules={[]}
             initialValue={300}
@@ -2190,7 +2193,7 @@ const CreatePayloadModalContent = props => {
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label="SessionExpirationTimeout(Second)"
+            label="ExpirationTimeout(second)"
             name="SessionExpirationTimeout"
             rules={[]}
             initialValue={3600 * 24 * 365}
@@ -2381,7 +2384,7 @@ const PayloadAndHandler = (props) => {
   });
 
 
-  const initListHanderReq = useRequest(getMsgrpcHandlerAPI, {
+  useRequest(getMsgrpcHandlerAPI, {
     onSuccess: (result, params) => {
       setHandlerListActive(result);
     },
@@ -2408,7 +2411,6 @@ const PayloadAndHandler = (props) => {
   });
 
   const onCreateHandlerByVirtual = params => {
-    params.timestamp = Date.parse(new Date()) / 1000;
     createHandlerReq.run({ opts: params });
   };
 
@@ -2588,7 +2590,7 @@ const PayloadAndHandler = (props) => {
           },
           {
             dataIndex: 'operation',
-            width: 344,
+            width: 400,
             render: (text, record) => {
               let transformAction = null;
               if (record.ID >= 0) {
