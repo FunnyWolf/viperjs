@@ -6,6 +6,8 @@ import systemsetting from './en-US/systemsetting';
 import core from './en-US/core';
 import realtimecard from './en-US/realtimecard';
 import payloadandhandler from './en-US/payloadandhandler';
+import webdelivery from './en-US/webdelivery';
+
 export default {
   ...exception,
   ...login,
@@ -15,4 +17,5 @@ export default {
   ...core,
   ...realtimecard,
   ...payloadandhandler,
+  ...webdelivery,
 };

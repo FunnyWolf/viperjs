@@ -5,7 +5,6 @@ import {
   getMsgrpcWebDeliveryAPI,
   postMsgrpcWebDeliveryAPI,
 } from '@/services/apiv1';
-// import { useControllableValue, useBoolean, useMount } from '@umijs/hooks';
 import styles from './WebDelivery.less';
 import {
   Button,
@@ -30,10 +29,10 @@ import { CloudDownloadOutlined, SyncOutlined } from '@ant-design/icons';
 import { useRequest } from 'umi';
 
 import { randomstr } from '@/pages/Core/Common';
+import { formatText } from '@/utils/locales';
 
 const { Panel } = Collapse;
 const { Option } = Select;
-
 
 const CreateWebDeliveryModalContent = props => {
   const { createWebDeliveryFinish } = props;
@@ -114,19 +113,18 @@ const CreateWebDeliveryModalContent = props => {
           rules={[
             {
               required: true,
-              message: '请选择Target',
+              message: formatText('app.webdelivery.target.rule'),
             },
           ]}
           label={
-            <Tooltip title="请注意Target需要和Payload保持OS一致,如PSH只适用于Windows类型载荷">
+            <Tooltip title={formatText('app.webdelivery.target.tip')}>
               <span>Target</span>
             </Tooltip>
           }
-
           name="TARGET"
         >
           <Select
-            placeholder="请选择Target"
+            placeholder={formatText('app.webdelivery.target.rule')}
             onChange={changeTargetOption}
             allowClear
           >
@@ -145,11 +143,11 @@ const CreateWebDeliveryModalContent = props => {
         rules={[
           {
             required: true,
-            message: '请选择Target',
+            message: formatText('app.webdelivery.target.rule'),
           },
         ]}
         label={
-          <Tooltip title="请注意Target需要和Payload保持OS一致,如PSH只适用于Windows类型载荷">
+          <Tooltip title={formatText('app.webdelivery.target.tip')}>
             <span>Target</span>
           </Tooltip>
         }
@@ -158,7 +156,7 @@ const CreateWebDeliveryModalContent = props => {
         name="TARGET"
       >
         <Select
-          placeholder="请选择Target"
+          placeholder={formatText('app.webdelivery.target.rule')}
           onChange={changeTargetOption}
           allowClear
         >
@@ -188,11 +186,11 @@ const CreateWebDeliveryModalContent = props => {
         rules={[
           {
             required: true,
-            message: '请输入web服务监听的IP地址',
+            message: formatText('app.webdelivery.URIHOST.rule'),
           },
         ]}
       >
-        <Input placeholder="请输入web服务监听的IP地址"/>
+        <Input placeholder={formatText('app.webdelivery.URIHOST.rule')}/>
       </FormNew.Item>,
     );
     options.push(
@@ -203,7 +201,6 @@ const CreateWebDeliveryModalContent = props => {
         rules={[
           {
             required: true,
-            message: '请输入端口',
           },
         ]}
       >
@@ -214,7 +211,7 @@ const CreateWebDeliveryModalContent = props => {
     options.push(
       <FormNew.Item
         {...formLayout}
-        label="SSL开关"
+        label="SSL"
         name="SSL"
         valuePropName="checked"
         rules={[]}
@@ -226,14 +223,14 @@ const CreateWebDeliveryModalContent = props => {
       <FormNew.Item
         {...formLayoutShort}
         label={
-          <Tooltip title="请选择PEM格式的证书文件,文件内容可以参考<文件列表>中www.example.com.pem,证书文件中需要同时包含公私钥,配置证书后会自动过滤http请求">
-            <span>SSL证书</span>
+          <Tooltip title={formatText('app.webdelivery.SSLCert.tip')}>
+            <span>{formatText('app.webdelivery.SSLCert')}</span>
           </Tooltip>
         }
         name="SSLCert"
         initialValue={pem_files.length > 0 ? `~/.msf4/loot/${pem_files[0]}` : null}
       >
-        <Select placeholder="请选择证书文件" allowClear>
+        <Select placeholder={formatText('app.webdelivery.SSLCert.rule')} allowClear>
           {pem_files.map((encoder, i) => (
             <Option value={`~/.msf4/loot/${encoder}`}>{encoder}</Option>
           ))}
@@ -244,14 +241,14 @@ const CreateWebDeliveryModalContent = props => {
       <FormNew.Item
         {...formLayoutShort}
         label={
-          <Tooltip title="The HTTP Path">
+          <Tooltip title={formatText('app.webdelivery.URIPATH.tip')}>
             <span>URIPATH</span>
           </Tooltip>
         }
         initialValue={randomstr(8)}
         name="URIPATH"
       >
-        <Input placeholder="请输入自定义的URI"/>
+        <Input placeholder={formatText('app.webdelivery.URIPATH.rule')}/>
       </FormNew.Item>,
     );
 
@@ -292,21 +289,21 @@ const CreateWebDeliveryModalContent = props => {
   };
   return (
     <FormNew onFinish={onCreateWebDeliveryBySubmit}>
-      <Collapse bordered={false} defaultActiveKey={['base', 'web']}>
-        <Panel header="载荷参数" key="base">
+      <Collapse bordered={false} defaultActiveKey={['payload', 'web']}>
+        <Panel header={formatText('app.webdelivery.payload')} key="payload">
           <FormNew.Item
             {...formLayoutLong}
             rules={[
               {
                 required: true,
-                message: '请选择监听',
+                message: formatText('app.webdelivery.handlerconf.rule'),
               },
             ]}
-            label={<span>监听</span>}
+            label={<span>{formatText('app.webdelivery.handlerconf')}</span>}
             name="handlerconf"
           >
             <Select
-              placeholder="请选择载荷"
+              placeholder={formatText('app.webdelivery.handlerconf.rule')}
               onChange={changePayloadOption}
               allowClear>
               {handlerConf.map((handler, i) => (
@@ -316,10 +313,10 @@ const CreateWebDeliveryModalContent = props => {
           </FormNew.Item>
           {webDeliveryBaseOption()}
         </Panel>
-        <Panel header="Web参数" key="web">
+        <Panel header={formatText('app.webdelivery.web')} key="web">
           {webDevliverServerOption()}
         </Panel>
-        <Panel header="拓展参数" key="advance">
+        <Panel header={formatText('app.webdelivery.advance')} key="advance">
           {webDevliverAdvanceOption()}
         </Panel>
       </Collapse>
@@ -331,7 +328,7 @@ const CreateWebDeliveryModalContent = props => {
           htmlType="submit"
           type="primary"
         >
-          新增服务
+          {formatText('app.webdelivery.submit')}
         </Button>
       </FormNew.Item>
     </FormNew>
@@ -438,7 +435,7 @@ const WebDelivery = (props) => {
             icon={<CloudDownloadOutlined/>}
             onClick={() => setCreateWebDeliveryModalVisible(true)}
           >
-            新增服务
+            {formatText('app.webdelivery.submit')}
           </Button>
         </Col>
         <Col span={12}>
@@ -448,7 +445,7 @@ const WebDelivery = (props) => {
             loading={listWebDeliveryReq.loading || createWebDeliveryReq.loading || destoryWebDeliveryReq.loading}
             onClick={() => listWebDeliveryReq.run()}
           >
-            刷新
+            {formatText('app.core.refresh')}
           </Button>
         </Col>
       </Row>
@@ -476,7 +473,7 @@ const WebDelivery = (props) => {
             render: (text, record) => record['Target-Name'],
           },
           {
-            title: '载荷',
+            title: formatText('app.webdelivery.payload.label'),
             dataIndex: 'PAYLOAD',
             key: 'PAYLOAD',
             width: 280,
@@ -505,24 +502,26 @@ const WebDelivery = (props) => {
             render: (text, record) => <span>{record.LPORT}</span>,
           },
           {
-            title: '载荷参数',
+            title: formatText('app.webdelivery.payload'),
             dataIndex: 'PAYLOAD',
             key: 'PAYLOAD',
             render: (text, record) => {
               const items = [];
+
               if (record.LURI !== undefined && record.LURI !== null) {
                 items.push(<span>{` LURI: ${record.LURI}`}</span>);
               }
               if (record.HandlerSSLCert !== undefined && record.HandlerSSLCert !== null) {
                 const pos = record.HandlerSSLCert.lastIndexOf('/');
-                items.push(<span>{` 证书: ${record.HandlerSSLCert.substr(pos + 1)}`}</span>);
+                items.push(
+                  <span>{` ${formatText('app.payloadandhandler.pemfile')}: ${record.HandlerSSLCert.substr(pos + 1)}`}</span>);
               }
 
               if (record.RC4PASSWORD !== undefined && record.RC4PASSWORD !== null) {
-                items.push(<span>{` RC4密码: ${record.RC4PASSWORD}`}</span>);
+                items.push(<span>{` ${formatText('app.payloadandhandler.rc4password')}: ${record.RC4PASSWORD}`}</span>);
               }
               if (record.proxies !== undefined && record.proxies !== null) {
-                items.push(<span>{` 代理: ${record.proxies}`}</span>);
+                items.push(<span>{` ${formatText('app.payloadandhandler.proxy')}: ${record.proxies}`}</span>);
               }
 
               if (record.DOMAIN !== undefined && record.DOMAIN !== null) {
@@ -538,7 +537,6 @@ const WebDelivery = (props) => {
             },
           },
           {
-            title: '操作',
             dataIndex: 'operation',
             width: 216,
             render: (text, record) => {
@@ -555,15 +553,13 @@ const WebDelivery = (props) => {
                                  >{record['ONE-LINE-CMD']}</Typography.Text></Card>
                              }
                     >
-                      <a style={{ color: '#faad14' }}>一句话执行</a>
+                      <a style={{ color: '#faad14' }}>{formatText('app.webdelivery.onelinecmd')}</a>
                     </Popover>
-                    <a onClick={() => showDeliveryDetail(record)}>详细参数</a>
+                    <a onClick={() => showDeliveryDetail(record)}>{formatText('app.webdelivery.Detail')}</a>
                     <a
                       onClick={() => destoryWebDeliveryReq.run({ jobid: record.ID })}
                       style={{ color: 'red' }}
-                    >
-                      删除
-                    </a>
+                    >{formatText('app.core.delete')}</a>
                   </Space>
                 </div>
               );
@@ -572,7 +568,6 @@ const WebDelivery = (props) => {
         ]}
       />
       <Modal
-        // title="添加监听"
         style={{ top: 20 }}
         width="60vw"
         bodyStyle={{ padding: '0px 0px 1px 0px' }}

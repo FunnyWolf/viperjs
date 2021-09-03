@@ -6,6 +6,7 @@ import systemsetting from './zh-CN/systemsetting';
 import core from './zh-CN/core';
 import realtimecard from './zh-CN/realtimecard';
 import payloadandhandler from './zh-CN/payloadandhandler';
+import webdelivery from './zh-CN/webdelivery';
 
 export default {
   ...exception,
@@ -16,4 +17,5 @@ export default {
   ...core,
   ...realtimecard,
   ...payloadandhandler,
+  ...webdelivery,
 };
