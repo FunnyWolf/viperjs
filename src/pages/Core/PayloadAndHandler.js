@@ -637,19 +637,6 @@ const CreateHandlerModalContent = props => {
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip title="An optional value to use for the Host HTTP header">
-              <span>HttpHostHeader</span>
-            </Tooltip>
-          }
-          name="HttpHostHeader"
-        >
-          <TextArea placeholder="Please input HttpHostHeader" />
-        </Form.Item>
-      );
-      options_second.push(
-        <Form.Item
-          {...formLayout}
-          label={
             <Tooltip
               title="Forces a specific host and port instead of using what the client requests, defaults to LHOST:LPORT">
               <span>OverrideRequestHost</span>
@@ -1792,19 +1779,6 @@ const CreatePayloadModalContent = props => {
     }
 
     if (selectPayload.includes("reverse_http") || selectPayload.includes("reverse_winhttp")) {
-      options.push(
-        <Form.Item
-          {...formLayout}
-          label={
-            <Tooltip title="An optional value to use for the Host HTTP header">
-              <span>HttpHostHeader</span>
-            </Tooltip>
-          }
-          name="HttpHostHeader"
-        >
-          <TextArea placeholder="Please input HttpHostHeader" />
-        </Form.Item>
-      );
       options.push(
         <Form.Item
           {...formLayout}
