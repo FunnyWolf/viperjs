@@ -377,7 +377,7 @@ const CreateHandlerModalContent = props => {
   ];
 
   const StageEncoder = ["x86/shikata_ga_nai", "x86/xor_dynamic", "x64/xor", "x64/xor_dynamic"];
-
+  const [form] = Form.useForm();
   const [selectPayload, setStateSelectPayload] = useState(null);
   const [pem_files, setPemfiles] = useState([]);
   const [lhost, setLhost] = useState(null);
@@ -412,6 +412,11 @@ const CreateHandlerModalContent = props => {
   const changePayloadOption = (value, selectedOptions) => {
     const payload = value.join("/");
     setStateSelectPayload(payload);
+    if (payload.includes("bind_tcp")) {
+      form.setFieldsValue({ EXITONSESSION: true });
+    } else {
+      form.setFieldsValue({ EXITONSESSION: false });
+    }
   };
 
 
@@ -515,7 +520,9 @@ const CreateHandlerModalContent = props => {
       return options;
     }
   };
+
   const handlerPayloadSpecialOption = () => {
+
     let options = [];
     let options_second = [];
     if (selectPayload === null || selectPayload === undefined) {
@@ -920,7 +927,10 @@ const CreateHandlerModalContent = props => {
   };
 
   return (
-    <Form onFinish={onCreateHandlerBySubmit}>
+    <Form
+      form={form}
+      onFinish={onCreateHandlerBySubmit}
+    >
       <Collapse bordered={false} defaultActiveKey={["base", "advance"]}>
         <Panel header={formatText("app.payloadandhandler.base")} key="base">
           <Form.Item
@@ -1044,7 +1054,7 @@ const CreateHandlerModalContent = props => {
             name="EXITONSESSION"
             valuePropName="checked"
             rules={[]}
-            initialValue={!!selectPayload.includes("bind_tcp")}
+            initialValue={false}
           >
             <Checkbox />
           </Form.Item>
