@@ -1,13 +1,13 @@
-import React, { Fragment, memo, useImperativeHandle, useState } from "react";
+import React, { Fragment, memo, useImperativeHandle, useState } from 'react';
 import {
   deleteMsgrpcHandlerAPI,
   getCoreSettingAPI,
   getMsgrpcHandlerAPI,
   postMsgrpcHandlerAPI,
-  postMsgrpcPayloadAPI
-} from "@/services/apiv1";
-import styles from "./PayloadAndHandler.less";
-import { randomstr } from "@/pages/Core/Common";
+  postMsgrpcPayloadAPI,
+} from '@/services/apiv1';
+import styles from './PayloadAndHandler.less';
+import { randomstr } from '@/pages/Core/Common';
 import {
   Alert,
   Avatar,
@@ -26,365 +26,365 @@ import {
   Select,
   Space,
   Table,
-  Tooltip
-} from "antd";
-import { BlockOutlined, CustomerServiceOutlined, InfoCircleOutlined, SyncOutlined } from "@ant-design/icons";
-import { useRequest } from "umi";
-import { formatText } from "@/utils/locales";
+  Tooltip,
+} from 'antd';
+import { BlockOutlined, CustomerServiceOutlined, InfoCircleOutlined, SyncOutlined } from '@ant-design/icons';
+import { useRequest } from 'umi';
+import { formatText } from '@/utils/locales';
 
 const { Panel } = Collapse;
 const { Option } = Select;
 const { TextArea } = Input;
 
-const migrateProcess = ["explorer.exe", "notepad.exe", "svchost.exe"];
-const initialAutoRunScript = ["post/windows/manage/migrate NAME=explorer.exe SPAWN=false"];
+const migrateProcess = ['explorer.exe', 'notepad.exe', 'svchost.exe'];
+const initialAutoRunScript = ['post/windows/manage/migrate NAME=explorer.exe SPAWN=false'];
 
 const CreateHandlerModalContent = props => {
   const { createHandlerFinish } = props;
   const formLayout = {
     labelCol: { span: 6 },
-    wrapperCol: { span: 14 }
+    wrapperCol: { span: 14 },
   };
   const buttonLayout = {
-    wrapperCol: { offset: 5, span: 14 }
+    wrapperCol: { offset: 5, span: 14 },
   };
   const handlerPayloadOptions = [
     {
-      value: "windows",
-      label: "windows",
+      value: 'windows',
+      label: 'windows',
       children: [
         {
-          value: "x64",
-          label: "x64",
+          value: 'x64',
+          label: 'x64',
           children: [
             {
-              value: "meterpreter",
-              label: "meterpreter",
+              value: 'meterpreter',
+              label: 'meterpreter',
               children: [
                 {
-                  value: "bind_tcp",
-                  label: "bind_tcp"
+                  value: 'bind_tcp',
+                  label: 'bind_tcp',
                 },
                 {
-                  value: "bind_tcp_rc4",
-                  label: "bind_tcp_rc4"
+                  value: 'bind_tcp_rc4',
+                  label: 'bind_tcp_rc4',
                 },
                 {
-                  value: "reverse_http",
-                  label: "reverse_http"
+                  value: 'reverse_http',
+                  label: 'reverse_http',
                 },
                 {
-                  value: "reverse_https",
-                  label: "reverse_https"
+                  value: 'reverse_https',
+                  label: 'reverse_https',
                 },
                 {
-                  value: "reverse_tcp",
-                  label: "reverse_tcp"
+                  value: 'reverse_tcp',
+                  label: 'reverse_tcp',
                 },
                 {
-                  value: "reverse_tcp_rc4",
-                  label: "reverse_tcp_rc4"
+                  value: 'reverse_tcp_rc4',
+                  label: 'reverse_tcp_rc4',
                 },
 
                 {
-                  value: "reverse_winhttp",
-                  label: "reverse_winhttp"
+                  value: 'reverse_winhttp',
+                  label: 'reverse_winhttp',
                 },
                 {
-                  value: "reverse_winhttps",
-                  label: "reverse_winhttps"
+                  value: 'reverse_winhttps',
+                  label: 'reverse_winhttps',
                 },
                 {
-                  value: "reverse_dns",
-                  label: "reverse_dns"
-                }
-              ]
+                  value: 'reverse_dns',
+                  label: 'reverse_dns',
+                },
+              ],
             },
             {
-              value: "meterpreter_bind_tcp",
-              label: "meterpreter_bind_tcp"
+              value: 'meterpreter_bind_tcp',
+              label: 'meterpreter_bind_tcp',
             },
             {
-              value: "meterpreter_reverse_http",
-              label: "meterpreter_reverse_http"
+              value: 'meterpreter_reverse_http',
+              label: 'meterpreter_reverse_http',
             },
             {
-              value: "meterpreter_reverse_https",
-              label: "meterpreter_reverse_https"
+              value: 'meterpreter_reverse_https',
+              label: 'meterpreter_reverse_https',
             },
             {
-              value: "meterpreter_reverse_tcp",
-              label: "meterpreter_reverse_tcp"
+              value: 'meterpreter_reverse_tcp',
+              label: 'meterpreter_reverse_tcp',
             },
             {
-              value: "meterpreter_reverse_dns",
-              label: "meterpreter_reverse_dns"
-            }
-          ]
+              value: 'meterpreter_reverse_dns',
+              label: 'meterpreter_reverse_dns',
+            },
+          ],
         },
         {
-          value: "meterpreter",
-          label: "meterpreter",
+          value: 'meterpreter',
+          label: 'meterpreter',
           children: [
             {
-              value: "bind_tcp",
-              label: "bind_tcp"
+              value: 'bind_tcp',
+              label: 'bind_tcp',
             },
             {
-              value: "bind_tcp_rc4",
-              label: "bind_tcp_rc4"
+              value: 'bind_tcp_rc4',
+              label: 'bind_tcp_rc4',
             },
             {
-              value: "reverse_http",
-              label: "reverse_http"
+              value: 'reverse_http',
+              label: 'reverse_http',
             },
             {
-              value: "reverse_https",
-              label: "reverse_https"
+              value: 'reverse_https',
+              label: 'reverse_https',
             },
             {
-              value: "reverse_tcp",
-              label: "reverse_tcp"
+              value: 'reverse_tcp',
+              label: 'reverse_tcp',
             },
 
             {
-              value: "reverse_tcp_rc4",
-              label: "reverse_tcp_rc4"
+              value: 'reverse_tcp_rc4',
+              label: 'reverse_tcp_rc4',
             },
             {
-              value: "reverse_winhttp",
-              label: "reverse_winhttp"
+              value: 'reverse_winhttp',
+              label: 'reverse_winhttp',
             },
             {
-              value: "reverse_winhttps",
-              label: "reverse_winhttps"
+              value: 'reverse_winhttps',
+              label: 'reverse_winhttps',
             },
             {
-              value: "reverse_dns",
-              label: "reverse_dns"
-            }
-          ]
+              value: 'reverse_dns',
+              label: 'reverse_dns',
+            },
+          ],
         },
         {
-          value: "meterpreter_bind_tcp",
-          label: "meterpreter_bind_tcp"
+          value: 'meterpreter_bind_tcp',
+          label: 'meterpreter_bind_tcp',
         },
         {
-          value: "meterpreter_reverse_http",
-          label: "meterpreter_reverse_http"
+          value: 'meterpreter_reverse_http',
+          label: 'meterpreter_reverse_http',
         },
         {
-          value: "meterpreter_reverse_https",
-          label: "meterpreter_reverse_https"
+          value: 'meterpreter_reverse_https',
+          label: 'meterpreter_reverse_https',
         },
         {
-          value: "meterpreter_reverse_tcp",
-          label: "meterpreter_reverse_tcp"
+          value: 'meterpreter_reverse_tcp',
+          label: 'meterpreter_reverse_tcp',
         },
         {
-          value: "meterpreter_reverse_dns",
-          label: "meterpreter_reverse_dns"
-        }
-      ]
+          value: 'meterpreter_reverse_dns',
+          label: 'meterpreter_reverse_dns',
+        },
+      ],
     },
     {
-      value: "linux",
-      label: "linux",
+      value: 'linux',
+      label: 'linux',
       children: [
         {
-          value: "x64",
-          label: "x64",
+          value: 'x64',
+          label: 'x64',
           children: [
             {
-              value: "meterpreter",
-              label: "meterpreter",
+              value: 'meterpreter',
+              label: 'meterpreter',
               children: [
                 {
-                  value: "bind_tcp",
-                  label: "bind_tcp"
+                  value: 'bind_tcp',
+                  label: 'bind_tcp',
                 },
                 {
-                  value: "reverse_tcp",
-                  label: "reverse_tcp"
-                }
-              ]
+                  value: 'reverse_tcp',
+                  label: 'reverse_tcp',
+                },
+              ],
             },
 
             {
-              value: "meterpreter_reverse_http",
-              label: "meterpreter_reverse_http"
+              value: 'meterpreter_reverse_http',
+              label: 'meterpreter_reverse_http',
             },
             {
-              value: "meterpreter_reverse_https",
-              label: "meterpreter_reverse_https"
+              value: 'meterpreter_reverse_https',
+              label: 'meterpreter_reverse_https',
             },
             {
-              value: "meterpreter_reverse_tcp",
-              label: "meterpreter_reverse_tcp"
-            }
-          ]
+              value: 'meterpreter_reverse_tcp',
+              label: 'meterpreter_reverse_tcp',
+            },
+          ],
         },
         {
-          value: "x86",
-          label: "x86",
+          value: 'x86',
+          label: 'x86',
           children: [
             {
-              value: "meterpreter",
-              label: "meterpreter",
+              value: 'meterpreter',
+              label: 'meterpreter',
               children: [
                 {
-                  value: "reverse_tcp",
-                  label: "reverse_tcp"
+                  value: 'reverse_tcp',
+                  label: 'reverse_tcp',
                 },
                 {
-                  value: "bind_tcp",
-                  label: "bind_tcp"
-                }
-              ]
+                  value: 'bind_tcp',
+                  label: 'bind_tcp',
+                },
+              ],
             },
             {
-              value: "meterpreter_reverse_http",
-              label: "meterpreter_reverse_http"
+              value: 'meterpreter_reverse_http',
+              label: 'meterpreter_reverse_http',
             },
             {
-              value: "meterpreter_reverse_https",
-              label: "meterpreter_reverse_https"
+              value: 'meterpreter_reverse_https',
+              label: 'meterpreter_reverse_https',
             },
             {
-              value: "meterpreter_reverse_tcp",
-              label: "meterpreter_reverse_tcp"
-            }
-          ]
-        }
-      ]
+              value: 'meterpreter_reverse_tcp',
+              label: 'meterpreter_reverse_tcp',
+            },
+          ],
+        },
+      ],
     },
     {
-      value: "multi",
-      label: "multi",
+      value: 'multi',
+      label: 'multi',
       children: [
         {
-          value: "meterpreter",
-          label: "meterpreter",
+          value: 'meterpreter',
+          label: 'meterpreter',
           children: [
             {
-              value: "reverse_http",
-              label: "reverse_http"
+              value: 'reverse_http',
+              label: 'reverse_http',
             },
             {
-              value: "reverse_https",
-              label: "reverse_https"
-            }
-          ]
-        }
-      ]
+              value: 'reverse_https',
+              label: 'reverse_https',
+            },
+          ],
+        },
+      ],
     },
     {
-      value: "java",
-      label: "java",
+      value: 'java',
+      label: 'java',
       children: [
         {
-          value: "meterpreter",
-          label: "meterpreter",
+          value: 'meterpreter',
+          label: 'meterpreter',
           children: [
             {
-              value: "bind_tcp",
-              label: "bind_tcp"
+              value: 'bind_tcp',
+              label: 'bind_tcp',
             },
             {
-              value: "reverse_http",
-              label: "reverse_http"
+              value: 'reverse_http',
+              label: 'reverse_http',
             },
             {
-              value: "reverse_tcp",
-              label: "reverse_tcp"
-            }
-          ]
-        }
-      ]
+              value: 'reverse_tcp',
+              label: 'reverse_tcp',
+            },
+          ],
+        },
+      ],
     },
     {
-      value: "php",
-      label: "php",
+      value: 'php',
+      label: 'php',
       children: [
         {
-          value: "meterpreter",
-          label: "meterpreter",
+          value: 'meterpreter',
+          label: 'meterpreter',
           children: [
             {
-              value: "bind_tcp",
-              label: "bind_tcp"
+              value: 'bind_tcp',
+              label: 'bind_tcp',
             },
             {
-              value: "reverse_tcp",
-              label: "reverse_tcp"
-            }
-          ]
+              value: 'reverse_tcp',
+              label: 'reverse_tcp',
+            },
+          ],
         },
         {
-          value: "meterpreter_reverse_tcp",
-          label: "meterpreter_reverse_tcp"
-        }
-      ]
+          value: 'meterpreter_reverse_tcp',
+          label: 'meterpreter_reverse_tcp',
+        },
+      ],
     },
     {
-      value: "python",
-      label: "python",
+      value: 'python',
+      label: 'python',
       children: [
         {
-          value: "meterpreter",
-          label: "meterpreter",
+          value: 'meterpreter',
+          label: 'meterpreter',
           children: [
             {
-              value: "bind_tcp",
-              label: "bind_tcp"
+              value: 'bind_tcp',
+              label: 'bind_tcp',
             },
             {
-              value: "reverse_http",
-              label: "reverse_http"
+              value: 'reverse_http',
+              label: 'reverse_http',
             },
             {
-              value: "reverse_https",
-              label: "reverse_https"
+              value: 'reverse_https',
+              label: 'reverse_https',
             },
             {
-              value: "reverse_tcp",
-              label: "reverse_tcp"
+              value: 'reverse_tcp',
+              label: 'reverse_tcp',
             },
             {
-              value: "reverse_tcp_ssl",
-              label: "reverse_tcp_ssl"
-            }
-          ]
+              value: 'reverse_tcp_ssl',
+              label: 'reverse_tcp_ssl',
+            },
+          ],
         },
         {
-          value: "meterpreter_bind_tcp",
-          label: "meterpreter_bind_tcp"
+          value: 'meterpreter_bind_tcp',
+          label: 'meterpreter_bind_tcp',
         },
         {
-          value: "meterpreter_reverse_http",
-          label: "meterpreter_reverse_http"
+          value: 'meterpreter_reverse_http',
+          label: 'meterpreter_reverse_http',
         },
         {
-          value: "meterpreter_reverse_https",
-          label: "meterpreter_reverse_https"
+          value: 'meterpreter_reverse_https',
+          label: 'meterpreter_reverse_https',
         },
         {
-          value: "meterpreter_reverse_tcp",
-          label: "meterpreter_reverse_tcp"
-        }
-      ]
-    }
+          value: 'meterpreter_reverse_tcp',
+          label: 'meterpreter_reverse_tcp',
+        },
+      ],
+    },
   ];
 
-  const StageEncoder = ["x86/shikata_ga_nai", "x86/xor_dynamic", "x64/xor", "x64/xor_dynamic"];
+  const StageEncoder = ['x86/shikata_ga_nai', 'x86/xor_dynamic', 'x64/xor', 'x64/xor_dynamic'];
   const [form] = Form.useForm();
   const [selectPayload, setStateSelectPayload] = useState(null);
   const [pem_files, setPemfiles] = useState([]);
   const [lhost, setLhost] = useState(null);
 
-  useRequest(() => getCoreSettingAPI({ kind: "lhost" }), {
+  useRequest(() => getCoreSettingAPI({ kind: 'lhost' }), {
     onSuccess: (result, params) => {
-      if (result.lhost === null || result.lhost === "") {
+      if (result.lhost === null || result.lhost === '') {
         setLhost(location.hostname);
       } else {
         setLhost(result.lhost);
@@ -392,7 +392,7 @@ const CreateHandlerModalContent = props => {
       setPemfiles(result.pem_files);
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const createHandlerReq = useRequest(postMsgrpcHandlerAPI, {
@@ -401,21 +401,21 @@ const CreateHandlerModalContent = props => {
       createHandlerFinish();
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const onCreateHandlerBySubmit = params => {
-    params.PAYLOAD = params.PAYLOAD.join("/");
+    params.PAYLOAD = params.PAYLOAD.join('/');
     createHandlerReq.run({ opts: params });
   };
 
   const changePayloadOption = (value, selectedOptions) => {
-    const payload = value.join("/");
+    const payload = value.join('/');
     setStateSelectPayload(payload);
-    if (payload.includes("bind_tcp")) {
-      form.setFieldsValue({ EXITONSESSION: true });
+    if (payload.includes('bind_tcp')) {
+      form.setFieldsValue({ ExitOnSession: true });
     } else {
-      form.setFieldsValue({ EXITONSESSION: false });
+      form.setFieldsValue({ ExitOnSession: false });
     }
   };
 
@@ -425,17 +425,17 @@ const CreateHandlerModalContent = props => {
     if (selectPayload === null || selectPayload === undefined) {
       return null;
     }
-    if (selectPayload.includes("reverse")) {
-      if (selectPayload.includes("reverse_dns")) {
+    if (selectPayload.includes('reverse')) {
+      if (selectPayload.includes('reverse_dns')) {
         options.push(
           <Form.Item
             {...formLayout}
             label="RHOST"
             name="RHOST"
             initialValue="127.0.0.1"
-            style={{ display: "None" }}
-          ><Fragment />
-          </Form.Item>
+            style={{ display: 'None' }}
+          ><Fragment/>
+          </Form.Item>,
         );
         options.push(
           <Form.Item
@@ -443,10 +443,10 @@ const CreateHandlerModalContent = props => {
             label="LPORT"
             name="LPORT"
             initialValue={60006}
-            style={{ display: "None" }}
+            style={{ display: 'None' }}
           >
-            <Fragment />
-          </Form.Item>
+            <Fragment/>
+          </Form.Item>,
         );
       } else {
         options.push(
@@ -458,12 +458,12 @@ const CreateHandlerModalContent = props => {
             rules={[
               {
                 required: true,
-                message: formatText("app.payloadandhandler.lhost_rule")
-              }
+                message: formatText('app.payloadandhandler.lhost_rule'),
+              },
             ]}
           >
-            <Input placeholder={formatText("app.payloadandhandler.lhost_rule")} />
-          </Form.Item>
+            <Input placeholder={formatText('app.payloadandhandler.lhost_rule')}/>
+          </Form.Item>,
         );
         options.push(
           <Form.Item
@@ -473,12 +473,12 @@ const CreateHandlerModalContent = props => {
             rules={[
               {
                 required: true,
-                message: formatText("app.payloadandhandler.port_rule")
-              }
+                message: formatText('app.payloadandhandler.port_rule'),
+              },
             ]}
           >
-            <InputNumber style={{ width: 160 }} />
-          </Form.Item>
+            <InputNumber style={{ width: 160 }}/>
+          </Form.Item>,
         );
       }
 
@@ -491,12 +491,12 @@ const CreateHandlerModalContent = props => {
           rules={[
             {
               required: true,
-              message: formatText("app.payloadandhandler.rhost_rule")
-            }
+              message: formatText('app.payloadandhandler.rhost_rule'),
+            },
           ]}
         >
-          <Input placeholder={formatText("app.payloadandhandler.rhost_rule")} />
-        </Form.Item>
+          <Input placeholder={formatText('app.payloadandhandler.rhost_rule')}/>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
@@ -506,12 +506,12 @@ const CreateHandlerModalContent = props => {
           rules={[
             {
               required: true,
-              message: formatText("app.payloadandhandler.port_rule")
-            }
+              message: formatText('app.payloadandhandler.port_rule'),
+            },
           ]}
         >
-          <InputNumber style={{ width: 160 }} />
-        </Form.Item>
+          <InputNumber style={{ width: 160 }}/>
+        </Form.Item>,
       );
     }
     if (options.length === 0) {
@@ -529,89 +529,89 @@ const CreateHandlerModalContent = props => {
       return null;
     }
     //添加警告信息
-    if (selectPayload.endsWith("reverse_http") || selectPayload.endsWith("reverse_winhttp")) {
+    if (selectPayload.endsWith('reverse_http') || selectPayload.endsWith('reverse_winhttp')) {
       options.push(
         <Row style={{ marginBottom: 16 }}>
           <Col span={16} offset={4}>
             <Alert
-              message={formatText("app.payloadandhandler.alert_1")}
+              message={formatText('app.payloadandhandler.alert_1')}
               type="warning"
               showIcon
             />
           </Col>
-        </Row>
+        </Row>,
       );
     }
 
-    if (selectPayload.includes("reverse_tcp")) {
+    if (selectPayload.includes('reverse_tcp')) {
       options.push(
         <Row style={{ marginBottom: 16 }}>
           <Col span={16} offset={4}>
             <Alert
-              message={formatText("app.payloadandhandler.alert_2")}
+              message={formatText('app.payloadandhandler.alert_2')}
               type="warning"
               showIcon
             />
           </Col>
-        </Row>
+        </Row>,
       );
     }
 
     //添加配置信息
-    if (selectPayload.includes("reverse_http") || selectPayload.includes("reverse_winhttp")) {
+    if (selectPayload.includes('reverse_http') || selectPayload.includes('reverse_winhttp')) {
       options.push(
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip title={formatText("app.payloadandhandler.luri_tip")}>
+            <Tooltip title={formatText('app.payloadandhandler.luri_tip')}>
               <span>LURI</span>
             </Tooltip>
           }
           initialValue={randomstr(8)}
           name="LURI"
         >
-          <Input placeholder={formatText("app.payloadandhandler.luri_rule")} />
-        </Form.Item>
+          <Input placeholder={formatText('app.payloadandhandler.luri_rule')}/>
+        </Form.Item>,
       );
     }
 
-    if (selectPayload.includes("reverse_https") || selectPayload.includes("reverse_winhttps")) {
+    if (selectPayload.includes('reverse_https') || selectPayload.includes('reverse_winhttps')) {
       options.push(
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip title={formatText("app.payloadandhandler.pem_tip")}>
-              <span>{formatText("app.payloadandhandler.pem_label")}</span>
+            <Tooltip title={formatText('app.payloadandhandler.pem_tip')}>
+              <span>{formatText('app.payloadandhandler.pem_label')}</span>
             </Tooltip>
           }
           name="HandlerSSLCert"
           initialValue={pem_files.length > 0 ? `~/.msf4/loot/${pem_files[0]}` : null}
         >
-          <Select placeholder={formatText("app.payloadandhandler.pem_rule")} allowClear>
+          <Select placeholder={formatText('app.payloadandhandler.pem_rule')} allowClear>
             {pem_files.map((encoder, i) => (
               <Option value={`~/.msf4/loot/${encoder}`}>{encoder}</Option>
             ))}
           </Select>
-        </Form.Item>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip title={formatText("app.payloadandhandler.ssl_tip")}>
-              <span>{formatText("app.payloadandhandler.ssl_label")}</span>
+            <Tooltip title={formatText('app.payloadandhandler.ssl_tip')}>
+              <span>{formatText('app.payloadandhandler.ssl_label')}</span>
             </Tooltip>
           }
           initialValue={false}
           name="StagerVerifySSLCert"
           valuePropName="checked"
         >
-          <Checkbox defaultChecked />
-        </Form.Item>
+          <Checkbox defaultChecked/>
+        </Form.Item>,
       );
     }
 
-    if (selectPayload.includes("reverse_http") || selectPayload.includes("reverse_winhttp")) {
+    if (selectPayload.includes('reverse_http') || selectPayload.includes('reverse_winhttp')) {
 
       options_second.push(
         <Form.Item
@@ -626,12 +626,12 @@ const CreateHandlerModalContent = props => {
           rules={[
             {
               required: true,
-              message: "Please input UserAgent"
-            }
+              message: 'Please input UserAgent',
+            },
           ]}
         >
-          <TextArea placeholder="Please input UserAgent" />
-        </Form.Item>
+          <TextArea placeholder="Please input UserAgent"/>
+        </Form.Item>,
       );
       options_second.push(
         <Form.Item
@@ -647,8 +647,8 @@ const CreateHandlerModalContent = props => {
           valuePropName="checked"
           rules={[]}
         >
-          <Checkbox />
-        </Form.Item>
+          <Checkbox/>
+        </Form.Item>,
       );
 
       options_second.push(
@@ -667,7 +667,7 @@ const CreateHandlerModalContent = props => {
             <Option value="http">http</Option>
             <Option value="https">https</Option>
           </Select>
-        </Form.Item>
+        </Form.Item>,
       );
 
       options_second.push(
@@ -681,8 +681,8 @@ const CreateHandlerModalContent = props => {
           name="OverrideLHOST"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
       options_second.push(
         <Form.Item
@@ -695,8 +695,8 @@ const CreateHandlerModalContent = props => {
           name="OverrideLPORT"
           rules={[]}
         >
-          <InputNumber style={{ width: 160 }} />
-        </Form.Item>
+          <InputNumber style={{ width: 160 }}/>
+        </Form.Item>,
       );
 
 
@@ -711,8 +711,8 @@ const CreateHandlerModalContent = props => {
           name="HttpCookie"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
       options_second.push(
         <Form.Item
@@ -725,8 +725,8 @@ const CreateHandlerModalContent = props => {
           name="HttpHostHeader"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
 
       options_second.push(
@@ -744,7 +744,7 @@ const CreateHandlerModalContent = props => {
             <Option value="HTTP">HTTP</Option>
             <Option value="SOCKS">SOCKS</Option>
           </Select>
-        </Form.Item>
+        </Form.Item>,
       );
       options_second.push(
         <Form.Item
@@ -757,8 +757,8 @@ const CreateHandlerModalContent = props => {
           name="HttpProxyHost"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
 
       options_second.push(
@@ -772,8 +772,8 @@ const CreateHandlerModalContent = props => {
           name="HttpProxyPort"
           rules={[]}
         >
-          <InputNumber style={{ width: 160 }} />
-        </Form.Item>
+          <InputNumber style={{ width: 160 }}/>
+        </Form.Item>,
       );
       options_second.push(
         <Form.Item
@@ -786,8 +786,8 @@ const CreateHandlerModalContent = props => {
           name="HttpProxyUser"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
       options_second.push(
         <Form.Item
@@ -800,18 +800,18 @@ const CreateHandlerModalContent = props => {
           name="HttpProxyPass"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
     }
 
-    if (selectPayload.includes("rc4")) {
+    if (selectPayload.includes('rc4')) {
       options.push(
         <Form.Item
           {...formLayout}
           label={
             <Tooltip title="Password to derive RC4 key from">
-              <span>{formatText("app.payloadandhandler.rc4password")}</span>
+              <span>{formatText('app.payloadandhandler.rc4password')}</span>
             </Tooltip>
           }
           initialValue={randomstr(8)}
@@ -819,20 +819,20 @@ const CreateHandlerModalContent = props => {
           rules={[
             {
               required: true,
-              message: formatText("app.payloadandhandler.rc4password_rule")
-            }
+              message: formatText('app.payloadandhandler.rc4password_rule'),
+            },
           ]}
         >
-          <Input placeholder={formatText("app.payloadandhandler.rc4password_rule")} />
-        </Form.Item>
+          <Input placeholder={formatText('app.payloadandhandler.rc4password_rule')}/>
+        </Form.Item>,
       );
     }
-    if (selectPayload.includes("reverse_dns")) {
+    if (selectPayload.includes('reverse_dns')) {
       options.push(
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip title={formatText("app.payloadandhandler.domain")}>
+            <Tooltip title={formatText('app.payloadandhandler.domain')}>
               <span>DOMAIN</span>
             </Tooltip>
           }
@@ -840,18 +840,18 @@ const CreateHandlerModalContent = props => {
           rules={[
             {
               required: true,
-              message: formatText("app.payloadandhandler.domain_rule")
-            }
+              message: formatText('app.payloadandhandler.domain_rule'),
+            },
           ]}
         >
-          <Input placeholder={formatText("app.payloadandhandler.domain_rule")} />
-        </Form.Item>
+          <Input placeholder={formatText('app.payloadandhandler.domain_rule')}/>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip title={formatText("app.payloadandhandler.req_type_tip")}>
+            <Tooltip title={formatText('app.payloadandhandler.req_type_tip')}>
               <span>REQ_TYPE</span>
             </Tooltip>
           }
@@ -860,20 +860,20 @@ const CreateHandlerModalContent = props => {
           rules={[
             {
               required: true,
-              message: formatText("app.payloadandhandler.req_type_rule")
-            }
+              message: formatText('app.payloadandhandler.req_type_rule'),
+            },
           ]}>
           <Select style={{ width: 200 }}>
-            <Option value="DNSKEY">{formatText("app.payloadandhandler.DNSKEY")}</Option>
-            <Option value="IPv6">{formatText("app.payloadandhandler.IPv6")}</Option>
+            <Option value="DNSKEY">{formatText('app.payloadandhandler.DNSKEY')}</Option>
+            <Option value="IPv6">{formatText('app.payloadandhandler.IPv6')}</Option>
           </Select>
-        </Form.Item>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip title={formatText("app.payloadandhandler.SERVER_ID_tip")}>
+            <Tooltip title={formatText('app.payloadandhandler.SERVER_ID_tip')}>
               <span>SERVER_ID</span>
             </Tooltip>
           }
@@ -882,12 +882,12 @@ const CreateHandlerModalContent = props => {
           rules={[
             {
               required: true,
-              message: formatText("app.payloadandhandler.SERVER_ID_rule")
-            }
+              message: formatText('app.payloadandhandler.SERVER_ID_rule'),
+            },
           ]}
         >
-          <Input placeholder={formatText("app.payloadandhandler.SERVER_ID_rule")} />
-        </Form.Item>
+          <Input placeholder={formatText('app.payloadandhandler.SERVER_ID_rule')}/>
+        </Form.Item>,
       );
     }
     if (options.length === 0) {
@@ -895,16 +895,16 @@ const CreateHandlerModalContent = props => {
     } else {
       if (options_second.length === 0) {
         return (
-          <Panel header={formatText("app.payloadandhandler.advance")} key="advance">
+          <Panel header={formatText('app.payloadandhandler.advance')} key="advance">
             {options}
           </Panel>
         );
       } else {
         return (<Fragment>
-            <Panel header={formatText("app.payloadandhandler.advance")} key="advance">
+            <Panel header={formatText('app.payloadandhandler.advance')} key="advance">
               {options}
             </Panel>
-            <Panel header={formatText("app.payloadandhandler.advance_second")} key="advance_second">
+            <Panel header={formatText('app.payloadandhandler.advance_second')} key="advance_second">
               {options_second}
             </Panel>
           </Fragment>
@@ -918,40 +918,51 @@ const CreateHandlerModalContent = props => {
       form={form}
       onFinish={onCreateHandlerBySubmit}
     >
-      <Collapse bordered={false} defaultActiveKey={["base", "advance"]}>
-        <Panel header={formatText("app.payloadandhandler.base")} key="base">
+      <Collapse bordered={false} defaultActiveKey={['base', 'advance']}>
+        <Panel header={formatText('app.payloadandhandler.base')} key="base">
           <Form.Item
             {...formLayout}
-            label={formatText("app.payloadandhandler.payload")}
+            label={formatText('app.payloadandhandler.payload')}
             name="PAYLOAD"
             rules={[
               {
                 required: true,
-                message: formatText("app.payloadandhandler.payload_rule")
-              }
+                message: formatText('app.payloadandhandler.payload_rule'),
+              },
             ]}
           >
             <Cascader
               options={handlerPayloadOptions}
               onChange={changePayloadOption}
-              placeholder={formatText("app.payloadandhandler.payload_rule")}
+              placeholder={formatText('app.payloadandhandler.payload_rule')}
             />
           </Form.Item>
           {handlerPayloadBaseOption()}
+
           <Form.Item
             {...formLayout}
-            label={formatText("app.payloadandhandler.handlername")}
-            name="HandlerName"
-            rules={[]}>
-            <Input placeholder={formatText("app.payloadandhandler.handlername_ph")} />
+            label={
+              <Tooltip title={formatText('app.payloadandhandler.EXITONSESSION_tip')}>
+                <span>
+                  <InfoCircleOutlined/>
+                  &nbsp;{formatText('app.payloadandhandler.EXITONSESSION')}
+                </span>
+              </Tooltip>
+            }
+            name="ExitOnSession"
+            valuePropName="checked"
+            rules={[]}
+            initialValue={false}
+          >
+            <Checkbox/>
           </Form.Item>
           <Form.Item
             {...formLayout}
             label={
-              <Tooltip title={formatText("app.payloadandhandler.VIRTUALHANDLER_tip")}>
+              <Tooltip title={formatText('app.payloadandhandler.VIRTUALHANDLER_tip')}>
                 <span>
-                  <InfoCircleOutlined />
-                  &nbsp;{formatText("app.payloadandhandler.VIRTUALHANDLER")}
+                  <InfoCircleOutlined/>
+                  &nbsp;{formatText('app.payloadandhandler.VIRTUALHANDLER')}
                 </span>
               </Tooltip>
             }
@@ -959,19 +970,25 @@ const CreateHandlerModalContent = props => {
             valuePropName="checked"
             rules={[]}
           >
-            <Checkbox />
+            <Checkbox/>
           </Form.Item>
-
+          <Form.Item
+            {...formLayout}
+            label={formatText('app.payloadandhandler.handlername')}
+            name="HandlerName"
+            rules={[]}>
+            <Input placeholder={formatText('app.payloadandhandler.handlername_ph')}/>
+          </Form.Item>
         </Panel>
         {handlerPayloadSpecialOption()}
-        <Panel header={formatText("app.payloadandhandler.auto")} key="auto">
+        <Panel header={formatText('app.payloadandhandler.auto')} key="auto">
           <Form.Item
             {...formLayout}
             label={
-              <Tooltip title={formatText("app.payloadandhandler.AutoRunScript_tip")}>
+              <Tooltip title={formatText('app.payloadandhandler.AutoRunScript_tip')}>
                 <span>
-                  <InfoCircleOutlined />
-                  &nbsp;{formatText("app.payloadandhandler.AutoRunScript")}
+                  <InfoCircleOutlined/>
+                  &nbsp;{formatText('app.payloadandhandler.AutoRunScript')}
                 </span>
               </Tooltip>
             }
@@ -987,10 +1004,10 @@ const CreateHandlerModalContent = props => {
           <Form.Item
             {...formLayout}
             label={
-              <Tooltip title={formatText("app.payloadandhandler.PrependMigrate_tip")}>
+              <Tooltip title={formatText('app.payloadandhandler.PrependMigrate_tip')}>
                 <span>
-                  <InfoCircleOutlined />
-                  &nbsp;{formatText("app.payloadandhandler.PrependMigrate")}
+                  <InfoCircleOutlined/>
+                  &nbsp;{formatText('app.payloadandhandler.PrependMigrate')}
                 </span>
               </Tooltip>
             }
@@ -999,11 +1016,11 @@ const CreateHandlerModalContent = props => {
             initialValue={false}
             rules={[]}
           >
-            <Checkbox />
+            <Checkbox/>
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label={formatText("app.payloadandhandler.PrependMigrateProc")}
+            label={formatText('app.payloadandhandler.PrependMigrateProc')}
             name="PrependMigrateProc" rules={[]}>
             <Select style={{ width: 200 }} allowClear>
               {migrateProcess.map((encoder, i) => (
@@ -1014,10 +1031,10 @@ const CreateHandlerModalContent = props => {
           <Form.Item
             {...formLayout}
             label={
-              <Tooltip title={formatText("app.payloadandhandler.AutoUnhookProcess_tip")}>
+              <Tooltip title={formatText('app.payloadandhandler.AutoUnhookProcess_tip')}>
                 <span>
-                  <InfoCircleOutlined />
-                  &nbsp;{formatText("app.payloadandhandler.AutoUnhookProcess")}
+                  <InfoCircleOutlined/>
+                  &nbsp;{formatText('app.payloadandhandler.AutoUnhookProcess')}
                 </span>
               </Tooltip>
             }
@@ -1026,34 +1043,17 @@ const CreateHandlerModalContent = props => {
             rules={[]}
             initialValue={false}
           >
-            <Checkbox />
-          </Form.Item>
-          <Form.Item
-            {...formLayout}
-            label={
-              <Tooltip title={formatText("app.payloadandhandler.EXITONSESSION_tip")}>
-                <span>
-                  <InfoCircleOutlined />
-                  &nbsp;{formatText("app.payloadandhandler.EXITONSESSION")}
-                </span>
-              </Tooltip>
-            }
-            name="EXITONSESSION"
-            valuePropName="checked"
-            rules={[]}
-            initialValue={false}
-          >
-            <Checkbox />
+            <Checkbox/>
           </Form.Item>
         </Panel>
-        <Panel header={formatText("app.payloadandhandler.diy")} key="diy">
+        <Panel header={formatText('app.payloadandhandler.diy')} key="diy">
           <Form.Item
             {...formLayout}
             label={
-              <Tooltip title={formatText("app.payloadandhandler.AutoVerifySessionTimeout_tip")}>
+              <Tooltip title={formatText('app.payloadandhandler.AutoVerifySessionTimeout_tip')}>
                 <span>
-                  <InfoCircleOutlined />
-                  &nbsp;{formatText("app.payloadandhandler.AutoVerifySessionTimeout")}
+                  <InfoCircleOutlined/>
+                  &nbsp;{formatText('app.payloadandhandler.AutoVerifySessionTimeout')}
                 </span>
               </Tooltip>
             }
@@ -1063,7 +1063,7 @@ const CreateHandlerModalContent = props => {
           >
             <InputNumber
               style={{ width: 160 }}
-              placeholder={formatText("app.payloadandhandler.AutoVerifySessionTimeout_ph")} />
+              placeholder={formatText('app.payloadandhandler.AutoVerifySessionTimeout_ph')}/>
           </Form.Item>
           <Form.Item
             {...formLayout}
@@ -1073,7 +1073,7 @@ const CreateHandlerModalContent = props => {
             initialValue={300}
           >
             <InputNumber
-              style={{ width: 160 }} />
+              style={{ width: 160 }}/>
           </Form.Item>
           <Form.Item
             {...formLayout}
@@ -1093,7 +1093,7 @@ const CreateHandlerModalContent = props => {
             rules={[]}
             initialValue={3600}
           >
-            <InputNumber style={{ width: 160 }} />
+            <InputNumber style={{ width: 160 }}/>
           </Form.Item>
 
           <Form.Item
@@ -1103,7 +1103,7 @@ const CreateHandlerModalContent = props => {
             rules={[]}
             initialValue={10}
           >
-            <InputNumber style={{ width: 160 }} />
+            <InputNumber style={{ width: 160 }}/>
           </Form.Item>
           <Form.Item {...formLayout} label="StageEncoder" name="StageEncoder" rules={[]}>
             <Select placeholder="Please select encoder">
@@ -1120,16 +1120,16 @@ const CreateHandlerModalContent = props => {
             rules={[]}
             initialValue
           >
-            <Checkbox defaultChecked />
+            <Checkbox defaultChecked/>
           </Form.Item>
 
           <Form.Item
             {...formLayout}
             label={
-              <Tooltip title={formatText("app.payloadandhandler.proxies_proto_tip")}>
+              <Tooltip title={formatText('app.payloadandhandler.proxies_proto_tip')}>
                 <span>
-                  <InfoCircleOutlined />
-                  &nbsp;{formatText("app.payloadandhandler.proxies_proto")}
+                  <InfoCircleOutlined/>
+                  &nbsp;{formatText('app.payloadandhandler.proxies_proto')}
                 </span>
               </Tooltip>
             }
@@ -1144,7 +1144,7 @@ const CreateHandlerModalContent = props => {
                 </Select>
               </Form.Item>
               <Form.Item name="proxies_ipport" noStyle rules={[]}>
-                <Input style={{ width: "70%" }} placeholder="IP:PORT" />
+                <Input style={{ width: '70%' }} placeholder="IP:PORT"/>
               </Form.Item>
             </Input.Group>
           </Form.Item>
@@ -1154,11 +1154,11 @@ const CreateHandlerModalContent = props => {
         <Button
           block
           loading={createHandlerReq.loading}
-          icon={<CustomerServiceOutlined />}
+          icon={<CustomerServiceOutlined/>}
           htmlType="submit"
           type="primary"
         >
-          {formatText("app.payloadandhandler.addhandler")}
+          {formatText('app.payloadandhandler.addhandler')}
         </Button>
       </Form.Item>
     </Form>
@@ -1174,331 +1174,331 @@ const CreatePayloadModalContent = props => {
 
   const formLayout = {
     labelCol: { span: 6 },
-    wrapperCol: { span: 14 }
+    wrapperCol: { span: 14 },
   };
   const buttonLayout = {
-    wrapperCol: { offset: 5, span: 14 }
+    wrapperCol: { offset: 5, span: 14 },
   };
   const payloadOptions = [
     {
-      value: "windows",
-      label: "windows",
+      value: 'windows',
+      label: 'windows',
       children: [
         {
-          value: "x64",
-          label: "x64",
+          value: 'x64',
+          label: 'x64',
           children: [
             {
-              value: "meterpreter",
-              label: "meterpreter",
+              value: 'meterpreter',
+              label: 'meterpreter',
               children: [
                 {
-                  value: "bind_tcp",
-                  label: "bind_tcp"
+                  value: 'bind_tcp',
+                  label: 'bind_tcp',
                 },
                 {
-                  value: "bind_tcp_rc4",
-                  label: "bind_tcp_rc4"
+                  value: 'bind_tcp_rc4',
+                  label: 'bind_tcp_rc4',
                 },
                 {
-                  value: "reverse_http",
-                  label: "reverse_http"
+                  value: 'reverse_http',
+                  label: 'reverse_http',
                 },
                 {
-                  value: "reverse_https",
-                  label: "reverse_https"
+                  value: 'reverse_https',
+                  label: 'reverse_https',
                 },
                 {
-                  value: "reverse_tcp",
-                  label: "reverse_tcp"
+                  value: 'reverse_tcp',
+                  label: 'reverse_tcp',
                 },
                 {
-                  value: "reverse_tcp_rc4",
-                  label: "reverse_tcp_rc4"
+                  value: 'reverse_tcp_rc4',
+                  label: 'reverse_tcp_rc4',
                 },
 
                 {
-                  value: "reverse_winhttp",
-                  label: "reverse_winhttp"
+                  value: 'reverse_winhttp',
+                  label: 'reverse_winhttp',
                 },
                 {
-                  value: "reverse_winhttps",
-                  label: "reverse_winhttps"
+                  value: 'reverse_winhttps',
+                  label: 'reverse_winhttps',
                 },
                 {
-                  value: "reverse_dns",
-                  label: "reverse_dns"
-                }
-              ]
+                  value: 'reverse_dns',
+                  label: 'reverse_dns',
+                },
+              ],
             },
             {
-              value: "meterpreter_bind_tcp",
-              label: "meterpreter_bind_tcp"
+              value: 'meterpreter_bind_tcp',
+              label: 'meterpreter_bind_tcp',
             },
             {
-              value: "meterpreter_reverse_http",
-              label: "meterpreter_reverse_http"
+              value: 'meterpreter_reverse_http',
+              label: 'meterpreter_reverse_http',
             },
             {
-              value: "meterpreter_reverse_https",
-              label: "meterpreter_reverse_https"
+              value: 'meterpreter_reverse_https',
+              label: 'meterpreter_reverse_https',
             },
             {
-              value: "meterpreter_reverse_tcp",
-              label: "meterpreter_reverse_tcp"
+              value: 'meterpreter_reverse_tcp',
+              label: 'meterpreter_reverse_tcp',
             },
             {
-              value: "meterpreter_reverse_dns",
-              label: "meterpreter_reverse_dns"
-            }
-          ]
+              value: 'meterpreter_reverse_dns',
+              label: 'meterpreter_reverse_dns',
+            },
+          ],
         },
         {
-          value: "meterpreter",
-          label: "meterpreter",
+          value: 'meterpreter',
+          label: 'meterpreter',
           children: [
             {
-              value: "bind_tcp",
-              label: "bind_tcp"
+              value: 'bind_tcp',
+              label: 'bind_tcp',
             },
             {
-              value: "bind_tcp_rc4",
-              label: "bind_tcp_rc4"
+              value: 'bind_tcp_rc4',
+              label: 'bind_tcp_rc4',
             },
             {
-              value: "reverse_http",
-              label: "reverse_http"
+              value: 'reverse_http',
+              label: 'reverse_http',
             },
             {
-              value: "reverse_https",
-              label: "reverse_https"
+              value: 'reverse_https',
+              label: 'reverse_https',
             },
             {
-              value: "reverse_tcp",
-              label: "reverse_tcp"
+              value: 'reverse_tcp',
+              label: 'reverse_tcp',
             },
 
             {
-              value: "reverse_tcp_rc4",
-              label: "reverse_tcp_rc4"
+              value: 'reverse_tcp_rc4',
+              label: 'reverse_tcp_rc4',
             },
             {
-              value: "reverse_winhttp",
-              label: "reverse_winhttp"
+              value: 'reverse_winhttp',
+              label: 'reverse_winhttp',
             },
             {
-              value: "reverse_winhttps",
-              label: "reverse_winhttps"
+              value: 'reverse_winhttps',
+              label: 'reverse_winhttps',
             },
             {
-              value: "reverse_dns",
-              label: "reverse_dns"
-            }
-          ]
+              value: 'reverse_dns',
+              label: 'reverse_dns',
+            },
+          ],
         },
         {
-          value: "meterpreter_bind_tcp",
-          label: "meterpreter_bind_tcp"
+          value: 'meterpreter_bind_tcp',
+          label: 'meterpreter_bind_tcp',
         },
         {
-          value: "meterpreter_reverse_http",
-          label: "meterpreter_reverse_http"
+          value: 'meterpreter_reverse_http',
+          label: 'meterpreter_reverse_http',
         },
         {
-          value: "meterpreter_reverse_https",
-          label: "meterpreter_reverse_https"
+          value: 'meterpreter_reverse_https',
+          label: 'meterpreter_reverse_https',
         },
         {
-          value: "meterpreter_reverse_tcp",
-          label: "meterpreter_reverse_tcp"
+          value: 'meterpreter_reverse_tcp',
+          label: 'meterpreter_reverse_tcp',
         },
         {
-          value: "meterpreter_reverse_dns",
-          label: "meterpreter_reverse_dns"
-        }
-      ]
+          value: 'meterpreter_reverse_dns',
+          label: 'meterpreter_reverse_dns',
+        },
+      ],
     },
     {
-      value: "linux",
-      label: "linux",
+      value: 'linux',
+      label: 'linux',
       children: [
         {
-          value: "x64",
-          label: "x64",
+          value: 'x64',
+          label: 'x64',
           children: [
             {
-              value: "meterpreter",
-              label: "meterpreter",
+              value: 'meterpreter',
+              label: 'meterpreter',
               children: [
                 {
-                  value: "bind_tcp",
-                  label: "bind_tcp"
+                  value: 'bind_tcp',
+                  label: 'bind_tcp',
                 },
                 {
-                  value: "reverse_tcp",
-                  label: "reverse_tcp"
-                }
-              ]
+                  value: 'reverse_tcp',
+                  label: 'reverse_tcp',
+                },
+              ],
             },
 
             {
-              value: "meterpreter_reverse_http",
-              label: "meterpreter_reverse_http"
+              value: 'meterpreter_reverse_http',
+              label: 'meterpreter_reverse_http',
             },
             {
-              value: "meterpreter_reverse_https",
-              label: "meterpreter_reverse_https"
+              value: 'meterpreter_reverse_https',
+              label: 'meterpreter_reverse_https',
             },
             {
-              value: "meterpreter_reverse_tcp",
-              label: "meterpreter_reverse_tcp"
-            }
-          ]
+              value: 'meterpreter_reverse_tcp',
+              label: 'meterpreter_reverse_tcp',
+            },
+          ],
         },
         {
-          value: "x86",
-          label: "x86",
+          value: 'x86',
+          label: 'x86',
           children: [
             {
-              value: "meterpreter",
-              label: "meterpreter",
+              value: 'meterpreter',
+              label: 'meterpreter',
               children: [
                 {
-                  value: "reverse_tcp",
-                  label: "reverse_tcp"
+                  value: 'reverse_tcp',
+                  label: 'reverse_tcp',
                 },
                 {
-                  value: "bind_tcp",
-                  label: "bind_tcp"
-                }
-              ]
+                  value: 'bind_tcp',
+                  label: 'bind_tcp',
+                },
+              ],
             },
             {
-              value: "meterpreter_reverse_http",
-              label: "meterpreter_reverse_http"
+              value: 'meterpreter_reverse_http',
+              label: 'meterpreter_reverse_http',
             },
             {
-              value: "meterpreter_reverse_https",
-              label: "meterpreter_reverse_https"
+              value: 'meterpreter_reverse_https',
+              label: 'meterpreter_reverse_https',
             },
             {
-              value: "meterpreter_reverse_tcp",
-              label: "meterpreter_reverse_tcp"
-            }
-          ]
-        }
-      ]
+              value: 'meterpreter_reverse_tcp',
+              label: 'meterpreter_reverse_tcp',
+            },
+          ],
+        },
+      ],
     },
     {
-      value: "java",
-      label: "java",
+      value: 'java',
+      label: 'java',
       children: [
         {
-          value: "meterpreter",
-          label: "meterpreter",
+          value: 'meterpreter',
+          label: 'meterpreter',
           children: [
             {
-              value: "bind_tcp",
-              label: "bind_tcp"
+              value: 'bind_tcp',
+              label: 'bind_tcp',
             },
             {
-              value: "reverse_http",
-              label: "reverse_http"
+              value: 'reverse_http',
+              label: 'reverse_http',
             },
             {
-              value: "reverse_tcp",
-              label: "reverse_tcp"
-            }
-          ]
-        }
-      ]
+              value: 'reverse_tcp',
+              label: 'reverse_tcp',
+            },
+          ],
+        },
+      ],
     },
     {
-      value: "php",
-      label: "php",
+      value: 'php',
+      label: 'php',
       children: [
         {
-          value: "meterpreter",
-          label: "meterpreter",
+          value: 'meterpreter',
+          label: 'meterpreter',
           children: [
             {
-              value: "bind_tcp",
-              label: "bind_tcp"
+              value: 'bind_tcp',
+              label: 'bind_tcp',
             },
             {
-              value: "reverse_tcp",
-              label: "reverse_tcp"
-            }
-          ]
+              value: 'reverse_tcp',
+              label: 'reverse_tcp',
+            },
+          ],
         },
         {
-          value: "meterpreter_reverse_tcp",
-          label: "meterpreter_reverse_tcp"
-        }
-      ]
+          value: 'meterpreter_reverse_tcp',
+          label: 'meterpreter_reverse_tcp',
+        },
+      ],
     },
     {
-      value: "python",
-      label: "python",
+      value: 'python',
+      label: 'python',
       children: [
         {
-          value: "meterpreter",
-          label: "meterpreter",
+          value: 'meterpreter',
+          label: 'meterpreter',
           children: [
             {
-              value: "bind_tcp",
-              label: "bind_tcp"
+              value: 'bind_tcp',
+              label: 'bind_tcp',
             },
             {
-              value: "reverse_http",
-              label: "reverse_http"
+              value: 'reverse_http',
+              label: 'reverse_http',
             },
             {
-              value: "reverse_https",
-              label: "reverse_https"
+              value: 'reverse_https',
+              label: 'reverse_https',
             },
             {
-              value: "reverse_tcp",
-              label: "reverse_tcp"
+              value: 'reverse_tcp',
+              label: 'reverse_tcp',
             },
             {
-              value: "reverse_tcp_ssl",
-              label: "reverse_tcp_ssl"
-            }
-          ]
+              value: 'reverse_tcp_ssl',
+              label: 'reverse_tcp_ssl',
+            },
+          ],
         },
         {
-          value: "meterpreter_bind_tcp",
-          label: "meterpreter_bind_tcp"
+          value: 'meterpreter_bind_tcp',
+          label: 'meterpreter_bind_tcp',
         },
         {
-          value: "meterpreter_reverse_http",
-          label: "meterpreter_reverse_http"
+          value: 'meterpreter_reverse_http',
+          label: 'meterpreter_reverse_http',
         },
         {
-          value: "meterpreter_reverse_https",
-          label: "meterpreter_reverse_https"
+          value: 'meterpreter_reverse_https',
+          label: 'meterpreter_reverse_https',
         },
         {
-          value: "meterpreter_reverse_tcp",
-          label: "meterpreter_reverse_tcp"
-        }
-      ]
-    }
+          value: 'meterpreter_reverse_tcp',
+          label: 'meterpreter_reverse_tcp',
+        },
+      ],
+    },
   ];
 
   const payloadEncoder = [
-    "x86/shikata_ga_nai",
-    "x86/xor_dynamic",
-    "x64/xor",
-    "x64/xor_dynamic",
-    "cmd/powershell_base64"
+    'x86/shikata_ga_nai',
+    'x86/xor_dynamic',
+    'x64/xor',
+    'x64/xor_dynamic',
+    'cmd/powershell_base64',
   ];
 
 
-  useRequest(() => getCoreSettingAPI({ kind: "lhost" }), {
+  useRequest(() => getCoreSettingAPI({ kind: 'lhost' }), {
     onSuccess: (result, params) => {
-      if (result.lhost === null || result.lhost === "") {
+      if (result.lhost === null || result.lhost === '') {
         setLhost(location.hostname);
       } else {
         setLhost(result.lhost);
@@ -1506,7 +1506,7 @@ const CreatePayloadModalContent = props => {
       setPemfiles(result.pem_files);
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const createHandlerReq = useRequest(postMsgrpcHandlerAPI, {
@@ -1514,7 +1514,7 @@ const CreatePayloadModalContent = props => {
     onSuccess: (result, params) => {
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const createPayloadReq = useRequest(postMsgrpcPayloadAPI, {
@@ -1524,7 +1524,7 @@ const CreatePayloadModalContent = props => {
       createPayloadFinish();
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const payloadFormatOption = () => {
@@ -1532,69 +1532,69 @@ const CreatePayloadModalContent = props => {
     if (selectPayload === null || selectPayload === undefined) {
       return null;
     }
-    if (selectPayload.includes("windows")) {
+    if (selectPayload.includes('windows')) {
       options = [
-        { show: formatText("app.payloadandhandler.src.bypass.exe"), value: "exe-src" },
-        { show: formatText("app.payloadandhandler.src.bypass.exe.service"), value: "exe-src-service" },
-        { show: formatText("app.payloadandhandler.separate.bypass.exe"), value: "exe-diy" },
-        { show: formatText("app.payloadandhandler.separate.bypass.dll"), value: "dll-diy" },
-        { show: formatText("app.payloadandhandler.separate.bypass.dll.mutex"), value: "dll-mutex-diy" },
-        { show: "msbuild", value: "msbuild" },
-        { show: "base64", value: "base64" },
-        { show: "c", value: "c" },
-        { show: "csharp", value: "csharp" },
-        { show: "exe", value: "exe" },
-        { show: "exe-service", value: "exe-service" },
-        { show: "macho", value: "macho" },
-        { show: "powershell", value: "powershell" },
-        { show: "psh-reflection", value: "psh-reflection" },
-        { show: "psh-cmd", value: "psh-cmd" },
-        { show: "python", value: "python" },
-        { show: "hex", value: "hex" },
-        { show: "hta-psh", value: "hta-psh" },
-        { show: "raw", value: "raw" },
-        { show: "vba", value: "vba" },
-        { show: "vbs", value: "vbs" },
-        { show: "loop-vbs", value: "loop-vbs" },
-        { show: "war", value: "war" }
+        { show: formatText('app.payloadandhandler.src.bypass.exe'), value: 'exe-src' },
+        { show: formatText('app.payloadandhandler.src.bypass.exe.service'), value: 'exe-src-service' },
+        { show: formatText('app.payloadandhandler.separate.bypass.exe'), value: 'exe-diy' },
+        { show: formatText('app.payloadandhandler.separate.bypass.dll'), value: 'dll-diy' },
+        { show: formatText('app.payloadandhandler.separate.bypass.dll.mutex'), value: 'dll-mutex-diy' },
+        { show: 'msbuild', value: 'msbuild' },
+        { show: 'base64', value: 'base64' },
+        { show: 'c', value: 'c' },
+        { show: 'csharp', value: 'csharp' },
+        { show: 'exe', value: 'exe' },
+        { show: 'exe-service', value: 'exe-service' },
+        { show: 'macho', value: 'macho' },
+        { show: 'powershell', value: 'powershell' },
+        { show: 'psh-reflection', value: 'psh-reflection' },
+        { show: 'psh-cmd', value: 'psh-cmd' },
+        { show: 'python', value: 'python' },
+        { show: 'hex', value: 'hex' },
+        { show: 'hta-psh', value: 'hta-psh' },
+        { show: 'raw', value: 'raw' },
+        { show: 'vba', value: 'vba' },
+        { show: 'vbs', value: 'vbs' },
+        { show: 'loop-vbs', value: 'loop-vbs' },
+        { show: 'war', value: 'war' },
       ];
     }
-    if (selectPayload.includes("linux")) {
+    if (selectPayload.includes('linux')) {
       options = [
-        { show: formatText("app.payloadandhandler.src.bypass.elf"), value: "elf-src" },
-        { show: formatText("app.payloadandhandler.separate.bypass.elf"), value: "elf-diy" },
-        { show: "bash", value: "bash" },
-        { show: "c", value: "c" },
-        { show: "raw", value: "raw" },
-        { show: "hex", value: "hex" },
-        { show: "elf", value: "elf" },
-        { show: "elf-so", value: "elf-so" }
+        { show: formatText('app.payloadandhandler.src.bypass.elf'), value: 'elf-src' },
+        { show: formatText('app.payloadandhandler.separate.bypass.elf'), value: 'elf-diy' },
+        { show: 'bash', value: 'bash' },
+        { show: 'c', value: 'c' },
+        { show: 'raw', value: 'raw' },
+        { show: 'hex', value: 'hex' },
+        { show: 'elf', value: 'elf' },
+        { show: 'elf-so', value: 'elf-so' },
       ];
     }
-    if (selectPayload.includes("java")) {
+    if (selectPayload.includes('java')) {
       options = [
-        { show: "jar", value: "jar" },
-        { show: "java", value: "java" },
-        { show: "war", value: "war" }
+        { show: 'jar', value: 'jar' },
+        { show: 'java', value: 'java' },
+        { show: 'war', value: 'war' },
       ];
     }
-    if (selectPayload.includes("python")) {
-      options = [{ show: "raw", value: "raw" }, { show: "python", value: "python" }];
+    if (selectPayload.includes('python')) {
+      options = [{ show: 'raw', value: 'raw' }, { show: 'python', value: 'python' }];
     }
-    if (selectPayload.includes("php")) {
-      options = [{ show: "raw", value: "raw" }];
+    if (selectPayload.includes('php')) {
+      options = [{ show: 'raw', value: 'raw' }];
     }
 
     return (
       <Form.Item
         {...formLayout}
-        label={formatText("app.payloadandhandler.format")}
+        label={formatText('app.payloadandhandler.format')}
         name="Format"
         rules={[
           {
             required: true,
-            message: formatText("app.payloadandhandler.format_rule")
-          }
+            message: formatText('app.payloadandhandler.format_rule'),
+          },
         ]}
       >
         <Select style={{ width: 160 }}>
@@ -1611,17 +1611,17 @@ const CreatePayloadModalContent = props => {
     if (selectPayload === null || selectPayload === undefined) {
       return null;
     }
-    if (selectPayload.includes("reverse")) {
-      if (selectPayload.includes("reverse_dns")) {
+    if (selectPayload.includes('reverse')) {
+      if (selectPayload.includes('reverse_dns')) {
         options.push(
           <Form.Item
             {...formLayout}
             label="RHOST"
             name="RHOST"
             initialValue="127.0.0.1"
-            style={{ display: "None" }}
-          ><Fragment />
-          </Form.Item>
+            style={{ display: 'None' }}
+          ><Fragment/>
+          </Form.Item>,
         );
         options.push(
           <Form.Item
@@ -1629,10 +1629,10 @@ const CreatePayloadModalContent = props => {
             label="LPORT"
             name="LPORT"
             initialValue={60006}
-            style={{ display: "None" }}
+            style={{ display: 'None' }}
           >
-            <Fragment />
-          </Form.Item>
+            <Fragment/>
+          </Form.Item>,
         );
       } else {
         options.push(
@@ -1644,12 +1644,12 @@ const CreatePayloadModalContent = props => {
             rules={[
               {
                 required: true,
-                message: formatText("app.payloadandhandler.lhost_rule")
-              }
+                message: formatText('app.payloadandhandler.lhost_rule'),
+              },
             ]}
           >
-            <Input placeholder={formatText("app.payloadandhandler.lhost_rule")} />
-          </Form.Item>
+            <Input placeholder={formatText('app.payloadandhandler.lhost_rule')}/>
+          </Form.Item>,
         );
         options.push(
           <Form.Item
@@ -1659,12 +1659,12 @@ const CreatePayloadModalContent = props => {
             rules={[
               {
                 required: true,
-                message: formatText("app.payloadandhandler.port_rule")
-              }
+                message: formatText('app.payloadandhandler.port_rule'),
+              },
             ]}
           >
-            <InputNumber style={{ width: 160 }} />
-          </Form.Item>
+            <InputNumber style={{ width: 160 }}/>
+          </Form.Item>,
         );
       }
 
@@ -1676,8 +1676,8 @@ const CreatePayloadModalContent = props => {
           name="RHOST"
           initialValue="0.0.0.0"
         >
-          <Input placeholder={formatText("app.payloadandhandler.rhost_rule")} />
-        </Form.Item>
+          <Input placeholder={formatText('app.payloadandhandler.rhost_rule')}/>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
@@ -1687,12 +1687,12 @@ const CreatePayloadModalContent = props => {
           rules={[
             {
               required: true,
-              message: formatText("app.payloadandhandler.port_rule")
-            }
+              message: formatText('app.payloadandhandler.port_rule'),
+            },
           ]}
         >
-          <InputNumber style={{ width: 160 }} />
-        </Form.Item>
+          <InputNumber style={{ width: 160 }}/>
+        </Form.Item>,
       );
     }
     if (options.length === 0) {
@@ -1710,22 +1710,22 @@ const CreatePayloadModalContent = props => {
       return null;
     }
     //添加警告信息
-    if (selectPayload.endsWith("reverse_http") || selectPayload.endsWith("reverse_winhttp")) {
+    if (selectPayload.endsWith('reverse_http') || selectPayload.endsWith('reverse_winhttp')) {
       options.push(
         <Row style={{ marginBottom: 16 }}>
           <Col span={14} offset={6}>
             <Alert
-              message={formatText("app.payloadandhandler.http_alert")}
+              message={formatText('app.payloadandhandler.http_alert')}
               type="warning"
               showIcon
             />
           </Col>
-        </Row>
+        </Row>,
       );
     }
 
     //添加配置信息
-    if (selectPayload.includes("reverse_http") || selectPayload.includes("reverse_winhttp")) {
+    if (selectPayload.includes('reverse_http') || selectPayload.includes('reverse_winhttp')) {
       options.push(
         <Form.Item
           {...formLayout}
@@ -1737,48 +1737,48 @@ const CreatePayloadModalContent = props => {
           initialValue={randomstr(8)}
           name="LURI"
         >
-          <Input placeholder={formatText("app.payloadandhandler.luri_rule")} />
-        </Form.Item>
+          <Input placeholder={formatText('app.payloadandhandler.luri_rule')}/>
+        </Form.Item>,
       );
     }
 
-    if (selectPayload.includes("reverse_https") || selectPayload.includes("reverse_winhttps")) {
+    if (selectPayload.includes('reverse_https') || selectPayload.includes('reverse_winhttps')) {
       options.push(
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip title={formatText("app.payloadandhandler.pem_tip")}>
-              <span>{formatText("app.payloadandhandler.pem_label")}</span>
+            <Tooltip title={formatText('app.payloadandhandler.pem_tip')}>
+              <span>{formatText('app.payloadandhandler.pem_label')}</span>
             </Tooltip>
           }
           name="HandlerSSLCert"
           initialValue={pem_files.length > 0 ? `~/.msf4/loot/${pem_files[0]}` : null}
         >
-          <Select placeholder={formatText("app.payloadandhandler.pem_rule")} allowClear>
+          <Select placeholder={formatText('app.payloadandhandler.pem_rule')} allowClear>
             {pem_files.map((encoder, i) => (
               <Option value={`~/.msf4/loot/${encoder}`}>{encoder}</Option>
             ))}
           </Select>
-        </Form.Item>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip title={formatText("app.payloadandhandler.ssl_tip")}>
-              <span>{formatText("app.payloadandhandler.ssl_label")}</span>
+            <Tooltip title={formatText('app.payloadandhandler.ssl_tip')}>
+              <span>{formatText('app.payloadandhandler.ssl_label')}</span>
             </Tooltip>
           }
           initialValue
           name="StagerVerifySSLCert"
           valuePropName="checked"
         >
-          <Checkbox defaultChecked />
-        </Form.Item>
+          <Checkbox defaultChecked/>
+        </Form.Item>,
       );
     }
 
-    if (selectPayload.includes("reverse_http") || selectPayload.includes("reverse_winhttp")) {
+    if (selectPayload.includes('reverse_http') || selectPayload.includes('reverse_winhttp')) {
       options.push(
         <Form.Item
           {...formLayout}
@@ -1792,12 +1792,12 @@ const CreatePayloadModalContent = props => {
           rules={[
             {
               required: true,
-              message: "Please input UserAgent"
-            }
+              message: 'Please input UserAgent',
+            },
           ]}
         >
-          <TextArea placeholder="Please input UserAgent" />
-        </Form.Item>
+          <TextArea placeholder="Please input UserAgent"/>
+        </Form.Item>,
       );
 
       options.push(
@@ -1814,8 +1814,8 @@ const CreatePayloadModalContent = props => {
           valuePropName="checked"
           rules={[]}
         >
-          <Checkbox />
-        </Form.Item>
+          <Checkbox/>
+        </Form.Item>,
       );
 
       options.push(
@@ -1834,7 +1834,7 @@ const CreatePayloadModalContent = props => {
             <Option value="http">http</Option>
             <Option value="https">https</Option>
           </Select>
-        </Form.Item>
+        </Form.Item>,
       );
 
       options.push(
@@ -1848,8 +1848,8 @@ const CreatePayloadModalContent = props => {
           name="OverrideLHOST"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
@@ -1862,8 +1862,8 @@ const CreatePayloadModalContent = props => {
           name="OverrideLPORT"
           rules={[]}
         >
-          <InputNumber style={{ width: 160 }} />
-        </Form.Item>
+          <InputNumber style={{ width: 160 }}/>
+        </Form.Item>,
       );
 
       options.push(
@@ -1877,8 +1877,8 @@ const CreatePayloadModalContent = props => {
           name="HttpCookie"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
@@ -1891,8 +1891,8 @@ const CreatePayloadModalContent = props => {
           name="HttpHostHeader"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
 
       options.push(
@@ -1910,7 +1910,7 @@ const CreatePayloadModalContent = props => {
             <Option value="HTTP">HTTP</Option>
             <Option value="SOCKS">SOCKS</Option>
           </Select>
-        </Form.Item>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
@@ -1923,8 +1923,8 @@ const CreatePayloadModalContent = props => {
           name="HttpProxyHost"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
 
       options.push(
@@ -1938,8 +1938,8 @@ const CreatePayloadModalContent = props => {
           name="HttpProxyPort"
           rules={[]}
         >
-          <InputNumber style={{ width: 160 }} />
-        </Form.Item>
+          <InputNumber style={{ width: 160 }}/>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
@@ -1952,8 +1952,8 @@ const CreatePayloadModalContent = props => {
           name="HttpProxyUser"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
@@ -1966,19 +1966,19 @@ const CreatePayloadModalContent = props => {
           name="HttpProxyPass"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
 
     }
 
-    if (selectPayload.includes("rc4")) {
+    if (selectPayload.includes('rc4')) {
       options.push(
         <Form.Item
           {...formLayout}
           label={
             <Tooltip title="Password to derive RC4 key from">
-              <span>{formatText("app.payloadandhandler.rc4password")}</span>
+              <span>{formatText('app.payloadandhandler.rc4password')}</span>
             </Tooltip>
           }
           initialValue={randomstr(8)}
@@ -1986,21 +1986,21 @@ const CreatePayloadModalContent = props => {
           rules={[
             {
               required: true,
-              message: formatText("app.payloadandhandler.rc4password_rule")
-            }
+              message: formatText('app.payloadandhandler.rc4password_rule'),
+            },
           ]}
         >
-          <Input placeholder="请输入RC4密码" />
-        </Form.Item>
+          <Input placeholder="请输入RC4密码"/>
+        </Form.Item>,
       );
     }
 
-    if (selectPayload.includes("reverse_dns")) {
+    if (selectPayload.includes('reverse_dns')) {
       options.push(
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip title={formatText("app.payloadandhandler.domain")}>
+            <Tooltip title={formatText('app.payloadandhandler.domain')}>
               <span>DOMAIN</span>
             </Tooltip>
           }
@@ -2008,18 +2008,18 @@ const CreatePayloadModalContent = props => {
           rules={[
             {
               required: true,
-              message: formatText("app.payloadandhandler.domain_rule")
-            }
+              message: formatText('app.payloadandhandler.domain_rule'),
+            },
           ]}
         >
-          <Input placeholder={formatText("app.payloadandhandler.domain_rule")} />
-        </Form.Item>
+          <Input placeholder={formatText('app.payloadandhandler.domain_rule')}/>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip title={formatText("app.payloadandhandler.req_type_tip")}>
+            <Tooltip title={formatText('app.payloadandhandler.req_type_tip')}>
               <span>REQ_TYPE</span>
             </Tooltip>
           }
@@ -2028,20 +2028,20 @@ const CreatePayloadModalContent = props => {
           rules={[
             {
               required: true,
-              message: formatText("app.payloadandhandler.req_type_rule")
-            }
+              message: formatText('app.payloadandhandler.req_type_rule'),
+            },
           ]}>
           <Select style={{ width: 200 }}>
-            <Option value="DNSKEY">{formatText("app.payloadandhandler.DNSKEY")}</Option>
-            <Option value="IPv6">{formatText("app.payloadandhandler.IPv6")}</Option>
+            <Option value="DNSKEY">{formatText('app.payloadandhandler.DNSKEY')}</Option>
+            <Option value="IPv6">{formatText('app.payloadandhandler.IPv6')}</Option>
           </Select>
-        </Form.Item>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
           {...formLayout}
           label={
-            <Tooltip title={formatText("app.payloadandhandler.SERVER_ID_tip")}>
+            <Tooltip title={formatText('app.payloadandhandler.SERVER_ID_tip')}>
               <span>SERVER_ID</span>
             </Tooltip>
           }
@@ -2050,12 +2050,12 @@ const CreatePayloadModalContent = props => {
           rules={[
             {
               required: true,
-              message: formatText("app.payloadandhandler.SERVER_ID_rule")
-            }
+              message: formatText('app.payloadandhandler.SERVER_ID_rule'),
+            },
           ]}
         >
-          <Input placeholder={formatText("app.payloadandhandler.SERVER_ID_rule")} />
-        </Form.Item>
+          <Input placeholder={formatText('app.payloadandhandler.SERVER_ID_rule')}/>
+        </Form.Item>,
       );
     }
 
@@ -2063,7 +2063,7 @@ const CreatePayloadModalContent = props => {
       return null;
     } else {
       return (
-        <Panel header={formatText("app.payloadandhandler.advance")} key="advance">
+        <Panel header={formatText('app.payloadandhandler.advance')} key="advance">
           {options}
         </Panel>
       );
@@ -2071,13 +2071,13 @@ const CreatePayloadModalContent = props => {
   };
 
   const changePayloadOption = (value, selectedOptions) => {
-    const payload = value.join("/");
+    const payload = value.join('/');
     setStateSelectPayload(payload);
   };
 
   const onCreatePayloadBySubmit = values => {
     const opts = values;
-    const mname = values.PAYLOAD.join("/");
+    const mname = values.PAYLOAD.join('/');
     delete opts.PAYLOAD;
     if (opts.ADD_HANDLER === true) {
       createHandlerReq.run({ opts: { PAYLOAD: mname, ...opts } });
@@ -2088,37 +2088,37 @@ const CreatePayloadModalContent = props => {
 
   return (
     <Form onFinish={onCreatePayloadBySubmit}>
-      <Collapse bordered={false} defaultActiveKey={["base", "advance"]}>
-        <Panel header={formatText("app.payloadandhandler.base")} key="base">
+      <Collapse bordered={false} defaultActiveKey={['base', 'advance']}>
+        <Panel header={formatText('app.payloadandhandler.base')} key="base">
           <Form.Item
             {...formLayout}
-            label={formatText("app.payloadandhandler.payload")}
+            label={formatText('app.payloadandhandler.payload')}
             name="PAYLOAD"
             rules={[
               {
                 required: true,
-                message: formatText("app.payloadandhandler.payload_rule")
-              }
+                message: formatText('app.payloadandhandler.payload_rule'),
+              },
             ]}
           >
             <Cascader
               options={payloadOptions}
               onChange={changePayloadOption}
-              placeholder={formatText("app.payloadandhandler.payload_rule")}
+              placeholder={formatText('app.payloadandhandler.payload_rule')}
             />
           </Form.Item>
           {payloadBaseOption()}
           {payloadFormatOption()}
         </Panel>
         {payloadSpecialOption()}
-        <Panel header={formatText("app.payloadandhandler.auto")} key="auto">
+        <Panel header={formatText('app.payloadandhandler.auto')} key="auto">
           <Form.Item
             {...formLayout}
             label={
-              <Tooltip title={formatText("app.payloadandhandler.PrependMigrate_tip")}>
+              <Tooltip title={formatText('app.payloadandhandler.PrependMigrate_tip')}>
                 <span>
-                  <InfoCircleOutlined />
-                  &nbsp;{formatText("app.payloadandhandler.PrependMigrate")}
+                  <InfoCircleOutlined/>
+                  &nbsp;{formatText('app.payloadandhandler.PrependMigrate')}
                 </span>
               </Tooltip>
             }
@@ -2127,11 +2127,11 @@ const CreatePayloadModalContent = props => {
             initialValue={false}
             rules={[]}
           >
-            <Checkbox />
+            <Checkbox/>
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label={formatText("app.payloadandhandler.PrependMigrateProc")}
+            label={formatText('app.payloadandhandler.PrependMigrateProc')}
             name="PrependMigrateProc"
             rules={[]}>
             <Select style={{ width: 200 }} allowClear>
@@ -2143,10 +2143,10 @@ const CreatePayloadModalContent = props => {
           <Form.Item
             {...formLayout}
             label={
-              <Tooltip title={formatText("app.payloadandhandler.ADD_HANDLER_tip")}>
+              <Tooltip title={formatText('app.payloadandhandler.ADD_HANDLER_tip')}>
                 <span>
-                  <InfoCircleOutlined />
-                  &nbsp;{formatText("app.payloadandhandler.ADD_HANDLER")}
+                  <InfoCircleOutlined/>
+                  &nbsp;{formatText('app.payloadandhandler.ADD_HANDLER')}
                 </span>
               </Tooltip>
             }
@@ -2155,11 +2155,11 @@ const CreatePayloadModalContent = props => {
             initialValue={false}
             rules={[]}
           >
-            <Checkbox />
+            <Checkbox/>
           </Form.Item>
         </Panel>
 
-        <Panel header={formatText("app.payloadandhandler.diy")} key="diy">
+        <Panel header={formatText('app.payloadandhandler.diy')} key="diy">
           <Form.Item {...formLayout} label="Encoder" name="Encoder" rules={[]}>
             <Select style={{ width: 200 }} allowClear>
               {payloadEncoder.map((encoder, i) => (
@@ -2169,28 +2169,28 @@ const CreatePayloadModalContent = props => {
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label={formatText("app.payloadandhandler.Iterations")}
+            label={formatText('app.payloadandhandler.Iterations')}
             name="Iterations"
             rules={[]}>
-            <InputNumber style={{ width: 160 }} />
+            <InputNumber style={{ width: 160 }}/>
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label={formatText("app.payloadandhandler.ForceEncode")}
+            label={formatText('app.payloadandhandler.ForceEncode')}
             name="ForceEncode"
             valuePropName="checked"
             initialValue={false}
             rules={[]}
           >
-            <Checkbox />
+            <Checkbox/>
           </Form.Item>
 
           <Form.Item
             {...formLayout}
-            label={formatText("app.payloadandhandler.BadChars")}
+            label={formatText('app.payloadandhandler.BadChars')}
             name="BadChars"
             rules={[]}>
-            <Input />
+            <Input/>
           </Form.Item>
           <Form.Item
             {...formLayout}
@@ -2199,7 +2199,7 @@ const CreatePayloadModalContent = props => {
             rules={[]}
             initialValue={300}
           >
-            <InputNumber style={{ width: 160 }} />
+            <InputNumber style={{ width: 160 }}/>
           </Form.Item>
           <Form.Item
             {...formLayout}
@@ -2208,7 +2208,7 @@ const CreatePayloadModalContent = props => {
             rules={[]}
             initialValue={3600 * 24 * 365}
           >
-            <InputNumber style={{ width: 160 }} />
+            <InputNumber style={{ width: 160 }}/>
           </Form.Item>
           <Form.Item
             {...formLayout}
@@ -2217,7 +2217,7 @@ const CreatePayloadModalContent = props => {
             rules={[]}
             initialValue={3600}
           >
-            <InputNumber style={{ width: 160 }} />
+            <InputNumber style={{ width: 160 }}/>
           </Form.Item>
           <Form.Item
             {...formLayout}
@@ -2226,7 +2226,7 @@ const CreatePayloadModalContent = props => {
             rules={[]}
             initialValue={10}
           >
-            <InputNumber style={{ width: 160 }} />
+            <InputNumber style={{ width: 160 }}/>
           </Form.Item>
         </Panel>
       </Collapse>
@@ -2234,11 +2234,11 @@ const CreatePayloadModalContent = props => {
         <Button
           block
           loading={createPayloadReq.loading}
-          icon={<BlockOutlined />}
+          icon={<BlockOutlined/>}
           htmlType="submit"
           type="primary"
         >
-          {formatText("app.payloadandhandler.genpayload")}
+          {formatText('app.payloadandhandler.genpayload')}
         </Button>
       </Form.Item>
     </Form>
@@ -2249,10 +2249,10 @@ const showHandlerDetail = item => {
   const Descriptions_Items = [];
   let showstr = null;
   for (const key in item) {
-    if (item[key] === null || item[key] === "") {
+    if (item[key] === null || item[key] === '') {
       continue;
     } else if (item[key] === true || item[key] === false) {
-      showstr = item[key] ? "True" : "False";
+      showstr = item[key] ? 'True' : 'False';
     } else {
       showstr = item[key];
     }
@@ -2261,8 +2261,8 @@ const showHandlerDetail = item => {
   Modal.info({
     mask: false,
     style: { top: 20 },
-    width: "95%",
-    icon: "",
+    width: '95%',
+    icon: '',
     content: (
       <Descriptions
         style={{ marginTop: -32, marginRight: -24, marginLeft: -24, marginBottom: -16 }}
@@ -2274,7 +2274,7 @@ const showHandlerDetail = item => {
       </Descriptions>
     ),
     onOk() {
-    }
+    },
   });
 };
 
@@ -2284,7 +2284,7 @@ const genPayloadByHandler = (item) => {
     onSuccess: (result, params) => {
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const onCreatePayloadByHandler = (params, format) => {
@@ -2300,76 +2300,76 @@ const genPayloadByHandler = (item) => {
   const buttons = <Fragment>
     <Space direction="vertical">
       <Space>
-        {buttonTemple("asp")}
-        {buttonTemple("aspx")}
-        {buttonTemple("aspx-exe")}
+        {buttonTemple('asp')}
+        {buttonTemple('aspx')}
+        {buttonTemple('aspx-exe')}
       </Space>
       <Space>
-        {buttonTemple("base32")}
-        {buttonTemple("base64")}
-        {buttonTemple("bash")}
+        {buttonTemple('base32')}
+        {buttonTemple('base64')}
+        {buttonTemple('bash')}
       </Space>
       <Space>
-        {buttonTemple("c")}
-        {buttonTemple("csharp")}
+        {buttonTemple('c')}
+        {buttonTemple('csharp')}
       </Space>
       <Space>
-        {buttonTemple("dll")}
-        {buttonTemple("dword")}
+        {buttonTemple('dll')}
+        {buttonTemple('dword')}
       </Space>
       <Space>
-        {buttonTemple("elf")}
-        {buttonTemple("elf-so")}
-        {buttonTemple("exe")}
-        {buttonTemple("exe-only")}
-        {buttonTemple("exe-service")}
-        {buttonTemple("exe-small")}
+        {buttonTemple('elf')}
+        {buttonTemple('elf-so')}
+        {buttonTemple('exe')}
+        {buttonTemple('exe-only')}
+        {buttonTemple('exe-service')}
+        {buttonTemple('exe-small')}
       </Space>
       <Space>
-        {buttonTemple("hex")}
-        {buttonTemple("hta-psh")}
+        {buttonTemple('hex')}
+        {buttonTemple('hta-psh')}
       </Space>
       <Space>
-        {buttonTemple("jar")}
-        {buttonTemple("java")}
-        {buttonTemple("jsp")}
-        {buttonTemple("js_be")}
-        {buttonTemple("js_le")}
+        {buttonTemple('jar')}
+        {buttonTemple('java')}
+        {buttonTemple('jsp')}
+        {buttonTemple('js_be')}
+        {buttonTemple('js_le')}
       </Space>
       <Space>
-        {buttonTemple("macho")}
-        {buttonTemple("msi")}
-        {buttonTemple("msi-nouac")}
+        {buttonTemple('macho')}
+        {buttonTemple('msi')}
+        {buttonTemple('msi-nouac')}
       </Space>
       <Space>
-        {buttonTemple("powershell")}
-        {buttonTemple("psh")}
-        {buttonTemple("psh-cmd")}
-        {buttonTemple("psh-net")}
-        {buttonTemple("psh-reflection")}
+        {buttonTemple('powershell')}
+        {buttonTemple('psh')}
+        {buttonTemple('psh-cmd')}
+        {buttonTemple('psh-net')}
+        {buttonTemple('psh-reflection')}
       </Space>
       <Space>
-        {buttonTemple("python")}
-        {buttonTemple("python-reflection")}
-        {buttonTemple("perl")}
+        {buttonTemple('python')}
+        {buttonTemple('python-reflection')}
+        {buttonTemple('perl')}
       </Space>
       <Space>
-        {buttonTemple("raw")}
-        {buttonTemple("ruby")}
+        {buttonTemple('raw')}
+        {buttonTemple('ruby')}
       </Space>
       <Space>
-        {buttonTemple("vbapplication")}
-        {buttonTemple("vba")}
-        {buttonTemple("vba-exe")}
-        {buttonTemple("vba-psh")}
+        {buttonTemple('vbapplication')}
+        {buttonTemple('vba')}
+        {buttonTemple('vba-exe')}
+        {buttonTemple('vba-psh')}
       </Space>
       <Space>
-        {buttonTemple("vbscript")}
-        {buttonTemple("vbs")}
-        {buttonTemple("loop-vbs")}
+        {buttonTemple('vbscript')}
+        {buttonTemple('vbs')}
+        {buttonTemple('loop-vbs')}
       </Space>
       <Space>
-        {buttonTemple("war")}
+        {buttonTemple('war')}
       </Space>
     </Space>
   </Fragment>;
@@ -2378,7 +2378,7 @@ const genPayloadByHandler = (item) => {
 
 
 const PayloadAndHandler = (props) => {
-  console.log("PayloadAndHandler");
+  console.log('PayloadAndHandler');
   const [createHandlerModalVisible, setCreateHandlerModalVisible] = useState(false);
   const [createPayloadModalVisible, setCreatePayloadModalVisible] = useState(false);
   const [handlerListActive, setHandlerListActive] = useState([]);
@@ -2389,7 +2389,7 @@ const PayloadAndHandler = (props) => {
     return {
       updateData: () => {
         listHanderReq.run();
-      }
+      },
     };
   });
 
@@ -2399,7 +2399,7 @@ const PayloadAndHandler = (props) => {
       setHandlerListActive(result);
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const listHanderReq = useRequest(getMsgrpcHandlerAPI, {
@@ -2408,7 +2408,7 @@ const PayloadAndHandler = (props) => {
       setHandlerListActive(result);
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const createHandlerReq = useRequest(postMsgrpcHandlerAPI, {
@@ -2417,7 +2417,7 @@ const PayloadAndHandler = (props) => {
       listHanderReq.run();
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const onCreateHandlerByVirtual = params => {
@@ -2435,7 +2435,7 @@ const PayloadAndHandler = (props) => {
       listHanderReq.run();
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const createPayloadReq = useRequest(postMsgrpcPayloadAPI, {
@@ -2443,11 +2443,11 @@ const PayloadAndHandler = (props) => {
     onSuccess: (result, params) => {
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const onCreatePayloadByHandler = params => {
-    params.Format = "AUTO";
+    params.Format = 'AUTO';
     createPayloadReq.run({ mname: params.PAYLOAD, opts: params });
   };
 
@@ -2466,32 +2466,32 @@ const PayloadAndHandler = (props) => {
         <Col span={8}>
           <Button
             block
-            icon={<CustomerServiceOutlined />}
+            icon={<CustomerServiceOutlined/>}
             onClick={() => setCreateHandlerModalVisible(true)}
           >
-            {formatText("app.payloadandhandler.addhandler")}
+            {formatText('app.payloadandhandler.addhandler')}
           </Button>
         </Col>
         <Col span={8}>
           <Button
             loading={createPayloadReq.loading}
             block
-            icon={<BlockOutlined />}
+            icon={<BlockOutlined/>}
             onClick={() => setCreatePayloadModalVisible(true)}
           >
-            {formatText("app.payloadandhandler.genpayload")}
+            {formatText('app.payloadandhandler.genpayload')}
           </Button>
         </Col>
         <Col span={8}>
           <Button
-            icon={<SyncOutlined />}
+            icon={<SyncOutlined/>}
             style={{
-              width: "100%"
+              width: '100%',
             }}
             loading={listHanderReq.loading || createHandlerReq.loading || destoryHandlerReq.loading}
             onClick={() => listHanderReq.run()}
           >
-            {formatText("app.core.refresh")}
+            {formatText('app.core.refresh')}
           </Button>
         </Col>
       </Row>
@@ -2505,40 +2505,40 @@ const PayloadAndHandler = (props) => {
         dataSource={handlerListActive}
         columns={[
           {
-            title: "ID",
-            dataIndex: "ID",
-            key: "ID",
+            title: 'ID',
+            dataIndex: 'ID',
+            key: 'ID',
             width: 48,
             render: (text, record) =>
               record.ID >= 0 ? (
                 <Avatar
-                  style={{ backgroundColor: "#49aa19", width: "100%" }}
+                  style={{ backgroundColor: '#49aa19', width: '100%' }}
                   shape="square"
                   size={24}
                 >
-                  <Tooltip placement="right" title={formatText("app.payloadandhandler.realhandler")}>
+                  <Tooltip placement="right" title={formatText('app.payloadandhandler.realhandler')}>
                     {record.ID}
                   </Tooltip>
                 </Avatar>
               ) : (
-                <Avatar style={{ width: "100%" }} shape="square" size={24}>
-                  <Tooltip placement="right" title={formatText("app.payloadandhandler.virlhandler")}>
+                <Avatar style={{ width: '100%' }} shape="square" size={24}>
+                  <Tooltip placement="right" title={formatText('app.payloadandhandler.virlhandler')}>
                     {-record.ID}
                   </Tooltip>
                 </Avatar>
-              )
+              ),
           },
           {
-            title: formatText("app.payloadandhandler.payload"),
-            dataIndex: "PAYLOAD",
-            key: "PAYLOAD",
+            title: formatText('app.payloadandhandler.payload'),
+            dataIndex: 'PAYLOAD',
+            key: 'PAYLOAD',
             width: 280,
-            render: (text, record) => record.PAYLOAD
+            render: (text, record) => record.PAYLOAD,
           },
           {
-            title: "LHOST/RHOST",
-            dataIndex: "PAYLOAD",
-            key: "PAYLOAD",
+            title: 'LHOST/RHOST',
+            dataIndex: 'PAYLOAD',
+            key: 'PAYLOAD',
             width: 136,
             render: (text, record) => {
               if (record.RHOST !== undefined && record.RHOST !== null) {
@@ -2548,19 +2548,19 @@ const PayloadAndHandler = (props) => {
                 return <span>{record.LHOST}</span>;
               }
               return null;
-            }
+            },
           },
           {
-            title: "PORT",
-            dataIndex: "LPORT",
-            key: "LPORT",
+            title: 'PORT',
+            dataIndex: 'LPORT',
+            key: 'LPORT',
             width: 64,
-            render: (text, record) => <span>{record.LPORT}</span>
+            render: (text, record) => <span>{record.LPORT}</span>,
           },
           {
-            title: formatText("app.payloadandhandler.params"),
-            dataIndex: "PAYLOAD",
-            key: "PAYLOAD",
+            title: formatText('app.payloadandhandler.params'),
+            dataIndex: 'PAYLOAD',
+            key: 'PAYLOAD',
             render: (text, record) => {
               const items = [];
 
@@ -2568,16 +2568,16 @@ const PayloadAndHandler = (props) => {
                 items.push(<span>{` LURI: ${record.LURI}`}</span>);
               }
               if (record.HandlerSSLCert !== undefined && record.HandlerSSLCert !== null) {
-                const pos = record.HandlerSSLCert.lastIndexOf("/");
+                const pos = record.HandlerSSLCert.lastIndexOf('/');
                 items.push(
-                  <span>{` ${formatText("app.payloadandhandler.pemfile")}: ${record.HandlerSSLCert.substr(pos + 1)}`}</span>);
+                  <span>{` ${formatText('app.payloadandhandler.pemfile')}: ${record.HandlerSSLCert.substr(pos + 1)}`}</span>);
               }
 
               if (record.RC4PASSWORD !== undefined && record.RC4PASSWORD !== null) {
-                items.push(<span>{` ${formatText("app.payloadandhandler.rc4password")}: ${record.RC4PASSWORD}`}</span>);
+                items.push(<span>{` ${formatText('app.payloadandhandler.rc4password')}: ${record.RC4PASSWORD}`}</span>);
               }
               if (record.proxies !== undefined && record.proxies !== null) {
-                items.push(<span>{` ${formatText("app.payloadandhandler.proxy")}: ${record.proxies}`}</span>);
+                items.push(<span>{` ${formatText('app.payloadandhandler.proxy')}: ${record.proxies}`}</span>);
               }
 
               if (record.DOMAIN !== undefined && record.DOMAIN !== null) {
@@ -2589,84 +2589,84 @@ const PayloadAndHandler = (props) => {
               if (record.SERVER_ID !== undefined && record.SERVER_ID !== null) {
                 items.push(<span>{` SERVER_ID: ${record.SERVER_ID}`}</span>);
               }
-              return <Space style={{ display: "flex" }}>{items}</Space>;
-            }
+              return <Space style={{ display: 'flex' }}>{items}</Space>;
+            },
           },
           {
-            title: formatText("app.payloadandhandler.handlername"),
-            dataIndex: "HandlerName",
-            key: "HandlerName",
-            render: (text, record) => record.HandlerName
+            title: formatText('app.payloadandhandler.handlername'),
+            dataIndex: 'HandlerName',
+            key: 'HandlerName',
+            render: (text, record) => record.HandlerName,
           },
           {
-            dataIndex: "operation",
+            dataIndex: 'operation',
             width: 400,
             render: (text, record) => {
               let transformAction = null;
               if (record.ID >= 0) {
                 transformAction = (
-                  <a style={{ color: "#a5a5a5" }} onClick={() => onCreateVirtualHandler(record)}>
-                    {formatText("app.payloadandhandler.getvirl")}
+                  <a style={{ color: '#a5a5a5' }} onClick={() => onCreateVirtualHandler(record)}>
+                    {formatText('app.payloadandhandler.getvirl')}
                   </a>
                 );
               } else {
                 transformAction = (
-                  <a style={{ color: "#faad14" }} onClick={() => onCreateHandlerByVirtual(record)}>
-                    {formatText("app.payloadandhandler.getreal")}
+                  <a style={{ color: '#faad14' }} onClick={() => onCreateHandlerByVirtual(record)}>
+                    {formatText('app.payloadandhandler.getreal')}
                   </a>
                 );
               }
               return (
-                <div style={{ textAlign: "center" }}>
+                <div style={{ textAlign: 'center' }}>
                   <Space size="middle">
-                    <a style={{ color: "green" }} onClick={() => onCreatePayloadByHandler(record)}>
-                      {formatText("app.payloadandhandler.genpe")}
+                    <a style={{ color: 'green' }} onClick={() => onCreatePayloadByHandler(record)}>
+                      {formatText('app.payloadandhandler.genpe')}
                     </a>
                     <Popover
                       placement="left"
-                      title={formatText("app.payloadandhandler.format_rule")}
+                      title={formatText('app.payloadandhandler.format_rule')}
                       content={genPayloadByHandler(record)}
                       trigger="click">
-                      <a style={{ color: "#13a8a8" }}>
-                        {formatText("app.payloadandhandler.genpayload")}
+                      <a style={{ color: '#13a8a8' }}>
+                        {formatText('app.payloadandhandler.genpayload')}
                       </a>
                     </Popover>
-                    <a onClick={() => showHandlerDetail(record)}>{formatText("app.payloadandhandler.Detail")}</a>
+                    <a onClick={() => showHandlerDetail(record)}>{formatText('app.payloadandhandler.Detail')}</a>
                     {transformAction}
                     <a
                       onClick={() => destoryHandlerReq.run({ jobid: record.ID })}
-                      style={{ color: "red" }}
+                      style={{ color: 'red' }}
                     >
-                      {formatText("app.core.delete")}
+                      {formatText('app.core.delete')}
                     </a>
                   </Space>
                 </div>
               );
-            }
-          }
+            },
+          },
         ]}
       />
       <Modal
         style={{ top: 20 }}
         width="60vw"
-        bodyStyle={{ padding: "0px 0px 1px 0px" }}
+        bodyStyle={{ padding: '0px 0px 1px 0px' }}
         destroyOnClose
         visible={createHandlerModalVisible}
         footer={null}
         onCancel={() => setCreateHandlerModalVisible(false)}
       >
-        <CreateHandlerModalContent createHandlerFinish={createHandlerFinish} />
+        <CreateHandlerModalContent createHandlerFinish={createHandlerFinish}/>
       </Modal>
       <Modal
         style={{ top: 20 }}
         width="60vw"
-        bodyStyle={{ padding: "0px 0px 2px 0px" }}
+        bodyStyle={{ padding: '0px 0px 2px 0px' }}
         destroyOnClose
         visible={createPayloadModalVisible}
         footer={null}
         onCancel={() => setCreatePayloadModalVisible(false)}
       >
-        <CreatePayloadModalContent createPayloadFinish={createPayloadFinish} />
+        <CreatePayloadModalContent createPayloadFinish={createPayloadFinish}/>
       </Modal>
     </Fragment>
   );
