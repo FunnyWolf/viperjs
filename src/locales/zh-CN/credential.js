@@ -6,7 +6,7 @@ export default {
   'app.credential.hash': '哈希',
   'app.credential.passwordandhash': '密码/哈希',
   'app.credential.passwordandhash.rule': '请输入密码/哈希',
-  'app.credential.passwordtype': '密码类型',
+  'app.credential.passwordtype': '类型',
   'app.credential.tag': '标签',
   'app.credential.sourcemodule': '模块',
   'app.credential.hostipaddress': '主机',
