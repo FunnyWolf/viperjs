@@ -10,6 +10,8 @@ import webdelivery from './zh-CN/webdelivery';
 import filemsf from './zh-CN/filemsf';
 import network from './zh-CN/network';
 import msfsocks from './zh-CN/msfsocks';
+import credential from './zh-CN/credential';
+
 export default {
   ...exception,
   ...login,
@@ -23,4 +25,5 @@ export default {
   ...filemsf,
   ...network,
   ...msfsocks,
+  ...credential,
 };

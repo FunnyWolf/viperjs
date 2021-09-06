@@ -10,6 +10,7 @@ import webdelivery from './en-US/webdelivery';
 import filemsf from './en-US/filemsf';
 import network from './en-US/network';
 import msfsocks from './en-US/msfsocks';
+import credential from './en-US/credential';
 
 export default {
   ...exception,
@@ -24,4 +25,5 @@ export default {
   ...filemsf,
   ...network,
   ...msfsocks,
+  ...credential,
 };
