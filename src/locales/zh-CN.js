@@ -9,7 +9,7 @@ import payloadandhandler from './zh-CN/payloadandhandler';
 import webdelivery from './zh-CN/webdelivery';
 import filemsf from './zh-CN/filemsf';
 import network from './zh-CN/network';
-
+import msfsocks from './zh-CN/msfsocks';
 export default {
   ...exception,
   ...login,
@@ -22,4 +22,5 @@ export default {
   ...webdelivery,
   ...filemsf,
   ...network,
+  ...msfsocks,
 };

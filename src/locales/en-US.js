@@ -9,6 +9,7 @@ import payloadandhandler from './en-US/payloadandhandler';
 import webdelivery from './en-US/webdelivery';
 import filemsf from './en-US/filemsf';
 import network from './en-US/network';
+import msfsocks from './en-US/msfsocks';
 
 export default {
   ...exception,
@@ -22,4 +23,5 @@ export default {
   ...webdelivery,
   ...filemsf,
   ...network,
+  ...msfsocks,
 };

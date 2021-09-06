@@ -46,6 +46,7 @@ import {
 import copy from 'copy-to-clipboard';
 import { useRequest } from 'umi';
 import moment from 'moment';
+import { formatText } from '@/utils/locales';
 
 const { Option } = Select;
 
@@ -110,7 +111,7 @@ const host_type_to_avatar = {
 
 
 const MsfSocks = () => {
-  console.log('MuitHosts');
+  console.log('MsfSocks');
   const [updateHostModalVisable, setUpdateHostModalVisable] = useState(false);
   const [hostList, setHostList] = useState([]);
   const [hostListTmp, setHostListTmp] = useState([]);
@@ -124,7 +125,7 @@ const MsfSocks = () => {
   const [hostsRoute, setHostsRoute] = useState([]);
 
 
-  const initListHostReq = useRequest(getCoreHostAPI, {
+  useRequest(getCoreHostAPI, {
     onSuccess: (result, params) => {
       setSocksActive(result.socks);
       setPortfwds(result.portfwds);
@@ -193,11 +194,6 @@ const MsfSocks = () => {
   });
 
 
-  const showUpdateHostModal = record => {
-    setUpdateHostModalVisable(true);
-    setHostAcvtive(record);
-  };
-
   const updateHostReq = useRequest(putCoreHostAPI, {
     manual: true,
     onSuccess: (result, params) => {
@@ -217,6 +213,10 @@ const MsfSocks = () => {
     },
   });
 
+  const showUpdateHostModal = record => {
+    setUpdateHostModalVisable(true);
+    setHostAcvtive(record);
+  };
 
   const getSelectHostIPaddress = () => {
     const ipaddressArray = [];
@@ -224,7 +224,7 @@ const MsfSocks = () => {
       ipaddressArray.push(selectedRows[i].ipaddress);
     }
     copy(ipaddressArray.join());
-    message.success(`${ipaddressArray.join()} 已复制到剪切板`);
+    message.success(`${ipaddressArray.join()} copyed to clipboard`);
   };
 
   const handleSearch = value => {
@@ -271,13 +271,13 @@ const MsfSocks = () => {
   const expandedRowRender = record => {
     const portsColumns = [
       {
-        title: '端口',
+        title: formatText('app.msfsocks.ports.port'),
         dataIndex: 'port',
         width: 80,
         render: (val, record) => <span>{val}</span>,
       },
       {
-        title: '服务',
+        title: formatText('app.msfsocks.ports.service'),
         dataIndex: 'service',
       },
       {
@@ -286,7 +286,7 @@ const MsfSocks = () => {
       },
 
       {
-        title: '更新时间',
+        title: formatText('app.core.updatetime'),
         dataIndex: 'update_time',
         width: 80,
         render: val => <Tag color="cyan">{moment(val * 1000).fromNow()}</Tag>,
@@ -312,7 +312,7 @@ const MsfSocks = () => {
   };
 
   const formLayout = {
-    labelCol: { span: 3 },
+    labelCol: { span: 4 },
     wrapperCol: { span: 18 },
   };
 
@@ -353,7 +353,7 @@ const MsfSocks = () => {
                 allowClear
                 prefix={<SearchOutlined/>}
                 style={{ width: '100%' }}
-                placeholder="搜索 : IP地址/端口/服务"
+                placeholder={formatText('app.msfsocks.ports.ph')}
                 onChange={e => {
                   handleSearch(e.target.value);
                 }}
@@ -365,9 +365,7 @@ const MsfSocks = () => {
                 block
                 disabled={selectedRowKeys.length === 0}
                 icon={<CopyOutlined/>}
-              >
-                拷贝
-              </Button>
+              >{formatText('app.core.copy')}</Button>
             </Col>
             <Col span={4}>
               <Button
@@ -375,9 +373,7 @@ const MsfSocks = () => {
                 block
                 disabled={selectedRowKeys.length === 0}
                 danger
-              >
-                <DeleteOutlined/>删除
-              </Button>
+              ><DeleteOutlined/>{formatText('app.core.delete')}</Button>
             </Col>
             <Col span={8}>
               <Button
@@ -389,9 +385,7 @@ const MsfSocks = () => {
                 destorySocksReq.loading ||
                 destoryPortFwdReq.loading ||
                 destoryRouteReq.loading}
-              >
-                刷新
-              </Button>
+              >{formatText('app.core.refresh')}</Button>
             </Col>
           </Row>
           <Row>
@@ -410,7 +404,7 @@ const MsfSocks = () => {
                 rowSelection={rowSelection}
                 columns={[
                   {
-                    title: '主机',
+                    title: formatText('app.msfsocks.ports.host'),
                     dataIndex: 'ipaddress',
                     key: 'ipaddress',
                     width: 120,
@@ -425,7 +419,7 @@ const MsfSocks = () => {
                     ),
                   },
                   {
-                    title: '开放端口',
+                    title: formatText('app.msfsocks.ports.portService'),
                     dataIndex: 'portService',
                     key: 'portService',
                     width: 80,
@@ -443,7 +437,7 @@ const MsfSocks = () => {
                     },
                   },
                   {
-                    title: '路由路径',
+                    title: formatText('app.msfsocks.ports.route'),
                     dataIndex: 'route',
                     key: 'route',
                     width: 120,
@@ -469,7 +463,7 @@ const MsfSocks = () => {
                     },
                   },
                   {
-                    title: '备注',
+                    title: formatText('app.msfsocks.ports.comment'),
                     dataIndex: 'comment',
                     key: 'comment',
                     // width: '10%',
@@ -484,7 +478,6 @@ const MsfSocks = () => {
                     },
                   },
                   {
-                    title: '操作',
                     dataIndex: 'operation',
                     width: 48,
                     render: (text, record) => (
@@ -494,7 +487,7 @@ const MsfSocks = () => {
                             onClick={() => destoryHostReq.run({ ipaddress: record.ipaddress })}
                             style={{ color: 'red' }}
                           >
-                            删除
+                            {formatText('app.core.delete')}
                           </a>
                         </Space>
                       </div>
@@ -523,18 +516,17 @@ const MsfSocks = () => {
                     },
                   },
                   {
-                    title: '路由子网',
+                    title: formatText('app.msfsocks.proxy.subnet'),
                     dataIndex: 'subnet',
                     key: 'subnet',
                   },
                   {
-                    title: '路由掩码',
+                    title: formatText('app.msfsocks.proxy.netmask'),
                     dataIndex: 'netmask',
                     key: 'netmask',
                     width: 120,
                   },
                   {
-                    title: '操作',
                     dataIndex: 'operation',
                     width: 48,
                     render: (text, record) => (
@@ -548,7 +540,7 @@ const MsfSocks = () => {
                           })
                         }
                       >
-                        删除
+                        {formatText('app.core.delete')}
                       </a>
                     ),
                   },
@@ -573,7 +565,7 @@ const MsfSocks = () => {
                     },
                   },
                   {
-                    title: '转发方向',
+                    title: formatText('app.msfsocks.portfwd.type'),
                     dataIndex: 'type',
                     key: 'type',
                     width: 80,
@@ -581,19 +573,19 @@ const MsfSocks = () => {
                       if (record.type === 'Forward') {
                         return (
                           <div>
-                            <Tag color="cyan">正向转发</Tag>
+                            <Tag color="cyan">{formatText('app.msfsocks.portfwd.type.forword')}</Tag>
                           </div>
                         );
                       }
                       return (
                         <div>
-                          <Tag color="geekblue">反向转发</Tag>
+                          <Tag color="geekblue">{formatText('app.msfsocks.portfwd.type.reverse')}</Tag>
                         </div>
                       );
                     },
                   },
                   {
-                    title: '本地(Viper)',
+                    title: formatText('app.msfsocks.portfwd.local'),
                     dataIndex: 'local',
                     key: 'local',
                     render: (text, record) => {
@@ -601,7 +593,7 @@ const MsfSocks = () => {
                         return (
                           <div>
                             <Tag style={{ marginRight: 8 }} color="green">
-                              监听
+                              {formatText('app.msfsocks.portfwd.listen')}
                             </Tag>
                             <span>{`${record.lhost}:${record.lport}`}</span>
                           </div>
@@ -610,7 +602,7 @@ const MsfSocks = () => {
                       return (
                         <div>
                           <Tag style={{ marginRight: 8 }} color="gold">
-                            目标
+                            {formatText('app.msfsocks.portfwd.target')}
                           </Tag>
                           <span>{`${record.lhost}:${record.lport}`}</span>
                         </div>
@@ -618,7 +610,7 @@ const MsfSocks = () => {
                     },
                   },
                   {
-                    title: '远程(Session)',
+                    title: formatText('app.msfsocks.portfwd.remote'),
                     dataIndex: 'remote',
                     key: 'remote',
                     render: (text, record) => {
@@ -626,7 +618,7 @@ const MsfSocks = () => {
                         return (
                           <div>
                             <Tag style={{ marginRight: 8 }} color="gold">
-                              目标
+                              {formatText('app.msfsocks.portfwd.target')}
                             </Tag>
                             <span>{`${record.rhost}:${record.rport}`}</span>
                           </div>
@@ -635,7 +627,7 @@ const MsfSocks = () => {
                       return (
                         <div>
                           <Tag style={{ marginRight: 8 }} color="green">
-                            监听
+                            {formatText('app.msfsocks.portfwd.listen')}
                           </Tag>
                           <span>{`${record.rhost}:${record.rport}`}</span>
                         </div>
@@ -643,12 +635,11 @@ const MsfSocks = () => {
                     },
                   },
                   {
-                    title: '操作',
                     dataIndex: 'operation',
                     width: 64,
                     render: (text, record) => (
                       <a style={{ color: 'red' }} onClick={() => destoryPortFwdReq.run(record)}>
-                        删除
+                        {formatText('app.core.delete')}
                       </a>
                     ),
                   },
@@ -663,8 +654,7 @@ const MsfSocks = () => {
             block
             icon={<PlusOutlined/>}
             onClick={() => setCreateSocksModalVisible(true)}
-          >
-            新增代理
+          >{formatText('app.msfsocks.socks.add')}
           </Button>
           <Table
             bordered
@@ -675,23 +665,22 @@ const MsfSocks = () => {
             dataSource={socksActive}
             columns={[
               {
-                title: '代理类型',
+                title: formatText('app.msfsocks.socks.type'),
                 dataIndex: 'type',
                 key: 'type',
                 width: 96,
               },
               {
-                title: '端口',
+                title: formatText('app.msfsocks.socks.port'),
                 dataIndex: 'port',
                 key: 'port',
               },
               {
-                title: '操作',
                 dataIndex: 'operation',
                 width: 64,
                 render: (text, record) => (
                   <a style={{ color: 'red' }} onClick={() => destorySocksReq.run(record)}>
-                    删除
+                    {formatText('app.core.delete')}
                   </a>
                 ),
               },
@@ -719,16 +708,16 @@ const MsfSocks = () => {
           <Form.Item
             label={<span>ipaddress</span>}
             name="ipaddress"
-            rules={[{ required: true, message: '请输入' }]}
+            rules={[{ required: true }]}
             style={{ display: 'None' }}
             {...formLayout}
           >
             <span>{hostAcvtive.ipaddress}</span>
           </Form.Item>
           <Form.Item
-            label={<span>标签</span>}
+            label={<span>{formatText('app.msfsocks.host.tag')}</span>}
             name="tag"
-            rules={[{ required: true, message: '请选择标签' }]}
+            rules={[{ required: true, message: formatText('app.msfsocks.host.tag.rule') }]}
             {...formLayout}
           >
             <Radio.Group>
@@ -741,12 +730,12 @@ const MsfSocks = () => {
             </Radio.Group>
           </Form.Item>
           <Form.Item
-            label={<span>注释</span>}
+            label={<span>{formatText('app.msfsocks.host.comment')}</span>}
             name="comment"
-            rules={[{ message: '最多支持二十个字符', max: 20 }]}
+            rules={[{ message: formatText('app.msfsocks.host.comment.rule'), max: 20 }]}
             {...formLayout}
           >
-            <Input placeholder="最大支持二十个字符"/>
+            <Input placeholder={formatText('app.msfsocks.host.comment.rule')}/>
           </Form.Item>
           <Form.Item {...tailLayout}>
             <Button
@@ -756,13 +745,13 @@ const MsfSocks = () => {
               htmlType="submit"
               loading={updateHostReq.loading}
             >
-              更新
+              {formatText('app.core.update')}
             </Button>
           </Form.Item>
         </Form>
       </Modal>
       <Modal
-        title="新增代理"
+        title={formatText('app.msfsocks.socks.add')}
         centered
         width="50vw"
         bodyStyle={{ padding: '8 8 8 8' }}
@@ -774,12 +763,12 @@ const MsfSocks = () => {
         <Form onFinish={createSocksReq.run}>
           <Form.Item
             {...formLayout}
-            label={<span>代理类型</span>}
+            label={<span>{formatText('app.msfsocks.socks.type')}</span>}
             name="type"
             rules={[
               {
                 required: true,
-                message: '请选择代理类型',
+                message: formatText('app.msfsocks.socks.type.rule'),
               },
             ]}
           >
@@ -790,16 +779,16 @@ const MsfSocks = () => {
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label={<span>本地端口</span>}
+            label={<span>{formatText('app.msfsocks.socks.port')}</span>}
             name="port"
             rules={[
               {
                 required: true,
-                message: '请输入本地监听端口',
+                message: formatText('app.msfsocks.socks.port.rule'),
               },
             ]}
           >
-            <InputNumber style={{ width: 160 }} placeholder="socks监听端口"/>
+            <InputNumber style={{ width: 160 }} placeholder={formatText('app.msfsocks.socks.port.rule')}/>
           </Form.Item>
           <Form.Item {...buttonLayout}>
             <Button
@@ -809,13 +798,13 @@ const MsfSocks = () => {
               htmlType="submit"
               type="primary"
             >
-              新增
+              {formatText('app.core.add')}
             </Button>
           </Form.Item>
           <Row>
             <Col span={20} offset={4}>
               <Alert
-                message="Socks代理请勿开放到外网1080,80等常用端口,防范DDos攻击"
+                message={formatText('app.msfsocks.socks.alert')}
                 type="warning"
                 showIcon
               />
