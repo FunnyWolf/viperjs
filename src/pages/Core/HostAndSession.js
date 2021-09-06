@@ -1,5 +1,6 @@
 import React, { Fragment, memo, useCallback, useEffect, useRef, useState } from 'react';
-import { useModel, useRequest } from 'umi';
+import { useModel, useRequest, FormattedMessage } from 'umi';
+
 import { useInterval, useLocalStorageState } from 'ahooks';
 import {
   deleteCoreHostAPI,
@@ -136,6 +137,7 @@ import ReactJson from 'react-json-view';
 import NewWindow from 'rc-new-window';
 import MsfConsoleXTermMemo, { MsfconsoleMemo } from '@/pages/Core/MsfConsoleXTerm';
 import { Upheight } from '@/utils/utils';
+import { formatText } from '@/utils/locales';
 
 const { Text } = Typography;
 const { Paragraph } = Typography;
@@ -326,7 +328,7 @@ const HostAndSessionCard = () => {
   const sessionActiveInit = {
     id: -1,
     type: 'meterpreter',
-    session_host: '请选择Session',
+    session_host: '127.0.0.1',
     tunnel_local: null,
     tunnel_peer_ip: null,
     tunnel_peer_locate: null,
@@ -399,6 +401,7 @@ const HostAndSessionCard = () => {
 
   const SessionMenu = record => {
     const onClick = ({ key }) => {
+      console.log(key);
       switch (key) {
         case 'HostRuningInfo':
           setActiveHostAndSession(record);
@@ -435,36 +438,32 @@ const HostAndSessionCard = () => {
           console.log('unknow command');
       }
     };
-
-    return (
-      <Menu style={{ width: 100 }} onClick={onClick}>
-        <Menu.Item key="SessionInfo">
-          <Space><ContactsOutlined/><span>权限信息</span></Space>
-        </Menu.Item>
-        <Menu.Item key="FileSession">
-          <Space><DesktopOutlined/><span>文件管理</span></Space>
-        </Menu.Item>
-        <Menu.Item key="Route">
-          <Space><PartitionOutlined/><span>内网路由</span></Space>
-        </Menu.Item>
-        <Menu.Item key="PortFwd">
-          <Space><SwapOutlined/><span>端口转发</span></Space>
-        </Menu.Item>
-        <Menu.Item key="Transport">
-          <Space><NodeIndexOutlined/><span>传输协议</span></Space>
-        </Menu.Item>
-        <Menu.Item key="SessionIO">
-          <Space><CodeOutlined/><span>命令终端</span></Space>
-        </Menu.Item>
-        <Menu.Item key="HostRuningInfo">
-          <Space><DashboardOutlined/><span>运行信息</span></Space>
-        </Menu.Item>
-        <Menu.Item danger key="DestorySession">
-          <Space><CloseCircleOutlined style={{ color: 'red' }}/>
-            <span>删除权限</span></Space>
-        </Menu.Item>
-      </Menu>
-    );
+    return <Menu onClick={onClick}>
+      <Menu.Item icon={<ContactsOutlined/>} key="SessionInfo">
+        <FormattedMessage id="app.hostandsession.session.SessionInfo"/>
+      </Menu.Item>
+      <Menu.Item icon={<DesktopOutlined/>} key="FileSession">
+        <FormattedMessage id="app.hostandsession.session.FileSession"/>
+      </Menu.Item>
+      <Menu.Item icon={<PartitionOutlined/>} key="Route">
+        <FormattedMessage id="app.hostandsession.session.Route"/>
+      </Menu.Item>
+      <Menu.Item icon={<SwapOutlined/>} key="PortFwd">
+        <FormattedMessage id="app.hostandsession.session.PortFwd"/>
+      </Menu.Item>
+      <Menu.Item icon={<NodeIndexOutlined/>} key="Transport">
+        <FormattedMessage id="app.hostandsession.session.Transport"/>
+      </Menu.Item>
+      <Menu.Item icon={<CodeOutlined/>} key="SessionIO">
+        <FormattedMessage id="app.hostandsession.session.SessionIO"/>
+      </Menu.Item>
+      <Menu.Item icon={<DashboardOutlined/>} key="HostRuningInfo">
+        <FormattedMessage id="app.hostandsession.session.HostRuningInfo"/>
+      </Menu.Item>
+      <Menu.Item icon={<CloseCircleOutlined style={{ color: 'red' }}/>} danger key="DestorySession">
+        <FormattedMessage id="app.hostandsession.session.DestorySession"/>
+      </Menu.Item>
+    </Menu>;
   };
 
   const HostMenu = record => {
@@ -493,18 +492,17 @@ const HostAndSessionCard = () => {
 
     return (
       <Menu style={{ width: 100 }} onClick={onClick}>
-        <Menu.Item key="HostInfo">
-          <Space><ProfileOutlined/><span>主机信息</span></Space>
+        <Menu.Item icon={<ProfileOutlined/>} key="HostInfo">
+          <FormattedMessage id="app.hostandsession.host.HostInfo"/>
         </Menu.Item>
-        <Menu.Item key="PortService">
-          <Space><InteractionOutlined/><span>开放端口</span></Space>
+        <Menu.Item icon={<InteractionOutlined/>} key="PortService">
+          <FormattedMessage id="app.hostandsession.host.PortService"/>
         </Menu.Item>
-        <Menu.Item key="Vulnerability">
-          <Space><BugOutlined/><span>已知漏洞</span></Space>
+        <Menu.Item icon={<BugOutlined/>} key="Vulnerability">
+          <FormattedMessage id="app.hostandsession.host.Vulnerability"/>
         </Menu.Item>
-        <Menu.Item danger key="DestoryHost">
-          <Space><DeleteOutlined style={{ color: 'red' }}/>
-            <span>删除主机</span></Space>
+        <Menu.Item icon={<DeleteOutlined style={{ color: 'red' }}/>} danger key="DestoryHost">
+          <FormattedMessage id="app.hostandsession.host.DestoryHost"/>
         </Menu.Item>
       </Menu>
     );
@@ -815,7 +813,6 @@ const HostAndSessionCard = () => {
 
 
           const connectTag = (
-
             <Tag
               color="cyan"
               style={{
@@ -1053,7 +1050,7 @@ const HostAndSessionCard = () => {
       </Modal>
 
       <Modal
-        title="内网路由"
+        title={formatText('app.hostandsession.session.Route')}
         style={{ top: 32 }}
         width="70vw"
         destroyOnClose
@@ -1066,7 +1063,7 @@ const HostAndSessionCard = () => {
       </Modal>
 
       <Modal
-        title="端口转发"
+        title={formatText('app.hostandsession.session.PortFwd')}
         style={{ top: 32 }}
         width="80vw"
         destroyOnClose
@@ -1079,7 +1076,7 @@ const HostAndSessionCard = () => {
       </Modal>
 
       <Modal
-        title="传输协议"
+        title={formatText('app.hostandsession.session.Transport')}
         style={{ top: 32 }}
         width="80vw"
         destroyOnClose
@@ -1116,7 +1113,7 @@ const HostAndSessionCard = () => {
       </Modal>
 
       <Modal
-        title="主机信息"
+        title={formatText('app.hostandsession.host.HostInfo')}
         style={{ top: 32 }}
         width="50vw"
         destroyOnClose
@@ -1129,7 +1126,7 @@ const HostAndSessionCard = () => {
       </Modal>
 
       <Modal
-        title="开放端口"
+        title={formatText('app.hostandsession.host.PortService')}
         style={{ top: 32 }}
         width="70vw"
         destroyOnClose
@@ -1142,7 +1139,7 @@ const HostAndSessionCard = () => {
       </Modal>
 
       <Modal
-        title="漏洞信息"
+        title={formatText('app.hostandsession.host.Vulnerability')}
         style={{ top: 32 }}
         width="70vw"
         destroyOnClose
@@ -1181,11 +1178,11 @@ const TabsBottom = () => {
   const [tabTextFlag, setTabTextFlag] = useLocalStorageState('tab-text-flag', false);
   const tabActiveOnChange = activeKey => {
     switch (activeKey) {
-      case 'msfconsole':
+      case 'MsfConsole':
         break;
-      case 'Socks':
+      case 'MsfSocks':
         break;
-      case 'filemsf':
+      case 'FileMsf':
         if (filemsfRef.current === null) {
         } else {
           filemsfRef.current.updateData();
@@ -1207,8 +1204,6 @@ const TabsBottom = () => {
           webDeliveryRef.current.updateData();
         }
         break;
-      case 'MuitHosts':
-        break;
       case 'SystemSetting':
         break;
       default:
@@ -1220,7 +1215,7 @@ const TabsBottom = () => {
       {showNetworkWindow ? <NewWindow
         height={window.innerHeight / 10 * 8}
         width={window.innerWidth / 10 * 8}
-        title="网络拓扑"
+        title={formatText('app.hostandsession.tab.Network')}
         onClose={() => setShowNetworkWindow(false)}
       >
         <NetworkWindowMemo/>
@@ -1228,7 +1223,7 @@ const TabsBottom = () => {
       {showMsfconsoleWindow ? <NewWindow
         height={window.innerHeight / 10 * 6}
         width={window.innerWidth / 10 * 6}
-        title="msfconsole"
+        title="MsfConsole"
         onClose={() => setShowMsfconsoleWindow(false)}
       >
         <MsfConsoleXTermMemo/>
@@ -1269,10 +1264,10 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <FundViewOutlined/>
-              <span className={styles.tabPanespan}>实时输出</span>
+              <span className={styles.tabPanespan}>{formatText('app.hostandsession.tab.Notices')}</span>
             </div>
           }
-          key="notices"
+          key="Notices"
         >
           <Row gutter={0}>
             <Col span={14}>
@@ -1287,7 +1282,7 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <TaskQueueTagMemo/>
-              <span className={styles.tabPanespan}>任务列表</span>
+              <span className={styles.tabPanespan}>{formatText('app.hostandsession.tab.JobList')}</span>
             </div>
           }
           key="JobList"
@@ -1298,7 +1293,7 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <CustomerServiceOutlined/>
-              <span className={styles.tabPanespan}>监听载荷</span>
+              <span className={styles.tabPanespan}>{formatText('app.hostandsession.tab.PayloadAndHandler')}</span>
             </div>
           }
           key="PayloadAndHandler"
@@ -1320,10 +1315,10 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <FolderOpenOutlined/>
-              <span className={styles.tabPanespan}>文件列表</span>
+              <span className={styles.tabPanespan}>{formatText('app.hostandsession.tab.FileMsf')}</span>
             </div>
           }
-          key="filemsf"
+          key="FileMsf"
         >
           <FileMsfMemo onRef={filemsfRef}/>
         </TabPane>
@@ -1331,7 +1326,7 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <DeploymentUnitOutlined/>
-              <span className={styles.tabPanespan}>网络拓扑</span>
+              <span className={styles.tabPanespan}>{formatText('app.hostandsession.tab.Network')}</span>
             </div>
           }
           key="Network"
@@ -1342,7 +1337,7 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <RobotOutlined/>
-              <span className={styles.tabPanespan}>自动编排</span>
+              <span className={styles.tabPanespan}>{formatText('app.hostandsession.tab.AutoRobot')}</span>
             </div>
           }
           key="AutoRobot"
@@ -1353,10 +1348,10 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <SisternodeOutlined/>
-              <span className={styles.tabPanespan}>内网代理</span>
+              <span className={styles.tabPanespan}>{formatText('app.hostandsession.tab.MsfSocks')}</span>
             </div>
           }
-          key="Socks"
+          key="MsfSocks"
         >
           <MsfSocksMemo/>
         </TabPane>
@@ -1364,7 +1359,7 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <KeyOutlined/>
-              <span className={styles.tabPanespan}>凭证列表</span>
+              <span className={styles.tabPanespan}>{formatText('app.hostandsession.tab.Credential')}</span>
             </div>
           }
           key="Credential"
@@ -1376,7 +1371,7 @@ const TabsBottom = () => {
             tab={
               <div className={styles.tabPanediv}>
                 <MailOutlined/>
-                <span className={styles.tabPanespan}>钓鱼管理</span>
+                <span className={styles.tabPanespan}>{formatText('app.hostandsession.tab.LazyLoader')}</span>
               </div>
             }
             key="LazyLoader"
@@ -1388,7 +1383,7 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <RadarChartOutlined/>
-              <span className={styles.tabPanespan}>全网扫描</span>
+              <span className={styles.tabPanespan}>{formatText('app.hostandsession.tab.BotScan')}</span>
             </div>
           }
           key="BotScan"
@@ -1399,10 +1394,10 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <CodeOutlined/>
-              <span className={styles.tabPanespan}>CONSOLE</span>
+              <span className={styles.tabPanespan}>MsfConsole</span>
             </div>
           }
-          key="msfconsole"
+          key="MsfConsole"
           // forceRender
         >
           <MsfconsoleMemo/>
@@ -1411,7 +1406,7 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <SettingOutlined/>
-              <span className={styles.tabPanespan}>平台设置</span>
+              <span className={styles.tabPanespan}>{formatText('app.hostandsession.tab.SystemSetting')}</span>
             </div>
           }
           key="SystemSetting"
@@ -1489,28 +1484,29 @@ const SessionInfo = () => {
   });
 
   const integrity_to_tag = {
-    low: <Tag color="volcano">低</Tag>,
-    medium: <Tag color="orange">中</Tag>,
-    high: <Tag color="green">高</Tag>,
-    system: <Tag color="green">高</Tag>,
+    low: <Tag color="volcano">{formatText('app.hostandsession.low')}</Tag>,
+    medium: <Tag color="orange">{formatText('app.hostandsession.medium')}</Tag>,
+    high: <Tag color="green">{formatText('app.hostandsession.high')}</Tag>,
+    system: <Tag color="green">{formatText('app.hostandsession.system')}</Tag>,
   };
+
   const is_in_admin_group_to_tag = flag => {
     if (flag === null) {
-      return <Tag>未知</Tag>;
+      return <Tag>{formatText('app.hostandsession.unknown')}</Tag>;
     } else if (flag === true) {
-      return <Tag color="green">是</Tag>;
+      return <Tag color="green">{formatText('app.hostandsession.yes')}</Tag>;
     } else if (flag === false) {
-      return <Tag color="volcano">否</Tag>;
+      return <Tag color="volcano">{formatText('app.hostandsession.no')}</Tag>;
     }
   };
   const uac_to_tag = {
-    '-1': <Tag color="red">未知</Tag>,
-    '0': <Tag color="green">关闭</Tag>,
-    '1': <Tag color="magenta">总是通知</Tag>,
-    '2': <Tag color="magenta">总是通知</Tag>,
-    '3': <Tag color="magenta">总是通知</Tag>,
-    '4': <Tag color="magenta">总是通知</Tag>,
-    '5': <Tag color="orange">默认</Tag>,
+    '-1': <Tag color="red">{formatText('app.hostandsession.unknown')}</Tag>,
+    '0': <Tag color="green">{formatText('app.hostandsession.close')}</Tag>,
+    '1': <Tag color="magenta">{formatText('app.hostandsession.alwaysnotify')}</Tag>,
+    '2': <Tag color="magenta">{formatText('app.hostandsession.alwaysnotify')}</Tag>,
+    '3': <Tag color="magenta">{formatText('app.hostandsession.alwaysnotify')}</Tag>,
+    '4': <Tag color="magenta">{formatText('app.hostandsession.alwaysnotify')}</Tag>,
+    '5': <Tag color="orange">{formatText('app.hostandsession.default')}</Tag>,
   };
   const processColumns = [
     {
@@ -1546,7 +1542,6 @@ const SessionInfo = () => {
       sorter: (a, b) => a.arch >= b.arch,
     },
     {
-      // title: '操作',
       dataIndex: 'operation',
       width: 80,
       render: (text, record) => (
@@ -1561,10 +1556,10 @@ const SessionInfo = () => {
               initialValues={{ PID: record.pid }}
             />
           }
-          title="进程操作"
+          title={formatText('app.hostandsession.processoper')}
           trigger="click"
         >
-          <a>进程操作</a>
+          <a>{formatText('app.hostandsession.processoper')}</a>
         </Popover>
       ),
     },
@@ -1602,7 +1597,7 @@ const SessionInfo = () => {
   return (
     <Fragment>
       <Tabs defaultActiveKey="sessioninfo" size="small">
-        <TabPane tab="权限信息" key="sessioninfo">
+        <TabPane tab={formatText('app.hostandsession.session.SessionInfo')} key="sessioninfo">
           <Descriptions
             style={{ marginTop: -16, width: '100%' }}
             size="small"
@@ -1610,13 +1605,13 @@ const SessionInfo = () => {
             bordered
             loading={initListSessionInfoReq.loading || updateSessionInfoReq.loading}
           >
-            <Descriptions.Item label="心跳" span={4}>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.heartbeat')} span={4}>
               <Tag color="cyan">{moment(fromnowTime).fromNow()}</Tag>
             </Descriptions.Item>
             <Descriptions.Item label="ID" span={4}>
               {SidTag(sessionInfoActive.sessionid)}
             </Descriptions.Item>
-            <Descriptions.Item label="主机IP" span={8}>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.hostip')} span={8}>
               <strong style={{ color: '#d8bd14' }}>{sessionInfoActive.session_host}</strong>
             </Descriptions.Item>
             <Descriptions.Item label="Arch" span={4}>
@@ -1625,75 +1620,77 @@ const SessionInfo = () => {
             <Descriptions.Item label="OS" span={8}>
               {os_tag_new}
             </Descriptions.Item>
-            <Descriptions.Item label="管理员权限" span={4}>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.adminright')} span={4}>
               {sessionInfoActive.is_admin ? (
-                <Tag color="green">是</Tag>
+                <Tag color="green">{formatText('app.hostandsession.yes')}</Tag>
               ) : (
-                <Tag color="volcano">否</Tag>
+                <Tag color="volcano">{formatText('app.hostandsession.no')}</Tag>
               )}
             </Descriptions.Item>
-            <Descriptions.Item label="本地管理员组" span={4}>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.localadmin')} span={4}>
               {is_in_admin_group_to_tag(sessionInfoActive.is_in_admin_group)}
             </Descriptions.Item>
-            <Descriptions.Item label="用户" span={4}>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.user')} span={4}>
               {sessionInfoActive.user}
             </Descriptions.Item>
-            <Descriptions.Item label="UAC状态" span={4}>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.is_uac_enable')} span={4}>
               {sessionInfoActive.is_uac_enable ? (
                 <Tag color="magenta">打开</Tag>
               ) : (
                 <Tag color="green">关闭</Tag>
               )}
             </Descriptions.Item>
-            <Descriptions.Item label="UAC等级" span={4}>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.uac_level')} span={4}>
               {uac_to_tag[sessionInfoActive.uac_level.toString()]}
             </Descriptions.Item>
-            <Descriptions.Item label="完整性" span={4}>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.integrity')} span={4}>
               {sessionInfoActive.integrity === null ? (
                 <Tag>未知</Tag>
               ) : (
                 integrity_to_tag[sessionInfoActive.integrity]
               )}
             </Descriptions.Item>
-            <Descriptions.Item label="域用户" span={4}>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.is_in_domain')} span={4}>
               {sessionInfoActive.is_in_domain ? (
-                <Tag color="lime">是</Tag>
+                <Tag color="lime">{formatText('app.hostandsession.yes')}</Tag>
               ) : (
-                <Tag color="magenta">否</Tag>
+                <Tag color="magenta">{formatText('app.hostandsession.no')}</Tag>
               )}
             </Descriptions.Item>
-            <Descriptions.Item label="域" span={4}>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.domain')} span={4}>
               {sessionInfoActive.domain}
             </Descriptions.Item>
-            <Descriptions.Item label="主机名" span={4}>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.computer')} span={4}>
               {sessionInfoActive.computer}
             </Descriptions.Item>
-            <Descriptions.Item label="Powershell插件" span={6}>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.load_powershell')} span={6}>
               {sessionInfoActive.load_powershell ? (
-                <Tag color="lime">已加载</Tag>
+                <Tag color="lime">{formatText('app.hostandsession.sessioninfo.loaded')}</Tag>
               ) : (
-                <Tag>未加载</Tag>
+                <Tag>{formatText('app.hostandsession.sessioninfo.unload')}</Tag>
               )}
             </Descriptions.Item>
-            <Descriptions.Item label="Python插件" span={6}>
-              {sessionInfoActive.load_python ? <Tag color="lime">已加载</Tag> : <Tag>未加载</Tag>}
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.load_python')} span={6}>
+              {sessionInfoActive.load_python ?
+                <Tag color="lime">{formatText('app.hostandsession.sessioninfo.loaded')}</Tag> :
+                <Tag>{formatText('app.hostandsession.sessioninfo.unload')}</Tag>}
             </Descriptions.Item>
-            <Descriptions.Item label="远程端口" span={6}>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.tunnel_peer')} span={6}>
               {sessionInfoActive.tunnel_peer}
             </Descriptions.Item>
-            <Descriptions.Item label="本地端口" span={6}>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.tunnel_local')} span={6}>
               {sessionInfoActive.tunnel_local}
             </Descriptions.Item>
-            <Descriptions.Item label="地理信息" span={6}>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.tunnel_peer_locate')} span={6}>
               {sessionInfoActive.tunnel_peer_locate}
             </Descriptions.Item>
-            <Descriptions.Item label="运营商" span={6}>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.tunnel_peer_asn')} span={6}>
               {sessionInfoActive.tunnel_peer_asn}
             </Descriptions.Item>
-            <Descriptions.Item label="模块" span={6}>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.via_exploit')} span={6}>
               {sessionInfoActive.via_exploit}
             </Descriptions.Item>
-            <Descriptions.Item label="载荷" span={6}>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.via_payload')} span={6}>
               {sessionInfoActive.via_payload}
             </Descriptions.Item>
           </Descriptions>
@@ -1706,11 +1703,11 @@ const SessionInfo = () => {
                 updateSessionInfoReq.run({ sessionid: hostAndSessionActive.session.id })
               }
             >
-              更新信息
+              {formatText('app.hostandsession.sessioninfo.update')}
             </Button>
           </Space>
         </TabPane>
-        <TabPane tab="进程列表" key="processes">
+        <TabPane tab={formatText('app.hostandsession.sessioninfo.processes')} key="processes">
           <Table
             className={styles.processesTable}
             columns={processColumns}
@@ -1729,10 +1726,10 @@ const SessionInfo = () => {
             <Descriptions.Item label="PID" span={4}>
               {sessionInfoActive.pid}
             </Descriptions.Item>
-            <Descriptions.Item label="进程" span={4}>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.pname')} span={4}>
               {sessionInfoActive.pname}
             </Descriptions.Item>
-            <Descriptions.Item label="进程路径" span={4}>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.ppath')} span={4}>
               {sessionInfoActive.ppath}
             </Descriptions.Item>
           </Descriptions>
@@ -1745,7 +1742,7 @@ const SessionInfo = () => {
                 updateSessionInfoReq.run({ sessionid: hostAndSessionActive.session.id })
               }
             >
-              更新信息
+              {formatText('app.hostandsession.sessioninfo.update')}
             </Button>
           </Space>
         </TabPane>
@@ -1854,22 +1851,22 @@ const SessionIO = () => {
       </pre>
       <Space>
         <Button type="primary" size="small" onClick={() => onCreateSessionio('help')}>
-          显示帮助
+          {formatText('app.hostandsession.sessionio.help')}
         </Button>
         <Button size="small" onClick={() => onCreateSessionio('keyscan_start')}>
-          开始键盘记录
+          {formatText('app.hostandsession.sessionio.keyscan_start')}
         </Button>
         <Button size="small" onClick={() => onCreateSessionio('keyscan_dump')}>
-          获取键盘记录
+          {formatText('app.hostandsession.sessionio.keyscan_dump')}
         </Button>
         <Button size="small" onClick={() => onCreateSessionio('keyscan_stop')}>
-          关闭键盘记录
+          {formatText('app.hostandsession.sessionio.keyscan_stop')}
         </Button>
         <Button size="small" onClick={() => onCreateSessionio('screenshot')}>
-          屏幕截图
+          {formatText('app.hostandsession.sessionio.screenshot')}
         </Button>
         <Button size="small" onClick={() => onCreateSessionio('idletime')}>
-          用户离开时间
+          {formatText('app.hostandsession.sessionio.idletime')}
         </Button>
       </Space>
       <Space style={{ marginTop: 4 }}>
@@ -1880,19 +1877,19 @@ const SessionIO = () => {
           hashdump
         </Button>
         <Button size="small" onClick={() => onCreateSessionio('getsystem')}>
-          获取系统权限
+          {formatText('app.hostandsession.sessionio.getsystem')}
         </Button>
         <Button size="small" onClick={() => onCreateSessionio('load unhook')}>
-          加载Unhook插件
+          {formatText('app.hostandsession.sessionio.loadunhook')}
         </Button>
         <Button size="small" onClick={() => onCreateSessionio('load powershell')}>
-          加载Powershell插件
+          {formatText('app.hostandsession.sessionio.loadpowershell')}
         </Button>
         <Button size="small" onClick={() => onCreateSessionio('load python')}>
-          加载Python插件
+          {formatText('app.hostandsession.sessionio.loadpython')}
         </Button>
         <Button size="small" onClick={() => onCreateSessionio('python_reset')}>
-          重置Python插件
+          {formatText('app.hostandsession.sessionio.python_reset')}
         </Button>
       </Space>
       <Row style={{ marginTop: 8 }} gutter={8}>
@@ -1916,7 +1913,7 @@ const SessionIO = () => {
             icon={<DeleteOutlined/>}
             onClick={() => destorySessionioReq.run({ ipaddress: hostAndSessionActive.ipaddress })}
           >
-            清空
+            {formatText('app.core.clear')}
           </Button>
         </Col>
       </Row>
@@ -1995,7 +1992,6 @@ const MsfRoute = () => {
     <Fragment>
       <Table
         className={styles.sessionNetTable}
-        // width="70vw"
         size="small"
         rowKey="subnet"
         pagination={paginationProps}
@@ -2003,21 +1999,20 @@ const MsfRoute = () => {
         loading={listRouteReq.loading || destoryRouteReq.loading}
         columns={[
           {
-            title: '子网',
+            title: formatText('app.hostandsession.msfroute.subnet'),
             dataIndex: 'subnet',
             key: 'subnet',
           },
           {
-            title: '掩码',
+            title: formatText('app.hostandsession.msfroute.netmask'),
             dataIndex: 'netmask',
             key: 'netmask',
           },
           {
-            title: '操作',
             dataIndex: 'operation',
             render: (text, record) => (
               <a style={{ color: 'red' }} onClick={() => onDestoryRoute(record)}>
-                删除
+                {formatText('app.core.delete')}
               </a>
             ),
           },
@@ -2035,22 +2030,25 @@ const MsfRoute = () => {
           netmask: '255.255.255.0',
         }}
       >
-        <Form.Item label={<span>自动</span>} name="autoroute" valuePropName="checked">
+        <Form.Item
+          label={formatText('app.hostandsession.msfroute.auto')}
+          name="autoroute"
+          valuePropName="checked">
           <Checkbox onChange={e => setAutoRouteCheck(e.target.checked)}/>
         </Form.Item>
         <Form.Item
-          label={<span>子网</span>}
+          label={formatText('app.hostandsession.msfroute.subnet')}
           name="subnet"
-          rules={[{ required: !autoRouteCheck, message: '请输入子网' }]}
+          rules={[{ required: !autoRouteCheck, message: formatText('app.hostandsession.msfroute.subnet.rule') }]}
         >
-          <Input disabled={autoRouteCheck} placeholder="请输入子网(10.10.10.0)"/>
+          <Input disabled={autoRouteCheck} placeholder={formatText('app.hostandsession.msfroute.subnet.rule')}/>
         </Form.Item>
         <Form.Item
-          label={<span>掩码</span>}
+          label={formatText('app.hostandsession.msfroute.netmask')}
           name="netmask"
-          rules={[{ required: !autoRouteCheck, message: '请输入掩码' }]}
+          rules={[{ required: !autoRouteCheck, message: formatText('app.hostandsession.msfroute.netmask.rule') }]}
         >
-          <Input disabled={autoRouteCheck} placeholder="请输入掩码(255.255.255.0)"/>
+          <Input disabled={autoRouteCheck} placeholder={formatText('app.hostandsession.msfroute.netmask.rule')}/>
         </Form.Item>
         <Form.Item>
           <Button
@@ -2059,7 +2057,7 @@ const MsfRoute = () => {
             type="primary"
             htmlType="submit"
           >
-            新增
+            {formatText('app.core.add')}
           </Button>
         </Form.Item>
         <Form.Item>
@@ -2069,7 +2067,7 @@ const MsfRoute = () => {
             onClick={() => listRouteReq.run({ sessionid: hostAndSessionActive.session.id })}
             loading={listRouteReq.loading}
           >
-            刷新
+            {formatText('app.core.refresh')}
           </Button>
         </Form.Item>
       </Form>
@@ -2143,8 +2141,6 @@ const PortFwd = () => {
     <Fragment>
       <Table
         className={styles.portFwdTable}
-        // width="70vw"
-        // bordered
         size="small"
         rowKey="local"
         pagination={false}
@@ -2152,27 +2148,23 @@ const PortFwd = () => {
         loading={listPortFwdReq.loading || destoryPortFwdReq.loading}
         columns={[
           {
-            title: '方向',
+            title: formatText('app.msfsocks.portfwd.type'),
             dataIndex: 'type',
             key: 'type',
             width: '10%',
             render: (text, record) => {
               if (record.type === 'Forward') {
                 return (
-                  <div>
-                    <Tag color="cyan">正向转发</Tag>
-                  </div>
+                  <Tag color="cyan">{formatText('app.msfsocks.portfwd.type.forword')}</Tag>
                 );
               }
               return (
-                <div>
-                  <Tag color="geekblue">反向转发</Tag>
-                </div>
+                <Tag color="geekblue">{formatText('app.msfsocks.portfwd.type.reverse')}</Tag>
               );
             },
           },
           {
-            title: '本地(Viper)',
+            title: formatText('app.msfsocks.portfwd.local'),
             dataIndex: 'local',
             key: 'local',
             render: (text, record) => {
@@ -2180,7 +2172,7 @@ const PortFwd = () => {
                 return (
                   <div>
                     <Tag style={{ marginRight: 8 }} color="green">
-                      监听
+                      {formatText('app.msfsocks.portfwd.listen')}
                     </Tag>
                     <span>{`${record.lhost}:${record.lport}`}</span>
                   </div>
@@ -2189,7 +2181,7 @@ const PortFwd = () => {
               return (
                 <div>
                   <Tag style={{ marginRight: 8 }} color="gold">
-                    目标
+                    {formatText('app.msfsocks.portfwd.target')}
                   </Tag>
                   <span>{`${record.lhost}:${record.lport}`}</span>
                 </div>
@@ -2198,7 +2190,7 @@ const PortFwd = () => {
           },
 
           {
-            title: '远程(Session)',
+            title: formatText('app.msfsocks.portfwd.remote'),
             dataIndex: 'remote',
             key: 'remote',
             render: (text, record) => {
@@ -2206,7 +2198,7 @@ const PortFwd = () => {
                 return (
                   <div>
                     <Tag style={{ marginRight: 8 }} color="gold">
-                      目标
+                      {formatText('app.msfsocks.portfwd.target')}
                     </Tag>
                     <span>{`${record.rhost}:${record.rport}`}</span>
                   </div>
@@ -2215,7 +2207,7 @@ const PortFwd = () => {
               return (
                 <div>
                   <Tag style={{ marginRight: 8 }} color="green">
-                    监听
+                    {formatText('app.msfsocks.portfwd.listen')}
                   </Tag>
                   <span>{`${record.rhost}:${record.rport}`}</span>
                 </div>
@@ -2223,12 +2215,11 @@ const PortFwd = () => {
             },
           },
           {
-            title: '操作',
             dataIndex: 'operation',
             width: '10%',
             render: (text, record) => (
               <a style={{ color: 'red' }} onClick={() => destoryPortFwdReq.run(record)}>
-                删除
+                {formatText('app.core.delete')}
               </a>
             ),
           },
@@ -2238,33 +2229,33 @@ const PortFwd = () => {
         <Tabs defaultActiveKey="Forward" size="small">
           <TabPane
             tab={
-              <span>
-                <SwapRightOutlined/> 正向
-              </span>
+              <span><SwapRightOutlined/>{formatText('app.msfsocks.portfwd.type.forword')}</span>
             }
             key="Forward"
           >
             <Form style={{ marginLeft: 16 }} layout="inline" onFinish={onCreatePortFwdForward}>
               <Form.Item
-                label={<span>本地端口(监听)</span>}
+                label={formatText('app.hostandsession.portfwd.forword.lport')}
                 name="lport"
-                rules={[{ required: true, message: '请输入本地监听端口' }]}
+                rules={[{ required: true, message: formatText('app.hostandsession.portfwd.forword.lport.rule') }]}
               >
-                <InputNumber style={{ width: 120 }} placeholder="VPS端口"/>
+                <InputNumber style={{ width: 120 }}
+                             placeholder={formatText('app.hostandsession.portfwd.forword.lport.ph')}/>
               </Form.Item>
               <Form.Item
-                label={<span>远程IP(目标)</span>}
+                label={formatText('app.hostandsession.portfwd.forword.rhost')}
                 name="rhost"
-                rules={[{ required: true, message: '请输入远程IP' }]}
+                rules={[{ required: true, message: formatText('app.hostandsession.portfwd.forword.rhost.rule') }]}
               >
-                <Input style={{ width: 160 }} placeholder="内网IP/127.0.0.1"/>
+                <Input style={{ width: 160 }} placeholder={formatText('app.hostandsession.portfwd.forword.rhost.ph')}/>
               </Form.Item>
               <Form.Item
-                label={<span>远程端口(目标)</span>}
+                label={formatText('app.hostandsession.portfwd.forword.rport')}
                 name="rport"
-                rules={[{ required: true, message: '请输入远程端口' }]}
+                rules={[{ required: true, message: formatText('app.hostandsession.portfwd.forword.rport.rule') }]}
               >
-                <InputNumber style={{ width: 120 }} placeholder="目标端口"/>
+                <InputNumber style={{ width: 120 }}
+                             placeholder={formatText('app.hostandsession.portfwd.forword.rport.ph')}/>
               </Form.Item>
               <Form.Item>
                 <Button
@@ -2273,7 +2264,7 @@ const PortFwd = () => {
                   htmlType="submit"
                   loading={createPortFwdReq.loading}
                 >
-                  新增
+                  {formatText('app.core.add')}
                 </Button>
               </Form.Item>
               <Form.Item>
@@ -2283,7 +2274,7 @@ const PortFwd = () => {
                   onClick={() => listPortFwdReq.run({ sessionid: hostAndSessionActive.session.id })}
                   loading={listPortFwdReq.loading}
                 >
-                  刷新
+                  {formatText('app.core.refresh')}
                 </Button>
               </Form.Item>
             </Form>
@@ -2294,41 +2285,40 @@ const PortFwd = () => {
                 expandable: true,
               }}
             >
-              将VPS的网络端口转发到内网的某IP某端口.
+              {formatText('app.hostandsession.portfwd.forword.doc.1')}
               <br/>
-              例如:通过192.168.3.13的Session将VPS的10.10.10.10:2000转发到内网192.168.3.14:3389.本地端口(监听):2000
-              远程IP(目标):192.168.3.14 远程端口(目标):3389
+              {formatText('app.hostandsession.portfwd.forword.doc.2')}
             </Paragraph>
           </TabPane>
           <TabPane
             tab={
-              <span>
-                <SwapLeftOutlined/> 反向
-              </span>
+              <span><SwapLeftOutlined/>{formatText('app.msfsocks.portfwd.type.reverse')}</span>
             }
             key="Reverse"
           >
             <Form style={{ marginLeft: 16 }} layout="inline" onFinish={onCreatePortFwdReverse}>
               <Form.Item
-                label={<span>本地IP(目标)</span>}
+                label={formatText('app.hostandsession.portfwd.reverse.lhost')}
                 name="lhost"
-                rules={[{ required: true, message: '请输入本地目标IP' }]}
+                rules={[{ required: true, message: formatText('app.hostandsession.portfwd.reverse.lhost.rule') }]}
               >
-                <Input style={{ width: 160 }} placeholder="VPSIP/目标IP"/>
+                <Input style={{ width: 160 }} placeholder={formatText('app.hostandsession.portfwd.reverse.lhost.ph')}/>
               </Form.Item>
               <Form.Item
-                label={<span>本地端口(目标)</span>}
+                label={formatText('app.hostandsession.portfwd.reverse.lport')}
                 name="lport"
-                rules={[{ required: true, message: '请输入本地端口' }]}
+                rules={[{ required: true, message: formatText('app.hostandsession.portfwd.reverse.lport.rule') }]}
               >
-                <InputNumber style={{ width: 120 }} placeholder="目标端口"/>
+                <InputNumber style={{ width: 120 }}
+                             placeholder={formatText('app.hostandsession.portfwd.reverse.lport.ph')}/>
               </Form.Item>
               <Form.Item
-                label={<span>远程端口(监听)</span>}
+                label={formatText('app.hostandsession.portfwd.reverse.rport')}
                 name="rport"
-                rules={[{ required: true, message: '请输入远程端口' }]}
+                rules={[{ required: true, message: formatText('app.hostandsession.portfwd.reverse.rport.rule') }]}
               >
-                <InputNumber style={{ width: 120 }} placeholder="监听端口"/>
+                <InputNumber style={{ width: 120 }}
+                             placeholder={formatText('app.hostandsession.portfwd.reverse.rport.ph')}/>
               </Form.Item>
               <Form.Item>
                 <Button
@@ -2337,7 +2327,7 @@ const PortFwd = () => {
                   htmlType="submit"
                   icon={<PlusOutlined/>}
                 >
-                  新增
+                  {formatText('app.core.add')}
                 </Button>
               </Form.Item>
               <Form.Item>
@@ -2347,7 +2337,7 @@ const PortFwd = () => {
                   onClick={() => listPortFwdReq.run({ sessionid: hostAndSessionActive.session.id })}
                   loading={listPortFwdReq.loading}
                 >
-                  刷新
+                  {formatText('app.core.refresh')}
                 </Button>
               </Form.Item>
             </Form>

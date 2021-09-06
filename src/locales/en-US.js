@@ -11,6 +11,7 @@ import filemsf from './en-US/filemsf';
 import network from './en-US/network';
 import msfsocks from './en-US/msfsocks';
 import credential from './en-US/credential';
+import hostandsession from './en-US/hostandsession';
 
 export default {
   ...exception,
@@ -26,4 +27,5 @@ export default {
   ...network,
   ...msfsocks,
   ...credential,
+  ...hostandsession,
 };
