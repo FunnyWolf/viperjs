@@ -2348,12 +2348,11 @@ const PortFwd = () => {
                 expandable: true,
               }}
             >
-              将内网的某IP某端口转发到VPS的网络端口.
+              {formatText('app.hostandsession.portfwd.reverse.doc.1')}
               <br/>
-              例如:通过192.168.3.13的session将内网192.168.3.13:20000转发到10.10.10.10:2000.
-              本地IP(目标):10.10.10.10 本地端口(监听):2000 远程端口(监听):20000.
+              {formatText('app.hostandsession.portfwd.reverse.doc.2')}
               <br/>
-              (10.10.10.10:2000开启handler监听,192.168.3.14连接192.168.3.13:20000生成反向shell)
+              {formatText('app.hostandsession.portfwd.reverse.doc.3')}
             </Paragraph>
           </TabPane>
         </Tabs>
@@ -2374,8 +2373,7 @@ const Transport = props => {
   const [transports, setTransports] = useState([]);
   const [handlers, setHandlers] = useState([]);
 
-  const initListTransportReq = useRequest(
-    () => getMsgrpcTransportAPI({ sessionid: hostAndSessionActive.session.id }),
+  useRequest(() => getMsgrpcTransportAPI({ sessionid: hostAndSessionActive.session.id }),
     {
       onSuccess: (result, params) => {
         setSession_exp(result.session_exp);
@@ -2530,7 +2528,7 @@ const Transport = props => {
             },
           },
           {
-            title: '超时时间',
+            title: formatText('app.hostandsession.transport.comm_timeout'),
             dataIndex: 'comm_timeout',
             width: 64,
             render: (text, record) => {
@@ -2538,15 +2536,15 @@ const Transport = props => {
             },
           },
           {
-            title: '重连次数',
-            dataIndex: 'comm_timeout',
+            title: formatText('app.hostandsession.transport.retry_total'),
+            dataIndex: 'retry_total',
             width: 64,
             render: (text, record) => {
               return <span>{text}</span>;
             },
           },
           {
-            title: '重连间隔',
+            title: formatText('app.hostandsession.transport.retry_wait'),
             dataIndex: 'retry_wait',
             width: 64,
             render: (text, record) => {
@@ -2554,8 +2552,8 @@ const Transport = props => {
             },
           },
           {
-            title: '强制过期',
-            dataIndex: 'retry_wait',
+            title: formatText('app.hostandsession.transport.session_exp'),
+            dataIndex: 'session_exp',
             width: 80,
             render: (text, record) => {
               return (
@@ -2571,7 +2569,6 @@ const Transport = props => {
             },
           },
           {
-            title: '操作',
             dataIndex: 'operation',
             width: 56,
             render: (text, record) => {
@@ -2581,7 +2578,7 @@ const Transport = props => {
 
               return (
                 <a style={{ color: 'red' }} onClick={() => onDestoryTransport(record)}>
-                  删除
+                  {formatText('app.core.delete')}
                 </a>
               );
             },
@@ -2598,7 +2595,11 @@ const Transport = props => {
         onFinish={onCreateTransport}
         initialValues={{}}
       >
-        <Form.Item label="监听" name="handler" rules={[{ required: true, message: '请选择监听' }]}>
+        <Form.Item
+          label={formatText('app.hostandsession.transport.handler')}
+          name="handler"
+          rules={[{ required: true, message: formatText('app.hostandsession.transport.handler.rule') }]}
+        >
           <Select
             allowClear
             style={{
@@ -2615,26 +2616,26 @@ const Transport = props => {
             htmlType="submit"
             icon={<PlusOutlined/>}
           >
-            添加
+            {formatText('app.core.add')}
           </Button>
         </Form.Item>
         <Form.Item>
           <Popconfirm
-            title="确认切换Session传输,此操作会删除当前Session?"
+            title={formatText('app.hostandsession.transport.update.tip')}
             onConfirm={() => onUpdateTransport('prev')}
           >
             <Button loading={updateTransportReq.loading} danger icon={<UpOutlined/>}>
-              切换
+              {formatText('app.hostandsession.transport.update')}
             </Button>
           </Popconfirm>
         </Form.Item>
         <Form.Item>
           <Popconfirm
-            title="确认切换Session传输,此操作会删除当前Session?"
+            title={formatText('app.hostandsession.transport.update.tip')}
             onConfirm={() => onUpdateTransport('next')}
           >
             <Button loading={updateTransportReq.loading} danger icon={<DownOutlined/>}>
-              切换
+              {formatText('app.hostandsession.transport.update')}
             </Button>
           </Popconfirm>
         </Form.Item>
@@ -2645,7 +2646,7 @@ const Transport = props => {
             onClick={() => listTransportReq.run({ sessionid: hostAndSessionActive.session.id })}
             loading={listTransportReq.loading}
           >
-            刷新
+            {formatText('app.core.refresh')}
           </Button>
         </Form.Item>
       </Form>
@@ -2659,13 +2660,15 @@ const Transport = props => {
         onFinish={onSleepSession}
         initialValues={{}}
       >
-        <Form.Item name="sleep" rules={[{ required: true, message: '请选择监听' }]} label="休眠">
+        <Form.Item name="sleep"
+                   rules={[{ required: true, message: formatText('app.hostandsession.transport.sleep.rule') }]}
+                   label={formatText('app.hostandsession.transport.sleep')}>
           <Select style={{ width: 120 }}>
-            <Option value={60}>1分钟</Option>
-            <Option value={60 * 60}>1小时</Option>
-            <Option value={60 * 60 * 6}>6小时</Option>
-            <Option value={60 * 60 * 12}>12小时</Option>
-            <Option value={60 * 60 * 24}>24小时</Option>
+            <Option value={60}>{formatText('app.hostandsession.transport.1min')}</Option>
+            <Option value={60 * 60}>{formatText('app.hostandsession.transport.1hour')}</Option>
+            <Option value={60 * 60 * 6}>{formatText('app.hostandsession.transport.6hour')}</Option>
+            <Option value={60 * 60 * 12}>{formatText('app.hostandsession.transport.12hour')}</Option>
+            <Option value={60 * 60 * 24}>{formatText('app.hostandsession.transport.24hour')}</Option>
           </Select>
         </Form.Item>
         <Form.Item>
@@ -2675,7 +2678,7 @@ const Transport = props => {
             htmlType="submit"
             icon={<RestOutlined/>}
           >
-            休眠
+            {formatText('app.hostandsession.transport.sleep')}
           </Button>
         </Form.Item>
       </Form>
