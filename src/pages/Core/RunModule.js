@@ -53,6 +53,7 @@ import {
   postPostModuleAutoAPI,
   postPostmodulePostModuleActuatorAPI,
 } from '@/services/apiv1';
+import { formatText } from '@/utils/locales';
 
 const { Option } = Select;
 const { Search, TextArea } = Input;
@@ -136,28 +137,28 @@ export const PostModuleInfoContent = postModuleConfig => {
       column={8}
       bordered
     >
-      <Descriptions.Item label="名称" span={8}>
+      <Descriptions.Item label={formatText('app.runmodule.postmodule.NAME')} span={8}>
         {postModuleConfig.NAME}
       </Descriptions.Item>
-      <Descriptions.Item label="作者" span={4}>
+      <Descriptions.Item label={formatText('app.runmodule.postmodule.authorCom')} span={4}>
         {authorCom}
       </Descriptions.Item>
       <Descriptions.Item label="TTPs" span={4}>
         {attckCom}
       </Descriptions.Item>
-      <Descriptions.Item label="适用系统" span={4}>
+      <Descriptions.Item label={formatText('app.runmodule.postmodule.platformCom')} span={4}>
         {platformCom}
       </Descriptions.Item>
-      <Descriptions.Item label="适用权限" span={4}>
+      <Descriptions.Item label={formatText('app.runmodule.postmodule.permissionsCom')} span={4}>
         {permissionsCom}
       </Descriptions.Item>
-      <Descriptions.Item label="使用文档" span={8}>
+      <Descriptions.Item label={formatText('app.runmodule.postmodule.readmeCom')} span={8}>
         {readmeCom}
       </Descriptions.Item>
-      <Descriptions.Item label="参考链接" span={8}>
+      <Descriptions.Item label={formatText('app.runmodule.postmodule.referencesCom')} span={8}>
         {referencesCom}
       </Descriptions.Item>
-      <Descriptions.Item span={8} label="简介">
+      <Descriptions.Item span={8} label={formatText('app.runmodule.postmodule.DESC')}>
         <pre>{postModuleConfig.DESC}</pre>
       </Descriptions.Item>
     </Descriptions>
@@ -179,7 +180,7 @@ const getModuleOptions = (postModuleConfigActive) => {
             }
             name={oneOption.name}
             initialValue={oneOption.default}
-            rules={[{ required: oneOption.required, message: '请输入' }]}
+            rules={[{ required: oneOption.required }]}
           >
             <Input
               style={{ width: '90%' }}
@@ -198,7 +199,7 @@ const getModuleOptions = (postModuleConfigActive) => {
             }
             name={oneOption.name}
             initialValue={oneOption.default}
-            rules={[{ required: oneOption.required, message: '请输入' }]}
+            rules={[{ required: oneOption.required }]}
           >
             <TextArea
               style={{ width: '95%' }}
@@ -221,7 +222,7 @@ const getModuleOptions = (postModuleConfigActive) => {
             name={oneOption.name}
             valuePropName="checked"
             initialValue={oneOption.default}
-            rules={[{ required: oneOption.required, message: '请输入' }]}
+            rules={[{ required: oneOption.required }]}
           >
             <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
           </Form.Item>
@@ -238,7 +239,7 @@ const getModuleOptions = (postModuleConfigActive) => {
             }
             name={oneOption.name}
             initialValue={oneOption.default}
-            rules={[{ required: oneOption.required, message: '请输入' }]}
+            rules={[{ required: oneOption.required }]}
             wrapperCol={{ span: 24 }}
           >
             <InputNumber
@@ -258,7 +259,7 @@ const getModuleOptions = (postModuleConfigActive) => {
             }
             name={oneOption.name}
             initialValue={oneOption.default}
-            rules={[{ required: oneOption.required, message: '请输入' }]}
+            rules={[{ required: oneOption.required }]}
             wrapperCol={{ span: 24 }}
           >
             <InputNumber
@@ -289,7 +290,7 @@ const getModuleOptions = (postModuleConfigActive) => {
             }
             name={oneOption.name}
             initialValue={oneOption.default}
-            rules={[{ required: oneOption.required, message: '请输入' }]}
+            rules={[{ required: oneOption.required }]}
             wrapperCol={{ span: 24 }}
           >
             <Select
@@ -314,7 +315,7 @@ const getModuleOptions = (postModuleConfigActive) => {
             }
             name={oneOption.name}
             initialValue={oneOption.default}
-            rules={[{ required: oneOption.required, message: '请输入' }]}
+            rules={[{ required: oneOption.required }]}
             wrapperCol={{ span: 24 }}
           >
             <Input
@@ -448,8 +449,6 @@ export const RunModule = props => {
           let DESCMatch = false;
           let REFERENCESMatch = false;
           try {
-            // toString().
-            // NAMEMatch = record.NAME.includes(value);
             NAMEMatch = record.NAME.match(reg);
             DESCMatch = record.DESC.match(reg);
             REFERENCESMatch = record.REFERENCES.toString().match(reg);
@@ -554,28 +553,28 @@ export const RunModule = props => {
         column={8}
         bordered
       >
-        <Descriptions.Item label="名称" span={8}>
+        <Descriptions.Item label={formatText('app.runmodule.postmodule.NAME')} span={8}>
           {postModuleConfig.NAME}
         </Descriptions.Item>
-        <Descriptions.Item label="作者" span={4}>
+        <Descriptions.Item label={formatText('app.runmodule.postmodule.authorCom')} span={4}>
           {authorCom}
         </Descriptions.Item>
         <Descriptions.Item label="TTPs" span={4}>
           {attckCom}
         </Descriptions.Item>
-        <Descriptions.Item label="适用系统" span={4}>
+        <Descriptions.Item label={formatText('app.runmodule.postmodule.platformCom')} span={4}>
           {platformCom}
         </Descriptions.Item>
-        <Descriptions.Item label="适用权限" span={4}>
+        <Descriptions.Item label={formatText('app.runmodule.postmodule.permissionsCom')} span={4}>
           {permissionsCom}
         </Descriptions.Item>
-        <Descriptions.Item label="使用文档" span={8}>
+        <Descriptions.Item label={formatText('app.runmodule.postmodule.readmeCom')} span={8}>
           {readmeCom}
         </Descriptions.Item>
-        <Descriptions.Item label="参考链接" span={8}>
+        <Descriptions.Item label={formatText('app.runmodule.postmodule.referencesCom')} span={8}>
           {referencesCom}
         </Descriptions.Item>
-        <Descriptions.Item span={8} label="简介">
+        <Descriptions.Item span={8} label={formatText('app.runmodule.postmodule.DESC')}>
           <pre>{postModuleConfig.DESC}</pre>
         </Descriptions.Item>
       </Descriptions>
@@ -867,7 +866,7 @@ export const RunModule = props => {
               allowClear
               prefix={<SearchOutlined/>}
               style={{ width: '100%' }}
-              placeholder="名称/说明/TTPs"
+              placeholder={formatText('app.runmodule.postmodule.search.ph')}
               value={text}
               onChange={e => {
                 setText(e.target.value);
@@ -880,18 +879,28 @@ export const RunModule = props => {
               buttonStyle="solid"
               onChange={(e) => moduleTypeOnChange(e.target.value)}
             >
-              <Radio.Button value="">全部</Radio.Button>
+              <Radio.Button value="">{formatText('app.runmodule.postmodule.moduletype.all')}</Radio.Button>
               {/*<Radio.Button value="Reconnaissance">前期侦查</Radio.Button>*/}
-              <Radio.Button value="Resource_Development">资源部署</Radio.Button>
-              <Radio.Button value="Initial_Access">初始访问</Radio.Button>
-              <Radio.Button value="Execution">执行</Radio.Button>
-              <Radio.Button value="Persistence">持久化</Radio.Button>
-              <Radio.Button value="Privilege_Escalation">权限提升</Radio.Button>
-              <Radio.Button value="Defense_Evasion">防御绕过</Radio.Button>
-              <Radio.Button value="Credential_Access">凭证访问</Radio.Button>
-              <Radio.Button value="Discovery">信息收集</Radio.Button>
-              <Radio.Button value="Lateral_Movement">横向移动</Radio.Button>
-              <Radio.Button value="Collection">数据采集</Radio.Button>
+              <Radio.Button
+                value="Resource_Development">{formatText('app.runmodule.postmodule.moduletype.Resource_Development')}</Radio.Button>
+              <Radio.Button
+                value="Initial_Access">{formatText('app.runmodule.postmodule.moduletype.Initial_Access')}</Radio.Button>
+              <Radio.Button
+                value="Execution">{formatText('app.runmodule.postmodule.moduletype.Execution')}</Radio.Button>
+              <Radio.Button
+                value="Persistence">{formatText('app.runmodule.postmodule.moduletype.Persistence')}</Radio.Button>
+              <Radio.Button
+                value="Privilege_Escalation">{formatText('app.runmodule.postmodule.moduletype.Privilege_Escalation')}</Radio.Button>
+              <Radio.Button
+                value="Defense_Evasion">{formatText('app.runmodule.postmodule.moduletype.Defense_Evasion')}</Radio.Button>
+              <Radio.Button
+                value="Credential_Access">{formatText('app.runmodule.postmodule.moduletype.Credential_Access')}</Radio.Button>
+              <Radio.Button
+                value="Discovery">{formatText('app.runmodule.postmodule.moduletype.Discovery')}</Radio.Button>
+              <Radio.Button
+                value="Lateral_Movement">{formatText('app.runmodule.postmodule.moduletype.Lateral_Movement')}</Radio.Button>
+              <Radio.Button
+                value="Collection">{formatText('app.runmodule.postmodule.moduletype.Collection')}</Radio.Button>
               {/*<Option value="Command_and_Control">命令控制</Option>*/}
             </Radio.Group>
             <Table
@@ -914,12 +923,7 @@ export const RunModule = props => {
         <Col span={16}>
           <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
             <TabPane
-              tab={
-                <span>
-                  <FormOutlined/>
-                  参数
-                </span>
-              }
+              tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
               key="params"
             >
               <div
@@ -977,20 +981,13 @@ export const RunModule = props => {
                       loading={
                         createPostModuleActuatorReq.loading || listPostModuleConfigReq.loading
                       }
-                    >
-                      执行
-                    </Button>
+                    >{formatText('app.runmodule.postmodule.run')}</Button>
                   </Col>
                 </Row>
               </Form>
             </TabPane>
             <TabPane
-              tab={
-                <span>
-                  <InfoCircleOutlined/>
-                  说明
-                </span>
-              }
+              tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
               key="desc"
             >
               <ModuleInfoContent postModuleConfig={postModuleConfigActive}/>
@@ -1105,28 +1102,24 @@ export const RunAutoModule = props => {
   const handleModuleSearch = value => {
     const reg = new RegExp(value, 'gi');
     onPostModuleConfigListChange(
-      postModuleConfigListStateTmp
-        .map(record => {
-          let NAMEMatch = false;
-          let DESCMatch = false;
-          let REFERENCESMatch = false;
-          try {
-            // toString().
-            // NAMEMatch = record.NAME.includes(value);
-            NAMEMatch = record.NAME.match(reg);
-            DESCMatch = record.DESC.match(reg);
-            REFERENCESMatch = record.REFERENCES.toString().match(reg);
-          } catch (error) {
-          }
+      postModuleConfigListStateTmp.map(record => {
+        let NAMEMatch = false;
+        let DESCMatch = false;
+        let REFERENCESMatch = false;
+        try {
+          NAMEMatch = record.NAME.match(reg);
+          DESCMatch = record.DESC.match(reg);
+          REFERENCESMatch = record.REFERENCES.toString().match(reg);
+        } catch (error) {
+        }
 
-          if (NAMEMatch || DESCMatch || REFERENCESMatch) {
-            return {
-              ...record,
-            };
-          }
-          return null;
-        })
-        .filter(record => !!record),
+        if (NAMEMatch || DESCMatch || REFERENCESMatch) {
+          return {
+            ...record,
+          };
+        }
+        return null;
+      }).filter(record => !!record),
     );
   };
 
@@ -1216,28 +1209,28 @@ export const RunAutoModule = props => {
         column={8}
         bordered
       >
-        <Descriptions.Item label="名称" span={8}>
+        <Descriptions.Item label={formatText('app.runmodule.postmodule.NAME')} span={8}>
           {postModuleConfig.NAME}
         </Descriptions.Item>
-        <Descriptions.Item label="作者" span={4}>
+        <Descriptions.Item label={formatText('app.runmodule.postmodule.authorCom')} span={4}>
           {authorCom}
         </Descriptions.Item>
         <Descriptions.Item label="TTPs" span={4}>
           {attckCom}
         </Descriptions.Item>
-        <Descriptions.Item label="适用系统" span={4}>
+        <Descriptions.Item label={formatText('app.runmodule.postmodule.platformCom')} span={4}>
           {platformCom}
         </Descriptions.Item>
-        <Descriptions.Item label="适用权限" span={4}>
+        <Descriptions.Item label={formatText('app.runmodule.postmodule.permissionsCom')} span={4}>
           {permissionsCom}
         </Descriptions.Item>
-        <Descriptions.Item label="使用文档" span={8}>
+        <Descriptions.Item label={formatText('app.runmodule.postmodule.readmeCom')} span={8}>
           {readmeCom}
         </Descriptions.Item>
-        <Descriptions.Item label="参考链接" span={8}>
+        <Descriptions.Item label={formatText('app.runmodule.postmodule.referencesCom')} span={8}>
           {referencesCom}
         </Descriptions.Item>
-        <Descriptions.Item span={8} label="简介">
+        <Descriptions.Item span={8} label={formatText('app.runmodule.postmodule.DESC')}>
           <pre>{postModuleConfig.DESC}</pre>
         </Descriptions.Item>
       </Descriptions>
@@ -1309,7 +1302,7 @@ export const RunAutoModule = props => {
               allowClear
               prefix={<SearchOutlined/>}
               style={{ width: '100%' }}
-              placeholder="名称/说明/TTPs"
+              placeholder={formatText('app.runmodule.postmodule.search.ph')}
               value={text}
               onChange={e => {
                 setText(e.target.value);
@@ -1322,18 +1315,27 @@ export const RunAutoModule = props => {
               buttonStyle="solid"
               onChange={(e) => moduleTypeOnChange(e.target.value)}
             >
-              <Radio.Button value="">全部</Radio.Button>
-              <Radio.Button value="Resource_Development">资源部署</Radio.Button>
-              <Radio.Button value="Initial_Access">初始访问</Radio.Button>
-              <Radio.Button value="Execution">执行</Radio.Button>
-              <Radio.Button value="Persistence">持久化</Radio.Button>
-              <Radio.Button value="Privilege_Escalation">权限提升</Radio.Button>
-              <Radio.Button value="Defense_Evasion">防御绕过</Radio.Button>
-              <Radio.Button value="Credential_Access">凭证访问</Radio.Button>
-              <Radio.Button value="Discovery">信息收集</Radio.Button>
-              <Radio.Button value="Lateral_Movement">横向移动</Radio.Button>
-              <Radio.Button value="Collection">数据采集</Radio.Button>
-              {/*<Option value="Command_and_Control">命令控制</Option>*/}
+              <Radio.Button value="">{formatText('app.runmodule.postmodule.moduletype.all')}</Radio.Button>
+              <Radio.Button
+                value="Resource_Development">{formatText('app.runmodule.postmodule.moduletype.Resource_Development')}</Radio.Button>
+              <Radio.Button
+                value="Initial_Access">{formatText('app.runmodule.postmodule.moduletype.Initial_Access')}</Radio.Button>
+              <Radio.Button
+                value="Execution">{formatText('app.runmodule.postmodule.moduletype.Execution')}</Radio.Button>
+              <Radio.Button
+                value="Persistence">{formatText('app.runmodule.postmodule.moduletype.Persistence')}</Radio.Button>
+              <Radio.Button
+                value="Privilege_Escalation">{formatText('app.runmodule.postmodule.moduletype.Privilege_Escalation')}</Radio.Button>
+              <Radio.Button
+                value="Defense_Evasion">{formatText('app.runmodule.postmodule.moduletype.Defense_Evasion')}</Radio.Button>
+              <Radio.Button
+                value="Credential_Access">{formatText('app.runmodule.postmodule.moduletype.Credential_Access')}</Radio.Button>
+              <Radio.Button
+                value="Discovery">{formatText('app.runmodule.postmodule.moduletype.Discovery')}</Radio.Button>
+              <Radio.Button
+                value="Lateral_Movement">{formatText('app.runmodule.postmodule.moduletype.Lateral_Movement')}</Radio.Button>
+              <Radio.Button
+                value="Collection">{formatText('app.runmodule.postmodule.moduletype.Collection')}</Radio.Button>
             </Radio.Group>
             <Table
               className={styles.moduleConfigTable}
@@ -1355,12 +1357,7 @@ export const RunAutoModule = props => {
         <Col span={16}>
           <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
             <TabPane
-              tab={
-                <span>
-                  <FormOutlined/>
-                  参数
-                </span>
-              }
+              tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
               key="params"
             >
               <Form
@@ -1391,20 +1388,13 @@ export const RunAutoModule = props => {
                       disabled={postModuleConfigActive.loadpath === null}
                       icon={<CaretRightOutlined/>}
                       loading={createPostModuleAutoReq.loading || listPostModuleConfigReq.loading}
-                    >
-                      执行
-                    </Button>
+                    >{formatText('app.runmodule.postmodule.run')}</Button>
                   </Col>
                 </Row>
               </Form>
             </TabPane>
             <TabPane
-              tab={
-                <span>
-                  <InfoCircleOutlined/>
-                  说明
-                </span>
-              }
+              tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
               key="desc"
             >
               <ModuleInfoContent postModuleConfig={postModuleConfigActive}/>
@@ -1594,7 +1584,7 @@ export const RunBotModule = props => {
               initialValue={oneOption.default}
               name={oneOption.name}
               valuePropName="checked"
-              rules={[{ required: oneOption.required, message: '请输入' }]}
+              rules={[{ required: oneOption.required }]}
             >
               <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
             </Form.Item>
@@ -1611,7 +1601,7 @@ export const RunBotModule = props => {
               }
               initialValue={oneOption.default}
               name={oneOption.name}
-              rules={[{ required: oneOption.required, message: '请输入' }]}
+              rules={[{ required: oneOption.required }]}
               wrapperCol={{ span: 24 }}
             >
               <InputNumber
@@ -1632,7 +1622,7 @@ export const RunBotModule = props => {
               }
               initialValue={oneOption.default}
               name={oneOption.name}
-              rules={[{ required: oneOption.required, message: '请输入' }]}
+              rules={[{ required: oneOption.required }]}
               wrapperCol={{ span: 24 }}
             >
               <InputNumber
@@ -1663,7 +1653,7 @@ export const RunBotModule = props => {
               }
               initialValue={oneOption.default}
               name={oneOption.name}
-              rules={[{ required: oneOption.required, message: '请输入' }]}
+              rules={[{ required: oneOption.required }]}
               wrapperCol={{ span: 24 }}
             >
               <Select
@@ -1688,7 +1678,7 @@ export const RunBotModule = props => {
               }
               initialValue={oneOption.default}
               name={oneOption.name}
-              rules={[{ required: oneOption.required, message: '请输入' }]}
+              rules={[{ required: oneOption.required }]}
               wrapperCol={{ span: 24 }}
             >
               <Input
@@ -1813,10 +1803,10 @@ export const RunBotModule = props => {
         column={12}
         bordered
       >
-        <Descriptions.Item label="名称" span={12}>
+        <Descriptions.Item label={formatText('app.runmodule.postmodule.NAME')} span={12}>
           {postModuleConfig.NAME}
         </Descriptions.Item>
-        <Descriptions.Item label="作者" span={12}>
+        <Descriptions.Item label={formatText('app.runmodule.postmodule.authorCom')} span={12}>
           {authorCom}
         </Descriptions.Item>
         <Descriptions.Item span={12} label="FOFA">
@@ -1825,13 +1815,13 @@ export const RunBotModule = props => {
         <Descriptions.Item span={12} label="360Quake">
           <pre>{postModuleConfig.SEARCH.Quake}</pre>
         </Descriptions.Item>
-        <Descriptions.Item label="使用文档" span={12}>
+        <Descriptions.Item label={formatText('app.runmodule.postmodule.readmeCom')} span={12}>
           {readmeCom}
         </Descriptions.Item>
-        <Descriptions.Item label="参考链接" span={12}>
+        <Descriptions.Item label={formatText('app.runmodule.postmodule.referencesCom')} span={12}>
           {referencesCom}
         </Descriptions.Item>
-        <Descriptions.Item span={12} label="简介">
+        <Descriptions.Item span={12} label={formatText('app.runmodule.postmodule.DESC')}>
           <pre>{postModuleConfig.DESC}</pre>
         </Descriptions.Item>
       </Descriptions>
@@ -1847,7 +1837,8 @@ export const RunBotModule = props => {
     <Row>
       <Col span={6}>
         <Card bordered={false} className={styles.botModuleCard}>
-          <Search style={{}} placeholder="搜索模块" onSearch={value => handleModuleSearch(value)}/>
+          <Search placeholder={formatText('app.runmodule.postmodule.searchmodule.ph')}
+                  onSearch={value => handleModuleSearch(value)}/>
           <Table
             className={styles.botmoduleTableNew}
             scroll={{ y: 'calc(100vh - 120px)' }}
@@ -1869,25 +1860,20 @@ export const RunBotModule = props => {
       <Col span={18}>
         <Tabs defaultActiveKey="ipportlist" style={{ marginTop: 12 }}>
           <TabPane
-            tab={
-              <span>
-                <RadarChartOutlined/>
-                全网数据
-              </span>
-            }
+            tab={<span><RadarChartOutlined/>{formatText('app.runmodule.postmodule.ipportlist')}</span>}
             key="ipportlist"
           >
             <Card bordered={false} bodyStyle={{ padding: '0px 8px 16px 0px' }}>
               <Form layout="horizontal" onFinish={searchNetworkSubmit}>
                 <Form.Item style={{ marginBottom: 12 }} name="inputstr" required>
                   <TextArea
-                    placeholder='补充搜索规则,参考对应网络搜索引擎官网.&#13;&#10;FOFA: ip="172.172.172.172/24" && port="22"   360Quake: ip:"172.172.172.172/24" AND port:"22"'
+                    placeholder={formatText('app.runmodule.postmodule.inputstr.ph')}
                     autoSize={{ minRows: 2, maxRows: 2 }}
                   />
                 </Form.Item>
                 <Row>
                   <Col span={8}>
-                    <Form.Item label="搜索引擎" name="engine" required>
+                    <Form.Item label={formatText('app.runmodule.postmodule.engine')} name="engine" required>
                       <Radio.Group>
                         <Radio.Button value="FOFA" disabled={!engineConfs.FOFA}>
                           FOFA
@@ -1900,7 +1886,7 @@ export const RunBotModule = props => {
                   </Col>
                   <Col span={4}>
                     <Form.Item
-                      label="分页"
+                      label={formatText('app.runmodule.postmodule.page')}
                       name="page"
                       required
                       initialValue={1}
@@ -1917,7 +1903,7 @@ export const RunBotModule = props => {
                   <Col span={4}>
                     <Form.Item
                       required
-                      label={<span>数量</span>}
+                      label={formatText('app.runmodule.postmodule.number')}
                       initialValue={10}
                       rules={[
                         {
@@ -1940,9 +1926,7 @@ export const RunBotModule = props => {
                         htmlType="submit"
                         disabled={botModuleConfigActive.loadpath === null}
                         loading={listNetworkSearchReq.loading}
-                      >
-                        搜索
-                      </Button>
+                      >{formatText('app.runmodule.postmodule.search')}</Button>
                     </Form.Item>
                   </Col>
                 </Row>
@@ -1980,7 +1964,7 @@ export const RunBotModule = props => {
                     ),
                   },
                   {
-                    title: '端口',
+                    title: formatText('app.runmodule.botmodule.port'),
                     dataIndex: 'port',
                     key: 'port',
                     width: 64,
@@ -1989,7 +1973,7 @@ export const RunBotModule = props => {
                     },
                   },
                   {
-                    title: '协议',
+                    title: formatText('app.runmodule.botmodule.protocol'),
                     dataIndex: 'protocol',
                     key: 'protocol',
                     width: 96,
@@ -1998,7 +1982,7 @@ export const RunBotModule = props => {
                     },
                   },
                   {
-                    title: '国家',
+                    title: formatText('app.runmodule.botmodule.country_name'),
                     dataIndex: 'country_name',
                     key: 'country_name',
                     width: 96,
@@ -2007,7 +1991,7 @@ export const RunBotModule = props => {
                     },
                   },
                   {
-                    title: '组织',
+                    title: formatText('app.runmodule.botmodule.as_organization'),
                     dataIndex: 'as_organization',
                     key: 'as_organization',
                     render: (text, record) => {
@@ -2020,12 +2004,7 @@ export const RunBotModule = props => {
             </Card>
           </TabPane>
           <TabPane
-            tab={
-              <span>
-                <FormOutlined/>
-                模块参数
-              </span>
-            }
+            tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
             key="params"
           >
             <Form
@@ -2044,20 +2023,13 @@ export const RunBotModule = props => {
                     disabled={botModuleConfigActive.loadpath === null || selectedRows.length === 0}
                     icon={<PlayCircleOutlined/>}
                     loading={createPostModuleActuatorReq.loading || listPostModuleConfigReq.loading}
-                  >
-                    运行
-                  </Button>
+                  >{formatText('app.runmodule.postmodule.run')}</Button>
                 </Col>
               </Row>
             </Form>
           </TabPane>
           <TabPane
-            tab={
-              <span>
-                <InfoCircleOutlined/>
-                说明
-              </span>
-            }
+            tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
             key="desc"
           >
             <ModuleInfoContent postModuleConfig={botModuleConfigActive}/>
@@ -2079,9 +2051,7 @@ export const BotScan = () => {
             block
             icon={<PlusOutlined/>}
             onClick={() => setRunBotModuleModalVisable(true)}
-          >
-            新建任务
-          </Button>
+          >{formatText('app.runmodule.botmodule.newtask')}</Button>
         </Col>
       </Row>
       <RealTimeBotWaitListMemo/>
@@ -2147,14 +2117,14 @@ const RealTimeBotWaitList = () => {
 
   const columns = [
     {
-      title: '新建时间',
+      title: formatText('app.runmodule.botmodule.time'),
       dataIndex: 'time',
       key: 'time',
       width: 80,
       render: (text, record) => <Tag color="cyan">{moment(record.time * 1000).fromNow()}</Tag>,
     },
     {
-      title: '模块',
+      title: formatText('app.runmodule.botmodule.module'),
       dataIndex: 'moduleinfo',
       key: 'moduleinfo',
       width: 240,
@@ -2169,7 +2139,7 @@ const RealTimeBotWaitList = () => {
       ),
     },
     {
-      title: '目标数量',
+      title: formatText('app.runmodule.botmodule.ip_list.count'),
       dataIndex: 'ip_list',
       key: 'ip_list',
       width: 120,
@@ -2186,7 +2156,7 @@ const RealTimeBotWaitList = () => {
       },
     },
     {
-      title: '目标列表',
+      title: formatText('app.runmodule.botmodule.ip_list'),
       dataIndex: 'ip_list',
       key: 'ip_list',
       width: 96,
@@ -2205,13 +2175,13 @@ const RealTimeBotWaitList = () => {
             }
             trigger="click"
           >
-            <a>点击查看</a>
+            <a>{formatText('app.runmodule.botmodule.view')}</a>
           </Popover>
         );
       },
     },
     {
-      title: '参数',
+      title: formatText('app.runmodule.botmodule.param'),
       dataIndex: 'moduleinfo',
       key: 'moduleinfo',
       render: (text, record) => {
@@ -2221,18 +2191,17 @@ const RealTimeBotWaitList = () => {
             content={taskDetail(record.moduleinfo._custom_param)}
             trigger="click"
           >
-            <a>点击查看</a>
+            <a>{formatText('app.runmodule.botmodule.view')}</a>
           </Popover>
         );
       },
     },
     {
-      title: '操作',
       dataIndex: 'operation',
       width: 48,
       render: (text, record) => (
         <a style={{ color: 'red' }} onClick={() => onDestoryBotWait(record)}>
-          删除
+          {formatText('app.core.delete')}
         </a>
       ),
     },
@@ -2305,7 +2274,6 @@ export const PostModule = props => {
     return [];
   }
   for (const oneOption of postModuleConfigActive.OPTIONS) {
-    // this.formRef.current.setFieldsValue({ [oneOption.name]: oneOption.default });
     form.setFieldsValue({ [oneOption.name]: oneOption.default });
     if (oneOption.type === 'str') {
       options.push(
@@ -2317,11 +2285,10 @@ export const PostModule = props => {
               </Tooltip>
             }
             name={oneOption.name}
-            rules={[{ required: oneOption.required, message: '请输入' }]}
+            rules={[{ required: oneOption.required }]}
           >
             <Input
               style={{ width: '90%' }}
-              // defaultValue={oneOption.default}
             />
           </Form.Item>
         </Col>,
@@ -2337,7 +2304,7 @@ export const PostModule = props => {
             }
             name={oneOption.name}
             valuePropName="checked"
-            rules={[{ required: oneOption.required, message: '请输入' }]}
+            rules={[{ required: oneOption.required }]}
           >
             <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
           </Form.Item>
@@ -2353,7 +2320,7 @@ export const PostModule = props => {
               </Tooltip>
             }
             name={oneOption.name}
-            rules={[{ required: oneOption.required, message: '请输入' }]}
+            rules={[{ required: oneOption.required }]}
             wrapperCol={{ span: 24 }}
           >
             <InputNumber
@@ -2373,13 +2340,12 @@ export const PostModule = props => {
               </Tooltip>
             }
             name={oneOption.name}
-            rules={[{ required: oneOption.required, message: '请输入' }]}
+            rules={[{ required: oneOption.required }]}
             wrapperCol={{ span: 24 }}
           >
             <InputNumber
               step={0.1}
               style={{ width: '90%' }}
-              // defaultValue={oneOption.default}
             />
           </Form.Item>
         </Col>,
@@ -2404,13 +2370,11 @@ export const PostModule = props => {
               </Tooltip>
             }
             name={oneOption.name}
-            rules={[{ required: oneOption.required, message: '请输入' }]}
+            rules={[{ required: oneOption.required }]}
             wrapperCol={{ span: 24 }}
           >
             <Select
-              // defaultValue={oneOption.default}
               style={{
-                // minWidth: '90%',
                 width: '90%',
               }}
             >
@@ -2429,12 +2393,11 @@ export const PostModule = props => {
               </Tooltip>
             }
             name={oneOption.name}
-            rules={[{ required: oneOption.required, message: '请输入' }]}
+            rules={[{ required: oneOption.required }]}
             wrapperCol={{ span: 24 }}
           >
             <Input
               style={{ width: '90%' }}
-              // defaultValue={oneOption.default}
             />
           </Form.Item>
         </Col>,
@@ -2459,9 +2422,7 @@ export const PostModule = props => {
             block
             icon={<PlayCircleOutlined/>}
             loading={createPostModuleActuatorReq.loading}
-          >
-            运行
-          </Button>
+          >{formatText('app.runmodule.postmodule.run')}</Button>
         </Col>
       </Row>
     </Form>
@@ -2511,19 +2472,19 @@ export const ModuleInfo = ({ postModuleConfig }) => {
       column={8}
       bordered
     >
-      <Descriptions.Item label="名称" span={8}>
+      <Descriptions.Item label={formatText('app.runmodule.postmodule.NAME')} span={8}>
         {postModuleConfig.NAME}
       </Descriptions.Item>
-      <Descriptions.Item label="作者" span={4}>
+      <Descriptions.Item label={formatText('app.runmodule.postmodule.authorCom')} span={4}>
         {authorCom}
       </Descriptions.Item>
-      <Descriptions.Item label="使用文档" span={8}>
+      <Descriptions.Item label={formatText('app.runmodule.postmodule.readmeCom')} span={8}>
         {readmeCom}
       </Descriptions.Item>
-      <Descriptions.Item label="参考链接" span={8}>
+      <Descriptions.Item label={formatText('app.runmodule.postmodule.referencesCom')} span={8}>
         {referencesCom}
       </Descriptions.Item>
-      <Descriptions.Item span={8} label="简介">
+      <Descriptions.Item span={8} label={formatText('app.runmodule.postmodule.DESC')}>
         <pre>{postModuleConfig.DESC}</pre>
       </Descriptions.Item>
     </Descriptions>
@@ -2569,7 +2530,7 @@ const PostModuleAutoConfForm = props => {
 
   return (
     <Form labelCol={{ span: 24 }} wrapperCol={{ span: 24 }} layout="vertical">
-      <Form.Item label="开关">
+      <Form.Item label={formatText('app.runmodule.autoconf.switch')}>
         <Switch
           checkedChildren={<CheckOutlined/>}
           unCheckedChildren={<MinusOutlined/>}
@@ -2577,30 +2538,31 @@ const PostModuleAutoConfForm = props => {
           onClick={() => onUpdateSessionMonitor({ flag: !settingsPostModuleAutoConf.flag })}
         />
       </Form.Item>
-      <Form.Item label="时间间隔" tooltip="执行每个模块的间隔时间">
+      <Form.Item label={formatText('app.runmodule.autoconf.interval')}
+                 tooltip={formatText('app.runmodule.autoconf.interval.tip')}>
         <Radio.Group
           onChange={e => onUpdateSessionMonitor({ interval: e.target.value })}
           value={settingsPostModuleAutoConf.interval}
         >
           <Space direction="vertical">
-            <Radio value={1}>1秒</Radio>
-            <Radio value={10}>10秒</Radio>
-            <Radio value={60}>1分钟</Radio>
-            <Radio value={600}>10分钟</Radio>
+            <Radio value={1}>{formatText('app.runmodule.autoconf.1s')}</Radio>
+            <Radio value={10}>{formatText('app.runmodule.autoconf.10s')}</Radio>
+            <Radio value={60}>{formatText('app.runmodule.autoconf.1min')}</Radio>
+            <Radio value={600}>{formatText('app.runmodule.autoconf.10min')}</Radio>
           </Space>
         </Radio.Group>
       </Form.Item>
       <Form.Item
-        label="单一主机最大权限数量"
-        tooltip="当同一个ip地址的权限大于N个时,不再执行编排(防止编排模块生成权限,权限又执行编排,造成死循环)"
+        label={formatText('app.runmodule.autoconf.max_session')}
+        tooltip={formatText('app.runmodule.autoconf.max_session.tip')}
       >
         <Radio.Group
           onChange={e => onUpdateSessionMonitor({ max_session: e.target.value })}
           value={settingsPostModuleAutoConf.max_session}
         >
           <Space direction="vertical">
-            <Radio value={3}>3个</Radio>
-            <Radio value={5}>5个</Radio>
+            <Radio value={3}>3</Radio>
+            <Radio value={5}>5</Radio>
           </Space>
         </Radio.Group>
       </Form.Item>
@@ -2659,9 +2621,7 @@ const AutoRobot = () => {
             block
             icon={<PlusOutlined/>}
             onClick={() => setRunAutoModuleModalModalVisable(true)}
-          >
-            添加模块
-          </Button>
+          >{formatText('app.runmodule.autorobot.add')}</Button>
         </Col>
         <Col span={12}>
           <Button
@@ -2675,9 +2635,7 @@ const AutoRobot = () => {
               destoryPostModuleAutoReq.loading
             }
             onClick={() => listPostModuleAutoReq.run()}
-          >
-            刷新
-          </Button>
+          >{formatText('app.core.refresh')}</Button>
         </Col>
       </Row>
       <Row gutter={0}>
@@ -2691,7 +2649,7 @@ const AutoRobot = () => {
             bordered
             columns={[
               {
-                title: '模块',
+                title: formatText('app.runmodule.botmodule.module'),
                 dataIndex: 'moduleinfo',
                 key: 'moduleinfo',
                 width: 240,
@@ -2706,26 +2664,19 @@ const AutoRobot = () => {
                 ),
               },
               {
-                title: '预配置参数',
+                title: formatText('app.runmodule.autorobot.params'),
                 dataIndex: 'custom_param',
                 key: 'custom_param',
                 render: (text, record) => {
                   const component = [];
                   for (const key in record.custom_param) {
                     const item = record.custom_param[key];
-                    component.push(
-                      <span>
-                        {' '}
-                        <strong>{key}: </strong>
-                        {item}{' '}
-                      </span>,
-                    );
+                    component.push(<span>{' '}<strong>{key}: </strong>{item}{' '}</span>);
                   }
                   return <Fragment>{component}</Fragment>;
                 },
               },
               {
-                // title: '操作',
                 dataIndex: 'operation',
                 width: 56,
                 render: (text, record) => (
@@ -2735,9 +2686,7 @@ const AutoRobot = () => {
                       onClick={() =>
                         destoryPostModuleAutoReq.run({ module_uuid: record.module_uuid })
                       }
-                    >
-                      删除
-                    </a>
+                    >{formatText('app.core.delete')}</a>
                   </div>
                 ),
               },

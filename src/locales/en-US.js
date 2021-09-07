@@ -12,6 +12,7 @@ import network from './en-US/network';
 import msfsocks from './en-US/msfsocks';
 import credential from './en-US/credential';
 import hostandsession from './en-US/hostandsession';
+import runmodule from './en-US/runmodule';
 
 export default {
   ...exception,
@@ -28,4 +29,5 @@ export default {
   ...msfsocks,
   ...credential,
   ...hostandsession,
+  ...runmodule,
 };
