@@ -11,4 +11,5 @@ export default {
   'app.core.copyedtoclipboard': 'Copied to clipboard',
   'app.core.updatetime': 'UpdateTime',
   'app.core.copy': 'Copy',
+  'app.core.open': 'Open',
 };

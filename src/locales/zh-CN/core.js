@@ -11,4 +11,5 @@ export default {
   'app.core.copytoclipboard': '复制到剪切板',
   'app.core.updatetime': '更新时间',
   'app.core.copy': '复制',
+  'app.core.open': '打开',
 };

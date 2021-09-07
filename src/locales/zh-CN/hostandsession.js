@@ -1,6 +1,5 @@
 export default {
 
-
   'app.hostandsession.session.SessionInfo': '权限信息',
   'app.hostandsession.session.FileSession': '文件管理',
   'app.hostandsession.session.Route': '内网路由',
@@ -39,6 +38,7 @@ export default {
   'app.hostandsession.default': '默认',
   'app.hostandsession.alwaysnotify': '总是通知',
   'app.hostandsession.processoper': '进程操作',
+
   'app.hostandsession.sessioninfo.heartbeat': '心跳',
   'app.hostandsession.sessioninfo.hostip': '主机IP',
   'app.hostandsession.sessioninfo.adminright': '管理员权限',
@@ -48,7 +48,7 @@ export default {
   'app.hostandsession.sessioninfo.uac_level': 'UAC等级',
   'app.hostandsession.sessioninfo.integrity': '完整性',
   'app.hostandsession.sessioninfo.is_in_domain': '域用户',
-  'app.hostandsession.sessioninfo.doamin': '域',
+  'app.hostandsession.sessioninfo.domain': '域',
   'app.hostandsession.sessioninfo.computer': '主机名',
   'app.hostandsession.sessioninfo.load_powershell': 'Powershell插件',
   'app.hostandsession.sessioninfo.load_python': 'Python插件',
@@ -57,7 +57,6 @@ export default {
   'app.hostandsession.sessioninfo.tunnel_peer': '远程端口',
   'app.hostandsession.sessioninfo.tunnel_local': '本地端口',
   'app.hostandsession.sessioninfo.tunnel_peer_locate': '地理信息',
-  'app.hostandsession.sessioninfo.tunnel_peer_asn': '运营商',
   'app.hostandsession.sessioninfo.via_exploit': '模块',
   'app.hostandsession.sessioninfo.via_payload': '载荷',
   'app.hostandsession.sessioninfo.update': '更新信息',
@@ -111,7 +110,7 @@ export default {
   'app.hostandsession.transport.comm_timeout': '超时时间(秒)',
   'app.hostandsession.transport.retry_total': '重连次数',
   'app.hostandsession.transport.retry_wait': '重连间隔(秒)',
-  'app.hostandsession.transport.session_exp': '强制过期(秒)',
+  'app.hostandsession.transport.session_exp': '强制过期',
   'app.hostandsession.transport.handler': '监听配置',
   'app.hostandsession.transport.handler.rule': '请选择监听',
   'app.hostandsession.transport.update': '切换',
@@ -123,4 +122,61 @@ export default {
   'app.hostandsession.transport.6hoour': '6小时',
   'app.hostandsession.transport.12hour': '12小时',
   'app.hostandsession.transport.24hour': '24小时',
+
+  'app.hostandsession.filesession.update': '保存修改',
+  'app.hostandsession.filesession.copy': '拷贝到剪切板',
+  'app.hostandsession.filesession.root': '根目录',
+  'app.hostandsession.filesession.pwd': '默认目录',
+  'app.hostandsession.filesession.uppath': '上级目录',
+  'app.hostandsession.filesession.path.rule': '请输入目录',
+  'app.hostandsession.filesession.reloadpwd': '重新加载当前目录',
+  'app.hostandsession.filesession.cdpwd': '切换工作目录到当前目录',
+  'app.hostandsession.filesession.mkdir.name': '新建文件夹名称',
+  'app.hostandsession.filesession.mk': '新建',
+  'app.hostandsession.filesession.type': '类型',
+  'app.hostandsession.filesession.name': '名称',
+  'app.hostandsession.filesession.format_mode': '权限',
+  'app.hostandsession.filesession.format_size': '大小',
+  'app.hostandsession.filesession.mtime': '修改时间',
+  'app.hostandsession.filesession.destory_dir.tip': '确认删除文件夹(无法撤销)?',
+  'app.hostandsession.filesession.holder': '占位',
+  'app.hostandsession.filesession.holder2': '占位',
+  'app.hostandsession.filesession.open': '打开',
+  'app.hostandsession.filesession.download': '下载',
+  'app.hostandsession.filesession.view': '查看',
+  'app.hostandsession.filesession.args': '命令行参数',
+  'app.hostandsession.filesession.exec': '执行',
+  'app.hostandsession.filesession.destory_file.tip': '确认删除文件(无法撤销)?',
+
+  'app.hostandsession.hostruninginfo.usefulProcess.tag': '标签',
+  'app.hostandsession.hostruninginfo.usefulProcess.desc': '描述',
+  'app.hostandsession.hostruninginfo.list': '读取缓存',
+  'app.hostandsession.hostruninginfo.update': '重新请求',
+  'app.hostandsession.hostruninginfo.unupdate': '未更新',
+  'app.hostandsession.hostruninginfo.baseinfo': '基本信息',
+  'app.hostandsession.hostruninginfo.Computer': '主机名',
+  'app.hostandsession.hostruninginfo.OS': '操作系统',
+  'app.hostandsession.hostruninginfo.LoggedOnUsers': '当前登录用户数',
+  'app.hostandsession.hostruninginfo.networkcard': '网卡信息',
+  'app.hostandsession.hostruninginfo.listen_address': '本地监听',
+  'app.hostandsession.hostruninginfo.public_ipaddress': '外网连接',
+  'app.hostandsession.hostruninginfo.private_ipaddress': '内网连接',
+  'app.hostandsession.hostruninginfo.ARP': 'ARP信息',
+  'app.hostandsession.hostruninginfo.useful_processes': '重要进程',
+  'app.hostandsession.hostruninginfo.NETSTAT': '所有连接',
+  'app.hostandsession.hostruninginfo.PROCESSES': '所有进程',
+
+  'app.hostandsession.portservice.port': '端口',
+  'app.hostandsession.portservice.service': '服务',
+  'app.hostandsession.portservice.banner': '指纹',
+
+  'app.hostandsession.Vulnerability.source_module_name': '扫描模块',
+  'app.hostandsession.Vulnerability.desc': '说明',
+
+  'app.hostandsession.updatehost.comment.rule': '备注最长支持二十个字符',
+
+
+
+
+
 };

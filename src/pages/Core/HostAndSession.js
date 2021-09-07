@@ -1,5 +1,5 @@
 import React, { Fragment, memo, useCallback, useEffect, useRef, useState } from 'react';
-import { useModel, useRequest, FormattedMessage } from 'umi';
+import { useModel, useRequest, FormattedMessage, formatMessage } from 'umi';
 
 import { useInterval, useLocalStorageState } from 'ahooks';
 import {
@@ -1681,11 +1681,8 @@ const SessionInfo = () => {
             <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.tunnel_local')} span={6}>
               {sessionInfoActive.tunnel_local}
             </Descriptions.Item>
-            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.tunnel_peer_locate')} span={6}>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.tunnel_peer_locate')} span={12}>
               {sessionInfoActive.tunnel_peer_locate}
-            </Descriptions.Item>
-            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.tunnel_peer_asn')} span={6}>
-              {sessionInfoActive.tunnel_peer_asn}
             </Descriptions.Item>
             <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.via_exploit')} span={6}>
               {sessionInfoActive.via_exploit}
@@ -2530,7 +2527,7 @@ const Transport = props => {
           {
             title: formatText('app.hostandsession.transport.comm_timeout'),
             dataIndex: 'comm_timeout',
-            width: 64,
+            width: 96,
             render: (text, record) => {
               return <span>{text} s</span>;
             },
@@ -2546,7 +2543,7 @@ const Transport = props => {
           {
             title: formatText('app.hostandsession.transport.retry_wait'),
             dataIndex: 'retry_wait',
-            width: 64,
+            width: 96,
             render: (text, record) => {
               return <span>{text} s</span>;
             },
@@ -2699,12 +2696,10 @@ const FileSession = () => {
   });
   const [fileSessionInputPathActive, setFileSessionInputPathActive] = useState('/');
 
-  const initListFileSessionReq = useRequest(
-    () =>
-      getMsgrpcFileSessionAPI({
-        sessionid: hostAndSessionActive.session.id,
-        operation: 'pwd',
-      }),
+  const initListFileSessionReq = useRequest(() => getMsgrpcFileSessionAPI({
+      sessionid: hostAndSessionActive.session.id,
+      operation: 'pwd',
+    }),
     {
       onSuccess: (result, params) => {
         setFileSessionListActive(result);
@@ -2770,7 +2765,7 @@ const FileSession = () => {
 
   const copytoclipboard = filedata => {
     copy(filedata);
-    message.success('已复制原始内容至剪切板');
+    message.success('Copyed to clipboard');
   };
 
   const updateFileSessionReq = useRequest(putMsgrpcFileSessionAPI, {
@@ -2798,7 +2793,6 @@ const FileSession = () => {
         mask: false,
         bodyStyle: { padding: 0 },
         style: { top: 32 },
-        okText: '关闭',
         width: '70%',
         closable: true,
         content: (<Form preserve={false} onFinish={onUpdateFileSession}>
@@ -2810,11 +2804,14 @@ const FileSession = () => {
           <Space style={{ marginBottom: 0 }}>
             <Form.Item>
               <Button type="primary" htmlType="submit" loading={updateFileSessionReq.loading}>
-                保存修改
+                {formatMessage({ id: 'app.hostandsession.filesession.update' })}
               </Button>
             </Form.Item>
             <Form.Item>
-              <Button onClick={() => copytoclipboard(result.data)}>拷贝到剪切板</Button>
+              <Button
+                onClick={() => copytoclipboard(result.data)}>
+                {formatMessage({ id: 'app.hostandsession.filesession.copy' })}
+              </Button>
             </Form.Item>
             <Form.Item name="sessionid" initialValue={hostAndSessionActive.session.id}/>
             <Form.Item name="filepath" initialValue={result.reason}/>
@@ -2882,7 +2879,7 @@ const FileSession = () => {
       <Row>
         <Space style={{ display: 'flex' }}>
           <ButtonGroup>
-            <Tooltip placement="bottom" mouseEnterDelay={0.3} title="根目录">
+            <Tooltip placement="bottom" mouseEnterDelay={0.3} title={formatText('app.hostandsession.filesession.root')}>
               <Button
                 style={{ marginLeft: 8, width: 56 }}
                 icon={<DesktopOutlined/>}
@@ -2891,16 +2888,16 @@ const FileSession = () => {
                 }
               />
             </Tooltip>
-            <Tooltip placement="bottom" title="默认目录">
+            <Tooltip placement="bottom" title={formatText('app.hostandsession.filesession.pwd')}>
               <Button
                 style={{ width: 56 }}
                 icon={<HomeOutlined/>}
                 onClick={() => onListFileSession(hostAndSessionActive.session.id, 'pwd')}
               />
             </Tooltip>
-            <Tooltip placement="bottom" mouseEnterDelay={0.3} title="上级目录">
+            <Tooltip placement="bottom" mouseEnterDelay={0.3}
+                     title={formatText('app.hostandsession.filesession.uppath')}>
               <Button
-                // type="primary"
                 style={{ width: 56 }}
                 onClick={() =>
                   onListFileSession(
@@ -2918,9 +2915,8 @@ const FileSession = () => {
             style={{
               width: 'calc(80vw - 560px)',
             }}
-            // prefix={<HddOutlined className="site-form-item-icon" />}
             prefix={<FolderOpenOutlined/>}
-            placeholder="请输入目录"
+            placeholder={formatText('app.hostandsession.filesession.path.rule')}
             onChange={event => setFileSessionInputPathActive(event.target.value)}
             value={fileSessionInputPathActive}
             onSearch={value =>
@@ -2935,9 +2931,9 @@ const FileSession = () => {
               />
             }
           />
-          <Tooltip placement="bottom" mouseEnterDelay={0.3} title="重新加载当前目录">
+          <Tooltip placement="bottom" mouseEnterDelay={0.3}
+                   title={formatText('app.hostandsession.filesession.reloadpwd')}>
             <Button
-              // type="primary"
               loading={listFileSessionReq.loading}
               style={{ width: 56 }}
               onClick={() =>
@@ -2951,9 +2947,8 @@ const FileSession = () => {
               icon={<SyncOutlined/>}
             />
           </Tooltip>
-          <Tooltip placement="bottom" mouseEnterDelay={0.3} title="切换工作目录到当前目录">
+          <Tooltip placement="bottom" mouseEnterDelay={0.3} title={formatText('app.hostandsession.filesession.cdpwd')}>
             <Button
-              // type="primary"
               loading={listFileSessionRunReq.loading}
               style={{ width: 56 }}
               onClick={() =>
@@ -2967,12 +2962,12 @@ const FileSession = () => {
             />
           </Tooltip>
           <Popover
-            title="新建文件夹名称"
+            title={formatText('app.hostandsession.filesession.mkdir.name')}
             placement="bottomRight"
             content={
               <Search
                 style={{ width: '300px' }}
-                enterButton="新建"
+                enterButton={formatText('app.hostandsession.filesession.mk')}
                 size="default"
                 onSearch={value =>
                   onCreateFileSession(
@@ -3048,7 +3043,7 @@ const FileSession = () => {
           })}
           columns={[
             {
-              title: '类型',
+              title: formatText('app.hostandsession.filesession.type'),
               dataIndex: 'type',
               key: 'type',
               width: 56,
@@ -3103,7 +3098,7 @@ const FileSession = () => {
               },
             },
             {
-              title: '名称',
+              title: formatText('app.hostandsession.filesession.name'),
               dataIndex: 'name',
               key: 'name',
               sorter: {
@@ -3128,13 +3123,13 @@ const FileSession = () => {
               },
             },
             {
-              title: '权限',
+              title: formatText('app.hostandsession.filesession.format_mode'),
               dataIndex: 'format_mode',
               key: 'format_mode',
               width: 160,
             },
             {
-              title: '大小',
+              title: formatText('app.hostandsession.filesession.format_size'),
               dataIndex: 'format_size',
               key: 'format_size',
               width: 96,
@@ -3144,7 +3139,7 @@ const FileSession = () => {
               },
             },
             {
-              title: '修改时间',
+              title: formatText('app.hostandsession.filesession.mtime'),
               dataIndex: 'mtime',
               key: 'mtime',
               width: 128,
@@ -3157,42 +3152,41 @@ const FileSession = () => {
               ),
             },
             {
-              title: '操作',
               dataIndex: 'operation',
-              width: 184,
+              width: 226,
               render: (text, record) => {
                 if (record.type === 'directory') {
                   // 文件夹打开类操作
                   return (
-                    <Space size="middle">
-                      <a
-                        onClick={() =>
-                          onListFileSession(
-                            hostAndSessionActive.session.id,
-                            'list',
-                            null,
-                            record.absolute_path,
-                          )
-                        }
-                      >
-                        打开
-                      </a>
-                      <a style={{ visibility: 'Hidden' }}>占位</a>
-                      <a style={{ visibility: 'Hidden' }}>占位</a>
-                      <Popconfirm
-                        placement="topRight"
-                        title="确认删除文件夹(无法撤销)?"
-                        onConfirm={() => onDestoryFileSession(record, 'destory_dir')}
-                      >
-                        <a style={{ color: 'red' }}>删除</a>
-                      </Popconfirm>
-                    </Space>
+                    <div style={{ textAlign: 'center' }}>
+                      <Space size="middle">
+                        <a
+                          onClick={() =>
+                            onListFileSession(
+                              hostAndSessionActive.session.id,
+                              'list',
+                              null,
+                              record.absolute_path,
+                            )
+                          }
+                        >{formatText('app.hostandsession.filesession.open')}</a>
+                        <a style={{ visibility: 'Hidden' }}>{formatText('app.hostandsession.filesession.holder')}</a>
+                        <a style={{ visibility: 'Hidden' }}>{formatText('app.hostandsession.filesession.exec')}</a>
+                        <Popconfirm
+                          placement="topRight"
+                          title={formatText('app.hostandsession.filesession.destory_dir.tip')}
+                          onConfirm={() => onDestoryFileSession(record, 'destory_dir')}
+                        >
+                          <a style={{ color: 'red' }}>{formatText('app.core.delete')}</a>
+                        </Popconfirm>
+                      </Space>
+                    </div>
                   );
                 }
                 if (record.type === 'fixed' || record.type === 'remote') {
                   // 文件夹打开类操作
                   return (
-                    <div>
+                    <div style={{ textAlign: 'center' }}>
                       <a
                         onClick={() =>
                           onListFileSession(
@@ -3202,8 +3196,7 @@ const FileSession = () => {
                             record.absolute_path,
                           )
                         }
-                      >
-                        打开
+                      >{formatText('app.core.open')}
                       </a>
                     </div>
                   );
@@ -3211,78 +3204,74 @@ const FileSession = () => {
                 if (record.type === 'file') {
                   // 文件类操作
                   return (
-                    <Space size="middle">
-                      <a
-                        onClick={() =>
-                          onListFileSession(
-                            hostAndSessionActive.session.id,
-                            'download',
-                            record.absolute_path,
-                            null,
-                          )
-                        }
-                      >
-                        下载
-                      </a>
-                      {record.cat_able === true ? (
+                    <div style={{ textAlign: 'center' }}>
+                      <Space size="middle">
                         <a
-                          style={{ color: 'green' }}
                           onClick={() =>
-                            onListFileSessionCat(
+                            onListFileSession(
                               hostAndSessionActive.session.id,
+                              'download',
                               record.absolute_path,
+                              null,
                             )
                           }
-                        >
-                          查看
-                        </a>
-                      ) : (
-                        <a style={{ visibility: 'Hidden' }}>占位</a>
-                      )}
-                      <Popover
-                        placement="left"
-                        title="命令行参数"
-                        content={
-                          <Form
-                            style={{
-                              width: '50vw',
-                            }}
-                            onFinish={values =>
-                              onListFileSessionRun(
+                        >{formatText('app.hostandsession.filesession.download')}</a>
+                        {record.cat_able === true ? (
+                          <a
+                            style={{ color: 'green' }}
+                            onClick={() =>
+                              onListFileSessionCat(
                                 hostAndSessionActive.session.id,
-                                'run',
                                 record.absolute_path,
-                                values.args,
-                              )}
-                          >
-                            <Form.Item name="args" {...formLayout}>
-                              <TextArea/>
-                            </Form.Item>
-                            <Form.Item {...tailLayout}>
-                              <Button
-                                icon={<PlayCircleOutlined/>}
-                                block
-                                type="primary"
-                                htmlType="submit"
-                                loading={listFileSessionRunReq.loading}
-                              >
-                                执行
-                              </Button>
-                            </Form.Item>
-                          </Form>
-                        }
-                        trigger="click"
-                      >
-                        <a style={{ color: '#faad14' }}>执行</a>
-                      </Popover>
-                      <Popconfirm
-                        placement="topRight"
-                        title="确认删除文件(无法撤销)?"
-                        onConfirm={() => onDestoryFileSession(record, 'destory_file')}
-                      >
-                        <a style={{ color: 'red' }}>删除</a>
-                      </Popconfirm>
-                    </Space>
+                              )
+                            }
+                          >{formatText('app.hostandsession.filesession.view')}</a>
+                        ) : (
+                          <a style={{ visibility: 'Hidden' }}>{formatText('app.hostandsession.filesession.holder2')}</a>
+                        )}
+                        <Popover
+                          placement="left"
+                          title={formatText('app.hostandsession.filesession.args')}
+                          content={
+                            <Form
+                              style={{
+                                width: '50vw',
+                              }}
+                              onFinish={values =>
+                                onListFileSessionRun(
+                                  hostAndSessionActive.session.id,
+                                  'run',
+                                  record.absolute_path,
+                                  values.args,
+                                )}
+                            >
+                              <Form.Item name="args" {...formLayout}>
+                                <TextArea/>
+                              </Form.Item>
+                              <Form.Item {...tailLayout}>
+                                <Button
+                                  icon={<PlayCircleOutlined/>}
+                                  block
+                                  type="primary"
+                                  htmlType="submit"
+                                  loading={listFileSessionRunReq.loading}
+                                >{formatText('app.hostandsession.filesession.exec')}</Button>
+                              </Form.Item>
+                            </Form>
+                          }
+                          trigger="click"
+                        >
+                          <a style={{ color: '#faad14' }}>{formatText('app.hostandsession.filesession.exec')}</a>
+                        </Popover>
+                        <Popconfirm
+                          placement="topRight"
+                          title={formatText('app.hostandsession.filesession.destory_file.tip')}
+                          onConfirm={() => onDestoryFileSession(record, 'destory_file')}
+                        >
+                          <a style={{ color: 'red' }}>{formatText('app.core.delete')}</a>
+                        </Popconfirm>
+                      </Space>
+                    </div>
                   );
                 }
               },
@@ -3399,11 +3388,11 @@ const HostRuningInfo = () => {
   ];
   const usefulProcessColumns = [
     {
-      title: '标签',
+      title: formatText('app.hostandsession.hostruninginfo.usefulProcess.tag'),
       dataIndex: 'tag',
     },
     {
-      title: '描述',
+      title: formatText('app.hostandsession.hostruninginfo.usefulProcess.desc'),
       dataIndex: 'desc',
     },
     {
@@ -3507,9 +3496,7 @@ const HostRuningInfo = () => {
             icon={<SyncOutlined/>}
             onClick={() => onListHostInfo(hostAndSessionActive)}
             loading={listHostInfoReq.loading}
-          >
-            读取缓存
-          </Button>
+          >{formatText('app.hostandsession.hostruninginfo.list')}</Button>
           <Button
             icon={<RetweetOutlined/>}
             loading={updateHostInfoReq.loading}
@@ -3520,9 +3507,7 @@ const HostRuningInfo = () => {
               hostAndSessionActive.session.id === undefined ||
               hostAndSessionActive.session.id === -1
             }
-          >
-            重新请求
-          </Button>
+          >{formatText('app.hostandsession.hostruninginfo.update')}</Button>
         </ButtonGroup>
         {hostAndSessionBaseInfo.UPDATE_TIME === 0 ||
         hostAndSessionBaseInfo.UPDATE_TIME === undefined ? (
@@ -3531,9 +3516,7 @@ const HostRuningInfo = () => {
               marginLeft: 16,
             }}
             color="red"
-          >
-            未更新
-          </Tag>
+          >{formatText('app.hostandsession.hostruninginfo.unupdate')}</Tag>
         ) : (
           <Tag
             style={{
@@ -3553,21 +3536,21 @@ const HostRuningInfo = () => {
             minHeight: '80vh',
           }}
         >
-          <TabPane tab={<span>基本信息</span>} key="1">
+          <TabPane tab={<span>{formatText('app.hostandsession.hostruninginfo.baseinfo')}</span>} key="1">
             <Descriptions size="small" column={1} bordered>
-              <Descriptions.Item label="主机名">
+              <Descriptions.Item label={formatText('app.hostandsession.hostruninginfo.Computer')}>
                 {hostAndSessionBaseInfo.Computer}
               </Descriptions.Item>
-              <Descriptions.Item label="操作系统">
+              <Descriptions.Item label={formatText('app.hostandsession.hostruninginfo.OS')}>
                 {hostAndSessionBaseInfo.OS} {hostAndSessionBaseInfo.ARCH}
               </Descriptions.Item>
               <Descriptions.Item label="DOMAIN">{hostAndSessionBaseInfo.DOMAIN}</Descriptions.Item>
-              <Descriptions.Item label="当前登录用户数">
+              <Descriptions.Item label={formatText('app.hostandsession.hostruninginfo.LoggedOnUsers')}>
                 {hostAndSessionBaseInfo.LoggedOnUsers}
               </Descriptions.Item>
             </Descriptions>
           </TabPane>
-          <TabPane tab={<span>网卡信息</span>} key="8">
+          <TabPane tab={formatText('app.hostandsession.hostruninginfo.networkcard')} key="8">
             <Table
               className={styles.hostinfoTable}
               columns={interfaceColumns}
@@ -3578,7 +3561,7 @@ const HostRuningInfo = () => {
               expandRowByClick
             />
           </TabPane>
-          <TabPane tab={<span>本地监听</span>} key="10">
+          <TabPane tab={formatText('app.hostandsession.hostruninginfo.listen_address')} key="10">
             <Table
               className={styles.hostinfoTable}
               columns={netstatColumns}
@@ -3587,7 +3570,7 @@ const HostRuningInfo = () => {
               size="small"
             />
           </TabPane>
-          <TabPane tab={<span>外网连接</span>} key="5">
+          <TabPane tab={formatText('app.hostandsession.hostruninginfo.public_ipaddress')} key="5">
             <Table
               className={styles.hostinfoTable}
               columns={netstatColumns}
@@ -3596,7 +3579,7 @@ const HostRuningInfo = () => {
               size="small"
             />
           </TabPane>
-          <TabPane tab={<span>内网连接</span>} key="6">
+          <TabPane tab={formatText('app.hostandsession.hostruninginfo.private_ipaddress')} key="6">
             <Table
               className={styles.hostinfoTable}
               columns={netstatColumns}
@@ -3605,7 +3588,7 @@ const HostRuningInfo = () => {
               size="small"
             />
           </TabPane>
-          <TabPane tab={<span>ARP信息</span>} key="7">
+          <TabPane tab={formatText('app.hostandsession.hostruninginfo.ARP')} key="7">
             <Table
               className={styles.hostinfoTable}
               columns={arpColumns}
@@ -3614,7 +3597,7 @@ const HostRuningInfo = () => {
               size="small"
             />
           </TabPane>
-          <TabPane tab={<span>重要进程</span>} key="9">
+          <TabPane tab={formatText('app.hostandsession.hostruninginfo.useful_processes')} key="9">
             <Table
               className={styles.hostinfoTable}
               scroll={{ x: 'calc(70vw - 16px)' }}
@@ -3624,7 +3607,7 @@ const HostRuningInfo = () => {
               size="small"
             />
           </TabPane>
-          <TabPane tab={<span>所有连接</span>} key="4">
+          <TabPane tab={formatText('app.hostandsession.hostruninginfo.NETSTAT')} key="4">
             <Table
               className={styles.hostinfoTable}
               columns={netstatColumns}
@@ -3633,7 +3616,7 @@ const HostRuningInfo = () => {
               size="small"
             />
           </TabPane>
-          <TabPane tab={<span>所有进程</span>} key="2">
+          <TabPane tab={formatText('app.hostandsession.hostruninginfo.PROCESSES')} key="2">
             <Table
               className={styles.hostinfoTable}
               columns={processColumns}
@@ -3648,7 +3631,6 @@ const HostRuningInfo = () => {
   );
 };
 const HostRunningInfoMemo = memo(HostRuningInfo);
-
 
 const HostInfo = () => {
   console.log('HostInfo');
@@ -3736,24 +3718,24 @@ const PortService = () => {
       loading={listPortServiceReq.loading || initListPortServiceReq.loading}
       columns={[
         {
-          title: '端口',
+          title: formatText('app.hostandsession.portservice.port'),
           dataIndex: 'port',
           key: 'port',
           width: '10%',
         },
         {
-          title: '服务',
+          title: formatText('app.hostandsession.portservice.service'),
           dataIndex: 'service',
           key: 'service',
           width: '15%',
         },
         {
-          title: '指纹',
+          title: formatText('app.hostandsession.portservice.banner'),
           dataIndex: 'banner',
           key: 'banner',
         },
         {
-          title: '更新时间',
+          title: formatText('app.core.updatetime'),
           dataIndex: 'update_time',
           key: 'update_time',
           width: '10%',
@@ -3762,12 +3744,11 @@ const PortService = () => {
           ),
         },
         {
-          title: '操作',
           dataIndex: 'operation',
           width: 48,
           render: (text, record) => (
             <a onClick={() => onDestoryPortService(record)} style={{ color: 'red' }}>
-              删除
+              {formatText('app.core.delete')}
             </a>
           ),
         },
@@ -3830,18 +3811,18 @@ const Vulnerability = () => {
       loading={listVulnerabilityReq.loading || initListVulnerabilityeReq.loading}
       columns={[
         {
-          title: '扫描模块',
+          title: formatText('app.hostandsession.Vulnerability.source_module_name'),
           dataIndex: 'source_module_name',
           key: 'source_module_name',
         },
         {
-          title: '说明',
+          title: formatText('app.hostandsession.Vulnerability.desc'),
           dataIndex: 'desc',
           key: 'desc',
           // width: '15%',
         },
         {
-          title: '更新时间',
+          title: formatText('app.core.updatetime'),
           dataIndex: 'update_time',
           key: 'update_time',
           width: 80,
@@ -3850,12 +3831,11 @@ const Vulnerability = () => {
           ),
         },
         {
-          title: '操作',
           dataIndex: 'operation',
           width: 48,
           render: (text, record) => (
             <a onClick={() => onDestoryVulnerability(record)} style={{ color: 'red' }}>
-              删除
+              {formatText('app.core.delete')}
             </a>
           ),
         },
@@ -3923,7 +3903,7 @@ const UpdateHost = props => {
         <Form.Item
           label={<span>ipaddress</span>}
           name="ipaddress"
-          rules={[{ required: true, message: '请输入' }]}
+          rules={[{ required: true }]}
           style={{ display: 'None' }}
           {...formLayout}
         >
@@ -3943,10 +3923,10 @@ const UpdateHost = props => {
         </Form.Item>
         <Form.Item
           name="comment"
-          rules={[{ message: '备注最长支持二十个字符', max: 20 }]}
+          rules={[{ message: formatText('app.hostandsession.updatehost.comment.rule'), max: 20 }]}
           {...formLayout}
         >
-          <Input placeholder="备注最长支持二十个字符"/>
+          <Input placeholder={formatText('app.hostandsession.updatehost.comment.rule')}/>
         </Form.Item>
         <Form.Item {...tailLayout}>
           <Button
@@ -3955,9 +3935,7 @@ const UpdateHost = props => {
             type="primary"
             htmlType="submit"
             loading={updateHostReq.loading}
-          >
-            更新
-          </Button>
+          >{formatText('app.core.update')}</Button>
         </Form.Item>
       </Form>
     </Card>
