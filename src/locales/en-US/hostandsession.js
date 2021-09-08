@@ -76,7 +76,7 @@ export default {
   'app.hostandsession.sessionio.python_reset': 'Reset Python Plugin',
 
   'app.hostandsession.msfroute.subnet': 'Subnet',
-  'app.hostandsession.msfroute.subnet.rule': 'Please input subnet(10.10.10.0)',
+  'app.hostandsession.msfroute.subnet.rule': 'Please input subnet(10.10.10.10)',
   'app.hostandsession.msfroute.netmask': 'Netmask',
   'app.hostandsession.msfroute.netmask.rule': 'Please input netmask',
   'app.hostandsession.msfroute.auto': 'Auto',

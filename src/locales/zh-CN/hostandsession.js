@@ -77,7 +77,7 @@ export default {
   'app.hostandsession.sessionio.python_reset': '重置Python插件',
 
   'app.hostandsession.msfroute.subnet': '子网',
-  'app.hostandsession.msfroute.subnet.rule': '请输入子网(10.10.10.0)',
+  'app.hostandsession.msfroute.subnet.rule': '请输入子网(10.10.10.10)',
   'app.hostandsession.msfroute.netmask': '掩码',
   'app.hostandsession.msfroute.netmask.rule': '请输入掩码',
   'app.hostandsession.msfroute.auto': '自动',

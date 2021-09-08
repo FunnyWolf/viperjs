@@ -2028,6 +2028,7 @@ const MsfRoute = () => {
           },
           {
             dataIndex: 'operation',
+            width: 64,
             render: (text, record) => (
               <a style={{ color: 'red' }} onClick={() => onDestoryRoute(record)}>
                 {formatText('app.core.delete')}
@@ -2059,14 +2060,15 @@ const MsfRoute = () => {
           name="subnet"
           rules={[{ required: !autoRouteCheck, message: formatText('app.hostandsession.msfroute.subnet.rule') }]}
         >
-          <Input disabled={autoRouteCheck} placeholder={formatText('app.hostandsession.msfroute.subnet.rule')}/>
+          <Input style={{ width: 240 }} disabled={autoRouteCheck}
+                 placeholder={formatText('app.hostandsession.msfroute.subnet.rule')}/>
         </Form.Item>
         <Form.Item
           label={formatText('app.hostandsession.msfroute.netmask')}
           name="netmask"
           rules={[{ required: !autoRouteCheck, message: formatText('app.hostandsession.msfroute.netmask.rule') }]}
         >
-          <Input disabled={autoRouteCheck} placeholder={formatText('app.hostandsession.msfroute.netmask.rule')}/>
+          <Input style={{ width: 240 }} disabled={autoRouteCheck} placeholder={formatText('app.hostandsession.msfroute.netmask.rule')}/>
         </Form.Item>
         <Form.Item>
           <Button
