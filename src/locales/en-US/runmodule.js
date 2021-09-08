@@ -53,5 +53,5 @@ export default {
   'app.runmodule.autoconf.max_session.tip': 'When the sessions count on the same ip address is greater than N, the arrangement is no longer executed (to prevent the arrangement module from generating session, and the session executes the arrangement again, causing an infinite loop)',
   'app.runmodule.autorobot.add': 'Add module',
   'app.runmodule.autorobot.params': 'Pre-configured param',
-
+  'app.runmodule.common.rule': 'Please input ',
 };

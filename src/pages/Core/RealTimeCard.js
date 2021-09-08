@@ -405,11 +405,11 @@ const RealTimeNotices = () => {
                 color="cyan"
                 style={{
                   marginLeft: -1,
-                  width: 108,
+                  width: 80,
                   marginRight: 4,
                 }}
               >
-                {moment(item.time * 1000).format('YYYY-MM-DD HH:mm')}
+                {moment(item.time * 1000).format('MM-DD HH:mm')}
               </Tag>
               {getContent(item)}
             </div>

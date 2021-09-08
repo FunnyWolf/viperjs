@@ -53,4 +53,5 @@ export default {
   'app.runmodule.autoconf.max_session.tip': '当同一个ip地址的权限大于N个时,不再执行编排(防止编排模块生成权限,权限又执行编排,造成死循环)',
   'app.runmodule.autorobot.add': '添加模块',
   'app.runmodule.autorobot.params': '预配置参数',
+  'app.runmodule.common.rule': '请输入',
 };

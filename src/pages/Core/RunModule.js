@@ -180,7 +180,10 @@ const getModuleOptions = (postModuleConfigActive) => {
             }
             name={oneOption.name}
             initialValue={oneOption.default}
-            rules={[{ required: oneOption.required }]}
+            rules={[{
+              required: oneOption.required,
+              message: `${formatText('app.runmodule.common.rule')}${oneOption.name_tag}`,
+            }]}
           >
             <Input
               style={{ width: '90%' }}
@@ -199,7 +202,10 @@ const getModuleOptions = (postModuleConfigActive) => {
             }
             name={oneOption.name}
             initialValue={oneOption.default}
-            rules={[{ required: oneOption.required }]}
+            rules={[{
+              required: oneOption.required,
+              message: `${formatText('app.runmodule.common.rule')}${oneOption.name_tag}`,
+            }]}
           >
             <TextArea
               style={{ width: '95%' }}
@@ -222,7 +228,10 @@ const getModuleOptions = (postModuleConfigActive) => {
             name={oneOption.name}
             valuePropName="checked"
             initialValue={oneOption.default}
-            rules={[{ required: oneOption.required }]}
+            rules={[{
+              required: oneOption.required,
+              message: `${formatText('app.runmodule.common.rule')}${oneOption.name_tag}`,
+            }]}
           >
             <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
           </Form.Item>
@@ -239,7 +248,10 @@ const getModuleOptions = (postModuleConfigActive) => {
             }
             name={oneOption.name}
             initialValue={oneOption.default}
-            rules={[{ required: oneOption.required }]}
+            rules={[{
+              required: oneOption.required,
+              message: `${formatText('app.runmodule.common.rule')}${oneOption.name_tag}`,
+            }]}
             wrapperCol={{ span: 24 }}
           >
             <InputNumber
@@ -259,7 +271,10 @@ const getModuleOptions = (postModuleConfigActive) => {
             }
             name={oneOption.name}
             initialValue={oneOption.default}
-            rules={[{ required: oneOption.required }]}
+            rules={[{
+              required: oneOption.required,
+              message: `${formatText('app.runmodule.common.rule')}${oneOption.name_tag}`,
+            }]}
             wrapperCol={{ span: 24 }}
           >
             <InputNumber
@@ -290,7 +305,10 @@ const getModuleOptions = (postModuleConfigActive) => {
             }
             name={oneOption.name}
             initialValue={oneOption.default}
-            rules={[{ required: oneOption.required }]}
+            rules={[{
+              required: oneOption.required,
+              message: `${formatText('app.runmodule.common.rule')}${oneOption.name_tag}`,
+            }]}
             wrapperCol={{ span: 24 }}
           >
             <Select
@@ -315,7 +333,10 @@ const getModuleOptions = (postModuleConfigActive) => {
             }
             name={oneOption.name}
             initialValue={oneOption.default}
-            rules={[{ required: oneOption.required }]}
+            rules={[{
+              required: oneOption.required,
+              message: `${formatText('app.runmodule.common.rule')}${oneOption.name_tag}`,
+            }]}
             wrapperCol={{ span: 24 }}
           >
             <Input
@@ -1576,7 +1597,10 @@ export const RunBotModule = props => {
               }
               initialValue={oneOption.default}
               name={oneOption.name}
-              rules={[{ required: oneOption.required, message: '请输入' }]}
+              rules={[{
+                required: oneOption.required,
+                message: `${formatText('app.runmodule.common.rule')}${oneOption.name_tag}`,
+              }]}
             >
               <Input
                 style={{ width: '90%' }}
@@ -1596,7 +1620,10 @@ export const RunBotModule = props => {
               initialValue={oneOption.default}
               name={oneOption.name}
               valuePropName="checked"
-              rules={[{ required: oneOption.required }]}
+              rules={[{
+                required: oneOption.required,
+                message: `${formatText('app.runmodule.common.rule')}${oneOption.name_tag}`,
+              }]}
             >
               <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
             </Form.Item>
@@ -1613,7 +1640,10 @@ export const RunBotModule = props => {
               }
               initialValue={oneOption.default}
               name={oneOption.name}
-              rules={[{ required: oneOption.required }]}
+              rules={[{
+                required: oneOption.required,
+                message: `${formatText('app.runmodule.common.rule')}${oneOption.name_tag}`,
+              }]}
               wrapperCol={{ span: 24 }}
             >
               <InputNumber
@@ -1634,7 +1664,10 @@ export const RunBotModule = props => {
               }
               initialValue={oneOption.default}
               name={oneOption.name}
-              rules={[{ required: oneOption.required }]}
+              rules={[{
+                required: oneOption.required,
+                message: `${formatText('app.runmodule.common.rule')}${oneOption.name_tag}`,
+              }]}
               wrapperCol={{ span: 24 }}
             >
               <InputNumber
@@ -1665,7 +1698,10 @@ export const RunBotModule = props => {
               }
               initialValue={oneOption.default}
               name={oneOption.name}
-              rules={[{ required: oneOption.required }]}
+              rules={[{
+                required: oneOption.required,
+                message: `${formatText('app.runmodule.common.rule')}${oneOption.name_tag}`,
+              }]}
               wrapperCol={{ span: 24 }}
             >
               <Select
@@ -1690,7 +1726,10 @@ export const RunBotModule = props => {
               }
               initialValue={oneOption.default}
               name={oneOption.name}
-              rules={[{ required: oneOption.required }]}
+              rules={[{
+                required: oneOption.required,
+                message: `${formatText('app.runmodule.common.rule')}${oneOption.name_tag}`,
+              }]}
               wrapperCol={{ span: 24 }}
             >
               <Input
@@ -2297,7 +2336,10 @@ export const PostModule = props => {
               </Tooltip>
             }
             name={oneOption.name}
-            rules={[{ required: oneOption.required }]}
+            rules={[{
+              required: oneOption.required,
+              message: `${formatText('app.runmodule.common.rule')}${oneOption.name_tag}`,
+            }]}
           >
             <Input
               style={{ width: '90%' }}
@@ -2316,7 +2358,10 @@ export const PostModule = props => {
             }
             name={oneOption.name}
             valuePropName="checked"
-            rules={[{ required: oneOption.required }]}
+            rules={[{
+              required: oneOption.required,
+              message: `${formatText('app.runmodule.common.rule')}${oneOption.name_tag}`,
+            }]}
           >
             <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
           </Form.Item>
@@ -2332,7 +2377,10 @@ export const PostModule = props => {
               </Tooltip>
             }
             name={oneOption.name}
-            rules={[{ required: oneOption.required }]}
+            rules={[{
+              required: oneOption.required,
+              message: `${formatText('app.runmodule.common.rule')}${oneOption.name_tag}`,
+            }]}
             wrapperCol={{ span: 24 }}
           >
             <InputNumber
@@ -2352,7 +2400,10 @@ export const PostModule = props => {
               </Tooltip>
             }
             name={oneOption.name}
-            rules={[{ required: oneOption.required }]}
+            rules={[{
+              required: oneOption.required,
+              message: `${formatText('app.runmodule.common.rule')}${oneOption.name_tag}`,
+            }]}
             wrapperCol={{ span: 24 }}
           >
             <InputNumber
@@ -2382,7 +2433,10 @@ export const PostModule = props => {
               </Tooltip>
             }
             name={oneOption.name}
-            rules={[{ required: oneOption.required }]}
+            rules={[{
+              required: oneOption.required,
+              message: `${formatText('app.runmodule.common.rule')}${oneOption.name_tag}`,
+            }]}
             wrapperCol={{ span: 24 }}
           >
             <Select
@@ -2405,7 +2459,10 @@ export const PostModule = props => {
               </Tooltip>
             }
             name={oneOption.name}
-            rules={[{ required: oneOption.required }]}
+            rules={[{
+              required: oneOption.required,
+              message: `${formatText('app.runmodule.common.rule')}${oneOption.name_tag}`,
+            }]}
             wrapperCol={{ span: 24 }}
           >
             <Input
