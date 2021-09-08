@@ -2556,7 +2556,7 @@ const Transport = props => {
           {
             title: formatText('app.hostandsession.transport.retry_total'),
             dataIndex: 'retry_total',
-            width: 64,
+            width: 96,
             render: (text, record) => {
               return <span>{text}</span>;
             },
@@ -2576,9 +2576,6 @@ const Transport = props => {
             render: (text, record) => {
               return (
                 <Tag
-                  style={{
-                    marginLeft: 16,
-                  }}
                   color="cyan"
                 >
                   {moment(time_exp * 1000).format('YYYY-MM-DD HH:mm')}

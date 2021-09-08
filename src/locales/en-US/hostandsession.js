@@ -106,10 +106,10 @@ export default {
   'app.hostandsession.portfwd.reverse.doc.2': 'For example: forward the intranet 192.168.3.13:20000 to 10.10.10.10:2000 through the 192.168.3.13 session.\nLocal IP (target): 10.10.10.10 Local port (monitoring): 2000 Remote port (monitoring): 20000.',
   'app.hostandsession.portfwd.reverse.doc.3': '(10.10.10.10:2000 start an handler, 192.168.3.14 connects to 192.168.3.13:20000 to generate a reverse shell)',
 
-  'app.hostandsession.transport.comm_timeout': 'Timeout(Second)',
+  'app.hostandsession.transport.comm_timeout': 'Timeout',
   'app.hostandsession.transport.retry_total': 'Retry Total',
-  'app.hostandsession.transport.retry_wait': 'Retry Interval(Second)',
-  'app.hostandsession.transport.session_exp': 'Session Expiration',
+  'app.hostandsession.transport.retry_wait': 'Retry Interval',
+  'app.hostandsession.transport.session_exp': 'Expiration',
   'app.hostandsession.transport.handler': 'Handler',
   'app.hostandsession.transport.handler.rule': 'Please select an handler',
   'app.hostandsession.transport.update': 'Switch',
