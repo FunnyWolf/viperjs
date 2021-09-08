@@ -8,8 +8,8 @@ export default {
   'app.hostandsession.session.HostRuningInfo': 'HostInfo',
   'app.hostandsession.session.DestorySession': 'Destory',
 
-  'app.hostandsession.host.HostInfo': 'Host Info',
-  'app.hostandsession.host.PortService': 'Port Service',
+  'app.hostandsession.host.HostInfo': 'HostInfo',
+  'app.hostandsession.host.PortService': 'PortService',
   'app.hostandsession.host.Vulnerability': 'Vulnerability',
   'app.hostandsession.host.DestoryHost': 'Destory',
 

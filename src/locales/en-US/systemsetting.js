@@ -34,7 +34,7 @@ export default {
   'app.systemsetting.betafunction': 'Beta Function',
   'app.systemsetting.reloadpage': 'Refresh to take effect',
   'app.systemsetting.updatemsfstatus': 'Refresh MSFStatus',
-  'app.systemsetting.reloadallmodule': 'Reload all modules',
+  'app.systemsetting.reloadallmodule': 'Reload All Modules',
   'app.systemsetting.logout': 'Logout',
   'app.systemsetting.switch': 'Switch',
   'app.systemsetting.inputtoken': 'Input token',

@@ -491,7 +491,7 @@ const HostAndSessionCard = () => {
     };
 
     return (
-      <Menu style={{ width: 100 }} onClick={onClick}>
+      <Menu onClick={onClick}>
         <Menu.Item icon={<ProfileOutlined/>} key="HostInfo">
           <FormattedMessage id="app.hostandsession.host.HostInfo"/>
         </Menu.Item>
