@@ -1,5 +1,5 @@
 export default {
-  'app.credential.form.add': 'Add manully',
+  'app.credential.form.add': 'Add Manully',
   'app.credential.username': 'Username',
   'app.credential.username.rule': 'Please input username',
   'app.credential.password': 'Password',
@@ -16,5 +16,5 @@ export default {
   'app.credential.windowscred': 'Windows Cred',
   'app.credential.domain': 'Domain',
   'app.credential.domain.ph': 'Please input domain',
-  'app.credential.windowstype': 'Cred type',
+  'app.credential.windowstype': 'Cred Type',
 };

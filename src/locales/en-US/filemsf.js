@@ -1,5 +1,5 @@
 export default {
-  'app.filemsf.uploaderror': 'upload failed',
+  'app.filemsf.uploaderror': 'Upload failed',
   'app.filemsf.uploadlabel': 'Drag and drop files here to upload',
   'app.filemsf.filename': 'Filename',
   'app.filemsf.size': 'Size',
