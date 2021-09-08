@@ -36,27 +36,27 @@ const LoginPage = props => {
           rules={[
             {
               required: true,
-              message: '请输入用户名 (root)',
+              message: '请输入用户名/Please input username(root)',
             },
           ]}
           defaultValue={'root'}
         >
-          <Input prefix={<UserOutlined/>} placeholder="用户名"/>
+          <Input prefix={<UserOutlined/>} placeholder="用户名/Username"/>
         </Form.Item>
         <Form.Item
           name="password"
           rules={[
             {
               required: true,
-              message: '请输入密码 (参考docker-compose.yml文件)',
+              message: '请输入密码/Please input password(docker-compose.yml)',
             },
           ]}
         >
-          <Input prefix={<LockOutlined/>} type="password" placeholder="密码"/>
+          <Input prefix={<LockOutlined/>} type="password" placeholder="密码/Password"/>
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" block loading={createBaseauthReq.loading}>
-            登录
+            登录/Login
           </Button>
         </Form.Item>
       </Form>
