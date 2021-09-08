@@ -172,21 +172,7 @@ const SystemInfo = () => {
     <Card style={{ marginTop: -16 }}>
       <Row>
         <Descriptions size="small" style={{ marginLeft: 64 }} column={6}>
-          <Descriptions.Item label={formatText("app.systemsetting.msfstatus")}>
-            <Space>{serviceStatusActive.json_rpc.status ? (
-              <Tag color="green">{formatText("app.core.working")}</Tag>
-            ) : (
-              <Tag color="red">{formatText("app.core.error")}</Tag>
-            )}
-              <Button
-                size="small"
-                icon={<SyncOutlined />}
-                onClick={() => listServiceStatusReq.run()}
-                loading={listServiceStatusReq.loading}
-              >
-              </Button>
-            </Space>
-          </Descriptions.Item>
+
           <Descriptions.Item label={formatText("app.systemsetting.version")}>
             <Tag color="blue">{viper_version}</Tag>
           </Descriptions.Item>
@@ -229,17 +215,6 @@ const SystemInfo = () => {
       </Row>
       <Row>
         <Descriptions size="small" style={{ marginLeft: 64, marginTop: 16 }} column={6}>
-          <Descriptions.Item label={formatText("app.systemsetting.betafunction")}>
-            <Switch
-              checkedChildren={<CheckOutlined />}
-              unCheckedChildren={<MinusOutlined />}
-              checked={viperDebugFlag}
-              onClick={() => {
-                setViperDebugFlag(!viperDebugFlag);
-                message.info(formatText("app.systemsetting.reloadpage"));
-              }}
-            />
-          </Descriptions.Item>
           <Descriptions.Item>
             <Radio.Group
               size="small"
@@ -255,6 +230,33 @@ const SystemInfo = () => {
               buttonStyle="solid"
             />
           </Descriptions.Item>
+          <Descriptions.Item label={formatText("app.systemsetting.msfstatus")}>
+            <Space>{serviceStatusActive.json_rpc.status ? (
+              <Tag color="green">{formatText("app.core.working")}</Tag>
+            ) : (
+              <Tag color="red">{formatText("app.core.error")}</Tag>
+            )}
+              <Button
+                size="small"
+                icon={<SyncOutlined />}
+                onClick={() => listServiceStatusReq.run()}
+                loading={listServiceStatusReq.loading}
+              >
+              </Button>
+            </Space>
+          </Descriptions.Item>
+          <Descriptions.Item label={formatText("app.systemsetting.betafunction")}>
+            <Switch
+              checkedChildren={<CheckOutlined />}
+              unCheckedChildren={<MinusOutlined />}
+              checked={viperDebugFlag}
+              onClick={() => {
+                setViperDebugFlag(!viperDebugFlag);
+                message.info(formatText("app.systemsetting.reloadpage"));
+              }}
+            />
+          </Descriptions.Item>
+
         </Descriptions>
       </Row>
       <Row>

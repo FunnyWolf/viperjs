@@ -24,7 +24,7 @@ export default {
   'app.hostandsession.tab.Credential': '凭证列表',
   'app.hostandsession.tab.LazyLoader': '钓鱼管理',
   'app.hostandsession.tab.BotScan': '全网扫描',
-  'app.hostandsession.tab.SystemSetting': '平台设置/Setting',
+  'app.hostandsession.tab.SystemSetting': '设置 Setting',
 
   'app.hostandsession.low': '低',
   'app.hostandsession.medium': '中',
