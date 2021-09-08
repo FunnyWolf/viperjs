@@ -643,7 +643,6 @@ export const RunModule = props => {
     return null;
   }
   // 心跳标签
-  const fromnowTime = (moment().unix() - record.session.fromnow) * 1000;
   const timepass = record.session.fromnow;
 
   let heartbeat = null;
@@ -659,7 +658,7 @@ export const RunModule = props => {
             cursor: 'pointer',
           }}
         >
-          {moment(fromnowTime).fromNow()}
+          {timepass + 's'}
         </Tag>
       </Tooltip>
     );
@@ -674,7 +673,22 @@ export const RunModule = props => {
             cursor: 'pointer',
           }}
         >
-          {moment(fromnowTime).fromNow()}
+          {timepass + 's'}
+        </Tag>
+      </Tooltip>
+    );
+  } else if (90 < timepass <= 999) {
+    heartbeat = (
+      <Tooltip title={timepass + 's'} placement="left">
+        <Tag
+          color="orange"
+          style={{
+            width: 72,
+            textAlign: 'center',
+            cursor: 'pointer',
+          }}
+        >
+          {timepass + 's'}
         </Tag>
       </Tooltip>
     );
@@ -688,9 +702,7 @@ export const RunModule = props => {
             textAlign: 'center',
             cursor: 'pointer',
           }}
-        >
-          {moment(fromnowTime).fromNow()}
-        </Tag>
+        >999s</Tag>
       </Tooltip>
     );
   }
@@ -905,7 +917,7 @@ export const RunModule = props => {
             </Radio.Group>
             <Table
               className={styles.moduleConfigTable}
-              scroll={{ y: 'calc(80vh - 104px)' }}
+              scroll={{ y: 'calc(80vh - 128px)' }}
               rowClassName={styles.moduleTr}
               showHeader={false}
               onRow={record => ({
@@ -2120,8 +2132,8 @@ const RealTimeBotWaitList = () => {
       title: formatText('app.runmodule.botmodule.time'),
       dataIndex: 'time',
       key: 'time',
-      width: 80,
-      render: (text, record) => <Tag color="cyan">{moment(record.time * 1000).fromNow()}</Tag>,
+      width: 120,
+      render: (text, record) => <Tag color="cyan">{moment(record.time * 1000).format('YYYY-MM-DD HH:mm')}</Tag>,
     },
     {
       title: formatText('app.runmodule.botmodule.module'),

@@ -147,11 +147,9 @@ const RealTimeModuleResult = () => {
         renderItem={item => (
           <List.Item key={item.id} style={{ padding: '4px 0px 0px 4px' }}>
             <div>
-              <Tooltip title={moment(item.update_time * 1000).format('YYYY-MM-DD HH:mm:ss')}>
-                <Tag style={{ width: '68px' }} color="cyan">
-                  {moment(item.update_time * 1000).fromNow()}
-                </Tag>
-              </Tooltip>
+              <Tag style={{ width: '108px' }} color="cyan">
+                {moment(item.update_time * 1000).format('YYYY-MM-DD HH:mm')}
+              </Tag>
               <strong
                 style={{
                   color: '#642ab5',
@@ -403,18 +401,16 @@ const RealTimeNotices = () => {
                 marginBottom: 0,
               }}
             >
-              <Tooltip title={moment(item.time * 1000).format('YYYY-MM-DD HH:mm:ss')}>
-                <Tag
-                  color="cyan"
-                  style={{
-                    marginLeft: -1,
-                    width: 68,
-                    marginRight: 4,
-                  }}
-                >
-                  {moment(item.time * 1000).fromNow()}
-                </Tag>
-              </Tooltip>
+              <Tag
+                color="cyan"
+                style={{
+                  marginLeft: -1,
+                  width: 108,
+                  marginRight: 4,
+                }}
+              >
+                {moment(item.time * 1000).format('YYYY-MM-DD HH:mm')}
+              </Tag>
               {getContent(item)}
             </div>
           </List.Item>
@@ -518,8 +514,8 @@ const RealTimeJobs = () => {
           title: formatText('app.realtimecard.jobtable_starttime'),
           dataIndex: 'time',
           key: 'time',
-          width: 80,
-          render: (text, record) => <Tag color="cyan">{moment(record.time * 1000).fromNow()}</Tag>,
+          width: 120,
+          render: (text, record) => <Tag color="cyan">{moment(record.time * 1000).format('YYYY-MM-DD HH:mm')}</Tag>,
         },
         {
           title: formatText('app.realtimecard.jobtable_module'),

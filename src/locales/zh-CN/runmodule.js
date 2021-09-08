@@ -1,5 +1,3 @@
-import { BotScan } from '@/pages/Core/RunModule';
-
 export default {
   'app.runmodule.postmodule.NAME': '名称',
   'app.runmodule.postmodule.authorCom': '作者',
@@ -21,7 +19,6 @@ export default {
   'app.runmodule.postmodule.moduletype.Lateral_Movement': '横向移动',
   'app.runmodule.postmodule.moduletype.Collection': '数据采集',
 
-
   'app.runmodule.postmodule.params': '参数',
   'app.runmodule.postmodule.run': '执行',
   'app.runmodule.postmodule.desc': '说明',
@@ -36,7 +33,6 @@ export default {
   'app.runmodule.botmodule.protocol': '协议',
   'app.runmodule.botmodule.country_name': '国家',
   'app.runmodule.botmodule.as_organization': '组织',
-
 
   'app.runmodule.botmodule.newtask': '新建任务',
   'app.runmodule.botmodule.time': '创建时间',
@@ -55,7 +51,6 @@ export default {
   'app.runmodule.autoconf.10min': '10分钟',
   'app.runmodule.autoconf.max_session': '单一主机最大权限数量',
   'app.runmodule.autoconf.max_session.tip': '当同一个ip地址的权限大于N个时,不再执行编排(防止编排模块生成权限,权限又执行编排,造成死循环)',
-
   'app.runmodule.autorobot.add': '添加模块',
   'app.runmodule.autorobot.params': '预配置参数',
 };

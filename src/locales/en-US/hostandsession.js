@@ -1,12 +1,12 @@
 export default {
 
-  'app.hostandsession.session.SessionInfo': 'Information',
+  'app.hostandsession.session.SessionInfo': 'Session',
   'app.hostandsession.session.FileSession': 'Explorer',
-  'app.hostandsession.session.Route': 'MsfRoute',
+  'app.hostandsession.session.Route': 'Route',
   'app.hostandsession.session.PortFwd': 'PortFwd',
   'app.hostandsession.session.Transport': 'Transport',
   'app.hostandsession.session.SessionIO': 'Console',
-  'app.hostandsession.session.HostRuningInfo': 'Runing info',
+  'app.hostandsession.session.HostRuningInfo': 'HostInfo',
   'app.hostandsession.session.DestorySession': 'Destory',
 
   'app.hostandsession.host.HostInfo': 'Host info',
@@ -16,7 +16,7 @@ export default {
 
   'app.hostandsession.tab.Notices': 'Realtime',
   'app.hostandsession.tab.JobList': 'Jobs',
-  'app.hostandsession.tab.PayloadAndHandler': 'Payload&Handler',
+  'app.hostandsession.tab.PayloadAndHandler': 'PayloadHandler',
   'app.hostandsession.tab.FileMsf': 'Files',
   'app.hostandsession.tab.Network': 'Network',
   'app.hostandsession.tab.AutoRobot': 'Automation',

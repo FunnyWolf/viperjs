@@ -599,7 +599,6 @@ const HostAndSessionCard = () => {
         record.session.forEach(session => {
 
           // 心跳标签
-          const fromnowTime = (moment().unix() - session.fromnow) * 1000;
           const timepass = session.fromnow;
           let heartbeat = null;
 
@@ -629,6 +628,19 @@ const HostAndSessionCard = () => {
                 {timepass + 's'}
               </Tag>
             );
+          } else if (90 < timepass && timepass <= 999) {
+            heartbeat = (
+              <Tag
+                color="orange"
+                style={{
+                  width: 72,
+                  textAlign: 'center',
+                  cursor: 'pointer',
+                }}
+              >
+                {timepass + 's'}
+              </Tag>
+            );
           } else {
             heartbeat = (
               <Tag
@@ -638,9 +650,7 @@ const HostAndSessionCard = () => {
                   textAlign: 'center',
                   cursor: 'pointer',
                 }}
-              >
-                {moment(fromnowTime).fromNow()}
-              </Tag>
+              >999s</Tag>
             );
           }
           heartbeatTags.push(heartbeat);
@@ -724,7 +734,6 @@ const HostAndSessionCard = () => {
           const session = sessionRecord;
 
           // 心跳标签
-          const fromnowTime = (moment().unix() - session.fromnow) * 1000;
           const timepass = session.fromnow;
           let heartbeat = null;
 
@@ -758,6 +767,21 @@ const HostAndSessionCard = () => {
                 </Tag>
               </Tooltip>
             );
+          } else if (99 < timepass && timepass <= 999) {
+            heartbeat = (
+              <Tooltip title={timepass + 's'} placement="left">
+                <Tag
+                  color="orange"
+                  style={{
+                    width: 72,
+                    textAlign: 'center',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {timepass + 's'}
+                </Tag>
+              </Tooltip>
+            );
           } else {
             heartbeat = (
               <Tooltip title={timepass + 's'} placement="left">
@@ -768,9 +792,7 @@ const HostAndSessionCard = () => {
                     textAlign: 'center',
                     cursor: 'pointer',
                   }}
-                >
-                  {moment(fromnowTime).fromNow()}
-                </Tag>
+                >999s</Tag>
               </Tooltip>
             );
           }
@@ -1223,7 +1245,7 @@ const TabsBottom = () => {
       {showMsfconsoleWindow ? <NewWindow
         height={window.innerHeight / 10 * 6}
         width={window.innerWidth / 10 * 6}
-        title="MsfConsole"
+        title="MSFCONSOLE"
         onClose={() => setShowMsfconsoleWindow(false)}
       >
         <MsfConsoleXTermMemo/>
@@ -1394,7 +1416,7 @@ const TabsBottom = () => {
           tab={
             <div className={styles.tabPanediv}>
               <CodeOutlined/>
-              <span className={styles.tabPanespan}>MsfConsole</span>
+              <span className={styles.tabPanespan}>MSFCONSOLE</span>
             </div>
           }
           key="MsfConsole"
@@ -1592,7 +1614,6 @@ const SessionInfo = () => {
         {sessionInfoActive.os}
       </Tag>
     );
-
   const fromnowTime = (moment().unix() - sessionInfoActive.fromnow) * 1000;
   return (
     <Fragment>
@@ -1606,7 +1627,7 @@ const SessionInfo = () => {
             loading={initListSessionInfoReq.loading || updateSessionInfoReq.loading}
           >
             <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.heartbeat')} span={4}>
-              <Tag color="cyan">{moment(fromnowTime).fromNow()}</Tag>
+              <Tag color="cyan">{moment(fromnowTime).format('YYYY-MM-DD HH:mm')}</Tag>
             </Descriptions.Item>
             <Descriptions.Item label="ID" span={4}>
               {SidTag(sessionInfoActive.sessionid)}
@@ -2551,7 +2572,7 @@ const Transport = props => {
           {
             title: formatText('app.hostandsession.transport.session_exp'),
             dataIndex: 'session_exp',
-            width: 80,
+            width: 120,
             render: (text, record) => {
               return (
                 <Tag
@@ -2560,7 +2581,7 @@ const Transport = props => {
                   }}
                   color="cyan"
                 >
-                  {moment(time_exp * 1000).fromNow()}
+                  {moment(time_exp * 1000).format('YYYY-MM-DD HH:mm')}
                 </Tag>
               );
             },
@@ -3142,7 +3163,7 @@ const FileSession = () => {
               title: formatText('app.hostandsession.filesession.mtime'),
               dataIndex: 'mtime',
               key: 'mtime',
-              width: 128,
+              width: 120,
               sorter: {
                 compare: (a, b) => a.mtime - b.mtime,
                 multiple: 2,
@@ -3524,7 +3545,7 @@ const HostRuningInfo = () => {
             }}
             color="cyan"
           >
-            {moment(hostAndSessionBaseInfo.UPDATE_TIME * 1000).fromNow()}
+            {moment(hostAndSessionBaseInfo.UPDATE_TIME * 1000).format('YYYY-MM-DD HH:mm')}
           </Tag>
         )}
       </Row>
@@ -3738,9 +3759,9 @@ const PortService = () => {
           title: formatText('app.core.updatetime'),
           dataIndex: 'update_time',
           key: 'update_time',
-          width: '10%',
+          width: 120,
           render: (text, record) => (
-            <Tag color="cyan">{moment(record.update_time * 1000).fromNow()}</Tag>
+            <Tag color="cyan">{moment(record.update_time * 1000).format('YYYY-MM-DD HH:mm')}</Tag>
           ),
         },
         {
@@ -3825,9 +3846,9 @@ const Vulnerability = () => {
           title: formatText('app.core.updatetime'),
           dataIndex: 'update_time',
           key: 'update_time',
-          width: 80,
+          width: 120,
           render: (text, record) => (
-            <Tag color="cyan">{moment(record.update_time * 1000).fromNow()}</Tag>
+            <Tag color="cyan">{moment(record.update_time * 1000).format('YYYY-MM-DD HH:mm')}</Tag>
           ),
         },
         {

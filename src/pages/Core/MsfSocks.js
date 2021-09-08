@@ -288,8 +288,8 @@ const MsfSocks = () => {
       {
         title: formatText('app.core.updatetime'),
         dataIndex: 'update_time',
-        width: 80,
-        render: val => <Tag color="cyan">{moment(val * 1000).fromNow()}</Tag>,
+        width: 120,
+        render: val => <Tag color="cyan">{moment(val * 1000).format('YYYY-MM-DD HH:mm')}</Tag>,
       },
     ];
 

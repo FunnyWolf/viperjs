@@ -1,11 +1,13 @@
-import { ErrorShowType, history } from 'umi';
+import { ErrorShowType, history, getLocale } from 'umi';
 import { getToken } from '@/utils/authority';
 import { message, notification } from 'antd';
 import { saveAs } from 'file-saver';
-import moment from 'moment';
+// import moment from 'moment';
+
 // moment插件设置
-moment.locale('zh-cn');
-moment.relativeTimeThreshold('s', 59);
+// moment.locale('zh-cn');
+// moment.locale(getLocale());
+// moment.relativeTimeThreshold('s', 59);
 
 // 全局提示设置器
 message.config({
