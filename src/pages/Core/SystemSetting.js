@@ -215,21 +215,6 @@ const SystemInfo = () => {
       </Row>
       <Row>
         <Descriptions size="small" style={{ marginLeft: 64, marginTop: 16 }} column={6}>
-          <Descriptions.Item>
-            <Radio.Group
-              size="small"
-              options={[
-                { label: '简体中文', value: 'zh-CN' },
-                { label: 'English', value: 'en-US' },
-              ]}
-              onChange={(e) => {
-                setLocale(e.target.value, true);
-              }}
-              value={getLocale()}
-              optionType="button"
-              buttonStyle="solid"
-            />
-          </Descriptions.Item>
           <Descriptions.Item label={formatText('app.systemsetting.msfstatus')}>
             <Space>{serviceStatusActive.json_rpc.status ? (
               <Tag color="green">{formatText('app.core.working')}</Tag>

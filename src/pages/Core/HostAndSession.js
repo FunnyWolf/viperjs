@@ -1,5 +1,5 @@
 import React, { Fragment, memo, useCallback, useEffect, useRef, useState } from 'react';
-import { useModel, useRequest, FormattedMessage, formatMessage } from 'umi';
+import { useModel, useRequest, FormattedMessage, formatMessage, setLocale, getLocale } from 'umi';
 
 import { useInterval, useLocalStorageState } from 'ahooks';
 import {
@@ -605,6 +605,7 @@ const HostAndSessionCard = () => {
           if (timepass <= 60) {
             heartbeat = (
               <Tag
+                key={session.id}
                 color="green"
                 style={{
                   width: 72,
@@ -618,6 +619,7 @@ const HostAndSessionCard = () => {
           } else if (60 < timepass && timepass <= 90) {
             heartbeat = (
               <Tag
+                key={session.id}
                 color="orange"
                 style={{
                   width: 72,
@@ -631,6 +633,7 @@ const HostAndSessionCard = () => {
           } else if (90 < timepass && timepass <= 999) {
             heartbeat = (
               <Tag
+                key={session.id}
                 color="orange"
                 style={{
                   width: 72,
@@ -644,6 +647,7 @@ const HostAndSessionCard = () => {
           } else {
             heartbeat = (
               <Tag
+                key={session.id}
                 color="red"
                 style={{
                   width: 72,
@@ -684,10 +688,6 @@ const HostAndSessionCard = () => {
           >
             <Text
               className={styles.comment}
-              ellipsis={{
-                rows: 1,
-                tooltip: true,
-              }}
             >
               {record.comment}
             </Text>
@@ -1231,7 +1231,20 @@ const TabsBottom = () => {
       default:
     }
   };
+  const LangSwitch = () => {
+    const lang = getLocale();
+    if (lang === 'en-US') {
+      return <Button
+        onClick={() => setLocale('zh-CN', true)}
 
+      >中</Button>;
+    } else {
+      return <Button
+        onClick={() => setLocale('en-US', true)}
+
+      >En</Button>;
+    }
+  };
   return (
     <Fragment>
       {showNetworkWindow ? <NewWindow
@@ -1252,7 +1265,7 @@ const TabsBottom = () => {
       </NewWindow> : null}
       <Space
         style={{
-          top: 'calc(90vh)',
+          top: '16px',
           right: 8,
           position: 'fixed',
           zIndex: 10000,
@@ -1263,7 +1276,6 @@ const TabsBottom = () => {
           onClick={() => setShowMsfconsoleWindow(!showMsfconsoleWindow)}
           icon={<CodeOutlined/>}
         /> : <Button
-          type="primary"
           onClick={() => setShowMsfconsoleWindow(!showMsfconsoleWindow)}
           icon={<CodeOutlined/>}
         />}
@@ -1272,14 +1284,10 @@ const TabsBottom = () => {
           onClick={() => setShowNetworkWindow(!showNetworkWindow)}
           icon={<DeploymentUnitOutlined/>}
         /> : <Button
-          type="primary"
           onClick={() => setShowNetworkWindow(!showNetworkWindow)}
           icon={<DeploymentUnitOutlined/>}
         />}
-        <Button
-          onClick={() => window.open('https://www.yuque.com/vipersec')}
-          icon={<QuestionOutlined/>}
-        />
+        <LangSwitch/>
       </Space>
       <Tabs style={{ marginTop: 4 }} type="card" onChange={tabActiveOnChange}>
         <TabPane
@@ -2068,7 +2076,8 @@ const MsfRoute = () => {
           name="netmask"
           rules={[{ required: !autoRouteCheck, message: formatText('app.hostandsession.msfroute.netmask.rule') }]}
         >
-          <Input style={{ width: 240 }} disabled={autoRouteCheck} placeholder={formatText('app.hostandsession.msfroute.netmask.rule')}/>
+          <Input style={{ width: 240 }} disabled={autoRouteCheck}
+                 placeholder={formatText('app.hostandsession.msfroute.netmask.rule')}/>
         </Form.Item>
         <Form.Item>
           <Button
