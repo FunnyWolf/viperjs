@@ -1,5 +1,5 @@
 import React, { Fragment, memo, useState } from 'react';
-import { useModel, useRequest } from 'umi';
+import { useModel, useRequest, getLocale } from 'umi';
 
 import {
   CaretRightOutlined,
@@ -350,6 +350,164 @@ const getModuleOptions = (postModuleConfigActive) => {
   return options;
 };
 
+const getWarn = (postModuleConfigActive) => {
+  const locale = getLocale();
+  if (postModuleConfigActive.WARN_ZH === null || postModuleConfigActive.WARN_ZH === undefined) {
+    return null;
+  } else {
+    if (locale === 'en-US') {
+      return <Col span={22}>
+        <Alert
+          style={{ marginBottom: 16 }}
+          type="warning"
+          showIcon
+          message={postModuleConfigActive.WARN_EN}
+        />
+      </Col>;
+    } else {
+      return <Col span={22}>
+        <Alert
+          style={{ marginBottom: 16 }}
+          type="warning"
+          showIcon
+          message={postModuleConfigActive.WARN_ZH}
+        />
+      </Col>;
+    }
+  }
+};
+
+const getPins = () => {
+  if (localStorage.getItem('Pins') === null) {
+    localStorage.setItem('Pins', JSON.stringify([]));
+    return [];
+  }
+  return JSON.parse(localStorage.getItem('Pins'));
+};
+
+const changePin = loadpath => {
+  const pins = getPins();
+  const index = pins.indexOf(loadpath);
+  if (index > -1) {
+    pins.splice(index, 1);
+    localStorage.setItem('Pins', JSON.stringify(pins));
+    return pins;
+  }
+  pins.push(loadpath);
+  localStorage.setItem('Pins', JSON.stringify(pins));
+  return pins;
+};
+
+const ModuleInfoContent = props => {
+  const { postModuleConfig } = props;
+  if (postModuleConfig === undefined) {
+    return null;
+  }
+  const platform = postModuleConfig.PLATFORM;
+  const platformCom = [];
+  for (let i = 0; i < platform.length; i++) {
+    if (platform[i].toLowerCase() === 'windows') {
+      platformCom.push(<Tag color="blue">{platform[i]}</Tag>);
+    } else {
+      platformCom.push(<Tag color="magenta">{platform[i]}</Tag>);
+    }
+  }
+
+  const permissions = postModuleConfig.PERMISSIONS;
+  const permissionsCom = [];
+  for (let i = 0; i < permissions.length; i++) {
+    if (['system', 'root'].indexOf(permissions[i].toLowerCase()) >= 0) {
+      permissionsCom.push(<Tag color="volcano">{permissions[i]}</Tag>);
+    } else if (['administrator'].indexOf(permissions[i].toLowerCase()) >= 0) {
+      permissionsCom.push(<Tag color="orange">{permissions[i]}</Tag>);
+    } else {
+      permissionsCom.push(<Tag color="lime">{permissions[i]}</Tag>);
+    }
+  }
+  const readme = postModuleConfig.README;
+  const readmeCom = [];
+  for (let i = 0; i < readme.length; i++) {
+    readmeCom.push(
+      <div>
+        <a href={readme[i]} target="_blank">
+          {readme[i]}
+        </a>
+      </div>,
+    );
+  }
+
+  const references = postModuleConfig.REFERENCES;
+  const referencesCom = [];
+  for (let i = 0; i < references.length; i++) {
+    referencesCom.push(
+      <div>
+        <a href={references[i]} target="_blank">
+          {references[i]}
+        </a>
+      </div>,
+    );
+  }
+  const attcks = postModuleConfig.ATTCK;
+  const attckCom = [];
+  for (let i = 0; i < attcks.length; i++) {
+    attckCom.push(<Tag color="gold">{attcks[i]}</Tag>);
+  }
+
+  const authors = postModuleConfig.AUTHOR;
+  const authorCom = [];
+  for (let i = 0; i < authors.length; i++) {
+    authorCom.push(<Tag color="lime">{authors[i]}</Tag>);
+  }
+  let modulename = null;
+  let moduledesc = null;
+
+
+  if (getLocale() === 'en-US') {
+    modulename = postModuleConfig.NAME_EN;
+    moduledesc = postModuleConfig.DESC_EN;
+  } else {
+    modulename = postModuleConfig.NAME_ZH;
+    moduledesc = postModuleConfig.DESC_ZH;
+  }
+
+  return (
+    <Descriptions
+      size="small"
+      style={{
+        padding: '0 0 0 0',
+        marginRight: 8,
+      }}
+      column={8}
+      bordered
+    >
+      <Descriptions.Item label={formatText('app.runmodule.postmodule.NAME')} span={8}>
+        {modulename}
+      </Descriptions.Item>
+      <Descriptions.Item label={formatText('app.runmodule.postmodule.authorCom')} span={4}>
+        {authorCom}
+      </Descriptions.Item>
+      <Descriptions.Item label="TTPs" span={4}>
+        {attckCom}
+      </Descriptions.Item>
+      <Descriptions.Item label={formatText('app.runmodule.postmodule.platformCom')} span={4}>
+        {platformCom}
+      </Descriptions.Item>
+      <Descriptions.Item label={formatText('app.runmodule.postmodule.permissionsCom')} span={4}>
+        {permissionsCom}
+      </Descriptions.Item>
+      <Descriptions.Item label={formatText('app.runmodule.postmodule.readmeCom')} span={8}>
+        {readmeCom}
+      </Descriptions.Item>
+      <Descriptions.Item label={formatText('app.runmodule.postmodule.referencesCom')} span={8}>
+        {referencesCom}
+      </Descriptions.Item>
+      <Descriptions.Item span={8} label={formatText('app.runmodule.postmodule.DESC')}>
+        <pre>{moduledesc}</pre>
+      </Descriptions.Item>
+    </Descriptions>
+  );
+};
+
 
 export const RunModule = props => {
   console.log('RunModule');
@@ -362,27 +520,6 @@ export const RunModule = props => {
     }),
   );
   const [text, setText] = useState('');
-
-  const getPins = () => {
-    if (localStorage.getItem('Pins') === null) {
-      localStorage.setItem('Pins', JSON.stringify([]));
-      return [];
-    }
-    return JSON.parse(localStorage.getItem('Pins'));
-  };
-
-  const changePin = loadpath => {
-    const pins = getPins();
-    const index = pins.indexOf(loadpath);
-    if (index > -1) {
-      pins.splice(index, 1);
-      localStorage.setItem('Pins', JSON.stringify(pins));
-      return pins;
-    }
-    pins.push(loadpath);
-    localStorage.setItem('Pins', JSON.stringify(pins));
-    return pins;
-  };
 
   const hasSession =
     hostAndSessionActive.session !== undefined &&
@@ -410,9 +547,12 @@ export const RunModule = props => {
     postModuleConfigListStateSort,
   );
   const [postModuleConfigActive, setPostModuleConfigActive] = useState({
-    NAME: null,
-    DESC: null,
-    WARN: null,
+    NAME_ZH: null,
+    NAME_EN: null,
+    DESC_ZH: null,
+    DESC_EN: null,
+    WARN_EN: null,
+    WARN_ZH: null,
     AUTHOR: [],
     OPTIONS: [],
     REQUIRE_SESSION: true,
@@ -502,110 +642,17 @@ export const RunModule = props => {
     }
   };
 
-
-  const ModuleInfoContent = props => {
-    const { postModuleConfig } = props;
-    if (postModuleConfig === undefined) {
-      return null;
-    }
-    const platform = postModuleConfig.PLATFORM;
-    const platformCom = [];
-    for (let i = 0; i < platform.length; i++) {
-      if (platform[i].toLowerCase() === 'windows') {
-        platformCom.push(<Tag color="blue">{platform[i]}</Tag>);
-      } else {
-        platformCom.push(<Tag color="magenta">{platform[i]}</Tag>);
-      }
-    }
-
-    const permissions = postModuleConfig.PERMISSIONS;
-    const permissionsCom = [];
-    for (let i = 0; i < permissions.length; i++) {
-      if (['system', 'root'].indexOf(permissions[i].toLowerCase()) >= 0) {
-        permissionsCom.push(<Tag color="volcano">{permissions[i]}</Tag>);
-      } else if (['administrator'].indexOf(permissions[i].toLowerCase()) >= 0) {
-        permissionsCom.push(<Tag color="orange">{permissions[i]}</Tag>);
-      } else {
-        permissionsCom.push(<Tag color="lime">{permissions[i]}</Tag>);
-      }
-    }
-    const readme = postModuleConfig.README;
-    const readmeCom = [];
-    for (let i = 0; i < readme.length; i++) {
-      readmeCom.push(
-        <div>
-          <a href={readme[i]} target="_blank">
-            {readme[i]}
-          </a>
-        </div>,
-      );
-    }
-
-    const references = postModuleConfig.REFERENCES;
-    const referencesCom = [];
-    for (let i = 0; i < references.length; i++) {
-      referencesCom.push(
-        <div>
-          <a href={references[i]} target="_blank">
-            {references[i]}
-          </a>
-        </div>,
-      );
-    }
-    const attcks = postModuleConfig.ATTCK;
-    const attckCom = [];
-    for (let i = 0; i < attcks.length; i++) {
-      attckCom.push(<Tag color="gold">{attcks[i]}</Tag>);
-    }
-
-    const authors = postModuleConfig.AUTHOR;
-    const authorCom = [];
-    for (let i = 0; i < authors.length; i++) {
-      authorCom.push(<Tag color="lime">{authors[i]}</Tag>);
-    }
-
-    return (
-      <Descriptions
-        size="small"
-        style={{
-          padding: '0 0 0 0',
-          marginRight: 8,
-        }}
-        column={8}
-        bordered
-      >
-        <Descriptions.Item label={formatText('app.runmodule.postmodule.NAME')} span={8}>
-          {postModuleConfig.NAME}
-        </Descriptions.Item>
-        <Descriptions.Item label={formatText('app.runmodule.postmodule.authorCom')} span={4}>
-          {authorCom}
-        </Descriptions.Item>
-        <Descriptions.Item label="TTPs" span={4}>
-          {attckCom}
-        </Descriptions.Item>
-        <Descriptions.Item label={formatText('app.runmodule.postmodule.platformCom')} span={4}>
-          {platformCom}
-        </Descriptions.Item>
-        <Descriptions.Item label={formatText('app.runmodule.postmodule.permissionsCom')} span={4}>
-          {permissionsCom}
-        </Descriptions.Item>
-        <Descriptions.Item label={formatText('app.runmodule.postmodule.readmeCom')} span={8}>
-          {readmeCom}
-        </Descriptions.Item>
-        <Descriptions.Item label={formatText('app.runmodule.postmodule.referencesCom')} span={8}>
-          {referencesCom}
-        </Descriptions.Item>
-        <Descriptions.Item span={8} label={formatText('app.runmodule.postmodule.DESC')}>
-          <pre>{postModuleConfig.DESC}</pre>
-        </Descriptions.Item>
-      </Descriptions>
-    );
-  };
-
   const postModuleConfigTableColumns = [
     {
-      dataIndex: 'NAME',
+      dataIndex: 'loadpath',
       render: (text, record) => {
+        let modulename = null;
+        if (getLocale() === 'en-US') {
+          modulename = record.NAME_EN;
+        } else {
+          modulename = record.NAME_ZH;
+        }
+
         let selectStyles = {};
         let tag = null;
         if (record.loadpath === postModuleConfigActive.loadpath) {
@@ -651,7 +698,7 @@ export const RunModule = props => {
         return (
           <div style={{ display: 'inline' }}>
             {pinIcon}
-            <a style={{ ...selectStyles }}>{text}</a>
+            <a style={{ ...selectStyles }}>{modulename}</a>
           </div>
         );
       },
@@ -889,7 +936,12 @@ export const RunModule = props => {
       </Tooltip>
     );
   }
-
+  let modulewarn = null;
+  if (getLocale() === 'en-US') {
+    modulewarn = postModuleConfigActive.WARN_EN;
+  } else {
+    modulewarn = postModuleConfigActive.WARN_ZH;
+  }
   return (
     <Fragment>
       <Row>
@@ -993,17 +1045,7 @@ export const RunModule = props => {
               >
                 <Row>{getModuleOptions(postModuleConfigActive)}</Row>
                 <Row>
-                  {postModuleConfigActive.WARN === null ||
-                  postModuleConfigActive.WARN === undefined ? null : (
-                    <Col span={22}>
-                      <Alert
-                        style={{ marginBottom: 16 }}
-                        type="warning"
-                        showIcon
-                        message={postModuleConfigActive.WARN}
-                      />
-                    </Col>
-                  )}
+                  {getWarn(postModuleConfigActive)}
                   <Col span={22}>
                     <Button
                       type="primary"
@@ -1041,26 +1083,6 @@ export const RunAutoModule = props => {
   }));
   const [text, setText] = useState('');
 
-  const getPins = () => {
-    if (localStorage.getItem('Pins') === null) {
-      localStorage.setItem('Pins', JSON.stringify([]));
-      return [];
-    }
-    return JSON.parse(localStorage.getItem('Pins'));
-  };
-
-  const changePin = loadpath => {
-    const pins = getPins();
-    const index = pins.indexOf(loadpath);
-    if (index > -1) {
-      pins.splice(index, 1);
-      localStorage.setItem('Pins', JSON.stringify(pins));
-      return pins;
-    }
-    pins.push(loadpath);
-    localStorage.setItem('Pins', JSON.stringify(pins));
-    return pins;
-  };
 
   let postModuleConfigListStateSort = postModuleConfigListStateAll
     .map(record => {
@@ -1171,108 +1193,10 @@ export const RunAutoModule = props => {
     }
   };
 
-  const ModuleInfoContent = props => {
-    const { postModuleConfig } = props;
-    if (postModuleConfig === undefined) {
-      return null;
-    }
-    const platform = postModuleConfig.PLATFORM;
-    const platformCom = [];
-    for (let i = 0; i < platform.length; i++) {
-      if (platform[i].toLowerCase() === 'windows') {
-        platformCom.push(<Tag color="blue">{platform[i]}</Tag>);
-      } else {
-        platformCom.push(<Tag color="magenta">{platform[i]}</Tag>);
-      }
-    }
-
-    const permissions = postModuleConfig.PERMISSIONS;
-    const permissionsCom = [];
-    for (let i = 0; i < permissions.length; i++) {
-      if (['system', 'root'].indexOf(permissions[i].toLowerCase()) >= 0) {
-        permissionsCom.push(<Tag color="volcano">{permissions[i]}</Tag>);
-      } else if (['administrator'].indexOf(permissions[i].toLowerCase()) >= 0) {
-        permissionsCom.push(<Tag color="orange">{permissions[i]}</Tag>);
-      } else {
-        permissionsCom.push(<Tag color="lime">{permissions[i]}</Tag>);
-      }
-    }
-    const readme = postModuleConfig.README;
-    const readmeCom = [];
-    for (let i = 0; i < readme.length; i++) {
-      readmeCom.push(
-        <div>
-          <a href={readme[i]} target="_blank">
-            {readme[i]}
-          </a>
-        </div>,
-      );
-    }
-
-    const references = postModuleConfig.REFERENCES;
-    const referencesCom = [];
-    for (let i = 0; i < references.length; i++) {
-      referencesCom.push(
-        <div>
-          <a href={references[i]} target="_blank">
-            {references[i]}
-          </a>
-        </div>,
-      );
-    }
-    const attcks = postModuleConfig.ATTCK;
-    const attckCom = [];
-    for (let i = 0; i < attcks.length; i++) {
-      attckCom.push(<Tag color="gold">{attcks[i]}</Tag>);
-    }
-
-    const authors = postModuleConfig.AUTHOR;
-    const authorCom = [];
-    for (let i = 0; i < authors.length; i++) {
-      authorCom.push(<Tag color="lime">{authors[i]}</Tag>);
-    }
-
-    return (
-      <Descriptions
-        size="small"
-        style={{
-          padding: '0 0 0 0',
-          marginRight: 8,
-        }}
-        column={8}
-        bordered
-      >
-        <Descriptions.Item label={formatText('app.runmodule.postmodule.NAME')} span={8}>
-          {postModuleConfig.NAME}
-        </Descriptions.Item>
-        <Descriptions.Item label={formatText('app.runmodule.postmodule.authorCom')} span={4}>
-          {authorCom}
-        </Descriptions.Item>
-        <Descriptions.Item label="TTPs" span={4}>
-          {attckCom}
-        </Descriptions.Item>
-        <Descriptions.Item label={formatText('app.runmodule.postmodule.platformCom')} span={4}>
-          {platformCom}
-        </Descriptions.Item>
-        <Descriptions.Item label={formatText('app.runmodule.postmodule.permissionsCom')} span={4}>
-          {permissionsCom}
-        </Descriptions.Item>
-        <Descriptions.Item label={formatText('app.runmodule.postmodule.readmeCom')} span={8}>
-          {readmeCom}
-        </Descriptions.Item>
-        <Descriptions.Item label={formatText('app.runmodule.postmodule.referencesCom')} span={8}>
-          {referencesCom}
-        </Descriptions.Item>
-        <Descriptions.Item span={8} label={formatText('app.runmodule.postmodule.DESC')}>
-          <pre>{postModuleConfig.DESC}</pre>
-        </Descriptions.Item>
-      </Descriptions>
-    );
-  };
 
   const postModuleConfigTableColumns = [
     {
-      dataIndex: 'NAME',
+      dataIndex: 'loadpath',
       render: (text, record) => {
         let selectStyles = {};
         let tag = null;
@@ -1315,11 +1239,16 @@ export const RunAutoModule = props => {
               }}
             />
           );
-
+        let modulename = null;
+        if (getLocale() === 'en-US') {
+          modulename = record.NAME_EN;
+        } else {
+          modulename = record.NAME_ZH;
+        }
         return (
           <div style={{ display: 'inline' }}>
             {pinIcon}
-            <a style={{ ...selectStyles }}>{text}</a>
+            <a style={{ ...selectStyles }}>{modulename}</a>
           </div>
         );
       },
@@ -1402,17 +1331,7 @@ export const RunAutoModule = props => {
               >
                 <Row>{getModuleOptions(postModuleConfigActive)}</Row>
                 <Row>
-                  {postModuleConfigActive.WARN === null ||
-                  postModuleConfigActive.WARN === undefined ? null : (
-                    <Col span={22}>
-                      <Alert
-                        style={{ marginBottom: 16 }}
-                        type="warning"
-                        showIcon
-                        message={postModuleConfigActive.WARN}
-                      />
-                    </Col>
-                  )}
+                  {getWarn(postModuleConfigActive)}
                   <Col span={22}>
                     <Button
                       type="primary"
@@ -1446,27 +1365,6 @@ export const RunBotModule = props => {
   const botModuleConfigListProps = useModel('HostAndSessionModel', model => ({
     botModuleConfigList: model.botModuleConfigList,
   })).botModuleConfigList;
-
-  const getPins = () => {
-    if (localStorage.getItem('Pins') === null) {
-      localStorage.setItem('Pins', JSON.stringify([]));
-      return [];
-    }
-    return JSON.parse(localStorage.getItem('Pins'));
-  };
-
-  const changePin = loadpath => {
-    const pins = getPins();
-    const index = pins.indexOf(loadpath);
-    if (index > -1) {
-      pins.splice(index, 1);
-      localStorage.setItem('Pins', JSON.stringify(pins));
-      return pins;
-    }
-    pins.push(loadpath);
-    localStorage.setItem('Pins', JSON.stringify(pins));
-    return pins;
-  };
 
   const pins = getPins();
   botModuleConfigListProps.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath));
@@ -1750,7 +1648,7 @@ export const RunBotModule = props => {
 
   const postModuleConfigTableColumns = [
     {
-      dataIndex: 'NAME',
+      dataIndex: 'loadpath',
       render: (text, record) => {
         const pins = getPins();
         const pinIcon =
@@ -1793,7 +1691,12 @@ export const RunBotModule = props => {
             fontWeight: 'bolder',
           };
         }
-
+        let modulename = null;
+        if (getLocale() === 'en-US') {
+          modulename = record.NAME_EN;
+        } else {
+          modulename = record.NAME_ZH;
+        }
         return (
           <div
             style={{
@@ -1801,7 +1704,7 @@ export const RunBotModule = props => {
             }}
           >
             {pinIcon}
-            <a style={{ marginLeft: 4, ...selectStyles }}>{text}</a>
+            <a style={{ marginLeft: 4, ...selectStyles }}>{modulename}</a>
           </div>
         );
       },
@@ -1844,6 +1747,16 @@ export const RunBotModule = props => {
       authorCom.push(<Tag color="lime">{authors[i]}</Tag>);
     }
 
+    let modulename = null;
+    let moduledesc = null;
+    if (getLocale() === 'en-US') {
+      modulename = postModuleConfig.NAME_EN;
+      moduledesc = postModuleConfig.DESC_EN;
+    } else {
+      modulename = postModuleConfig.NAME_ZH;
+      moduledesc = postModuleConfig.DESC_ZH;
+    }
+
     return (
       <Descriptions
         size="small"
@@ -1855,7 +1768,7 @@ export const RunBotModule = props => {
         bordered
       >
         <Descriptions.Item label={formatText('app.runmodule.postmodule.NAME')} span={12}>
-          {postModuleConfig.NAME}
+          {modulename}
         </Descriptions.Item>
         <Descriptions.Item label={formatText('app.runmodule.postmodule.authorCom')} span={12}>
           {authorCom}
@@ -1873,7 +1786,7 @@ export const RunBotModule = props => {
           {referencesCom}
         </Descriptions.Item>
         <Descriptions.Item span={12} label={formatText('app.runmodule.postmodule.DESC')}>
-          <pre>{postModuleConfig.DESC}</pre>
+          <pre>{moduledesc}</pre>
         </Descriptions.Item>
       </Descriptions>
     );
@@ -2292,8 +2205,7 @@ export const PostModule = props => {
     REFERENCES: [],
     ATTCK: [],
   });
-  const initGetPostModuleConfigReq = useRequest(
-    () => getPostmodulePostModuleConfigAPI({ loadpath }),
+  useRequest(() => getPostmodulePostModuleConfigAPI({ loadpath }),
     {
       onSuccess: (result, params) => {
         setPostModuleConfigActive(result);

@@ -5,7 +5,7 @@ import {
   postCoreSettingAPI,
   putPostmodulePostModuleConfigAPI,
 } from '@/services/apiv1';
-import { getLocale, history, setLocale, useModel, useRequest } from 'umi';
+import { history, useModel, useRequest } from 'umi';
 
 import { setToken } from '@/utils/authority';
 import {

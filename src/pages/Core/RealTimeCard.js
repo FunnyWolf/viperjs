@@ -1,5 +1,5 @@
 import React, { Fragment, memo, useState } from 'react';
-import { useModel, useRequest } from 'umi';
+import { useModel, useRequest, getLocale } from 'umi';
 import { useControllableValue, useInterval } from 'ahooks';
 import {
   deleteMsgrpcJobAPI,
@@ -323,38 +323,39 @@ const RealTimeNotices = () => {
 
   const NoticesList = props => {
     const getContent = item => {
+      const content = item[getLocale()];
       if (item.level === 0) {
         return (
           <Text style={{ color: '#49aa19' }} className={styles.wordBreakClass}>
-            {item.content}
+            {content}
           </Text>
         );
       }
       if (item.level === 1) {
         return (
           <Text style={{ color: '#13a8a8' }} className={styles.wordBreakClass}>
-            {item.content}
+            {content}
           </Text>
         );
       }
       if (item.level === 2) {
         return (
           <Text type="warning" className={styles.wordBreakClass}>
-            {item.content}
+            {content}
           </Text>
         );
       }
       if (item.level === 3) {
         return (
           <Text type="danger" className={styles.wordBreakClass}>
-            {item.content}
+            {content}
           </Text>
         );
       }
       if (item.level === 4) {
         return (
           <Text mark className={styles.wordBreakClass}>
-            {item.content}
+            {content}
           </Text>
         );
       }
@@ -362,7 +363,7 @@ const RealTimeNotices = () => {
         // 提醒
         return (
           <Text style={{ color: '#642ab5' }} className={styles.wordBreakClass}>
-            {item.content}
+            {content}
           </Text>
         );
       }
@@ -371,7 +372,7 @@ const RealTimeNotices = () => {
           <Text style={{ color: '#cb2b83' }} className={styles.wordBreakClass}>
             <Space>
               {userIconLarge(item.userkey)}
-              {item.content}
+              {content}
               {userIconLarge(item.userkey)}
             </Space>
           </Text>
@@ -379,7 +380,7 @@ const RealTimeNotices = () => {
       }
       return (
         <Text type="warning" className={styles.wordBreakClass}>
-          {item.content}
+          {content}
         </Text>
       );
     };
@@ -444,8 +445,7 @@ const RealTimeNotices = () => {
   const createNoticeReq = useRequest(postCoreNoticesAPI, {
     manual: true,
     onSuccess: (result, params) => {
-      // notices.unshift(result);
-      // setNotices(notices);
+
     },
     onError: (error, params) => {
     },

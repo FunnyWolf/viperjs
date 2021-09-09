@@ -187,7 +187,7 @@ const HostAndSession = props => {
   }));
 
   //初始化postmoduleconfig信息
-  const initListPostModuleConfigReq = useRequest(getPostmodulePostModuleConfigAPI, {
+  useRequest(getPostmodulePostModuleConfigAPI, {
     onSuccess: (result, params) => {
       setPostModuleConfigListStateAll(result.filter(item => item.BROKER.indexOf('post') === 0));
       setBotModuleConfigList(result.filter(item => item.BROKER.indexOf('bot') === 0));
@@ -1264,6 +1264,7 @@ const TabsBottom = () => {
         <MsfConsoleXTermMemo/>
       </NewWindow> : null}
       <Space
+        direction="vertical"
         style={{
           top: '16px',
           right: 8,
@@ -1271,23 +1272,27 @@ const TabsBottom = () => {
           zIndex: 10000,
         }}
       >
+        <LangSwitch/>
         {showMsfconsoleWindow ? <Button
+          style={{ width: 48 }}
           danger
           onClick={() => setShowMsfconsoleWindow(!showMsfconsoleWindow)}
           icon={<CodeOutlined/>}
         /> : <Button
+          style={{ width: 48 }}
           onClick={() => setShowMsfconsoleWindow(!showMsfconsoleWindow)}
           icon={<CodeOutlined/>}
         />}
         {showNetworkWindow ? <Button
+          style={{ width: 48 }}
           danger
           onClick={() => setShowNetworkWindow(!showNetworkWindow)}
           icon={<DeploymentUnitOutlined/>}
         /> : <Button
+          style={{ width: 48 }}
           onClick={() => setShowNetworkWindow(!showNetworkWindow)}
           icon={<DeploymentUnitOutlined/>}
         />}
-        <LangSwitch/>
       </Space>
       <Tabs style={{ marginTop: 4 }} type="card" onChange={tabActiveOnChange}>
         <TabPane
