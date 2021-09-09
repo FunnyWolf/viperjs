@@ -76,7 +76,7 @@ const RealTimeModuleResult = () => {
         let hostMatch = false;
         const optsStr = JSON.stringify(record.opts);
         try {
-          moduleNameMatch = record.module_name.match(reg);
+          moduleNameMatch = record.NAME_EN.match(reg) || record.NAME_ZH.match(reg);
           resultMatch = record.result.match(reg);
           optsMatch = optsStr.match(reg);
           hostMatch = record.ipaddress.match(reg);
@@ -109,6 +109,7 @@ const RealTimeModuleResult = () => {
     onError: (error, params) => {
     },
   });
+
 
   return (
     <Fragment>
@@ -155,7 +156,7 @@ const RealTimeModuleResult = () => {
                   color: '#642ab5',
                 }}
               >
-                {item.module_name}
+                {getModuleName(item)}
               </strong>
               <strong
                 style={{
@@ -299,6 +300,15 @@ const UserInput = props => {
     />
   );
 };
+
+const getModuleName = (moduleinfo) => {
+  if (getLocale() === 'en-US') {
+    return moduleinfo.NAME_EN;
+  } else {
+    return moduleinfo.NAME_ZH;
+  }
+};
+
 
 const RealTimeNotices = () => {
   console.log('RealTimeNotices');
@@ -500,6 +510,7 @@ const RealTimeJobs = () => {
     destoryJobReq.run({ uuid: record.uuid, job_id: record.job_id, broker: record.broker });
   };
 
+
   return (
     <Table
       style={{ marginTop: -16 }}
@@ -528,7 +539,7 @@ const RealTimeJobs = () => {
               content={PostModuleInfoContent(record.moduleinfo)}
               trigger="click"
             >
-              <a>{record.moduleinfo.NAME}</a>
+              <a>{getModuleName(record.moduleinfo)}</a>
             </Popover>
           ),
         },
