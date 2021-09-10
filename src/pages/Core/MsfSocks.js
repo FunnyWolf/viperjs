@@ -46,7 +46,7 @@ import {
 import copy from 'copy-to-clipboard';
 import { useRequest } from 'umi';
 import moment from 'moment';
-import { formatText } from '@/utils/locales';
+import { formatText, msgsuccess } from '@/utils/locales';
 
 const { Option } = Select;
 
@@ -224,7 +224,7 @@ const MsfSocks = () => {
       ipaddressArray.push(selectedRows[i].ipaddress);
     }
     copy(ipaddressArray.join());
-    message.success(`${ipaddressArray.join()} copyed to clipboard`);
+    msgsuccess(`${ipaddressArray.join()} 已拷贝到剪切板`, `${ipaddressArray.join()} copyed to clipboard`);
   };
 
   const handleSearch = value => {
