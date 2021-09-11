@@ -1235,12 +1235,12 @@ const TabsBottom = () => {
       return <Button
         onClick={() => setLocale("zh-CN", true)}
 
-      >中</Button>;
+      ><strong>中</strong></Button>;
     } else {
       return <Button
         onClick={() => setLocale("en-US", true)}
 
-      >En</Button>;
+      ><strong>En</strong></Button>;
     }
   };
   return (

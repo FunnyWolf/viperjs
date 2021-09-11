@@ -87,3 +87,11 @@ export const getOptionDesc = (oneOption) => {
     return oneOption.desc_zh;
   }
 };
+
+export const getRequestMsg = (resData) => {
+  if (getLocale() === "en-US") {
+    return resData.msg_en;
+  } else {
+    return resData.msg_zh;
+  }
+};
