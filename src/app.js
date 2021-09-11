@@ -2,7 +2,7 @@ import { ErrorShowType, history } from "umi";
 import { getToken } from "@/utils/authority";
 import { message, notification } from "antd";
 import { saveAs } from "file-saver";
-import { getRequestMsg } from "@/utils/locales";
+import { getRequestMsg, msgsuccess } from "@/utils/locales";
 // import moment from 'moment';
 
 // moment插件设置
@@ -86,7 +86,7 @@ const errorHandler = error => {
     //下载文件特殊处理
     if (response.headers.get("Content-Type") === "application/octet-stream" && status === 200) {
       const filename = response.headers.get("Content-Disposition");
-      message.success(`${filename} ${decodeURI(response.headers.get("Message"))}`);
+      msgsuccess(`${filename} ${decodeURI(response.headers.get("Msg_zh"))}`, `${filename} ${decodeURI(response.headers.get("Msg_en"))}`);
       return;
     }
 
