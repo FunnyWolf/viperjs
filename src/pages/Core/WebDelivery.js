@@ -30,6 +30,7 @@ import { useRequest } from "umi";
 
 import { randomstr } from "@/pages/Core/Common";
 import { formatText } from "@/utils/locales";
+import { getOptionTag } from "@/pages/Core/RunModule";
 
 const { Panel } = Collapse;
 const { Option } = Select;
@@ -307,7 +308,7 @@ const CreateWebDeliveryModalContent = props => {
               onChange={changePayloadOption}
               allowClear>
               {handlerConf.map((handler, i) => (
-                <Option value={handler.value}>{handler.name}</Option>
+                <Option value={handler.value}>{getOptionTag(handler)}</Option>
               ))}
             </Select>
           </Form.Item>
