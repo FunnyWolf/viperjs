@@ -23,17 +23,17 @@ const msginfo = (zh, en) => {
 };
 const msgwarning = (zh, en) => {
   if (getLocale() === "en-US") {
-    message.warning(en);
+    message.warning(en, 4);
   } else {
-    message.warning(zh);
+    message.warning(zh, 4);
   }
 };
 
 const msgerror = (zh, en) => {
   if (getLocale() === "en-US") {
-    message.error(en);
+    message.error(en, 4);
   } else {
-    message.error(zh);
+    message.error(zh, 4);
   }
 };
 

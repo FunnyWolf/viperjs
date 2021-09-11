@@ -105,10 +105,10 @@ const errorHandler = error => {
         // message.info(errorMessage);
         break;
       case ErrorShowType.WARN_MESSAGE:
-        message.warn(errorMessage);
+        message.warn(errorMessage, 4);
         break;
       case ErrorShowType.ERROR_MESSAGE:
-        message.error(errorMessage);
+        message.error(errorMessage, 4);
         break;
       case ErrorShowType.NOTIFICATION:
         notification.open({
