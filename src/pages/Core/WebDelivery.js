@@ -29,8 +29,7 @@ import { CloudDownloadOutlined, SyncOutlined } from "@ant-design/icons";
 import { useRequest } from "umi";
 
 import { randomstr } from "@/pages/Core/Common";
-import { formatText } from "@/utils/locales";
-import { getOptionTag } from "@/pages/Core/RunModule";
+import { formatText, getOptionTag } from "@/utils/locales";
 
 const { Panel } = Collapse;
 const { Option } = Select;

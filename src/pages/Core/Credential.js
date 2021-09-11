@@ -16,9 +16,8 @@ import {
   postPostlateralCredentialAPI,
   putPostlateralCredentialAPI
 } from "@/services/apiv1";
-import { getOptionTag } from "@/pages/Core/RunModule";
 import { useRequest } from "umi";
-import { formatText } from "@/utils/locales";
+import { formatText, getOptionTag } from "@/utils/locales";
 
 const { Panel } = Collapse;
 const { Search } = Input;

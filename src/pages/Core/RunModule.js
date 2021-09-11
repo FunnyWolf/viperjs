@@ -53,7 +53,14 @@ import {
   postPostModuleAutoAPI,
   postPostmodulePostModuleActuatorAPI
 } from "@/services/apiv1";
-import { formatText } from "@/utils/locales";
+import {
+  formatText,
+  getModuleDesc,
+  getModuleName,
+  getOptionDesc,
+  getOptionTag,
+  getSessionlocate
+} from "@/utils/locales";
 
 const { Option } = Select;
 const { Search, TextArea } = Input;
@@ -399,37 +406,6 @@ const changePin = loadpath => {
   return pins;
 };
 
-const getModuleName = (moduleinfo) => {
-  if (getLocale() === "en-US") {
-    return moduleinfo.NAME_EN;
-  } else {
-    return moduleinfo.NAME_ZH;
-  }
-};
-
-const getModuleDesc = (moduleinfo) => {
-  if (getLocale() === "en-US") {
-    return moduleinfo.DESC_EN;
-  } else {
-    return moduleinfo.DESC_ZH;
-  }
-};
-
-export const getOptionTag = (oneOption) => {
-  if (getLocale() === "en-US") {
-    return oneOption.tag_en;
-  } else {
-    return oneOption.tag_zh;
-  }
-};
-
-const getOptionDesc = (oneOption) => {
-  if (getLocale() === "en-US") {
-    return oneOption.desc_en;
-  } else {
-    return oneOption.desc_zh;
-  }
-};
 
 const ModuleInfoContent = props => {
   const { postModuleConfig } = props;
@@ -809,7 +785,7 @@ export const RunModule = props => {
   const connecttooltip = (
     <span>
       {" "}
-      {record.session.tunnel_peer_locate} {record.session.tunnel_peer} {"-> "}
+      {getSessionlocate(record.session)} {record.session.tunnel_peer} {"-> "}
       {record.session.tunnel_local}
     </span>
   );

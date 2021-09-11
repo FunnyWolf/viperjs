@@ -1,6 +1,6 @@
 import React, { Fragment, memo, useCallback, useEffect, useRef, useState } from "react";
 import { formatMessage, FormattedMessage, getLocale, setLocale, useModel, useRequest } from "umi";
-import { AutoRobotMemo, BotScan, getOptionTag, PostModuleMemo, RunModuleMemo } from "@/pages/Core/RunModule";
+import { AutoRobotMemo, BotScan, PostModuleMemo, RunModuleMemo } from "@/pages/Core/RunModule";
 import { useInterval, useLocalStorageState } from "ahooks";
 import {
   deleteCoreHostAPI,
@@ -134,7 +134,7 @@ import ReactJson from "react-json-view";
 import NewWindow from "rc-new-window";
 import MsfConsoleXTermMemo, { MsfconsoleMemo } from "@/pages/Core/MsfConsoleXTerm";
 import { Upheight } from "@/utils/utils";
-import { formatText, msgsuccess } from "@/utils/locales";
+import { formatText, getOptionTag, getSessionlocate, msgsuccess } from "@/utils/locales";
 
 const { Text } = Typography;
 const { Paragraph } = Typography;
@@ -328,7 +328,8 @@ const HostAndSessionCard = () => {
     session_host: "127.0.0.1",
     tunnel_local: null,
     tunnel_peer_ip: null,
-    tunnel_peer_locate: null,
+    tunnel_peer_locate_zh: null,
+    tunnel_peer_locate_en: null,
     tunnel_peer_asn: null,
     tunnel_peer: null,
     via_exploit: null,
@@ -840,7 +841,7 @@ const HostAndSessionCard = () => {
                 cursor: "pointer"
               }}
             >
-              {session.tunnel_local}{" <- "}{session.tunnel_peer} {session.tunnel_peer_locate}
+              {session.tunnel_local}{" <- "}{session.tunnel_peer} {getSessionlocate(session)}
             </Tag>
           );
 
@@ -1482,7 +1483,8 @@ const SessionInfo = () => {
     tunnel_local: null,
     tunnel_peer: null,
     tunnel_peer_ip: null,
-    tunnel_peer_locate: null,
+    tunnel_peer_locate_zh: null,
+    tunnel_peer_locate_en: null,
     tunnel_peer_asn: null,
     via_exploit: null,
     via_payload: null,
@@ -1713,7 +1715,7 @@ const SessionInfo = () => {
               {sessionInfoActive.tunnel_local}
             </Descriptions.Item>
             <Descriptions.Item label={formatText("app.hostandsession.sessioninfo.tunnel_peer_locate")} span={12}>
-              {sessionInfoActive.tunnel_peer_locate}
+              {getSessionlocate(sessionInfoActive)}
             </Descriptions.Item>
             <Descriptions.Item label={formatText("app.hostandsession.sessioninfo.via_exploit")} span={6}>
               {sessionInfoActive.via_exploit}

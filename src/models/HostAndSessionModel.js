@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 export default function HostAndSessionModel() {
 
@@ -18,16 +18,17 @@ export default function HostAndSessionModel() {
 
   const [hostAndSessionActive, setHostAndSessionActive] = useState({
     ipaddress: null,
-    tag: 'other',
+    tag: "other",
     comment: null,
     session: {
       id: -1,
-      type: 'meterpreter',
-      session_host: '请选择Session',
+      type: "meterpreter",
+      session_host: "请选择Session",
       tunnel_local: null,
       tunnel_peer: null,
       tunnel_peer_ip: null,
-      tunnel_peer_locate: null,
+      tunnel_peer_locate_zh: null,
+      tunnel_peer_locate_en: null,
       tunnel_peer_asn: null,
       via_exploit: null,
       via_payload: null,
@@ -46,9 +47,9 @@ export default function HostAndSessionModel() {
         PAYLOAD: null,
         LPORT: null,
         LHOST: null,
-        RHOST: null,
-      },
-    },
+        RHOST: null
+      }
+    }
   });
 
 
@@ -87,6 +88,6 @@ export default function HostAndSessionModel() {
     setBotWaitList,
 
     hostAndSessionActive,
-    setHostAndSessionActive,
+    setHostAndSessionActive
   };
 }

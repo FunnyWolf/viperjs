@@ -14,7 +14,7 @@ import { MyIcon, SidTag } from "@/pages/Core/Common";
 import styles from "./RealTimeCard.less";
 import { Upheight } from "@/utils/utils";
 import { PostModuleInfoContent } from "@/pages/Core/RunModule";
-import { formatText } from "@/utils/locales";
+import { formatText,getModuleName } from "@/utils/locales";
 
 const { Text } = Typography;
 
@@ -279,13 +279,7 @@ const UserInput = props => {
   );
 };
 
-const getModuleName = (moduleinfo) => {
-  if (getLocale() === "en-US") {
-    return moduleinfo.NAME_EN;
-  } else {
-    return moduleinfo.NAME_ZH;
-  }
-};
+
 
 
 const RealTimeNotices = () => {
