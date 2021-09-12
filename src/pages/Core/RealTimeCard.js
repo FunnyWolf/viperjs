@@ -14,10 +14,9 @@ import { MyIcon, SidTag } from "@/pages/Core/Common";
 import styles from "./RealTimeCard.less";
 import { Upheight } from "@/utils/utils";
 import { PostModuleInfoContent } from "@/pages/Core/RunModule";
-import { formatText,getModuleName } from "@/utils/locales";
+import { formatText, getModuleName, getOptionTag, getResultData } from "@/utils/locales";
 
-const { Text } = Typography;
-
+const { Text, Link } = Typography;
 String.prototype.format = function() {
   let args = arguments;
   return this.replace(/\{(\d+)\}/g, function(m, i) {
@@ -71,12 +70,51 @@ const RealTimeModuleResult = () => {
   };
 
   const postModuleOpts = opts => {
-    let optStr = "";
+    const optcoms = [];
     for (const key in opts) {
-      optStr = `${optStr}  ${key}: ${opts[key]}`;
+      optcoms.push(<span>{getOptionTag(opts[key])}: {opts[key].data}</span>);
     }
-    return <div className={styles.moduleresultoptions}>{optStr}</div>;
+    return <Text type="secondary"><Space>{optcoms}</Space></Text>;
   };
+
+  const postModuleResult = results => {
+    const resultComs = [];
+    for (const key in results) {
+      const result = results[key];
+      const data = getResultData(result);
+      switch (result.type) {
+        case "raw":
+          resultComs.push(
+            <pre
+              style={{
+                whiteSpace: "pre-wrap",
+                overflowX: "hidden",
+                padding: "0 0 0 0"
+              }}
+            >{data}</pre>);
+          break;
+        case "info":
+          resultComs.push(<Text>{data}</Text>);
+          break;
+        case "good":
+          resultComs.push(<Text type="success">{data}</Text>);
+          break;
+        case "warning":
+          resultComs.push(<Text type="warning">{data}</Text>);
+          break;
+        case "error":
+          resultComs.push(<Text type="danger">{data}</Text>);
+          break;
+        case "except":
+          resultComs.push(<Text type="danger" mark>{data}</Text>);
+          break;
+        default:
+          resultComs.push(<pre>{data}</pre>);
+      }
+    }
+    return <Space style={{ marginTop: 4, marginBottom: 4 }} direction="vertical" size={2}>{resultComs}</Space>;
+  };
+
 
   const deletePostModuleResultHistoryReq = useRequest(deletePostmodulePostModuleResultHistoryAPI, {
     manual: true,
@@ -87,7 +125,6 @@ const RealTimeModuleResult = () => {
     onError: (error, params) => {
     }
   });
-
 
   return (
     <Fragment>
@@ -131,7 +168,8 @@ const RealTimeModuleResult = () => {
               </Tag>
               <strong
                 style={{
-                  color: "#642ab5"
+                  color: "#642ab5",
+                  fontSize: 15
                 }}
               >
                 {getModuleName(item)}
@@ -148,23 +186,13 @@ const RealTimeModuleResult = () => {
             </div>
             <div
               style={{
-                marginTop: 0
+                marginTop: 4
               }}
             >
               {postModuleOpts(item.opts)}
             </div>
             <Row>
-                <pre
-                  style={{
-                    whiteSpace: "pre-wrap",
-                    overflowX: "hidden",
-                    padding: "0 0 0 0",
-                    marginTop: 2,
-                    marginBottom: 2
-                  }}
-                >
-                  {item.result}
-                </pre>
+              {postModuleResult(item.result)}
             </Row>
           </List.Item>
         )}
@@ -192,7 +220,6 @@ const RealTimeModuleResult = () => {
           </div>
         </BackTop>
       </List>
-
     </Fragment>
   );
 };
@@ -278,8 +305,6 @@ const UserInput = props => {
     />
   );
 };
-
-
 
 
 const RealTimeNotices = () => {

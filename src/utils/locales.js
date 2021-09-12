@@ -95,3 +95,10 @@ export const getRequestMsg = (resData) => {
     return resData.msg_zh;
   }
 };
+export const getResultData = (resData) => {
+  if (getLocale() === "en-US") {
+    return resData.data_en;
+  } else {
+    return resData.data_zh;
+  }
+};
