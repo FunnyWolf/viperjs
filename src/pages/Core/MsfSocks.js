@@ -422,7 +422,7 @@ const MsfSocks = () => {
                     title: formatText('app.msfsocks.ports.portService'),
                     dataIndex: 'portService',
                     key: 'portService',
-                    width: 80,
+                    width: 96,
                     sorter: (a, b) => a.portService.length >= b.portService.length,
                     render: (text, record) => {
                       return (
@@ -431,7 +431,7 @@ const MsfSocks = () => {
                             color: '#13a8a8',
                           }}
                         >
-                          {record.portService.length} 个
+                          {record.portService.length}
                         </strong>
                       );
                     },
@@ -448,13 +448,15 @@ const MsfSocks = () => {
                         record.route === null ||
                         record.route === undefined
                       ) {
-                        routepath = <span style={{ color: 'orange' }}>网络直连</span>;
+                        routepath =
+                          <span style={{ color: 'orange' }}>{formatText('app.msfsocks.ports.tag.direct')}</span>;
                       } else if (record.route.type === 'DIRECT') {
-                        routepath = <span style={{ color: 'orange' }}>网络直连</span>;
+                        routepath =
+                          <span style={{ color: 'orange' }}>{formatText('app.msfsocks.ports.tag.direct')}</span>;
                       } else if (record.route.type === 'ROUTE') {
                         routepath = (
                           <Space>
-                            <span style={{ color: 'green' }}>内网路由</span>
+                            <span style={{ color: 'green' }}>{formatText('app.msfsocks.ports.tag.route')}</span>
                             {SidTag(record.route.data)}
                           </Space>
                         );

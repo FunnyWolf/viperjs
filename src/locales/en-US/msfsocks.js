@@ -6,6 +6,8 @@ export default {
   'app.msfsocks.ports.portService': 'Open Port',
   'app.msfsocks.ports.route': 'Route Path',
   'app.msfsocks.ports.comment': 'Comment',
+  'app.msfsocks.ports.tag.direct': 'Direct',
+  'app.msfsocks.ports.tag.route': 'Route',
   'app.msfsocks.proxy.subnet': 'Route Subnet',
   'app.msfsocks.proxy.netmask': 'Route Netmask',
   'app.msfsocks.portfwd.type': 'Direction',

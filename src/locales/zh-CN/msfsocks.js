@@ -6,6 +6,8 @@ export default {
   'app.msfsocks.ports.portService': '开放端口',
   'app.msfsocks.ports.route': '路由路径',
   'app.msfsocks.ports.comment': '备注',
+  'app.msfsocks.ports.tag.direct': '网络直连',
+  'app.msfsocks.ports.tag.route': '内网路由',
   'app.msfsocks.proxy.subnet': '路由子网',
   'app.msfsocks.proxy.netmask': '路由掩码',
   'app.msfsocks.portfwd.type': '转发方向',

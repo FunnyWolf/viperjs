@@ -1597,7 +1597,7 @@ const CreatePayloadModalContent = props => {
           },
         ]}
       >
-        <Select style={{ width: 160 }}>
+        <Select style={{ width: 240 }}>
           {options.map((format, i) => (
             <Option value={format.value}>{format.show}</Option>
           ))}
