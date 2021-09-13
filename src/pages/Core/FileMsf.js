@@ -211,7 +211,7 @@ const FileMsf = props => {
     }
     if (info.file.status === "done") {
       if (200 <= info.file.response.code < 300) {
-        msgsuccess("文件上传成功", "File upload success");
+        msgsuccess("文件上传成功", "File upload successfully");
         listFileMsfReq.run();
       } else {
         msgwarning("文件上传失败", "File upload failed");
@@ -399,7 +399,7 @@ export const FileMsfModal = props => {
     }
     if (info.file.status === "done") {
       if (200 <= info.file.response.code < 300) {
-        msgsuccess("文件上传成功", "File upload success");
+        msgsuccess("文件上传成功", "File upload successfully");
         listFileMsfReq.run();
       } else {
         msgwarning("文件上传失败", "File upload failed");
