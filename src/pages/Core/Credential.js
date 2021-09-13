@@ -37,7 +37,6 @@ const Credential = () => {
 
   const initListCredentialReq = useRequest(getPostlateralCredentialAPI, {
     onSuccess: (result, params) => {
-      console.log(result);
       setCredentialList(result);
     },
     onError: (error, params) => {

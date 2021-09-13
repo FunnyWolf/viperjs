@@ -191,7 +191,7 @@ const getModuleOptions = (postModuleConfigActive) => {
             initialValue={oneOption.default}
             rules={[{
               required: oneOption.required,
-              message: `${formatText("app.runmodule.common.rule")}${oneOption.tag}`
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
           >
             <Input
@@ -213,7 +213,7 @@ const getModuleOptions = (postModuleConfigActive) => {
             initialValue={oneOption.default}
             rules={[{
               required: oneOption.required,
-              message: `${formatText("app.runmodule.common.rule")}${oneOption.tag}`
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
           >
             <TextArea
@@ -238,7 +238,7 @@ const getModuleOptions = (postModuleConfigActive) => {
             initialValue={oneOption.default}
             rules={[{
               required: oneOption.required,
-              message: `${formatText("app.runmodule.common.rule")}${oneOption.tag}`
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
           >
             <Checkbox style={{ width: "90%" }} defaultChecked={oneOption.default} />
@@ -258,7 +258,7 @@ const getModuleOptions = (postModuleConfigActive) => {
             initialValue={oneOption.default}
             rules={[{
               required: oneOption.required,
-              message: `${formatText("app.runmodule.common.rule")}${oneOption.tag}`
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
             wrapperCol={{ span: 24 }}
           >
@@ -281,7 +281,7 @@ const getModuleOptions = (postModuleConfigActive) => {
             initialValue={oneOption.default}
             rules={[{
               required: oneOption.required,
-              message: `${formatText("app.runmodule.common.rule")}${oneOption.tag}`
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
             wrapperCol={{ span: 24 }}
           >
@@ -315,7 +315,7 @@ const getModuleOptions = (postModuleConfigActive) => {
             initialValue={oneOption.default}
             rules={[{
               required: oneOption.required,
-              message: `${formatText("app.runmodule.common.rule")}${oneOption.tag}`
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
             wrapperCol={{ span: 24 }}
           >
@@ -343,7 +343,7 @@ const getModuleOptions = (postModuleConfigActive) => {
             initialValue={oneOption.default}
             rules={[{
               required: oneOption.required,
-              message: `${formatText("app.runmodule.common.rule")}${oneOption.tag}`
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
             wrapperCol={{ span: 24 }}
           >
@@ -2060,7 +2060,7 @@ export const PostModule = props => {
             name={oneOption.name}
             rules={[{
               required: oneOption.required,
-              message: `${formatText("app.runmodule.common.rule")}${oneOption.tag}`
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
           >
             <Input
@@ -2082,7 +2082,7 @@ export const PostModule = props => {
             valuePropName="checked"
             rules={[{
               required: oneOption.required,
-              message: `${formatText("app.runmodule.common.rule")}${oneOption.tag}`
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
           >
             <Checkbox style={{ width: "90%" }} defaultChecked={oneOption.default} />
@@ -2101,7 +2101,7 @@ export const PostModule = props => {
             name={oneOption.name}
             rules={[{
               required: oneOption.required,
-              message: `${formatText("app.runmodule.common.rule")}${oneOption.tag}`
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
             wrapperCol={{ span: 24 }}
           >
@@ -2124,7 +2124,7 @@ export const PostModule = props => {
             name={oneOption.name}
             rules={[{
               required: oneOption.required,
-              message: `${formatText("app.runmodule.common.rule")}${oneOption.tag}`
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
             wrapperCol={{ span: 24 }}
           >
@@ -2157,7 +2157,7 @@ export const PostModule = props => {
             name={oneOption.name}
             rules={[{
               required: oneOption.required,
-              message: `${formatText("app.runmodule.common.rule")}${oneOption.tag}`
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
             wrapperCol={{ span: 24 }}
           >
@@ -2183,7 +2183,7 @@ export const PostModule = props => {
             name={oneOption.name}
             rules={[{
               required: oneOption.required,
-              message: `${formatText("app.runmodule.common.rule")}${oneOption.tag}`
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
             wrapperCol={{ span: 24 }}
           >

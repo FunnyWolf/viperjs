@@ -9,7 +9,7 @@ export default {
   'app.core.refresh': 'Refresh',
   'app.core.copytoclipboard': 'Copy to clipboard',
   'app.core.copyedtoclipboard': 'Copied to clipboard',
-  'app.core.updatetime': 'UpdateTime',
+  'app.core.updatetime': 'Update Time',
   'app.core.copy': 'Copy',
   'app.core.open': 'Open',
 };

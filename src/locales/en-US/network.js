@@ -1,4 +1,4 @@
 export default {
-  'app.network.msfroute': 'MsfRoute',
-  'app.network.NetScan': 'NetScan',
+  'app.network.msfroute': 'Route',
+  'app.network.NetScan': 'NetScan:',
 };
