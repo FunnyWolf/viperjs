@@ -242,7 +242,7 @@ const SystemInfo = () => {
               checked={viperDebugFlag}
               onClick={() => {
                 setViperDebugFlag(!viperDebugFlag);
-                msginfo('刷新页面后生效', 'Refresh to take effect');
+                msginfo('刷新页面后生效', 'Refresh page to take effect');
               }}
             />
           </Descriptions.Item>

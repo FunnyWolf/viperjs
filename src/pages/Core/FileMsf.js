@@ -30,7 +30,7 @@ const downloadFileWayDetail = item => {
   const data = [
     {
       key: "0",
-      name: manuali18n("浏览器下载", "Browser download"),
+      name: manuali18n("浏览器下载", "Browser Download"),
       cmd: `${download_url}`
     },
     // {
@@ -60,12 +60,12 @@ const downloadFileWayDetail = item => {
     // },
     {
       key: "6",
-      name: manuali18n("Linux下载", "Linux download"),
+      name: manuali18n("Linux下载", "Linux Download"),
       cmd: `wget -O ${filename} --no-check-certificate ${download_url}`
     },
     {
       key: "7",
-      name: manuali18n("Linux下载执行", "Linux download and exec"),
+      name: manuali18n("Linux下载执行", "Linux Download And Exec"),
       cmd: `wget -O ${filename} --no-check-certificate ${download_url} && chmod 755 ${filename} && ./${filename} `
     }
   ];
