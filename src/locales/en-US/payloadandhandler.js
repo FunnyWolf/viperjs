@@ -38,7 +38,7 @@ export default {
   'app.payloadandhandler.PrependMigrateProc': 'Automatic migration to process',
   'app.payloadandhandler.AutoUnhookProcess': 'Automatic Unhook',
   'app.payloadandhandler.AutoUnhookProcess_tip': 'Automatically load the unhook plugin to kill the hook operation of the process by av',
-  'app.payloadandhandler.EXITONSESSION': 'Automatically Turn Off Handler',
+  'app.payloadandhandler.EXITONSESSION': 'Automatically Turn Off',
   'app.payloadandhandler.EXITONSESSION_tip': 'After the session is online,handler will automatically closed, reverse_http(s) will ignore this option',
   'app.payloadandhandler.diy': 'Custom Param',
   'app.payloadandhandler.AutoVerifySessionTimeout': 'Session Verification Timeout',

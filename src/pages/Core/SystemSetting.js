@@ -852,7 +852,7 @@ const LHostForm = props => {
     },
   };
 
-  const [lhost, setLhost] = useState({});
+  // const [lhost, setLhost] = useState({});
   //初始化数据
   const initListLHostReq = useRequest(() => getCoreSettingAPI({ kind: 'lhost' }), {
     onSuccess: (result, params) => {
@@ -882,7 +882,9 @@ const LHostForm = props => {
   return (<Card style={{ marginTop: -16 }}>
     <Row>
       <Col span={16}>
-        <Form form={lHostForm} initialValue={lhost} onFinish={onUpdateLhost} {...lHostFormLayout}>
+        <Form form={lHostForm}
+              onFinish={onUpdateLhost}
+              {...lHostFormLayout}>
           <Form.Item
             label={formatText('app.systemsetting.defaultlhost')}
             name="lhost"
@@ -912,7 +914,7 @@ const LHostForm = props => {
         <Typography>
           <Paragraph>
             <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
-            <Text strong>{formatText('app.systemsetting.defaultlhost')}</Text>
+            <Text strong>{formatText('app.systemsetting.defaultlhost')}: </Text>
             {formatText('app.systemsetting.defaultlhostdoc_1')}
             <br/>
             <Text>{formatText('app.systemsetting.defaultlhostdoc_2')}</Text>
