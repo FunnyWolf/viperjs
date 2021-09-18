@@ -1197,7 +1197,6 @@ const TabsBottom = () => {
   let webDeliveryRef = React.createRef();
   let filemsfRef = React.createRef();
   const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState('viper-debug-flag', false);
-  const [tabTextFlag, setTabTextFlag] = useLocalStorageState('tab-text-flag', false);
   const tabActiveOnChange = activeKey => {
     switch (activeKey) {
       case 'MsfConsole':
