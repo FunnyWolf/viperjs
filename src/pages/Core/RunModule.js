@@ -60,6 +60,7 @@ import {
   getOptionTag,
   getSessionlocate,
 } from '@/utils/locales';
+import { postModuleOpts } from "@/pages/Core/RealTimeCard";
 
 const { Option } = Select;
 const { Search, TextArea } = Input;
@@ -1114,7 +1115,6 @@ export const RunAutoModule = props => {
     },
   });
 
-
   const createPostModuleAutoReq = useRequest(postPostModuleAutoAPI, {
     manual: true,
     onSuccess: (result, params) => {
@@ -1183,7 +1183,6 @@ export const RunAutoModule = props => {
       dataIndex: 'loadpath',
       render: (text, record) => {
         let selectStyles = {};
-        let tag = null;
         if (record.loadpath === postModuleConfigActive.loadpath) {
           selectStyles = {
             color: '#d89614',
@@ -1235,7 +1234,6 @@ export const RunAutoModule = props => {
 
 
   return (
-    <Fragment>
       <Row>
         <Col span={8}>
           <Card bordered={false}>
@@ -1335,7 +1333,6 @@ export const RunAutoModule = props => {
           </Tabs>
         </Col>
       </Row>
-    </Fragment>
   );
 };
 export const RunAutoModuleMemo = React.memo(RunAutoModule);
@@ -2458,15 +2455,10 @@ const AutoRobot = () => {
               },
               {
                 title: formatText('app.runmodule.autorobot.params'),
-                dataIndex: 'custom_param',
-                key: 'custom_param',
+                dataIndex: 'opts',
+                key: 'opts',
                 render: (text, record) => {
-                  const component = [];
-                  for (const key in record.custom_param) {
-                    const item = record.custom_param[key];
-                    component.push(<span>{' '}<strong>{key}: </strong>{item}{' '}</span>);
-                  }
-                  return <Fragment>{component}</Fragment>;
+                  return postModuleOpts(record.opts);
                 },
               },
               {
@@ -2477,7 +2469,7 @@ const AutoRobot = () => {
                     <a
                       style={{ color: 'red' }}
                       onClick={() =>
-                        destoryPostModuleAutoReq.run({ module_uuid: record.module_uuid })
+                        destoryPostModuleAutoReq.run({ _module_uuid: record._module_uuid })
                       }
                     >{formatText('app.core.delete')}</a>
                   </div>
