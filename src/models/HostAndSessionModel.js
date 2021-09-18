@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export default function HostAndSessionModel() {
 
-  const [postModuleConfigListStateAll, setPostModuleConfigListStateAll] = useState([]);
-  const [botModuleConfigList, setBotModuleConfigList] = useState([]);
+  const [postModuleOptions, setPostModuleOptions] = useState([]);
+  const [botModuleOptions, setBotModuleOptions] = useState([]);
 
   const [hostAndSessionList, setHostAndSessionList] = useState([]);
   const [networkData, setNetworkData] = useState({ nodes: [], edges: [] });
@@ -16,14 +16,15 @@ export default function HostAndSessionModel() {
   const [notices, setNotices] = useState([]);
   const [botWaitList, setBotWaitList] = useState([]);
 
+  const [moduleOptions, setModuleOptions] = useState([]);
   const [hostAndSessionActive, setHostAndSessionActive] = useState({
     ipaddress: null,
-    tag: "other",
+    tag: 'other',
     comment: null,
     session: {
       id: -1,
-      type: "meterpreter",
-      session_host: "请选择Session",
+      type: 'meterpreter',
+      session_host: '请选择Session',
       tunnel_local: null,
       tunnel_peer: null,
       tunnel_peer_ip: null,
@@ -47,18 +48,18 @@ export default function HostAndSessionModel() {
         PAYLOAD: null,
         LPORT: null,
         LHOST: null,
-        RHOST: null
-      }
-    }
+        RHOST: null,
+      },
+    },
   });
 
 
   return {
-    postModuleConfigListStateAll,
-    setPostModuleConfigListStateAll,
+    postModuleOptions,
+    setPostModuleOptions,
 
-    botModuleConfigList,
-    setBotModuleConfigList,
+    botModuleOptions,
+    setBotModuleOptions,
 
     taskQueueLength,
     setTaskQueueLength,
@@ -88,6 +89,9 @@ export default function HostAndSessionModel() {
     setBotWaitList,
 
     hostAndSessionActive,
-    setHostAndSessionActive
+    setHostAndSessionActive,
+
+    moduleOptions,
+    setModuleOptions,
   };
 }

@@ -109,7 +109,13 @@ const RealTimeModuleResult = () => {
           resultComs.push(<Text type="danger" mark>{data}</Text>);
           break;
         default:
-          resultComs.push(<pre>{data}</pre>);
+          resultComs.push(<pre
+            style={{
+              whiteSpace: 'pre-wrap',
+              overflowX: 'hidden',
+              padding: '0 0 0 0',
+            }}
+          >{data}</pre>);
       }
     }
     return <Space style={{ marginTop: 8, marginBottom: 8 }} direction="vertical" size={2}>{resultComs}</Space>;

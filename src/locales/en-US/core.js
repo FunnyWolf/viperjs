@@ -12,4 +12,5 @@ export default {
   'app.core.updatetime': 'Update Time',
   'app.core.copy': 'Copy',
   'app.core.open': 'Open',
+  'app.core.close': 'Close',
 };

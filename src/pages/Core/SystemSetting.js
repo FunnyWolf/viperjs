@@ -5,7 +5,7 @@ import {
   postCoreSettingAPI,
   putPostmodulePostModuleConfigAPI,
 } from '@/services/apiv1';
-import { history, useModel, useRequest } from 'umi';
+import { history, useRequest } from 'umi';
 
 import { setToken } from '@/utils/authority';
 import {
@@ -17,7 +17,6 @@ import {
   Form,
   Input,
   List,
-  message,
   Popover,
   Row,
   Select,
@@ -126,9 +125,7 @@ const SystemInfo = () => {
       url: 'https://github.com/encode/django-rest-framework/blob/master/LICENSE.md',
     },
   ];
-  const { setPostModuleConfigListStateAll } = useModel('HostAndSessionModel', model => ({
-    setPostModuleConfigListStateAll: model.setPostModuleConfigListStateAll,
-  }));
+
   const [serviceStatusActive, setServiceStatusActive] = useState({ json_rpc: { status: false } });
   const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState('viper-debug-flag', false);
 
@@ -153,7 +150,7 @@ const SystemInfo = () => {
   const updatePostmodulePostModuleConfigReq = useRequest(putPostmodulePostModuleConfigAPI, {
     manual: true,
     onSuccess: (result, params) => {
-      setPostModuleConfigListStateAll(result);
+
     },
     onError: (error, params) => {
     },
@@ -176,7 +173,6 @@ const SystemInfo = () => {
     <Card style={{ marginTop: -16 }}>
       <Row>
         <Descriptions size="small" style={{ marginLeft: 64 }} column={6}>
-
           <Descriptions.Item label={formatText('app.systemsetting.version')}>
             <Tag color="blue">{viper_version}</Tag>
           </Descriptions.Item>
@@ -246,13 +242,11 @@ const SystemInfo = () => {
               }}
             />
           </Descriptions.Item>
-
         </Descriptions>
       </Row>
       <Row>
         <Space style={{ marginTop: 16, marginLeft: 64 }}>
           <Button
-            type="primary"
             icon={<ReloadOutlined/>}
             onClick={() => updatePostmodulePostModuleConfigReq.run()}
             loading={updatePostmodulePostModuleConfigReq.loading}

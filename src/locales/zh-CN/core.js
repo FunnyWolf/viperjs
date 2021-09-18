@@ -12,4 +12,5 @@ export default {
   'app.core.updatetime': '更新时间',
   'app.core.copy': '复制',
   'app.core.open': '打开',
+  'app.core.close': '关闭',
 };
