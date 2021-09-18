@@ -2396,8 +2396,8 @@ const AutoRobot = () => {
   const destoryPostModuleAutoReq = useRequest(deletePostModuleAutoAPI, {
     manual: true,
     onSuccess: (result, params) => {
-      const { module_uuid } = result;
-      setPostModuleAutoList(postModuleAutoList.filter(item => item.module_uuid !== module_uuid));
+      const { _module_uuid } = result;
+      setPostModuleAutoList(postModuleAutoList.filter(item => item._module_uuid !== _module_uuid));
     },
     onError: (error, params) => {
     },
