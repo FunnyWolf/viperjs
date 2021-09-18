@@ -119,7 +119,7 @@ const RealTimeModuleResult = () => {
           >{data}</pre>);
       }
     }
-    return <Space style={{ marginTop: 8, marginBottom: 8 }} direction="vertical" size={2}>{resultComs}</Space>;
+    return <Space style={{ marginTop: 16, marginBottom: 8 }} direction="vertical" size={2}>{resultComs}</Space>;
   };
 
 
@@ -198,9 +198,7 @@ const RealTimeModuleResult = () => {
             >
               <Text type="secondary">{postModuleOpts(item.opts)}</Text>
             </div>
-            <Row>
-              {postModuleResult(item.result)}
-            </Row>
+            {postModuleResult(item.result)}
           </List.Item>
         )}
       >
