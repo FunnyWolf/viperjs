@@ -238,7 +238,7 @@ const SystemInfo = () => {
               checked={viperDebugFlag}
               onClick={() => {
                 setViperDebugFlag(!viperDebugFlag);
-                msginfo('刷新页面后生效', 'Refresh page to take effect');
+                location.reload();
               }}
             />
           </Descriptions.Item>
