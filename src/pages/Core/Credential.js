@@ -183,7 +183,6 @@ const Credential = () => {
             title: formatText("app.credential.sourcemodule"),
             dataIndex: "source_module",
             key: "source_module",
-            width: 200,
             render: (text, record) => {
               const test = text;
               return (
