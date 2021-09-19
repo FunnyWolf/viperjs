@@ -60,7 +60,7 @@ import {
   getOptionTag,
   getSessionlocate,
 } from '@/utils/locales';
-import { postModuleOpts } from "@/pages/Core/RealTimeCard";
+import { postModuleOpts } from '@/pages/Core/RealTimeCard';
 
 const { Option } = Select;
 const { Search, TextArea } = Input;
@@ -526,7 +526,6 @@ export const RunModule = props => {
     model => ({
       hostAndSessionActive: model.hostAndSessionActive,
       postModuleOptions: model.postModuleOptions,
-
       moduleOptions: model.moduleOptions,
     }),
   );
@@ -536,7 +535,8 @@ export const RunModule = props => {
     hostAndSessionActive.session !== undefined &&
     hostAndSessionActive.session !== null &&
     hostAndSessionActive.session.id !== -1;
-  let postModuleConfigListStateSort = postModuleOptions.map(record => {
+
+  let postModuleConfigListRun = postModuleOptions.map(record => {
     if (record.REQUIRE_SESSION) {
       if (hasSession) {
         return { ...record };
@@ -547,13 +547,19 @@ export const RunModule = props => {
   }).filter(record => !!record);
 
   const pins = getPins();
-  postModuleConfigListStateSort.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath));
 
-  const [postModuleConfigListState, setPostModuleConfigListState] = useState(
-    postModuleConfigListStateSort,
+  postModuleConfigListRun = postModuleConfigListRun.map(record => {
+    record.pin = pins.indexOf(record.loadpath);
+    return { ...record };
+  });
+
+  postModuleConfigListRun.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath));
+
+  const [postModuleConfigList, setPostModuleConfigList] = useState(
+    postModuleConfigListRun,
   );
-  const [postModuleConfigListStateTmp, setPostModuleConfigListStateTmp] = useState(
-    postModuleConfigListStateSort,
+  const [postModuleConfigListTmp, setPostModuleConfigListTmp] = useState(
+    postModuleConfigListRun,
   );
   const [postModuleConfigActive, setPostModuleConfigActive] = useState({
     NAME_ZH: null,
@@ -599,13 +605,21 @@ export const RunModule = props => {
   const onPostModuleConfigListChange = postModuleConfigListState => {
     const pins = getPins();
     postModuleConfigListState.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath));
-    setPostModuleConfigListState(postModuleConfigListState);
+    setPostModuleConfigList(postModuleConfigListState);
+  };
+
+  const onPostModuleConfigListPinsChange = (postModuleConfigListState, pins) => {
+    postModuleConfigListState = postModuleConfigListState.map(record => {
+      record.pin = pins.indexOf(record.loadpath);
+      return { ...record };
+    });
+    setPostModuleConfigList(postModuleConfigListState);
   };
 
   const handleModuleSearch = value => {
     const reg = new RegExp(value, 'gi');
     onPostModuleConfigListChange(
-      postModuleConfigListStateTmp
+      postModuleConfigListTmp
         .map(record => {
           let NAMEMatch = false;
           let DESCMatch = false;
@@ -630,13 +644,13 @@ export const RunModule = props => {
 
   const moduleTypeOnChange = value => {
     if (value === undefined) {
-      onPostModuleConfigListChange(postModuleConfigListStateTmp);
+      onPostModuleConfigListChange(postModuleConfigListTmp);
       return;
     }
     if (value.length <= 0) {
-      onPostModuleConfigListChange(postModuleConfigListStateTmp);
+      onPostModuleConfigListChange(postModuleConfigListTmp);
     } else {
-      const newpostModuleConfigListState = postModuleConfigListStateTmp.filter(
+      const newpostModuleConfigListState = postModuleConfigListTmp.filter(
         item => value.indexOf(item.MODULETYPE) >= 0,
       );
       onPostModuleConfigListChange(newpostModuleConfigListState);
@@ -656,37 +670,36 @@ export const RunModule = props => {
           };
         }
         const pins = getPins();
-        const pinIcon =
-          pins.indexOf(record.loadpath) > -1 ? (
-            <StarTwoTone
-              twoToneColor="#d89614"
-              onClick={() => {
-                changePin(record.loadpath);
-                onPostModuleConfigListChange(postModuleConfigListState);
-              }}
-              style={{
-                marginTop: 4,
-                marginLeft: 4,
-                marginRight: 8,
-                float: 'left',
-                fontSize: '18px',
-              }}
-            />
-          ) : (
-            <StarOutlined
-              onClick={() => {
-                changePin(record.loadpath);
-                onPostModuleConfigListChange(postModuleConfigListState);
-              }}
-              style={{
-                marginTop: 4,
-                marginLeft: 4,
-                marginRight: 8,
-                float: 'left',
-                fontSize: '18px',
-              }}
-            />
-          );
+        const pinIcon = record.pin > -1 ? (
+          <StarTwoTone
+            twoToneColor="#d89614"
+            onClick={() => {
+              const pins = changePin(record.loadpath);
+              onPostModuleConfigListPinsChange(postModuleConfigList, pins);
+            }}
+            style={{
+              marginTop: 4,
+              marginLeft: 4,
+              marginRight: 8,
+              float: 'left',
+              fontSize: '18px',
+            }}
+          />
+        ) : (
+          <StarOutlined
+            onClick={() => {
+              const pins = changePin(record.loadpath);
+              onPostModuleConfigListPinsChange(postModuleConfigList, pins);
+            }}
+            style={{
+              marginTop: 4,
+              marginLeft: 4,
+              marginRight: 8,
+              float: 'left',
+              fontSize: '18px',
+            }}
+          />
+        );
 
         return (
           <div style={{ display: 'inline' }}>
@@ -992,7 +1005,7 @@ export const RunModule = props => {
               pagination={false}
               rowKey={item => item.loadpath}
               columns={postModuleConfigTableColumns}
-              dataSource={postModuleConfigListState}
+              dataSource={postModuleConfigList}
             />
           </Card>
         </Col>
@@ -1074,24 +1087,28 @@ export const RunAutoModule = props => {
   }));
   const [text, setText] = useState('');
 
-  let postModuleConfigListStateSort = postModuleOptions
+  let postModuleConfigAuto = postModuleOptions
     .map(record => {
       if (record.REQUIRE_SESSION) {
         return { ...record };
       } else {
         return null;
       }
-    })
-    .filter(record => !!record);
+    }).filter(record => !!record);
 
   const pins = getPins();
-  postModuleConfigListStateSort.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath));
+  postModuleConfigAuto = postModuleConfigAuto.map(record => {
+    record.pin = pins.indexOf(record.loadpath);
+    return { ...record };
+  });
 
-  const [postModuleConfigListState, setPostModuleConfigListState] = useState(
-    postModuleConfigListStateSort,
+  postModuleConfigAuto.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath));
+
+  const [postModuleConfigList, setPostModuleConfigList] = useState(
+    postModuleConfigAuto,
   );
-  const [postModuleConfigListStateTmp, setPostModuleConfigListStateTmp] = useState(
-    postModuleConfigListStateSort,
+  const [postModuleConfigListTmp, setPostModuleConfigListTmp] = useState(
+    postModuleConfigAuto,
   );
   const [postModuleConfigActive, setPostModuleConfigActive] = useState({
     NAME_ZH: null,
@@ -1135,13 +1152,22 @@ export const RunAutoModule = props => {
   const onPostModuleConfigListChange = postModuleConfigListState => {
     const pins = getPins();
     postModuleConfigListState.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath));
-    setPostModuleConfigListState(postModuleConfigListState);
+    setPostModuleConfigList(postModuleConfigListState);
   };
+
+  const onPostModuleConfigListPinsChange = (postModuleConfigListState, pins) => {
+    postModuleConfigListState = postModuleConfigListState.map(record => {
+      record.pin = pins.indexOf(record.loadpath);
+      return { ...record };
+    });
+    setPostModuleConfigList(postModuleConfigListState);
+  };
+
 
   const handleModuleSearch = value => {
     const reg = new RegExp(value, 'gi');
     onPostModuleConfigListChange(
-      postModuleConfigListStateTmp.map(record => {
+      postModuleConfigListTmp.map(record => {
         let NAMEMatch = false;
         let DESCMatch = false;
         let REFERENCESMatch = false;
@@ -1164,13 +1190,13 @@ export const RunAutoModule = props => {
 
   const moduleTypeOnChange = value => {
     if (value === undefined) {
-      onPostModuleConfigListChange(postModuleConfigListStateTmp);
+      onPostModuleConfigListChange(postModuleConfigListTmp);
       return;
     }
     if (value.length <= 0) {
-      onPostModuleConfigListChange(postModuleConfigListStateTmp);
+      onPostModuleConfigListChange(postModuleConfigListTmp);
     } else {
-      const newpostModuleConfigListState = postModuleConfigListStateTmp.filter(
+      const newpostModuleConfigListState = postModuleConfigListTmp.filter(
         item => value.indexOf(item.MODULETYPE) >= 0,
       );
       onPostModuleConfigListChange(newpostModuleConfigListState);
@@ -1190,38 +1216,36 @@ export const RunAutoModule = props => {
             fontSize: 15,
           };
         }
-        const pins = getPins();
-        const pinIcon =
-          pins.indexOf(record.loadpath) > -1 ? (
-            <StarTwoTone
-              twoToneColor="#d89614"
-              onClick={() => {
-                changePin(record.loadpath);
-                onPostModuleConfigListChange(postModuleConfigListState);
-              }}
-              style={{
-                marginTop: 4,
-                marginLeft: 4,
-                marginRight: 8,
-                float: 'left',
-                fontSize: '18px',
-              }}
-            />
-          ) : (
-            <StarOutlined
-              onClick={() => {
-                changePin(record.loadpath);
-                onPostModuleConfigListChange(postModuleConfigListState);
-              }}
-              style={{
-                marginTop: 4,
-                marginLeft: 4,
-                marginRight: 8,
-                float: 'left',
-                fontSize: '18px',
-              }}
-            />
-          );
+        const pinIcon = record.pin > -1 ? (
+          <StarTwoTone
+            twoToneColor="#d89614"
+            onClick={() => {
+              const pins = changePin(record.loadpath);
+              onPostModuleConfigListPinsChange(postModuleConfigList, pins);
+            }}
+            style={{
+              marginTop: 4,
+              marginLeft: 4,
+              marginRight: 8,
+              float: 'left',
+              fontSize: '18px',
+            }}
+          />
+        ) : (
+          <StarOutlined
+            onClick={() => {
+              const pins = changePin(record.loadpath);
+              onPostModuleConfigListPinsChange(postModuleConfigList, pins);
+            }}
+            style={{
+              marginTop: 4,
+              marginLeft: 4,
+              marginRight: 8,
+              float: 'left',
+              fontSize: '18px',
+            }}
+          />
+        );
         return (
           <div style={{ display: 'inline' }}>
             {pinIcon}
@@ -1234,105 +1258,105 @@ export const RunAutoModule = props => {
 
 
   return (
-      <Row>
-        <Col span={8}>
-          <Card bordered={false}>
-            <Input
-              allowClear
-              prefix={<SearchOutlined/>}
-              style={{ width: '100%' }}
-              placeholder={formatText('app.runmodule.postmodule.search.ph')}
-              value={text}
-              onChange={e => {
-                setText(e.target.value);
-                handleModuleSearch(e.target.value);
-              }}
-            />
-            <Radio.Group
-              defaultValue=""
-              style={{ marginTop: 8 }}
-              buttonStyle="solid"
-              onChange={(e) => moduleTypeOnChange(e.target.value)}
+    <Row>
+      <Col span={8}>
+        <Card bordered={false}>
+          <Input
+            allowClear
+            prefix={<SearchOutlined/>}
+            style={{ width: '100%' }}
+            placeholder={formatText('app.runmodule.postmodule.search.ph')}
+            value={text}
+            onChange={e => {
+              setText(e.target.value);
+              handleModuleSearch(e.target.value);
+            }}
+          />
+          <Radio.Group
+            defaultValue=""
+            style={{ marginTop: 8 }}
+            buttonStyle="solid"
+            onChange={(e) => moduleTypeOnChange(e.target.value)}
+          >
+            <Radio.Button value="">{formatText('app.runmodule.postmodule.moduletype.all')}</Radio.Button>
+            <Radio.Button
+              value="Resource_Development">{formatText('app.runmodule.postmodule.moduletype.Resource_Development')}</Radio.Button>
+            <Radio.Button
+              value="Initial_Access">{formatText('app.runmodule.postmodule.moduletype.Initial_Access')}</Radio.Button>
+            <Radio.Button
+              value="Execution">{formatText('app.runmodule.postmodule.moduletype.Execution')}</Radio.Button>
+            <Radio.Button
+              value="Persistence">{formatText('app.runmodule.postmodule.moduletype.Persistence')}</Radio.Button>
+            <Radio.Button
+              value="Privilege_Escalation">{formatText('app.runmodule.postmodule.moduletype.Privilege_Escalation')}</Radio.Button>
+            <Radio.Button
+              value="Defense_Evasion">{formatText('app.runmodule.postmodule.moduletype.Defense_Evasion')}</Radio.Button>
+            <Radio.Button
+              value="Credential_Access">{formatText('app.runmodule.postmodule.moduletype.Credential_Access')}</Radio.Button>
+            <Radio.Button
+              value="Discovery">{formatText('app.runmodule.postmodule.moduletype.Discovery')}</Radio.Button>
+            <Radio.Button
+              value="Lateral_Movement">{formatText('app.runmodule.postmodule.moduletype.Lateral_Movement')}</Radio.Button>
+            <Radio.Button
+              value="Collection">{formatText('app.runmodule.postmodule.moduletype.Collection')}</Radio.Button>
+          </Radio.Group>
+          <Table
+            className={styles.moduleConfigTable}
+            scroll={{ y: 'calc(80vh - 104px)' }}
+            rowClassName={styles.moduleTr}
+            showHeader={false}
+            onRow={record => ({
+              onClick: () => {
+                setPostModuleConfigActive(record);
+              },
+            })}
+            size="small"
+            bordered
+            pagination={false}
+            rowKey={item => item.loadpath}
+            columns={postModuleConfigTableColumns}
+            dataSource={postModuleConfigList}
+          />
+        </Card>
+      </Col>
+      <Col span={16}>
+        <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
+          <TabPane
+            tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
+            key="params"
+          >
+            <Form
+              className={styles.moduleCardNew}
+              style={{ marginBottom: 16 }}
+              layout="vertical"
+              wrapperCol={{ span: 24 }}
+              onFinish={onCreatePostModuleAuto}
             >
-              <Radio.Button value="">{formatText('app.runmodule.postmodule.moduletype.all')}</Radio.Button>
-              <Radio.Button
-                value="Resource_Development">{formatText('app.runmodule.postmodule.moduletype.Resource_Development')}</Radio.Button>
-              <Radio.Button
-                value="Initial_Access">{formatText('app.runmodule.postmodule.moduletype.Initial_Access')}</Radio.Button>
-              <Radio.Button
-                value="Execution">{formatText('app.runmodule.postmodule.moduletype.Execution')}</Radio.Button>
-              <Radio.Button
-                value="Persistence">{formatText('app.runmodule.postmodule.moduletype.Persistence')}</Radio.Button>
-              <Radio.Button
-                value="Privilege_Escalation">{formatText('app.runmodule.postmodule.moduletype.Privilege_Escalation')}</Radio.Button>
-              <Radio.Button
-                value="Defense_Evasion">{formatText('app.runmodule.postmodule.moduletype.Defense_Evasion')}</Radio.Button>
-              <Radio.Button
-                value="Credential_Access">{formatText('app.runmodule.postmodule.moduletype.Credential_Access')}</Radio.Button>
-              <Radio.Button
-                value="Discovery">{formatText('app.runmodule.postmodule.moduletype.Discovery')}</Radio.Button>
-              <Radio.Button
-                value="Lateral_Movement">{formatText('app.runmodule.postmodule.moduletype.Lateral_Movement')}</Radio.Button>
-              <Radio.Button
-                value="Collection">{formatText('app.runmodule.postmodule.moduletype.Collection')}</Radio.Button>
-            </Radio.Group>
-            <Table
-              className={styles.moduleConfigTable}
-              scroll={{ y: 'calc(80vh - 104px)' }}
-              rowClassName={styles.moduleTr}
-              showHeader={false}
-              onRow={record => ({
-                onClick: () => {
-                  setPostModuleConfigActive(record);
-                },
-              })}
-              size="small"
-              bordered
-              pagination={false}
-              rowKey={item => item.loadpath}
-              columns={postModuleConfigTableColumns}
-              dataSource={postModuleConfigListState}
-            />
-          </Card>
-        </Col>
-        <Col span={16}>
-          <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
-            <TabPane
-              tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
-              key="params"
-            >
-              <Form
-                className={styles.moduleCardNew}
-                style={{ marginBottom: 16 }}
-                layout="vertical"
-                wrapperCol={{ span: 24 }}
-                onFinish={onCreatePostModuleAuto}
-              >
-                <Row>{getModuleOptions(postModuleConfigActive)}</Row>
-                <Row>
-                  {getWarn(postModuleConfigActive)}
-                  <Col span={22}>
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      block
-                      disabled={postModuleConfigActive.loadpath === null}
-                      icon={<CaretRightOutlined/>}
-                      loading={createPostModuleAutoReq.loading}
-                    >{formatText('app.runmodule.postmodule.run')}</Button>
-                  </Col>
-                </Row>
-              </Form>
-            </TabPane>
-            <TabPane
-              tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
-              key="desc"
-            >
-              <ModuleInfoContent postModuleConfig={postModuleConfigActive}/>
-            </TabPane>
-          </Tabs>
-        </Col>
-      </Row>
+              <Row>{getModuleOptions(postModuleConfigActive)}</Row>
+              <Row>
+                {getWarn(postModuleConfigActive)}
+                <Col span={22}>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    block
+                    disabled={postModuleConfigActive.loadpath === null}
+                    icon={<CaretRightOutlined/>}
+                    loading={createPostModuleAutoReq.loading}
+                  >{formatText('app.runmodule.postmodule.run')}</Button>
+                </Col>
+              </Row>
+            </Form>
+          </TabPane>
+          <TabPane
+            tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
+            key="desc"
+          >
+            <ModuleInfoContent postModuleConfig={postModuleConfigActive}/>
+          </TabPane>
+        </Tabs>
+      </Col>
+    </Row>
   );
 };
 export const RunAutoModuleMemo = React.memo(RunAutoModule);
