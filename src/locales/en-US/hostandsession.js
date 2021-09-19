@@ -68,6 +68,7 @@ export default {
   'app.hostandsession.sessionio.keyscan_dump': 'Dump Keylogging',
   'app.hostandsession.sessionio.keyscan_stop': 'Stop Keylogging',
   'app.hostandsession.sessionio.screenshot': 'Screenshot',
+  'app.hostandsession.sessionio.webcam_snap': 'Webcam Snap',
   'app.hostandsession.sessionio.idletime': 'User Idle Time',
   'app.hostandsession.sessionio.getsystem': 'Get System',
   'app.hostandsession.sessionio.loadunhook': 'Load Unhook Plugin',

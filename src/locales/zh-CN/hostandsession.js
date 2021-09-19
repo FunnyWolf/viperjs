@@ -69,6 +69,7 @@ export default {
   'app.hostandsession.sessionio.keyscan_dump': '获取键盘记录',
   'app.hostandsession.sessionio.keyscan_stop': '关闭键盘记录',
   'app.hostandsession.sessionio.screenshot': '屏幕截图',
+  'app.hostandsession.sessionio.webcam_snap': '摄像头拍照',
   'app.hostandsession.sessionio.idletime': '用户离开时间',
   'app.hostandsession.sessionio.getsystem': '获取系统权限',
   'app.hostandsession.sessionio.loadunhook': '加载Unhook插件',

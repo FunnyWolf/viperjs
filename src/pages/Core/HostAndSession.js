@@ -1941,6 +1941,9 @@ const SessionIO = () => {
         <Button size="small" onClick={() => onCreateSessionio('screenshot')}>
           {formatText('app.hostandsession.sessionio.screenshot')}
         </Button>
+        <Button size="small" onClick={() => onCreateSessionio('webcam_snap')}>
+          {formatText('app.hostandsession.sessionio.webcam_snap')}
+        </Button>
         <Button size="small" onClick={() => onCreateSessionio('idletime')}>
           {formatText('app.hostandsession.sessionio.idletime')}
         </Button>
