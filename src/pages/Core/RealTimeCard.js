@@ -14,7 +14,7 @@ import { MyIcon, SidTag } from '@/pages/Core/Common';
 import styles from './RealTimeCard.less';
 import { Upheight } from '@/utils/utils';
 import { PostModuleInfoContent } from '@/pages/Core/RunModule';
-import { formatText, getModuleName, getOptionTag, getResultData } from '@/utils/locales';
+import { formatText, getModuleName, getModuleResultTable, getOptionTag, getResultData } from "@/utils/locales";
 
 const { Text, Link } = Typography;
 String.prototype.format = function() {
@@ -108,6 +108,9 @@ const RealTimeModuleResult = () => {
           break;
         case 'except':
           resultComs.push(<Text type="danger" mark>{data}</Text>);
+          break;
+        case 'table':
+          resultComs.push(getModuleResultTable(result));
           break;
         default:
           resultComs.push(<pre
