@@ -134,7 +134,7 @@ import ReactJson from 'react-json-view';
 import NewWindow from 'rc-new-window';
 import MsfConsoleXTermMemo, { MsfconsoleMemo } from '@/pages/Core/MsfConsoleXTerm';
 import { Upheight } from '@/utils/utils';
-import { formatText, getOptionTag, getSessionlocate, msgsuccess } from '@/utils/locales';
+import { formatText, getOptionDesc, getOptionTag, getSessionlocate, msgsuccess } from "@/utils/locales";
 
 const { Text } = Typography;
 const { Paragraph } = Typography;
@@ -3470,11 +3470,13 @@ const HostRuningInfo = () => {
   const usefulProcessColumns = [
     {
       title: formatText('app.hostandsession.hostruninginfo.usefulProcess.tag'),
-      dataIndex: 'tag',
+      dataIndex: 'process',
+      render: (text, record) => <span>{getOptionTag(record)}</span>,
     },
     {
       title: formatText('app.hostandsession.hostruninginfo.usefulProcess.desc'),
-      dataIndex: 'desc',
+      dataIndex: 'process',
+      render: (text, record) => <span>{getOptionDesc(record)}</span>,
     },
     {
       title: 'PID',
