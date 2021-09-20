@@ -73,6 +73,7 @@ import {
   RetweetOutlined,
   RightOutlined,
   RobotOutlined,
+  SearchOutlined,
   SettingOutlined,
   SisternodeOutlined,
   SwapLeftOutlined,
@@ -1452,6 +1453,7 @@ const TabsBottom = () => {
   );
 };
 
+
 const SessionInfo = () => {
   console.log('SessionInfo');
   const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
@@ -1498,11 +1500,16 @@ const SessionInfo = () => {
     os: null,
     os_short: null,
   });
+  const [processes, setProcesses] = useState([]);
+
+  const [text, setText] = useState('');
+
   const initListSessionInfoReq = useRequest(
     () => getMsgrpcSessionAPI({ sessionid: hostAndSessionActive.session.id }),
     {
       onSuccess: (result, params) => {
         setSessionInfoActive(result);
+        setProcesses(result.processes);
       },
       onError: (error, params) => {
       },
@@ -1513,6 +1520,7 @@ const SessionInfo = () => {
     manual: true,
     onSuccess: (result, params) => {
       setSessionInfoActive(result);
+      setProcesses(result.processes);
     },
     onError: (error, params) => {
     },
@@ -1627,13 +1635,40 @@ const SessionInfo = () => {
         {sessionInfoActive.os}
       </Tag>
     );
+
   const fromnowTime = (moment().unix() - sessionInfoActive.fromnow) * 1000;
+
+  const handleProcessesSearch = text => {
+    const reg = new RegExp(text, 'gi');
+    const afterFilterList = sessionInfoActive.processes
+      .map(record => {
+        let pid = false;
+        let ppid = false;
+        let name = false;
+        let path = false;
+        try {
+          pid = record.pid.toString().match(reg);
+          ppid = record.ppid.toString().match(reg);
+          name = record.name.match(reg);
+          path = record.path.match(reg);
+        } catch (error) {
+        }
+        if (pid || ppid || name || path) {
+          return { ...record };
+        }
+        return null;
+      })
+      .filter(record => !!record);
+    setProcesses(afterFilterList);
+  };
+
+
   return (
     <Fragment>
       <Tabs defaultActiveKey="sessioninfo" size="small">
         <TabPane tab={formatText('app.hostandsession.session.SessionInfo')} key="sessioninfo">
           <Descriptions
-            style={{ marginTop: -16, width: '100%' }}
+            style={{ marginTop: -8, width: '100%' }}
             size="small"
             column={12}
             bordered
@@ -1739,10 +1774,19 @@ const SessionInfo = () => {
           </Space>
         </TabPane>
         <TabPane tab={formatText('app.hostandsession.sessioninfo.processes')} key="processes">
+          <Input
+            allowClear
+            prefix={<SearchOutlined/>}
+            style={{ width: '100%', marginTop: -8 }}
+            placeholder="PID/PPID/NAME/PATH"
+            onChange={e => {
+              handleProcessesSearch(e.target.value);
+            }}
+          />
           <Table
             className={styles.processesTable}
             columns={processColumns}
-            dataSource={sessionInfoActive.processes}
+            dataSource={processes}
             pagination={false}
             scroll={{ y: '40vh' }}
             size="small"
@@ -1895,6 +1939,9 @@ const SessionIO = () => {
         </Button>
         <Button size="small" onClick={() => onCreateSessionio('screenshot')}>
           {formatText('app.hostandsession.sessionio.screenshot')}
+        </Button>
+        <Button size="small" onClick={() => onCreateSessionio('webcam_snap')}>
+          {formatText('app.hostandsession.sessionio.webcam_snap')}
         </Button>
         <Button size="small" onClick={() => onCreateSessionio('idletime')}>
           {formatText('app.hostandsession.sessionio.idletime')}
