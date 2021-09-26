@@ -1341,9 +1341,9 @@ export const RunAutoModule = props => {
                     htmlType="submit"
                     block
                     disabled={postModuleConfigActive.loadpath === null}
-                    icon={<CaretRightOutlined/>}
+                    icon={<PlusOutlined/>}
                     loading={createPostModuleAutoReq.loading}
-                  >{formatText('app.runmodule.postmodule.run')}</Button>
+                  >{formatText('app.runmodule.postmodule.add')}</Button>
                 </Col>
               </Row>
             </Form>

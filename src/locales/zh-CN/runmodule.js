@@ -21,6 +21,7 @@ export default {
 
   'app.runmodule.postmodule.params': '参数',
   'app.runmodule.postmodule.run': '执行',
+  'app.runmodule.postmodule.add': '加入',
   'app.runmodule.postmodule.desc': '说明',
   'app.runmodule.postmodule.searchmodule.ph': '搜索模块',
   'app.runmodule.postmodule.ipportlist': '全网数据',

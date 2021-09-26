@@ -21,6 +21,7 @@ export default {
 
   'app.runmodule.postmodule.params': 'Param',
   'app.runmodule.postmodule.run': 'Run',
+  'app.runmodule.postmodule.add': 'Add',
   'app.runmodule.postmodule.desc': 'Description',
   'app.runmodule.postmodule.searchmodule.ph': 'Search Module',
   'app.runmodule.postmodule.ipportlist': 'Whole Internet Data',
