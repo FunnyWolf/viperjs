@@ -1,36 +1,29 @@
-import React, { Fragment, memo, useEffect, useRef } from 'react';
+import React, { Fragment, memo, useEffect, useRef } from "react";
 
-import { ClearOutlined, InteractionOutlined } from '@ant-design/icons';
+import { ClearOutlined, InteractionOutlined } from "@ant-design/icons";
 
-import { Button, Input, Select, Space, Tabs, Typography } from 'antd';
-import copy from 'copy-to-clipboard';
-import { Terminal } from 'xterm';
-import { FitAddon } from 'xterm-addon-fit';
-import './xterm.css';
-import { getToken } from '@/utils/authority';
-import styles from '@/pages/Core/MsfConsoleXTerm.less';
-
-const { Text } = Typography;
-const { Paragraph } = Typography;
-const { Option } = Select;
-const ButtonGroup = Button.Group;
-const { Search, TextArea } = Input;
-const { TabPane } = Tabs;
+import { Button, Space } from "antd";
+import copy from "copy-to-clipboard";
+import { Terminal } from "xterm";
+import { FitAddon } from "xterm-addon-fit";
+import "./xterm.css";
+import { getToken } from "@/utils/authority";
+import styles from "@/pages/Core/MsfConsoleXTerm.less";
 
 //websocket连接地址设置
-let webHost = '127.0.0.1:8002';
-let protocol = 'ws://';
-if (process.env.NODE_ENV === 'production') {
-  webHost = location.hostname + (location.port ? `:${location.port}` : '');
-  protocol = 'wss://';
+let webHost = "127.0.0.1:8002";
+let protocol = "ws://";
+if (process.env.NODE_ENV === "production") {
+  webHost = location.hostname + (location.port ? `:${location.port}` : "");
+  protocol = "wss://";
 } else {
-  webHost = '127.0.0.1:8002';
-  protocol = 'ws://';
+  webHost = "127.0.0.1:8002";
+  protocol = "ws://";
 }
 
 
 const Msfconsole = props => {
-  console.log('Msfconsole');
+  console.log("Msfconsole");
   const fitAddon = useRef(new FitAddon());
   const msfConsoleTerm = useRef(null);
   const wsmsf = useRef(null);
@@ -54,14 +47,14 @@ const Msfconsole = props => {
     msfConsoleTerm.current.clear();
   };
   const resetBackendConsole = () => {
-    const sendMessage = { status: 0, cmd: 'reset' };
+    const sendMessage = { status: 0, cmd: "reset" };
     const sendData = JSON.stringify(sendMessage);
     wsmsf.current.send(sendData);
   };
 
   const initMsfconsole = () => {
     const urlargs = `&token=${getToken()}`;
-    const urlpatternsMsf = '/ws/v1/websocket/msfconsole/?';
+    const urlpatternsMsf = "/ws/v1/websocket/msfconsole/?";
     const socketUrlMsf = protocol + webHost + urlpatternsMsf + urlargs;
     wsmsf.current = new WebSocket(socketUrlMsf);
 
@@ -70,7 +63,7 @@ const Msfconsole = props => {
         msfConsoleTerm.current = new Terminal({
           allowTransparency: false,
           useStyle: true,
-          cursorBlink: true,
+          cursorBlink: true
         });
 
         msfConsoleTerm.current.attachCustomKeyEventHandler(e => {
@@ -96,7 +89,7 @@ const Msfconsole = props => {
         }
       });
 
-      const firstMessage = { status: 0, data: '\r' };
+      const firstMessage = { status: 0, data: "\r" };
       const firstData = JSON.stringify(firstMessage);
       wsmsf.current.send(firstData);
     };
@@ -119,27 +112,27 @@ const Msfconsole = props => {
     <Fragment>
       <Space
         style={{
-          top: 'calc(16vh + 184px)',
+          top: "calc(16vh + 184px)",
           right: 8,
-          position: 'fixed',
-          zIndex: 10000,
+          position: "fixed",
+          zIndex: 10000
         }}
         direction="vertical"
       >
         <Button
           style={{
-            backgroundColor: 'rgba(40,40,40,0.7)',
+            backgroundColor: "rgba(40,40,40,0.7)"
           }}
           size="large"
           onClick={() => clearConsole()}
-          icon={<ClearOutlined/>}
+          icon={<ClearOutlined />}
         />
         <Button
           style={{
-            backgroundColor: 'rgba(40,40,40,0.7)',
+            backgroundColor: "rgba(40,40,40,0.7)"
           }}
           size="large"
-          icon={<InteractionOutlined/>}
+          icon={<InteractionOutlined />}
           onClick={() => resetBackendConsole()}
         />
       </Space>
@@ -155,7 +148,7 @@ export const MsfconsoleMemo = memo(Msfconsole);
 
 
 const MsfconsoleWindows = props => {
-  console.log('MsfconsoleWindows');
+  console.log("MsfconsoleWindows");
   const fitAddon = useRef(new FitAddon());
   const msfConsoleTerm = useRef(null);
   const wsmsf = useRef(null);
@@ -179,14 +172,14 @@ const MsfconsoleWindows = props => {
     msfConsoleTerm.current.clear();
   };
   const resetBackendConsole = () => {
-    const sendMessage = { status: 0, cmd: 'reset' };
+    const sendMessage = { status: 0, cmd: "reset" };
     const sendData = JSON.stringify(sendMessage);
     wsmsf.current.send(sendData);
   };
 
   const initMsfconsole = () => {
     const urlargs = `&token=${getToken()}`;
-    const urlpatternsMsf = '/ws/v1/websocket/msfconsole/?';
+    const urlpatternsMsf = "/ws/v1/websocket/msfconsole/?";
     const socketUrlMsf = protocol + webHost + urlpatternsMsf + urlargs;
     wsmsf.current = new WebSocket(socketUrlMsf);
 
@@ -195,7 +188,7 @@ const MsfconsoleWindows = props => {
         msfConsoleTerm.current = new Terminal({
           allowTransparency: false,
           useStyle: true,
-          cursorBlink: true,
+          cursorBlink: true
         });
 
         msfConsoleTerm.current.attachCustomKeyEventHandler(e => {
@@ -222,7 +215,7 @@ const MsfconsoleWindows = props => {
         }
       });
 
-      const firstMessage = { status: 0, data: '\r' };
+      const firstMessage = { status: 0, data: "\r" };
       const firstData = JSON.stringify(firstMessage);
       wsmsf.current.send(firstData);
     };
@@ -248,27 +241,27 @@ const MsfconsoleWindows = props => {
     >
       <Space
         style={{
-          top: 'calc(8vh)',
+          top: "calc(8vh)",
           right: 8,
-          position: 'absolute',
-          zIndex: 10000,
+          position: "absolute",
+          zIndex: 10000
         }}
         direction="vertical"
       >
         <Button
           style={{
-            backgroundColor: 'rgba(40,40,40,0.7)',
+            backgroundColor: "rgba(40,40,40,0.7)"
           }}
           size="large"
           onClick={() => clearConsole()}
-          icon={<ClearOutlined/>}
+          icon={<ClearOutlined />}
         />
         <Button
           style={{
-            backgroundColor: 'rgba(40,40,40,0.7)',
+            backgroundColor: "rgba(40,40,40,0.7)"
           }}
           size="large"
-          icon={<InteractionOutlined/>}
+          icon={<InteractionOutlined />}
           onClick={() => resetBackendConsole()}
         />
       </Space>

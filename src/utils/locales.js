@@ -1,6 +1,6 @@
-import { getLocale, useIntl } from "umi";
+import { getLocale, setLocale, useIntl } from "umi";
 import React from "react";
-import { message, Table } from "antd";
+import { Button, message, Table } from "antd";
 
 const formatText = (id) => {
   return useIntl().formatMessage({ id });
@@ -112,5 +112,19 @@ export const getModuleResultTable = (result) => {
     return <Table bordered style={{ minWidth: "25vw", maxWidth: "55vw" }} pagination={false} columns={columns_zh}
                   dataSource={data_zh}
                   size="small" />;
+  }
+};
+export const LangSwitch = () => {
+  const lang = getLocale();
+  if (lang === "en-US") {
+    return <Button
+      onClick={() => setLocale("zh-CN", true)}
+
+    ><strong>中</strong></Button>;
+  } else {
+    return <Button
+      onClick={() => setLocale("en-US", true)}
+
+    ><strong>En</strong></Button>;
   }
 };
