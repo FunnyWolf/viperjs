@@ -585,7 +585,6 @@ const CreateHandlerModalContent = props => {
             </Tooltip>
           }
           name="HandlerSSLCert"
-          initialValue={pem_files.length > 0 ? `~/.msf4/loot/${pem_files[0]}` : null}
         >
           <Select placeholder={formatText('app.payloadandhandler.pem_rule')} allowClear>
             {pem_files.map((encoder, i) => (
@@ -1752,7 +1751,6 @@ const CreatePayloadModalContent = props => {
             </Tooltip>
           }
           name="HandlerSSLCert"
-          initialValue={pem_files.length > 0 ? `~/.msf4/loot/${pem_files[0]}` : null}
         >
           <Select placeholder={formatText('app.payloadandhandler.pem_rule')} allowClear>
             {pem_files.map((encoder, i) => (

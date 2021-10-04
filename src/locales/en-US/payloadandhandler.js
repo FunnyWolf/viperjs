@@ -7,7 +7,7 @@ export default {
   'app.payloadandhandler.luri_tip': 'Custom URI Prefix',
   'app.payloadandhandler.luri_rule': 'Please enter a custom URI',
   'app.payloadandhandler.pem_tip': 'Please select a certificate file in PEM format. For the contents of the file, please refer to www.example.com.pem in <File>. The certificate file needs to contain both public and private keys. After configuring the certificate, HTTP requests will be automatically filtered',
-  'app.payloadandhandler.pem_label': 'Certificate File',
+  'app.payloadandhandler.pem_label': 'SSL Certificate',
   'app.payloadandhandler.pem_rule': 'Please select a certificate file',
   'app.payloadandhandler.ssl_tip': 'Verify SSL Certificate in meterpreter (Only valid for reverse_winhttps and Linux types reverse_https handler)',
   'app.payloadandhandler.ssl_label': 'Verification Certificate',

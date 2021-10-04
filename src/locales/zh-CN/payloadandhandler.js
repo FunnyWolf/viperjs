@@ -7,7 +7,7 @@ export default {
   'app.payloadandhandler.luri_tip': '自定义的URI前缀',
   'app.payloadandhandler.luri_rule': '请输入自定义的URI',
   'app.payloadandhandler.pem_tip': '请选择PEM格式的证书文件,文件内容可以参考<文件列表>中www.example.com.pem,证书文件中需要同时包含公私钥,配置证书后会自动过滤http请求',
-  'app.payloadandhandler.pem_label': '证书文件',
+  'app.payloadandhandler.pem_label': 'SSL证书',
   'app.payloadandhandler.pem_rule': '请选择证书文件',
   'app.payloadandhandler.ssl_tip': '是否验证Meterpreter中的SSL证书(只对reverse_winhttps及linux类型https监听有效)',
   'app.payloadandhandler.ssl_label': '验证证书',
