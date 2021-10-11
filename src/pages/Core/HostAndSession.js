@@ -241,8 +241,6 @@ const HostAndSession = props => {
       const { module_options } = response;
       const { module_options_update } = response;
 
-      const { module_option } = response;
-
       setTaskQueueLength(task_queue_length);
 
       if (hosts_sorted_update) {

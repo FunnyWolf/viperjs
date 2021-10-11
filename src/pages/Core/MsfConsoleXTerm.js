@@ -9,7 +9,7 @@ import { FitAddon } from "xterm-addon-fit";
 import "./xterm.css";
 import { getToken } from "@/utils/authority";
 import styles from "@/pages/Core/MsfConsoleXTerm.less";
-
+import { useInterval } from "ahooks";
 //websocket连接地址设置
 let webHost = "127.0.0.1:8002";
 let protocol = "ws://";
@@ -28,6 +28,35 @@ const Msfconsole = props => {
   const msfConsoleTerm = useRef(null);
   const wsmsf = useRef(null);
   const terminalRef = useRef(null);
+
+  const urlargs = `&token=${getToken()}`;
+  const urlpatternsMsf = "/ws/v1/websocket/msfconsole/?";
+  const socketUrlMsf = protocol + webHost + urlpatternsMsf + urlargs;
+
+  const consolemonitor = () => {
+    if (
+      wsmsf.current !== undefined &&
+      wsmsf.current !== null &&
+      wsmsf.current.readyState === WebSocket.OPEN
+    ) {
+    } else {
+      try {
+        wsmsf.current.close();
+      } catch (error) {
+      }
+      try {
+        wsmsf.current = null;
+      } catch (error) {
+      }
+      wsmsf.current = new WebSocket(socketUrlMsf);
+      wsmsf.current.onmessage = event => {
+        const recv_message = JSON.parse(event.data);
+        msfConsoleTerm.current.write(recv_message.data);
+      };
+    }
+  };
+
+  useInterval(() => consolemonitor(), 3000);
 
   useEffect(() => {
     if (terminalRef.current) {
@@ -53,11 +82,7 @@ const Msfconsole = props => {
   };
 
   const initMsfconsole = () => {
-    const urlargs = `&token=${getToken()}`;
-    const urlpatternsMsf = "/ws/v1/websocket/msfconsole/?";
-    const socketUrlMsf = protocol + webHost + urlpatternsMsf + urlargs;
     wsmsf.current = new WebSocket(socketUrlMsf);
-
     wsmsf.current.onopen = () => {
       if (msfConsoleTerm.current === null) {
         msfConsoleTerm.current = new Terminal({
@@ -81,7 +106,10 @@ const Msfconsole = props => {
       msfConsoleTerm.current.onData(data => {
         const sendMessage = { status: 0, data };
         const sendData = JSON.stringify(sendMessage);
-        wsmsf.current.send(sendData);
+        try {
+          wsmsf.current.send(sendData);
+        } catch (error) {
+        }
       });
       msfConsoleTerm.current.onSelectionChange(e => {
         if (msfConsoleTerm.current.hasSelection()) {
@@ -96,8 +124,6 @@ const Msfconsole = props => {
 
     wsmsf.current.onclose = CloseEvent => {
       try {
-        msfConsoleTerm.current.close();
-        msfConsoleTerm.current.dispose();
       } catch (error) {
       }
     };
@@ -107,7 +133,6 @@ const Msfconsole = props => {
       msfConsoleTerm.current.write(recv_message.data);
     };
   };
-
   return (
     <Fragment>
       <Space
