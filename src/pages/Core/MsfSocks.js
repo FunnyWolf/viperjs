@@ -345,7 +345,7 @@ const MsfSocks = () => {
       style={{ marginTop: -16 }}
     >
       <Row>
-        <Col span={20}>
+        <Col span={18}>
           <Row>
             <Col span={8}>
               <Input
@@ -421,7 +421,7 @@ const MsfSocks = () => {
                     title: formatText('app.msfsocks.ports.portService'),
                     dataIndex: 'portService',
                     key: 'portService',
-                    width: 96,
+                    width: 88,
                     sorter: (a, b) => a.portService.length >= b.portService.length,
                     render: (text, record) => {
                       return (
@@ -649,7 +649,7 @@ const MsfSocks = () => {
             </Col>
           </Row>
         </Col>
-        <Col span={4}>
+        <Col span={6}>
           <Button
             style={{ marginTop: 0 }}
             block
@@ -669,7 +669,7 @@ const MsfSocks = () => {
                 title: formatText('app.msfsocks.socks.type'),
                 dataIndex: 'type',
                 key: 'type',
-                width: 96,
+                width: 104,
               },
               {
                 title: formatText('app.msfsocks.socks.port'),
