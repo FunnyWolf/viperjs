@@ -33,6 +33,7 @@ import {
   MinusOutlined,
   ReloadOutlined,
   SyncOutlined,
+  CloudDownloadOutlined,
 } from '@ant-design/icons';
 import { useLocalStorageState } from 'ahooks';
 
@@ -147,6 +148,16 @@ const SystemInfo = () => {
     },
   });
 
+  //初始化数据
+  const downloadlogReq = useRequest(() => getCoreSettingAPI({ kind: 'downloadlog' }), {
+    manual: true,
+    onSuccess: (result, params) => {
+    },
+    onError: (error, params) => {
+    },
+  });
+
+
   const updatePostmodulePostModuleConfigReq = useRequest(putPostmodulePostModuleConfigAPI, {
     manual: true,
     onSuccess: (result, params) => {
@@ -252,6 +263,13 @@ const SystemInfo = () => {
             loading={updatePostmodulePostModuleConfigReq.loading}
           >
             {formatText('app.systemsetting.reloadallmodule')}
+          </Button>
+          <Button
+            icon={<CloudDownloadOutlined />}
+            onClick={() => downloadlogReq.run()}
+            loading={downloadlogReq.loading}
+          >
+            {formatText('app.systemsetting.downloadlog')}
           </Button>
           <Button danger icon={<LogoutOutlined/>} onClick={loginOut}>
             {formatText('app.systemsetting.logout')}

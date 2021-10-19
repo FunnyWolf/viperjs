@@ -30,6 +30,7 @@ export default {
   'app.systemsetting.documentationlink': '语雀文档',
   'app.systemsetting.opensourcesoftware': '开源软件',
   'app.systemsetting.opensourcesoftwarelink': '软件列表',
+  'app.systemsetting.downloadlog': '下载日志',
   'app.systemsetting.betafunction': '实验功能',
   'app.systemsetting.reloadpage': '刷新页面后生效',
   'app.systemsetting.updatemsfstatus': '更新渗透服务状态',
