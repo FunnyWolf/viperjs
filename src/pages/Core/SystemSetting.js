@@ -28,17 +28,17 @@ import {
 } from 'antd';
 import {
   CheckOutlined,
+  CloudDownloadOutlined,
   DeliveredProcedureOutlined,
   LogoutOutlined,
   MinusOutlined,
   ReloadOutlined,
   SyncOutlined,
-  CloudDownloadOutlined,
 } from '@ant-design/icons';
 import { useLocalStorageState } from 'ahooks';
 
 import { reloadAuthorized } from '@/utils/Authorized';
-import { formatText, msginfo } from '@/utils/locales';
+import { formatText } from '@/utils/locales';
 
 const { Option } = Select;
 const { TabPane } = Tabs;
@@ -265,7 +265,7 @@ const SystemInfo = () => {
             {formatText('app.systemsetting.reloadallmodule')}
           </Button>
           <Button
-            icon={<CloudDownloadOutlined />}
+            icon={<CloudDownloadOutlined/>}
             onClick={() => downloadlogReq.run()}
             loading={downloadlogReq.loading}
           >
