@@ -1048,7 +1048,7 @@ const HostAndSessionCard = () => {
 
       <Modal
         style={{ top: 32 }}
-        width="60vw"
+        width="70vw"
         destroyOnClose
         visible={sessionInfoModalVisable}
         onCancel={() => setSessionInfoModalVisable(false)}
@@ -1578,7 +1578,7 @@ const SessionInfo = () => {
     },
     {
       title: 'ARCH',
-      width: 80,
+      width: 64,
       dataIndex: 'arch',
       sorter: (a, b) => a.arch >= b.arch,
     },

@@ -28,6 +28,7 @@ import {
 } from 'antd';
 import {
   CheckOutlined,
+  CloudDownloadOutlined,
   DeliveredProcedureOutlined,
   LogoutOutlined,
   MinusOutlined,
@@ -37,7 +38,7 @@ import {
 import { useLocalStorageState } from 'ahooks';
 
 import { reloadAuthorized } from '@/utils/Authorized';
-import { formatText, msginfo } from '@/utils/locales';
+import { formatText } from '@/utils/locales';
 
 const { Option } = Select;
 const { TabPane } = Tabs;
@@ -147,6 +148,16 @@ const SystemInfo = () => {
     },
   });
 
+  //初始化数据
+  const downloadlogReq = useRequest(() => getCoreSettingAPI({ kind: 'downloadlog' }), {
+    manual: true,
+    onSuccess: (result, params) => {
+    },
+    onError: (error, params) => {
+    },
+  });
+
+
   const updatePostmodulePostModuleConfigReq = useRequest(putPostmodulePostModuleConfigAPI, {
     manual: true,
     onSuccess: (result, params) => {
@@ -252,6 +263,13 @@ const SystemInfo = () => {
             loading={updatePostmodulePostModuleConfigReq.loading}
           >
             {formatText('app.systemsetting.reloadallmodule')}
+          </Button>
+          <Button
+            icon={<CloudDownloadOutlined/>}
+            onClick={() => downloadlogReq.run()}
+            loading={downloadlogReq.loading}
+          >
+            {formatText('app.systemsetting.downloadlog')}
           </Button>
           <Button danger icon={<LogoutOutlined/>} onClick={loginOut}>
             {formatText('app.systemsetting.logout')}
