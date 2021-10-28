@@ -1079,7 +1079,7 @@ const CreateHandlerModalContent = props => {
             label="ExpirationTimeout(second)"
             name="SessionExpirationTimeout"
             rules={[]}
-            initialValue={3600 * 24 * 365}
+            initialValue={0}
           >
             <InputNumber
               style={{ width: 160 }}
@@ -2204,7 +2204,7 @@ const CreatePayloadModalContent = props => {
             label="ExpirationTimeout(second)"
             name="SessionExpirationTimeout"
             rules={[]}
-            initialValue={3600 * 24 * 365}
+            initialValue={0}
           >
             <InputNumber style={{ width: 160 }}/>
           </Form.Item>
