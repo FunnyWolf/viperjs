@@ -203,6 +203,28 @@ export async function deleteMsgrpcLazyLoaderAPI(params) {
   });
 }
 
+
+export async function getMsgrpcCollectSandboxAPI(params) {
+  return request('/api/v1/msgrpc/collectsandbox/', {
+    params,
+  });
+}
+
+export async function putMsgrpcCollectSandboxAPI(params) {
+  return request('/api/v1/msgrpc/collectsandbox/', {
+    method: 'PUT',
+    data: params,
+  });
+}
+
+export async function deleteMsgrpcCollectSandboxAPI(params) {
+  return request('/api/v1/msgrpc/collectsandbox/', {
+    method: 'DELETE',
+    params,
+  });
+}
+
+
 export async function postCoreBaseauthAPI(params) {
   return request('/api/v1/core/baseauth/', {
     method: 'POST',

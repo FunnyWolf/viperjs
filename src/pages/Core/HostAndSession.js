@@ -61,6 +61,7 @@ import {
   InteractionOutlined,
   KeyOutlined,
   LaptopOutlined,
+  MailOutlined,
   NodeIndexOutlined,
   PartitionOutlined,
   PlayCircleOutlined,
@@ -127,6 +128,7 @@ import SystemSetting, { SystemSettingMemo } from '@/pages/Core/SystemSetting';
 import { MsfSocksMemo } from '@/pages/Core/MsfSocks';
 import LazyLoader from '@/pages/Core/LazyLoader';
 import Credential, { CredentialMemo } from '@/pages/Core/Credential';
+import { CollectSandboxMemo } from '@/pages/Core/CollectSandbox';
 import { getToken } from '@/utils/authority';
 import styles from './HostAndSession.less';
 import NetworkMemo, { NetworkWindowMemo } from '@/pages/Core/Network';
@@ -134,7 +136,7 @@ import ReactJson from 'react-json-view';
 import NewWindow from 'rc-new-window';
 import MsfConsoleXTermMemo, { MsfconsoleMemo } from '@/pages/Core/MsfConsoleXTerm';
 import { Upheight } from '@/utils/utils';
-import { formatText, getOptionDesc, getOptionTag, getSessionlocate, msgsuccess } from "@/utils/locales";
+import { formatText, getOptionDesc, getOptionTag, getSessionlocate, msgsuccess } from '@/utils/locales';
 
 const { Text } = Typography;
 const { Paragraph } = Typography;
@@ -1399,19 +1401,19 @@ const TabsBottom = () => {
         >
           <CredentialMemo/>
         </TabPane>
-        {/*{viperDebugFlag ? (*/}
-        {/*  <TabPane*/}
-        {/*    tab={*/}
-        {/*      <div className={styles.tabPanediv}>*/}
-        {/*        <MailOutlined />*/}
-        {/*        <span className={styles.tabPanespan}>{formatText("app.hostandsession.tab.LazyLoader")}</span>*/}
-        {/*      </div>*/}
-        {/*    }*/}
-        {/*    key="LazyLoader"*/}
-        {/*  >*/}
-        {/*    <LazyLoaderMemo />*/}
-        {/*  </TabPane>*/}
-        {/*) : null}*/}
+        {viperDebugFlag ? (
+          <TabPane
+            tab={
+              <div className={styles.tabPanediv}>
+                <MailOutlined/>
+                <span className={styles.tabPanespan}>TEST</span>
+              </div>
+            }
+            key="CollectSandbox"
+          >
+            <CollectSandboxMemo/>
+          </TabPane>
+        ) : null}
         {viperDebugFlag ? (<TabPane
           tab={
             <div className={styles.tabPanediv}>
