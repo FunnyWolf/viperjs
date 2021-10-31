@@ -590,8 +590,8 @@ const CreateHandlerModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={formatText('app.payloadandhandler.ssl_tip')}
-          tooltip={formatText('app.payloadandhandler.ssl_label')}
+          label={formatText('app.payloadandhandler.ssl_label')}
+          tooltip={formatText('app.payloadandhandler.ssl_tip')}
           initialValue={false}
           name="StagerVerifySSLCert"
           valuePropName="checked"
