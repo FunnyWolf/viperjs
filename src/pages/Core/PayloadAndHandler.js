@@ -562,11 +562,8 @@ const CreateHandlerModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title={formatText('app.payloadandhandler.luri_tip')}>
-              <span>LURI</span>
-            </Tooltip>
-          }
+          label="LURI"
+          tooltip={formatText('app.payloadandhandler.luri_tip')}
           initialValue={randomstr(8)}
           name="LURI"
         >
@@ -579,11 +576,8 @@ const CreateHandlerModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title={formatText('app.payloadandhandler.pem_tip')}>
-              <span>{formatText('app.payloadandhandler.pem_label')}</span>
-            </Tooltip>
-          }
+          label={formatText('app.payloadandhandler.pem_label')}
+          tooltip={formatText('app.payloadandhandler.pem_tip')}
           name="HandlerSSLCert"
         >
           <Select placeholder={formatText('app.payloadandhandler.pem_rule')} allowClear>
@@ -596,11 +590,8 @@ const CreateHandlerModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title={formatText('app.payloadandhandler.ssl_tip')}>
-              <span>{formatText('app.payloadandhandler.ssl_label')}</span>
-            </Tooltip>
-          }
+          label={formatText('app.payloadandhandler.ssl_tip')}
+          tooltip={formatText('app.payloadandhandler.ssl_label')}
           initialValue={false}
           name="StagerVerifySSLCert"
           valuePropName="checked"
@@ -615,11 +606,8 @@ const CreateHandlerModalContent = props => {
       options_second.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title="The user-agent that the payload should use for communication">
-              <span>User Agent</span>
-            </Tooltip>
-          }
+          label="User Agent"
+          tooltip="The user-agent that the payload should use for communication"
           initialValue="Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
           name="HttpUserAgent"
           rules={[
@@ -635,12 +623,8 @@ const CreateHandlerModalContent = props => {
       options_second.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip
-              title="Forces a specific host and port instead of using what the client requests, defaults to LHOST:LPORT">
-              <span>OverrideRequestHost</span>
-            </Tooltip>
-          }
+          label="OverrideRequestHost"
+          tooltip="Forces a specific host and port instead of using what the client requests, defaults to LHOST:LPORT"
           initialValue={false}
           name="OverrideRequestHost"
           valuePropName="checked"
@@ -653,12 +637,8 @@ const CreateHandlerModalContent = props => {
       options_second.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip
-              title="When OverrideRequestHost is set, use this value as the scheme for secondary requests, e.g http or https">
-              <span>OverrideScheme</span>
-            </Tooltip>
-          }
+          label="OverrideScheme"
+          tooltip="When OverrideRequestHost is set, use this value as the scheme for secondary requests, e.g http or https"
           name="OverrideScheme"
           rules={[]}
         >
@@ -672,11 +652,8 @@ const CreateHandlerModalContent = props => {
       options_second.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title="When OverrideRequestHost is set, use this value as the host name for secondary requests">
-              <span>OverrideLHOST</span>
-            </Tooltip>
-          }
+          label="OverrideLHOST"
+          tooltip="When OverrideRequestHost is set, use this value as the host name for secondary requests"
           name="OverrideLHOST"
           rules={[]}
         >
@@ -686,11 +663,8 @@ const CreateHandlerModalContent = props => {
       options_second.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title="When OverrideRequestHost is set, use this value as the port number for secondary requests">
-              <span>OverrideLPORT</span>
-            </Tooltip>
-          }
+          label="OverrideLPORT"
+          tooltip="When OverrideRequestHost is set, use this value as the port number for secondary requests"
           name="OverrideLPORT"
           rules={[]}
         >
@@ -702,11 +676,8 @@ const CreateHandlerModalContent = props => {
       options_second.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title="An optional value to use for the Cookie HTTP header">
-              <span>HttpCookie</span>
-            </Tooltip>
-          }
+          label="HttpCookie"
+          tooltip="An optional value to use for the Cookie HTTP header"
           name="HttpCookie"
           rules={[]}
         >
@@ -716,11 +687,8 @@ const CreateHandlerModalContent = props => {
       options_second.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title="An optional value to use for the Host HTTP header">
-              <span>HttpHostHeader</span>
-            </Tooltip>
-          }
+          label="HttpHostHeader"
+          tooltip="An optional value to use for the Host HTTP header"
           name="HttpHostHeader"
           rules={[]}
         >
@@ -731,11 +699,8 @@ const CreateHandlerModalContent = props => {
       options_second.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title="The type of HTTP proxy (Accepted: HTTP, SOCKS)">
-              <span>HttpProxyType</span>
-            </Tooltip>
-          }
+          label="HttpProxyType"
+          tooltip="The type of HTTP proxy (Accepted: HTTP, SOCKS)"
           name="HttpProxyType"
           rules={[]}
         >
@@ -748,11 +713,8 @@ const CreateHandlerModalContent = props => {
       options_second.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title="An optional proxy server IP address or hostname">
-              <span>HttpProxyHost</span>
-            </Tooltip>
-          }
+          label="HttpProxyHost"
+          tooltip="An optional proxy server IP address or hostname"
           name="HttpProxyHost"
           rules={[]}
         >
@@ -763,11 +725,8 @@ const CreateHandlerModalContent = props => {
       options_second.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title="An optional proxy server port">
-              <span>HttpProxyPort</span>
-            </Tooltip>
-          }
+          label="HttpProxyPort"
+          tooltip="An optional proxy server port"
           name="HttpProxyPort"
           rules={[]}
         >
@@ -777,11 +736,8 @@ const CreateHandlerModalContent = props => {
       options_second.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title="An optional proxy server username Max parameter length: 63 characters">
-              <span>HttpProxyUser</span>
-            </Tooltip>
-          }
+          label="HttpProxyUser"
+          tooltip="An optional proxy server username Max parameter length: 63 characters"
           name="HttpProxyUser"
           rules={[]}
         >
@@ -791,11 +747,8 @@ const CreateHandlerModalContent = props => {
       options_second.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title="An optional proxy server password Max parameter length: 63 characters">
-              <span>HttpProxyPass</span>
-            </Tooltip>
-          }
+          label="HttpProxyPass"
+          tooltip="An optional proxy server password Max parameter length: 63 characters"
           name="HttpProxyPass"
           rules={[]}
         >
@@ -808,11 +761,8 @@ const CreateHandlerModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title="Password to derive RC4 key from">
-              <span>{formatText('app.payloadandhandler.rc4password')}</span>
-            </Tooltip>
-          }
+          label={formatText('app.payloadandhandler.rc4password')}
+          tooltip="Password to derive RC4 key from"
           initialValue={randomstr(8)}
           name="RC4PASSWORD"
           rules={[
@@ -830,11 +780,8 @@ const CreateHandlerModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title={formatText('app.payloadandhandler.domain')}>
-              <span>DOMAIN</span>
-            </Tooltip>
-          }
+          label="DOMAIN"
+          tooltip={formatText('app.payloadandhandler.domain')}
           name="DOMAIN"
           rules={[
             {
@@ -849,11 +796,8 @@ const CreateHandlerModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title={formatText('app.payloadandhandler.req_type_tip')}>
-              <span>REQ_TYPE</span>
-            </Tooltip>
-          }
+          label="REQ_TYPE"
+          tooltip={formatText('app.payloadandhandler.req_type_tip')}
           name="REQ_TYPE"
           initialValue="DNSKEY"
           rules={[
@@ -871,11 +815,8 @@ const CreateHandlerModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title={formatText('app.payloadandhandler.SERVER_ID_tip')}>
-              <span>SERVER_ID</span>
-            </Tooltip>
-          }
+          label="SERVER_ID"
+          tooltip={formatText('app.payloadandhandler.SERVER_ID_tip')}
           initialValue={randomstr(8)}
           name="SERVER_ID"
           rules={[
@@ -940,14 +881,8 @@ const CreateHandlerModalContent = props => {
 
           <Form.Item
             {...formLayout}
-            label={
-              <Tooltip title={formatText('app.payloadandhandler.EXITONSESSION_tip')}>
-                <span>
-                  <InfoCircleOutlined/>
-                  &nbsp;{formatText('app.payloadandhandler.EXITONSESSION')}
-                </span>
-              </Tooltip>
-            }
+            label={formatText('app.payloadandhandler.EXITONSESSION')}
+            tooltip={formatText('app.payloadandhandler.EXITONSESSION_tip')}
             name="ExitOnSession"
             valuePropName="checked"
             rules={[]}
@@ -957,14 +892,8 @@ const CreateHandlerModalContent = props => {
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label={
-              <Tooltip title={formatText('app.payloadandhandler.VIRTUALHANDLER_tip')}>
-                <span>
-                  <InfoCircleOutlined/>
-                  &nbsp;{formatText('app.payloadandhandler.VIRTUALHANDLER')}
-                </span>
-              </Tooltip>
-            }
+            label={formatText('app.payloadandhandler.VIRTUALHANDLER')}
+            tooltip={formatText('app.payloadandhandler.VIRTUALHANDLER_tip')}
             name="VIRTUALHANDLER"
             valuePropName="checked"
             rules={[]}
@@ -983,14 +912,8 @@ const CreateHandlerModalContent = props => {
         <Panel header={formatText('app.payloadandhandler.auto')} key="auto">
           <Form.Item
             {...formLayout}
-            label={
-              <Tooltip title={formatText('app.payloadandhandler.AutoRunScript_tip')}>
-                <span>
-                  <InfoCircleOutlined/>
-                  &nbsp;{formatText('app.payloadandhandler.AutoRunScript')}
-                </span>
-              </Tooltip>
-            }
+            label={formatText('app.payloadandhandler.AutoRunScript')}
+            tooltip={formatText('app.payloadandhandler.AutoRunScript_tip')}
             name="InitialAutoRunScript"
             rules={[]}
           >
@@ -1002,14 +925,8 @@ const CreateHandlerModalContent = props => {
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label={
-              <Tooltip title={formatText('app.payloadandhandler.PrependMigrate_tip')}>
-                <span>
-                  <InfoCircleOutlined/>
-                  &nbsp;{formatText('app.payloadandhandler.PrependMigrate')}
-                </span>
-              </Tooltip>
-            }
+            label={formatText('app.payloadandhandler.PrependMigrate')}
+            tooltip={formatText('app.payloadandhandler.PrependMigrate_tip')}
             name="PrependMigrate"
             valuePropName="checked"
             initialValue={false}
@@ -1029,14 +946,8 @@ const CreateHandlerModalContent = props => {
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label={
-              <Tooltip title={formatText('app.payloadandhandler.AutoUnhookProcess_tip')}>
-                <span>
-                  <InfoCircleOutlined/>
-                  &nbsp;{formatText('app.payloadandhandler.AutoUnhookProcess')}
-                </span>
-              </Tooltip>
-            }
+            label={formatText('app.payloadandhandler.AutoUnhookProcess')}
+            tooltip={formatText('app.payloadandhandler.AutoUnhookProcess_tip')}
             name="AutoUnhookProcess"
             valuePropName="checked"
             rules={[]}
@@ -1048,14 +959,8 @@ const CreateHandlerModalContent = props => {
         <Panel header={formatText('app.payloadandhandler.diy')} key="diy">
           <Form.Item
             {...formLayout}
-            label={
-              <Tooltip title={formatText('app.payloadandhandler.AutoVerifySessionTimeout_tip')}>
-                <span>
-                  <InfoCircleOutlined/>
-                  &nbsp;{formatText('app.payloadandhandler.AutoVerifySessionTimeout')}
-                </span>
-              </Tooltip>
-            }
+            label={formatText('app.payloadandhandler.AutoVerifySessionTimeout')}
+            tooltip={formatText('app.payloadandhandler.AutoVerifySessionTimeout_tip')}
             name="AutoVerifySessionTimeout"
             rules={[]}
             initialValue={30}
@@ -1124,14 +1029,8 @@ const CreateHandlerModalContent = props => {
 
           <Form.Item
             {...formLayout}
-            label={
-              <Tooltip title={formatText('app.payloadandhandler.proxies_proto_tip')}>
-                <span>
-                  <InfoCircleOutlined/>
-                  &nbsp;{formatText('app.payloadandhandler.proxies_proto')}
-                </span>
-              </Tooltip>
-            }
+            label={formatText('app.payloadandhandler.proxies_proto')}
+            tooltip={formatText('app.payloadandhandler.proxies_proto_tip')}
           >
             <Input.Group compact>
               <Form.Item name="proxies_proto" noStyle initialValue="Direct" rules={[]}>
@@ -1728,11 +1627,8 @@ const CreatePayloadModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title="The HTTP Path">
-              <span>LURI</span>
-            </Tooltip>
-          }
+          label="LURI"
+          tooltip="The HTTP Path"
           initialValue={randomstr(8)}
           name="LURI"
         >
@@ -1745,11 +1641,8 @@ const CreatePayloadModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title={formatText('app.payloadandhandler.pem_tip')}>
-              <span>{formatText('app.payloadandhandler.pem_label')}</span>
-            </Tooltip>
-          }
+          label={formatText('app.payloadandhandler.pem_label')}
+          tooltip={formatText('app.payloadandhandler.pem_tip')}
           name="HandlerSSLCert"
         >
           <Select placeholder={formatText('app.payloadandhandler.pem_rule')} allowClear>
@@ -1762,11 +1655,8 @@ const CreatePayloadModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title={formatText('app.payloadandhandler.ssl_tip')}>
-              <span>{formatText('app.payloadandhandler.ssl_label')}</span>
-            </Tooltip>
-          }
+          label={formatText('app.payloadandhandler.ssl_label')}
+          tooltip={formatText('app.payloadandhandler.ssl_tip')}
           initialValue
           name="StagerVerifySSLCert"
           valuePropName="checked"
@@ -1780,11 +1670,8 @@ const CreatePayloadModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title="The user-agent that the payload should use for communication">
-              <span>User Agent</span>
-            </Tooltip>
-          }
+          label="User Agent"
+          tooltip="The user-agent that the payload should use for communication"
           initialValue="Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
           name="HttpUserAgent"
           rules={[
@@ -1801,12 +1688,8 @@ const CreatePayloadModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip
-              title="Forces a specific host and port instead of using what the client requests, defaults to LHOST:LPORT">
-              <span>OverrideRequestHost</span>
-            </Tooltip>
-          }
+          label="OverrideRequestHost"
+          tooltip="Forces a specific host and port instead of using what the client requests, defaults to LHOST:LPORT"
           initialValue={false}
           name="OverrideRequestHost"
           valuePropName="checked"
@@ -1819,12 +1702,8 @@ const CreatePayloadModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip
-              title="When OverrideRequestHost is set, use this value as the scheme for secondary requests, e.g http or https">
-              <span>OverrideScheme</span>
-            </Tooltip>
-          }
+          label="OverrideScheme"
+          tooltip="When OverrideRequestHost is set, use this value as the scheme for secondary requests, e.g http or https"
           name="OverrideScheme"
           rules={[]}
         >
@@ -1838,11 +1717,8 @@ const CreatePayloadModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title="When OverrideRequestHost is set, use this value as the host name for secondary requests">
-              <span>OverrideLHOST</span>
-            </Tooltip>
-          }
+          label="OverrideLHOST"
+          tooltip="When OverrideRequestHost is set, use this value as the host name for secondary requests"
           name="OverrideLHOST"
           rules={[]}
         >
@@ -1852,11 +1728,8 @@ const CreatePayloadModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title="When OverrideRequestHost is set, use this value as the port number for secondary requests">
-              <span>OverrideLPORT</span>
-            </Tooltip>
-          }
+          label="OverrideLPORT"
+          tooltip="When OverrideRequestHost is set, use this value as the port number for secondary requests"
           name="OverrideLPORT"
           rules={[]}
         >
@@ -1867,11 +1740,8 @@ const CreatePayloadModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title="An optional value to use for the Cookie HTTP header">
-              <span>HttpCookie</span>
-            </Tooltip>
-          }
+          label="HttpCookie"
+          tooltip="An optional value to use for the Cookie HTTP header"
           name="HttpCookie"
           rules={[]}
         >
@@ -1881,11 +1751,8 @@ const CreatePayloadModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title="An optional value to use for the Host HTTP header">
-              <span>HttpHostHeader</span>
-            </Tooltip>
-          }
+          label="HttpHostHeader"
+          tooltip="An optional value to use for the Host HTTP header"
           name="HttpHostHeader"
           rules={[]}
         >
@@ -1896,11 +1763,8 @@ const CreatePayloadModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title="The type of HTTP proxy (Accepted: HTTP, SOCKS)">
-              <span>HttpProxyType</span>
-            </Tooltip>
-          }
+          label="HttpProxyType"
+          tooltip="The type of HTTP proxy (Accepted: HTTP, SOCKS)"
           name="HttpProxyType"
           rules={[]}
         >
@@ -1913,11 +1777,8 @@ const CreatePayloadModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title="An optional proxy server IP address or hostname">
-              <span>HttpProxyHost</span>
-            </Tooltip>
-          }
+          label="HttpProxyHost"
+          tooltip="An optional proxy server IP address or hostname"
           name="HttpProxyHost"
           rules={[]}
         >
@@ -1928,11 +1789,8 @@ const CreatePayloadModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title="An optional proxy server port">
-              <span>HttpProxyPort</span>
-            </Tooltip>
-          }
+          label="HttpProxyPort"
+          tooltip="An optional proxy server port"
           name="HttpProxyPort"
           rules={[]}
         >
@@ -1942,11 +1800,8 @@ const CreatePayloadModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title="An optional proxy server username Max parameter length: 63 characters">
-              <span>HttpProxyUser</span>
-            </Tooltip>
-          }
+          label="HttpProxyUser"
+          tooltip="An optional proxy server username Max parameter length: 63 characters"
           name="HttpProxyUser"
           rules={[]}
         >
@@ -1956,11 +1811,8 @@ const CreatePayloadModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title="An optional proxy server password Max parameter length: 63 characters">
-              <span>HttpProxyPass</span>
-            </Tooltip>
-          }
+          label="HttpProxyPass"
+          tooltip="An optional proxy server password Max parameter length: 63 characters"
           name="HttpProxyPass"
           rules={[]}
         >
@@ -1974,11 +1826,8 @@ const CreatePayloadModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title="Password to derive RC4 key from">
-              <span>{formatText('app.payloadandhandler.rc4password')}</span>
-            </Tooltip>
-          }
+          label={formatText('app.payloadandhandler.rc4password')}
+          tooltip="Password to derive RC4 key from"
           initialValue={randomstr(8)}
           name="RC4PASSWORD"
           rules={[
@@ -1997,11 +1846,8 @@ const CreatePayloadModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title={formatText('app.payloadandhandler.domain')}>
-              <span>DOMAIN</span>
-            </Tooltip>
-          }
+          label="DOMAIN"
+          tooltip={formatText('app.payloadandhandler.domain')}
           name="DOMAIN"
           rules={[
             {
@@ -2016,11 +1862,8 @@ const CreatePayloadModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title={formatText('app.payloadandhandler.req_type_tip')}>
-              <span>REQ_TYPE</span>
-            </Tooltip>
-          }
+          label="REQ_TYPE"
+          tooltip={formatText('app.payloadandhandler.req_type_tip')}
           name="REQ_TYPE"
           initialValue="DNSKEY"
           rules={[
@@ -2038,11 +1881,8 @@ const CreatePayloadModalContent = props => {
       options.push(
         <Form.Item
           {...formLayout}
-          label={
-            <Tooltip title={formatText('app.payloadandhandler.SERVER_ID_tip')}>
-              <span>SERVER_ID</span>
-            </Tooltip>
-          }
+          label="SERVER_ID"
+          tooltip={formatText('app.payloadandhandler.SERVER_ID_tip')}
           initialValue={randomstr(8)}
           name="SERVER_ID"
           rules={[
@@ -2112,14 +1952,8 @@ const CreatePayloadModalContent = props => {
         <Panel header={formatText('app.payloadandhandler.auto')} key="auto">
           <Form.Item
             {...formLayout}
-            label={
-              <Tooltip title={formatText('app.payloadandhandler.PrependMigrate_tip')}>
-                <span>
-                  <InfoCircleOutlined/>
-                  &nbsp;{formatText('app.payloadandhandler.PrependMigrate')}
-                </span>
-              </Tooltip>
-            }
+            label={formatText('app.payloadandhandler.PrependMigrate')}
+            tooltip={formatText('app.payloadandhandler.PrependMigrate_tip')}
             name="PrependMigrate"
             valuePropName="checked"
             initialValue={false}
@@ -2140,14 +1974,8 @@ const CreatePayloadModalContent = props => {
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label={
-              <Tooltip title={formatText('app.payloadandhandler.ADD_HANDLER_tip')}>
-                <span>
-                  <InfoCircleOutlined/>
-                  &nbsp;{formatText('app.payloadandhandler.ADD_HANDLER')}
-                </span>
-              </Tooltip>
-            }
+            label={formatText('app.payloadandhandler.ADD_HANDLER')}
+            tooltip={formatText('app.payloadandhandler.ADD_HANDLER_tip')}
             name="ADD_HANDLER"
             valuePropName="checked"
             initialValue={false}

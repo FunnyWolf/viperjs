@@ -13,7 +13,7 @@ import msfsocks from './zh-CN/msfsocks';
 import credential from './zh-CN/credential';
 import hostandsession from './zh-CN/hostandsession';
 import runmodule from './zh-CN/runmodule';
-
+import ipfilter from './zh-CN/ipfilter';
 export default {
   ...exception,
   ...login,
@@ -30,4 +30,5 @@ export default {
   ...credential,
   ...hostandsession,
   ...runmodule,
+  ...ipfilter,
 };

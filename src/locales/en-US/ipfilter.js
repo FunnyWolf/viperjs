@@ -1,0 +1,21 @@
+export default {
+  "app.ipfilter.diy_whitelist": "Custom Whitelist",
+  "app.ipfilter.diy_whitelist.ph": "10.10.10.10 and 10.10.10.10/24 formats, one IP address per line, comma separation is not supported",
+  "app.ipfilter.diy_whitelist.tip": "Allow IP addresses in the whitelist to access handler",
+  "app.ipfilter.diy_blacklist": "Custom Blacklist",
+  "app.ipfilter.diy_blacklist.ph": "10.10.10.10 and 10.10.10.10/24 formats, one IP address per line, comma separation is not supported",
+  "app.ipfilter.diy_blacklist.tip": "Block IP addresses in the blacklist from access handler",
+  "app.ipfilter.cloud_blacklist": "Block Cloud Host IP",
+  "app.ipfilter.cloud_blacklist.tip": "Only China Mobile, China Unicom and China Telecom are allowed to monitor network access (judged according to geo database)",
+  "app.ipfilter.sandbox_blacklist": "Block Sandbox IP",
+  "app.ipfilter.sandbox_blacklist.tip": "Block all cloud sandbox IP access handler (judging by the built-in IP database)",
+  "app.ipfilter.check_all": "Select All",
+  "app.ipfilter.geo_blacklist": "Geographic Blacklist",
+  "app.ipfilter.geo_blacklist.tip": "Block all IP access handler in geographic locations in the list (judging by geo database)",
+  "app.ipfilter.geo_whitelist": "Geographic Whitelist",
+  "app.ipfilter.geo_whitelist.tip": "<Only allowed> IP access handler of geographic locations in the list (judging by geo database)",
+  "app.ipfilter.switch": "Main Switch",
+  "app.ipfilter.switch.tip": "IP filtering master switch, IP filtering will only take effect after turning on this option",
+  "app.ipfilter.search.ph": "Enter IP to check if it is blocked",
+  "app.ipfilter.update": "Update Configuration"
+};

@@ -16,6 +16,7 @@ export default {
   'app.hostandsession.tab.Notices': 'RealTime',
   'app.hostandsession.tab.JobList': 'Jobs',
   'app.hostandsession.tab.PayloadAndHandler': 'PayloadHandler',
+  'app.hostandsession.tab.IPFilter': 'Handler Firewall',
   'app.hostandsession.tab.FileMsf': 'Files',
   'app.hostandsession.tab.Network': 'Network',
   'app.hostandsession.tab.AutoRobot': 'Automation',

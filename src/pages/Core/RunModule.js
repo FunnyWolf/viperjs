@@ -186,11 +186,8 @@ const getModuleOptions = (postModuleConfigActive) => {
       options.push(
         <Col span={oneOption.length}>
           <Form.Item
-            label={
-              <Tooltip title={getOptionDesc(oneOption)}>
-                {getOptionTag(oneOption)}
-              </Tooltip>
-            }
+            label={getOptionTag(oneOption)}
+            tooltip={getOptionDesc(oneOption)}
             name={oneOption.name}
             initialValue={oneOption.default}
             rules={[{
@@ -208,11 +205,8 @@ const getModuleOptions = (postModuleConfigActive) => {
       options.push(
         <Col span={oneOption.length}>
           <Form.Item
-            label={
-              <Tooltip title={getOptionDesc(oneOption)}>
-                {getOptionTag(oneOption)}
-              </Tooltip>
-            }
+            label={getOptionTag(oneOption)}
+            tooltip={getOptionDesc(oneOption)}
             name={oneOption.name}
             initialValue={oneOption.default}
             rules={[{
@@ -232,11 +226,8 @@ const getModuleOptions = (postModuleConfigActive) => {
       options.push(
         <Col span={oneOption.length}>
           <Form.Item
-            label={
-              <Tooltip title={getOptionDesc(oneOption)}>
-                {getOptionTag(oneOption)}
-              </Tooltip>
-            }
+            label={getOptionTag(oneOption)}
+            tooltip={getOptionDesc(oneOption)}
             name={oneOption.name}
             valuePropName="checked"
             initialValue={oneOption.default}
@@ -253,11 +244,8 @@ const getModuleOptions = (postModuleConfigActive) => {
       options.push(
         <Col span={oneOption.length}>
           <Form.Item
-            label={
-              <Tooltip title={getOptionDesc(oneOption)}>
-                {getOptionTag(oneOption)}
-              </Tooltip>
-            }
+            label={getOptionTag(oneOption)}
+            tooltip={getOptionDesc(oneOption)}
             name={oneOption.name}
             initialValue={oneOption.default}
             rules={[{
@@ -276,11 +264,8 @@ const getModuleOptions = (postModuleConfigActive) => {
       options.push(
         <Col span={oneOption.length}>
           <Form.Item
-            label={
-              <Tooltip title={getOptionDesc(oneOption)}>
-                {getOptionTag(oneOption)}
-              </Tooltip>
-            }
+            label={getOptionTag(oneOption)}
+            tooltip={getOptionDesc(oneOption)}
             name={oneOption.name}
             initialValue={oneOption.default}
             rules={[{
@@ -310,11 +295,8 @@ const getModuleOptions = (postModuleConfigActive) => {
       options.push(
         <Col span={oneOption.length}>
           <Form.Item
-            label={
-              <Tooltip title={getOptionDesc(oneOption)}>
-                {getOptionTag(oneOption)}
-              </Tooltip>
-            }
+            label={getOptionTag(oneOption)}
+            tooltip={getOptionDesc(oneOption)}
             name={oneOption.name}
             initialValue={oneOption.default}
             rules={[{
@@ -338,11 +320,8 @@ const getModuleOptions = (postModuleConfigActive) => {
       options.push(
         <Col span={oneOption.length}>
           <Form.Item
-            label={
-              <Tooltip title={getOptionDesc(oneOption)}>
-                {getOptionTag(oneOption)}
-              </Tooltip>
-            }
+            label={getOptionTag(oneOption)}
+            tooltip={getOptionDesc(oneOption)}
             name={oneOption.name}
             initialValue={oneOption.default}
             rules={[{
@@ -2069,11 +2048,8 @@ export const PostModule = props => {
       options.push(
         <Col span={oneOption.length}>
           <Form.Item
-            label={
-              <Tooltip title={getOptionDesc(oneOption)}>
-                <span>{getOptionTag(oneOption)}</span>
-              </Tooltip>
-            }
+            label={getOptionTag(oneOption)}
+            tooltip={getOptionDesc(oneOption)}
             name={oneOption.name}
             rules={[{
               required: oneOption.required,
@@ -2090,11 +2066,8 @@ export const PostModule = props => {
       options.push(
         <Col span={oneOption.length}>
           <Form.Item
-            label={
-              <Tooltip title={getOptionDesc(oneOption)}>
-                <span>{getOptionTag(oneOption)}</span>
-              </Tooltip>
-            }
+            label={getOptionTag(oneOption)}
+            tooltip={getOptionDesc(oneOption)}
             name={oneOption.name}
             valuePropName="checked"
             rules={[{
@@ -2110,11 +2083,8 @@ export const PostModule = props => {
       options.push(
         <Col span={oneOption.length}>
           <Form.Item
-            label={
-              <Tooltip title={getOptionDesc(oneOption)}>
-                <span>{getOptionTag(oneOption)}</span>
-              </Tooltip>
-            }
+            label={getOptionTag(oneOption)}
+            tooltip={getOptionDesc(oneOption)}
             name={oneOption.name}
             rules={[{
               required: oneOption.required,
@@ -2133,11 +2103,8 @@ export const PostModule = props => {
       options.push(
         <Col span={oneOption.length}>
           <Form.Item
-            label={
-              <Tooltip title={getOptionDesc(oneOption)}>
-                <span>{getOptionTag(oneOption)}</span>
-              </Tooltip>
-            }
+            label={getOptionTag(oneOption)}
+            tooltip={getOptionDesc(oneOption)}
             name={oneOption.name}
             rules={[{
               required: oneOption.required,
@@ -2166,11 +2133,8 @@ export const PostModule = props => {
       options.push(
         <Col span={oneOption.length}>
           <Form.Item
-            label={
-              <Tooltip title={getOptionDesc(oneOption)}>
-                <span>{getOptionTag(oneOption)}</span>
-              </Tooltip>
-            }
+            label={getOptionTag(oneOption)}
+            tooltip={getOptionDesc(oneOption)}
             name={oneOption.name}
             rules={[{
               required: oneOption.required,
@@ -2192,11 +2156,8 @@ export const PostModule = props => {
       options.push(
         <Col span={oneOption.length}>
           <Form.Item
-            label={
-              <Tooltip title={getOptionDesc(oneOption)}>
-                <span>{getOptionTag(oneOption)}</span>
-              </Tooltip>
-            }
+            label={getOptionTag(oneOption)}
+            tooltip={getOptionDesc(oneOption)}
             name={oneOption.name}
             rules={[{
               required: oneOption.required,

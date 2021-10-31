@@ -116,11 +116,8 @@ const CreateWebDeliveryModalContent = props => {
               message: formatText("app.webdelivery.target.rule")
             }
           ]}
-          label={
-            <Tooltip title={formatText("app.webdelivery.target.tip")}>
-              <span>Target</span>
-            </Tooltip>
-          }
+          label="Target"
+          tooltip={formatText("app.webdelivery.target.tip")}
           name="TARGET"
         >
           <Select
@@ -146,11 +143,8 @@ const CreateWebDeliveryModalContent = props => {
             message: formatText("app.webdelivery.target.rule")
           }
         ]}
-        label={
-          <Tooltip title={formatText("app.webdelivery.target.tip")}>
-            <span>Target</span>
-          </Tooltip>
-        }
+        label="Target"
+        tooltip={formatText("app.webdelivery.target.tip")}
         onChange={changeTargetOption}
         allowClear
         name="TARGET"
@@ -222,11 +216,8 @@ const CreateWebDeliveryModalContent = props => {
     options.push(
       <Form.Item
         {...formLayoutShort}
-        label={
-          <Tooltip title={formatText("app.webdelivery.SSLCert.tip")}>
-            <span>{formatText("app.webdelivery.SSLCert")}</span>
-          </Tooltip>
-        }
+        label={formatText("app.webdelivery.SSLCert")}
+        tooltip={formatText("app.webdelivery.SSLCert.tip")}
         name="SSLCert"
         initialValue={pem_files.length > 0 ? `~/.msf4/loot/${pem_files[0]}` : null}
       >
@@ -240,11 +231,8 @@ const CreateWebDeliveryModalContent = props => {
     options.push(
       <Form.Item
         {...formLayoutShort}
-        label={
-          <Tooltip title={formatText("app.webdelivery.URIPATH.tip")}>
-            <span>URIPATH</span>
-          </Tooltip>
-        }
+        label="URIPATH"
+        tooltip={formatText("app.webdelivery.URIPATH.tip")}
         initialValue={randomstr(8)}
         name="URIPATH"
       >
@@ -279,7 +267,6 @@ const CreateWebDeliveryModalContent = props => {
         </Form.Item>
       );
     }
-
 
     if (options.length === 0) {
       return null;

@@ -225,6 +225,20 @@ export async function deleteMsgrpcCollectSandboxAPI(params) {
 }
 
 
+export async function getMsgrpcIPFilterAPI(params) {
+  return request('/api/v1/msgrpc/ipfilter/', {
+    params,
+  });
+}
+
+export async function putMsgrpcIPFilteAPI(params) {
+  return request('/api/v1/msgrpc/ipfilter/', {
+    method: 'PUT',
+    data: params,
+  });
+}
+
+
 export async function postCoreBaseauthAPI(params) {
   return request('/api/v1/core/baseauth/', {
     method: 'POST',
