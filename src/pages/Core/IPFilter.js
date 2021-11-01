@@ -19,11 +19,14 @@ String.prototype.format = function() {
 const IPFilter = () => {
   console.log("IPFilter");
   const [mainForm] = Form.useForm();
-
+  const [geoBlacklist, setGeoBlacklist] = React.useState([]);
+  const [indeterminate, setIndeterminate] = React.useState(false);
+  const [geoBlacklistCheckAll, setGeoBlacklistGeoBlacklistCheckAll] = React.useState(false);
 
   useRequest(getMsgrpcIPFilterAPI, {
     onSuccess: (result, params) => {
       mainForm.setFieldsValue(result);
+      onChange(result.geo_blacklist);
     },
     onError: (error, params) => {
     }
@@ -33,6 +36,7 @@ const IPFilter = () => {
     manual: true,
     onSuccess: (result, params) => {
       mainForm.setFieldsValue(result);
+      onChange(result.geo_blacklist);
     },
     onError: (error, params) => {
     }
@@ -57,13 +61,9 @@ const IPFilter = () => {
   });
 
   const onUpdateIPFilter = values => {
-    values.geo_blacklist = checkedList;
+    values.geo_blacklist = geoBlacklist;
     updateIPFilterReq.run(values);
   };
-
-  const [checkedList, setCheckedList] = React.useState([]);
-  const [indeterminate, setIndeterminate] = React.useState(false);
-  const [checkAll, setCheckAll] = React.useState(false);
 
 
   const plainOptions = [
@@ -139,16 +139,17 @@ const IPFilter = () => {
     "台湾",
     "海外"
   ];
+
   const onChange = list => {
-    setCheckedList(list);
+    setGeoBlacklist(list);
     setIndeterminate(!!list.length && list.length < plainOptions.length);
-    setCheckAll(list.length === plainOptions.length);
+    setGeoBlacklistGeoBlacklistCheckAll(list.length === plainOptions.length);
   };
 
   const onCheckAllChange = e => {
-    setCheckedList(e.target.checked ? plainOptionsValues : []);
+    setGeoBlacklist(e.target.checked ? plainOptionsValues : []);
     setIndeterminate(false);
-    setCheckAll(e.target.checked);
+    setGeoBlacklistGeoBlacklistCheckAll(e.target.checked);
   };
 
   return (
@@ -234,13 +235,13 @@ const IPFilter = () => {
               >
                 <Checkbox
                   style={{ marginBottom: 4 }}
-                  indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll}
+                  indeterminate={indeterminate} onChange={onCheckAllChange} checked={geoBlacklistCheckAll}
                 >
                   {formatText("app.ipfilter.check_all")}
                 </Checkbox>
                 <Checkbox.Group
                   options={plainOptions}
-                  value={checkedList} onChange={onChange}
+                  value={geoBlacklist} onChange={onChange}
                 />
               </Form.Item>
             </Col>
