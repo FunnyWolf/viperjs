@@ -1651,6 +1651,9 @@ export const RunBotModule = props => {
                         <Radio.Button value="Quake" disabled={!engineConfs.Quake}>
                           360Quake
                         </Radio.Button>
+                        <Radio.Button value="Debug">
+                          Debug
+                        </Radio.Button>
                       </Radio.Group>
                     </Form.Item>
                   </Col>
@@ -1715,7 +1718,7 @@ export const RunBotModule = props => {
                 size="small"
                 bordered
                 pagination={false}
-                rowKey="ip"
+                rowKey="index"
                 rowSelection={rowSelection}
                 columns={[
                   {

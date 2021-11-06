@@ -25,7 +25,7 @@ export default {
   'app.runmodule.postmodule.desc': 'Description',
   'app.runmodule.postmodule.searchmodule.ph': 'Search Module',
   'app.runmodule.postmodule.ipportlist': 'Whole Internet Data',
-  'app.runmodule.postmodule.inputstr.ph': 'To supplement the search rules, refer to the official website of the corresponding Internet search engine.&#13;&#10;FOFA: ip="172.172.172.172/24" && port="22" 360Quake: ip:"172.172.172.172/24" AND port: "22"',
+  'app.runmodule.postmodule.inputstr.ph': 'To supplement the search rules, refer to the official website of the corresponding Internet search engine. FOFA: ip="172.172.172.172/24" && port="22" 360Quake: ip:"172.172.172.172/24" AND port: "22"',
   'app.runmodule.postmodule.engine': 'Search Engine',
   'app.runmodule.postmodule.page': 'Page',
   'app.runmodule.postmodule.number': 'Number',

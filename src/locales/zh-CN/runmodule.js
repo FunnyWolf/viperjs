@@ -25,7 +25,7 @@ export default {
   'app.runmodule.postmodule.desc': '说明',
   'app.runmodule.postmodule.searchmodule.ph': '搜索模块',
   'app.runmodule.postmodule.ipportlist': '全网数据',
-  'app.runmodule.postmodule.inputstr.ph': '补充搜索规则,参考对应网络搜索引擎官网.&#13;&#10;FOFA: ip="172.172.172.172/24" && port="22"   360Quake: ip:"172.172.172.172/24" AND port:"22"',
+  'app.runmodule.postmodule.inputstr.ph': '补充搜索规则,参考对应网络搜索引擎官网. FOFA: ip="172.172.172.172/24" && port="22"   360Quake: ip:"172.172.172.172/24" AND port:"22"',
   'app.runmodule.postmodule.engine': '搜索引擎',
   'app.runmodule.postmodule.page': '分页',
   'app.runmodule.postmodule.number': '数量',
