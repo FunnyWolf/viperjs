@@ -35,11 +35,14 @@ import {
   MinusOutlined,
   ReloadOutlined,
   SyncOutlined,
+  MailOutlined,
 } from '@ant-design/icons';
 import { useLocalStorageState } from 'ahooks';
 
 import { reloadAuthorized } from '@/utils/Authorized';
 import { formatText } from '@/utils/locales';
+import styles from "@/pages/Core/HostAndSession.less";
+import { CollectSandboxMemo } from "@/pages/Core/CollectSandbox";
 
 const { Option } = Select;
 const { TabPane } = Tabs;
@@ -106,6 +109,19 @@ const SystemSetting = () => {
       <TabPane tab={formatText('app.systemsetting.networkconfig')} key="lhost">
         <LHostForm/>
       </TabPane>
+      {viperDebugFlag ? (
+        <TabPane
+          tab={
+            <div className={styles.tabPanediv}>
+              <MailOutlined />
+              <span className={styles.tabPanespan}>TEST</span>
+            </div>
+          }
+          key="CollectSandbox"
+        >
+          <CollectSandboxMemo />
+        </TabPane>
+      ) : null}
     </Tabs>
   );
 };

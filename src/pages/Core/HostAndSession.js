@@ -1414,19 +1414,6 @@ const TabsBottom = () => {
         >
           <CredentialMemo />
         </TabPane>
-        {viperDebugFlag ? (
-          <TabPane
-            tab={
-              <div className={styles.tabPanediv}>
-                <MailOutlined />
-                <span className={styles.tabPanespan}>TEST</span>
-              </div>
-            }
-            key="CollectSandbox"
-          >
-            <CollectSandboxMemo />
-          </TabPane>
-        ) : null}
         {viperDebugFlag ? (<TabPane
           tab={
             <div className={styles.tabPanediv}>
