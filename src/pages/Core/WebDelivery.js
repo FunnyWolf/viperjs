@@ -22,7 +22,6 @@ import {
   Select,
   Space,
   Table,
-  Tooltip,
   Typography
 } from "antd";
 import { CloudDownloadOutlined, SyncOutlined } from "@ant-design/icons";
@@ -38,11 +37,15 @@ const CreateWebDeliveryModalContent = props => {
   const { createWebDeliveryFinish } = props;
   const formLayoutLong = {
     labelCol: { span: 6 },
-    wrapperCol: { span: 16 }
+    wrapperCol: { span: 18 }
   };
   const formLayoutShort = {
     labelCol: { span: 6 },
     wrapperCol: { span: 10 }
+  };
+  const formLayoutVeryShort = {
+    labelCol: { span: 6 },
+    wrapperCol: { span: 6 }
   };
   const formLayout = {
     labelCol: { span: 6 },
@@ -99,70 +102,6 @@ const CreateWebDeliveryModalContent = props => {
 
   const changeTargetOption = (value, selectedOptions) => {
     setSelectTarget(value);
-  };
-
-
-  const webDeliveryBaseOption = () => {
-    let options = [];
-    if (selectPayload === null || selectPayload === undefined) {
-      return null;
-    }
-    if (selectPayload.includes("windows")) {
-      options.push(<Form.Item
-          {...formLayoutShort}
-          rules={[
-            {
-              required: true,
-              message: formatText("app.webdelivery.target.rule")
-            }
-          ]}
-          label="Target"
-          tooltip={formatText("app.webdelivery.target.tip")}
-          name="TARGET"
-        >
-          <Select
-            placeholder={formatText("app.webdelivery.target.rule")}
-            onChange={changeTargetOption}
-            allowClear
-          >
-            <Option value={2}>PSH</Option>
-            <Option value={3}>Regsvr32</Option>
-            <Option value={4}>pubprn</Option>
-            <Option value={5}>SyncAppvPublishingServer</Option>
-            <Option value={6}>PSH (Binary)</Option>
-          </Select>
-        </Form.Item>
-      );
-
-    } else if (selectPayload.includes("linux")) {
-      options.push(<Form.Item
-        {...formLayoutShort}
-        rules={[
-          {
-            required: true,
-            message: formatText("app.webdelivery.target.rule")
-          }
-        ]}
-        label="Target"
-        tooltip={formatText("app.webdelivery.target.tip")}
-        onChange={changeTargetOption}
-        allowClear
-        name="TARGET"
-      >
-        <Select
-          placeholder={formatText("app.webdelivery.target.rule")}
-          onChange={changeTargetOption}
-          allowClear
-        >
-          <Option value={7}>Linux</Option>
-        </Select>
-      </Form.Item>);
-    }
-    if (options.length === 0) {
-      return null;
-    } else {
-      return options;
-    }
   };
 
 
@@ -279,6 +218,33 @@ const CreateWebDeliveryModalContent = props => {
       <Collapse bordered={false} defaultActiveKey={["payload", "web"]}>
         <Panel header={formatText("app.webdelivery.payload")} key="payload">
           <Form.Item
+            {...formLayoutVeryShort}
+            rules={[
+              {
+                required: true,
+                message: formatText("app.webdelivery.target.rule")
+              }
+            ]}
+            label="Target"
+            tooltip={formatText("app.webdelivery.target.tip")}
+            name="TARGET"
+          >
+            <Select
+              placeholder={formatText("app.webdelivery.target.rule")}
+              onChange={changeTargetOption}
+              allowClear
+            >
+              <Option value={0}>Python</Option>
+              <Option value={1}>PHP</Option>
+              <Option value={2}>PSH</Option>
+              <Option value={3}>Regsvr32</Option>
+              <Option value={4}>pubprn</Option>
+              <Option value={5}>SyncAppvPublishingServer</Option>
+              <Option value={6}>PSH (Binary)</Option>
+              <Option value={7}>Linux</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
             {...formLayoutLong}
             rules={[
               {
@@ -298,7 +264,6 @@ const CreateWebDeliveryModalContent = props => {
               ))}
             </Select>
           </Form.Item>
-          {webDeliveryBaseOption()}
         </Panel>
         <Panel header={formatText("app.webdelivery.web")} key="web">
           {webDevliverServerOption()}
