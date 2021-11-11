@@ -14,7 +14,7 @@ import { MyIcon, SidTag } from '@/pages/Core/Common';
 import styles from './RealTimeCard.less';
 import { Upheight } from '@/utils/utils';
 import { PostModuleInfoContent } from '@/pages/Core/RunModule';
-import { formatText, getModuleName, getModuleResultTable, getOptionTag, getResultData } from "@/utils/locales";
+import { formatText, getModuleName, getModuleResultTable, getOptionTag, getResultData } from '@/utils/locales';
 
 const { Text, Link } = Typography;
 String.prototype.format = function() {
@@ -301,7 +301,11 @@ const UserInput = props => {
       value={text}
       prefix={<PrefixIcon/>}
       onPressEnter={() => {
-        props.createNotice({ userkey: iconkey, content: text });
+        if (text === null || text === '') {
+          return;
+        } else {
+          props.createNotice({ userkey: iconkey, content: text });
+        }
         onInputChange('');
       }}
       onChange={e => onInputChange(e.target.value)}
@@ -325,6 +329,11 @@ const RealTimeNotices = () => {
       <MyIcon
         type={KeyToUserIcon[key]}
         style={{
+          padding: '0px 0px 0px 0px',
+          marginBottom: 0,
+          marginTop: 0,
+          marginLeft: 0,
+          marginRight: 0,
           fontSize: '18px',
         }}
       />
@@ -383,7 +392,6 @@ const RealTimeNotices = () => {
             <Space>
               {userIconLarge(item.userkey)}
               {content}
-              {userIconLarge(item.userkey)}
             </Space>
           </Text>
         );
