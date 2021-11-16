@@ -158,11 +158,11 @@ const CreateWebDeliveryModalContent = props => {
         label={formatText("app.webdelivery.SSLCert")}
         tooltip={formatText("app.webdelivery.SSLCert.tip")}
         name="SSLCert"
-        initialValue={pem_files.length > 0 ? `~/.msf4/loot/${pem_files[0]}` : null}
+        initialValue={pem_files.length > 0 ? `/root/.msf4/loot/${pem_files[0]}` : null}
       >
         <Select placeholder={formatText("app.webdelivery.SSLCert.rule")} allowClear>
           {pem_files.map((encoder, i) => (
-            <Option value={`~/.msf4/loot/${encoder}`}>{encoder}</Option>
+            <Option value={`/root/.msf4/loot/${encoder}`}>{encoder}</Option>
           ))}
         </Select>
       </Form.Item>
