@@ -582,7 +582,7 @@ const CreateHandlerModalContent = props => {
         >
           <Select placeholder={formatText('app.payloadandhandler.pem_rule')} allowClear>
             {pem_files.map((encoder, i) => (
-              <Option value={`~/.msf4/loot/${encoder}`}>{encoder}</Option>
+              <Option value={`/root/.msf4/loot/${encoder}`}>{encoder}</Option>
             ))}
           </Select>
         </Form.Item>,
@@ -1647,7 +1647,7 @@ const CreatePayloadModalContent = props => {
         >
           <Select placeholder={formatText('app.payloadandhandler.pem_rule')} allowClear>
             {pem_files.map((encoder, i) => (
-              <Option value={`~/.msf4/loot/${encoder}`}>{encoder}</Option>
+              <Option value={`/root/.msf4/loot/${encoder}`}>{encoder}</Option>
             ))}
           </Select>
         </Form.Item>,
