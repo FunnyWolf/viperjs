@@ -1,5 +1,5 @@
-import React, { Fragment, memo, useState } from 'react';
-import { getLocale, useModel, useRequest } from 'umi';
+import React, { Fragment, memo, useState } from "react";
+import { getLocale, useModel, useRequest } from "umi";
 
 import {
   CaretRightOutlined,
@@ -9,12 +9,11 @@ import {
   MinusOutlined,
   PlayCircleOutlined,
   PlusOutlined,
-  RadarChartOutlined,
   SearchOutlined,
   StarOutlined,
   StarTwoTone,
-  SyncOutlined,
-} from '@ant-design/icons';
+  SyncOutlined
+} from "@ant-design/icons";
 
 import {
   Alert,
@@ -37,11 +36,11 @@ import {
   Table,
   Tabs,
   Tag,
-  Tooltip,
-} from 'antd';
-import moment from 'moment';
-import { MyIcon } from '@/pages/Core/Common';
-import styles from './RunModule.less';
+  Tooltip
+} from "antd";
+import moment from "moment";
+import { MyIcon } from "@/pages/Core/Common";
+import styles from "./RunModule.less";
 import {
   deleteMsgrpcJobAPI,
   deletePostModuleAutoAPI,
@@ -50,17 +49,17 @@ import {
   getPostModuleAutoAPI,
   postCoreSettingAPI,
   postPostModuleAutoAPI,
-  postPostmodulePostModuleActuatorAPI,
-} from '@/services/apiv1';
+  postPostmodulePostModuleActuatorAPI
+} from "@/services/apiv1";
 import {
   formatText,
   getModuleDesc,
   getModuleName,
   getOptionDesc,
   getOptionTag,
-  getSessionlocate,
-} from '@/utils/locales';
-import { postModuleOpts } from '@/pages/Core/RealTimeCard';
+  getSessionlocate
+} from "@/utils/locales";
+import { postModuleOpts } from "@/pages/Core/RealTimeCard";
 
 const { Search, TextArea } = Input;
 const { TabPane } = Tabs;
@@ -78,7 +77,7 @@ export const PostModuleInfoContent = postModuleConfig => {
   const platform = postModuleConfig.PLATFORM;
   const platformCom = [];
   for (let i = 0; i < platform.length; i++) {
-    if (platform[i].toLowerCase() === 'windows') {
+    if (platform[i].toLowerCase() === "windows") {
       platformCom.push(<Tag color="green">{platform[i]}</Tag>);
     } else {
       platformCom.push(<Tag color="magenta">{platform[i]}</Tag>);
@@ -88,9 +87,9 @@ export const PostModuleInfoContent = postModuleConfig => {
   const permissions = postModuleConfig.PERMISSIONS;
   const permissionsCom = [];
   for (let i = 0; i < permissions.length; i++) {
-    if (['system', 'root'].indexOf(permissions[i].toLowerCase()) >= 0) {
+    if (["system", "root"].indexOf(permissions[i].toLowerCase()) >= 0) {
       permissionsCom.push(<Tag color="volcano">{permissions[i]}</Tag>);
-    } else if (['administrator'].indexOf(permissions[i].toLowerCase()) >= 0) {
+    } else if (["administrator"].indexOf(permissions[i].toLowerCase()) >= 0) {
       permissionsCom.push(<Tag color="orange">{permissions[i]}</Tag>);
     } else {
       permissionsCom.push(<Tag color="lime">{permissions[i]}</Tag>);
@@ -105,7 +104,7 @@ export const PostModuleInfoContent = postModuleConfig => {
         <a href={references[i]} target="_blank">
           {references[i]}
         </a>
-      </div>,
+      </div>
     );
   }
 
@@ -117,7 +116,7 @@ export const PostModuleInfoContent = postModuleConfig => {
         <a href={readme[i]} target="_blank">
           {readme[i]}
         </a>
-      </div>,
+      </div>
     );
   }
 
@@ -137,39 +136,39 @@ export const PostModuleInfoContent = postModuleConfig => {
     <Descriptions
       size="small"
       style={{
-        padding: '0 0 0 0',
-        marginRight: 8,
+        padding: "0 0 0 0",
+        marginRight: 8
       }}
       column={8}
       bordered
     >
-      <Descriptions.Item label={formatText('app.runmodule.postmodule.NAME')} span={8}>
+      <Descriptions.Item label={formatText("app.runmodule.postmodule.NAME")} span={8}>
         {getModuleName(postModuleConfig)}
       </Descriptions.Item>
-      <Descriptions.Item label={formatText('app.runmodule.postmodule.authorCom')} span={4}>
+      <Descriptions.Item label={formatText("app.runmodule.postmodule.authorCom")} span={4}>
         {authorCom}
       </Descriptions.Item>
       <Descriptions.Item label="TTPs" span={4}>
         {attckCom}
       </Descriptions.Item>
-      <Descriptions.Item label={formatText('app.runmodule.postmodule.platformCom')} span={4}>
+      <Descriptions.Item label={formatText("app.runmodule.postmodule.platformCom")} span={4}>
         {platformCom}
       </Descriptions.Item>
-      <Descriptions.Item label={formatText('app.runmodule.postmodule.permissionsCom')} span={4}>
+      <Descriptions.Item label={formatText("app.runmodule.postmodule.permissionsCom")} span={4}>
         {permissionsCom}
       </Descriptions.Item>
-      <Descriptions.Item label={formatText('app.runmodule.postmodule.readmeCom')} span={8}>
+      <Descriptions.Item label={formatText("app.runmodule.postmodule.readmeCom")} span={8}>
         {readmeCom}
       </Descriptions.Item>
-      <Descriptions.Item label={formatText('app.runmodule.postmodule.referencesCom')} span={8}>
+      <Descriptions.Item label={formatText("app.runmodule.postmodule.referencesCom")} span={8}>
         {referencesCom}
       </Descriptions.Item>
-      <Descriptions.Item span={8} label={formatText('app.runmodule.postmodule.DESC')}>
+      <Descriptions.Item span={8} label={formatText("app.runmodule.postmodule.DESC")}>
         <pre
           style={{
-            whiteSpace: 'pre-wrap',
-            overflowX: 'hidden',
-            padding: '0 0 0 0',
+            whiteSpace: "pre-wrap",
+            overflowX: "hidden",
+            padding: "0 0 0 0"
           }}
         >{getModuleDesc(postModuleConfig)}</pre>
       </Descriptions.Item>
@@ -181,7 +180,7 @@ export const PostModuleInfoContent = postModuleConfig => {
 const getModuleOptions = (postModuleConfigActive) => {
   const options = [];
   for (const oneOption of postModuleConfigActive.OPTIONS) {
-    if (oneOption.type === 'str') {
+    if (oneOption.type === "str") {
       options.push(
         <Col span={oneOption.length}>
           <Form.Item
@@ -191,16 +190,16 @@ const getModuleOptions = (postModuleConfigActive) => {
             initialValue={oneOption.default}
             rules={[{
               required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
           >
             <Input
-              style={{ width: '90%' }}
+              style={{ width: "90%" }}
             />
           </Form.Item>
-        </Col>,
+        </Col>
       );
-    } else if (oneOption.type === 'text') {
+    } else if (oneOption.type === "text") {
       options.push(
         <Col span={oneOption.length}>
           <Form.Item
@@ -210,18 +209,18 @@ const getModuleOptions = (postModuleConfigActive) => {
             initialValue={oneOption.default}
             rules={[{
               required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
           >
             <TextArea
-              style={{ width: '95%' }}
+              style={{ width: "95%" }}
               showCount
               allowClear
             />
           </Form.Item>
-        </Col>,
+        </Col>
       );
-    } else if (oneOption.type === 'bool') {
+    } else if (oneOption.type === "bool") {
       options.push(
         <Col span={oneOption.length}>
           <Form.Item
@@ -232,14 +231,14 @@ const getModuleOptions = (postModuleConfigActive) => {
             initialValue={oneOption.default}
             rules={[{
               required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
           >
-            <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
+            <Checkbox style={{ width: "90%" }} defaultChecked={oneOption.default} />
           </Form.Item>
-        </Col>,
+        </Col>
       );
-    } else if (oneOption.type === 'integer') {
+    } else if (oneOption.type === "integer") {
       options.push(
         <Col span={oneOption.length}>
           <Form.Item
@@ -249,17 +248,17 @@ const getModuleOptions = (postModuleConfigActive) => {
             initialValue={oneOption.default}
             rules={[{
               required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
             wrapperCol={{ span: 24 }}
           >
             <InputNumber
-              style={{ width: '90%' }}
+              style={{ width: "90%" }}
             />
           </Form.Item>
-        </Col>,
+        </Col>
       );
-    } else if (oneOption.type === 'float') {
+    } else if (oneOption.type === "float") {
       options.push(
         <Col span={oneOption.length}>
           <Form.Item
@@ -269,18 +268,18 @@ const getModuleOptions = (postModuleConfigActive) => {
             initialValue={oneOption.default}
             rules={[{
               required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
             wrapperCol={{ span: 24 }}
           >
             <InputNumber
               step={0.1}
-              style={{ width: '90%' }}
+              style={{ width: "90%" }}
             />
           </Form.Item>
-        </Col>,
+        </Col>
       );
-    } else if (oneOption.type === 'enum') {
+    } else if (oneOption.type === "enum") {
       const selectOptions = [];
       for (const oneselect of oneOption.enum_list) {
         selectOptions.push(
@@ -288,7 +287,7 @@ const getModuleOptions = (postModuleConfigActive) => {
             <Tooltip mouseEnterDelay={0.3} title={getOptionTag(oneselect)}>
               {getOptionTag(oneselect)}
             </Tooltip>
-          </Option>,
+          </Option>
         );
       }
       options.push(
@@ -300,20 +299,20 @@ const getModuleOptions = (postModuleConfigActive) => {
             initialValue={oneOption.default}
             rules={[{
               required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
             wrapperCol={{ span: 24 }}
           >
             <Select
               allowClear
               style={{
-                width: '90%',
+                width: "90%"
               }}
             >
               {selectOptions}
             </Select>
           </Form.Item>
-        </Col>,
+        </Col>
       );
     } else {
       options.push(
@@ -325,15 +324,15 @@ const getModuleOptions = (postModuleConfigActive) => {
             initialValue={oneOption.default}
             rules={[{
               required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
             wrapperCol={{ span: 24 }}
           >
             <Input
-              style={{ width: '90%' }}
+              style={{ width: "90%" }}
             />
           </Form.Item>
-        </Col>,
+        </Col>
       );
     }
   }
@@ -345,7 +344,7 @@ const getWarn = (postModuleConfigActive) => {
   if (postModuleConfigActive.WARN_ZH === null || postModuleConfigActive.WARN_ZH === undefined) {
     return null;
   } else {
-    if (locale === 'en-US') {
+    if (locale === "en-US") {
       return <Col span={22}>
         <Alert
           style={{ marginBottom: 16 }}
@@ -368,11 +367,11 @@ const getWarn = (postModuleConfigActive) => {
 };
 
 const getPins = () => {
-  if (localStorage.getItem('Pins') === null) {
-    localStorage.setItem('Pins', JSON.stringify([]));
+  if (localStorage.getItem("Pins") === null) {
+    localStorage.setItem("Pins", JSON.stringify([]));
     return [];
   }
-  return JSON.parse(localStorage.getItem('Pins'));
+  return JSON.parse(localStorage.getItem("Pins"));
 };
 
 const changePin = loadpath => {
@@ -380,11 +379,11 @@ const changePin = loadpath => {
   const index = pins.indexOf(loadpath);
   if (index > -1) {
     pins.splice(index, 1);
-    localStorage.setItem('Pins', JSON.stringify(pins));
+    localStorage.setItem("Pins", JSON.stringify(pins));
     return pins;
   }
   pins.push(loadpath);
-  localStorage.setItem('Pins', JSON.stringify(pins));
+  localStorage.setItem("Pins", JSON.stringify(pins));
   return pins;
 };
 
@@ -397,7 +396,7 @@ const ModuleInfoContent = props => {
   const platform = postModuleConfig.PLATFORM;
   const platformCom = [];
   for (let i = 0; i < platform.length; i++) {
-    if (platform[i].toLowerCase() === 'windows') {
+    if (platform[i].toLowerCase() === "windows") {
       platformCom.push(<Tag color="blue">{platform[i]}</Tag>);
     } else {
       platformCom.push(<Tag color="magenta">{platform[i]}</Tag>);
@@ -407,9 +406,9 @@ const ModuleInfoContent = props => {
   const permissions = postModuleConfig.PERMISSIONS;
   const permissionsCom = [];
   for (let i = 0; i < permissions.length; i++) {
-    if (['system', 'root'].indexOf(permissions[i].toLowerCase()) >= 0) {
+    if (["system", "root"].indexOf(permissions[i].toLowerCase()) >= 0) {
       permissionsCom.push(<Tag color="volcano">{permissions[i]}</Tag>);
-    } else if (['administrator'].indexOf(permissions[i].toLowerCase()) >= 0) {
+    } else if (["administrator"].indexOf(permissions[i].toLowerCase()) >= 0) {
       permissionsCom.push(<Tag color="orange">{permissions[i]}</Tag>);
     } else {
       permissionsCom.push(<Tag color="lime">{permissions[i]}</Tag>);
@@ -423,7 +422,7 @@ const ModuleInfoContent = props => {
         <a href={readme[i]} target="_blank">
           {readme[i]}
         </a>
-      </div>,
+      </div>
     );
   }
 
@@ -435,7 +434,7 @@ const ModuleInfoContent = props => {
         <a href={references[i]} target="_blank">
           {references[i]}
         </a>
-      </div>,
+      </div>
     );
   }
   const attcks = postModuleConfig.ATTCK;
@@ -455,39 +454,39 @@ const ModuleInfoContent = props => {
     <Descriptions
       size="small"
       style={{
-        padding: '0 0 0 0',
-        marginRight: 8,
+        padding: "0 0 0 0",
+        marginRight: 8
       }}
       column={8}
       bordered
     >
-      <Descriptions.Item label={formatText('app.runmodule.postmodule.NAME')} span={8}>
+      <Descriptions.Item label={formatText("app.runmodule.postmodule.NAME")} span={8}>
         {getModuleName(postModuleConfig)}
       </Descriptions.Item>
-      <Descriptions.Item label={formatText('app.runmodule.postmodule.authorCom')} span={4}>
+      <Descriptions.Item label={formatText("app.runmodule.postmodule.authorCom")} span={4}>
         {authorCom}
       </Descriptions.Item>
       <Descriptions.Item label="TTPs" span={4}>
         {attckCom}
       </Descriptions.Item>
-      <Descriptions.Item label={formatText('app.runmodule.postmodule.platformCom')} span={4}>
+      <Descriptions.Item label={formatText("app.runmodule.postmodule.platformCom")} span={4}>
         {platformCom}
       </Descriptions.Item>
-      <Descriptions.Item label={formatText('app.runmodule.postmodule.permissionsCom')} span={4}>
+      <Descriptions.Item label={formatText("app.runmodule.postmodule.permissionsCom")} span={4}>
         {permissionsCom}
       </Descriptions.Item>
-      <Descriptions.Item label={formatText('app.runmodule.postmodule.readmeCom')} span={8}>
+      <Descriptions.Item label={formatText("app.runmodule.postmodule.readmeCom")} span={8}>
         {readmeCom}
       </Descriptions.Item>
-      <Descriptions.Item label={formatText('app.runmodule.postmodule.referencesCom')} span={8}>
+      <Descriptions.Item label={formatText("app.runmodule.postmodule.referencesCom")} span={8}>
         {referencesCom}
       </Descriptions.Item>
-      <Descriptions.Item span={8} label={formatText('app.runmodule.postmodule.DESC')}>
+      <Descriptions.Item span={8} label={formatText("app.runmodule.postmodule.DESC")}>
         <pre
           style={{
-            whiteSpace: 'pre-wrap',
-            overflowX: 'hidden',
-            padding: '0 0 0 0',
+            whiteSpace: "pre-wrap",
+            overflowX: "hidden",
+            padding: "0 0 0 0"
           }}
         >{getModuleDesc(postModuleConfig)}</pre>
       </Descriptions.Item>
@@ -497,17 +496,17 @@ const ModuleInfoContent = props => {
 
 
 export const RunModule = props => {
-  console.log('RunModule');
+  console.log("RunModule");
   const { closeModel } = props;
   const { hostAndSessionActive, postModuleOptions, moduleOptions } = useModel(
-    'HostAndSessionModel',
+    "HostAndSessionModel",
     model => ({
       hostAndSessionActive: model.hostAndSessionActive,
       postModuleOptions: model.postModuleOptions,
-      moduleOptions: model.moduleOptions,
-    }),
+      moduleOptions: model.moduleOptions
+    })
   );
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
 
   const hasSession =
     hostAndSessionActive.session !== undefined &&
@@ -534,10 +533,10 @@ export const RunModule = props => {
   postModuleConfigListRun.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath));
 
   const [postModuleConfigList, setPostModuleConfigList] = useState(
-    postModuleConfigListRun,
+    postModuleConfigListRun
   );
   const [postModuleConfigListTmp, setPostModuleConfigListTmp] = useState(
-    postModuleConfigListRun,
+    postModuleConfigListRun
   );
   const [postModuleConfigActive, setPostModuleConfigActive] = useState({
     NAME_ZH: null,
@@ -557,8 +556,8 @@ export const RunModule = props => {
     ATTCK: [],
     SEARCH: {
       FOFA: null,
-      Quake: null,
-    },
+      Quake: null
+    }
   });
 
 
@@ -568,7 +567,7 @@ export const RunModule = props => {
       closeModel();
     },
     onError: (error, params) => {
-    },
+    }
   });
 
   const onCreatePostModuleActuator = params => {
@@ -576,7 +575,7 @@ export const RunModule = props => {
       ipaddress: hostAndSessionActive.ipaddress,
       sessionid: hostAndSessionActive.session.id,
       loadpath: postModuleConfigActive.loadpath,
-      custom_param: JSON.stringify(params),
+      custom_param: JSON.stringify(params)
     });
   };
 
@@ -595,7 +594,7 @@ export const RunModule = props => {
   };
 
   const handleModuleSearch = value => {
-    const reg = new RegExp(value, 'gi');
+    const reg = new RegExp(value, "gi");
     onPostModuleConfigListChange(
       postModuleConfigListTmp
         .map(record => {
@@ -611,12 +610,12 @@ export const RunModule = props => {
 
           if (NAMEMatch || DESCMatch || REFERENCESMatch) {
             return {
-              ...record,
+              ...record
             };
           }
           return null;
         })
-        .filter(record => !!record),
+        .filter(record => !!record)
     );
   };
 
@@ -629,7 +628,7 @@ export const RunModule = props => {
       onPostModuleConfigListChange(postModuleConfigListTmp);
     } else {
       const newpostModuleConfigListState = postModuleConfigListTmp.filter(
-        item => value.indexOf(item.MODULETYPE) >= 0,
+        item => value.indexOf(item.MODULETYPE) >= 0
       );
       onPostModuleConfigListChange(newpostModuleConfigListState);
     }
@@ -637,14 +636,14 @@ export const RunModule = props => {
 
   const postModuleConfigTableColumns = [
     {
-      dataIndex: 'loadpath',
+      dataIndex: "loadpath",
       render: (text, record) => {
         let selectStyles = {};
         if (record.loadpath === postModuleConfigActive.loadpath) {
           selectStyles = {
-            color: '#d89614',
-            fontWeight: 'bolder',
-            fontSize: 15,
+            color: "#d89614",
+            fontWeight: "bolder",
+            fontSize: 15
           };
         }
         const pins = getPins();
@@ -659,8 +658,8 @@ export const RunModule = props => {
               marginTop: 4,
               marginLeft: 4,
               marginRight: 8,
-              float: 'left',
-              fontSize: '18px',
+              float: "left",
+              fontSize: "18px"
             }}
           />
         ) : (
@@ -673,20 +672,20 @@ export const RunModule = props => {
               marginTop: 4,
               marginLeft: 4,
               marginRight: 8,
-              float: 'left',
-              fontSize: '18px',
+              float: "left",
+              fontSize: "18px"
             }}
           />
         );
 
         return (
-          <div style={{ display: 'inline' }}>
+          <div style={{ display: "inline" }}>
             {pinIcon}
             <a style={{ ...selectStyles }}>{getModuleName(record)}</a>
           </div>
         );
-      },
-    },
+      }
+    }
   ];
 
   // session 信息
@@ -701,58 +700,58 @@ export const RunModule = props => {
 
   if (timepass <= 60) {
     heartbeat = (
-      <Tooltip title={timepass + 's'} placement="left">
+      <Tooltip title={timepass + "s"} placement="left">
         <Tag
           color="green"
           style={{
             width: 72,
-            textAlign: 'center',
-            cursor: 'pointer',
+            textAlign: "center",
+            cursor: "pointer"
           }}
         >
-          {timepass + 's'}
+          {timepass + "s"}
         </Tag>
       </Tooltip>
     );
   } else if (60 < timepass <= 90) {
     heartbeat = (
-      <Tooltip title={timepass + 's'} placement="left">
+      <Tooltip title={timepass + "s"} placement="left">
         <Tag
           color="orange"
           style={{
             width: 72,
-            textAlign: 'center',
-            cursor: 'pointer',
+            textAlign: "center",
+            cursor: "pointer"
           }}
         >
-          {timepass + 's'}
+          {timepass + "s"}
         </Tag>
       </Tooltip>
     );
   } else if (90 < timepass <= 999) {
     heartbeat = (
-      <Tooltip title={timepass + 's'} placement="left">
+      <Tooltip title={timepass + "s"} placement="left">
         <Tag
           color="orange"
           style={{
             width: 72,
-            textAlign: 'center',
-            cursor: 'pointer',
+            textAlign: "center",
+            cursor: "pointer"
           }}
         >
-          {timepass + 's'}
+          {timepass + "s"}
         </Tag>
       </Tooltip>
     );
   } else {
     heartbeat = (
-      <Tooltip title={timepass + 's'} placement="left">
+      <Tooltip title={timepass + "s"} placement="left">
         <Tag
           color="red"
           style={{
             width: 72,
-            textAlign: 'center',
-            cursor: 'pointer',
+            textAlign: "center",
+            cursor: "pointer"
           }}
         >999s</Tag>
       </Tooltip>
@@ -766,8 +765,8 @@ export const RunModule = props => {
       style={{
         width: 40,
         marginLeft: -6,
-        textAlign: 'center',
-        cursor: 'pointer',
+        textAlign: "center",
+        cursor: "pointer"
       }}
     >
       <strong>{record.session.id}</strong>
@@ -777,8 +776,8 @@ export const RunModule = props => {
   // 连接标签
   const connecttooltip = (
     <span>
-      {' '}
-      {getSessionlocate(record.session)} {record.session.tunnel_peer} {'-> '}
+      {" "}
+      {getSessionlocate(record.session)} {record.session.tunnel_peer} {"-> "}
       {record.session.tunnel_local}
     </span>
   );
@@ -788,9 +787,9 @@ export const RunModule = props => {
         color="cyan"
         style={{
           width: 120,
-          textAlign: 'center',
+          textAlign: "center",
           marginLeft: -6,
-          cursor: 'pointer',
+          cursor: "pointer"
         }}
       >
         {record.session.tunnel_peer_ip}
@@ -800,8 +799,8 @@ export const RunModule = props => {
   // handler标签
   const jobidTagTooltip = (
     <span>
-      {record.session.job_info.PAYLOAD} {record.session.job_info.LHOST}{' '}
-      {record.session.job_info.RHOST} {record.session.job_info.LPORT}{' '}
+      {record.session.job_info.PAYLOAD} {record.session.job_info.LHOST}{" "}
+      {record.session.job_info.RHOST} {record.session.job_info.LPORT}{" "}
     </span>
   );
   const jobidTag = (
@@ -811,8 +810,8 @@ export const RunModule = props => {
         style={{
           width: 40,
           marginLeft: -6,
-          textAlign: 'center',
-          cursor: 'pointer',
+          textAlign: "center",
+          cursor: "pointer"
         }}
       >
         <strong>{record.session.job_info.job_id}</strong>
@@ -821,12 +820,12 @@ export const RunModule = props => {
   );
   // arch
   const archTag =
-    record.session.arch === 'x64' ? (
+    record.session.arch === "x64" ? (
       <Tag
         color="geekblue"
         style={{
-          cursor: 'pointer',
-          marginLeft: -6,
+          cursor: "pointer",
+          marginLeft: -6
         }}
       >
         {record.session.arch}
@@ -835,8 +834,8 @@ export const RunModule = props => {
       <Tag
         color="volcano"
         style={{
-          cursor: 'pointer',
-          marginLeft: -6,
+          cursor: "pointer",
+          marginLeft: -6
         }}
       >
         {record.session.arch}
@@ -845,13 +844,13 @@ export const RunModule = props => {
 
   // os标签
   const os_tag_new =
-    record.session.platform === 'windows' ? (
+    record.session.platform === "windows" ? (
       <Tooltip mouseEnterDelay={1} placement="right" title={record.session.os}>
         <Tag
           color="blue"
           style={{
             marginLeft: -6,
-            cursor: 'pointer',
+            cursor: "pointer"
           }}
         >
           <div className={styles.sessionOSTextOverflow}>
@@ -860,7 +859,7 @@ export const RunModule = props => {
               style={{
                 marginBottom: 0,
                 marginRight: 4,
-                fontSize: '14px',
+                fontSize: "14px"
               }}
             />
             {record.session.os_short}
@@ -873,15 +872,15 @@ export const RunModule = props => {
           color="magenta"
           style={{
             marginLeft: -6,
-            cursor: 'pointer',
+            cursor: "pointer"
           }}
         >
           <div className={styles.sessionOSTextOverflow}>
             <MyIcon
               type="icon-linux"
               style={{
-                fontSize: '14px',
-                marginRight: 4,
+                fontSize: "14px",
+                marginRight: 4
               }}
             />
             {record.session.os_short}
@@ -899,7 +898,7 @@ export const RunModule = props => {
           color="gold"
           style={{
             marginLeft: -6,
-            cursor: 'pointer',
+            cursor: "pointer"
           }}
         >
           <div className={styles.sessionInfoTextOverflow}>{record.session.info}</div>
@@ -912,7 +911,7 @@ export const RunModule = props => {
         <Tag
           style={{
             marginLeft: -6,
-            cursor: 'pointer',
+            cursor: "pointer"
           }}
         >
           <div className={styles.sessionInfoTextOverflow}>{record.session.info}</div>
@@ -929,9 +928,9 @@ export const RunModule = props => {
           <Card bordered={false}>
             <Input
               allowClear
-              prefix={<SearchOutlined/>}
-              style={{ width: '100%' }}
-              placeholder={formatText('app.runmodule.postmodule.search.ph')}
+              prefix={<SearchOutlined />}
+              style={{ width: "100%" }}
+              placeholder={formatText("app.runmodule.postmodule.search.ph")}
               value={text}
               onChange={e => {
                 setText(e.target.value);
@@ -944,39 +943,39 @@ export const RunModule = props => {
               buttonStyle="solid"
               onChange={(e) => moduleTypeOnChange(e.target.value)}
             >
-              <Radio.Button value="">{formatText('app.runmodule.postmodule.moduletype.all')}</Radio.Button>
+              <Radio.Button value="">{formatText("app.runmodule.postmodule.moduletype.all")}</Radio.Button>
               {/*<Radio.Button value="Reconnaissance">前期侦查</Radio.Button>*/}
               <Radio.Button
-                value="Resource_Development">{formatText('app.runmodule.postmodule.moduletype.Resource_Development')}</Radio.Button>
+                value="Resource_Development">{formatText("app.runmodule.postmodule.moduletype.Resource_Development")}</Radio.Button>
               <Radio.Button
-                value="Initial_Access">{formatText('app.runmodule.postmodule.moduletype.Initial_Access')}</Radio.Button>
+                value="Initial_Access">{formatText("app.runmodule.postmodule.moduletype.Initial_Access")}</Radio.Button>
               <Radio.Button
-                value="Execution">{formatText('app.runmodule.postmodule.moduletype.Execution')}</Radio.Button>
+                value="Execution">{formatText("app.runmodule.postmodule.moduletype.Execution")}</Radio.Button>
               <Radio.Button
-                value="Persistence">{formatText('app.runmodule.postmodule.moduletype.Persistence')}</Radio.Button>
+                value="Persistence">{formatText("app.runmodule.postmodule.moduletype.Persistence")}</Radio.Button>
               <Radio.Button
-                value="Privilege_Escalation">{formatText('app.runmodule.postmodule.moduletype.Privilege_Escalation')}</Radio.Button>
+                value="Privilege_Escalation">{formatText("app.runmodule.postmodule.moduletype.Privilege_Escalation")}</Radio.Button>
               <Radio.Button
-                value="Defense_Evasion">{formatText('app.runmodule.postmodule.moduletype.Defense_Evasion')}</Radio.Button>
+                value="Defense_Evasion">{formatText("app.runmodule.postmodule.moduletype.Defense_Evasion")}</Radio.Button>
               <Radio.Button
-                value="Credential_Access">{formatText('app.runmodule.postmodule.moduletype.Credential_Access')}</Radio.Button>
+                value="Credential_Access">{formatText("app.runmodule.postmodule.moduletype.Credential_Access")}</Radio.Button>
               <Radio.Button
-                value="Discovery">{formatText('app.runmodule.postmodule.moduletype.Discovery')}</Radio.Button>
+                value="Discovery">{formatText("app.runmodule.postmodule.moduletype.Discovery")}</Radio.Button>
               <Radio.Button
-                value="Lateral_Movement">{formatText('app.runmodule.postmodule.moduletype.Lateral_Movement')}</Radio.Button>
+                value="Lateral_Movement">{formatText("app.runmodule.postmodule.moduletype.Lateral_Movement")}</Radio.Button>
               <Radio.Button
-                value="Collection">{formatText('app.runmodule.postmodule.moduletype.Collection')}</Radio.Button>
+                value="Collection">{formatText("app.runmodule.postmodule.moduletype.Collection")}</Radio.Button>
               {/*<Option value="Command_and_Control">命令控制</Option>*/}
             </Radio.Group>
             <Table
               className={styles.moduleConfigTable}
-              scroll={{ y: 'calc(80vh - 128px)' }}
+              scroll={{ y: "calc(80vh - 128px)" }}
               rowClassName={styles.moduleTr}
               showHeader={false}
               onRow={record => ({
                 onClick: () => {
                   setPostModuleConfigActive(record);
-                },
+                }
               })}
               size="small"
               bordered
@@ -990,22 +989,22 @@ export const RunModule = props => {
         <Col span={16}>
           <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
             <TabPane
-              tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
+              tab={<span><FormOutlined />{formatText("app.runmodule.postmodule.params")}</span>}
               key="params"
             >
               <div
                 style={{
-                  display: 'flex',
-                  cursor: 'pointer',
-                  marginBottom: 24,
+                  display: "flex",
+                  cursor: "pointer",
+                  marginBottom: 24
                 }}
               >
                 <Tag
                   color="orange"
                   style={{
                     width: 120,
-                    textAlign: 'center',
-                    cursor: 'pointer',
+                    textAlign: "center",
+                    cursor: "pointer"
                   }}
                 >
                   <strong>{record.ipaddress}</strong>
@@ -1034,20 +1033,20 @@ export const RunModule = props => {
                       htmlType="submit"
                       block
                       disabled={postModuleConfigActive.loadpath === null}
-                      icon={<CaretRightOutlined/>}
+                      icon={<CaretRightOutlined />}
                       loading={
                         createPostModuleActuatorReq.loading
                       }
-                    >{formatText('app.runmodule.postmodule.run')}</Button>
+                    >{formatText("app.runmodule.postmodule.run")}</Button>
                   </Col>
                 </Row>
               </Form>
             </TabPane>
             <TabPane
-              tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
+              tab={<span><InfoCircleOutlined />{formatText("app.runmodule.postmodule.desc")}</span>}
               key="desc"
             >
-              <ModuleInfoContent postModuleConfig={postModuleConfigActive}/>
+              <ModuleInfoContent postModuleConfig={postModuleConfigActive} />
             </TabPane>
           </Tabs>
         </Col>
@@ -1058,12 +1057,12 @@ export const RunModule = props => {
 export const RunModuleMemo = React.memo(RunModule);
 
 export const RunAutoModule = props => {
-  console.log('RunAutoModule');
+  console.log("RunAutoModule");
   const { closeModel, listData } = props;
-  const { postModuleOptions } = useModel('HostAndSessionModel', model => ({
-    postModuleOptions: model.postModuleOptions,
+  const { postModuleOptions } = useModel("HostAndSessionModel", model => ({
+    postModuleOptions: model.postModuleOptions
   }));
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
 
   let postModuleConfigAuto = postModuleOptions
     .map(record => {
@@ -1083,10 +1082,10 @@ export const RunAutoModule = props => {
   postModuleConfigAuto.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath));
 
   const [postModuleConfigList, setPostModuleConfigList] = useState(
-    postModuleConfigAuto,
+    postModuleConfigAuto
   );
   const [postModuleConfigListTmp, setPostModuleConfigListTmp] = useState(
-    postModuleConfigAuto,
+    postModuleConfigAuto
   );
   const [postModuleConfigActive, setPostModuleConfigActive] = useState({
     NAME_ZH: null,
@@ -1106,8 +1105,8 @@ export const RunAutoModule = props => {
     ATTCK: [],
     SEARCH: {
       FOFA: null,
-      Quake: null,
-    },
+      Quake: null
+    }
   });
 
   const createPostModuleAutoReq = useRequest(postPostModuleAutoAPI, {
@@ -1117,13 +1116,13 @@ export const RunAutoModule = props => {
       listData();
     },
     onError: (error, params) => {
-    },
+    }
   });
 
   const onCreatePostModuleAuto = params => {
     createPostModuleAutoReq.run({
       loadpath: postModuleConfigActive.loadpath,
-      custom_param: JSON.stringify(params),
+      custom_param: JSON.stringify(params)
     });
   };
 
@@ -1143,7 +1142,7 @@ export const RunAutoModule = props => {
 
 
   const handleModuleSearch = value => {
-    const reg = new RegExp(value, 'gi');
+    const reg = new RegExp(value, "gi");
     onPostModuleConfigListChange(
       postModuleConfigListTmp.map(record => {
         let NAMEMatch = false;
@@ -1158,11 +1157,11 @@ export const RunAutoModule = props => {
 
         if (NAMEMatch || DESCMatch || REFERENCESMatch) {
           return {
-            ...record,
+            ...record
           };
         }
         return null;
-      }).filter(record => !!record),
+      }).filter(record => !!record)
     );
   };
 
@@ -1175,7 +1174,7 @@ export const RunAutoModule = props => {
       onPostModuleConfigListChange(postModuleConfigListTmp);
     } else {
       const newpostModuleConfigListState = postModuleConfigListTmp.filter(
-        item => value.indexOf(item.MODULETYPE) >= 0,
+        item => value.indexOf(item.MODULETYPE) >= 0
       );
       onPostModuleConfigListChange(newpostModuleConfigListState);
     }
@@ -1184,14 +1183,14 @@ export const RunAutoModule = props => {
 
   const postModuleConfigTableColumns = [
     {
-      dataIndex: 'loadpath',
+      dataIndex: "loadpath",
       render: (text, record) => {
         let selectStyles = {};
         if (record.loadpath === postModuleConfigActive.loadpath) {
           selectStyles = {
-            color: '#d89614',
-            fontWeight: 'bolder',
-            fontSize: 15,
+            color: "#d89614",
+            fontWeight: "bolder",
+            fontSize: 15
           };
         }
         const pinIcon = record.pin > -1 ? (
@@ -1205,8 +1204,8 @@ export const RunAutoModule = props => {
               marginTop: 4,
               marginLeft: 4,
               marginRight: 8,
-              float: 'left',
-              fontSize: '18px',
+              float: "left",
+              fontSize: "18px"
             }}
           />
         ) : (
@@ -1219,19 +1218,19 @@ export const RunAutoModule = props => {
               marginTop: 4,
               marginLeft: 4,
               marginRight: 8,
-              float: 'left',
-              fontSize: '18px',
+              float: "left",
+              fontSize: "18px"
             }}
           />
         );
         return (
-          <div style={{ display: 'inline' }}>
+          <div style={{ display: "inline" }}>
             {pinIcon}
             <a style={{ ...selectStyles }}>{getModuleName(record)}</a>
           </div>
         );
-      },
-    },
+      }
+    }
   ];
 
 
@@ -1241,9 +1240,9 @@ export const RunAutoModule = props => {
         <Card bordered={false}>
           <Input
             allowClear
-            prefix={<SearchOutlined/>}
-            style={{ width: '100%' }}
-            placeholder={formatText('app.runmodule.postmodule.search.ph')}
+            prefix={<SearchOutlined />}
+            style={{ width: "100%" }}
+            placeholder={formatText("app.runmodule.postmodule.search.ph")}
             value={text}
             onChange={e => {
               setText(e.target.value);
@@ -1256,37 +1255,37 @@ export const RunAutoModule = props => {
             buttonStyle="solid"
             onChange={(e) => moduleTypeOnChange(e.target.value)}
           >
-            <Radio.Button value="">{formatText('app.runmodule.postmodule.moduletype.all')}</Radio.Button>
+            <Radio.Button value="">{formatText("app.runmodule.postmodule.moduletype.all")}</Radio.Button>
             <Radio.Button
-              value="Resource_Development">{formatText('app.runmodule.postmodule.moduletype.Resource_Development')}</Radio.Button>
+              value="Resource_Development">{formatText("app.runmodule.postmodule.moduletype.Resource_Development")}</Radio.Button>
             <Radio.Button
-              value="Initial_Access">{formatText('app.runmodule.postmodule.moduletype.Initial_Access')}</Radio.Button>
+              value="Initial_Access">{formatText("app.runmodule.postmodule.moduletype.Initial_Access")}</Radio.Button>
             <Radio.Button
-              value="Execution">{formatText('app.runmodule.postmodule.moduletype.Execution')}</Radio.Button>
+              value="Execution">{formatText("app.runmodule.postmodule.moduletype.Execution")}</Radio.Button>
             <Radio.Button
-              value="Persistence">{formatText('app.runmodule.postmodule.moduletype.Persistence')}</Radio.Button>
+              value="Persistence">{formatText("app.runmodule.postmodule.moduletype.Persistence")}</Radio.Button>
             <Radio.Button
-              value="Privilege_Escalation">{formatText('app.runmodule.postmodule.moduletype.Privilege_Escalation')}</Radio.Button>
+              value="Privilege_Escalation">{formatText("app.runmodule.postmodule.moduletype.Privilege_Escalation")}</Radio.Button>
             <Radio.Button
-              value="Defense_Evasion">{formatText('app.runmodule.postmodule.moduletype.Defense_Evasion')}</Radio.Button>
+              value="Defense_Evasion">{formatText("app.runmodule.postmodule.moduletype.Defense_Evasion")}</Radio.Button>
             <Radio.Button
-              value="Credential_Access">{formatText('app.runmodule.postmodule.moduletype.Credential_Access')}</Radio.Button>
+              value="Credential_Access">{formatText("app.runmodule.postmodule.moduletype.Credential_Access")}</Radio.Button>
             <Radio.Button
-              value="Discovery">{formatText('app.runmodule.postmodule.moduletype.Discovery')}</Radio.Button>
+              value="Discovery">{formatText("app.runmodule.postmodule.moduletype.Discovery")}</Radio.Button>
             <Radio.Button
-              value="Lateral_Movement">{formatText('app.runmodule.postmodule.moduletype.Lateral_Movement')}</Radio.Button>
+              value="Lateral_Movement">{formatText("app.runmodule.postmodule.moduletype.Lateral_Movement")}</Radio.Button>
             <Radio.Button
-              value="Collection">{formatText('app.runmodule.postmodule.moduletype.Collection')}</Radio.Button>
+              value="Collection">{formatText("app.runmodule.postmodule.moduletype.Collection")}</Radio.Button>
           </Radio.Group>
           <Table
             className={styles.moduleConfigTable}
-            scroll={{ y: 'calc(80vh - 104px)' }}
+            scroll={{ y: "calc(80vh - 104px)" }}
             rowClassName={styles.moduleTr}
             showHeader={false}
             onRow={record => ({
               onClick: () => {
                 setPostModuleConfigActive(record);
-              },
+              }
             })}
             size="small"
             bordered
@@ -1300,7 +1299,7 @@ export const RunAutoModule = props => {
       <Col span={16}>
         <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
           <TabPane
-            tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
+            tab={<span><FormOutlined />{formatText("app.runmodule.postmodule.params")}</span>}
             key="params"
           >
             <Form
@@ -1319,18 +1318,18 @@ export const RunAutoModule = props => {
                     htmlType="submit"
                     block
                     disabled={postModuleConfigActive.loadpath === null}
-                    icon={<PlusOutlined/>}
+                    icon={<PlusOutlined />}
                     loading={createPostModuleAutoReq.loading}
-                  >{formatText('app.runmodule.postmodule.add')}</Button>
+                  >{formatText("app.runmodule.postmodule.add")}</Button>
                 </Col>
               </Row>
             </Form>
           </TabPane>
           <TabPane
-            tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
+            tab={<span><InfoCircleOutlined />{formatText("app.runmodule.postmodule.desc")}</span>}
             key="desc"
           >
-            <ModuleInfoContent postModuleConfig={postModuleConfigActive}/>
+            <ModuleInfoContent postModuleConfig={postModuleConfigActive} />
           </TabPane>
         </Tabs>
       </Col>
@@ -1340,10 +1339,10 @@ export const RunAutoModule = props => {
 export const RunAutoModuleMemo = React.memo(RunAutoModule);
 
 export const RunBotModule = props => {
-  console.log('RunBotModule');
+  console.log("RunBotModule");
 
-  const botModuleOptions = useModel('HostAndSessionModel', model => ({
-    botModuleOptions: model.botModuleOptions,
+  const botModuleOptions = useModel("HostAndSessionModel", model => ({
+    botModuleOptions: model.botModuleOptions
   })).botModuleOptions;
 
   const pins = getPins();
@@ -1360,26 +1359,29 @@ export const RunBotModule = props => {
     loadpath: null,
     REFERENCES: [],
     README: [],
-    SEARCH: '',
+    SEARCH: ""
   });
+  const [inputStr, setInputStr] = useState(null);
+
+  const [logic, setLogic] = useState(null);
+  const [field, setField] = useState(null);
 
   const [ipportListState, setIpportListState] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
   const [engineConfs, setEngineConfs] = useState({
     FOFA: false,
-    Quake: false,
+    Quake: false
   });
 
-  const listNetworkSearchEngineReq = useRequest(
-    () => getCoreNetworkSearchAPI({ cmdtype: 'list_config' }),
+  useRequest(() => getCoreNetworkSearchAPI({ cmdtype: "list_config" }),
     {
       onSuccess: (result, params) => {
         setEngineConfs(result);
       },
       onError: (error, params) => {
-      },
-    },
+      }
+    }
   );
 
 
@@ -1388,15 +1390,15 @@ export const RunBotModule = props => {
     onSuccess: (result, params) => {
     },
     onError: (error, params) => {
-    },
+    }
   });
 
   const onCreatePostModuleActuator = params => {
     createPostModuleActuatorReq.run({
-      moduletype: 'Bot',
+      moduletype: "Bot",
       ipportlist: selectedRows,
       loadpath: botModuleConfigActive.loadpath,
-      custom_param: JSON.stringify(params),
+      custom_param: JSON.stringify(params)
     });
   };
 
@@ -1407,7 +1409,7 @@ export const RunBotModule = props => {
   };
 
   const handleModuleSearch = value => {
-    const reg = new RegExp(value, 'gi');
+    const reg = new RegExp(value, "gi");
     onPostModuleConfigListChange(
       botModuleOptions
         .map(record => {
@@ -1423,12 +1425,12 @@ export const RunBotModule = props => {
 
           if (NAMEMatch || DESCMatch || REFERENCESMatch) {
             return {
-              ...record,
+              ...record
             };
           }
           return null;
         })
-        .filter(record => !!record),
+        .filter(record => !!record)
     );
   };
 
@@ -1439,17 +1441,15 @@ export const RunBotModule = props => {
       setIpportListState(result);
     },
     onError: (error, params) => {
-    },
+    }
   });
 
   const searchNetworkSubmit = values => {
-    let moduleQuery = botModuleConfigActive.SEARCH[values.engine];
     listNetworkSearchReq.run({
-      inputstr: values.inputstr,
-      moduleQuery: moduleQuery,
+      inputstr: inputStr,
       engine: values.engine,
       page: values.page,
-      size: values.size,
+      size: values.size
     });
   };
 
@@ -1460,7 +1460,7 @@ export const RunBotModule = props => {
 
   const postModuleConfigTableColumns = [
     {
-      dataIndex: 'loadpath',
+      dataIndex: "loadpath",
       render: (text, record) => {
         const pins = getPins();
         const pinIcon =
@@ -1475,8 +1475,8 @@ export const RunBotModule = props => {
                 marginTop: 4,
                 marginLeft: 4,
                 marginRight: 8,
-                float: 'left',
-                fontSize: '18px',
+                float: "left",
+                fontSize: "18px"
               }}
             />
           ) : (
@@ -1489,8 +1489,8 @@ export const RunBotModule = props => {
                 marginTop: 4,
                 marginLeft: 4,
                 marginRight: 8,
-                float: 'left',
-                fontSize: '18px',
+                float: "left",
+                fontSize: "18px"
               }}
             />
           );
@@ -1499,25 +1499,32 @@ export const RunBotModule = props => {
         let selectStyles = {};
         if (record.loadpath === botModuleConfigActive.loadpath) {
           selectStyles = {
-            color: '#d89614',
-            fontWeight: 'bolder',
+            color: "#d89614",
+            fontWeight: "bolder"
           };
         }
         return (
           <div
             style={{
-              display: 'inline',
+              display: "inline"
             }}
           >
             {pinIcon}
             <a style={{ marginLeft: 4, ...selectStyles }}>{getModuleName(record)}</a>
           </div>
         );
-      },
-    },
+      }
+    }
   ];
 
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange
+  };
 
+  const onChageInputStr = (e) => {
+    setInputStr(e.target.value);
+  };
   const ModuleInfoContent = props => {
     const { postModuleConfig } = props;
     if (postModuleConfig === undefined) {
@@ -1531,7 +1538,7 @@ export const RunBotModule = props => {
           <a href={readme[i]} target="_blank">
             {readme[i]}
           </a>
-        </div>,
+        </div>
       );
     }
     const references = postModuleConfig.REFERENCES;
@@ -1542,7 +1549,7 @@ export const RunBotModule = props => {
           <a href={references[i]} target="_blank">
             {references[i]}
           </a>
-        </div>,
+        </div>
       );
     }
 
@@ -1556,16 +1563,16 @@ export const RunBotModule = props => {
       <Descriptions
         size="small"
         style={{
-          padding: '0 0 0 0',
-          marginRight: 8,
+          padding: "0 0 0 0",
+          marginRight: 8
         }}
         column={12}
         bordered
       >
-        <Descriptions.Item label={formatText('app.runmodule.postmodule.NAME')} span={12}>
+        <Descriptions.Item label={formatText("app.runmodule.postmodule.NAME")} span={12}>
           {getModuleName(postModuleConfig)}
         </Descriptions.Item>
-        <Descriptions.Item label={formatText('app.runmodule.postmodule.authorCom')} span={12}>
+        <Descriptions.Item label={formatText("app.runmodule.postmodule.authorCom")} span={12}>
           {authorCom}
         </Descriptions.Item>
         <Descriptions.Item span={12} label="FOFA">
@@ -1574,18 +1581,18 @@ export const RunBotModule = props => {
         <Descriptions.Item span={12} label="360Quake">
           <pre>{postModuleConfig.SEARCH.Quake}</pre>
         </Descriptions.Item>
-        <Descriptions.Item label={formatText('app.runmodule.postmodule.readmeCom')} span={12}>
+        <Descriptions.Item label={formatText("app.runmodule.postmodule.readmeCom")} span={12}>
           {readmeCom}
         </Descriptions.Item>
-        <Descriptions.Item label={formatText('app.runmodule.postmodule.referencesCom')} span={12}>
+        <Descriptions.Item label={formatText("app.runmodule.postmodule.referencesCom")} span={12}>
           {referencesCom}
         </Descriptions.Item>
-        <Descriptions.Item span={12} label={formatText('app.runmodule.postmodule.DESC')}>
+        <Descriptions.Item span={12} label={formatText("app.runmodule.postmodule.DESC")}>
           <pre
             style={{
-              whiteSpace: 'pre-wrap',
-              overflowX: 'hidden',
-              padding: '0 0 0 0',
+              whiteSpace: "pre-wrap",
+              overflowX: "hidden",
+              padding: "0 0 0 0"
             }}
           >{getModuleDesc(postModuleConfig)}</pre>
         </Descriptions.Item>
@@ -1593,28 +1600,33 @@ export const RunBotModule = props => {
     );
   };
 
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange,
-  };
+  const addToInputStr = (value) => {
+    if (value === null || value.length === 0 || logic === null || field == null) {
+      return;
+    } else {
+      const newinputstr = "{0} {1} {2}:\"{3}\"".format(inputStr, logic, field, value);
+      setInputStr(newinputstr);
+    }
 
+  };
   return (
     <Row>
       <Col span={6}>
         <Card bordered={false} className={styles.botModuleCard}>
-          <Search placeholder={formatText('app.runmodule.postmodule.searchmodule.ph')}
-                  onSearch={value => handleModuleSearch(value)}/>
+          <Search placeholder={formatText("app.runmodule.postmodule.searchmodule.ph")}
+                  onSearch={value => handleModuleSearch(value)} />
           <Table
             className={styles.botmoduleTableNew}
-            scroll={{ y: 'calc(100vh - 120px)' }}
+            scroll={{ y: "calc(100vh - 120px)" }}
             rowClassName={styles.moduleTr}
             showHeader={false}
             onRow={record => ({
               onClick: () => {
                 setBotModuleConfigActive(record);
+                setInputStr(record.SEARCH.Quake);
                 setSelectedRowKeys([]);
                 setSelectedRows([]);
-              },
+              }
             })}
             size="small"
             bordered
@@ -1629,16 +1641,75 @@ export const RunBotModule = props => {
       <Col span={18}>
         <Tabs defaultActiveKey="ipportlist" style={{ marginTop: 12 }}>
           <TabPane
-            tab={<span><RadarChartOutlined/>{formatText('app.runmodule.postmodule.ipportlist')}</span>}
+            tab={<span><FormOutlined />{formatText("app.runmodule.postmodule.params")}</span>}
             key="ipportlist"
           >
             <Row gutter={8}>
               <Col span={12}>
                 <Form layout="horizontal" onFinish={searchNetworkSubmit}>
-                  <Space>
+                  <TextArea
+                    placeholder={formatText("app.runmodule.postmodule.inputstr.ph")}
+                    autoSize={{ minRows: 3, maxRows: 3 }}
+                    onChange={onChageInputStr}
+                    value={inputStr}
+                  />
+                  <Input.Group compact
+                               style={{ marginTop: 8, marginBottom: 24 }}
+                  >
+                    <Select style={{ width: "15%" }}
+                            onChange={(value) => setLogic(value)}
+                    >
+                      <Option value="AND">AND</Option>
+                      <Option value="OR">OR</Option>
+                    </Select>
+                    <Select style={{ width: "25%" }}
+                            onChange={(value) => setField(value)}
+                    >
+                      <OptGroup label="基本信息">
+                        <Option value="ip">ip</Option>
+                        <Option value="port">port</Option>
+                        <Option value="ports">ports</Option>
+                        <Option value="domain">domain</Option>
+                        <Option value="transport">transport</Option>
+                      </OptGroup>
+                      <OptGroup label="服务数据">
+                        <Option value="service">service</Option>
+                        <Option value="services">services</Option>
+                        <Option value="app">app</Option>
+                        <Option value="version">version</Option>
+                        <Option value="response">response</Option>
+                        <Option value="os">os</Option>
+                      </OptGroup>
+                      <OptGroup label="应用识别">
+                        <Option value="catalog">catalog</Option>
+                        <Option value="type">type</Option>
+                        <Option value="level">level</Option>
+                        <Option value="vendor">vendor</Option>
+                      </OptGroup>
+                      <OptGroup label="地理位置">
+                        <Option value="country">country</Option>
+                        <Option value="country_cn">country_cn</Option>
+                        <Option value="province">province</Option>
+                        <Option value="province_cn">province_cn</Option>
+                        <Option value="city">city</Option>
+                        <Option value="city_cn">city_cn</Option>
+                      </OptGroup>
+                      <OptGroup label="其他">
+                        <Option value="is_latest">is_latest</Option>
+                        <Option value="is_ipv6">is_ipv6</Option>
+                        <Option value="cert">cert</Option>
+                        <Option value="owner">owner</Option>
+                        <Option value="isp">isp</Option>
+                      </OptGroup>
+                    </Select>
+                    <Search style={{ width: "60%" }}
+                            enterButton={<PlusOutlined />}
+                            onSearch={addToInputStr}
+                    />
+                  </Input.Group>
+                  <div style={{ display: "flex" }}>
                     <Form.Item
-                      style={{ marginBottom: 12 }}
-                      label={formatText('app.runmodule.postmodule.engine')}
+                      label={formatText("app.runmodule.postmodule.engine")}
                       name="engine"
                       required>
                       <Radio.Group>
@@ -1654,112 +1725,51 @@ export const RunBotModule = props => {
                       </Radio.Group>
                     </Form.Item>
                     <Button type="link"
-                            style={{ marginBottom: 12 }}
                             target="_blank"
                             href="https://quake.360.cn/quake/#/help?id=5eb238f110d2e850d5c6aec8&title=%E6%A3%80%E7%B4%A2%E5%85%B3%E9%94%AE%E8%AF%8D">
                       Quake API
                     </Button>
-
-                  </Space>
-                  <Form.Item
-                    name="inputstr"
-                    style={{ marginBottom: 12 }}
-                    required
-                  >
-                    <TextArea
-                      placeholder={formatText('app.runmodule.postmodule.inputstr.ph')}
-                      autoSize={{ minRows: 3, maxRows: 3 }}
-                    />
-                  </Form.Item>
-
-                  <Form.Item
-                    style={{ marginBottom: 12 }}
-                  >
-                    <Input.Group compact>
-                      <Select defaultValue="AND" style={{ width: '15%' }}>
-                        <Option value="AND">AND</Option>
-                        <Option value="OR">OR</Option>
-                      </Select>
-                      <Select style={{ width: '25%' }}>
-                        <OptGroup label="基本信息">
-                          <Option value="ip">ip</Option>
-                          <Option value="is_ipv6">is_ipv6</Option>
-                          <Option value="is_latest">is_latest</Option>
-                          <Option value="port">port</Option>
-                          <Option value="ports">ports</Option>
-                          <Option value="transport">transport</Option>
-                          <Option value="domain">domain</Option>
-                        </OptGroup>
-                        <OptGroup label="服务数据">
-                          <Option value="service">service</Option>
-                          <Option value="services">services</Option>
-                          <Option value="app">app</Option>
-                          <Option value="version">version</Option>
-                          <Option value="response">response</Option>
-                          <Option value="os">os</Option>
-                          <Option value="cert">cert</Option>
-                        </OptGroup>
-                        <OptGroup label="应用识别">
-                          <Option value="catalog">catalog</Option>
-                          <Option value="type">type</Option>
-                          <Option value="level">level</Option>
-                          <Option value="vendor">vendor</Option>
-                        </OptGroup>
-                        <OptGroup label="地理位置">
-                          <Option value="country">country</Option>
-                          <Option value="country_cn">country_cn</Option>
-                          <Option value="province">province</Option>
-                          <Option value="province_cn">province_cn</Option>
-                          <Option value="city">city</Option>
-                          <Option value="city_cn">city_cn</Option>
-                          <Option value="owner">owner</Option>
-                          <Option value="isp">isp</Option>
-                        </OptGroup>
-                      </Select>
-                      <Search placeholder="input search text" style={{ width: '60%' }}
-                              enterButton={<PlusOutlined/>}/>
-                    </Input.Group>
-                  </Form.Item>
-
+                  </div>
                   <Space>
                     <Form.Item
-                      label={formatText('app.runmodule.postmodule.page')}
+                      label={formatText("app.runmodule.postmodule.page")}
                       name="page"
                       required
                       initialValue={1}
                       rules={[
                         {
-                          type: 'number',
-                          min: 1,
-                        },
+                          type: "number",
+                          min: 1
+                        }
                       ]}
                     >
-                      <InputNumber/>
+                      <InputNumber />
                     </Form.Item>
                     <Form.Item
                       required
-                      label={formatText('app.runmodule.postmodule.number')}
+                      label={formatText("app.runmodule.postmodule.number")}
                       initialValue={10}
                       rules={[
                         {
-                          type: 'number',
+                          type: "number",
                           min: 1,
-                          max: 1000,
-                        },
+                          max: 1000
+                        }
                       ]}
                       name="size"
                     >
-                      <InputNumber/>
+                      <InputNumber />
                     </Form.Item>
                     <Form.Item>
                       <Button
                         block
-                        icon={<SearchOutlined/>}
+                        style={{ width: 240 }}
+                        icon={<SearchOutlined />}
                         type="primary"
                         htmlType="submit"
                         disabled={botModuleConfigActive.loadpath === null}
                         loading={listNetworkSearchReq.loading}
-                      >{formatText('app.runmodule.postmodule.search')}</Button>
+                      >{formatText("app.runmodule.postmodule.search")}</Button>
                     </Form.Item>
                   </Space>
 
@@ -1767,10 +1777,10 @@ export const RunBotModule = props => {
               </Col>
               <Col span={12}>
                 <Table
-                  style={{ marginTop: 0, padding: '0px 8px 16px 0px' }}
+                  style={{ marginTop: 0, padding: "0px 8px 16px 0px" }}
                   loading={listNetworkSearchReq.loading}
                   className={styles.searchHostsTable}
-                  scroll={{ y: 'calc(100vh - 352px)' }}
+                  scroll={{ y: 400 }}
                   size="small"
                   bordered
                   pagination={false}
@@ -1778,68 +1788,61 @@ export const RunBotModule = props => {
                   rowSelection={rowSelection}
                   columns={[
                     {
-                      title: 'IP',
-                      dataIndex: 'ip',
-                      key: 'ip',
+                      title: "IP",
+                      dataIndex: "ip",
+                      key: "ip",
                       width: 120,
                       render: (text, record) => (
                         <strong
                           style={{
-                            color: '#13a8a8',
+                            color: "#13a8a8"
                           }}
                         >
                           {text}
                         </strong>
-                      ),
+                      )
                     },
                     {
-                      title: formatText('app.runmodule.botmodule.port'),
-                      dataIndex: 'port',
-                      key: 'port',
+                      title: formatText("app.runmodule.botmodule.port"),
+                      dataIndex: "port",
+                      key: "port",
                       width: 56,
                       render: (text, record) => {
                         return text;
-                      },
+                      }
                     },
                     {
-                      title: formatText('app.runmodule.botmodule.protocol'),
-                      dataIndex: 'protocol',
-                      key: 'protocol',
+                      title: formatText("app.runmodule.botmodule.protocol"),
+                      dataIndex: "protocol",
+                      key: "protocol",
                       width: 96,
                       render: (text, record) => {
                         return text;
-                      },
+                      }
                     },
                     {
-                      title: formatText('app.runmodule.botmodule.country_name'),
-                      dataIndex: 'country_name',
-                      key: 'country_name',
+                      title: formatText("app.runmodule.botmodule.country_name"),
+                      dataIndex: "country_name",
+                      key: "country_name",
                       // width: 96,
                       render: (text, record) => {
                         return text;
-                      },
+                      }
                     },
                     {
-                      title: formatText('app.runmodule.botmodule.as_organization'),
-                      dataIndex: 'as_organization',
-                      key: 'as_organization',
+                      title: formatText("app.runmodule.botmodule.as_organization"),
+                      dataIndex: "as_organization",
+                      key: "as_organization",
                       render: (text, record) => {
                         return text;
-                      },
-                    },
+                      }
+                    }
                   ]}
                   dataSource={ipportListState}
                 />
               </Col>
             </Row>
-
-          </TabPane>
-          <TabPane
-            tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
-            key="params"
-          >
             <Form
-              style={{ marginBottom: 16 }}
               layout="vertical"
               wrapperCol={{ span: 24 }}
               onFinish={onCreatePostModuleActuator}
@@ -1852,18 +1855,18 @@ export const RunBotModule = props => {
                     htmlType="submit"
                     block
                     disabled={botModuleConfigActive.loadpath === null || selectedRows.length === 0}
-                    icon={<PlayCircleOutlined/>}
+                    icon={<PlayCircleOutlined />}
                     loading={createPostModuleActuatorReq.loading}
-                  >{formatText('app.runmodule.postmodule.run')}</Button>
+                  >{formatText("app.runmodule.postmodule.run")}</Button>
                 </Col>
               </Row>
             </Form>
           </TabPane>
           <TabPane
-            tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
+            tab={<span><InfoCircleOutlined />{formatText("app.runmodule.postmodule.desc")}</span>}
             key="desc"
           >
-            <ModuleInfoContent postModuleConfig={botModuleConfigActive}/>
+            <ModuleInfoContent postModuleConfig={botModuleConfigActive} />
           </TabPane>
         </Tabs>
       </Col>
@@ -1880,12 +1883,12 @@ export const BotScan = () => {
         <Col span={24}>
           <Button
             block
-            icon={<PlusOutlined/>}
+            icon={<PlusOutlined />}
             onClick={() => setRunBotModuleModalVisable(true)}
-          >{formatText('app.runmodule.botmodule.newtask')}</Button>
+          >{formatText("app.runmodule.botmodule.newtask")}</Button>
         </Col>
       </Row>
-      <RealTimeBotWaitListMemo/>
+      <RealTimeBotWaitListMemo />
       <Modal
         mask={false}
         style={{ top: 16 }}
@@ -1894,19 +1897,19 @@ export const BotScan = () => {
         visible={runBotModuleModalVisable}
         onCancel={() => setRunBotModuleModalVisable(false)}
         footer={null}
-        bodyStyle={{ padding: '0px 0px 0px 0px' }}
+        bodyStyle={{ padding: "0px 0px 0px 0px" }}
       >
-        <RunBotModuleMemo/>
+        <RunBotModuleMemo />
       </Modal>
     </Fragment>
   );
 };
 
 const RealTimeBotWaitList = () => {
-  console.log('RealTimeBotWaitList');
-  const { botWaitList, setBotWaitList } = useModel('HostAndSessionModel', model => ({
+  console.log("RealTimeBotWaitList");
+  const { botWaitList, setBotWaitList } = useModel("HostAndSessionModel", model => ({
     botWaitList: model.botWaitList,
-    setBotWaitList: model.setBotWaitList,
+    setBotWaitList: model.setBotWaitList
   }));
   const destoryBotWaitReq = useRequest(deleteMsgrpcJobAPI, {
     manual: true,
@@ -1915,14 +1918,14 @@ const RealTimeBotWaitList = () => {
       setBotWaitList(botWaitList.filter(item => item.group_uuid !== uuid));
     },
     onError: (error, params) => {
-    },
+    }
   });
 
   const onDestoryBotWait = record => {
     destoryBotWaitReq.run({
       uuid: record.group_uuid,
       job_id: record.job_id,
-      broker: record.broker,
+      broker: record.broker
     });
   };
 
@@ -1930,17 +1933,17 @@ const RealTimeBotWaitList = () => {
     const Descriptions_Items = [];
     let showstr = null;
     for (const key in item) {
-      if (item[key] === null || item[key] === '') {
+      if (item[key] === null || item[key] === "") {
         continue;
       } else if (item[key] === true || item[key] === false) {
-        showstr = item[key] ? 'True' : 'False';
+        showstr = item[key] ? "True" : "False";
       } else {
         showstr = item[key];
       }
       Descriptions_Items.push(<Descriptions.Item label={key}>{showstr}</Descriptions.Item>);
     }
     return (
-      <Descriptions style={{ width: '80vw' }} bordered size="small" column={2}>
+      <Descriptions style={{ width: "80vw" }} bordered size="small" column={2}>
         {Descriptions_Items}
       </Descriptions>
     );
@@ -1948,48 +1951,48 @@ const RealTimeBotWaitList = () => {
 
   const columns = [
     {
-      title: formatText('app.runmodule.botmodule.time'),
-      dataIndex: 'time',
-      key: 'time',
+      title: formatText("app.runmodule.botmodule.time"),
+      dataIndex: "time",
+      key: "time",
       width: 120,
-      render: (text, record) => <Tag color="cyan">{moment(record.time * 1000).format('YYYY-MM-DD HH:mm')}</Tag>,
+      render: (text, record) => <Tag color="cyan">{moment(record.time * 1000).format("YYYY-MM-DD HH:mm")}</Tag>
     },
     {
-      title: formatText('app.runmodule.botmodule.module'),
-      dataIndex: 'moduleinfo',
-      key: 'moduleinfo',
+      title: formatText("app.runmodule.botmodule.module"),
+      dataIndex: "moduleinfo",
+      key: "moduleinfo",
       width: 240,
       render: (text, record) => (
         <Popover
           placement="right"
-          content={<ModuleInfoMemo postModuleConfig={record.moduleinfo}/>}
+          content={<ModuleInfoMemo postModuleConfig={record.moduleinfo} />}
           trigger="click"
         >
           <a>{getModuleName(record.moduleinfo)}</a>
         </Popover>
-      ),
+      )
     },
     {
-      title: formatText('app.runmodule.botmodule.ip_list.count'),
-      dataIndex: 'ip_list',
-      key: 'ip_list',
+      title: formatText("app.runmodule.botmodule.ip_list.count"),
+      dataIndex: "ip_list",
+      key: "ip_list",
       width: 120,
       render: (text, record) => {
         return (
           <strong
             style={{
-              color: '#13a8a8',
+              color: "#13a8a8"
             }}
           >
             {record.ip_list.length} 个
           </strong>
         );
-      },
+      }
     },
     {
-      title: formatText('app.runmodule.botmodule.ip_list'),
-      dataIndex: 'ip_list',
-      key: 'ip_list',
+      title: formatText("app.runmodule.botmodule.ip_list"),
+      dataIndex: "ip_list",
+      key: "ip_list",
       width: 96,
       render: (text, record) => {
         return (
@@ -2006,15 +2009,15 @@ const RealTimeBotWaitList = () => {
             }
             trigger="click"
           >
-            <a>{formatText('app.runmodule.botmodule.view')}</a>
+            <a>{formatText("app.runmodule.botmodule.view")}</a>
           </Popover>
         );
-      },
+      }
     },
     {
-      title: formatText('app.runmodule.botmodule.param'),
-      dataIndex: 'moduleinfo',
-      key: 'moduleinfo',
+      title: formatText("app.runmodule.botmodule.param"),
+      dataIndex: "moduleinfo",
+      key: "moduleinfo",
       render: (text, record) => {
         return (
           <Popover
@@ -2022,20 +2025,20 @@ const RealTimeBotWaitList = () => {
             content={taskDetail(record.moduleinfo._custom_param)}
             trigger="click"
           >
-            <a>{formatText('app.runmodule.botmodule.view')}</a>
+            <a>{formatText("app.runmodule.botmodule.view")}</a>
           </Popover>
         );
-      },
+      }
     },
     {
-      dataIndex: 'operation',
+      dataIndex: "operation",
       width: 48,
       render: (text, record) => (
-        <a style={{ color: 'red' }} onClick={() => onDestoryBotWait(record)}>
-          {formatText('app.core.delete')}
+        <a style={{ color: "red" }} onClick={() => onDestoryBotWait(record)}>
+          {formatText("app.core.delete")}
         </a>
-      ),
-    },
+      )
+    }
   ];
 
   return (
@@ -2055,14 +2058,14 @@ const RealTimeBotWaitList = () => {
 const RealTimeBotWaitListMemo = memo(RealTimeBotWaitList);
 
 export const PostModule = props => {
-  console.log('PostModule');
+  console.log("PostModule");
   const { loadpath, initialValues } = props;
   const {
     hostAndSessionActive,
-    postModuleOptions,
-  } = useModel('HostAndSessionModel', model => ({
+    postModuleOptions
+  } = useModel("HostAndSessionModel", model => ({
     hostAndSessionActive: model.hostAndSessionActive,
-    postModuleOptions: model.postModuleOptions,
+    postModuleOptions: model.postModuleOptions
   }));
   let moduleconfig = {
     NAME_ZH: null,
@@ -2076,7 +2079,7 @@ export const PostModule = props => {
     PERMISSIONS: [],
     PLATFORM: [],
     REFERENCES: [],
-    ATTCK: [],
+    ATTCK: []
   };
   for (const index in postModuleOptions) {
     if (postModuleOptions[index].loadpath === loadpath) {
@@ -2088,14 +2091,14 @@ export const PostModule = props => {
     onSuccess: (result, params) => {
     },
     onError: (error, params) => {
-    },
+    }
   });
   const onCreatePostModuleActuator = params => {
     createPostModuleActuatorReq.run({
       ipaddress: hostAndSessionActive.ipaddress,
       sessionid: hostAndSessionActive.session.id,
       loadpath: moduleconfig.loadpath,
-      custom_param: JSON.stringify(params),
+      custom_param: JSON.stringify(params)
     });
   };
   const [form] = Form.useForm();
@@ -2105,7 +2108,7 @@ export const PostModule = props => {
   }
   for (const oneOption of moduleconfig.OPTIONS) {
     form.setFieldsValue({ [oneOption.name]: oneOption.default });
-    if (oneOption.type === 'str') {
+    if (oneOption.type === "str") {
       options.push(
         <Col span={oneOption.length}>
           <Form.Item
@@ -2114,16 +2117,16 @@ export const PostModule = props => {
             name={oneOption.name}
             rules={[{
               required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
           >
             <Input
-              style={{ width: '90%' }}
+              style={{ width: "90%" }}
             />
           </Form.Item>
-        </Col>,
+        </Col>
       );
-    } else if (oneOption.type === 'bool') {
+    } else if (oneOption.type === "bool") {
       options.push(
         <Col span={oneOption.length}>
           <Form.Item
@@ -2133,14 +2136,14 @@ export const PostModule = props => {
             valuePropName="checked"
             rules={[{
               required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
           >
-            <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
+            <Checkbox style={{ width: "90%" }} defaultChecked={oneOption.default} />
           </Form.Item>
-        </Col>,
+        </Col>
       );
-    } else if (oneOption.type === 'integer') {
+    } else if (oneOption.type === "integer") {
       options.push(
         <Col span={oneOption.length}>
           <Form.Item
@@ -2149,18 +2152,18 @@ export const PostModule = props => {
             name={oneOption.name}
             rules={[{
               required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
             wrapperCol={{ span: 24 }}
           >
             <InputNumber
-              style={{ width: '90%' }}
+              style={{ width: "90%" }}
               // defaultValue={oneOption.default}
             />
           </Form.Item>
-        </Col>,
+        </Col>
       );
-    } else if (oneOption.type === 'float') {
+    } else if (oneOption.type === "float") {
       options.push(
         <Col span={oneOption.length}>
           <Form.Item
@@ -2169,18 +2172,18 @@ export const PostModule = props => {
             name={oneOption.name}
             rules={[{
               required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
             wrapperCol={{ span: 24 }}
           >
             <InputNumber
               step={0.1}
-              style={{ width: '90%' }}
+              style={{ width: "90%" }}
             />
           </Form.Item>
-        </Col>,
+        </Col>
       );
-    } else if (oneOption.type === 'enum') {
+    } else if (oneOption.type === "enum") {
       const selectOptions = [];
       for (const oneselect of oneOption.enum_list) {
         selectOptions.push(
@@ -2188,7 +2191,7 @@ export const PostModule = props => {
             <Tooltip mouseEnterDelay={0.3} title={getOptionTag(oneselect)}>
               {getOptionTag(oneselect)}
             </Tooltip>
-          </Option>,
+          </Option>
         );
       }
       options.push(
@@ -2199,19 +2202,19 @@ export const PostModule = props => {
             name={oneOption.name}
             rules={[{
               required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
             wrapperCol={{ span: 24 }}
           >
             <Select
               style={{
-                width: '90%',
+                width: "90%"
               }}
             >
               {selectOptions}
             </Select>
           </Form.Item>
-        </Col>,
+        </Col>
       );
     } else {
       options.push(
@@ -2222,15 +2225,15 @@ export const PostModule = props => {
             name={oneOption.name}
             rules={[{
               required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
             }]}
             wrapperCol={{ span: 24 }}
           >
             <Input
-              style={{ width: '90%' }}
+              style={{ width: "90%" }}
             />
           </Form.Item>
-        </Col>,
+        </Col>
       );
     }
   }
@@ -2250,9 +2253,9 @@ export const PostModule = props => {
             type="primary"
             htmlType="submit"
             block
-            icon={<PlayCircleOutlined/>}
+            icon={<PlayCircleOutlined />}
             loading={createPostModuleActuatorReq.loading}
-          >{formatText('app.runmodule.postmodule.run')}</Button>
+          >{formatText("app.runmodule.postmodule.run")}</Button>
         </Col>
       </Row>
     </Form>
@@ -2270,7 +2273,7 @@ export const ModuleInfo = ({ postModuleConfig }) => {
         <a href={references[i]} target="_blank">
           {references[i]}
         </a>
-      </div>,
+      </div>
     );
   }
 
@@ -2282,7 +2285,7 @@ export const ModuleInfo = ({ postModuleConfig }) => {
         <a href={readme[i]} target="_blank">
           {readme[i]}
         </a>
-      </div>,
+      </div>
     );
   }
 
@@ -2296,30 +2299,30 @@ export const ModuleInfo = ({ postModuleConfig }) => {
     <Descriptions
       size="small"
       style={{
-        padding: '0 0 0 0',
-        marginRight: 8,
+        padding: "0 0 0 0",
+        marginRight: 8
       }}
       column={8}
       bordered
     >
-      <Descriptions.Item label={formatText('app.runmodule.postmodule.NAME')} span={8}>
+      <Descriptions.Item label={formatText("app.runmodule.postmodule.NAME")} span={8}>
         {getModuleName(postModuleConfig)}
       </Descriptions.Item>
-      <Descriptions.Item label={formatText('app.runmodule.postmodule.authorCom')} span={4}>
+      <Descriptions.Item label={formatText("app.runmodule.postmodule.authorCom")} span={4}>
         {authorCom}
       </Descriptions.Item>
-      <Descriptions.Item label={formatText('app.runmodule.postmodule.readmeCom')} span={8}>
+      <Descriptions.Item label={formatText("app.runmodule.postmodule.readmeCom")} span={8}>
         {readmeCom}
       </Descriptions.Item>
-      <Descriptions.Item label={formatText('app.runmodule.postmodule.referencesCom')} span={8}>
+      <Descriptions.Item label={formatText("app.runmodule.postmodule.referencesCom")} span={8}>
         {referencesCom}
       </Descriptions.Item>
-      <Descriptions.Item span={8} label={formatText('app.runmodule.postmodule.DESC')}>
+      <Descriptions.Item span={8} label={formatText("app.runmodule.postmodule.DESC")}>
         <pre
           style={{
-            whiteSpace: 'pre-wrap',
-            overflowX: 'hidden',
-            padding: '0 0 0 0',
+            whiteSpace: "pre-wrap",
+            overflowX: "hidden",
+            padding: "0 0 0 0"
           }}
         >{getModuleDesc(postModuleConfig)}</pre>
       </Descriptions.Item>
@@ -2334,15 +2337,15 @@ const PostModuleAutoConfForm = props => {
 
   //初始化数据
   const initListPostModuleAutoConfReq = useRequest(
-    () => getCoreSettingAPI({ kind: 'postmoduleautoconf' }),
+    () => getCoreSettingAPI({ kind: "postmoduleautoconf" }),
     {
       onSuccess: (result, params) => {
         setSettingsPostModuleAutoConf(result);
         postModuleAutoConfForm.setFieldsValue(result);
       },
       onError: (error, params) => {
-      },
-    },
+      }
+    }
   );
 
   const updateSessionMonitorReq = useRequest(postCoreSettingAPI, {
@@ -2352,45 +2355,45 @@ const PostModuleAutoConfForm = props => {
       postModuleAutoConfForm.setFieldsValue(result);
     },
     onError: (error, params) => {
-    },
+    }
   });
 
   const onUpdateSessionMonitor = setting => {
     let params = {
-      kind: 'postmoduleautoconf',
-      tag: 'default',
-      setting,
+      kind: "postmoduleautoconf",
+      tag: "default",
+      setting
     };
     updateSessionMonitorReq.run(params);
   };
 
   return (
     <Form labelCol={{ span: 24 }} wrapperCol={{ span: 24 }} layout="vertical">
-      <Form.Item label={formatText('app.runmodule.autoconf.switch')}>
+      <Form.Item label={formatText("app.runmodule.autoconf.switch")}>
         <Switch
-          checkedChildren={<CheckOutlined/>}
-          unCheckedChildren={<MinusOutlined/>}
+          checkedChildren={<CheckOutlined />}
+          unCheckedChildren={<MinusOutlined />}
           checked={settingsPostModuleAutoConf.flag}
           onClick={() => onUpdateSessionMonitor({ flag: !settingsPostModuleAutoConf.flag })}
         />
       </Form.Item>
-      <Form.Item label={formatText('app.runmodule.autoconf.interval')}
-                 tooltip={formatText('app.runmodule.autoconf.interval.tip')}>
+      <Form.Item label={formatText("app.runmodule.autoconf.interval")}
+                 tooltip={formatText("app.runmodule.autoconf.interval.tip")}>
         <Radio.Group
           onChange={e => onUpdateSessionMonitor({ interval: e.target.value })}
           value={settingsPostModuleAutoConf.interval}
         >
           <Space direction="vertical">
-            <Radio value={1}>{formatText('app.runmodule.autoconf.1s')}</Radio>
-            <Radio value={10}>{formatText('app.runmodule.autoconf.10s')}</Radio>
-            <Radio value={60}>{formatText('app.runmodule.autoconf.1min')}</Radio>
-            <Radio value={600}>{formatText('app.runmodule.autoconf.10min')}</Radio>
+            <Radio value={1}>{formatText("app.runmodule.autoconf.1s")}</Radio>
+            <Radio value={10}>{formatText("app.runmodule.autoconf.10s")}</Radio>
+            <Radio value={60}>{formatText("app.runmodule.autoconf.1min")}</Radio>
+            <Radio value={600}>{formatText("app.runmodule.autoconf.10min")}</Radio>
           </Space>
         </Radio.Group>
       </Form.Item>
       <Form.Item
-        label={formatText('app.runmodule.autoconf.max_session')}
-        tooltip={formatText('app.runmodule.autoconf.max_session.tip')}
+        label={formatText("app.runmodule.autoconf.max_session")}
+        tooltip={formatText("app.runmodule.autoconf.max_session.tip")}
       >
         <Radio.Group
           onChange={e => onUpdateSessionMonitor({ max_session: e.target.value })}
@@ -2409,7 +2412,7 @@ const PostModuleAutoConfForm = props => {
 const PostModuleAutoConfFormMemo = memo(PostModuleAutoConfForm);
 
 const AutoRobot = () => {
-  console.log('AutoRobot');
+  console.log("AutoRobot");
   const [postModuleAutoList, setPostModuleAutoList] = useState([]);
   const [runAutoModuleModalVisable, setRunAutoModuleModalModalVisable] = useState(false);
   //初始化数据
@@ -2418,7 +2421,7 @@ const AutoRobot = () => {
       setPostModuleAutoList(result);
     },
     onError: (error, params) => {
-    },
+    }
   });
 
   const listPostModuleAutoReq = useRequest(getPostModuleAutoAPI, {
@@ -2427,7 +2430,7 @@ const AutoRobot = () => {
       setPostModuleAutoList(result);
     },
     onError: (error, params) => {
-    },
+    }
   });
 
   const createPostModuleAutoReq = useRequest(postPostModuleAutoAPI, {
@@ -2436,7 +2439,7 @@ const AutoRobot = () => {
       listPostModuleAutoReq.run();
     },
     onError: (error, params) => {
-    },
+    }
   });
 
   const destoryPostModuleAutoReq = useRequest(deletePostModuleAutoAPI, {
@@ -2446,7 +2449,7 @@ const AutoRobot = () => {
       setPostModuleAutoList(postModuleAutoList.filter(item => item._module_uuid !== _module_uuid));
     },
     onError: (error, params) => {
-    },
+    }
   });
 
   return (
@@ -2455,15 +2458,15 @@ const AutoRobot = () => {
         <Col span={12}>
           <Button
             block
-            icon={<PlusOutlined/>}
+            icon={<PlusOutlined />}
             onClick={() => setRunAutoModuleModalModalVisable(true)}
-          >{formatText('app.runmodule.autorobot.add')}</Button>
+          >{formatText("app.runmodule.autorobot.add")}</Button>
         </Col>
         <Col span={12}>
           <Button
-            icon={<SyncOutlined/>}
+            icon={<SyncOutlined />}
             style={{
-              width: '100%',
+              width: "100%"
             }}
             loading={
               listPostModuleAutoReq.loading ||
@@ -2471,7 +2474,7 @@ const AutoRobot = () => {
               destoryPostModuleAutoReq.loading
             }
             onClick={() => listPostModuleAutoReq.run()}
-          >{formatText('app.core.refresh')}</Button>
+          >{formatText("app.core.refresh")}</Button>
         </Col>
       </Row>
       <Row gutter={0}>
@@ -2485,9 +2488,9 @@ const AutoRobot = () => {
             bordered
             columns={[
               {
-                title: formatText('app.runmodule.botmodule.module'),
-                dataIndex: 'moduleinfo',
-                key: 'moduleinfo',
+                title: formatText("app.runmodule.botmodule.module"),
+                dataIndex: "moduleinfo",
+                key: "moduleinfo",
                 width: 240,
                 render: (text, record) => (
                   <Popover
@@ -2497,36 +2500,36 @@ const AutoRobot = () => {
                   >
                     <a>{getModuleName(record.moduleinfo)}</a>
                   </Popover>
-                ),
+                )
               },
               {
-                title: formatText('app.runmodule.autorobot.params'),
-                dataIndex: 'opts',
-                key: 'opts',
+                title: formatText("app.runmodule.autorobot.params"),
+                dataIndex: "opts",
+                key: "opts",
                 render: (text, record) => {
                   return postModuleOpts(record.opts);
-                },
+                }
               },
               {
-                dataIndex: 'operation',
+                dataIndex: "operation",
                 width: 56,
                 render: (text, record) => (
-                  <div style={{ textAlign: 'center' }}>
+                  <div style={{ textAlign: "center" }}>
                     <a
-                      style={{ color: 'red' }}
+                      style={{ color: "red" }}
                       onClick={() =>
                         destoryPostModuleAutoReq.run({ _module_uuid: record._module_uuid })
                       }
-                    >{formatText('app.core.delete')}</a>
+                    >{formatText("app.core.delete")}</a>
                   </div>
-                ),
-              },
+                )
+              }
             ]}
           />
         </Col>
         <Col span={4}>
           <Card style={{ marginTop: 0 }}>
-            <PostModuleAutoConfFormMemo/>
+            <PostModuleAutoConfFormMemo />
           </Card>
         </Col>
       </Row>
@@ -2538,7 +2541,7 @@ const AutoRobot = () => {
         visible={runAutoModuleModalVisable}
         onCancel={() => setRunAutoModuleModalModalVisable(false)}
         footer={null}
-        bodyStyle={{ padding: '0px 0px 0px 0px' }}
+        bodyStyle={{ padding: "0px 0px 0px 0px" }}
       >
         <RunAutoModuleMemo
           closeModel={() => {
