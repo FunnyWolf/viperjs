@@ -62,10 +62,9 @@ import {
 } from '@/utils/locales';
 import { postModuleOpts } from '@/pages/Core/RealTimeCard';
 
-const { Option } = Select;
 const { Search, TextArea } = Input;
 const { TabPane } = Tabs;
-
+const { Option, OptGroup } = Select;
 
 //字符串格式化函数
 String.prototype.format = function() {
@@ -1633,31 +1632,96 @@ export const RunBotModule = props => {
             tab={<span><RadarChartOutlined/>{formatText('app.runmodule.postmodule.ipportlist')}</span>}
             key="ipportlist"
           >
-            <Card bordered={false} bodyStyle={{ padding: '0px 8px 16px 0px' }}>
-              <Form layout="horizontal" onFinish={searchNetworkSubmit}>
-                <Form.Item style={{ marginBottom: 12 }} name="inputstr" required>
-                  <TextArea
-                    placeholder={formatText('app.runmodule.postmodule.inputstr.ph')}
-                    autoSize={{ minRows: 2, maxRows: 2 }}
-                  />
-                </Form.Item>
-                <Row>
-                  <Col span={8}>
-                    <Form.Item label={formatText('app.runmodule.postmodule.engine')} name="engine" required>
+            <Row gutter={8}>
+              <Col span={12}>
+                <Form layout="horizontal" onFinish={searchNetworkSubmit}>
+                  <Space>
+                    <Form.Item
+                      style={{ marginBottom: 12 }}
+                      label={formatText('app.runmodule.postmodule.engine')}
+                      name="engine"
+                      required>
                       <Radio.Group>
                         <Radio.Button value="FOFA" disabled={!engineConfs.FOFA}>
                           FOFA
                         </Radio.Button>
                         <Radio.Button value="Quake" disabled={!engineConfs.Quake}>
-                          360Quake
+                          Quake
                         </Radio.Button>
                         <Radio.Button value="Debug">
                           Debug
                         </Radio.Button>
                       </Radio.Group>
                     </Form.Item>
-                  </Col>
-                  <Col span={4}>
+                    <Button type="link"
+                            style={{ marginBottom: 12 }}
+                            target="_blank"
+                            href="https://quake.360.cn/quake/#/help?id=5eb238f110d2e850d5c6aec8&title=%E6%A3%80%E7%B4%A2%E5%85%B3%E9%94%AE%E8%AF%8D">
+                      Quake API
+                    </Button>
+
+                  </Space>
+                  <Form.Item
+                    name="inputstr"
+                    style={{ marginBottom: 12 }}
+                    required
+                  >
+                    <TextArea
+                      placeholder={formatText('app.runmodule.postmodule.inputstr.ph')}
+                      autoSize={{ minRows: 3, maxRows: 3 }}
+                    />
+                  </Form.Item>
+
+                  <Form.Item
+                    style={{ marginBottom: 12 }}
+                  >
+                    <Input.Group compact>
+                      <Select defaultValue="AND" style={{ width: '15%' }}>
+                        <Option value="AND">AND</Option>
+                        <Option value="OR">OR</Option>
+                      </Select>
+                      <Select style={{ width: '25%' }}>
+                        <OptGroup label="基本信息">
+                          <Option value="ip">ip</Option>
+                          <Option value="is_ipv6">is_ipv6</Option>
+                          <Option value="is_latest">is_latest</Option>
+                          <Option value="port">port</Option>
+                          <Option value="ports">ports</Option>
+                          <Option value="transport">transport</Option>
+                          <Option value="domain">domain</Option>
+                        </OptGroup>
+                        <OptGroup label="服务数据">
+                          <Option value="service">service</Option>
+                          <Option value="services">services</Option>
+                          <Option value="app">app</Option>
+                          <Option value="version">version</Option>
+                          <Option value="response">response</Option>
+                          <Option value="os">os</Option>
+                          <Option value="cert">cert</Option>
+                        </OptGroup>
+                        <OptGroup label="应用识别">
+                          <Option value="catalog">catalog</Option>
+                          <Option value="type">type</Option>
+                          <Option value="level">level</Option>
+                          <Option value="vendor">vendor</Option>
+                        </OptGroup>
+                        <OptGroup label="地理位置">
+                          <Option value="country">country</Option>
+                          <Option value="country_cn">country_cn</Option>
+                          <Option value="province">province</Option>
+                          <Option value="province_cn">province_cn</Option>
+                          <Option value="city">city</Option>
+                          <Option value="city_cn">city_cn</Option>
+                          <Option value="owner">owner</Option>
+                          <Option value="isp">isp</Option>
+                        </OptGroup>
+                      </Select>
+                      <Search placeholder="input search text" style={{ width: '60%' }}
+                              enterButton={<PlusOutlined/>}/>
+                    </Input.Group>
+                  </Form.Item>
+
+                  <Space>
                     <Form.Item
                       label={formatText('app.runmodule.postmodule.page')}
                       name="page"
@@ -1672,8 +1736,6 @@ export const RunBotModule = props => {
                     >
                       <InputNumber/>
                     </Form.Item>
-                  </Col>
-                  <Col span={4}>
                     <Form.Item
                       required
                       label={formatText('app.runmodule.postmodule.number')}
@@ -1689,8 +1751,6 @@ export const RunBotModule = props => {
                     >
                       <InputNumber/>
                     </Form.Item>
-                  </Col>
-                  <Col span={8}>
                     <Form.Item>
                       <Button
                         block
@@ -1701,80 +1761,78 @@ export const RunBotModule = props => {
                         loading={listNetworkSearchReq.loading}
                       >{formatText('app.runmodule.postmodule.search')}</Button>
                     </Form.Item>
-                  </Col>
-                </Row>
-              </Form>
-            </Card>
-            <Card
-              bordered={false}
-              bodyStyle={{ padding: '0px 8px 16px 0px' }}
-              style={{ marginTop: 0 }}
-            >
-              <Table
-                style={{ marginTop: 0 }}
-                loading={listNetworkSearchReq.loading}
-                className={styles.searchHostsTable}
-                scroll={{ y: 'calc(100vh - 320px)' }}
-                size="small"
-                bordered
-                pagination={false}
-                rowKey="index"
-                rowSelection={rowSelection}
-                columns={[
-                  {
-                    title: 'IP',
-                    dataIndex: 'ip',
-                    key: 'ip',
-                    width: 120,
-                    render: (text, record) => (
-                      <strong
-                        style={{
-                          color: '#13a8a8',
-                        }}
-                      >
-                        {text}
-                      </strong>
-                    ),
-                  },
-                  {
-                    title: formatText('app.runmodule.botmodule.port'),
-                    dataIndex: 'port',
-                    key: 'port',
-                    width: 64,
-                    render: (text, record) => {
-                      return text;
+                  </Space>
+
+                </Form>
+              </Col>
+              <Col span={12}>
+                <Table
+                  style={{ marginTop: 0, padding: '0px 8px 16px 0px' }}
+                  loading={listNetworkSearchReq.loading}
+                  className={styles.searchHostsTable}
+                  scroll={{ y: 'calc(100vh - 352px)' }}
+                  size="small"
+                  bordered
+                  pagination={false}
+                  rowKey="index"
+                  rowSelection={rowSelection}
+                  columns={[
+                    {
+                      title: 'IP',
+                      dataIndex: 'ip',
+                      key: 'ip',
+                      width: 120,
+                      render: (text, record) => (
+                        <strong
+                          style={{
+                            color: '#13a8a8',
+                          }}
+                        >
+                          {text}
+                        </strong>
+                      ),
                     },
-                  },
-                  {
-                    title: formatText('app.runmodule.botmodule.protocol'),
-                    dataIndex: 'protocol',
-                    key: 'protocol',
-                    width: 96,
-                    render: (text, record) => {
-                      return text;
+                    {
+                      title: formatText('app.runmodule.botmodule.port'),
+                      dataIndex: 'port',
+                      key: 'port',
+                      width: 56,
+                      render: (text, record) => {
+                        return text;
+                      },
                     },
-                  },
-                  {
-                    title: formatText('app.runmodule.botmodule.country_name'),
-                    dataIndex: 'country_name',
-                    key: 'country_name',
-                    width: 96,
-                    render: (text, record) => {
-                      return text;
+                    {
+                      title: formatText('app.runmodule.botmodule.protocol'),
+                      dataIndex: 'protocol',
+                      key: 'protocol',
+                      width: 96,
+                      render: (text, record) => {
+                        return text;
+                      },
                     },
-                  },
-                  {
-                    title: formatText('app.runmodule.botmodule.as_organization'),
-                    dataIndex: 'as_organization',
-                    key: 'as_organization',
-                    render: (text, record) => {
-                      return text;
+                    {
+                      title: formatText('app.runmodule.botmodule.country_name'),
+                      dataIndex: 'country_name',
+                      key: 'country_name',
+                      // width: 96,
+                      render: (text, record) => {
+                        return text;
+                      },
                     },
-                  },
-                ]}
-                dataSource={ipportListState}
-              />
-            </Card>
+                    {
+                      title: formatText('app.runmodule.botmodule.as_organization'),
+                      dataIndex: 'as_organization',
+                      key: 'as_organization',
+                      render: (text, record) => {
+                        return text;
+                      },
+                    },
+                  ]}
+                  dataSource={ipportListState}
+                />
+              </Col>
+            </Row>
+
           </TabPane>
           <TabPane
             tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
