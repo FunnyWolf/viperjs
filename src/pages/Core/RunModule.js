@@ -1665,14 +1665,14 @@ export const RunBotModule = props => {
                     <Select style={{ width: "25%" }}
                             onChange={(value) => setField(value)}
                     >
-                      <OptGroup label="基本信息">
+                      <OptGroup label={formatText("app.runmodule.botmodule.base")}>
                         <Option value="ip">ip</Option>
                         <Option value="port">port</Option>
                         <Option value="ports">ports</Option>
                         <Option value="domain">domain</Option>
                         <Option value="transport">transport</Option>
                       </OptGroup>
-                      <OptGroup label="服务数据">
+                      <OptGroup label={formatText("app.runmodule.botmodule.service")}>
                         <Option value="service">service</Option>
                         <Option value="services">services</Option>
                         <Option value="app">app</Option>
@@ -1680,13 +1680,13 @@ export const RunBotModule = props => {
                         <Option value="response">response</Option>
                         <Option value="os">os</Option>
                       </OptGroup>
-                      <OptGroup label="应用识别">
+                      <OptGroup label={formatText("app.runmodule.botmodule.app")}>
                         <Option value="catalog">catalog</Option>
                         <Option value="type">type</Option>
                         <Option value="level">level</Option>
                         <Option value="vendor">vendor</Option>
                       </OptGroup>
-                      <OptGroup label="地理位置">
+                      <OptGroup label={formatText("app.runmodule.botmodule.location")}>
                         <Option value="country">country</Option>
                         <Option value="country_cn">country_cn</Option>
                         <Option value="province">province</Option>
@@ -1694,7 +1694,7 @@ export const RunBotModule = props => {
                         <Option value="city">city</Option>
                         <Option value="city_cn">city_cn</Option>
                       </OptGroup>
-                      <OptGroup label="其他">
+                      <OptGroup label={formatText("app.runmodule.botmodule.other")}>
                         <Option value="is_latest">is_latest</Option>
                         <Option value="is_ipv6">is_ipv6</Option>
                         <Option value="cert">cert</Option>

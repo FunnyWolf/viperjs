@@ -35,6 +35,7 @@ export default {
   'app.runmodule.botmodule.country_name': '国家',
   'app.runmodule.botmodule.as_organization': '组织',
 
+
   'app.runmodule.botmodule.newtask': '新建任务',
   'app.runmodule.botmodule.time': '创建时间',
   'app.runmodule.botmodule.module': '模块',
@@ -42,6 +43,11 @@ export default {
   'app.runmodule.botmodule.ip_list': '目标列表',
   'app.runmodule.botmodule.view': '查看',
   'app.runmodule.botmodule.param': '参数',
+  'app.runmodule.botmodule.base': '基本信息',
+  'app.runmodule.botmodule.service': '服务信息',
+  'app.runmodule.botmodule.app': '应用信息',
+  'app.runmodule.botmodule.location': '地理位置',
+  'app.runmodule.botmodule.other': '其他',
 
   'app.runmodule.autoconf.switch': '开关',
   'app.runmodule.autoconf.interval': '时间间隔',

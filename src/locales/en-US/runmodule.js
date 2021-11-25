@@ -42,6 +42,12 @@ export default {
   'app.runmodule.botmodule.ip_list': 'IPAddress',
   'app.runmodule.botmodule.view': 'View',
   'app.runmodule.botmodule.param': 'Param',
+  'app.runmodule.botmodule.base': 'Base',
+  'app.runmodule.botmodule.service': 'Services',
+  'app.runmodule.botmodule.app': 'APP',
+  'app.runmodule.botmodule.location': 'Location',
+  'app.runmodule.botmodule.other': 'Other',
+
 
   'app.runmodule.autoconf.switch': 'Switch',
   'app.runmodule.autoconf.interval': 'Interval',
