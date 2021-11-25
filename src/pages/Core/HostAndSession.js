@@ -1412,7 +1412,7 @@ const TabsBottom = () => {
         >
           <CredentialMemo/>
         </TabPane>
-        {viperDebugFlag ? (<TabPane
+        <TabPane
           tab={
             <div className={styles.tabPanediv}>
               <RadarChartOutlined/>
@@ -1422,7 +1422,7 @@ const TabsBottom = () => {
           key="BotScan"
         >
           <BotScan/>
-        </TabPane>) : null}
+        </TabPane>
         <TabPane
           tab={
             <div className={styles.tabPanediv}>

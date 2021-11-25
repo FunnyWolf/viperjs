@@ -84,11 +84,9 @@ const SystemSetting = () => {
       <TabPane tab={formatText('app.systemsetting.aboutviper')} key="system_info">
         <SystemInfo/>
       </TabPane>
-      {viperDebugFlag ? (
-        <TabPane tab="360Quake API" key="360Quake">
-          <QuakeForm/>
-        </TabPane>
-      ) : null}
+      <TabPane tab="Quake API" key="Quake">
+        <QuakeForm/>
+      </TabPane>
       {viperDebugFlag ? (
         <TabPane tab="FOFA API" key="FOFA">
           <FOFAForm/>

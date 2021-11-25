@@ -1,6 +1,6 @@
 import React, { Fragment, memo, useState } from "react";
 import { getLocale, useModel, useRequest } from "umi";
-
+import { useLocalStorageState } from "ahooks";
 import {
   CaretRightOutlined,
   CheckOutlined,
@@ -1373,7 +1373,7 @@ export const RunBotModule = props => {
     FOFA: false,
     Quake: false
   });
-
+  const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState("viper-debug-flag", false);
   useRequest(() => getCoreNetworkSearchAPI({ cmdtype: "list_config" }),
     {
       onSuccess: (result, params) => {
@@ -1713,9 +1713,11 @@ export const RunBotModule = props => {
                       name="engine"
                       required>
                       <Radio.Group>
-                        <Radio.Button value="FOFA" disabled={!engineConfs.FOFA}>
-                          FOFA
-                        </Radio.Button>
+                        {viperDebugFlag ? (
+                          <Radio.Button value="FOFA" disabled={!engineConfs.FOFA}>
+                            FOFA
+                          </Radio.Button>
+                        ) : null}
                         <Radio.Button value="Quake" disabled={!engineConfs.Quake}>
                           Quake
                         </Radio.Button>
