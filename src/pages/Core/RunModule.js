@@ -1785,7 +1785,7 @@ export const RunBotModule = props => {
                 <ModalForm
                   mask={false}
                   width={400}
-                  trigger={<Button block type="dashed">手动导入</Button>}
+                  trigger={<Button block type="dashed">{formatText("app.runmodule.botmodule.manualinput")}</Button>}
                   onFinish={async (values) => {
                     const ipportlist = values.ipporttext.split("\n").map(
                       (record, index) => {
@@ -1799,9 +1799,9 @@ export const RunBotModule = props => {
                 >
                   <ProFormTextArea
                     name="ipporttext"
-                    label="IP地址及端口"
-                    tooltip="IP:PORT,一行一条数据."
-                    placeholder="10.10.10.10:22,一行一条数据"
+                    label={formatText("app.runmodule.botmodule.ipporttext")}
+                    tooltip={formatText("app.runmodule.botmodule.ipporttext.tp")}
+                    placeholder={formatText("app.runmodule.botmodule.ipporttext.ph")}
                   />
                 </ModalForm>
               </Col>

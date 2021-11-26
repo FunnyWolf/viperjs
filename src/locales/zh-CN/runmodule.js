@@ -48,6 +48,12 @@ export default {
   'app.runmodule.botmodule.app': '应用信息',
   'app.runmodule.botmodule.location': '地理位置',
   'app.runmodule.botmodule.other': '其他',
+  'app.runmodule.botmodule.manualinput': '手动导入',
+  'app.runmodule.botmodule.ipporttext': 'IP&端口',
+  'app.runmodule.botmodule.ipporttext.tp': 'IP:PORT,一行一条数据',
+  'app.runmodule.botmodule.ipporttext.ph': '10.10.10.10:22,一行一条数据',
+
+
 
   'app.runmodule.autoconf.switch': '开关',
   'app.runmodule.autoconf.interval': '时间间隔',

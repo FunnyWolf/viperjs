@@ -47,7 +47,10 @@ export default {
   'app.runmodule.botmodule.app': 'APP',
   'app.runmodule.botmodule.location': 'Location',
   'app.runmodule.botmodule.other': 'Other',
-
+  'app.runmodule.botmodule.manualinput': 'Manual Input',
+  'app.runmodule.botmodule.ipporttext': 'IP&Port',
+  'app.runmodule.botmodule.ipporttext.tp': 'IP:PORT,One record one line',
+  'app.runmodule.botmodule.ipporttext.ph': '10.10.10.10:22,one record one line',
 
   'app.runmodule.autoconf.switch': 'Switch',
   'app.runmodule.autoconf.interval': 'Interval',
