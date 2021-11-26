@@ -37,7 +37,8 @@ import {
   Table,
   Tabs,
   Tag,
-  Tooltip
+  Tooltip,
+  Divider
 } from "antd";
 import moment from "moment";
 import { MyIcon } from "@/pages/Core/Common";
@@ -1782,6 +1783,7 @@ export const RunBotModule = props => {
                     </Form.Item>
                   </Space>
                 </Form>
+                <Divider />
                 <ModalForm
                   mask={false}
                   width={400}
