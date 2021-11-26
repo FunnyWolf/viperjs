@@ -1,6 +1,7 @@
 import React, { Fragment, memo, useState } from "react";
 import { getLocale, useModel, useRequest } from "umi";
 import { useLocalStorageState } from "ahooks";
+import { ModalForm, ProFormTextArea } from "@ant-design/pro-form";
 import {
   CaretRightOutlined,
   CheckOutlined,
@@ -1607,7 +1608,14 @@ export const RunBotModule = props => {
       const newinputstr = "{0} {1} {2}:\"{3}\"".format(inputStr, logic, field, value);
       setInputStr(newinputstr);
     }
+  };
 
+  const waitTime = (time = 100) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(true);
+      }, time);
+    });
   };
   return (
     <Row>
@@ -1646,67 +1654,67 @@ export const RunBotModule = props => {
           >
             <Row gutter={8}>
               <Col span={12}>
-                <Form layout="horizontal" onFinish={searchNetworkSubmit}>
-                  <TextArea
-                    placeholder={formatText("app.runmodule.postmodule.inputstr.ph")}
-                    autoSize={{ minRows: 3, maxRows: 3 }}
-                    onChange={onChageInputStr}
-                    value={inputStr}
-                  />
-                  <Input.Group compact
-                               style={{ marginTop: 8, marginBottom: 24 }}
+                <TextArea
+                  placeholder={formatText("app.runmodule.postmodule.inputstr.ph")}
+                  autoSize={{ minRows: 3, maxRows: 3 }}
+                  onChange={onChageInputStr}
+                  value={inputStr}
+                />
+                <Input.Group compact
+                             style={{ marginTop: 8, marginBottom: 24 }}
+                >
+                  <Select style={{ width: "15%" }}
+                          onChange={(value) => setLogic(value)}
                   >
-                    <Select style={{ width: "15%" }}
-                            onChange={(value) => setLogic(value)}
-                    >
-                      <Option value="AND">AND</Option>
-                      <Option value="OR">OR</Option>
-                    </Select>
-                    <Select style={{ width: "25%" }}
-                            onChange={(value) => setField(value)}
-                    >
-                      <OptGroup label={formatText("app.runmodule.botmodule.base")}>
-                        <Option value="ip">ip</Option>
-                        <Option value="port">port</Option>
-                        <Option value="ports">ports</Option>
-                        <Option value="domain">domain</Option>
-                        <Option value="transport">transport</Option>
-                      </OptGroup>
-                      <OptGroup label={formatText("app.runmodule.botmodule.service")}>
-                        <Option value="service">service</Option>
-                        <Option value="services">services</Option>
-                        <Option value="app">app</Option>
-                        <Option value="version">version</Option>
-                        <Option value="response">response</Option>
-                        <Option value="os">os</Option>
-                      </OptGroup>
-                      <OptGroup label={formatText("app.runmodule.botmodule.app")}>
-                        <Option value="catalog">catalog</Option>
-                        <Option value="type">type</Option>
-                        <Option value="level">level</Option>
-                        <Option value="vendor">vendor</Option>
-                      </OptGroup>
-                      <OptGroup label={formatText("app.runmodule.botmodule.location")}>
-                        <Option value="country">country</Option>
-                        <Option value="country_cn">country_cn</Option>
-                        <Option value="province">province</Option>
-                        <Option value="province_cn">province_cn</Option>
-                        <Option value="city">city</Option>
-                        <Option value="city_cn">city_cn</Option>
-                      </OptGroup>
-                      <OptGroup label={formatText("app.runmodule.botmodule.other")}>
-                        <Option value="is_latest">is_latest</Option>
-                        <Option value="is_ipv6">is_ipv6</Option>
-                        <Option value="cert">cert</Option>
-                        <Option value="owner">owner</Option>
-                        <Option value="isp">isp</Option>
-                      </OptGroup>
-                    </Select>
-                    <Search style={{ width: "60%" }}
-                            enterButton={<PlusOutlined />}
-                            onSearch={addToInputStr}
-                    />
-                  </Input.Group>
+                    <Option value="AND">AND</Option>
+                    <Option value="OR">OR</Option>
+                  </Select>
+                  <Select style={{ width: "25%" }}
+                          onChange={(value) => setField(value)}
+                  >
+                    <OptGroup label={formatText("app.runmodule.botmodule.base")}>
+                      <Option value="ip">ip</Option>
+                      <Option value="port">port</Option>
+                      <Option value="ports">ports</Option>
+                      <Option value="domain">domain</Option>
+                      <Option value="transport">transport</Option>
+                    </OptGroup>
+                    <OptGroup label={formatText("app.runmodule.botmodule.service")}>
+                      <Option value="service">service</Option>
+                      <Option value="services">services</Option>
+                      <Option value="app">app</Option>
+                      <Option value="version">version</Option>
+                      <Option value="response">response</Option>
+                      <Option value="os">os</Option>
+                    </OptGroup>
+                    <OptGroup label={formatText("app.runmodule.botmodule.app")}>
+                      <Option value="catalog">catalog</Option>
+                      <Option value="type">type</Option>
+                      <Option value="level">level</Option>
+                      <Option value="vendor">vendor</Option>
+                    </OptGroup>
+                    <OptGroup label={formatText("app.runmodule.botmodule.location")}>
+                      <Option value="country">country</Option>
+                      <Option value="country_cn">country_cn</Option>
+                      <Option value="province">province</Option>
+                      <Option value="province_cn">province_cn</Option>
+                      <Option value="city">city</Option>
+                      <Option value="city_cn">city_cn</Option>
+                    </OptGroup>
+                    <OptGroup label={formatText("app.runmodule.botmodule.other")}>
+                      <Option value="is_latest">is_latest</Option>
+                      <Option value="is_ipv6">is_ipv6</Option>
+                      <Option value="cert">cert</Option>
+                      <Option value="owner">owner</Option>
+                      <Option value="isp">isp</Option>
+                    </OptGroup>
+                  </Select>
+                  <Search style={{ width: "60%" }}
+                          enterButton={<PlusOutlined />}
+                          onSearch={addToInputStr}
+                  />
+                </Input.Group>
+                <Form layout="horizontal" onFinish={searchNetworkSubmit}>
                   <div style={{ display: "flex" }}>
                     <Form.Item
                       label={formatText("app.runmodule.postmodule.engine")}
@@ -1765,7 +1773,6 @@ export const RunBotModule = props => {
                     <Form.Item>
                       <Button
                         block
-                        style={{ width: 240 }}
                         icon={<SearchOutlined />}
                         type="primary"
                         htmlType="submit"
@@ -1774,8 +1781,30 @@ export const RunBotModule = props => {
                       >{formatText("app.runmodule.postmodule.search")}</Button>
                     </Form.Item>
                   </Space>
-
                 </Form>
+                <ModalForm
+                  mask={false}
+                  width={400}
+                  trigger={<Button block type="dashed">手动导入</Button>}
+                  onFinish={async (values) => {
+
+                    const ipportlist = values.ipporttext.split("\n").map(
+                      (record, index) => {
+                        let ipportpair = record.split(":");
+                        return { index: index, ip: ipportpair[0], port: ipportpair[1] };
+                      }
+                    );
+                    setIpportListState(ipportlist);
+                    return true;
+                  }}
+                >
+                  <ProFormTextArea
+                    name="ipporttext"
+                    label="IP地址及端口"
+                    tooltip="IP:PORT,一行一条数据."
+                    placeholder="10.10.10.10:22,一行一条数据"
+                  />
+                </ModalForm>
               </Col>
               <Col span={12}>
                 <Table
@@ -1817,7 +1846,7 @@ export const RunBotModule = props => {
                       title: formatText("app.runmodule.botmodule.protocol"),
                       dataIndex: "protocol",
                       key: "protocol",
-                      width: 96,
+                      // width: 96,
                       render: (text, record) => {
                         return text;
                       }
@@ -1842,6 +1871,7 @@ export const RunBotModule = props => {
                   ]}
                   dataSource={ipportListState}
                 />
+
               </Col>
             </Row>
             <Form

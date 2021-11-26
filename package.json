@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.0.2",
+    "@ant-design/pro-form": "^1.49.3",
     "@ant-design/pro-layout": "^4.9.11",
     "@antv/data-set": "^0.10.0",
     "@antv/graphin": "^2.0.7",
