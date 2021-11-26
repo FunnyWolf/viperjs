@@ -1772,7 +1772,7 @@ export const RunBotModule = props => {
                     </Form.Item>
                     <Form.Item>
                       <Button
-                        block
+                        style={{width:200}}
                         icon={<SearchOutlined />}
                         type="primary"
                         htmlType="submit"
@@ -1787,7 +1787,6 @@ export const RunBotModule = props => {
                   width={400}
                   trigger={<Button block type="dashed">手动导入</Button>}
                   onFinish={async (values) => {
-
                     const ipportlist = values.ipporttext.split("\n").map(
                       (record, index) => {
                         let ipportpair = record.split(":");
