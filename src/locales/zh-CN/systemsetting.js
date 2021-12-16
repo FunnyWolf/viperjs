@@ -48,4 +48,8 @@ export default {
   'app.systemsetting.defaultlhost': '回连地址',
   'app.systemsetting.defaultlhosttooltip': '请输入默认的回连地址(VPS的互联网IP/域名)',
   'app.systemsetting.defaultlhostplaceholder': 'VPS的互联网IP/域名',
+
+  'app.systemsetting.defaultdnslogbase': 'DNSLOG域名',
+  'app.systemsetting.defaultdnslogbasetooltip': '请输入DNSLOG域名(例如:xxx.ceye.io)',
+  'app.systemsetting.defaultdnslogbaseplaceholder': 'DNSLOG域名(例如:xxx.ceye.io)',
 };
