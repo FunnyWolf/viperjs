@@ -1,6 +1,6 @@
 import React, { Fragment, memo, useCallback, useEffect, useRef, useState } from 'react';
 import { formatMessage, FormattedMessage, getLocale, setLocale, useModel, useRequest } from 'umi';
-import { AutoRobotMemo, BotScan, PostModuleMemo, RunModuleMemo } from '@/pages/Core/RunModule';
+import { AutoRobotMemo, BotScan, PostModuleMemo, ProxyHttpScanMemo, RunModuleMemo } from '@/pages/Core/RunModule';
 import { useInterval, useLocalStorageState } from 'ahooks';
 import {
   deleteCoreHostAPI,
@@ -84,6 +84,7 @@ import {
   UploadOutlined,
   UpOutlined,
   WindowsOutlined,
+  MonitorOutlined,
 } from '@ant-design/icons';
 
 import {
@@ -159,6 +160,7 @@ if (process.env.NODE_ENV === 'production') {
 const HostAndSession = props => {
   console.log('HostAndSession');
   const {
+    setProxyHttpScanModuleOptions,
     setBotModuleOptions,
     setPostModuleOptions,
     setHostAndSessionList,
@@ -172,6 +174,7 @@ const HostAndSession = props => {
     setNetworkData,
     setModuleOptions,
   } = useModel('HostAndSessionModel', model => ({
+    setProxyHttpScanModuleOptions: model.setProxyHttpScanModuleOptions,
     setBotModuleOptions: model.setBotModuleOptions,
     setPostModuleOptions: model.setPostModuleOptions,
     setHeatbeatsocketalive: model.setHeatbeatsocketalive,
@@ -270,6 +273,7 @@ const HostAndSession = props => {
       if (module_options_update) {
         setPostModuleOptions(module_options.filter(item => item.BROKER.indexOf('post') === 0));
         setBotModuleOptions(module_options.filter(item => item.BROKER.indexOf('bot') === 0));
+        setProxyHttpScanModuleOptions(module_options.filter(item => item.BROKER.indexOf('proxy') === 0));
       }
     };
   };
@@ -1389,6 +1393,17 @@ const TabsBottom = () => {
           key="AutoRobot"
         >
           <AutoRobotMemo/>
+        </TabPane>
+        <TabPane
+          tab={
+            <div className={styles.tabPanediv}>
+              <MonitorOutlined />
+              <span className={styles.tabPanespan}>{formatText('app.hostandsession.tab.passivescan')}</span>
+            </div>
+          }
+          key="ProxyHttpScan"
+        >
+          <ProxyHttpScanMemo/>
         </TabPane>
         <TabPane
           tab={

@@ -444,3 +444,23 @@ export async function deletePostModuleAutoAPI(params) {
     params,
   });
 }
+
+export async function getProxyHttpScanAPI(params) {
+  return request('/api/v1/postmodule/proxyhttpscan/', {
+    params,
+  });
+}
+
+export async function postProxyHttpScanAPI(params) {
+  return request('/api/v1/postmodule/proxyhttpscan/', {
+    method: 'POST',
+    data: params,
+  });
+}
+
+export async function deleteProxyHttpScanAPI(params) {
+  return request('/api/v1/postmodule/proxyhttpscan/', {
+    method: 'DELETE',
+    params,
+  });
+}

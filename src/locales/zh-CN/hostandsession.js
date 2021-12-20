@@ -20,6 +20,7 @@ export default {
   'app.hostandsession.tab.IPFilter': '监听防火墙',
   'app.hostandsession.tab.FileMsf': '文件列表',
   'app.hostandsession.tab.Network': '网络拓扑',
+  'app.hostandsession.tab.passivescan': '被动扫描',
   'app.hostandsession.tab.AutoRobot': '自动编排',
   'app.hostandsession.tab.MsfSocks': '内网代理',
   'app.hostandsession.tab.Credential': '凭证列表',

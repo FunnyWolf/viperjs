@@ -19,6 +19,7 @@ export default {
   'app.hostandsession.tab.IPFilter': 'HandlerFirewall',
   'app.hostandsession.tab.FileMsf': 'Files',
   'app.hostandsession.tab.Network': 'Network',
+  'app.hostandsession.tab.passivescan': 'PassiveScan',
   'app.hostandsession.tab.AutoRobot': 'Automation',
   'app.hostandsession.tab.MsfSocks': 'Intranet',
   'app.hostandsession.tab.Credential': 'Credential',

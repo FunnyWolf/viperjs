@@ -4,7 +4,7 @@ export default function HostAndSessionModel() {
 
   const [postModuleOptions, setPostModuleOptions] = useState([]);
   const [botModuleOptions, setBotModuleOptions] = useState([]);
-
+  const [proxyHttpScanModuleOptions, setProxyHttpScanModuleOptions] = useState([]);
   const [hostAndSessionList, setHostAndSessionList] = useState([]);
   const [networkData, setNetworkData] = useState({ nodes: [], edges: [] });
 
@@ -60,6 +60,9 @@ export default function HostAndSessionModel() {
 
     botModuleOptions,
     setBotModuleOptions,
+
+    proxyHttpScanModuleOptions,
+    setProxyHttpScanModuleOptions,
 
     taskQueueLength,
     setTaskQueueLength,
