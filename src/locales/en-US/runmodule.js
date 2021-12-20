@@ -64,4 +64,5 @@ export default {
   'app.runmodule.autorobot.add': 'Add Module',
   'app.runmodule.autorobot.params': 'Pre-configured Param',
   'app.runmodule.common.rule': 'Please Input ',
+  'app.runmodule.autoconf.log': 'Log Request',
 };

@@ -35,6 +35,7 @@ export default {
   'app.systemsetting.reloadpage': '刷新页面后生效',
   'app.systemsetting.updatemsfstatus': '更新渗透服务状态',
   'app.systemsetting.reloadallmodule': '重新加载所有模块',
+  'app.systemsetting.deleteuuidjson': '清除RPCMSG',
   'app.systemsetting.logout': '退出平台',
   'app.systemsetting.switch': '开关',
   'app.systemsetting.inputtoken': '请输入token',

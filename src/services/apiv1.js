@@ -422,7 +422,12 @@ export async function postCoreNoticesAPI(params) {
 export async function getCoreUUIDJsonAPI(params) {
   return request('/api/v1/core/uuidjson/', { params });
 }
-
+export async function deleteCoreUUIDJsonAPI(params) {
+  return request('/api/v1/core/uuidjson/', {
+    method: 'DELETE',
+    params,
+  });
+}
 
 
 export async function getPostModuleAutoAPI(params) {

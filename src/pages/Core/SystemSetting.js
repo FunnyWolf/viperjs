@@ -1,5 +1,6 @@
 import React, { memo, useState } from "react";
 import {
+  deleteCoreUUIDJsonAPI,
   getCoreSettingAPI,
   getServiceStatusAPI,
   postCoreSettingAPI,
@@ -29,6 +30,7 @@ import {
 import {
   CheckOutlined,
   CloudDownloadOutlined,
+  DeleteOutlined,
   DeliveredProcedureOutlined,
   LogoutOutlined,
   MailOutlined,
@@ -106,9 +108,7 @@ const SystemSetting = () => {
       <TabPane tab={formatText("app.systemsetting.networkconfig")} key="lhost">
         <LHostForm />
       </TabPane>
-      <TabPane tab="DNSLOG" key="dnslog">
-        <DNSLOGForm />
-      </TabPane>
+
       {viperDebugFlag ? (
         <TabPane
           tab={
@@ -176,6 +176,15 @@ const SystemInfo = () => {
 
 
   const updatePostmodulePostModuleConfigReq = useRequest(putPostmodulePostModuleConfigAPI, {
+    manual: true,
+    onSuccess: (result, params) => {
+
+    },
+    onError: (error, params) => {
+    }
+  });
+
+  const deleteUuidJsonReq = useRequest(deleteCoreUUIDJsonAPI, {
     manual: true,
     onSuccess: (result, params) => {
 
@@ -280,6 +289,13 @@ const SystemInfo = () => {
             loading={updatePostmodulePostModuleConfigReq.loading}
           >
             {formatText("app.systemsetting.reloadallmodule")}
+          </Button>
+          <Button
+            icon={<DeleteOutlined />}
+            onClick={() => deleteUuidJsonReq.run()}
+            loading={deleteUuidJsonReq.loading}
+          >
+            {formatText("app.systemsetting.deleteuuidjson")}
           </Button>
           <Button
             icon={<CloudDownloadOutlined />}
@@ -962,83 +978,5 @@ const LHostForm = props => {
     </Row>
   </Card>);
 };
-
-
-const DNSLOGForm = props => {
-  const [dnslogForm] = Form.useForm();
-  const lHostFormLayout = {
-    labelCol: { span: 4 },
-    wrapperCol: { span: 12 }
-  };
-  const buttonLHostFormLayout = {
-    wrapperCol: {
-      span: 16,
-      offset: 4
-    }
-  };
-
-
-  const initListDNSLOGReq = useRequest(() => getCoreSettingAPI({ kind: "dnslog" }), {
-    onSuccess: (result, params) => {
-      dnslogForm.setFieldsValue(result);
-    },
-    onError: (error, params) => {
-    }
-  });
-
-  const updateDNSLOGReq = useRequest(postCoreSettingAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
-      dnslogForm.setFieldsValue(result);
-    },
-    onError: (error, params) => {
-    }
-  });
-
-  const onUpdateDNSLOG = values => {
-    let params = {
-      kind: "dnslog",
-      setting: { ...values }
-    };
-    updateDNSLOGReq.run(params);
-  };
-
-  return (<Card style={{ marginTop: -16 }}>
-    <Row>
-      <Col span={16}>
-        <Form form={dnslogForm}
-              onFinish={onUpdateDNSLOG}
-              {...lHostFormLayout}>
-          <Form.Item
-            label={formatText("app.systemsetting.defaultdnslogbase")}
-            name="dnslog_base"
-            rules={[
-              {
-                required: true,
-                message: formatText("app.systemsetting.defaultdnslogbasetooltip")
-              }
-            ]}
-          >
-            <Input style={{ width: "80%" }} placeholder={formatText("app.systemsetting.defaultdnslogbaseplaceholder")} />
-          </Form.Item>
-
-          <Form.Item {...buttonLHostFormLayout}>
-            <Button
-              icon={<DeliveredProcedureOutlined />}
-              type="primary"
-              htmlType="submit"
-              loading={updateDNSLOGReq.loading}
-            >
-              {formatText("app.core.update")}
-            </Button>
-          </Form.Item>
-        </Form>
-      </Col>
-      <Col span={8}>
-      </Col>
-    </Row>
-  </Card>);
-};
-
 
 export default SystemSetting;

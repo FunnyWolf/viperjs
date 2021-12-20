@@ -39,6 +39,7 @@ import {
   Tabs,
   Tag,
   Tooltip,
+  Typography,
 } from 'antd';
 import moment from 'moment';
 import { MyIcon } from '@/pages/Core/Common';
@@ -65,7 +66,7 @@ import {
   getSessionlocate,
 } from '@/utils/locales';
 import { postModuleOpts } from '@/pages/Core/RealTimeCard';
-
+const { Title, Paragraph, Text } = Typography;
 const { Search, TextArea } = Input;
 const { TabPane } = Tabs;
 const { Option, OptGroup } = Select;
@@ -2622,7 +2623,7 @@ const ProxyHttpScanConfForm = props => {
     },
   });
 
-  const onUpdateSessionMonitor = setting => {
+  const onUpdateProxyHttpScanConf = setting => {
     let params = {
       kind: 'proxyhttpscanconf',
       tag: 'default',
@@ -2638,9 +2639,10 @@ const ProxyHttpScanConfForm = props => {
           checkedChildren={<CheckOutlined/>}
           unCheckedChildren={<MinusOutlined/>}
           checked={settingsProxyHttpScanConf.flag}
-          onClick={() => onUpdateSessionMonitor({ flag: !settingsProxyHttpScanConf.flag })}
+          onClick={() => onUpdateProxyHttpScanConf({ flag: !settingsProxyHttpScanConf.flag })}
         />
       </Form.Item>
+      PROXY : <Text strong>Http://VPSIP:28888</Text>
     </Form>
   );
 };

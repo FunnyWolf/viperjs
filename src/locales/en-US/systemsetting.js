@@ -36,6 +36,7 @@ export default {
   "app.systemsetting.reloadpage": "Refresh page to take effect",
   "app.systemsetting.updatemsfstatus": "Refresh MSFStatus",
   "app.systemsetting.reloadallmodule": "Reload All Modules",
+  'app.systemsetting.deleteuuidjson': 'Clean RPCMSG',
   "app.systemsetting.logout": "Logout",
   "app.systemsetting.switch": "Switch",
   "app.systemsetting.inputtoken": "Input token",

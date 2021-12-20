@@ -67,4 +67,5 @@ export default {
   'app.runmodule.autorobot.add': '添加模块',
   'app.runmodule.autorobot.params': '预配置参数',
   'app.runmodule.common.rule': '请输入',
+  'app.runmodule.autoconf.log': '记录请求',
 };
