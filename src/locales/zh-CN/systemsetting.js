@@ -2,6 +2,8 @@ export default {
   'app.systemsetting.howtoconfig': '配置方法',
   'app.systemsetting.openquakevip': '申请开通Quake会员/账号,获取key',
   'app.systemsetting.quakeapireadme': 'Quake API教程',
+  'app.systemsetting.openzoomeyevip': '申请开通Zoomeye会员/账号,获取key',
+  'app.systemsetting.zoomeyeapireadme': 'Zoomeye API教程',
   'app.systemsetting.openfofavip': '申请开通FOFA会员/账号,获取邮箱及key',
   'app.systemsetting.fofaapireadme': 'FOFA API教程',
   'app.systemsetting.serverchan': 'Server酱 Bot',

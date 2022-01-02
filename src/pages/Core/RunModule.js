@@ -1378,7 +1378,8 @@ export const RunBotModule = props => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [engineConfs, setEngineConfs] = useState({
     FOFA: false,
-    Quake: false
+    Quake: false,
+    Zoomeye: false
   });
   const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState("viper-debug-flag", false);
   useRequest(() => getCoreNetworkSearchAPI({ cmdtype: "list_config" }),
@@ -1735,6 +1736,9 @@ export const RunBotModule = props => {
                         <Radio.Button value="Quake" disabled={!engineConfs.Quake}>
                           Quake
                         </Radio.Button>
+                        <Radio.Button value="Zoomeye" disabled={!engineConfs.Zoomeye}>
+                          Zoomeye
+                        </Radio.Button>
                       </Radio.Group>
                     </Form.Item>
                     <Button type="link"
@@ -1767,7 +1771,7 @@ export const RunBotModule = props => {
                       rules={[
                         {
                           type: "number",
-                          min: 1,
+                          min: 1
                         }
                       ]}
                       name="size"
