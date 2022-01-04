@@ -1744,7 +1744,12 @@ export const RunBotModule = props => {
                     <Button type="link"
                             target="_blank"
                             href="https://quake.360.cn/quake/#/help?id=5eb238f110d2e850d5c6aec8&title=%E6%A3%80%E7%B4%A2%E5%85%B3%E9%94%AE%E8%AF%8D">
-                      Quake API
+                      Quake Doc
+                    </Button>
+                    <Button type="link"
+                            target="_blank"
+                            href="https://www.zoomeye.org/doc">
+                      Zoomeye Doc
                     </Button>
                   </div>
                   <Space
