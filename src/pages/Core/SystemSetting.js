@@ -49,8 +49,8 @@ const { Option } = Select;
 const { TabPane } = Tabs;
 const { Title, Paragraph, Text } = Typography;
 
-const viper_version = "v1.5.10";
-const viper_update_date = "2021-12-16";
+const viper_version = "v1.5.12";
+const viper_update_date = "2021-12-31";
 
 
 const buttonItemLayout = {
@@ -87,6 +87,9 @@ const SystemSetting = () => {
       </TabPane>
       <TabPane tab="Quake API" key="Quake">
         <QuakeForm />
+      </TabPane>
+      <TabPane tab="Zoomeye API" key="Zoomeye">
+        <ZoomeyeForm />
       </TabPane>
       {viperDebugFlag ? (
         <TabPane tab="FOFA API" key="FOFA">
@@ -787,7 +790,9 @@ const FOFAForm = props => {
               <Title level={4}>{formatText("app.systemsetting.howtoconfig")}</Title>
               <Text>{formatText("app.systemsetting.openfofavip")}</Text>
               <br />
-              <a href="https://fofa.so/static_pages/api_help">{formatText("app.systemsetting.fofaapireadme")}</a>
+              <a
+                target="_blank"
+                href="https://fofa.so/static_pages/api_help">{formatText("app.systemsetting.fofaapireadme")}</a>
             </Paragraph>
           </Typography>
         </Col>
@@ -819,7 +824,7 @@ const QuakeForm = props => {
     }
   });
 
-  const onUpdateFOFA = values => {
+  const onUpdateQuake = values => {
     let params = {
       kind: "Quake",
       tag: "default",
@@ -832,7 +837,7 @@ const QuakeForm = props => {
     <Card style={{ marginTop: -16 }}>
       <Row>
         <Col span={16}>
-          <Form form={quakeForm} onFinish={onUpdateFOFA} {...inputItemLayout}>
+          <Form form={quakeForm} onFinish={onUpdateQuake} {...inputItemLayout}>
             <Form.Item
               label="key"
               name="key"
@@ -874,8 +879,101 @@ const QuakeForm = props => {
               <Title level={4}>{formatText("app.systemsetting.howtoconfig")}</Title>
               <Text>{formatText("app.systemsetting.openquakevip")}</Text>
               <br />
-              <a href="https://quake.360.cn/quake/#/help?title=%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E">
+              <a
+                target="_blank"
+                href="https://quake.360.cn/quake/#/help?title=%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E">
                 {formatText("app.systemsetting.quakeapireadme")}
+              </a>
+            </Paragraph>
+          </Typography>
+        </Col>
+      </Row>
+    </Card>);
+};
+
+const ZoomeyeForm = props => {
+  const [zoomeyeForm] = Form.useForm();
+  const [settingsZoomeye, setSettingsZoomeye] = useState({});
+
+  //初始化数据
+  const initListZoomeyeReq = useRequest(() => getCoreSettingAPI({ kind: "Zoomeye" }), {
+    onSuccess: (result, params) => {
+      setSettingsZoomeye(result);
+      zoomeyeForm.setFieldsValue(result);
+    },
+    onError: (error, params) => {
+    }
+  });
+
+  const updateZoomeyeReq = useRequest(postCoreSettingAPI, {
+    manual: true,
+    onSuccess: (result, params) => {
+      setSettingsZoomeye(result);
+      zoomeyeForm.setFieldsValue(result);
+    },
+    onError: (error, params) => {
+    }
+  });
+
+  const onUpdateZoomeye = values => {
+    let params = {
+      kind: "Zoomeye",
+      tag: "default",
+      setting: { ...values }
+    };
+    updateZoomeyeReq.run(params);
+  };
+
+  return (
+    <Card style={{ marginTop: -16 }}>
+      <Row>
+        <Col span={16}>
+          <Form form={zoomeyeForm} onFinish={onUpdateZoomeye} {...inputItemLayout}>
+            <Form.Item
+              label="key"
+              name="key"
+              rules={[
+                {
+                  required: true,
+                  message: formatText("app.systemsetting.inputkey")
+                }
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Row>
+              <Col style={{ marginBottom: 24 }} span={4} offset={4}>
+                {settingsZoomeye.alive ? (
+                  <Badge status="processing" text={formatText("app.core.working")} />
+                ) : (
+                  <Badge status="error" text={formatText("app.core.error")} />
+                )}
+              </Col>
+            </Row>
+            <Form.Item {...buttonItemLayout}>
+              <Space>
+                <Button
+                  icon={<DeliveredProcedureOutlined />}
+                  type="primary"
+                  htmlType="submit"
+                  loading={updateZoomeyeReq.loading}
+                >
+                  {formatText("app.core.update")}
+                </Button>
+              </Space>
+            </Form.Item>
+          </Form>
+        </Col>
+        <Col span={8}>
+          <Typography>
+            <Paragraph>
+              <Title level={4}>{formatText("app.systemsetting.howtoconfig")}</Title>
+              <Text>{formatText("app.systemsetting.openzoomeyevip")}</Text>
+              <br />
+              <a
+                target="_blank"
+                href="https://www.zoomeye.org/doc">
+                {formatText("app.systemsetting.zoomeyeapireadme")}
               </a>
             </Paragraph>
           </Typography>
