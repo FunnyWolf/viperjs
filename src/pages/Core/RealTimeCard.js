@@ -1,14 +1,14 @@
-import React, { Fragment, memo, useState } from "react";
-import { getLocale, useModel, useRequest } from "umi";
-import { useControllableValue, useInterval } from "ahooks";
+import React, { Fragment, memo, useState } from 'react';
+import { getLocale, useModel, useRequest } from 'umi';
+import { useControllableValue, useInterval } from 'ahooks';
 import {
   deleteMsgrpcJobAPI,
   deleteNoticesAPI,
   deletePostmodulePostModuleResultHistoryAPI,
   getCoreUUIDJsonAPI,
-  postCoreNoticesAPI
-} from "@/services/apiv1";
-import { DeleteOutlined, FieldTimeOutlined, SearchOutlined, VerticalAlignTopOutlined } from "@ant-design/icons";
+  postCoreNoticesAPI,
+} from '@/services/apiv1';
+import { DeleteOutlined, FieldTimeOutlined, SearchOutlined, VerticalAlignTopOutlined } from '@ant-design/icons';
 import {
   BackTop,
   Badge,
@@ -24,15 +24,15 @@ import {
   Space,
   Table,
   Tag,
-  Typography
-} from "antd";
-import moment from "moment";
-import { MyIcon, SidTag } from "@/pages/Core/Common";
-import styles from "./RealTimeCard.less";
-import { Upheight } from "@/utils/utils";
-import { PostModuleInfoContent } from "@/pages/Core/RunModule";
-import { formatText, getModuleName, getModuleResultTable, getOptionTag, getResultData } from "@/utils/locales";
-import ReactJson from "react-json-view";
+  Typography,
+} from 'antd';
+import moment from 'moment';
+import { MyIcon, SidTag } from '@/pages/Core/Common';
+import styles from './RealTimeCard.less';
+import { Upheight } from '@/utils/utils';
+import { PostModuleInfoContent } from '@/pages/Core/RunModule';
+import { formatText, getModuleName, getModuleResultTable, getOptionTag, getResultData } from '@/utils/locales';
+import ReactJson from 'react-json-view';
 
 const { Text, Link } = Typography;
 const { Search } = Input;
@@ -52,26 +52,26 @@ export const postModuleOpts = opts => {
 };
 
 const RealTimeModuleResult = () => {
-  console.log("RealTimeModuleResult");
+  console.log('RealTimeModuleResult');
   const {
     postModuleResultHistory,
     setPostModuleResultHistory,
     postModuleResultHistoryActive,
-    setPostModuleResultHistoryActive
-  } = useModel("HostAndSessionModel", model => ({
+    setPostModuleResultHistoryActive,
+  } = useModel('HostAndSessionModel', model => ({
     postModuleResultHistory: model.postModuleResultHistory,
     setPostModuleResultHistory: model.setPostModuleResultHistory,
     postModuleResultHistoryActive: model.postModuleResultHistoryActive,
-    setPostModuleResultHistoryActive: model.setPostModuleResultHistoryActive
+    setPostModuleResultHistoryActive: model.setPostModuleResultHistoryActive,
   }));
 
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
 
   const [refresh, setRefresh] = useState(false);
   useInterval(() => setRefresh(!refresh), 60000);
 
   const handlePostModuleResultHistorySearch = text => {
-    const reg = new RegExp(text, "gi");
+    const reg = new RegExp(text, 'gi');
     const afterFilterList = postModuleResultHistory
       .map(record => {
         let moduleNameMatch = false;
@@ -103,40 +103,40 @@ const RealTimeModuleResult = () => {
       const result = results[key];
       const data = getResultData(result);
       switch (result.type) {
-        case "raw":
+        case 'raw':
           resultComs.push(
             <pre
               style={{
-                whiteSpace: "pre-wrap",
-                overflowX: "hidden",
-                padding: "0 0 0 0"
+                whiteSpace: 'pre-wrap',
+                overflowX: 'hidden',
+                padding: '0 0 0 0',
               }}
             >{data}</pre>);
           break;
-        case "info":
+        case 'info':
           resultComs.push(<Text>{data}</Text>);
           break;
-        case "good":
+        case 'good':
           resultComs.push(<Text type="success">{data}</Text>);
           break;
-        case "warning":
+        case 'warning':
           resultComs.push(<Text type="warning">{data}</Text>);
           break;
-        case "error":
+        case 'error':
           resultComs.push(<Text type="danger">{data}</Text>);
           break;
-        case "except":
+        case 'except':
           resultComs.push(<Text type="danger" mark>{data}</Text>);
           break;
-        case "table":
+        case 'table':
           resultComs.push(getModuleResultTable(result));
           break;
         default:
           resultComs.push(<pre
             style={{
-              whiteSpace: "pre-wrap",
-              overflowX: "hidden",
-              padding: "0 0 0 0"
+              whiteSpace: 'pre-wrap',
+              overflowX: 'hidden',
+              padding: '0 0 0 0',
             }}
           >{data}</pre>);
       }
@@ -152,7 +152,7 @@ const RealTimeModuleResult = () => {
       setPostModuleResultHistoryActive([]);
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   return (
@@ -161,9 +161,9 @@ const RealTimeModuleResult = () => {
         <Col span={21}>
           <Input
             allowClear
-            prefix={<SearchOutlined />}
-            style={{ width: "100%" }}
-            placeholder={formatText("app.realtimecard.moduleresult_search")}
+            prefix={<SearchOutlined/>}
+            style={{ width: '100%' }}
+            placeholder={formatText('app.realtimecard.moduleresult_search')}
             value={text}
             onChange={e => {
               setText(e.target.value);
@@ -176,9 +176,9 @@ const RealTimeModuleResult = () => {
             block
             danger
             onClick={() => deletePostModuleResultHistoryReq.run()}
-            icon={<DeleteOutlined />}
+            icon={<DeleteOutlined/>}
           >
-            {formatText("app.core.clear")}
+            {formatText('app.core.clear')}
           </Button>
         </Col>
       </Row>
@@ -190,24 +190,24 @@ const RealTimeModuleResult = () => {
         size="small"
         dataSource={postModuleResultHistoryActive}
         renderItem={item => (
-          <List.Item key={item.id} style={{ padding: "4px 0px 0px 4px" }}>
+          <List.Item key={item.id} style={{ padding: '4px 0px 0px 4px' }}>
             <div>
-              <Tag style={{ width: "108px" }} color="cyan">
-                {moment(item.update_time * 1000).format("YYYY-MM-DD HH:mm")}
+              <Tag style={{ width: '108px' }} color="cyan">
+                {moment(item.update_time * 1000).format('YYYY-MM-DD HH:mm')}
               </Tag>
               <strong
                 style={{
-                  color: "#642ab5",
-                  fontSize: 15
+                  color: '#642ab5',
+                  fontSize: 15,
                 }}
               >
                 {getModuleName(item)}
               </strong>
               <strong
                 style={{
-                  color: "#d8bd14",
+                  color: '#d8bd14',
                   width: 120,
-                  marginLeft: 8
+                  marginLeft: 8,
                 }}
               >
                 {item.ipaddress}
@@ -215,7 +215,7 @@ const RealTimeModuleResult = () => {
             </div>
             <div
               style={{
-                marginTop: 4
+                marginTop: 4,
               }}
             >
               <Text type="secondary">{postModuleOpts(item.opts)}</Text>
@@ -226,24 +226,24 @@ const RealTimeModuleResult = () => {
       >
         <BackTop
           style={{
-            top: "calc({0} + 112px)".format(Upheight),
-            right: "calc(41vw + 32px)"
+            top: 'calc({0} + 112px)'.format(Upheight),
+            right: 'calc(41vw + 32px)',
           }}
-          target={() => document.getElementById("moduleresultlist")}
+          target={() => document.getElementById('moduleresultlist')}
         >
           <div
             style={{
               height: 40,
               width: 40,
-              lineHeight: "40px",
+              lineHeight: '40px',
               borderRadius: 4,
-              backgroundColor: "rgba(64, 64, 64, 0.6)",
-              color: "#fff",
-              textAlign: "center",
-              fontSize: 14
+              backgroundColor: 'rgba(64, 64, 64, 0.6)',
+              color: '#fff',
+              textAlign: 'center',
+              fontSize: 14,
             }}
           >
-            <VerticalAlignTopOutlined />
+            <VerticalAlignTopOutlined/>
           </div>
         </BackTop>
       </List>
@@ -253,57 +253,57 @@ const RealTimeModuleResult = () => {
 export const RealTimeModuleResultMemo = memo(RealTimeModuleResult);
 
 const KeyToUserIcon = {
-  "0": "icon-yuanxingbaoshi",
-  "1": "icon-sanjiaobaoshi",
-  "2": "icon-shuidibaoshi",
-  "3": "icon-liujiaobaoshi",
-  "4": "icon-lingxingbaoshi",
-  "5": "icon-duojiaobaoshi"
+  '0': 'icon-yuanxingbaoshi',
+  '1': 'icon-sanjiaobaoshi',
+  '2': 'icon-shuidibaoshi',
+  '3': 'icon-liujiaobaoshi',
+  '4': 'icon-lingxingbaoshi',
+  '5': 'icon-duojiaobaoshi',
 };
 // 单独独立出来是为了不丢失焦点
 const UserInput = props => {
-  const [text, onInputChange] = useControllableValue({}, { defaultValue: "" });
+  const [text, onInputChange] = useControllableValue({}, { defaultValue: '' });
   const userIcon = key => {
     return (
       <MyIcon
         type={KeyToUserIcon[key]}
         style={{
-          padding: "0px 0px 0px 0px",
+          padding: '0px 0px 0px 0px',
           marginBottom: 0,
           marginTop: 0,
           marginLeft: -4,
           marginRight: 4,
-          fontSize: "18px"
+          fontSize: '18px',
         }}
       />
     );
   };
   const getUserIconKey = () => {
-    let key = "0";
-    if (localStorage.getItem("UserIcon") === null) {
-      localStorage.setItem("UserIcon", "0");
+    let key = '0';
+    if (localStorage.getItem('UserIcon') === null) {
+      localStorage.setItem('UserIcon', '0');
     } else {
-      key = localStorage.getItem("UserIcon");
+      key = localStorage.getItem('UserIcon');
     }
     return key;
   };
   const [iconkey, setIconkey] = useState(getUserIconKey());
   const PrefixIcon = () => {
     const onChange = e => {
-      console.log("radio checked", e.target.value);
+      console.log('radio checked', e.target.value);
       setIconkey(e.target.value);
-      localStorage.setItem("UserIcon", e.target.value);
+      localStorage.setItem('UserIcon', e.target.value);
     };
     return (
       <Popover
         content={
           <Radio.Group onChange={onChange} value={getUserIconKey()}>
-            <Radio value="0">{userIcon("0")}</Radio>
-            <Radio value="1">{userIcon("1")}</Radio>
-            <Radio value="2">{userIcon("2")}</Radio>
-            <Radio value="3">{userIcon("3")}</Radio>
-            <Radio value="4">{userIcon("4")}</Radio>
-            <Radio value="5">{userIcon("5")}</Radio>
+            <Radio value="0">{userIcon('0')}</Radio>
+            <Radio value="1">{userIcon('1')}</Radio>
+            <Radio value="2">{userIcon('2')}</Radio>
+            <Radio value="3">{userIcon('3')}</Radio>
+            <Radio value="4">{userIcon('4')}</Radio>
+            <Radio value="5">{userIcon('5')}</Radio>
           </Radio.Group>
         }
         trigger="click"
@@ -315,17 +315,17 @@ const UserInput = props => {
 
   return (
     <Input
-      style={{ width: "100%" }}
-      placeholder={formatText("app.realtimecard.sendmsg")}
+      style={{ width: '100%' }}
+      placeholder={formatText('app.realtimecard.sendmsg')}
       value={text}
-      prefix={<PrefixIcon />}
+      prefix={<PrefixIcon/>}
       onPressEnter={() => {
-        if (text === null || text === "") {
+        if (text === null || text === '') {
           return;
         } else {
           props.createNotice({ userkey: iconkey, content: text });
         }
-        onInputChange("");
+        onInputChange('');
       }}
       onChange={e => onInputChange(e.target.value)}
     />
@@ -334,11 +334,11 @@ const UserInput = props => {
 
 
 const RealTimeNotices = () => {
-  console.log("RealTimeNotices");
+  console.log('RealTimeNotices');
 
-  const { notices, setNotices } = useModel("HostAndSessionModel", model => ({
+  const { notices, setNotices } = useModel('HostAndSessionModel', model => ({
     notices: model.notices,
-    setNotices: model.setNotices
+    setNotices: model.setNotices,
   }));
   const [refresh, setRefresh] = useState(false);
   useInterval(() => setRefresh(!refresh), 60000);
@@ -348,12 +348,12 @@ const RealTimeNotices = () => {
       <MyIcon
         type={KeyToUserIcon[key]}
         style={{
-          padding: "0px 0px 0px 0px",
+          padding: '0px 0px 0px 0px',
           marginBottom: 0,
           marginTop: 0,
           marginLeft: 0,
           marginRight: 0,
-          fontSize: "18px"
+          fontSize: '18px',
         }}
       />
     );
@@ -364,14 +364,14 @@ const RealTimeNotices = () => {
       const content = item[getLocale()];
       if (item.level === 0) {
         return (
-          <Text style={{ color: "#49aa19" }} className={styles.wordBreakClass}>
+          <Text style={{ color: '#49aa19' }} className={styles.wordBreakClass}>
             {content}
           </Text>
         );
       }
       if (item.level === 1) {
         return (
-          <Text style={{ color: "#13a8a8" }} className={styles.wordBreakClass}>
+          <Text style={{ color: '#13a8a8' }} className={styles.wordBreakClass}>
             {content}
           </Text>
         );
@@ -400,14 +400,14 @@ const RealTimeNotices = () => {
       if (item.level === 5) {
         // 提醒
         return (
-          <Text style={{ color: "#642ab5" }} className={styles.wordBreakClass}>
+          <Text style={{ color: '#642ab5' }} className={styles.wordBreakClass}>
             {content}
           </Text>
         );
       }
       if (item.level === 6) {
         return (
-          <Text style={{ color: "#cb2b83" }} className={styles.wordBreakClass}>
+          <Text style={{ color: '#cb2b83' }} className={styles.wordBreakClass}>
             <Space>
               {userIconLarge(item.userkey)}
               {content}
@@ -431,23 +431,23 @@ const RealTimeNotices = () => {
         itemLayout="horizontal"
         dataSource={props.notices}
         renderItem={item => (
-          <List.Item style={{ padding: "0px 0px 0px 0px" }}>
+          <List.Item style={{ padding: '0px 0px 0px 0px' }}>
             <div
               style={{
-                display: "inline",
+                display: 'inline',
                 marginTop: 0,
-                marginBottom: 0
+                marginBottom: 0,
               }}
             >
               <Tag
                 color="cyan"
                 style={{
                   marginLeft: -1,
-                  width: 80,
-                  marginRight: 4
+                  width: 94,
+                  marginRight: 4,
                 }}
               >
-                {moment(item.time * 1000).format("MM-DD HH:mm")}
+                {moment(item.time * 1000).format('MM-DD HH:mm:ss')}
               </Tag>
               {getContent(item)}
             </div>
@@ -456,24 +456,24 @@ const RealTimeNotices = () => {
       >
         <BackTop
           style={{
-            top: "calc({0} + 112px)".format(Upheight),
-            right: 24
+            top: 'calc({0} + 112px)'.format(Upheight),
+            right: 24,
           }}
-          target={() => document.getElementById("noticescard")}
+          target={() => document.getElementById('noticescard')}
         >
           <div
             style={{
               height: 40,
               width: 40,
-              lineHeight: "40px",
+              lineHeight: '40px',
               borderRadius: 4,
-              backgroundColor: "rgba(64, 64, 64, 0.6)",
-              color: "#fff",
-              textAlign: "center",
-              fontSize: 14
+              backgroundColor: 'rgba(64, 64, 64, 0.6)',
+              color: '#fff',
+              textAlign: 'center',
+              fontSize: 14,
             }}
           >
-            <VerticalAlignTopOutlined />
+            <VerticalAlignTopOutlined/>
           </div>
         </BackTop>
       </List>
@@ -485,7 +485,7 @@ const RealTimeNotices = () => {
 
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const deleteNoticesReq = useRequest(deleteNoticesAPI, {
@@ -494,7 +494,7 @@ const RealTimeNotices = () => {
       setNotices([]);
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const getUUIDJsonReq = useRequest(getCoreUUIDJsonAPI, {
@@ -502,11 +502,11 @@ const RealTimeNotices = () => {
     onSuccess: (result, params) => {
       Modal.info({
         style: { top: 32 },
-        width: "50vw",
+        width: '50vw',
         content: (
           <Card
             className={styles.uuidjsonCard}
-            bodyStyle={{ padding: "0px 0px 0px 0px" }}
+            bodyStyle={{ padding: '0px 0px 0px 0px' }}
           >
             <ReactJson
               src={result}
@@ -517,11 +517,11 @@ const RealTimeNotices = () => {
           </Card>
         ),
         onOk() {
-        }
+        },
       });
     },
     onError: (error, params) => {
-    }
+    },
   });
 
 
@@ -529,7 +529,7 @@ const RealTimeNotices = () => {
     <Fragment>
       <Row style={{ marginTop: -16 }}>
         <Col span={16}>
-          <UserInput createNotice={params => createNoticeReq.run(params)} />
+          <UserInput createNotice={params => createNoticeReq.run(params)}/>
         </Col>
         <Col span={4}>
           <Popover
@@ -543,18 +543,18 @@ const RealTimeNotices = () => {
             }
             trigger="click"
           >
-            <Button block icon={<SearchOutlined />}>
+            <Button block icon={<SearchOutlined/>}>
               RPCMSG
             </Button>
           </Popover>
         </Col>
         <Col span={4}>
-          <Button icon={<DeleteOutlined />} block danger onClick={() => deleteNoticesReq.run()}>
-            {formatText("app.core.clear")}
+          <Button icon={<DeleteOutlined/>} block danger onClick={() => deleteNoticesReq.run()}>
+            {formatText('app.core.clear')}
           </Button>
         </Col>
       </Row>
-      <NoticesList notices={notices} />
+      <NoticesList notices={notices}/>
     </Fragment>
   );
 };
@@ -562,10 +562,10 @@ const RealTimeNotices = () => {
 export const RealTimeNoticesMemo = memo(RealTimeNotices);
 
 const RealTimeJobs = () => {
-  console.log("RealTimeJobs");
-  const { jobList, setJobList } = useModel("HostAndSessionModel", model => ({
+  console.log('RealTimeJobs');
+  const { jobList, setJobList } = useModel('HostAndSessionModel', model => ({
     jobList: model.jobList,
-    setJobList: model.setJobList
+    setJobList: model.setJobList,
   }));
 
   const destoryJobReq = useRequest(deleteMsgrpcJobAPI, {
@@ -575,7 +575,7 @@ const RealTimeJobs = () => {
       setJobList(jobList.filter(item => item.uuid !== uuid));
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const onDestoryJob = record => {
@@ -594,16 +594,16 @@ const RealTimeJobs = () => {
       bordered
       columns={[
         {
-          title: formatText("app.realtimecard.jobtable_starttime"),
-          dataIndex: "time",
-          key: "time",
+          title: formatText('app.realtimecard.jobtable_starttime'),
+          dataIndex: 'time',
+          key: 'time',
           width: 120,
-          render: (text, record) => <Tag color="cyan">{moment(record.time * 1000).format("YYYY-MM-DD HH:mm")}</Tag>
+          render: (text, record) => <Tag color="cyan">{moment(record.time * 1000).format('YYYY-MM-DD HH:mm')}</Tag>,
         },
         {
-          title: formatText("app.realtimecard.jobtable_module"),
-          dataIndex: "moduleinfo",
-          key: "moduleinfo",
+          title: formatText('app.realtimecard.jobtable_module'),
+          dataIndex: 'moduleinfo',
+          key: 'moduleinfo',
           width: 240,
           render: (text, record) => (
             <Popover
@@ -613,34 +613,34 @@ const RealTimeJobs = () => {
             >
               <a>{getModuleName(record.moduleinfo)}</a>
             </Popover>
-          )
+          ),
         },
         {
-          title: "SID",
-          dataIndex: "time",
-          key: "time",
+          title: 'SID',
+          dataIndex: 'time',
+          key: 'time',
           width: 48,
           render: (text, record) => {
             return SidTag(record.moduleinfo._sessionid);
-          }
+          },
         },
         {
-          title: formatText("app.realtimecard.jobtable_params"),
-          dataIndex: "opts",
-          key: "opts",
+          title: formatText('app.realtimecard.jobtable_params'),
+          dataIndex: 'opts',
+          key: 'opts',
           render: (text, record) => {
             return <Fragment>{postModuleOpts(record.opts)}</Fragment>;
-          }
+          },
         },
         {
-          dataIndex: "operation",
+          dataIndex: 'operation',
           width: 48,
           render: (text, record) => (
-            <a style={{ color: "red" }} onClick={() => onDestoryJob(record)}>
-              {formatText("app.core.delete")}
+            <a style={{ color: 'red' }} onClick={() => onDestoryJob(record)}>
+              {formatText('app.core.delete')}
             </a>
-          )
-        }
+          ),
+        },
       ]}
     />
   );
@@ -649,9 +649,9 @@ const RealTimeJobs = () => {
 export const RealTimeJobsMemo = memo(RealTimeJobs);
 
 const TaskQueueTag = () => {
-  console.log("TaskQueueTag");
-  const { taskQueueLength } = useModel("HostAndSessionModel", model => ({
-    taskQueueLength: model.taskQueueLength
+  console.log('TaskQueueTag');
+  const { taskQueueLength } = useModel('HostAndSessionModel', model => ({
+    taskQueueLength: model.taskQueueLength,
   }));
   if (taskQueueLength > 0) {
     return (
@@ -661,15 +661,15 @@ const TaskQueueTag = () => {
           marginTop: -4,
           marginLeft: -4,
           marginRight: 10,
-          color: "#73d13d",
-          backgroundColor: "#092b00",
-          boxShadow: "0 0 0 1px #237804 inset"
+          color: '#73d13d',
+          backgroundColor: '#092b00',
+          boxShadow: '0 0 0 1px #237804 inset',
         }}
         count={taskQueueLength}
       />
     );
   } else {
-    return <FieldTimeOutlined />;
+    return <FieldTimeOutlined/>;
   }
 };
 export const TaskQueueTagMemo = memo(TaskQueueTag);
