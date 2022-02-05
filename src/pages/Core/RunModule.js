@@ -66,6 +66,7 @@ import {
   getSessionlocate
 } from "@/utils/locales";
 import { postModuleOpts } from "@/pages/Core/RealTimeCard";
+import { sessionTagList } from "@/pages/Core/HostAndSession";
 
 const { Title, Paragraph, Text } = Typography;
 const { Search, TextArea } = Input;
@@ -697,236 +698,6 @@ export const RunModule = props => {
 
   // session 信息
   const record = hostAndSessionActive;
-  if (record.session === null || record.session === undefined) {
-    return null;
-  }
-  // 心跳标签
-  const timepass = record.session.fromnow;
-
-  let heartbeat = null;
-
-  if (timepass <= 60) {
-    heartbeat = (
-      <Tooltip title={timepass + "s"} placement="left">
-        <Tag
-          color="green"
-          style={{
-            width: 72,
-            textAlign: "center",
-            cursor: "pointer"
-          }}
-        >
-          {timepass + "s"}
-        </Tag>
-      </Tooltip>
-    );
-  } else if (60 < timepass <= 90) {
-    heartbeat = (
-      <Tooltip title={timepass + "s"} placement="left">
-        <Tag
-          color="orange"
-          style={{
-            width: 72,
-            textAlign: "center",
-            cursor: "pointer"
-          }}
-        >
-          {timepass + "s"}
-        </Tag>
-      </Tooltip>
-    );
-  } else if (90 < timepass <= 999) {
-    heartbeat = (
-      <Tooltip title={timepass + "s"} placement="left">
-        <Tag
-          color="orange"
-          style={{
-            width: 72,
-            textAlign: "center",
-            cursor: "pointer"
-          }}
-        >
-          {timepass + "s"}
-        </Tag>
-      </Tooltip>
-    );
-  } else {
-    heartbeat = (
-      <Tooltip title={timepass + "s"} placement="left">
-        <Tag
-          color="red"
-          style={{
-            width: 72,
-            textAlign: "center",
-            cursor: "pointer"
-          }}
-        >999s</Tag>
-      </Tooltip>
-    );
-  }
-
-  // sessionid
-  const sessionidTag = (
-    <Tag
-      color="purple"
-      style={{
-        width: 40,
-        marginLeft: -6,
-        textAlign: "center",
-        cursor: "pointer"
-      }}
-    >
-      <strong>{record.session.id}</strong>
-    </Tag>
-  );
-
-  // 连接标签
-  const connecttooltip = (
-    <span>
-      {" "}
-      {getSessionlocate(record.session)} {record.session.tunnel_peer} {"-> "}
-      {record.session.tunnel_local}
-    </span>
-  );
-  const connectTag = (
-    <Tooltip mouseEnterDelay={1} placement="right" title={connecttooltip}>
-      <Tag
-        color="cyan"
-        style={{
-          width: 120,
-          textAlign: "center",
-          marginLeft: -6,
-          cursor: "pointer"
-        }}
-      >
-        {record.session.tunnel_peer_ip}
-      </Tag>
-    </Tooltip>
-  );
-  // handler标签
-  const jobidTagTooltip = (
-    <span>
-      {record.session.job_info.PAYLOAD} {record.session.job_info.LHOST}{" "}
-      {record.session.job_info.RHOST} {record.session.job_info.LPORT}{" "}
-    </span>
-  );
-  const jobidTag = (
-    <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={jobidTagTooltip}>
-      <Tag
-        color="lime"
-        style={{
-          width: 40,
-          marginLeft: -6,
-          textAlign: "center",
-          cursor: "pointer"
-        }}
-      >
-        <strong>{record.session.job_info.job_id}</strong>
-      </Tag>
-    </Tooltip>
-  );
-  // arch
-  const archTag =
-    record.session.arch === "x64" ? (
-      <Tag
-        color="geekblue"
-        style={{
-          cursor: "pointer",
-          marginLeft: -6
-        }}
-      >
-        {record.session.arch}
-      </Tag>
-    ) : (
-      <Tag
-        color="volcano"
-        style={{
-          cursor: "pointer",
-          marginLeft: -6
-        }}
-      >
-        {record.session.arch}
-      </Tag>
-    );
-
-  // os标签
-  const os_tag_new =
-    record.session.platform === "windows" ? (
-      <Tooltip mouseEnterDelay={1} placement="right" title={record.session.os}>
-        <Tag
-          color="blue"
-          style={{
-            marginLeft: -6,
-            cursor: "pointer"
-          }}
-        >
-          <div className={styles.sessionOSTextOverflow}>
-            <MyIcon
-              type="icon-windows"
-              style={{
-                marginBottom: 0,
-                marginRight: 4,
-                fontSize: "14px"
-              }}
-            />
-            {record.session.os_short}
-          </div>
-        </Tag>
-      </Tooltip>
-    ) : (
-      <Tooltip mouseEnterDelay={1} placement="right" title={record.session.os}>
-        <Tag
-          color="magenta"
-          style={{
-            marginLeft: -6,
-            cursor: "pointer"
-          }}
-        >
-          <div className={styles.sessionOSTextOverflow}>
-            <MyIcon
-              type="icon-linux"
-              style={{
-                fontSize: "14px",
-                marginRight: 4
-              }}
-            />
-            {record.session.os_short}
-          </div>
-        </Tag>
-      </Tooltip>
-    );
-
-  // user标签
-  let user = null;
-  if (record.session.available === true && record.session.isadmin === true) {
-    user = (
-      <Tooltip mouseEnterDelay={1} placement="right" title={record.session.info}>
-        <Tag
-          color="gold"
-          style={{
-            marginLeft: -6,
-            cursor: "pointer"
-          }}
-        >
-          <div className={styles.sessionInfoTextOverflow}>{record.session.info}</div>
-        </Tag>
-      </Tooltip>
-    );
-  } else {
-    user = (
-      <Tooltip mouseEnterDelay={1} placement="right" title={record.session.info}>
-        <Tag
-          style={{
-            marginLeft: -6,
-            cursor: "pointer"
-          }}
-        >
-          <div className={styles.sessionInfoTextOverflow}>{record.session.info}</div>
-        </Tag>
-      </Tooltip>
-    );
-  }
-
 
   return (
     <Fragment>
@@ -1006,23 +777,19 @@ export const RunModule = props => {
                   marginBottom: 24
                 }}
               >
-                <Tag
-                  color="orange"
-                  style={{
-                    width: 120,
-                    textAlign: "center",
-                    cursor: "pointer"
-                  }}
-                >
-                  <strong>{record.ipaddress}</strong>
-                </Tag>
-                {heartbeat}
-                {sessionidTag}
-                {connectTag}
-                {jobidTag}
-                {archTag}
-                {os_tag_new}
-                {user}
+                <Fragment>
+                  <Tag
+                    color="orange"
+                    style={{
+                      width: 120,
+                      textAlign: "center",
+                      cursor: "pointer"
+                    }}
+                  >
+                    <strong>{record.ipaddress}</strong>
+                  </Tag>
+                  {sessionTagList(record.session)}
+                </Fragment>
               </div>
               <Form
                 className={styles.moduleCardNew}
