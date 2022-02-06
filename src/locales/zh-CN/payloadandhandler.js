@@ -26,7 +26,7 @@ export default {
   'app.payloadandhandler.advance': '高级参数',
   'app.payloadandhandler.advance_second': '特殊参数',
   'app.payloadandhandler.base': '基础参数',
-  'app.payloadandhandler.comm': '反向通道',
+  'app.payloadandhandler.comm': '通信通道',
   'app.payloadandhandler.payload': '载荷',
   'app.payloadandhandler.payload_rule': '请选择有效载荷',
   'app.payloadandhandler.handlername': '别名',

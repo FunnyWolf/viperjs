@@ -26,7 +26,7 @@ export default {
   "app.payloadandhandler.advance": "Advanced Param",
   "app.payloadandhandler.advance_second": "Special Param",
   "app.payloadandhandler.base": "Basic Param",
-  "app.payloadandhandler.comm": "Reverse Channel By Session",
+  "app.payloadandhandler.comm": "Communication Channel",
   "app.payloadandhandler.payload": "Payload",
   "app.payloadandhandler.payload_rule": "Please select payload",
   "app.payloadandhandler.handlername": "Handler Name",
