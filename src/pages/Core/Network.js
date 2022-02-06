@@ -5,7 +5,58 @@ import Graphin, { Behaviors, Utils } from '@antv/graphin';
 import './iconfont.css';
 import fonts from './iconfont.json';
 import { formatText } from '@/utils/locales';
-
+import {
+  ArrowRightOutlined,
+  ArrowUpOutlined,
+  BugOutlined,
+  CaretRightOutlined,
+  CheckOutlined,
+  CloseCircleOutlined,
+  CloudDownloadOutlined,
+  CloudOutlined,
+  CodeOutlined,
+  ContactsOutlined,
+  CustomerServiceOutlined,
+  DashboardOutlined,
+  DeleteOutlined,
+  DeliveredProcedureOutlined,
+  DeploymentUnitOutlined,
+  DesktopOutlined,
+  DisconnectOutlined,
+  DownOutlined,
+  FolderAddOutlined,
+  FolderOpenOutlined,
+  FundViewOutlined,
+  GatewayOutlined,
+  HomeOutlined,
+  InteractionOutlined,
+  KeyOutlined,
+  LaptopOutlined,
+  MonitorOutlined,
+  NodeIndexOutlined,
+  PartitionOutlined,
+  PlayCircleOutlined,
+  PlusOutlined,
+  ProfileOutlined,
+  PushpinOutlined,
+  QuestionOutlined,
+  RadarChartOutlined,
+  RestOutlined,
+  RetweetOutlined,
+  RightOutlined,
+  RobotOutlined,
+  SearchOutlined,
+  SettingOutlined,
+  SisternodeOutlined,
+  SubnodeOutlined,
+  SwapLeftOutlined,
+  SwapOutlined,
+  SwapRightOutlined,
+  SyncOutlined,
+  UploadOutlined,
+  UpOutlined,
+  WindowsOutlined
+} from "@ant-design/icons";
 //字符串格式化函数
 String.prototype.format = function() {
   let args = arguments;
@@ -178,11 +229,11 @@ const Network = () => {
         edge.style = {
           label: {
             value: ` ${formatText('app.network.NetScan')} ${method}`,
-            fill: '#f3ea62',
+            fill: '#6abe39',
             fontSize: 14,
           },
           keyshape: {
-            stroke: '#aa9514',
+            stroke: '#3c8618',
             lineWidth: 2,
             lineDash: [8, 8],
           },
@@ -199,6 +250,20 @@ const Network = () => {
             stroke: '#75204f',
             lineDash: [8, 8],
             lineWidth: 2,
+          },
+        };
+
+      }else if (type === 'comm') {
+        const { payload,sessionid } = data;
+        edge.style = {
+          label: {
+            value: ` ${formatText('app.network.Comm')} ${sessionid}`,
+            fill: '#e8b339',
+            fontSize: 14,
+          },
+          keyshape: {
+            stroke: '#7c5914',
+            lineWidth: 3,
           },
         };
       }

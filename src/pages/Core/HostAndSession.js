@@ -78,6 +78,7 @@ import {
   SearchOutlined,
   SettingOutlined,
   SisternodeOutlined,
+  SubnodeOutlined,
   SwapLeftOutlined,
   SwapOutlined,
   SwapRightOutlined,
@@ -346,6 +347,7 @@ const HostAndSessionCard = () => {
     os: null,
     os_short: null,
     arch: null,
+    comm_channel_session: null,
     platform: null,
     fromnow: 0,
     available: 0,
@@ -885,7 +887,7 @@ const HostAndSessionCard = () => {
                   cursor: "pointer"
                 }}
               >
-                <div className={styles.sessionOSTextOverflow}>
+                <div>
                   <MyIcon
                     type="icon-windows"
                     style={{
@@ -907,7 +909,7 @@ const HostAndSessionCard = () => {
                   cursor: "pointer"
                 }}
               >
-                <div className={styles.sessionOSTextOverflow}>
+                <div>
                   <MyIcon
                     type="icon-linux"
                     style={{
@@ -933,7 +935,7 @@ const HostAndSessionCard = () => {
                     cursor: "pointer"
                   }}
                 >
-                  <div className={styles.sessionInfoTextOverflow}>{session.info}</div>
+                  <div>{session.info}</div>
                 </Tag>
               </Tooltip>
             );
@@ -946,7 +948,7 @@ const HostAndSessionCard = () => {
                     cursor: "pointer"
                   }}
                 >
-                  <div className={styles.sessionInfoTextOverflow}>{session.info}</div>
+                  <div>{session.info}</div>
                 </Tag>
               </Tooltip>
             );
@@ -971,9 +973,22 @@ const HostAndSessionCard = () => {
             </Tooltip>
           );
 
+
+          const commTag = session.comm_channel_session === null ? null : (
+            <Tag
+              color="gold"
+              style={{
+                cursor: "pointer",
+                marginLeft: -6
+              }}
+            ><SubnodeOutlined /><span>{session.comm_channel_session}</span>
+            </Tag>
+          );
+
+
           const hostwithsession = JSON.parse(JSON.stringify(hostRecord)); // deep copy
           hostwithsession.session = session;
-
+          // SubnodeOutlined
           return (
             <Dropdown
               overlay={() => SessionMenu(hostwithsession)}
@@ -994,6 +1009,7 @@ const HostAndSessionCard = () => {
                 {os_tag}
                 {user}
                 {pidTag}
+                {commTag}
               </div>
             </Dropdown>
           );
@@ -1515,8 +1531,6 @@ const SessionInfo = () => {
   });
   const [processes, setProcesses] = useState([]);
 
-  const [text, setText] = useState("");
-
   const initListSessionInfoReq = useRequest(
     () => getMsgrpcSessionAPI({ sessionid: hostAndSessionActive.session.id }),
     {
@@ -1675,7 +1689,16 @@ const SessionInfo = () => {
     setProcesses(afterFilterList);
   };
 
-
+  const commTag = sessionInfoActive.comm_channel_session === null ? null : (
+    <Tag
+      color="gold"
+      style={{
+        cursor: "pointer",
+        marginLeft: -6
+      }}
+    ><SubnodeOutlined /><span>{sessionInfoActive.comm_channel_session}</span>
+    </Tag>
+  );
   return (
     <Fragment>
       <Tabs defaultActiveKey="sessioninfo" size="small">
@@ -1745,6 +1768,24 @@ const SessionInfo = () => {
             <Descriptions.Item label={formatText("app.hostandsession.sessioninfo.computer")} span={4}>
               {sessionInfoActive.computer}
             </Descriptions.Item>
+            <Descriptions.Item label={formatText("app.hostandsession.sessioninfo.tunnel_peer")} span={4}>
+              {sessionInfoActive.tunnel_peer}
+            </Descriptions.Item>
+            <Descriptions.Item label={formatText("app.hostandsession.sessioninfo.tunnel_local")} span={4}>
+              {sessionInfoActive.tunnel_local}
+            </Descriptions.Item>
+            <Descriptions.Item label={formatText("app.hostandsession.sessioninfo.comm_channel_session")} span={4}>
+              {commTag}
+            </Descriptions.Item>
+            <Descriptions.Item label={formatText("app.hostandsession.sessioninfo.tunnel_peer_locate")} span={12}>
+              {getSessionlocate(sessionInfoActive)}
+            </Descriptions.Item>
+            <Descriptions.Item label={formatText("app.hostandsession.sessioninfo.via_exploit")} span={6}>
+              {sessionInfoActive.via_exploit}
+            </Descriptions.Item>
+            <Descriptions.Item label={formatText("app.hostandsession.sessioninfo.via_payload")} span={6}>
+              {sessionInfoActive.via_payload}
+            </Descriptions.Item>
             <Descriptions.Item label={formatText("app.hostandsession.sessioninfo.load_powershell")} span={6}>
               {sessionInfoActive.load_powershell ? (
                 <Tag color="lime">{formatText("app.hostandsession.sessioninfo.loaded")}</Tag>
@@ -1756,21 +1797,6 @@ const SessionInfo = () => {
               {sessionInfoActive.load_python ?
                 <Tag color="lime">{formatText("app.hostandsession.sessioninfo.loaded")}</Tag> :
                 <Tag>{formatText("app.hostandsession.sessioninfo.unload")}</Tag>}
-            </Descriptions.Item>
-            <Descriptions.Item label={formatText("app.hostandsession.sessioninfo.tunnel_peer")} span={6}>
-              {sessionInfoActive.tunnel_peer}
-            </Descriptions.Item>
-            <Descriptions.Item label={formatText("app.hostandsession.sessioninfo.tunnel_local")} span={6}>
-              {sessionInfoActive.tunnel_local}
-            </Descriptions.Item>
-            <Descriptions.Item label={formatText("app.hostandsession.sessioninfo.tunnel_peer_locate")} span={12}>
-              {getSessionlocate(sessionInfoActive)}
-            </Descriptions.Item>
-            <Descriptions.Item label={formatText("app.hostandsession.sessioninfo.via_exploit")} span={6}>
-              {sessionInfoActive.via_exploit}
-            </Descriptions.Item>
-            <Descriptions.Item label={formatText("app.hostandsession.sessioninfo.via_payload")} span={6}>
-              {sessionInfoActive.via_payload}
             </Descriptions.Item>
           </Descriptions>
           <Space style={{ marginTop: 8 }}>
@@ -4205,7 +4231,7 @@ export const sessionTagList = session => {
             cursor: "pointer"
           }}
         >
-          <div className={styles.sessionOSTextOverflow}>
+          <div>
             <MyIcon
               type="icon-windows"
               style={{
@@ -4227,7 +4253,7 @@ export const sessionTagList = session => {
             cursor: "pointer"
           }}
         >
-          <div className={styles.sessionOSTextOverflow}>
+          <div>
             <MyIcon
               type="icon-linux"
               style={{
@@ -4253,7 +4279,7 @@ export const sessionTagList = session => {
             cursor: "pointer"
           }}
         >
-          <div className={styles.sessionInfoTextOverflow}>{session.info}</div>
+          <div>{session.info}</div>
         </Tag>
       </Tooltip>
     );
@@ -4266,11 +4292,22 @@ export const sessionTagList = session => {
             cursor: "pointer"
           }}
         >
-          <div className={styles.sessionInfoTextOverflow}>{session.info}</div>
+          <div>{session.info}</div>
         </Tag>
       </Tooltip>
     );
   }
+
+  const commTag = session.comm_channel_session === null ? null : (
+    <Tag
+      color="gold"
+      style={{
+        cursor: "pointer",
+        marginLeft: -6
+      }}
+    ><SubnodeOutlined /><span>{session.comm_channel_session}</span>
+    </Tag>
+  );
   return <Fragment>
     {heartbeat}
     {sessionidTag}
@@ -4279,6 +4316,7 @@ export const sessionTagList = session => {
     {archTag}
     {os_tag_new}
     {user}
+    {commTag}
   </Fragment>;
 };
 

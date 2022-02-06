@@ -10,7 +10,7 @@ export default {
   "app.payloadandhandler.pem_label": "SSL Certificate",
   "app.payloadandhandler.pem_rule": "Please select a certificate file",
   "app.payloadandhandler.comm_tip": "Use the selected session as the traffic forwarder. The selected session establishes local listening, receives the connection request from payload, and then forwards the traffic to viper",
-  "app.payloadandhandler.comm_label": "Reverse Channel",
+  "app.payloadandhandler.comm_label": "Session",
   "app.payloadandhandler.ssl_tip": "Verify SSL Certificate in meterpreter (Only valid for reverse_winhttps and Linux types reverse_https handler)",
   "app.payloadandhandler.ssl_label": "Verification Certificate",
   "app.payloadandhandler.rc4password": "RC4 Password",

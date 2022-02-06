@@ -123,7 +123,8 @@ const FileMsf = props => {
       }
     };
   });
-  const initListFileMsfReq = useRequest(getMsgrpcFileMsfAPI, {
+
+  useRequest(getMsgrpcFileMsfAPI, {
     onSuccess: (result, params) => {
       setFileMsfListActive(result);
     },
@@ -276,7 +277,7 @@ const FileMsf = props => {
           </Button>
           <Table
             className={styles.filesTable}
-            scroll={{ y: "calc({0} - 32px)".format(Downheight) }}
+            scroll={{ y: "calc({0} - 32px - 32px)".format(Downheight) }}
             size="small"
             bordered
             pagination={false}
