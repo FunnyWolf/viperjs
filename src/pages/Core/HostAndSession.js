@@ -980,9 +980,9 @@ const HostAndSessionCard = () => {
               color="gold"
               style={{
                 cursor: "pointer",
-                marginLeft: -6
+                marginLeft: -6,
               }}
-            ><SubnodeOutlined /><span>{session.comm_channel_session}</span>
+            ><SubnodeOutlined /><span style={{fontWeight:"bold"}}>{session.comm_channel_session}</span>
             </Tag>
           );
 
