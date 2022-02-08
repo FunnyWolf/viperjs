@@ -554,7 +554,8 @@ const HostAndSessionCard = () => {
     {
       //主机ip地址按钮
       dataIndex: "ipaddress",
-      width: 128,
+      width: 160,
+      ellipsis: true,
       render: (text, record) => {
         return (
           <Dropdown
@@ -566,7 +567,7 @@ const HostAndSessionCard = () => {
             <Tag
               color="gold"
               style={{
-                width: 120,
+                width: 152,
                 textAlign: "center",
                 cursor: "pointer"
               }}
