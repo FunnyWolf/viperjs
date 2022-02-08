@@ -554,7 +554,7 @@ const HostAndSessionCard = () => {
     {
       //主机ip地址按钮
       dataIndex: "ipaddress",
-      width: 160,
+      width: 168,
       ellipsis: true,
       render: (text, record) => {
         return (
@@ -567,7 +567,7 @@ const HostAndSessionCard = () => {
             <Tag
               color="gold"
               style={{
-                width: 152,
+                width: 160,
                 textAlign: "center",
                 cursor: "pointer"
               }}
