@@ -54,6 +54,7 @@ import {
   DesktopOutlined,
   DisconnectOutlined,
   DownOutlined,
+  ExclamationCircleOutlined,
   FolderAddOutlined,
   FolderOpenOutlined,
   FundViewOutlined,
@@ -137,7 +138,7 @@ import ReactJson from 'react-json-view';
 import NewWindow from 'rc-new-window';
 import MsfConsoleXTermMemo, { MsfconsoleMemo } from '@/pages/Core/MsfConsoleXTerm';
 import { Upheight } from '@/utils/utils';
-import { formatText, getOptionDesc, getOptionTag, getSessionlocate, msgsuccess } from '@/utils/locales';
+import { formatText, getOptionDesc, getOptionTag, getSessionlocate, manuali18n, msgsuccess } from '@/utils/locales';
 import { IPFilterMemo } from '@/pages/Core/IPFilter';
 
 const { Text } = Typography;
@@ -146,7 +147,7 @@ const { Option } = Select;
 const ButtonGroup = Button.Group;
 const { Search, TextArea } = Input;
 const { TabPane } = Tabs;
-
+const { confirm } = Modal;
 //websocket连接地址设置
 let webHost = '127.0.0.1:8002';
 let protocol = 'ws://';
@@ -439,7 +440,17 @@ const HostAndSessionCard = () => {
           setTransportModalVisable(true);
           break;
         case 'DestorySession':
-          destorySessionReq.run({ sessionid: record.session.id });
+          confirm({
+            title: manuali18n("确认删除该Session", "Confirm to delete this session"),
+            icon: <ExclamationCircleOutlined/>,
+            content: null,
+            onOk() {
+              destorySessionReq.run({ sessionid: record.session.id });
+            },
+            onCancel() {
+              console.log('Cancel');
+            },
+          });
           break;
         default:
           console.log('unknow command');
@@ -554,7 +565,7 @@ const HostAndSessionCard = () => {
     {
       //主机标签按钮
       dataIndex: 'ipaddress',
-      width: 96,
+      width: 88,
       render: (text, record) => {
         return (
           <div
@@ -1198,7 +1209,9 @@ const HostAndSessionCard = () => {
       </Modal>
       <Modal
         style={{
-          top: 32,
+          position: 'absolute',
+          left: '320px',
+          top: 48,
         }}
         bodyStyle={{ padding: '0px 0px 0px 0px' }}
         destroyOnClose
