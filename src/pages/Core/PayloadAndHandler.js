@@ -881,7 +881,7 @@ const CreateHandlerModalContent = props => {
     if (selectPayload === null || selectPayload === undefined) {
       return null;
     }
-    if (selectPayload.includes("meterpreter_reverse_")||selectPayload.includes("bind_tcp")) {
+    if (~selectPayload.includes("reverse_dns")) {
       let selectOptions = [];
       for (let uuid in sessionDict) {
         let session = sessionDict[uuid];
