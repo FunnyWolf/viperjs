@@ -2512,7 +2512,7 @@ const Transport = props => {
   const [transports, setTransports] = useState([]);
   const [handlers, setHandlers] = useState([]);
 
-  useRequest(() => getMsgrpcTransportAPI({ sessionid: hostAndSessionActive.session.id }),
+  const initListTransportReq =useRequest(() => getMsgrpcTransportAPI({ sessionid: hostAndSessionActive.session.id }),
     {
       onSuccess: (result, params) => {
         setSession_exp(result.session_exp);
@@ -2624,6 +2624,7 @@ const Transport = props => {
         pagination={false}
         dataSource={transports}
         loading={
+          initListTransportReq.loading ||
           listTransportReq.loading ||
           createTransportReq.loading ||
           updateTransportReq.loading ||
