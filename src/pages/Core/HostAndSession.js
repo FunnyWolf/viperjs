@@ -441,14 +441,18 @@ const HostAndSessionCard = () => {
           break;
         case 'DestorySession':
           confirm({
-            title: manuali18n("确认删除该Session", "Confirm to delete this session"),
+            title: manuali18n("确认删除Session", "Confirm to delete session"),
             icon: <ExclamationCircleOutlined/>,
             content: null,
+            mask:false,
+            maskClosable:true,
+            okButtonProps:{
+              style:{
+                width:100,
+              },
+            },
             onOk() {
               destorySessionReq.run({ sessionid: record.session.id });
-            },
-            onCancel() {
-              console.log('Cancel');
             },
           });
           break;
