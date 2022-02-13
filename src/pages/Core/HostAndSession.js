@@ -1341,10 +1341,10 @@ const TabsBottom = () => {
           key="Notices"
         >
           <Row gutter={0}>
-            <Col span={14}>
+            <Col span={13}>
               <RealTimeModuleResultMemo/>
             </Col>
-            <Col span={10}>
+            <Col span={11}>
               <RealTimeNoticesMemo/>
             </Col>
           </Row>
