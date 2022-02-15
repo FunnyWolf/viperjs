@@ -70,7 +70,7 @@ export const host_type_to_avatar_table = {
     <Avatar
       size={22}
       shape="square"
-      style={{ backgroundColor: '#bfbfbf', width: 80 }}
+      style={{ backgroundColor: '#bfbfbf', width: 80,height:21 }}
       icon={<QuestionOutlined/>}
     />
   ),

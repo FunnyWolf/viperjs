@@ -59,6 +59,7 @@ export default {
   'app.hostandsession.sessioninfo.tunnel_peer': '远程端口',
   'app.hostandsession.sessioninfo.tunnel_local': '本地端口',
   'app.hostandsession.sessioninfo.tunnel_peer_locate': '地理信息',
+  'app.hostandsession.sessioninfo.comm_channel_session': '反向转发',
   'app.hostandsession.sessioninfo.via_exploit': '模块',
   'app.hostandsession.sessioninfo.via_payload': '载荷',
   'app.hostandsession.sessioninfo.update': '更新信息',

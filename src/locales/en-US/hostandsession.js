@@ -58,6 +58,7 @@ export default {
   'app.hostandsession.sessioninfo.tunnel_peer': 'Peer Port',
   'app.hostandsession.sessioninfo.tunnel_local': 'Local Port',
   'app.hostandsession.sessioninfo.tunnel_peer_locate': 'Peer Locate',
+  'app.hostandsession.sessioninfo.comm_channel_session': 'Reverse Channel',
   'app.hostandsession.sessioninfo.via_exploit': 'Exploit',
   'app.hostandsession.sessioninfo.via_payload': 'Payload',
   'app.hostandsession.sessioninfo.update': 'Update',

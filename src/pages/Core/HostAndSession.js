@@ -54,6 +54,7 @@ import {
   DesktopOutlined,
   DisconnectOutlined,
   DownOutlined,
+  ExclamationCircleOutlined,
   FolderAddOutlined,
   FolderOpenOutlined,
   FundViewOutlined,
@@ -62,6 +63,7 @@ import {
   InteractionOutlined,
   KeyOutlined,
   LaptopOutlined,
+  MonitorOutlined,
   NodeIndexOutlined,
   PartitionOutlined,
   PlayCircleOutlined,
@@ -77,6 +79,7 @@ import {
   SearchOutlined,
   SettingOutlined,
   SisternodeOutlined,
+  SubnodeOutlined,
   SwapLeftOutlined,
   SwapOutlined,
   SwapRightOutlined,
@@ -84,7 +87,6 @@ import {
   UploadOutlined,
   UpOutlined,
   WindowsOutlined,
-  MonitorOutlined,
 } from '@ant-design/icons';
 
 import {
@@ -136,7 +138,7 @@ import ReactJson from 'react-json-view';
 import NewWindow from 'rc-new-window';
 import MsfConsoleXTermMemo, { MsfconsoleMemo } from '@/pages/Core/MsfConsoleXTerm';
 import { Upheight } from '@/utils/utils';
-import { formatText, getOptionDesc, getOptionTag, getSessionlocate, msgsuccess } from '@/utils/locales';
+import { formatText, getOptionDesc, getOptionTag, getSessionlocate, manuali18n, msgsuccess } from '@/utils/locales';
 import { IPFilterMemo } from '@/pages/Core/IPFilter';
 
 const { Text } = Typography;
@@ -145,7 +147,7 @@ const { Option } = Select;
 const ButtonGroup = Button.Group;
 const { Search, TextArea } = Input;
 const { TabPane } = Tabs;
-
+const { confirm } = Modal;
 //websocket连接地址设置
 let webHost = '127.0.0.1:8002';
 let protocol = 'ws://';
@@ -346,6 +348,7 @@ const HostAndSessionCard = () => {
     os: null,
     os_short: null,
     arch: null,
+    comm_channel_session: null,
     platform: null,
     fromnow: 0,
     available: 0,
@@ -437,7 +440,21 @@ const HostAndSessionCard = () => {
           setTransportModalVisable(true);
           break;
         case 'DestorySession':
-          destorySessionReq.run({ sessionid: record.session.id });
+          confirm({
+            title: manuali18n("确认删除Session", "Confirm to delete session"),
+            icon: <ExclamationCircleOutlined/>,
+            content: null,
+            mask:false,
+            maskClosable:true,
+            okButtonProps:{
+              style:{
+                width:100,
+              },
+            },
+            onOk() {
+              destorySessionReq.run({ sessionid: record.session.id });
+            },
+          });
           break;
         default:
           console.log('unknow command');
@@ -550,9 +567,29 @@ const HostAndSessionCard = () => {
       },
     },
     {
+      //主机标签按钮
+      dataIndex: 'ipaddress',
+      width: 88,
+      render: (text, record) => {
+        return (
+          <div
+            style={{ marginTop: -2 }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setActiveHostAndSession(record);
+              setUpdateHostModalVisable(true);
+            }}
+          >
+            {host_type_to_avatar_table[record.tag]}
+          </div>
+        );
+      },
+    },
+    {
       //主机ip地址按钮
       dataIndex: 'ipaddress',
-      width: 128,
+      width: 168,
+      ellipsis: true,
       render: (text, record) => {
         return (
           <Dropdown
@@ -564,7 +601,7 @@ const HostAndSessionCard = () => {
             <Tag
               color="gold"
               style={{
-                width: 120,
+                width: 160,
                 textAlign: 'center',
                 cursor: 'pointer',
               }}
@@ -578,24 +615,7 @@ const HostAndSessionCard = () => {
         );
       },
     },
-    {
-      //主机标签按钮
-      dataIndex: 'ipaddress',
-      width: 104,
-      render: (text, record) => {
-        return (
-          <div
-            onClick={(e) => {
-              e.stopPropagation();
-              setActiveHostAndSession(record);
-              setUpdateHostModalVisable(true);
-            }}
-          >
-            {host_type_to_avatar_table[record.tag]}
-          </div>
-        );
-      },
-    },
+
     {
       //session信息
       dataIndex: 'ipaddress',
@@ -885,7 +905,7 @@ const HostAndSessionCard = () => {
                   cursor: 'pointer',
                 }}
               >
-                <div className={styles.sessionOSTextOverflow}>
+                <div>
                   <MyIcon
                     type="icon-windows"
                     style={{
@@ -907,7 +927,7 @@ const HostAndSessionCard = () => {
                   cursor: 'pointer',
                 }}
               >
-                <div className={styles.sessionOSTextOverflow}>
+                <div>
                   <MyIcon
                     type="icon-linux"
                     style={{
@@ -933,7 +953,7 @@ const HostAndSessionCard = () => {
                     cursor: 'pointer',
                   }}
                 >
-                  <div className={styles.sessionInfoTextOverflow}>{session.info}</div>
+                  <div>{session.info}</div>
                 </Tag>
               </Tooltip>
             );
@@ -946,7 +966,7 @@ const HostAndSessionCard = () => {
                     cursor: 'pointer',
                   }}
                 >
-                  <div className={styles.sessionInfoTextOverflow}>{session.info}</div>
+                  <div>{session.info}</div>
                 </Tag>
               </Tooltip>
             );
@@ -971,9 +991,22 @@ const HostAndSessionCard = () => {
             </Tooltip>
           );
 
+
+          const commTag = session.comm_channel_session === null ? null : (
+            <Tag
+              color="gold"
+              style={{
+                cursor: 'pointer',
+                marginLeft: -6,
+              }}
+            ><SubnodeOutlined/><span style={{ fontWeight: 'bold' }}>{session.comm_channel_session}</span>
+            </Tag>
+          );
+
+
           const hostwithsession = JSON.parse(JSON.stringify(hostRecord)); // deep copy
           hostwithsession.session = session;
-
+          // SubnodeOutlined
           return (
             <Dropdown
               overlay={() => SessionMenu(hostwithsession)}
@@ -994,6 +1027,7 @@ const HostAndSessionCard = () => {
                 {os_tag}
                 {user}
                 {pidTag}
+                {commTag}
               </div>
             </Dropdown>
           );
@@ -1179,7 +1213,9 @@ const HostAndSessionCard = () => {
       </Modal>
       <Modal
         style={{
-          top: 32,
+          position: 'absolute',
+          left: '320px',
+          top: 48,
         }}
         bodyStyle={{ padding: '0px 0px 0px 0px' }}
         destroyOnClose
@@ -1309,10 +1345,10 @@ const TabsBottom = () => {
           key="Notices"
         >
           <Row gutter={0}>
-            <Col span={14}>
+            <Col span={13}>
               <RealTimeModuleResultMemo/>
             </Col>
-            <Col span={10}>
+            <Col span={11}>
               <RealTimeNoticesMemo/>
             </Col>
           </Row>
@@ -1397,17 +1433,6 @@ const TabsBottom = () => {
         <TabPane
           tab={
             <div className={styles.tabPanediv}>
-              <MonitorOutlined />
-              <span className={styles.tabPanespan}>{formatText('app.hostandsession.tab.passivescan')}</span>
-            </div>
-          }
-          key="ProxyHttpScan"
-        >
-          <ProxyHttpScanMemo/>
-        </TabPane>
-        <TabPane
-          tab={
-            <div className={styles.tabPanediv}>
               <SisternodeOutlined/>
               <span className={styles.tabPanespan}>{formatText('app.hostandsession.tab.MsfSocks')}</span>
             </div>
@@ -1430,6 +1455,18 @@ const TabsBottom = () => {
         <TabPane
           tab={
             <div className={styles.tabPanediv}>
+              <CodeOutlined/>
+              <span className={styles.tabPanespan}>MSFCONSOLE</span>
+            </div>
+          }
+          key="MsfConsole"
+          // forceRender
+        >
+          <MsfconsoleMemo/>
+        </TabPane>
+        <TabPane
+          tab={
+            <div className={styles.tabPanediv}>
               <RadarChartOutlined/>
               <span className={styles.tabPanespan}>{formatText('app.hostandsession.tab.BotScan')}</span>
             </div>
@@ -1441,14 +1478,13 @@ const TabsBottom = () => {
         <TabPane
           tab={
             <div className={styles.tabPanediv}>
-              <CodeOutlined/>
-              <span className={styles.tabPanespan}>MSFCONSOLE</span>
+              <MonitorOutlined/>
+              <span className={styles.tabPanespan}>{formatText('app.hostandsession.tab.passivescan')}</span>
             </div>
           }
-          key="MsfConsole"
-          // forceRender
+          key="ProxyHttpScan"
         >
-          <MsfconsoleMemo/>
+          <ProxyHttpScanMemo/>
         </TabPane>
         <TabPane
           tab={
@@ -1514,8 +1550,6 @@ const SessionInfo = () => {
     os_short: null,
   });
   const [processes, setProcesses] = useState([]);
-
-  const [text, setText] = useState('');
 
   const initListSessionInfoReq = useRequest(
     () => getMsgrpcSessionAPI({ sessionid: hostAndSessionActive.session.id }),
@@ -1675,7 +1709,16 @@ const SessionInfo = () => {
     setProcesses(afterFilterList);
   };
 
-
+  const commTag = sessionInfoActive.comm_channel_session === null ? null : (
+    <Tag
+      color="gold"
+      style={{
+        cursor: 'pointer',
+        marginLeft: -6,
+      }}
+    ><SubnodeOutlined/><span>{sessionInfoActive.comm_channel_session}</span>
+    </Tag>
+  );
   return (
     <Fragment>
       <Tabs defaultActiveKey="sessioninfo" size="small">
@@ -1745,6 +1788,24 @@ const SessionInfo = () => {
             <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.computer')} span={4}>
               {sessionInfoActive.computer}
             </Descriptions.Item>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.tunnel_peer')} span={4}>
+              {sessionInfoActive.tunnel_peer}
+            </Descriptions.Item>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.tunnel_local')} span={4}>
+              {sessionInfoActive.tunnel_local}
+            </Descriptions.Item>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.comm_channel_session')} span={4}>
+              {commTag}
+            </Descriptions.Item>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.tunnel_peer_locate')} span={12}>
+              {getSessionlocate(sessionInfoActive)}
+            </Descriptions.Item>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.via_exploit')} span={6}>
+              {sessionInfoActive.via_exploit}
+            </Descriptions.Item>
+            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.via_payload')} span={6}>
+              {sessionInfoActive.via_payload}
+            </Descriptions.Item>
             <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.load_powershell')} span={6}>
               {sessionInfoActive.load_powershell ? (
                 <Tag color="lime">{formatText('app.hostandsession.sessioninfo.loaded')}</Tag>
@@ -1756,21 +1817,6 @@ const SessionInfo = () => {
               {sessionInfoActive.load_python ?
                 <Tag color="lime">{formatText('app.hostandsession.sessioninfo.loaded')}</Tag> :
                 <Tag>{formatText('app.hostandsession.sessioninfo.unload')}</Tag>}
-            </Descriptions.Item>
-            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.tunnel_peer')} span={6}>
-              {sessionInfoActive.tunnel_peer}
-            </Descriptions.Item>
-            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.tunnel_local')} span={6}>
-              {sessionInfoActive.tunnel_local}
-            </Descriptions.Item>
-            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.tunnel_peer_locate')} span={12}>
-              {getSessionlocate(sessionInfoActive)}
-            </Descriptions.Item>
-            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.via_exploit')} span={6}>
-              {sessionInfoActive.via_exploit}
-            </Descriptions.Item>
-            <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.via_payload')} span={6}>
-              {sessionInfoActive.via_payload}
             </Descriptions.Item>
           </Descriptions>
           <Space style={{ marginTop: 8 }}>
@@ -2470,7 +2516,7 @@ const Transport = props => {
   const [transports, setTransports] = useState([]);
   const [handlers, setHandlers] = useState([]);
 
-  useRequest(() => getMsgrpcTransportAPI({ sessionid: hostAndSessionActive.session.id }),
+  const initListTransportReq =useRequest(() => getMsgrpcTransportAPI({ sessionid: hostAndSessionActive.session.id }),
     {
       onSuccess: (result, params) => {
         setSession_exp(result.session_exp);
@@ -2582,6 +2628,7 @@ const Transport = props => {
         pagination={false}
         dataSource={transports}
         loading={
+          initListTransportReq.loading ||
           listTransportReq.loading ||
           createTransportReq.loading ||
           updateTransportReq.loading ||
@@ -3737,7 +3784,7 @@ const HostInfo = () => {
     hostAndSessionActive: model.hostAndSessionActive,
   }));
   const [hostinfo, setHostInfo] = useState({});
-  const initListHostInfoReq = useRequest(() => getCoreHostInfoAPI({ ipaddress: hostAndSessionActive.ipaddress }),
+  useRequest(() => getCoreHostInfoAPI({ ipaddress: hostAndSessionActive.ipaddress }),
     {
       onSuccess: (result, params) => {
         setHostInfo(result);
@@ -4041,5 +4088,258 @@ const UpdateHost = props => {
   );
 };
 const UpdateHostMemo = memo(UpdateHost);
+
+export const sessionTagList = session => {
+  if (session === null || session === undefined || session.id === -1) {
+    return null;
+  }
+  const timepass = session.fromnow;
+
+  let heartbeat = null;
+
+  if (timepass <= 60) {
+    heartbeat = (
+      <Tooltip title={timepass + 's'} placement="left">
+        <Tag
+          color="green"
+          style={{
+            width: 72,
+            textAlign: 'center',
+            cursor: 'pointer',
+          }}
+        >
+          {timepass + 's'}
+        </Tag>
+      </Tooltip>
+    );
+  } else if (60 < timepass <= 90) {
+    heartbeat = (
+      <Tooltip title={timepass + 's'} placement="left">
+        <Tag
+          color="orange"
+          style={{
+            width: 72,
+            textAlign: 'center',
+            cursor: 'pointer',
+          }}
+        >
+          {timepass + 's'}
+        </Tag>
+      </Tooltip>
+    );
+  } else if (90 < timepass <= 999) {
+    heartbeat = (
+      <Tooltip title={timepass + 's'} placement="left">
+        <Tag
+          color="orange"
+          style={{
+            width: 72,
+            textAlign: 'center',
+            cursor: 'pointer',
+          }}
+        >
+          {timepass + 's'}
+        </Tag>
+      </Tooltip>
+    );
+  } else {
+    heartbeat = (
+      <Tooltip title={timepass + 's'} placement="left">
+        <Tag
+          color="red"
+          style={{
+            width: 72,
+            textAlign: 'center',
+            cursor: 'pointer',
+          }}
+        >999s</Tag>
+      </Tooltip>
+    );
+  }
+
+  // sessionid
+  const sessionidTag = (
+    <Tag
+      color="purple"
+      style={{
+        width: 40,
+        marginLeft: -6,
+        textAlign: 'center',
+        cursor: 'pointer',
+      }}
+    >
+      <strong>{session.id}</strong>
+    </Tag>
+  );
+
+  // 连接标签
+  const connecttooltip = (
+    <span>
+      {' '}
+      {getSessionlocate(session)} {session.tunnel_peer} {'-> '}
+      {session.tunnel_local}
+    </span>
+  );
+  const connectTag = (
+    <Tooltip mouseEnterDelay={1} placement="right" title={connecttooltip}>
+      <Tag
+        color="cyan"
+        style={{
+          width: 120,
+          textAlign: 'center',
+          marginLeft: -6,
+          cursor: 'pointer',
+        }}
+      >
+        {session.tunnel_peer_ip}
+      </Tag>
+    </Tooltip>
+  );
+  // handler标签
+  const jobidTagTooltip = (
+    <span>
+      {session.job_info.PAYLOAD} {session.job_info.LHOST}{' '}
+      {session.job_info.RHOST} {session.job_info.LPORT}{' '}
+    </span>
+  );
+  const jobidTag = (
+    <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={jobidTagTooltip}>
+      <Tag
+        color="lime"
+        style={{
+          width: 40,
+          marginLeft: -6,
+          textAlign: 'center',
+          cursor: 'pointer',
+        }}
+      >
+        <strong>{session.job_info.job_id}</strong>
+      </Tag>
+    </Tooltip>
+  );
+  // arch
+  const archTag =
+    session.arch === 'x64' ? (
+      <Tag
+        color="geekblue"
+        style={{
+          cursor: 'pointer',
+          marginLeft: -6,
+        }}
+      >
+        {session.arch}
+      </Tag>
+    ) : (
+      <Tag
+        color="volcano"
+        style={{
+          cursor: 'pointer',
+          marginLeft: -6,
+        }}
+      >
+        {session.arch}
+      </Tag>
+    );
+
+  // os标签
+  const os_tag_new =
+    session.platform === 'windows' ? (
+      <Tooltip mouseEnterDelay={1} placement="right" title={session.os}>
+        <Tag
+          color="blue"
+          style={{
+            marginLeft: -6,
+            cursor: 'pointer',
+          }}
+        >
+          <div>
+            <MyIcon
+              type="icon-windows"
+              style={{
+                marginBottom: 0,
+                marginRight: 4,
+                fontSize: '14px',
+              }}
+            />
+            {session.os_short}
+          </div>
+        </Tag>
+      </Tooltip>
+    ) : (
+      <Tooltip mouseEnterDelay={1} placement="right" title={session.os}>
+        <Tag
+          color="magenta"
+          style={{
+            marginLeft: -6,
+            cursor: 'pointer',
+          }}
+        >
+          <div>
+            <MyIcon
+              type="icon-linux"
+              style={{
+                fontSize: '14px',
+                marginRight: 4,
+              }}
+            />
+            {session.os_short}
+          </div>
+        </Tag>
+      </Tooltip>
+    );
+
+  // user标签
+  let user = null;
+  if (session.available === true && session.isadmin === true) {
+    user = (
+      <Tooltip mouseEnterDelay={1} placement="right" title={session.info}>
+        <Tag
+          color="gold"
+          style={{
+            marginLeft: -6,
+            cursor: 'pointer',
+          }}
+        >
+          <div>{session.info}</div>
+        </Tag>
+      </Tooltip>
+    );
+  } else {
+    user = (
+      <Tooltip mouseEnterDelay={1} placement="right" title={session.info}>
+        <Tag
+          style={{
+            marginLeft: -6,
+            cursor: 'pointer',
+          }}
+        >
+          <div>{session.info}</div>
+        </Tag>
+      </Tooltip>
+    );
+  }
+
+  const commTag = session.comm_channel_session === null ? null : (
+    <Tag
+      color="gold"
+      style={{
+        cursor: 'pointer',
+        marginLeft: -6,
+      }}
+    ><SubnodeOutlined/><span>{session.comm_channel_session}</span>
+    </Tag>
+  );
+  return <Fragment>
+    {heartbeat}
+    {sessionidTag}
+    {connectTag}
+    {jobidTag}
+    {archTag}
+    {os_tag_new}
+    {user}
+    {commTag}
+  </Fragment>;
+};
+
 
 export default HostAndSession;
