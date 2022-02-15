@@ -2001,7 +2001,7 @@ const RealTimeBotWaitList = () => {
       title: formatText("app.runmodule.botmodule.time"),
       dataIndex: "time",
       key: "time",
-      width: 120,
+      width: 136,
       render: (text, record) => <Tag color="cyan">{moment(record.time * 1000).format("YYYY-MM-DD HH:mm")}</Tag>
     },
     {

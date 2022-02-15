@@ -298,7 +298,7 @@ const FileMsf = props => {
                 title: formatText("app.filemsf.mtime"),
                 dataIndex: "mtime",
                 key: "mtime",
-                width: 120,
+                width: 136,
                 render: (text, record) => (
                   <Tag color="cyan">{moment(record.mtime * 1000).format("YYYY-MM-DD HH:mm")}</Tag>
                 )
@@ -446,7 +446,7 @@ export const FileMsfModal = props => {
               title: formatText("app.filemsf.mtime"),
               dataIndex: "mtime",
               key: "mtime",
-              width: 120,
+              width: 136,
               render: (text, record) => (
                 <Tag color="cyan">{moment(record.mtime * 1000).format("YYYY-MM-DD HH:mm")}</Tag>
               )
