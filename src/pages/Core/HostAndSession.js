@@ -837,8 +837,7 @@ const HostAndSessionCard = () => {
             </Tag>
           );
 
-          // sessionid
-          const pidTag = (
+          const pidTag = session.pid === null ? null:(
             <Tooltip
               mouseEnterDelay={1}
               placement="bottomLeft"
