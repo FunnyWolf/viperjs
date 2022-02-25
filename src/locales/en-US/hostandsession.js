@@ -111,7 +111,7 @@ export default {
   'app.hostandsession.portfwd.reverse.doc.3': '(10.10.10.10:2000 start an handler, 192.168.3.14 connects to 192.168.3.13:20000 to generate a reverse shell)',
 
   'app.hostandsession.transport.comm_timeout': 'Timeout',
-  'app.hostandsession.transport.retry_total': 'Retry Total',
+  'app.hostandsession.transport.retry_total': 'Retry Total Time',
   'app.hostandsession.transport.retry_wait': 'Retry Interval',
   'app.hostandsession.transport.session_exp': 'Expiration',
   'app.hostandsession.transport.handler': 'Handler',

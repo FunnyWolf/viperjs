@@ -112,7 +112,7 @@ export default {
   'app.hostandsession.portfwd.reverse.doc.3': '(10.10.10.10:2000开启handler监听,192.168.3.14连接192.168.3.13:20000生成反向shell)',
 
   'app.hostandsession.transport.comm_timeout': '超时时间(秒)',
-  'app.hostandsession.transport.retry_total': '重连次数',
+  'app.hostandsession.transport.retry_total': '重连总时长(秒)',
   'app.hostandsession.transport.retry_wait': '重连间隔(秒)',
   'app.hostandsession.transport.session_exp': '强制过期',
   'app.hostandsession.transport.handler': '监听配置',

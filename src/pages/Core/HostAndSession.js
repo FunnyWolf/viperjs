@@ -2674,7 +2674,7 @@ const Transport = props => {
           {
             title: formatText('app.hostandsession.transport.comm_timeout'),
             dataIndex: 'comm_timeout',
-            width: 96,
+            width: 108,
             render: (text, record) => {
               return <span>{text} s</span>;
             },
@@ -2682,7 +2682,7 @@ const Transport = props => {
           {
             title: formatText('app.hostandsession.transport.retry_total'),
             dataIndex: 'retry_total',
-            width: 96,
+            width: 108,
             render: (text, record) => {
               return <span>{text}</span>;
             },
@@ -2690,7 +2690,7 @@ const Transport = props => {
           {
             title: formatText('app.hostandsession.transport.retry_wait'),
             dataIndex: 'retry_wait',
-            width: 96,
+            width: 108,
             render: (text, record) => {
               return <span>{text} s</span>;
             },

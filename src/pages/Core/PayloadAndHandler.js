@@ -1036,10 +1036,10 @@ const CreateHandlerModalContent = props => {
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label="CommunicationTimeout(second)"
+            label="SessionCommunicationTimeout(second)"
             name="SessionCommunicationTimeout"
             rules={[]}
-            initialValue={300}
+            initialValue={31536000}
           >
             <InputNumber
               style={{ width: 160 }} />
@@ -1049,7 +1049,7 @@ const CreateHandlerModalContent = props => {
             label="ExpirationTimeout(second)"
             name="SessionExpirationTimeout"
             rules={[]}
-            initialValue={0}
+            initialValue={31536000}
           >
             <InputNumber
               style={{ width: 160 }}
@@ -1060,7 +1060,7 @@ const CreateHandlerModalContent = props => {
             label="RetryTotal(second)"
             name="SessionRetryTotal"
             rules={[]}
-            initialValue={3600}
+            initialValue={31536000}
           >
             <InputNumber style={{ width: 160 }} />
           </Form.Item>
@@ -2085,10 +2085,10 @@ const CreatePayloadModalContent = props => {
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label="CommunicationTimeout(second)"
+            label="SessionCommunicationTimeout(second)"
             name="SessionCommunicationTimeout"
             rules={[]}
-            initialValue={300}
+            initialValue={31536000}
           >
             <InputNumber style={{ width: 160 }} />
           </Form.Item>
@@ -2097,7 +2097,7 @@ const CreatePayloadModalContent = props => {
             label="ExpirationTimeout(second)"
             name="SessionExpirationTimeout"
             rules={[]}
-            initialValue={0}
+            initialValue={31536000}
           >
             <InputNumber style={{ width: 160 }} />
           </Form.Item>
@@ -2106,7 +2106,7 @@ const CreatePayloadModalContent = props => {
             label="SessionRetryTotal(Second)"
             name="SessionRetryTotal"
             rules={[]}
-            initialValue={3600}
+            initialValue={31536000}
           >
             <InputNumber style={{ width: 160 }} />
           </Form.Item>
