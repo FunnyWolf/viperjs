@@ -2697,7 +2697,7 @@ const Transport = props => {
           {
             title: formatText('app.hostandsession.transport.session_exp'),
             dataIndex: 'session_exp',
-            width: 120,
+            width: 136,
             render: (text, record) => {
               return (
                 <Tag
@@ -3285,7 +3285,7 @@ const FileSession = () => {
               title: formatText('app.hostandsession.filesession.mtime'),
               dataIndex: 'mtime',
               key: 'mtime',
-              width: 120,
+              width: 136,
               sorter: {
                 compare: (a, b) => a.mtime - b.mtime,
                 multiple: 2,
@@ -3883,7 +3883,7 @@ const PortService = () => {
           title: formatText('app.core.updatetime'),
           dataIndex: 'update_time',
           key: 'update_time',
-          width: 120,
+          width: 136,
           render: (text, record) => (
             <Tag color="cyan">{moment(record.update_time * 1000).format('YYYY-MM-DD HH:mm')}</Tag>
           ),
@@ -3970,7 +3970,7 @@ const Vulnerability = () => {
           title: formatText('app.core.updatetime'),
           dataIndex: 'update_time',
           key: 'update_time',
-          width: 120,
+          width: 136,
           render: (text, record) => (
             <Tag color="cyan">{moment(record.update_time * 1000).format('YYYY-MM-DD HH:mm')}</Tag>
           ),

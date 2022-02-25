@@ -192,7 +192,7 @@ const RealTimeModuleResult = () => {
         renderItem={item => (
           <List.Item key={item.id} style={{ padding: '4px 0px 0px 4px' }}>
             <div>
-              <Tag style={{ width: '108px' }} color="cyan">
+              <Tag style={{ width: '124px' }} color="cyan">
                 {moment(item.update_time * 1000).format('YYYY-MM-DD HH:mm')}
               </Tag>
               <strong
@@ -443,7 +443,7 @@ const RealTimeNotices = () => {
                 color="cyan"
                 style={{
                   marginLeft: -1,
-                  width: 94,
+                  width: 108,
                   marginRight: 4,
                 }}
               >
@@ -597,7 +597,7 @@ const RealTimeJobs = () => {
           title: formatText('app.realtimecard.jobtable_starttime'),
           dataIndex: 'time',
           key: 'time',
-          width: 120,
+          width: 136,
           render: (text, record) => <Tag color="cyan">{moment(record.time * 1000).format('YYYY-MM-DD HH:mm')}</Tag>,
         },
         {

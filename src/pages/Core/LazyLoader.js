@@ -179,11 +179,11 @@ const LazyLoader = () => {
               title: '更新时间',
               dataIndex: 'last_check',
               key: 'last_check',
-              width: 120,
+              width: 136,
               render: (text, record) => {
                 const last_check = (
                   <Tooltip title={moment(record.last_check * 1000).format('YYYY-MM-DD HH:mm:ss')}>
-                    <Tag style={{ width: '108px' }} color="cyan">
+                    <Tag style={{ width: '124px' }} color="cyan">
                       {moment(record.last_check * 1000).format('YYYY-MM-DD HH:mm')}
                     </Tag>
                   </Tooltip>
