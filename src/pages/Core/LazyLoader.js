@@ -183,7 +183,7 @@ const LazyLoader = () => {
               render: (text, record) => {
                 const last_check = (
                   <Tooltip title={moment(record.last_check * 1000).format('YYYY-MM-DD HH:mm:ss')}>
-                    <Tag style={{ width: '124px' }} color="cyan">
+                    <Tag color="cyan">
                       {moment(record.last_check * 1000).format('YYYY-MM-DD HH:mm')}
                     </Tag>
                   </Tooltip>

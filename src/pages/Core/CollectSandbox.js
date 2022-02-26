@@ -124,7 +124,7 @@ const CollectSandbox = () => {
                   render: (text, record) => {
                     const last_check = (
                       <Tooltip title={moment(record.updateTime * 1000).format("YYYY-MM-DD HH:mm:ss")}>
-                        <Tag style={{ width: "108px" }} color="cyan">
+                        <Tag color="cyan">
                           {moment(record.updateTime * 1000).format("YYYY-MM-DD HH:mm")}
                         </Tag>
                       </Tooltip>
