@@ -379,6 +379,42 @@ const CreateHandlerModalContent = props => {
           label: "meterpreter_reverse_tcp"
         }
       ]
+    },
+    {
+      value: "android",
+      label: "android",
+      children: [
+        {
+          value: "meterpreter",
+          label: "meterpreter",
+          children: [
+            {
+              value: "reverse_http",
+              label: "reverse_http"
+            },
+            {
+              value: "reverse_https",
+              label: "reverse_https"
+            },
+            {
+              value: "reverse_tcp",
+              label: "reverse_tcp"
+            }
+          ]
+        },
+        {
+          value: "meterpreter_reverse_http",
+          label: "meterpreter_reverse_http"
+        },
+        {
+          value: "meterpreter_reverse_https",
+          label: "meterpreter_reverse_https"
+        },
+        {
+          value: "meterpreter_reverse_tcp",
+          label: "meterpreter_reverse_tcp"
+        }
+      ]
     }
   ];
 
@@ -1433,6 +1469,42 @@ const CreatePayloadModalContent = props => {
         {
           value: "meterpreter_bind_tcp",
           label: "meterpreter_bind_tcp"
+        },
+        {
+          value: "meterpreter_reverse_http",
+          label: "meterpreter_reverse_http"
+        },
+        {
+          value: "meterpreter_reverse_https",
+          label: "meterpreter_reverse_https"
+        },
+        {
+          value: "meterpreter_reverse_tcp",
+          label: "meterpreter_reverse_tcp"
+        }
+      ]
+    },
+    {
+      value: "android",
+      label: "android",
+      children: [
+        {
+          value: "meterpreter",
+          label: "meterpreter",
+          children: [
+            {
+              value: "reverse_http",
+              label: "reverse_http"
+            },
+            {
+              value: "reverse_https",
+              label: "reverse_https"
+            },
+            {
+              value: "reverse_tcp",
+              label: "reverse_tcp"
+            }
+          ]
         },
         {
           value: "meterpreter_reverse_http",
