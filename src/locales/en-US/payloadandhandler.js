@@ -30,6 +30,7 @@ export default {
   "app.payloadandhandler.payload": "Payload",
   "app.payloadandhandler.payload_rule": "Please select payload",
   "app.payloadandhandler.handlername": "Handler Name",
+  "app.payloadandhandler.backup": "Backup",
   "app.payloadandhandler.handlername_ph": "Custom Handler Name",
   "app.payloadandhandler.VIRTUALHANDLER_tip": "VIPER caches the handler configuration and server will not setup real handler. This option is used to combine port forwarding with reverse shell or payload generation without start an real handler",
   "app.payloadandhandler.VIRTUALHANDLER": "Virtual Handler",

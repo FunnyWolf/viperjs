@@ -30,6 +30,7 @@ export default {
   'app.payloadandhandler.payload': '载荷',
   'app.payloadandhandler.payload_rule': '请选择有效载荷',
   'app.payloadandhandler.handlername': '别名',
+  'app.payloadandhandler.backup': '备份',
   'app.payloadandhandler.handlername_ph': '自定义监听名称',
   'app.payloadandhandler.VIRTUALHANDLER_tip': 'VIPER缓存监听配置,但渗透服务器不会生成正真的监听,此选项用于结合端口转发的反向SHELL/无需监听的payload生成',
   'app.payloadandhandler.VIRTUALHANDLER': '虚拟监听',

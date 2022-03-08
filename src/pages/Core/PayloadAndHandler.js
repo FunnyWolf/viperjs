@@ -29,7 +29,7 @@ import {
   Table,
   Tooltip
 } from "antd";
-import { BlockOutlined, CustomerServiceOutlined, SyncOutlined } from "@ant-design/icons";
+import { BlockOutlined, CustomerServiceOutlined, SyncOutlined,SaveOutlined } from "@ant-design/icons";
 import { useRequest } from "umi";
 import { formatText } from "@/utils/locales";
 import { sessionTagList } from "@/pages/Core/HostAndSession";
@@ -2567,6 +2567,22 @@ const PayloadAndHandler = (props) => {
             dataIndex: "HandlerName",
             key: "HandlerName",
             render: (text, record) => record.HandlerName
+          },
+          {
+            title: formatText("app.payloadandhandler.backup"),
+            dataIndex: "Backup",
+            key: "ID",
+            width: 48,
+            render: (text, record) =>
+              record.Backup ? (
+                <Avatar
+                  style={{ backgroundColor: "#d8bd14", width: "100%" }}
+                  shape="square"
+                  size={24}
+                >
+                  <SaveOutlined />
+                </Avatar>
+              ) : null
           },
           {
             dataIndex: "operation",
