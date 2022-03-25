@@ -1,7 +1,7 @@
 import React, { Fragment, memo, useCallback, useEffect, useRef, useState } from 'react';
 import { formatMessage, FormattedMessage, getLocale, setLocale, useModel, useRequest } from 'umi';
 import { AutoRobotMemo, BotScan, PostModuleMemo, ProxyHttpScanMemo, RunModuleMemo } from '@/pages/Core/RunModule';
-import { useInterval, useLocalStorageState } from 'ahooks';
+import { useInterval, useLocalStorageState,useSessionStorageState } from 'ahooks';
 import {
   deleteCoreHostAPI,
   deleteMsgrpcFileSessionAPI,
@@ -2833,28 +2833,19 @@ const FileSession = () => {
   const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
-  const [fileSessionListActive, setFileSessionListActive] = useState({
+
+  const [fileSessionListActive, setFileSessionListActive] = useSessionStorageState(`filesession-${hostAndSessionActive.session.id}`, {
     path: null,
     entries: [],
   });
-  const [fileSessionInputPathActive, setFileSessionInputPathActive] = useState('/');
 
-  const initListFileSessionReq = useRequest(() => getMsgrpcFileSessionAPI({
-      sessionid: hostAndSessionActive.session.id,
-      operation: 'pwd',
-    }),
-    {
-      onSuccess: (result, params) => {
-        setFileSessionListActive(result);
-        try {
-          setFileSessionInputPathActive(result.path);
-        } catch (e) {
-        }
-      },
-      onError: (error, params) => {
-      },
-    },
-  );
+
+  // const [fileSessionListActive, setFileSessionListActive] = useState({
+  //   path: null,
+  //   entries: [],
+  // });
+
+  const [fileSessionInputPathActive, setFileSessionInputPathActive] = useState(fileSessionListActive.path);
 
   const createPostModuleActuatorReq = useRequest(postPostmodulePostModuleActuatorAPI, {
     manual: true,
@@ -2876,6 +2867,12 @@ const FileSession = () => {
     onError: (error, params) => {
     },
   });
+
+  useEffect(() => {
+    if(fileSessionListActive.path === null) {
+      listFileSessionReq.run({sessionid: hostAndSessionActive.session.id,operation:"pwd"})
+    }
+  }, []);
 
   const onListFileSession = (sessionid, operation, filepath = null, dirpath = '/') => {
     if (operation === 'pwd') {
@@ -3159,7 +3156,6 @@ const FileSession = () => {
           pagination={false}
           dataSource={fileSessionListActive.entries}
           loading={
-            initListFileSessionReq.loading ||
             createPostModuleActuatorReq.loading ||
             listFileSessionReq.loading ||
             listFileSessionRunReq.loading ||
