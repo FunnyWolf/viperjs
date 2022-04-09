@@ -42,7 +42,6 @@ import {
   Typography
 } from "antd";
 import moment from "moment";
-import { MyIcon } from "@/pages/Core/Common";
 import styles from "./RunModule.less";
 import {
   deleteMsgrpcJobAPI,
@@ -57,14 +56,7 @@ import {
   postPostmodulePostModuleActuatorAPI,
   postProxyHttpScanAPI
 } from "@/services/apiv1";
-import {
-  formatText,
-  getModuleDesc,
-  getModuleName,
-  getOptionDesc,
-  getOptionTag,
-  getSessionlocate
-} from "@/utils/locales";
+import { formatText, getModuleDesc, getModuleName, getOptionDesc, getOptionTag } from "@/utils/locales";
 import { postModuleOpts } from "@/pages/Core/RealTimeCard";
 import { sessionTagList } from "@/pages/Core/HostAndSession";
 
@@ -247,6 +239,19 @@ const getModuleOptions = (postModuleConfigActive) => {
         </Col>
       );
     } else if (oneOption.type === "integer") {
+      let rules =  [{
+        required: oneOption.required,
+        message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
+      }];
+
+      if (oneOption.extra_data.min != null) {
+        rules = [{
+          required: oneOption.required,
+          max:oneOption.extra_data.max,
+          min:oneOption.extra_data.min,
+          message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)} min:${oneOption.extra_data.min} max:${oneOption.extra_data.max}`
+        }];
+      }
       options.push(
         <Col span={oneOption.length}>
           <Form.Item
@@ -254,10 +259,7 @@ const getModuleOptions = (postModuleConfigActive) => {
             tooltip={getOptionDesc(oneOption)}
             name={oneOption.name}
             initialValue={oneOption.default}
-            rules={[{
-              required: oneOption.required,
-              message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
-            }]}
+            rules={rules}
             wrapperCol={{ span: 24 }}
           >
             <InputNumber
