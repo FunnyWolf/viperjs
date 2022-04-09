@@ -239,7 +239,7 @@ const getModuleOptions = (postModuleConfigActive) => {
         </Col>
       );
     } else if (oneOption.type === "integer") {
-      let rules =  [{
+      let rules = [{
         required: oneOption.required,
         message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
       }];
@@ -247,10 +247,18 @@ const getModuleOptions = (postModuleConfigActive) => {
       if (oneOption.extra_data.min != null) {
         rules = [{
           required: oneOption.required,
-          max:oneOption.extra_data.max,
-          min:oneOption.extra_data.min,
-          message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)} min:${oneOption.extra_data.min} max:${oneOption.extra_data.max}`
-        }];
+          message: `${formatText("app.runmodule.common.rule")}${getOptionTag(oneOption)}`
+        },
+          {
+            validator: (rule, value, fn) => {
+              if(value < oneOption.extra_data.min || value > oneOption.extra_data.max){
+                fn(`Min:${oneOption.extra_data.min} Max:${oneOption.extra_data.max}`);
+              }else{
+                fn()
+              }
+            }
+          }
+        ];
       }
       options.push(
         <Col span={oneOption.length}>
