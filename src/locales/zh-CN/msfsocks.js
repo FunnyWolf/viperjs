@@ -22,7 +22,7 @@ export default {
   'app.msfsocks.socks.type.rule': '请选择代理类型',
   'app.msfsocks.socks.port': '本地端口',
   'app.msfsocks.socks.port.rule': '请输入本地监听端口',
-  'app.msfsocks.socks.alert': 'Socks代理请勿开放到外网1080,80等常用端口,防范DDos攻击',
+  'app.msfsocks.socks.alert': 'Socks代理请勿开放到外网1080,80等常用端口,防范DDos攻击,请勿使用此代理进行内网扫描或Web浏览,会导致Session掉线',
   'app.msfsocks.host.tag': '标签',
   'app.msfsocks.host.tag.rule': '请选择标签',
   'app.msfsocks.host.comment': '注释',

@@ -22,7 +22,7 @@ export default {
   'app.msfsocks.socks.type.rule': 'Please select proxy type',
   'app.msfsocks.socks.port': 'Port',
   'app.msfsocks.socks.port.rule': 'Local Listen Port',
-  'app.msfsocks.socks.alert': 'Do not open socks proxy on common ports such as 1080 and 80 on the internet to prevent DDos attacks',
+  'app.msfsocks.socks.alert': 'Do not open socks proxy on common ports such as 1080 and 80 on the internet to prevent DDos attacks,please do not use this agent for intranet scanning or web browsing, which will cause the session to drop',
   'app.msfsocks.host.tag': 'Tag',
   'app.msfsocks.host.tag.rule': 'Please select tag',
   'app.msfsocks.host.comment': 'Comment',
