@@ -227,7 +227,7 @@ const RealTimeModuleResult = () => {
         <BackTop
           style={{
             top: 'calc({0} + 112px)'.format(Upheight),
-            right: 'calc(41vw + 32px)',
+            left: 'calc(53vw - 40px)',
           }}
           target={() => document.getElementById('moduleresultlist')}
         >
