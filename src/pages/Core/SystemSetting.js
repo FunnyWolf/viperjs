@@ -49,8 +49,8 @@ const { Option } = Select;
 const { TabPane } = Tabs;
 const { Title, Paragraph, Text } = Typography;
 
-const viper_version = "v1.5.24";
-const viper_update_date = "2022-09-10";
+const viper_version = "v1.5.25";
+const viper_update_date = "2022-10-16";
 
 
 const buttonItemLayout = {
