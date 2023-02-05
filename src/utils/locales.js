@@ -1,9 +1,9 @@
-import { getLocale, setLocale, useIntl } from "umi";
+import { getLocale, setLocale, formatMessage } from "umi";
 import React from "react";
 import { Button, message, Table } from "antd";
 
 const formatText = (id) => {
-  return useIntl().formatMessage({ id });
+  return formatMessage({ id });
 };
 
 const manuali18n = (zh, en) => {

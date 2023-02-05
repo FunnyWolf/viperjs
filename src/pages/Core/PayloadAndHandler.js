@@ -29,7 +29,7 @@ import {
   Table,
   Tooltip
 } from "antd";
-import { BlockOutlined, CustomerServiceOutlined, SyncOutlined,SaveOutlined } from "@ant-design/icons";
+import { BlockOutlined, CustomerServiceOutlined, SyncOutlined, SaveOutlined } from "@ant-design/icons";
 import { useRequest } from "umi";
 import { formatText } from "@/utils/locales";
 import { sessionTagList } from "@/pages/Core/HostAndSession";
@@ -2241,7 +2241,7 @@ const showHandlerDetail = item => {
   });
 };
 
-const genPayloadByHandler = (item) => {
+function genPayloadByHandler(item) {
   const createPayloadReq = useRequest(postMsgrpcPayloadAPI, {
     manual: true,
     onSuccess: (result, params) => {
@@ -2250,7 +2250,7 @@ const genPayloadByHandler = (item) => {
     }
   });
 
-  const onCreatePayloadByHandler = (params, format) => {
+  function onCreatePayloadByHandler(params, format) {
     params.Format = format;
     createPayloadReq.run({ mname: params.PAYLOAD, opts: params });
   };
@@ -2347,6 +2347,15 @@ const PayloadAndHandler = (props) => {
   const [handlerListActive, setHandlerListActive] = useState([]);
   const [genPayloadByHandlerVisible, setGenPayloadByHandlerVisible] = useState(false);
 
+  const listHanderReq = useRequest(getMsgrpcHandlerAPI, {
+    manual: true,
+    onSuccess: (result, params) => {
+      setHandlerListActive(result);
+    },
+    onError: (error, params) => {
+    }
+  });
+
   //初始化数据
   useImperativeHandle(props.onRef, () => {
     return {
@@ -2365,14 +2374,6 @@ const PayloadAndHandler = (props) => {
     }
   });
 
-  const listHanderReq = useRequest(getMsgrpcHandlerAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
-      setHandlerListActive(result);
-    },
-    onError: (error, params) => {
-    }
-  });
 
   const createHandlerReq = useRequest(postMsgrpcHandlerAPI, {
     manual: true,
@@ -2459,7 +2460,6 @@ const PayloadAndHandler = (props) => {
         </Col>
       </Row>
       <Table
-        style={{ marginTop: 0 }}
         className={styles.handlerTable}
         size="small"
         bordered
@@ -2611,7 +2611,7 @@ const PayloadAndHandler = (props) => {
                     <Popover
                       placement="left"
                       title={formatText("app.payloadandhandler.format_rule")}
-                      content={genPayloadByHandler(record)}
+                      content={() => genPayloadByHandler(record)}
                       trigger="click">
                       <a style={{ color: "#13a8a8" }}>
                         {formatText("app.payloadandhandler.genpayload")}
@@ -2646,7 +2646,7 @@ const PayloadAndHandler = (props) => {
       <Modal
         style={{ top: 20 }}
         width="60vw"
-        bodyStyle={{ padding: "0px 0px 2px 0px" }}
+        bodyStyle={{ padding: "0px 0px 1px 0px" }}
         destroyOnClose
         visible={createPayloadModalVisible}
         footer={null}
