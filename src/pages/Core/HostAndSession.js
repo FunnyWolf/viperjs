@@ -2920,7 +2920,7 @@ const FileSession = () => {
     updateFileSessionReq.run({
       sessionid: values.sessionid,
       filepath: values.filepath,
-      filedata: btoa(values.filedata)
+      filedata: values.filedata
     });
   };
 
