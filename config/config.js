@@ -55,13 +55,13 @@ export default {
   // chainWebpack: webpackPlugin,
   proxy: {
     '/api/v1/': {
-      target: 'http://127.0.0.1:8002/',
+      target: 'http://192.168.146.130:8002/',
       changeOrigin: true,
       ws: false,
       pathRewrite: { '^/api/v1': '/api/v1' },
     },
     '/ws/v1/': {
-      target: 'ws://127.0.0.1:8002/',
+      target: 'ws://192.168.146.130:8002/',
       changeOrigin: true,
       ws: false,
       pathRewrite: { '^/ws/v1': '/ws/v1' },

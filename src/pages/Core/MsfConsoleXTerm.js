@@ -11,13 +11,13 @@ import { getToken } from "@/utils/authority";
 import styles from "@/pages/Core/MsfConsoleXTerm.less";
 import { useInterval } from "ahooks";
 //websocket连接地址设置
-let webHost = "127.0.0.1:8002";
+let webHost = "192.168.146.130:8002";
 let protocol = "ws://";
 if (process.env.NODE_ENV === "production") {
   webHost = location.hostname + (location.port ? `:${location.port}` : "");
   protocol = "wss://";
 } else {
-  webHost = "127.0.0.1:8002";
+  webHost = "192.168.146.130:8002";
   protocol = "ws://";
 }
 
