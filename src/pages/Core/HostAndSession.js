@@ -86,7 +86,9 @@ import {
   SyncOutlined,
   UploadOutlined,
   UpOutlined,
-  WindowsOutlined
+  WindowsOutlined,
+  MinusCircleTwoTone,
+  PlusCircleTwoTone
 } from "@ant-design/icons";
 
 import {
@@ -1062,8 +1064,10 @@ const HostAndSessionCard = () => {
           expandedRowKeys: expandedRowKeys,
           expandRowByClick: true,
           expandedRowRender: sessionRowRender,
-          rowExpandable: record => record.session.length > 0
+          rowExpandable: record => record.session.length > 0,
+          expandIcon: ({ expanded, onExpand, record }) => null
         }}
+
         scroll={{ y: "calc({0})".format(Upheight) }}
         className={styles.hostandsessionTable}
         rowKey="ipaddress"
