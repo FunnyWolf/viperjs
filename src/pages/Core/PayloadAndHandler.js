@@ -309,30 +309,6 @@ const CreateHandlerModalContent = props => {
       ]
     },
     {
-      value: "php",
-      label: "php",
-      children: [
-        {
-          value: "meterpreter",
-          label: "meterpreter",
-          children: [
-            {
-              value: "bind_tcp",
-              label: "bind_tcp"
-            },
-            {
-              value: "reverse_tcp",
-              label: "reverse_tcp"
-            }
-          ]
-        },
-        {
-          value: "meterpreter_reverse_tcp",
-          label: "meterpreter_reverse_tcp"
-        }
-      ]
-    },
-    {
       value: "python",
       label: "python",
       children: [
@@ -415,7 +391,31 @@ const CreateHandlerModalContent = props => {
           label: "meterpreter_reverse_tcp"
         }
       ]
-    }
+    },
+    {
+      value: "php",
+      label: "php",
+      children: [
+        {
+          value: "meterpreter",
+          label: "meterpreter",
+          children: [
+            {
+              value: "bind_tcp",
+              label: "bind_tcp"
+            },
+            {
+              value: "reverse_tcp",
+              label: "reverse_tcp"
+            }
+          ]
+        },
+        {
+          value: "meterpreter_reverse_tcp",
+          label: "meterpreter_reverse_tcp"
+        }
+      ]
+    },
   ];
 
   const StageEncoder = ["x86/shikata_ga_nai", "x86/xor_dynamic", "x64/xor", "x64/xor_dynamic"];
@@ -1389,54 +1389,6 @@ const CreatePayloadModalContent = props => {
       ]
     },
     {
-      value: "java",
-      label: "java",
-      children: [
-        {
-          value: "meterpreter",
-          label: "meterpreter",
-          children: [
-            {
-              value: "bind_tcp",
-              label: "bind_tcp"
-            },
-            {
-              value: "reverse_http",
-              label: "reverse_http"
-            },
-            {
-              value: "reverse_tcp",
-              label: "reverse_tcp"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      value: "php",
-      label: "php",
-      children: [
-        {
-          value: "meterpreter",
-          label: "meterpreter",
-          children: [
-            {
-              value: "bind_tcp",
-              label: "bind_tcp"
-            },
-            {
-              value: "reverse_tcp",
-              label: "reverse_tcp"
-            }
-          ]
-        },
-        {
-          value: "meterpreter_reverse_tcp",
-          label: "meterpreter_reverse_tcp"
-        }
-      ]
-    },
-    {
       value: "python",
       label: "python",
       children: [
@@ -1485,6 +1437,30 @@ const CreatePayloadModalContent = props => {
       ]
     },
     {
+      value: "java",
+      label: "java",
+      children: [
+        {
+          value: "meterpreter",
+          label: "meterpreter",
+          children: [
+            {
+              value: "bind_tcp",
+              label: "bind_tcp"
+            },
+            {
+              value: "reverse_http",
+              label: "reverse_http"
+            },
+            {
+              value: "reverse_tcp",
+              label: "reverse_tcp"
+            }
+          ]
+        }
+      ]
+    },
+    {
       value: "android",
       label: "android",
       children: [
@@ -1519,7 +1495,31 @@ const CreatePayloadModalContent = props => {
           label: "meterpreter_reverse_tcp"
         }
       ]
-    }
+    },
+    {
+      value: "php",
+      label: "php",
+      children: [
+        {
+          value: "meterpreter",
+          label: "meterpreter",
+          children: [
+            {
+              value: "bind_tcp",
+              label: "bind_tcp"
+            },
+            {
+              value: "reverse_tcp",
+              label: "reverse_tcp"
+            }
+          ]
+        },
+        {
+          value: "meterpreter_reverse_tcp",
+          label: "meterpreter_reverse_tcp"
+        }
+      ]
+    },
   ];
 
   const payloadEncoder = [
