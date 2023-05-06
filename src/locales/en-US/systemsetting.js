@@ -34,6 +34,7 @@ export default {
   "app.systemsetting.opensourcesoftware": "Open Source Software",
   "app.systemsetting.opensourcesoftwarelink": "Software List",
   "app.systemsetting.betafunction": "Beta Function",
+  "app.systemsetting.onlyshowsession": "Only Show Session",
   "app.systemsetting.downloadlog": "Download Logs",
   "app.systemsetting.reloadpage": "Refresh page to take effect",
   "app.systemsetting.updatemsfstatus": "Refresh MSFStatus",

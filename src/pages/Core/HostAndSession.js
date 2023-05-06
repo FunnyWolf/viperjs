@@ -379,7 +379,7 @@ const HostAndSessionCard = () => {
   const [updateHostModalVisable, setUpdateHostModalVisable] = useState(false);
 
   const [expandedRowKeys, setExpandedRowKeys] = useLocalStorageState("hostandsessioncard-expandedkeys", []);
-
+  const [onlyShowSession, setOnlyShowSession] = useLocalStorageState("only-show-session", false);
 
   const closeTransportModel = useCallback(() => {
     setTransportModalVisable(false);
@@ -1055,7 +1055,12 @@ const HostAndSessionCard = () => {
     <Fragment>
       <Table
         loading={!heatbeatsocketalive}
-        dataSource={hostAndSessionList}
+        dataSource={onlyShowSession ? hostAndSessionList.map(record => {
+          if (record.session.length > 0 || record.ipaddress === "255.255.255.255") {
+            return { ...record };
+          }
+          return null;
+        }).filter(record => !!record) : hostAndSessionList}
         columns={hostAndSessionTableColumns}
         expandable={{
           onExpand: (expanded, record) => {
@@ -1240,7 +1245,7 @@ const TabsBottom = () => {
   let payloadandhandlerRef = React.createRef();
   let webDeliveryRef = React.createRef();
   let filemsfRef = React.createRef();
-  const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState("viper-debug-flag", false);
+
   const tabActiveOnChange = activeKey => {
     switch (activeKey) {
       case "MsfConsole":

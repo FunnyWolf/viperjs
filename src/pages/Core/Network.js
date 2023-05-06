@@ -5,58 +5,7 @@ import Graphin, { Behaviors, Utils } from "@antv/graphin";
 import "./iconfont.css";
 import fonts from "./iconfont.json";
 import { formatText } from "@/utils/locales";
-import {
-  ArrowRightOutlined,
-  ArrowUpOutlined,
-  BugOutlined,
-  CaretRightOutlined,
-  CheckOutlined,
-  CloseCircleOutlined,
-  CloudDownloadOutlined,
-  CloudOutlined,
-  CodeOutlined,
-  ContactsOutlined,
-  CustomerServiceOutlined,
-  DashboardOutlined,
-  DeleteOutlined,
-  DeliveredProcedureOutlined,
-  DeploymentUnitOutlined,
-  DesktopOutlined,
-  DisconnectOutlined,
-  DownOutlined,
-  FolderAddOutlined,
-  FolderOpenOutlined,
-  FundViewOutlined,
-  GatewayOutlined,
-  HomeOutlined,
-  InteractionOutlined,
-  KeyOutlined,
-  LaptopOutlined,
-  MonitorOutlined,
-  NodeIndexOutlined,
-  PartitionOutlined,
-  PlayCircleOutlined,
-  PlusOutlined,
-  ProfileOutlined,
-  PushpinOutlined,
-  QuestionOutlined,
-  RadarChartOutlined,
-  RestOutlined,
-  RetweetOutlined,
-  RightOutlined,
-  RobotOutlined,
-  SearchOutlined,
-  SettingOutlined,
-  SisternodeOutlined,
-  SubnodeOutlined,
-  SwapLeftOutlined,
-  SwapOutlined,
-  SwapRightOutlined,
-  SyncOutlined,
-  UploadOutlined,
-  UpOutlined,
-  WindowsOutlined
-} from "@ant-design/icons";
+import { useLocalStorageState } from "_ahooks@2.10.14@ahooks";
 //字符串格式化函数
 String.prototype.format = function() {
   let args = arguments;
@@ -78,10 +27,11 @@ const icons = Graphin.registerFontFamily(iconLoader);
 
 const Network = () => {
   console.log("Network");
+
   const { networkData } = useModel("HostAndSessionModel", model => ({
     networkData: model.networkData
   }));
-
+  const [onlyShowSession, setOnlyShowSession] = useLocalStorageState("only-show-session", false);
   const ranksepFunc = node => {
     const { id, data } = node;
     if (data.type === "session") {
@@ -92,6 +42,14 @@ const Network = () => {
   };
 
   const formatData = data => {
+
+    data.nodes = data.nodes.filter(node => {
+      if (onlyShowSession && node.data.type === "host" && node.data.sessionnum === undefined) {
+        return false;
+      }
+      return true;
+    });
+
     data.nodes.forEach(node => {
       const { id, data } = node;
       // viper节点
@@ -112,7 +70,6 @@ const Network = () => {
           }
         };
       } else if (data.type === "host") {
-        // host节点
         node.style = {
           label: {
             fill: "#e8b339",
@@ -134,6 +91,7 @@ const Network = () => {
             size: 30
           }
         };
+        // host节点
       } else if (data.type === "session") {
         // session节点
         const { platform } = data;
