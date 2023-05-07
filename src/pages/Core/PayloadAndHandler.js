@@ -415,7 +415,7 @@ const CreateHandlerModalContent = props => {
           label: "meterpreter_reverse_tcp"
         }
       ]
-    },
+    }
   ];
 
   const StageEncoder = ["x86/shikata_ga_nai", "x86/xor_dynamic", "x64/xor", "x64/xor_dynamic"];
@@ -630,7 +630,7 @@ const CreateHandlerModalContent = props => {
       );
     }
 
-    if (selectPayload.includes("reverse_https") || selectPayload.includes("reverse_winhttps")) {
+    if (selectPayload.includes("reverse_https") || selectPayload.includes("reverse_winhttps") || selectPayload.endsWith("_ssl")) {
       options.push(
         <Form.Item
           {...formLayout}
@@ -1519,7 +1519,7 @@ const CreatePayloadModalContent = props => {
           label: "meterpreter_reverse_tcp"
         }
       ]
-    },
+    }
   ];
 
   const payloadEncoder = [
@@ -1774,7 +1774,7 @@ const CreatePayloadModalContent = props => {
       );
     }
 
-    if (selectPayload.includes("reverse_https") || selectPayload.includes("reverse_winhttps")) {
+    if (selectPayload.includes("reverse_https") || selectPayload.includes("reverse_winhttps") || selectPayload.endsWith("_ssl")) {
       options.push(
         <Form.Item
           {...formLayout}
