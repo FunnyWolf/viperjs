@@ -2940,10 +2940,11 @@ const FileSession = () => {
         icon: null,
         title: result.reason,
         mask: false,
-        bodyStyle: { padding: 0 },
+        bodyStyle: { padding: 8 },
         style: { top: 32 },
         width: "70%",
         closable: true,
+        footer:null,
         content: (<Form preserve={false} onFinish={onUpdateFileSession}>
           <Form.Item name="filedata" initialValue={result.data}>
             <TextArea
