@@ -2366,6 +2366,18 @@ const PortFwd = () => {
             }
           },
           {
+            title: formatText("app.msfsocks.portfwd.tip"),
+            dataIndex: "remote",
+            key: "remote",
+            render: (text, record) => {
+              return (
+                <div>
+                  <span>{`${record.tip}`}</span>
+                </div>
+              );
+            }
+          },
+          {
             dataIndex: "operation",
             width: "10%",
             render: (text, record) => (
