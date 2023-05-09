@@ -2339,7 +2339,6 @@ const PortFwd = () => {
               );
             }
           },
-
           {
             title: formatText("app.msfsocks.portfwd.remote"),
             dataIndex: "remote",
