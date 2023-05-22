@@ -17,6 +17,7 @@ export default {
   'app.msfsocks.portfwd.listen': '监听',
   'app.msfsocks.portfwd.target': '目标',
   'app.msfsocks.portfwd.remote': '远程(Session)',
+  'app.msfsocks.portfwd.tip': '提示',
   'app.msfsocks.socks.add': '新增代理',
   'app.msfsocks.socks.type': '代理类型',
   'app.msfsocks.socks.type.rule': '请选择代理类型',

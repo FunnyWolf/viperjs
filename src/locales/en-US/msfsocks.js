@@ -17,6 +17,7 @@ export default {
   'app.msfsocks.portfwd.listen': 'Listen',
   'app.msfsocks.portfwd.target': 'Target',
   'app.msfsocks.portfwd.remote': 'Remote(Session)',
+  'app.msfsocks.portfwd.tip': 'Tip',
   'app.msfsocks.socks.add': 'Add Proxy',
   'app.msfsocks.socks.type': 'Proxy Type',
   'app.msfsocks.socks.type.rule': 'Please select proxy type',

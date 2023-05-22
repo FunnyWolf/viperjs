@@ -2339,7 +2339,6 @@ const PortFwd = () => {
               );
             }
           },
-
           {
             title: formatText("app.msfsocks.portfwd.remote"),
             dataIndex: "remote",
@@ -2361,6 +2360,18 @@ const PortFwd = () => {
                     {formatText("app.msfsocks.portfwd.listen")}
                   </Tag>
                   <span>{`${record.rhost}:${record.rport}`}</span>
+                </div>
+              );
+            }
+          },
+          {
+            title: formatText("app.msfsocks.portfwd.tip"),
+            dataIndex: "remote",
+            key: "remote",
+            render: (text, record) => {
+              return (
+                <div>
+                  <span>{`${record.tip}`}</span>
                 </div>
               );
             }

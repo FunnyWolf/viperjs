@@ -280,7 +280,7 @@ const MsfSocks = () => {
     style={{ marginTop: -16 }}
   >
     <Row>
-      <Col span={12}>
+      <Col span={10}>
         <Row>
           <Col span={12}>
             <Input
@@ -391,39 +391,71 @@ const MsfSocks = () => {
           dataSource={hostList}
         />
       </Col>
-      <Col span={6}>
-        <Button
-          icon={<SyncOutlined />}
-          onClick={() => listHostReq.run()}
-          block
-          loading={listHostReq.loading || destoryHostReq.loading || destorySocksReq.loading || destoryPortFwdReq.loading || destoryRouteReq.loading}
-        >{formatText("app.core.refresh")}</Button>
-        <Table
-          bordered
-          className={styles.proxyTable}
-          size="small"
-          rowKey="subnet"
-          pagination={false}
-          dataSource={routeAll}
-          columns={[{
-            title: "SID", dataIndex: "session", key: "session", width: 48, render: (text, record) => {
-              return SidTag(text);
-            }
-          }, {
-            title: formatText("app.msfsocks.proxy.subnet"), dataIndex: "subnet", key: "subnet"
-          }, {
-            title: formatText("app.msfsocks.proxy.netmask"), dataIndex: "netmask", key: "netmask", width: 120
-          }, {
-            dataIndex: "operation", width: 48, render: (text, record) => (<a
-              style={{ color: "red" }}
-              onClick={() => destoryRouteReq.run({
-                sessionid: record.session, subnet: record.subnet, netmask: record.netmask
-              })}
-            >
-              {formatText("app.core.delete")}
-            </a>)
-          }]}
-        />
+      <Col span={14}>
+        <Row>
+          <Col span={12}>
+            <Button
+              icon={<SyncOutlined />}
+              onClick={() => listHostReq.run()}
+              block
+              loading={listHostReq.loading || destoryHostReq.loading || destorySocksReq.loading || destoryPortFwdReq.loading || destoryRouteReq.loading}
+            >{formatText("app.core.refresh")}</Button>
+            <Table
+              bordered
+              className={styles.proxyTable}
+              size="small"
+              rowKey="subnet"
+              pagination={false}
+              dataSource={routeAll}
+              columns={[{
+                title: "SID", dataIndex: "session", key: "session", width: 48, render: (text, record) => {
+                  return SidTag(text);
+                }
+              }, {
+                title: formatText("app.msfsocks.proxy.subnet"), dataIndex: "subnet", key: "subnet"
+              }, {
+                title: formatText("app.msfsocks.proxy.netmask"), dataIndex: "netmask", key: "netmask", width: 120
+              }, {
+                dataIndex: "operation", width: 48, render: (text, record) => (<a
+                  style={{ color: "red" }}
+                  onClick={() => destoryRouteReq.run({
+                    sessionid: record.session, subnet: record.subnet, netmask: record.netmask
+                  })}
+                >
+                  {formatText("app.core.delete")}
+                </a>)
+              }]}
+            />
+          </Col>
+          <Col span={12}>
+            <Button
+              style={{ marginTop: 0 }}
+              block
+              icon={<PlusOutlined />}
+              onClick={() => setCreateSocksModalVisible(true)}
+            >{formatText("app.msfsocks.socks.add")}
+            </Button>
+            <Table
+              bordered
+              className={styles.routesTable}
+              size="small"
+              rowKey="port"
+              pagination={false}
+              dataSource={socksActive}
+              columns={[{
+                title: formatText("app.msfsocks.socks.type"), dataIndex: "type", key: "type", width: 104
+              }, {
+                title: formatText("app.msfsocks.socks.port"), dataIndex: "port", key: "port"
+              }, {
+                dataIndex: "operation",
+                width: 64,
+                render: (text, record) => (<a style={{ color: "red" }} onClick={() => destorySocksReq.run(record)}>
+                  {formatText("app.core.delete")}
+                </a>)
+              }]}
+            />
+          </Col>
+        </Row>
         <Table
           style={{ marginTop: -16 }}
           className={styles.portfwdTable}
@@ -491,41 +523,26 @@ const MsfSocks = () => {
                 <span>{`${record.rhost}:${record.rport}`}</span>
               </div>);
             }
-          }, {
-            dataIndex: "operation",
-            width: 64,
-            render: (text, record) => (<a style={{ color: "red" }} onClick={() => destoryPortFwdReq.run(record)}>
-              {formatText("app.core.delete")}
-            </a>)
-          }]}
-        />
-      </Col>
-      <Col span={6}>
-        <Button
-          style={{ marginTop: 0 }}
-          block
-          icon={<PlusOutlined />}
-          onClick={() => setCreateSocksModalVisible(true)}
-        >{formatText("app.msfsocks.socks.add")}
-        </Button>
-        <Table
-          bordered
-          className={styles.routesTable}
-          size="small"
-          rowKey="port"
-          pagination={false}
-          dataSource={socksActive}
-          columns={[{
-            title: formatText("app.msfsocks.socks.type"), dataIndex: "type", key: "type", width: 104
-          }, {
-            title: formatText("app.msfsocks.socks.port"), dataIndex: "port", key: "port"
-          }, {
-            dataIndex: "operation",
-            width: 64,
-            render: (text, record) => (<a style={{ color: "red" }} onClick={() => destorySocksReq.run(record)}>
-              {formatText("app.core.delete")}
-            </a>)
-          }]}
+          },
+            {
+              title: formatText("app.msfsocks.portfwd.tip"),
+              dataIndex: "remote",
+              key: "remote",
+              render: (text, record) => {
+                return (
+                  <div>
+                    <span>{`${record.tip}`}</span>
+                  </div>
+                );
+              }
+            },
+            {
+              dataIndex: "operation",
+              width: 40,
+              render: (text, record) => (<a style={{ color: "red" }} onClick={() => destoryPortFwdReq.run(record)}>
+                {formatText("app.core.delete")}
+              </a>)
+            }]}
         />
       </Col>
     </Row>
