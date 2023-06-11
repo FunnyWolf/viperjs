@@ -192,11 +192,18 @@ const RealTimeModuleResult = () => {
         renderItem={item => (
           <List.Item key={item.id} style={{ padding: "4px 0px 0px 4px" }}>
             <Space>
-              <Tag color="cyan">
-                {moment(item.update_time * 1000).format("YYYY-MM-DD HH:mm")}
+              <Tag
+                color="cyan"
+                style={{
+                  // marginLeft: -1,
+                  // marginRight: 4,
+                  textAlign: "center"
+                }}
+              >
+                <strong>{moment(item.update_time * 1000).format("MM-DD HH:mm:ss")}</strong>
               </Tag>
               <Tag
-                color="geekblue"
+                color="blue"
                 style={{
                   textAlign: "center",
                   cursor: "pointer"
