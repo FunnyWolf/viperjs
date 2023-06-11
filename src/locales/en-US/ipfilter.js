@@ -15,6 +15,8 @@ export default {
   "app.ipfilter.geo_whitelist": "Geographic Whitelist",
   "app.ipfilter.geo_whitelist.tip": "<Only allowed> IP access handler of geographic locations in the list (judging by geo database)",
   "app.ipfilter.switch": "Main Switch",
+  "app.ipfilter.switch.running": "Running",
+  "app.ipfilter.switch.inactive": "Inactive",
   "app.ipfilter.switch.tip": "IP filtering master switch, IP filtering will only take effect after turning on this option",
   "app.ipfilter.search.ph": "Enter IP to check if it is blocked",
   "app.ipfilter.update": "Update Configuration"

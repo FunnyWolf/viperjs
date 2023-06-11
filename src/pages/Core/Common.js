@@ -9,6 +9,7 @@ import {
   QuestionOutlined,
   WindowsOutlined,
 } from '@ant-design/icons';
+import { QuestionCircleTwoTone } from "_@ant-design_icons@4.8.0@@ant-design/icons";
 
 export const SidTag = sid => {
   return (
@@ -86,4 +87,18 @@ export const randomstr = (length) => {
   const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
   for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
   return result;
+};
+
+export const DocIcon = ({ url }) => {
+  return (<a target="_blank" href={url}>
+      <QuestionCircleTwoTone
+        style={{
+          fontSize: 24,
+          bottom: 24,
+          right: 24,
+          position: "fixed"
+          // zIndex: 10000
+        }} />
+    </a>
+  );
 };

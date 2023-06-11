@@ -88,7 +88,8 @@ import {
   UpOutlined,
   WindowsOutlined,
   MinusCircleTwoTone,
-  PlusCircleTwoTone
+  PlusCircleTwoTone,
+  StopOutlined
 } from "@ant-design/icons";
 
 import {
@@ -1386,7 +1387,7 @@ const TabsBottom = () => {
         <TabPane
           tab={
             <div className={styles.tabPanediv}>
-              <DisconnectOutlined />
+              <StopOutlined />
               <span className={styles.tabPanespan}>{formatText("app.hostandsession.tab.IPFilter")}</span>
             </div>
           }

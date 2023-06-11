@@ -1,9 +1,12 @@
 import React, { Fragment, memo } from "react";
 import { CloudUploadOutlined } from "@ant-design/icons";
 import { useRequest } from "umi";
-import { Button, Card, Checkbox, Col, Form, Input, Row } from "antd";
+import { Button, Card, Checkbox, Col, Form, Input, Row, Space } from "antd";
 import { getMsgrpcIPFilterAPI, putMsgrpcIPFilteAPI } from "@/services/apiv1";
 import { formatText } from "@/utils/locales";
+import { Switch, Radio } from "_antd@4.24.10@antd";
+import { CheckOutlined, MinusOutlined, QuestionCircleTwoTone } from "_@ant-design_icons@4.8.0@@ant-design/icons";
+import { DocIcon } from "@/pages/Core/Common";
 
 const { Search } = Input;
 const { TextArea } = Input;
@@ -19,12 +22,14 @@ String.prototype.format = function() {
 const IPFilter = () => {
   console.log("IPFilter");
   const [mainForm] = Form.useForm();
+  const [ipfilterActive, setIpfilterActive] = React.useState(false);
   const [geoBlacklist, setGeoBlacklist] = React.useState([]);
   const [indeterminate, setIndeterminate] = React.useState(false);
   const [geoBlacklistCheckAll, setGeoBlacklistGeoBlacklistCheckAll] = React.useState(false);
 
   useRequest(getMsgrpcIPFilterAPI, {
     onSuccess: (result, params) => {
+      setIpfilterActive(result.switch);
       mainForm.setFieldsValue(result);
       onChange(result.geo_blacklist);
     },
@@ -35,6 +40,7 @@ const IPFilter = () => {
   const listIPFilterReq = useRequest(getMsgrpcIPFilterAPI, {
     manual: true,
     onSuccess: (result, params) => {
+      setIpfilterActive(result.switch);
       mainForm.setFieldsValue(result);
       onChange(result.geo_blacklist);
     },
@@ -152,8 +158,10 @@ const IPFilter = () => {
     setGeoBlacklistGeoBlacklistCheckAll(e.target.checked);
   };
 
+
   return (
     <Fragment>
+      <DocIcon url="https://www.yuque.com/vipersec/help/lxlre4" />
       <Card style={{ marginTop: -16 }} bodyStyle={{ padding: "16px 16px 16px 16px" }}>
         <Form
           layout="vertical"
@@ -166,22 +174,14 @@ const IPFilter = () => {
                 tooltip={formatText("app.ipfilter.switch.tip")}
                 label={formatText("app.ipfilter.switch")}
                 name="switch"
-                valuePropName="checked"
                 rules={[]}
               >
-                <Checkbox />
+                <Radio.Group buttonStyle="solid">
+                  <Radio.Button value={true}>{formatText("app.ipfilter.switch.running")}</Radio.Button>
+                  <Radio.Button value={false}>{formatText("app.ipfilter.switch.inactive")}</Radio.Button>
+                </Radio.Group>
               </Form.Item>
-              <Form.Item>
-                <Button
-                  block
-                  icon={<CloudUploadOutlined />}
-                  type="primary"
-                  htmlType="submit"
-                  loading={updateIPFilterReq.loading}
-                >
-                  {formatText("app.ipfilter.update")}
-                </Button>
-              </Form.Item>
+
               <Search placeholder={formatText("app.ipfilter.search.ph")}
                       onSearch={(value) => getIPFilterReq.run({ ip: value })} block />
             </Col>
@@ -193,7 +193,7 @@ const IPFilter = () => {
                 rules={[{}]}
               >
                 <TextArea
-                  autoSize={{ minRows: 20, maxRows: 20 }}
+                  autoSize={{ minRows: 10, maxRows: 10 }}
                   placeholder={formatText("app.ipfilter.diy_whitelist.ph")} />
               </Form.Item>
             </Col>
@@ -205,11 +205,11 @@ const IPFilter = () => {
                 rules={[{}]}
               >
                 <TextArea
-                  autoSize={{ minRows: 20, maxRows: 20 }}
+                  autoSize={{ minRows: 10, maxRows: 10 }}
                   placeholder={formatText("app.ipfilter.diy_whitelist.ph")} />
               </Form.Item>
             </Col>
-            <Col span={3}>
+            <Col span={2}>
               <Form.Item
                 tooltip={formatText("app.ipfilter.cloud_blacklist.tip")}
                 label={formatText("app.ipfilter.cloud_blacklist")}
@@ -227,7 +227,7 @@ const IPFilter = () => {
                 <Checkbox />
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={5}>
               <Form.Item
                 tooltip={formatText("app.ipfilter.geo_blacklist.tip")}
                 label={formatText("app.ipfilter.geo_blacklist")}
@@ -258,6 +258,15 @@ const IPFilter = () => {
             {/*</Col>*/}
 
           </Row>
+          <Button
+            block
+            icon={<CloudUploadOutlined />}
+            type="primary"
+            htmlType="submit"
+            loading={updateIPFilterReq.loading}
+          >
+            {formatText("app.ipfilter.update")}
+          </Button>
         </Form>
       </Card>
     </Fragment>
