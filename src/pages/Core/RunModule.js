@@ -59,7 +59,7 @@ import {
 import { formatText, getModuleDesc, getModuleName, getOptionDesc, getOptionTag } from "@/utils/locales";
 import { postModuleOpts } from "@/pages/Core/RealTimeCard";
 import { sessionTagList } from "@/pages/Core/HostAndSession";
-import { DocIcon } from "@/pages/Core/Common";
+import { DocIcon, DocIconInDiv } from "@/pages/Core/Common";
 
 const { Title, Paragraph, Text } = Typography;
 const { Search, TextArea } = Input;
@@ -712,6 +712,7 @@ export const RunModule = props => {
 
   return (
     <Fragment>
+      <DocIconInDiv url="https://www.yuque.com/vipersec/help/lezyt4" />
       <Row>
         <Col span={8}>
           <Card bordered={false}>

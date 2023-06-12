@@ -103,3 +103,17 @@ export const DocIcon = ({ url }) => {
     </a>
   );
 };
+
+export const DocIconInDiv = ({ url }) => {
+  return (<a target="_blank" href={url}>
+      <QuestionCircleOutlined
+        style={{
+          fontSize: 24,
+          bottom: 24,
+          right: 24,
+          position: "absolute",
+          zIndex: 100
+        }} />
+    </a>
+  );
+};
