@@ -59,6 +59,7 @@ import {
 import { formatText, getModuleDesc, getModuleName, getOptionDesc, getOptionTag } from "@/utils/locales";
 import { postModuleOpts } from "@/pages/Core/RealTimeCard";
 import { sessionTagList } from "@/pages/Core/HostAndSession";
+import { DocIcon } from "@/pages/Core/Common";
 
 const { Title, Paragraph, Text } = Typography;
 const { Search, TextArea } = Input;
@@ -1703,6 +1704,7 @@ export const BotScan = () => {
   const [runBotModuleModalVisable, setRunBotModuleModalVisable] = useState(false);
   return (
     <Fragment>
+      <DocIcon url="https://www.yuque.com/vipersec/help/yrys61" />
       <Row style={{ marginTop: -16 }} gutter={0}>
         <Col span={24}>
           <Button
@@ -2278,6 +2280,7 @@ const AutoRobot = () => {
 
   return (
     <Fragment>
+      <DocIcon url="https://www.yuque.com/vipersec/help/gh60e1" />
       <Row gutter={0} style={{ marginTop: -16 }}>
         <Col span={12}>
           <Button
@@ -2725,6 +2728,7 @@ const ProxyHttpScan = () => {
 
   return (
     <Fragment>
+      <DocIcon url="https://www.yuque.com/vipersec/help/bg1zvcdmg5f6q71e" />
       <Row gutter={0} style={{ marginTop: -16 }}>
         <Col span={12}>
           <Button

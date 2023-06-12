@@ -10,6 +10,7 @@ import styles from "./FileMsf.less";
 import { getToken } from "@/utils/authority";
 import { Downheight } from "@/utils/utils";
 import { formatText, manuali18n, msgerror, msgsuccess, msgwarning } from "@/utils/locales";
+import { DocIcon } from "@/pages/Core/Common";
 
 String.prototype.format = function() {
   let args = arguments;
@@ -243,6 +244,7 @@ const FileMsf = props => {
 
   return (
     <Fragment>
+      <DocIcon url="https://www.yuque.com/vipersec/help/yc0ipk" />
       <Row
         style={{
           marginTop: -16

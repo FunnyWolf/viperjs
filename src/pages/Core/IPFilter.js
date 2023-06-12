@@ -1,15 +1,14 @@
 import React, { Fragment, memo } from "react";
 import { CloudUploadOutlined } from "@ant-design/icons";
 import { useRequest } from "umi";
-import { Button, Card, Checkbox, Col, Form, Input, Row, Space } from "antd";
+import { Button, Card, Checkbox, Col, Form, Input, Row, Radio } from "antd";
 import { getMsgrpcIPFilterAPI, putMsgrpcIPFilteAPI } from "@/services/apiv1";
 import { formatText } from "@/utils/locales";
-import { Switch, Radio } from "_antd@4.24.10@antd";
-import { CheckOutlined, MinusOutlined, QuestionCircleTwoTone } from "_@ant-design_icons@4.8.0@@ant-design/icons";
 import { DocIcon } from "@/pages/Core/Common";
 
 const { Search } = Input;
 const { TextArea } = Input;
+
 //字符串格式化函数
 String.prototype.format = function() {
   let args = arguments;

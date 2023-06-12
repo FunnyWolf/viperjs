@@ -8,8 +8,9 @@ import {
   LaptopOutlined,
   QuestionOutlined,
   WindowsOutlined,
+  QuestionCircleTwoTone,
+  QuestionCircleOutlined,
 } from '@ant-design/icons';
-import { QuestionCircleTwoTone } from "_@ant-design_icons@4.8.0@@ant-design/icons";
 
 export const SidTag = sid => {
   return (
@@ -91,13 +92,13 @@ export const randomstr = (length) => {
 
 export const DocIcon = ({ url }) => {
   return (<a target="_blank" href={url}>
-      <QuestionCircleTwoTone
+      <QuestionCircleOutlined
         style={{
           fontSize: 24,
           bottom: 24,
           right: 24,
-          position: "fixed"
-          // zIndex: 10000
+          position: "fixed",
+          zIndex: 100
         }} />
     </a>
   );

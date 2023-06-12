@@ -28,7 +28,7 @@ const LoginPage = props => {
           top: 32,
           right: 32,
           position: "fixed",
-          zIndex: 10000
+          zIndex: 100
         }}
       >
         <LangSwitch />

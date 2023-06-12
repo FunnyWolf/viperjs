@@ -44,6 +44,7 @@ import { reloadAuthorized } from "@/utils/Authorized";
 import { formatText } from "@/utils/locales";
 import styles from "@/pages/Core/HostAndSession.less";
 import { CollectSandboxMemo } from "@/pages/Core/CollectSandbox";
+import { DocIcon } from "@/pages/Core/Common";
 
 const { Option } = Select;
 const { TabPane } = Tabs;
@@ -112,19 +113,19 @@ const SystemSetting = () => {
         <LHostForm />
       </TabPane>
 
-      {viperDebugFlag ? (
-        <TabPane
-          tab={
-            <div className={styles.tabPanediv}>
-              <MailOutlined />
-              <span className={styles.tabPanespan}>TEST</span>
-            </div>
-          }
-          key="CollectSandbox"
-        >
-          <CollectSandboxMemo />
-        </TabPane>
-      ) : null}
+      {/*{viperDebugFlag ? (*/}
+      {/*  <TabPane*/}
+      {/*    tab={*/}
+      {/*      <div className={styles.tabPanediv}>*/}
+      {/*        <MailOutlined />*/}
+      {/*        <span className={styles.tabPanespan}>TEST</span>*/}
+      {/*      </div>*/}
+      {/*    }*/}
+      {/*    key="CollectSandbox"*/}
+      {/*  >*/}
+      {/*    <CollectSandboxMemo />*/}
+      {/*  </TabPane>*/}
+      {/*) : null}*/}
     </Tabs>
   );
 };
@@ -212,6 +213,7 @@ const SystemInfo = () => {
 
   return (
     <Card style={{ marginTop: -16 }}>
+      <DocIcon url="https://www.yuque.com/vipersec/help/vt9iyh" />
       <Row>
         <Descriptions size="small" style={{ marginLeft: 64 }} column={6}>
           <Descriptions.Item label={formatText("app.systemsetting.version")}>
@@ -367,6 +369,7 @@ const SessionMonitorForm = props => {
   };
 
   return (<Card style={{ marginTop: -16 }}>
+    <DocIcon url="https://www.yuque.com/vipersec/help/myo3a0" />
     <Row>
       <Col xs={24} sm={16}>
         <Form {...inputItemLayout}>
@@ -448,6 +451,7 @@ const TelegramForm = props => {
 
   return (<Card style={{ marginTop: -16 }}>
     <Row>
+      <DocIcon url="https://www.yuque.com/vipersec/help/su4tv8" />
       <Col span={16}>
         <Form onFinish={onUpdateTelegram} form={telegramForm} {...inputItemLayout}>
           <Form.Item
@@ -560,6 +564,7 @@ const DingDingForm = props => {
 
   return (<Card style={{ marginTop: -16 }}>
     <Row>
+      <DocIcon url="https://www.yuque.com/vipersec/help/bogo5k" />
       <Col span={16}>
         <Form onFinish={onUpdateDingDing} form={dingdingForm} {...inputItemLayout}>
           <Form.Item
@@ -658,6 +663,7 @@ const ServerChanForm = props => {
 
   return (<Card style={{ marginTop: -16 }}>
       <Row>
+        <DocIcon url="https://www.yuque.com/vipersec/help/uw2aha" />
         <Col span={16}>
           <Form onFinish={onUpdateServerChan} form={serverchanForm} {...inputItemLayout}>
             <Form.Item
@@ -745,6 +751,7 @@ const FOFAForm = props => {
 
   return (
     <Card style={{ marginTop: -16 }}>
+      <DocIcon url="https://www.yuque.com/vipersec/help/mboabvam043nwd46" />
       <Row>
         <Col span={16}>
           <Form form={fofaForm} onFinish={onUpdateFOFA} {...inputItemLayout}>
@@ -847,6 +854,7 @@ const QuakeForm = props => {
 
   return (
     <Card style={{ marginTop: -16 }}>
+      <DocIcon url="https://www.yuque.com/vipersec/help/hufexqh266gf76s9" />
       <Row>
         <Col span={16}>
           <Form form={quakeForm} onFinish={onUpdateQuake} {...inputItemLayout}>
@@ -938,6 +946,7 @@ const ZoomeyeForm = props => {
 
   return (
     <Card style={{ marginTop: -16 }}>
+      <DocIcon url="https://www.yuque.com/vipersec/help/mcn0wyw0sx76p859" />
       <Row>
         <Col span={16}>
           <Form form={zoomeyeForm} onFinish={onUpdateZoomeye} {...inputItemLayout}>
@@ -1035,6 +1044,7 @@ const LHostForm = props => {
   };
 
   return (<Card style={{ marginTop: -16 }}>
+    <DocIcon url="https://www.yuque.com/vipersec/help/mprur0" />
     <Row>
       <Col span={16}>
         <Form form={lHostForm}

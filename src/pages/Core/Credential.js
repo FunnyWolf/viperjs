@@ -18,6 +18,7 @@ import {
 } from "@/services/apiv1";
 import { useRequest } from "umi";
 import { formatText, getOptionTag } from "@/utils/locales";
+import { DocIcon } from "@/pages/Core/Common";
 
 const { Panel } = Collapse;
 const { Search } = Input;
@@ -89,6 +90,7 @@ const Credential = () => {
 
   return (
     <Fragment>
+      <DocIcon url="https://www.yuque.com/vipersec/help/iydrqn" />
       <Row style={{ marginTop: -16 }} gutter={0}>
         <Col span={12}>
           <Button

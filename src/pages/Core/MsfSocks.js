@@ -17,7 +17,7 @@ import {
 import {
   Alert, Avatar, Button, Col, Form, Input, InputNumber, Modal, Radio, Row, Select, Space, Table, Tag
 } from "antd";
-import { SidTag } from "@/pages/Core/Common";
+import { DocIcon, SidTag } from "@/pages/Core/Common";
 import styles from "./MsfSocks.less";
 import {
   deleteCoreHostAPI,
@@ -279,6 +279,7 @@ const MsfSocks = () => {
   return (<div
     style={{ marginTop: -16 }}
   >
+    <DocIcon url="https://www.yuque.com/vipersec/help/cv0shx" />
     <Row>
       <Col span={10}>
         <Row>

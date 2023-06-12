@@ -87,8 +87,6 @@ import {
   UploadOutlined,
   UpOutlined,
   WindowsOutlined,
-  MinusCircleTwoTone,
-  PlusCircleTwoTone,
   StopOutlined
 } from "@ant-design/icons";
 
@@ -129,7 +127,7 @@ import {
 import { FileMsfMemo, FileMsfModal } from "@/pages/Core/FileMsf";
 import PayloadAndHandler, { PayloadAndHandlerMemo } from "@/pages/Core/PayloadAndHandler";
 import { WebDeliveryMemo } from "@/pages/Core/WebDelivery";
-import { host_type_to_avatar_table, MyIcon, SidTag } from "@/pages/Core/Common";
+import { DocIcon, host_type_to_avatar_table, MyIcon, SidTag } from "@/pages/Core/Common";
 import SystemSetting, { SystemSettingMemo } from "@/pages/Core/SystemSetting";
 import { MsfSocksMemo } from "@/pages/Core/MsfSocks";
 import LazyLoader from "@/pages/Core/LazyLoader";
@@ -1318,7 +1316,7 @@ const TabsBottom = () => {
           top: "16px",
           right: 8,
           position: "fixed",
-          zIndex: 10000
+          zIndex: 100
         }}
       >
         <LangSwitch />
@@ -2956,7 +2954,7 @@ const FileSession = () => {
         style: { top: 32 },
         width: "70%",
         closable: true,
-        footer:null,
+        footer: null,
         content: (<Form preserve={false} onFinish={onUpdateFileSession}>
           <Form.Item name="filedata" initialValue={result.data}>
             <TextArea

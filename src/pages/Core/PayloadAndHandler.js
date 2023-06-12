@@ -7,7 +7,7 @@ import {
   postMsgrpcPayloadAPI
 } from "@/services/apiv1";
 import styles from "./PayloadAndHandler.less";
-import { randomstr } from "@/pages/Core/Common";
+import { DocIcon, randomstr } from "@/pages/Core/Common";
 import {
   Alert,
   Avatar,
@@ -2426,6 +2426,7 @@ const PayloadAndHandler = (props) => {
 
   return (
     <Fragment>
+      <DocIcon url="https://www.yuque.com/vipersec/help/rxb29t" />
       <Row style={{ marginTop: -16 }} gutter={0}>
         <Col span={8}>
           <Button

@@ -27,7 +27,7 @@ import {
 import { CloudDownloadOutlined, SyncOutlined } from "@ant-design/icons";
 import { useRequest } from "umi";
 
-import { randomstr } from "@/pages/Core/Common";
+import { DocIcon, randomstr } from "@/pages/Core/Common";
 import { formatText, getOptionTag } from "@/utils/locales";
 
 const { Panel } = Collapse;
@@ -380,6 +380,7 @@ const WebDelivery = (props) => {
 
   return (
     <Fragment>
+      <DocIcon url="https://www.yuque.com/vipersec/help/kvxr65" />
       <Row style={{ marginTop: -16 }} gutter={0}>
         <Col span={12}>
           <Button

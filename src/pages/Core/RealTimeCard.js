@@ -27,7 +27,7 @@ import {
   Typography
 } from "antd";
 import moment from "moment";
-import { MyIcon, SidTag } from "@/pages/Core/Common";
+import { DocIcon, MyIcon, SidTag } from "@/pages/Core/Common";
 import styles from "./RealTimeCard.less";
 import { Upheight } from "@/utils/utils";
 import { PostModuleInfoContent } from "@/pages/Core/RunModule";
@@ -546,6 +546,7 @@ const RealTimeNotices = () => {
 
   return (
     <Fragment>
+      <DocIcon url="https://www.yuque.com/vipersec/help/vdbhlm" />
       <Row style={{ marginTop: -16 }}>
         <Col span={16}>
           <UserInput createNotice={params => createNoticeReq.run(params)} />
@@ -603,65 +604,67 @@ const RealTimeJobs = () => {
 
 
   return (
-    <Table
-      style={{ marginTop: -16 }}
-      className={styles.jobListTable}
-      size="small"
-      rowKey="job_id"
-      pagination={false}
-      dataSource={jobList}
-      bordered
-      columns={[
-        {
-          title: formatText("app.realtimecard.jobtable_starttime"),
-          dataIndex: "time",
-          key: "time",
-          width: 136,
-          render: (text, record) => <Tag color="cyan">{moment(record.time * 1000).format("YYYY-MM-DD HH:mm")}</Tag>
-        },
-        {
-          title: formatText("app.realtimecard.jobtable_module"),
-          dataIndex: "moduleinfo",
-          key: "moduleinfo",
-          width: 240,
-          render: (text, record) => (
-            <Popover
-              placement="right"
-              content={PostModuleInfoContent(record.moduleinfo)}
-              trigger="click"
-            >
-              <a>{getModuleName(record.moduleinfo)}</a>
-            </Popover>
-          )
-        },
-        {
-          title: "SID",
-          dataIndex: "time",
-          key: "time",
-          width: 48,
-          render: (text, record) => {
-            return SidTag(record.moduleinfo._sessionid);
+    <Fragment>
+      <DocIcon url="https://www.yuque.com/vipersec/help/rokuc0" />
+      <Table
+        style={{ marginTop: -16 }}
+        className={styles.jobListTable}
+        size="small"
+        rowKey="job_id"
+        pagination={false}
+        dataSource={jobList}
+        bordered
+        columns={[
+          {
+            title: formatText("app.realtimecard.jobtable_starttime"),
+            dataIndex: "time",
+            key: "time",
+            width: 136,
+            render: (text, record) => <Tag color="cyan">{moment(record.time * 1000).format("YYYY-MM-DD HH:mm")}</Tag>
+          },
+          {
+            title: formatText("app.realtimecard.jobtable_module"),
+            dataIndex: "moduleinfo",
+            key: "moduleinfo",
+            width: 240,
+            render: (text, record) => (
+              <Popover
+                placement="right"
+                content={PostModuleInfoContent(record.moduleinfo)}
+                trigger="click"
+              >
+                <a>{getModuleName(record.moduleinfo)}</a>
+              </Popover>
+            )
+          },
+          {
+            title: "SID",
+            dataIndex: "time",
+            key: "time",
+            width: 48,
+            render: (text, record) => {
+              return SidTag(record.moduleinfo._sessionid);
+            }
+          },
+          {
+            title: formatText("app.realtimecard.jobtable_params"),
+            dataIndex: "opts",
+            key: "opts",
+            render: (text, record) => {
+              return <Fragment>{postModuleOpts(record.opts)}</Fragment>;
+            }
+          },
+          {
+            dataIndex: "operation",
+            width: 48,
+            render: (text, record) => (
+              <a style={{ color: "red" }} onClick={() => onDestoryJob(record)}>
+                {formatText("app.core.delete")}
+              </a>
+            )
           }
-        },
-        {
-          title: formatText("app.realtimecard.jobtable_params"),
-          dataIndex: "opts",
-          key: "opts",
-          render: (text, record) => {
-            return <Fragment>{postModuleOpts(record.opts)}</Fragment>;
-          }
-        },
-        {
-          dataIndex: "operation",
-          width: 48,
-          render: (text, record) => (
-            <a style={{ color: "red" }} onClick={() => onDestoryJob(record)}>
-              {formatText("app.core.delete")}
-            </a>
-          )
-        }
-      ]}
-    />
+        ]}
+      /></Fragment>
   );
 };
 

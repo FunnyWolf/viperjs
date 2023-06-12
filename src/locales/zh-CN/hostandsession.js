@@ -23,7 +23,7 @@ export default {
   'app.hostandsession.tab.passivescan': '被动扫描',
   'app.hostandsession.tab.AutoRobot': '自动编排',
   'app.hostandsession.tab.MsfSocks': '内网代理',
-  'app.hostandsession.tab.Credential': '凭证列表',
+  'app.hostandsession.tab.Credential': '凭证管理',
   'app.hostandsession.tab.LazyLoader': '钓鱼管理',
   'app.hostandsession.tab.BotScan': '全网扫描',
   'app.hostandsession.tab.SystemSetting': '平台设置',

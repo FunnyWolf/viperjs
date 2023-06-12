@@ -6,6 +6,7 @@ import "./iconfont.css";
 import fonts from "./iconfont.json";
 import { formatText } from "@/utils/locales";
 import { useLocalStorageState } from "_ahooks@2.10.14@ahooks";
+import { DocIcon } from "@/pages/Core/Common";
 //字符串格式化函数
 String.prototype.format = function() {
   let args = arguments;
@@ -238,6 +239,7 @@ const Network = () => {
         marginTop: -16
       }}
       className={styles.networkCard}>
+      <DocIcon url="https://www.yuque.com/vipersec/help/eoign5" />
       <Graphin
         data={data}
         theme={{ mode: "dark" }}

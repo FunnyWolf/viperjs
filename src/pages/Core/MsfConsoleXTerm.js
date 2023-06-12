@@ -10,6 +10,7 @@ import "./xterm.css";
 import { getToken } from "@/utils/authority";
 import styles from "@/pages/Core/MsfConsoleXTerm.less";
 import { useInterval } from "ahooks";
+import { DocIcon } from "@/pages/Core/Common";
 //websocket连接地址设置
 let webHost = "192.168.146.130:8002";
 let protocol = "ws://";
@@ -135,12 +136,13 @@ const Msfconsole = props => {
   };
   return (
     <Fragment>
+      <DocIcon url="https://www.yuque.com/vipersec/help/tzugzn" />
       <Space
         style={{
           top: "calc(16vh + 184px)",
           right: 8,
           position: "fixed",
-          zIndex: 10000
+          zIndex: 100
         }}
         direction="vertical"
       >
@@ -269,7 +271,7 @@ const MsfconsoleWindows = props => {
           top: "calc(8vh)",
           right: 8,
           position: "absolute",
-          zIndex: 10000
+          zIndex: 100
         }}
         direction="vertical"
       >
