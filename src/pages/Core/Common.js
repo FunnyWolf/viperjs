@@ -94,9 +94,9 @@ export const DocIcon = ({ url }) => {
   return (<a target="_blank" href={url}>
       <QuestionCircleOutlined
         style={{
-          fontSize: 24,
-          bottom: 24,
-          right: 24,
+          fontSize: 16,
+          bottom: 16,
+          right: 16,
           position: "fixed",
           zIndex: 100
         }} />
@@ -108,12 +108,41 @@ export const DocIconInDiv = ({ url }) => {
   return (<a target="_blank" href={url}>
       <QuestionCircleOutlined
         style={{
-          fontSize: 24,
-          bottom: 24,
-          right: 24,
+          fontSize: 16,
+          bottom: 16,
+          right: 16,
           position: "absolute",
           zIndex: 100
         }} />
     </a>
   );
 };
+
+export const DocIconInDivSessionIO = ({ url }) => {
+  return (<a target="_blank" href={url}>
+      <QuestionCircleOutlined
+        style={{
+          fontSize: 16,
+          bottom: 48,
+          right: 16,
+          position: "absolute",
+          zIndex: 100
+        }} />
+    </a>
+  );
+};
+
+export const DocIconInHostSession = ({ url }) => {
+  return (<a target="_blank" href={url}>
+      <QuestionCircleOutlined
+        style={{
+          fontSize: 16,
+          bottom: 48,
+          right: 48,
+          position: "absolute",
+          zIndex: 100
+        }} />
+    </a>
+  );
+};
+

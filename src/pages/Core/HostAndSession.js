@@ -127,7 +127,14 @@ import {
 import { FileMsfMemo, FileMsfModal } from "@/pages/Core/FileMsf";
 import PayloadAndHandler, { PayloadAndHandlerMemo } from "@/pages/Core/PayloadAndHandler";
 import { WebDeliveryMemo } from "@/pages/Core/WebDelivery";
-import { DocIcon, host_type_to_avatar_table, MyIcon, SidTag } from "@/pages/Core/Common";
+import {
+  DocIcon,
+  DocIconInDiv, DocIconInDivSessionIO,
+  DocIconInHostSession,
+  host_type_to_avatar_table,
+  MyIcon,
+  SidTag
+} from "@/pages/Core/Common";
 import SystemSetting, { SystemSettingMemo } from "@/pages/Core/SystemSetting";
 import { MsfSocksMemo } from "@/pages/Core/MsfSocks";
 import LazyLoader from "@/pages/Core/LazyLoader";
@@ -141,6 +148,7 @@ import MsfConsoleXTermMemo, { MsfconsoleMemo } from "@/pages/Core/MsfConsoleXTer
 import { Upheight } from "@/utils/utils";
 import { formatText, getOptionDesc, getOptionTag, getSessionlocate, manuali18n, msgsuccess } from "@/utils/locales";
 import { IPFilterMemo } from "@/pages/Core/IPFilter";
+import { QuestionCircleOutlined } from "_@ant-design_icons@4.7.0@@ant-design/icons";
 
 const { Text } = Typography;
 const { Paragraph } = Typography;
@@ -1052,6 +1060,16 @@ const HostAndSessionCard = () => {
 
   return (
     <Fragment>
+      <a target="_blank" href="https://www.yuque.com/vipersec/help/cr9w1rgb3pyvvnt1">
+        <QuestionCircleOutlined
+          style={{
+            fontSize: 16,
+            top: "calc({0} - 24px) ".format(Upheight),
+            right: 16,
+            position: "absolute",
+            zIndex: 100
+          }} />
+      </a>
       <Table
         loading={!heatbeatsocketalive}
         dataSource={onlyShowSession ? hostAndSessionList.map(record => {
@@ -1092,7 +1110,6 @@ const HostAndSessionCard = () => {
       >
         <RunModuleMemo closeModel={() => setRunModuleModalVisable(false)} />
       </Modal>
-
       <Modal
         style={{ top: 32 }}
         width="70vw"
@@ -1104,7 +1121,6 @@ const HostAndSessionCard = () => {
       >
         <SessionInfoMemo />
       </Modal>
-
       <Modal
         style={{ top: 32 }}
         width="80vw"
@@ -1116,7 +1132,6 @@ const HostAndSessionCard = () => {
       >
         <FileSessionMemo />
       </Modal>
-
       <Modal
         title={formatText("app.hostandsession.session.Route")}
         style={{ top: 32 }}
@@ -1129,7 +1144,6 @@ const HostAndSessionCard = () => {
       >
         <MsfRouteMemo />
       </Modal>
-
       <Modal
         title={formatText("app.hostandsession.session.PortFwd")}
         style={{ top: 32 }}
@@ -1142,7 +1156,6 @@ const HostAndSessionCard = () => {
       >
         <PortFwdMemo />
       </Modal>
-
       <Modal
         title={formatText("app.hostandsession.session.Transport")}
         style={{ top: 32 }}
@@ -1155,7 +1168,6 @@ const HostAndSessionCard = () => {
       >
         <TransportMemo closeModal={closeTransportModel} />
       </Modal>
-
       <Modal
         style={{ top: 32 }}
         width="70vw"
@@ -1167,7 +1179,6 @@ const HostAndSessionCard = () => {
       >
         <SessionIOMemo />
       </Modal>
-
       <Modal
         style={{ top: 32 }}
         width="80vw"
@@ -1179,7 +1190,6 @@ const HostAndSessionCard = () => {
       >
         <HostRunningInfoMemo />
       </Modal>
-
       <Modal
         title={formatText("app.hostandsession.host.HostInfo")}
         style={{ top: 32 }}
@@ -1192,7 +1202,6 @@ const HostAndSessionCard = () => {
       >
         <HostInfoMemo />
       </Modal>
-
       <Modal
         title={formatText("app.hostandsession.host.PortService")}
         style={{ top: 32 }}
@@ -1205,7 +1214,6 @@ const HostAndSessionCard = () => {
       >
         <PortServiceMemo />
       </Modal>
-
       <Modal
         title={formatText("app.hostandsession.host.Vulnerability")}
         style={{ top: 32 }}
@@ -1728,6 +1736,7 @@ const SessionInfo = () => {
   );
   return (
     <Fragment>
+      <DocIconInDiv url="https://www.yuque.com/vipersec/help/pf5bz1" />
       <Tabs defaultActiveKey="sessioninfo" size="small">
         <TabPane tab={formatText("app.hostandsession.session.SessionInfo")} key="sessioninfo">
           <Descriptions
@@ -1990,6 +1999,7 @@ const SessionIO = () => {
         backgroundColor: "#000"
       }}
     >
+      <DocIconInDivSessionIO url="https://www.yuque.com/vipersec/help/rwuako" />
       <pre id="sessionIOPre" className={styles.sessioniopre}>
         {sessionIOOutput}
       </pre>
@@ -2137,6 +2147,7 @@ const MsfRoute = () => {
 
   return (
     <Fragment>
+      <DocIconInDiv url="https://www.yuque.com/vipersec/help/rm3dgw" />
       <Table
         className={styles.sessionNetTable}
         size="small"
@@ -2289,6 +2300,7 @@ const PortFwd = () => {
 
   return (
     <Fragment>
+      <DocIconInDiv url="https://www.yuque.com/vipersec/help/gbgk7g" />
       <Table
         className={styles.portFwdTable}
         size="small"
@@ -2639,6 +2651,7 @@ const Transport = props => {
 
   return (
     <Fragment>
+      <DocIconInDiv url="https://www.yuque.com/vipersec/help/xvarma" />
       <Table
         className={styles.sessionNetTable}
         size="small"
@@ -3036,6 +3049,7 @@ const FileSession = () => {
 
   return (
     <Fragment>
+
       <Row>
         <Space style={{ display: "flex" }}>
           <ButtonGroup>
@@ -3168,6 +3182,7 @@ const FileSession = () => {
         </Space>
       </Row>
       <Row>
+        <DocIconInDiv url="https://www.yuque.com/vipersec/help/gaas8e" />
         <Table
           className={styles.filelistTable}
           scroll={{ y: "calc(80vh - 40px)" }}
@@ -3650,6 +3665,7 @@ const HostRuningInfo = () => {
 
   return (
     <Fragment>
+      <DocIconInDiv url="https://www.yuque.com/vipersec/help/og2q4cq4iye386xa" />
       <Row>
         <ButtonGroup>
           <Button
@@ -3814,6 +3830,7 @@ const HostInfo = () => {
       className={styles.hostinfoCard}
       bodyStyle={{ padding: "0px 0px 0px 0px" }}
     >
+      <DocIconInDiv url="https://www.yuque.com/vipersec/help/bp9nso" />
       <ReactJson
         src={hostinfo}
         theme="colors"
@@ -3871,50 +3888,52 @@ const PortService = () => {
   };
 
   return (
-    <Table
-      size="small"
-      rowKey="port"
-      pagination={paginationProps}
-      dataSource={portServiceActive}
-      loading={listPortServiceReq.loading || initListPortServiceReq.loading}
-      columns={[
-        {
-          title: formatText("app.hostandsession.portservice.port"),
-          dataIndex: "port",
-          key: "port",
-          width: "10%"
-        },
-        {
-          title: formatText("app.hostandsession.portservice.service"),
-          dataIndex: "service",
-          key: "service",
-          width: "15%"
-        },
-        {
-          title: formatText("app.hostandsession.portservice.banner"),
-          dataIndex: "banner",
-          key: "banner"
-        },
-        {
-          title: formatText("app.core.updatetime"),
-          dataIndex: "update_time",
-          key: "update_time",
-          width: 136,
-          render: (text, record) => (
-            <Tag color="cyan">{moment(record.update_time * 1000).format("YYYY-MM-DD HH:mm")}</Tag>
-          )
-        },
-        {
-          dataIndex: "operation",
-          width: 48,
-          render: (text, record) => (
-            <a onClick={() => onDestoryPortService(record)} style={{ color: "red" }}>
-              {formatText("app.core.delete")}
-            </a>
-          )
-        }
-      ]}
-    />
+    <Fragment>
+      <DocIconInDiv url="https://www.yuque.com/vipersec/help/bis8h3" />
+      <Table
+        size="small"
+        rowKey="port"
+        pagination={paginationProps}
+        dataSource={portServiceActive}
+        loading={listPortServiceReq.loading || initListPortServiceReq.loading}
+        columns={[
+          {
+            title: formatText("app.hostandsession.portservice.port"),
+            dataIndex: "port",
+            key: "port",
+            width: "10%"
+          },
+          {
+            title: formatText("app.hostandsession.portservice.service"),
+            dataIndex: "service",
+            key: "service",
+            width: "15%"
+          },
+          {
+            title: formatText("app.hostandsession.portservice.banner"),
+            dataIndex: "banner",
+            key: "banner"
+          },
+          {
+            title: formatText("app.core.updatetime"),
+            dataIndex: "update_time",
+            key: "update_time",
+            width: 136,
+            render: (text, record) => (
+              <Tag color="cyan">{moment(record.update_time * 1000).format("YYYY-MM-DD HH:mm")}</Tag>
+            )
+          },
+          {
+            dataIndex: "operation",
+            width: 48,
+            render: (text, record) => (
+              <a onClick={() => onDestoryPortService(record)} style={{ color: "red" }}>
+                {formatText("app.core.delete")}
+              </a>
+            )
+          }
+        ]}
+      /></Fragment>
   );
 };
 const PortServiceMemo = memo(PortService);
@@ -3964,44 +3983,45 @@ const Vulnerability = () => {
   };
 
   return (
-    <Table
-      size="small"
-      rowKey="source_module_name"
-      pagination={paginationProps}
-      dataSource={vulnerabilityActive}
-      loading={listVulnerabilityReq.loading || initListVulnerabilityeReq.loading}
-      columns={[
-        {
-          title: formatText("app.hostandsession.Vulnerability.source_module_name"),
-          dataIndex: "source_module_name",
-          key: "source_module_name"
-        },
-        {
-          title: formatText("app.hostandsession.Vulnerability.desc"),
-          dataIndex: "desc",
-          key: "desc"
-          // width: '15%',
-        },
-        {
-          title: formatText("app.core.updatetime"),
-          dataIndex: "update_time",
-          key: "update_time",
-          width: 136,
-          render: (text, record) => (
-            <Tag color="cyan">{moment(record.update_time * 1000).format("YYYY-MM-DD HH:mm")}</Tag>
-          )
-        },
-        {
-          dataIndex: "operation",
-          width: 48,
-          render: (text, record) => (
-            <a onClick={() => onDestoryVulnerability(record)} style={{ color: "red" }}>
-              {formatText("app.core.delete")}
-            </a>
-          )
-        }
-      ]}
-    />
+    <Fragment><DocIconInDiv url="https://www.yuque.com/vipersec/help/rgv5wy" />
+      <Table
+        size="small"
+        rowKey="source_module_name"
+        pagination={paginationProps}
+        dataSource={vulnerabilityActive}
+        loading={listVulnerabilityReq.loading || initListVulnerabilityeReq.loading}
+        columns={[
+          {
+            title: formatText("app.hostandsession.Vulnerability.source_module_name"),
+            dataIndex: "source_module_name",
+            key: "source_module_name"
+          },
+          {
+            title: formatText("app.hostandsession.Vulnerability.desc"),
+            dataIndex: "desc",
+            key: "desc"
+            // width: '15%',
+          },
+          {
+            title: formatText("app.core.updatetime"),
+            dataIndex: "update_time",
+            key: "update_time",
+            width: 136,
+            render: (text, record) => (
+              <Tag color="cyan">{moment(record.update_time * 1000).format("YYYY-MM-DD HH:mm")}</Tag>
+            )
+          },
+          {
+            dataIndex: "operation",
+            width: 48,
+            render: (text, record) => (
+              <a onClick={() => onDestoryVulnerability(record)} style={{ color: "red" }}>
+                {formatText("app.core.delete")}
+              </a>
+            )
+          }
+        ]}
+      /></Fragment>
   );
 };
 const VulnerabilityMemo = memo(Vulnerability);
