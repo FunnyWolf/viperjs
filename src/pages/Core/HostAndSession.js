@@ -52,7 +52,6 @@ import {
   DeliveredProcedureOutlined,
   DeploymentUnitOutlined,
   DesktopOutlined,
-  DisconnectOutlined,
   DownOutlined,
   ExclamationCircleOutlined,
   FolderAddOutlined,
@@ -79,6 +78,7 @@ import {
   SearchOutlined,
   SettingOutlined,
   SisternodeOutlined,
+  StopOutlined,
   SubnodeOutlined,
   SwapLeftOutlined,
   SwapOutlined,
@@ -86,8 +86,7 @@ import {
   SyncOutlined,
   UploadOutlined,
   UpOutlined,
-  WindowsOutlined,
-  StopOutlined
+  WindowsOutlined
 } from "@ant-design/icons";
 
 import {
@@ -125,20 +124,12 @@ import {
   TaskQueueTagMemo
 } from "@/pages/Core/RealTimeCard";
 import { FileMsfMemo, FileMsfModal } from "@/pages/Core/FileMsf";
-import PayloadAndHandler, { PayloadAndHandlerMemo } from "@/pages/Core/PayloadAndHandler";
+import { PayloadAndHandlerMemo } from "@/pages/Core/PayloadAndHandler";
 import { WebDeliveryMemo } from "@/pages/Core/WebDelivery";
-import {
-  DocIcon,
-  DocIconInDiv, DocIconInDivSessionIO,
-  DocIconInHostSession,
-  host_type_to_avatar_table,
-  MyIcon,
-  SidTag
-} from "@/pages/Core/Common";
-import SystemSetting, { SystemSettingMemo } from "@/pages/Core/SystemSetting";
+import { DocIconInDiv, DocIconInDivSessionIO, host_type_to_avatar_table, MyIcon, SidTag } from "@/pages/Core/Common";
+import { SystemSettingMemo } from "@/pages/Core/SystemSetting";
 import { MsfSocksMemo } from "@/pages/Core/MsfSocks";
-import LazyLoader from "@/pages/Core/LazyLoader";
-import Credential, { CredentialMemo } from "@/pages/Core/Credential";
+import { CredentialMemo } from "@/pages/Core/Credential";
 import { getToken } from "@/utils/authority";
 import styles from "./HostAndSession.less";
 import NetworkMemo, { NetworkWindowMemo } from "@/pages/Core/Network";
@@ -149,6 +140,7 @@ import { Upheight } from "@/utils/utils";
 import { formatText, getOptionDesc, getOptionTag, getSessionlocate, manuali18n, msgsuccess } from "@/utils/locales";
 import { IPFilterMemo } from "@/pages/Core/IPFilter";
 import { QuestionCircleOutlined } from "_@ant-design_icons@4.7.0@@ant-design/icons";
+import { DevWebHost } from "@/pages/Core/Webhook";
 
 const { Text } = Typography;
 const { Paragraph } = Typography;
@@ -158,14 +150,12 @@ const { Search, TextArea } = Input;
 const { TabPane } = Tabs;
 const { confirm } = Modal;
 //websocket连接地址设置
-let webHost = "192.168.146.130:8002";
+
 let protocol = "ws://";
+let webHost = DevWebHost;
 if (process.env.NODE_ENV === "production") {
   webHost = location.hostname + (location.port ? `:${location.port}` : "");
   protocol = "wss://";
-} else {
-  webHost = "192.168.146.130:8002";
-  protocol = "ws://";
 }
 
 const HostAndSession = props => {
