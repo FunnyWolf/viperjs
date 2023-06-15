@@ -86,7 +86,9 @@ import {
   SyncOutlined,
   UploadOutlined,
   UpOutlined,
-  WindowsOutlined
+  WindowsOutlined,
+  MinusOutlined,
+  AlignLeftOutlined
 } from "@ant-design/icons";
 
 import {
@@ -314,6 +316,7 @@ const HostAndSession = props => {
 
   return (
     <GridContent>
+      <FloatingButtons />
       <HostAndSessionCard />
       <TabsBottom />
     </GridContent>
@@ -1292,53 +1295,6 @@ const TabsBottom = () => {
   };
   return (
     <Fragment>
-      {showNetworkWindow ? <NewWindow
-        height={window.innerHeight / 10 * 8}
-        width={window.innerWidth / 10 * 8}
-        title={formatText("app.hostandsession.tab.Network")}
-        onClose={() => setShowNetworkWindow(false)}
-      >
-        <NetworkWindowMemo />
-      </NewWindow> : null}
-      {showMsfconsoleWindow ? <NewWindow
-        height={window.innerHeight / 10 * 6}
-        width={window.innerWidth / 10 * 6}
-        title="MSFCONSOLE"
-        onClose={() => setShowMsfconsoleWindow(false)}
-      >
-        <MsfConsoleXTermMemo />
-      </NewWindow> : null}
-      <Space
-        direction="vertical"
-        style={{
-          top: "16px",
-          right: 8,
-          position: "fixed",
-          zIndex: 100
-        }}
-      >
-        <LangSwitch />
-        {showMsfconsoleWindow ? <Button
-          style={{ width: 48 }}
-          danger
-          onClick={() => setShowMsfconsoleWindow(!showMsfconsoleWindow)}
-          icon={<CodeOutlined />}
-        /> : <Button
-          style={{ width: 48 }}
-          onClick={() => setShowMsfconsoleWindow(!showMsfconsoleWindow)}
-          icon={<CodeOutlined />}
-        />}
-        {showNetworkWindow ? <Button
-          style={{ width: 48 }}
-          danger
-          onClick={() => setShowNetworkWindow(!showNetworkWindow)}
-          icon={<DeploymentUnitOutlined />}
-        /> : <Button
-          style={{ width: 48 }}
-          onClick={() => setShowNetworkWindow(!showNetworkWindow)}
-          icon={<DeploymentUnitOutlined />}
-        />}
-      </Space>
       <Tabs style={{ marginTop: 4, marginRight: 1, marginLeft: 1 }} type="card" onChange={tabActiveOnChange}>
         <TabPane
           tab={
@@ -1507,6 +1463,93 @@ const TabsBottom = () => {
   );
 };
 
+
+const FloatingButtons = () => {
+  const [showMsfconsoleWindow, setShowMsfconsoleWindow] = useState(false);
+  const [showNetworkWindow, setShowNetworkWindow] = useState(false);
+  const [onlyShowSession, setOnlyShowSession] = useLocalStorageState("only-show-session", false);
+  const LangSwitch = () => {
+    const lang = getLocale();
+    if (lang === "en-US") {
+      return <Button
+        onClick={() => setLocale("zh-CN", true)}
+
+      ><strong>中</strong></Button>;
+    } else {
+      return <Button
+        onClick={() => setLocale("en-US", true)}
+
+      ><strong>En</strong></Button>;
+    }
+  };
+
+  return <Fragment>
+    {showNetworkWindow ? <NewWindow
+      height={window.innerHeight / 10 * 8}
+      width={window.innerWidth / 10 * 8}
+      title={formatText("app.hostandsession.tab.Network")}
+      onClose={() => setShowNetworkWindow(false)}
+    >
+      <NetworkWindowMemo />
+    </NewWindow> : null}
+    {showMsfconsoleWindow ? <NewWindow
+      height={window.innerHeight / 10 * 6}
+      width={window.innerWidth / 10 * 6}
+      title="MSFCONSOLE"
+      onClose={() => setShowMsfconsoleWindow(false)}
+    >
+      <MsfConsoleXTermMemo />
+    </NewWindow> : null}
+    <Space
+      direction="vertical"
+      style={{
+        top: "16px",
+        right: 8,
+        position: "fixed",
+        zIndex: 100
+      }}
+    >
+      <LangSwitch />
+      {showMsfconsoleWindow ? <Button
+        style={{ width: 48 }}
+        danger
+        onClick={() => setShowMsfconsoleWindow(!showMsfconsoleWindow)}
+        icon={<CodeOutlined />}
+      /> : <Button
+        style={{ width: 48 }}
+        onClick={() => setShowMsfconsoleWindow(!showMsfconsoleWindow)}
+        icon={<CodeOutlined />}
+      />}
+      {showNetworkWindow ? <Button
+        style={{ width: 48 }}
+        danger
+        onClick={() => setShowNetworkWindow(!showNetworkWindow)}
+        icon={<DeploymentUnitOutlined />}
+      /> : <Button
+        style={{ width: 48 }}
+        onClick={() => setShowNetworkWindow(!showNetworkWindow)}
+        icon={<DeploymentUnitOutlined />}
+      />}
+      {onlyShowSession ? <Button
+        style={{ width: 48 }}
+        onClick={() => {
+          setOnlyShowSession(!onlyShowSession);
+          location.reload();
+        }
+        }
+        icon={<MinusOutlined />}
+      /> : <Button
+        style={{ width: 48 }}
+        onClick={() => {
+          setOnlyShowSession(!onlyShowSession);
+          location.reload();
+        }
+        }
+        icon={<AlignLeftOutlined />}
+      />}
+    </Space>
+  </Fragment>;
+};
 
 const SessionInfo = () => {
   console.log("SessionInfo");
