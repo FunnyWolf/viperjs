@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState } from "react";
+import { useLocalStorageState } from "ahooks";
 
 export default function HostAndSessionModel() {
 
@@ -19,12 +20,12 @@ export default function HostAndSessionModel() {
   const [moduleOptions, setModuleOptions] = useState([]);
   const [hostAndSessionActive, setHostAndSessionActive] = useState({
     ipaddress: null,
-    tag: 'other',
+    tag: "other",
     comment: null,
     session: {
       id: -1,
-      type: 'meterpreter',
-      session_host: '请选择Session',
+      type: "meterpreter",
+      session_host: "请选择Session",
       tunnel_local: null,
       tunnel_peer: null,
       tunnel_peer_ip: null,
@@ -48,10 +49,14 @@ export default function HostAndSessionModel() {
         PAYLOAD: null,
         LPORT: null,
         LHOST: null,
-        RHOST: null,
-      },
-    },
+        RHOST: null
+      }
+    }
   });
+
+  const [onlyShowSession, setOnlyShowSession] = useLocalStorageState("only-show-session", false);
+
+  const [onlyShowSessionModel, setOnlyShowSessionModel] = useState(onlyShowSession);
 
 
   return {
@@ -96,5 +101,9 @@ export default function HostAndSessionModel() {
 
     moduleOptions,
     setModuleOptions,
+
+    onlyShowSessionModel,
+    setOnlyShowSessionModel,
+
   };
 }

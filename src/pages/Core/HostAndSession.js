@@ -88,7 +88,8 @@ import {
   UpOutlined,
   WindowsOutlined,
   MinusOutlined,
-  AlignLeftOutlined
+  AlignLeftOutlined,
+  QuestionCircleOutlined
 } from "@ant-design/icons";
 
 import {
@@ -141,7 +142,6 @@ import MsfConsoleXTermMemo, { MsfconsoleMemo } from "@/pages/Core/MsfConsoleXTer
 import { Upheight } from "@/utils/utils";
 import { formatText, getOptionDesc, getOptionTag, getSessionlocate, manuali18n, msgsuccess } from "@/utils/locales";
 import { IPFilterMemo } from "@/pages/Core/IPFilter";
-import { QuestionCircleOutlined } from "_@ant-design_icons@4.7.0@@ant-design/icons";
 import { DevWebHost } from "@/pages/Core/Webhook";
 
 const { Text } = Typography;
@@ -325,12 +325,13 @@ const HostAndSession = props => {
 
 const HostAndSessionCard = () => {
   console.log("HostAndSessionCard");
-  const { hostAndSessionList, setHostAndSessionActive, heatbeatsocketalive } = useModel(
+  const { hostAndSessionList, setHostAndSessionActive, heatbeatsocketalive, onlyShowSessionModel } = useModel(
     "HostAndSessionModel",
     model => ({
       hostAndSessionList: model.hostAndSessionList,
       setHostAndSessionActive: model.setHostAndSessionActive,
-      heatbeatsocketalive: model.heatbeatsocketalive
+      heatbeatsocketalive: model.heatbeatsocketalive,
+      onlyShowSessionModel: model.onlyShowSessionModel
     })
   );
   const sessionActiveInit = {
@@ -379,7 +380,6 @@ const HostAndSessionCard = () => {
   const [updateHostModalVisable, setUpdateHostModalVisable] = useState(false);
 
   const [expandedRowKeys, setExpandedRowKeys] = useLocalStorageState("hostandsessioncard-expandedkeys", []);
-  const [onlyShowSession, setOnlyShowSession] = useLocalStorageState("only-show-session", false);
 
   const closeTransportModel = useCallback(() => {
     setTransportModalVisable(false);
@@ -1065,7 +1065,7 @@ const HostAndSessionCard = () => {
       </a>
       <Table
         loading={!heatbeatsocketalive}
-        dataSource={onlyShowSession ? hostAndSessionList.map(record => {
+        dataSource={onlyShowSessionModel ? hostAndSessionList.map(record => {
           if (record.session.length > 0 || record.ipaddress === "255.255.255.255") {
             return { ...record };
           }
@@ -1240,8 +1240,6 @@ const HostAndSessionCard = () => {
 
 const TabsBottom = () => {
   console.log("TabsBottom");
-  const [showNetworkWindow, setShowNetworkWindow] = useState(false);
-  const [showMsfconsoleWindow, setShowMsfconsoleWindow] = useState(false);
   let payloadandhandlerRef = React.createRef();
   let webDeliveryRef = React.createRef();
   let filemsfRef = React.createRef();
@@ -1277,20 +1275,6 @@ const TabsBottom = () => {
       case "SystemSetting":
         break;
       default:
-    }
-  };
-  const LangSwitch = () => {
-    const lang = getLocale();
-    if (lang === "en-US") {
-      return <Button
-        onClick={() => setLocale("zh-CN", true)}
-
-      ><strong>中</strong></Button>;
-    } else {
-      return <Button
-        onClick={() => setLocale("en-US", true)}
-
-      ><strong>En</strong></Button>;
     }
   };
   return (
@@ -1468,6 +1452,12 @@ const FloatingButtons = () => {
   const [showMsfconsoleWindow, setShowMsfconsoleWindow] = useState(false);
   const [showNetworkWindow, setShowNetworkWindow] = useState(false);
   const [onlyShowSession, setOnlyShowSession] = useLocalStorageState("only-show-session", false);
+  const { onlyShowSessionModel, setOnlyShowSessionModel } = useModel("HostAndSessionModel", model => ({
+    onlyShowSessionModel: model.onlyShowSessionModel,
+    setOnlyShowSessionModel: model.setOnlyShowSessionModel
+  }));
+
+
   const LangSwitch = () => {
     const lang = getLocale();
     if (lang === "en-US") {
@@ -1530,11 +1520,12 @@ const FloatingButtons = () => {
         onClick={() => setShowNetworkWindow(!showNetworkWindow)}
         icon={<DeploymentUnitOutlined />}
       />}
-      {onlyShowSession ? <Button
+      {onlyShowSessionModel ? <Button
         style={{ width: 48 }}
         onClick={() => {
-          setOnlyShowSession(!onlyShowSession);
-          location.reload();
+          setOnlyShowSession(!onlyShowSessionModel);
+          setOnlyShowSessionModel(!onlyShowSessionModel);
+          // location.reload();
         }
         }
         icon={<MinusOutlined />}
@@ -1542,7 +1533,8 @@ const FloatingButtons = () => {
         style={{ width: 48 }}
         onClick={() => {
           setOnlyShowSession(!onlyShowSession);
-          location.reload();
+          setOnlyShowSessionModel(!onlyShowSession);
+          // location.reload();
         }
         }
         icon={<AlignLeftOutlined />}
