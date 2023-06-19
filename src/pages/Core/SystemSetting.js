@@ -1,7 +1,7 @@
 import React, { memo, useState } from "react";
 import {
   deleteCoreUUIDJsonAPI,
-  getCoreSettingAPI,
+  getCoreSettingAPI, getLastestVersion,
   getServiceStatusAPI,
   postCoreSettingAPI,
   putPostmodulePostModuleConfigAPI
@@ -42,8 +42,6 @@ import { useLocalStorageState } from "ahooks";
 
 import { reloadAuthorized } from "@/utils/Authorized";
 import { formatText } from "@/utils/locales";
-import styles from "@/pages/Core/HostAndSession.less";
-import { CollectSandboxMemo } from "@/pages/Core/CollectSandbox";
 import { DocIcon } from "@/pages/Core/Common";
 
 const { Option } = Select;
@@ -51,7 +49,7 @@ const { TabPane } = Tabs;
 const { Title, Paragraph, Text } = Typography;
 
 const viper_version = "v1.5.30";
-const viper_update_date = "2023-06-17";
+const viper_update_date = "20230617";
 
 
 const buttonItemLayout = {
@@ -149,6 +147,8 @@ const SystemInfo = () => {
   ];
 
   const [serviceStatusActive, setServiceStatusActive] = useState({ json_rpc: { status: false } });
+  const [lastestVersion, setLastestVersion] = useState(null);
+  const [lastestVersionLoading, setLastestVersionLoading] = useState(false);
   const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState("viper-debug-flag", false);
   const [onlyShowSession, setOnlyShowSession] = useLocalStorageState("only-show-session", false);
 
@@ -160,6 +160,19 @@ const SystemInfo = () => {
     onError: (error, params) => {
     }
   });
+
+  const getLastestVersionReq = () => {
+    const repoName = "Viper";
+    const userName = "FunnyWolf";
+    const url = `https://api.github.com/repos/${userName}/${repoName}/releases/latest`;
+    setLastestVersionLoading(true);
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        setLastestVersion(data.name);
+        setLastestVersionLoading(false);
+      });
+  };
 
   const listServiceStatusReq = useRequest(getServiceStatusAPI, {
     manual: true,
@@ -215,12 +228,24 @@ const SystemInfo = () => {
     <Card style={{ marginTop: -16 }}>
       <DocIcon url="https://www.yuque.com/vipersec/help/vt9iyh" />
       <Row>
-        <Descriptions size="small" style={{ marginLeft: 64 }} column={6}>
+        <Descriptions size="small" style={{ marginLeft: 64 }} column={5}>
           <Descriptions.Item label={formatText("app.systemsetting.version")}>
-            <Tag color="blue">{viper_version}</Tag>
+            <Tag color="blue">{viper_version} {viper_update_date}</Tag>
           </Descriptions.Item>
           <Descriptions.Item label={formatText("app.systemsetting.updatedate")}>
-            <Tag color="blue">{viper_update_date}</Tag>
+            <Space>
+              <Tag color="blue">{lastestVersion}</Tag>
+              <Button
+                size="small"
+                style={{ width: 48 }}
+                icon={<SyncOutlined />}
+                onClick={() => getLastestVersionReq()}
+                loading={lastestVersionLoading}
+              >
+              </Button>
+            </Space>
+
+
           </Descriptions.Item>
           <Descriptions.Item label={formatText("app.systemsetting.lastversion")}>
             <a
@@ -257,7 +282,7 @@ const SystemInfo = () => {
         </Descriptions>
       </Row>
       <Row>
-        <Descriptions size="small" style={{ marginLeft: 64, marginTop: 16 }} column={6}>
+        <Descriptions size="small" style={{ marginLeft: 64, marginTop: 16 }} column={5}>
           <Descriptions.Item label={formatText("app.systemsetting.msfstatus")}>
             <Space>{serviceStatusActive.json_rpc.status ? (
               <Tag color="green">{formatText("app.core.working")}</Tag>
