@@ -175,7 +175,7 @@ const SystemInfo = () => {
   };
 
   const listServiceStatusReq = useRequest(getServiceStatusAPI, {
-    manual: true,
+    manual: true, 
     onSuccess: (result, params) => {
       setServiceStatusActive(result);
     },
