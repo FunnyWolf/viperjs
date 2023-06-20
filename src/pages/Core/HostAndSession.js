@@ -766,48 +766,42 @@ const HostAndSessionCard = () => {
 
           if (timepass <= 60) {
             heartbeat = (
-              <Tooltip title={timepass + "s"} placement="left">
-                <Tag
-                  color="green"
-                  style={{
-                    width: 72,
-                    textAlign: "center",
-                    cursor: "pointer"
-                  }}
-                >
-                  {timepass + "s"}
-                </Tag>
-              </Tooltip>
+              <Tag
+                color="green"
+                style={{
+                  width: 72,
+                  textAlign: "center",
+                  cursor: "pointer"
+                }}
+              >
+                {timepass + "s"}
+              </Tag>
             );
           } else if (60 < timepass && timepass <= 99) {
             heartbeat = (
-              <Tooltip title={timepass + "s"} placement="left">
-                <Tag
-                  color="orange"
-                  style={{
-                    width: 72,
-                    textAlign: "center",
-                    cursor: "pointer"
-                  }}
-                >
-                  {timepass + "s"}
-                </Tag>
-              </Tooltip>
+              <Tag
+                color="orange"
+                style={{
+                  width: 72,
+                  textAlign: "center",
+                  cursor: "pointer"
+                }}
+              >
+                {timepass + "s"}
+              </Tag>
             );
           } else if (99 < timepass && timepass <= 999) {
             heartbeat = (
-              <Tooltip title={timepass + "s"} placement="left">
-                <Tag
-                  color="orange"
-                  style={{
-                    width: 72,
-                    textAlign: "center",
-                    cursor: "pointer"
-                  }}
-                >
-                  {timepass + "s"}
-                </Tag>
-              </Tooltip>
+              <Tag
+                color="orange"
+                style={{
+                  width: 72,
+                  textAlign: "center",
+                  cursor: "pointer"
+                }}
+              >
+                {timepass + "s"}
+              </Tag>
             );
           } else {
             heartbeat = (
@@ -826,17 +820,19 @@ const HostAndSessionCard = () => {
 
           // sessionid
           const sessionidTag = (
-            <Tag
-              color="purple"
-              style={{
-                minWidth: 48,
-                marginLeft: -6,
-                textAlign: "center",
-                cursor: "pointer"
-              }}
-            >
-              <strong>{session.id}</strong>
-            </Tag>
+            <Tooltip title={"SID " + session.id} placement="bottomLeft">
+              <Tag
+                color="purple"
+                style={{
+                  minWidth: 48,
+                  marginLeft: -6,
+                  textAlign: "center",
+                  cursor: "pointer"
+                }}
+              >
+                <strong>{session.id}</strong>
+              </Tag>
+            </Tooltip>
           );
 
           const pidTag = session.pid === null ? null : (
@@ -4159,48 +4155,42 @@ export const sessionTagList = session => {
 
   if (timepass <= 60) {
     heartbeat = (
-      <Tooltip title={timepass + "s"} placement="left">
-        <Tag
-          color="green"
-          style={{
-            width: 72,
-            textAlign: "center",
-            cursor: "pointer"
-          }}
-        >
-          {timepass + "s"}
-        </Tag>
-      </Tooltip>
+      <Tag
+        color="green"
+        style={{
+          width: 72,
+          textAlign: "center",
+          cursor: "pointer"
+        }}
+      >
+        {timepass + "s"}
+      </Tag>
     );
   } else if (60 < timepass <= 90) {
     heartbeat = (
-      <Tooltip title={timepass + "s"} placement="left">
-        <Tag
-          color="orange"
-          style={{
-            width: 72,
-            textAlign: "center",
-            cursor: "pointer"
-          }}
-        >
-          {timepass + "s"}
-        </Tag>
-      </Tooltip>
+      <Tag
+        color="orange"
+        style={{
+          width: 72,
+          textAlign: "center",
+          cursor: "pointer"
+        }}
+      >
+        {timepass + "s"}
+      </Tag>
     );
   } else if (90 < timepass <= 999) {
     heartbeat = (
-      <Tooltip title={timepass + "s"} placement="left">
-        <Tag
-          color="orange"
-          style={{
-            width: 72,
-            textAlign: "center",
-            cursor: "pointer"
-          }}
-        >
-          {timepass + "s"}
-        </Tag>
-      </Tooltip>
+      <Tag
+        color="orange"
+        style={{
+          width: 72,
+          textAlign: "center",
+          cursor: "pointer"
+        }}
+      >
+        {timepass + "s"}
+      </Tag>
     );
   } else {
     heartbeat = (

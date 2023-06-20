@@ -7,6 +7,7 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { setAuthority, setToken } from "@/utils/authority";
 import { reloadAuthorized } from "@/utils/Authorized";
 import { formatText, LangSwitch } from "@/utils/locales";
+import { DocIconInDiv } from "@/pages/Core/Common";
 
 const LoginPage = props => {
   const createBaseauthReq = useRequest(postCoreBaseauthAPI, {
@@ -33,6 +34,7 @@ const LoginPage = props => {
       >
         <LangSwitch />
       </div>
+      <DocIconInDiv url="https://www.yuque.com/vipersec/help/oktwb7" />
       <Form
         size="large"
         name="normal_login"

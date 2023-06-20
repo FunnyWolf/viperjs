@@ -429,7 +429,7 @@ const RealTimeNotices = () => {
           <Space>
             {userIconLarge(item.userkey)}
             <Text style={{ color: "#cb2b83" }} className={styles.wordBreakClass}>
-              > {content}
+              {'>'} {content}
             </Text>
           </Space>
         );
