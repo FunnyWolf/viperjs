@@ -368,11 +368,11 @@ const RealTimeNotices = () => {
         type={KeyToUserIcon[key]}
         style={{
           padding: "0px 0px 0px 0px",
-          marginBottom: 0,
-          marginTop: 0,
-          marginLeft: 0,
-          marginRight: 0,
-          fontSize: "18px"
+          // marginBottom: 0,
+          // marginTop: 0,
+          // marginLeft: 0,
+          // marginRight: 0,
+          fontSize: "16px"
         }}
       />
     );
@@ -426,12 +426,12 @@ const RealTimeNotices = () => {
       }
       if (item.level === 6) {
         return (
-          <Text style={{ color: "#cb2b83" }} className={styles.wordBreakClass}>
-            <Space>
-              {userIconLarge(item.userkey)}
-              {content}
-            </Space>
-          </Text>
+          <Space>
+            {userIconLarge(item.userkey)}
+            <Text style={{ color: "#cb2b83" }} className={styles.wordBreakClass}>
+              > {content}
+            </Text>
+          </Space>
         );
       }
       return (
