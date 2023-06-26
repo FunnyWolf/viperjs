@@ -3629,12 +3629,14 @@ const HostRuningInfo = () => {
     {
       title: "local_addr",
       dataIndex: "local_addr",
-      width: 60
+      width: 60,
+      sorter: (a, b) => a.local_addr >= b.local_addr
     },
     {
       title: "remote_addr",
       dataIndex: "remote_addr",
-      width: 60
+      width: 60,
+      sorter: (a, b) => a.remote_addr >= b.remote_addr
     },
     {
       title: "state",
@@ -3645,7 +3647,8 @@ const HostRuningInfo = () => {
     {
       title: "pid_name",
       dataIndex: "pid_name",
-      width: 60
+      width: 60,
+      sorter: (a, b) => a.pid_name >= b.pid_name
     }
   ];
   const arpColumns = [
