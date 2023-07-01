@@ -27,7 +27,7 @@ export default {
   "app.systemsetting.aboutviper": "About VIPER",
   "app.systemsetting.msfstatus": "MSF Status",
   "app.systemsetting.version": "Version",
-  "app.systemsetting.updatedate": "Update Date",
+  "app.systemsetting.updatedate": "Update History",
   "app.systemsetting.lastversion": "Last Version",
   "app.systemsetting.documentation": "Documentation",
   "app.systemsetting.documentationlink": "Yuque",

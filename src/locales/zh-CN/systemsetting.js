@@ -26,7 +26,7 @@ export default {
   "app.systemsetting.aboutviper": "关于VIPER",
   "app.systemsetting.msfstatus": "渗透服务",
   "app.systemsetting.version": "平台版本",
-  "app.systemsetting.updatedate": "更新时间",
+  "app.systemsetting.updatedate": "版本历史",
   "app.systemsetting.lastversion": "最新版本",
   "app.systemsetting.documentation": "官方文档",
   "app.systemsetting.documentationlink": "语雀文档",

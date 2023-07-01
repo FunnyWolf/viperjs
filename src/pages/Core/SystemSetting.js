@@ -48,7 +48,7 @@ const { Option } = Select;
 const { TabPane } = Tabs;
 const { Title, Paragraph, Text } = Typography;
 
-const viper_version = "v1.5.31";
+const viper_version = "v1.6.0";
 const viper_update_date = "20230701";
 
 
@@ -232,7 +232,7 @@ const SystemInfo = () => {
           <Descriptions.Item label={formatText("app.systemsetting.version")}>
             <Tag color="blue">{viper_version} {viper_update_date}</Tag>
           </Descriptions.Item>
-          <Descriptions.Item label={formatText("app.systemsetting.updatedate")}>
+          <Descriptions.Item label={formatText("app.systemsetting.lastversion")}>
             <Space>
               <Tag color="blue">{lastestVersion}</Tag>
               <Button
@@ -247,7 +247,7 @@ const SystemInfo = () => {
 
 
           </Descriptions.Item>
-          <Descriptions.Item label={formatText("app.systemsetting.lastversion")}>
+          <Descriptions.Item label={formatText("app.systemsetting.updatedate")}>
             <a
               target="_blank"
               href="https://github.com/FunnyWolf/Viper/releases"
