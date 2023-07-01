@@ -48,8 +48,8 @@ const { Option } = Select;
 const { TabPane } = Tabs;
 const { Title, Paragraph, Text } = Typography;
 
-const viper_version = "v1.5.30";
-const viper_update_date = "20230617";
+const viper_version = "v1.5.31";
+const viper_update_date = "20230701";
 
 
 const buttonItemLayout = {
@@ -175,7 +175,7 @@ const SystemInfo = () => {
   };
 
   const listServiceStatusReq = useRequest(getServiceStatusAPI, {
-    manual: true, 
+    manual: true,
     onSuccess: (result, params) => {
       setServiceStatusActive(result);
     },
