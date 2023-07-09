@@ -1,1 +1,1 @@
-export const DevWebHost = "192.168.146.130:8002";
+export const DevWebHost = "192.168.1.102:8002";
