@@ -1072,10 +1072,10 @@ const CreateHandlerModalContent = props => {
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label="SessionCommunicationTimeout(second)"
+            label={formatText("app.payloadandhandler.SessionCommunicationTimeout")}
             name="SessionCommunicationTimeout"
             rules={[]}
-            initialValue={31536000}
+            initialValue={60*5}
           >
             <InputNumber
               style={{ width: 160 }} />
@@ -2157,10 +2157,10 @@ const CreatePayloadModalContent = props => {
           </Form.Item>
           <Form.Item
             {...formLayout}
-            label="SessionCommunicationTimeout(second)"
+            label={formatText("app.payloadandhandler.SessionCommunicationTimeout")}
             name="SessionCommunicationTimeout"
             rules={[]}
-            initialValue={31536000}
+            initialValue={60*5}
           >
             <InputNumber style={{ width: 160 }} />
           </Form.Item>
