@@ -3,6 +3,7 @@
 // const compactTheme = require('antd/dist/compact-theme');
 import pageRoutes from "./router.config";
 import defaultSettings from "../src/defaultSettings";
+import { HostIP } from "@/config";
 
 export default {
   // add for transfer to umi
@@ -55,13 +56,13 @@ export default {
   // chainWebpack: webpackPlugin,
   proxy: {
     "/api/v1/": {
-      target: "http://192.168.1.102:8002/",
+      target: "http://" + HostIP + ":8002/",
       changeOrigin: true,
       ws: false,
       pathRewrite: { "^/api/v1": "/api/v1" }
     },
     "/ws/v1/": {
-      target: "ws://192.168.1.102:8002/",
+      target: "ws://" + HostIP + ":8002/",
       changeOrigin: true,
       ws: false,
       pathRewrite: { "^/ws/v1": "/ws/v1" }

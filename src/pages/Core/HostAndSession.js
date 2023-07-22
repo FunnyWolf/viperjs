@@ -142,7 +142,7 @@ import MsfConsoleXTermMemo, { MsfconsoleMemo } from "@/pages/Core/MsfConsoleXTer
 import { Upheight } from "@/utils/utils";
 import { formatText, getOptionDesc, getOptionTag, getSessionlocate, manuali18n, msgsuccess } from "@/utils/locales";
 import { IPFilterMemo } from "@/pages/Core/IPFilter";
-import { DevWebHost } from "@/pages/Core/Webhook";
+import { HostIP } from "@/config";
 
 const { Text } = Typography;
 const { Paragraph } = Typography;
@@ -154,7 +154,7 @@ const { confirm } = Modal;
 //websocket连接地址设置
 
 let protocol = "ws://";
-let webHost = DevWebHost;
+let webHost = HostIP + ":8002";
 if (process.env.NODE_ENV === "production") {
   webHost = location.hostname + (location.port ? `:${location.port}` : "");
   protocol = "wss://";
