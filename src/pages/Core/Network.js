@@ -168,6 +168,12 @@ const Network = () => {
           keyshape: {
             stroke: "#138585",
             lineWidth: 4
+          },
+          animate: {
+            type: "circle-running",
+            color: "#33bcb7",
+            repeat: true,
+            duration: 4000
           }
         };
       } else if (type === "route") {
@@ -216,13 +222,19 @@ const Network = () => {
         const { payload, sessionid } = data;
         edge.style = {
           label: {
-            value: ` ${formatText("app.network.Comm")} ${sessionid}`,
+            value: ` ${formatText("app.network.Comm")} ${sessionid}\n${payload}`,
             fill: "#e8b339",
             fontSize: 14
           },
           keyshape: {
             stroke: "#7c5914",
             lineWidth: 3
+          },
+          animate: {
+            type: "circle-running",
+            color: "#e8b339",
+            repeat: true,
+            duration: 4000
           }
         };
       }
@@ -245,8 +257,8 @@ const Network = () => {
         theme={{ mode: "dark" }}
         layout={{
           type: "dagre",
-          rankdir: "LR",
-          align: "DL",
+          rankdir: "RL",
+          align: "DR",
           ranksepFunc: ranksepFunc
         }}
       >
