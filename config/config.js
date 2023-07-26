@@ -3,7 +3,7 @@
 // const compactTheme = require('antd/dist/compact-theme');
 import pageRoutes from "./router.config";
 import defaultSettings from "../src/defaultSettings";
-import { HostIP } from "@/config";
+import { HostIP } from "../src/config";
 
 export default {
   // add for transfer to umi

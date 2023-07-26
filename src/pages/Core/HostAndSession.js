@@ -1239,7 +1239,7 @@ const TabsBottom = () => {
   let payloadandhandlerRef = React.createRef();
   let webDeliveryRef = React.createRef();
   let filemsfRef = React.createRef();
-
+  let ipfileterRef = React.createRef();
   const tabActiveOnChange = activeKey => {
     switch (activeKey) {
       case "MsfConsole":
@@ -1266,6 +1266,12 @@ const TabsBottom = () => {
         if (webDeliveryRef.current === null) {
         } else {
           webDeliveryRef.current.updateData();
+        }
+        break;
+      case "IPFilter":
+        if (ipfileterRef.current === null) {
+        } else {
+          ipfileterRef.current.updateData();
         }
         break;
       case "SystemSetting":
@@ -1325,7 +1331,7 @@ const TabsBottom = () => {
           }
           key="IPFilter"
         >
-          <IPFilterMemo />
+          <IPFilterMemo onRef={ipfileterRef}/>
         </TabPane>
         <TabPane
           tab={

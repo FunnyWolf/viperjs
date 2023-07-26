@@ -3,7 +3,7 @@ export default {
   'app.payloadandhandler.port_rule': '请输入端口',
   'app.payloadandhandler.rhost_rule': '请输入正向连接的IP地址',
   'app.payloadandhandler.alert_1': 'reverse_http类型payload不免杀,建议使用reverse_https类型',
-  'app.payloadandhandler.alert_2': 'reverse_tcp及reverse_tcp_rc4类型监听请勿开放到外网80,443等常用端口,防范DDos攻击',
+  'app.payloadandhandler.alert_2': 'reverse_tcp及reverse_tcp_rc4类型监听开放到互联网需要打开监听防火墙,抵御互联网测绘平台扫描',
   'app.payloadandhandler.luri_tip': '自定义的URI前缀',
   'app.payloadandhandler.luri_rule': '请输入自定义的URI',
   'app.payloadandhandler.pem_tip': '请选择PEM格式的证书文件,文件内容可以参考<文件列表>中www.example.com.pem,证书文件中需要同时包含公私钥,配置证书后会自动过滤http请求',
