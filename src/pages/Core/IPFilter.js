@@ -1,4 +1,4 @@
-import React, { Fragment, memo } from "react";
+import React, { Fragment, memo, useImperativeHandle } from "react";
 import { CloudUploadOutlined } from "@ant-design/icons";
 import { useRequest } from "umi";
 import { Button, Card, Checkbox, Col, Form, Input, Row, Radio } from "antd";
@@ -18,7 +18,7 @@ String.prototype.format = function() {
 };
 
 
-const IPFilter = () => {
+const IPFilter = (props) => {
   console.log("IPFilter");
   const [mainForm] = Form.useForm();
   const [ipfilterActive, setIpfilterActive] = React.useState(false);
@@ -36,6 +36,7 @@ const IPFilter = () => {
     }
   });
 
+
   const listIPFilterReq = useRequest(getMsgrpcIPFilterAPI, {
     manual: true,
     onSuccess: (result, params) => {
@@ -45,6 +46,14 @@ const IPFilter = () => {
     },
     onError: (error, params) => {
     }
+  });
+
+  useImperativeHandle(props.onRef, () => {
+    return {
+      updateData: () => {
+        listIPFilterReq.run();
+      }
+    };
   });
 
   const getIPFilterReq = useRequest(getMsgrpcIPFilterAPI, {
