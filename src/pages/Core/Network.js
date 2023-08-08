@@ -5,7 +5,7 @@ import Graphin, { Behaviors, Utils } from "@antv/graphin";
 import "./iconfont.css";
 import fonts from "./iconfont.json";
 import { formatText } from "@/utils/locales";
-import { useLocalStorageState } from "_ahooks@2.10.14@ahooks";
+import { useLocalStorageState } from "ahooks";
 import { DocIcon } from "@/pages/Core/Common";
 //字符串格式化函数
 String.prototype.format = function() {
@@ -253,6 +253,7 @@ const Network = () => {
       className={styles.networkCard}>
       <DocIcon url="https://www.yuque.com/vipersec/help/eoign5" />
       <Graphin
+        fitView={true}
         data={data}
         theme={{ mode: "dark" }}
         layout={{
@@ -403,6 +404,12 @@ const NetworkWindow = () => {
           keyshape: {
             stroke: "#138585",
             lineWidth: 4
+          },
+          animate: {
+            type: "circle-running",
+            color: "#33bcb7",
+            repeat: true,
+            duration: 4000
           }
         };
       } else if (type === "route") {
@@ -446,6 +453,25 @@ const NetworkWindow = () => {
             lineWidth: 2
           }
         };
+      } else if (type === "comm") {
+        const { payload, sessionid } = data;
+        edge.style = {
+          label: {
+            value: ` ${formatText("app.network.Comm")} ${sessionid}\n${payload}`,
+            fill: "#e8b339",
+            fontSize: 14
+          },
+          keyshape: {
+            stroke: "#7c5914",
+            lineWidth: 3
+          },
+          animate: {
+            type: "circle-running",
+            color: "#e8b339",
+            repeat: true,
+            duration: 4000
+          }
+        };
       }
     });
 
@@ -460,6 +486,7 @@ const NetworkWindow = () => {
       width={window.innerWidth / 10 * 8}
       data={data}
       theme={{ mode: "dark" }}
+      fitView={true}
       layout={{
         type: "dagre",
         rankdir: "LR",
