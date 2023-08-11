@@ -489,8 +489,8 @@ const NetworkWindow = () => {
       fitView={true}
       layout={{
         type: "dagre",
-        rankdir: "LR",
-        align: "DL",
+        rankdir: "RL",
+        align: "DR",
         ranksepFunc: ranksepFunc
       }}
     >
