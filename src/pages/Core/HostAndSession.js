@@ -857,16 +857,18 @@ const HostAndSessionCard = () => {
 
 
           const connectTag = (
-            <Tag
-              color="cyan"
-              style={{
-                textAlign: "center",
-                marginLeft: -6,
-                cursor: "pointer"
-              }}
-            >
-              {session.tunnel_local}{" <- "}{session.tunnel_peer} {getSessionlocate(session)}
-            </Tag>
+            <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={session.tunnel_peer_locate_en}>
+              <Tag
+                color="cyan"
+                style={{
+                  textAlign: "center",
+                  marginLeft: -6,
+                  cursor: "pointer"
+                }}
+              >
+                {session.tunnel_local}{" <- "}{session.tunnel_peer} {getSessionlocate(session)}
+              </Tag>
+            </Tooltip>
           );
 
           // arch
@@ -916,7 +918,7 @@ const HostAndSessionCard = () => {
               </Tag>
             </Tooltip>
           ) : (
-            <Tooltip mouseEnterDelay={1} placement="right" title={session.os}>
+            <Tooltip mouseEnterDelay={0.5} placement="right" title={session.os}>
               <Tag
                 color="magenta"
                 style={{
@@ -973,7 +975,7 @@ const HostAndSessionCard = () => {
             <span>{session.job_info.PAYLOAD} {session.job_info.LHOST}{" "}{session.job_info.RHOST} {session.job_info.LPORT}{" "}</span>
           );
           const jobidTag = (
-            <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={jobidTagTooltip}>
+            <Tooltip mouseEnterDelay={0.5} placement="bottomLeft" title={jobidTagTooltip}>
               <Tag
                 color="lime"
                 style={{
@@ -1331,7 +1333,7 @@ const TabsBottom = () => {
           }
           key="IPFilter"
         >
-          <IPFilterMemo onRef={ipfileterRef}/>
+          <IPFilterMemo onRef={ipfileterRef} />
         </TabPane>
         <TabPane
           tab={
