@@ -47,9 +47,10 @@ import { DocIcon } from "@/pages/Core/Common";
 const { Option } = Select;
 const { TabPane } = Tabs;
 const { Title, Paragraph, Text } = Typography;
+import { Version } from "@/config";
 
 const viper_version = "v1.6.4";
-const viper_update_date = "20230821";
+const viper_update_date = Version;
 
 
 const buttonItemLayout = {
@@ -230,7 +231,7 @@ const SystemInfo = () => {
       <Row>
         <Descriptions size="small" style={{ marginLeft: 64 }} column={5}>
           <Descriptions.Item label={formatText("app.systemsetting.version")}>
-            <Tag color="blue">{viper_version} {viper_update_date}</Tag>
+            <Tag color="blue">{viper_update_date}</Tag>
           </Descriptions.Item>
           <Descriptions.Item label={formatText("app.systemsetting.lastversion")}>
             <Space>
