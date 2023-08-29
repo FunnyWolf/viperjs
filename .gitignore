@@ -37,3 +37,4 @@ functions/mock
 # screenshot
 screenshot
 .firebase
+src/config.js
