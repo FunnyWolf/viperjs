@@ -289,12 +289,14 @@ const FileMsf = props => {
                 title: formatText("app.filemsf.filename"),
                 dataIndex: "name",
                 key: "name",
+                sorter: (a, b) => a.name >= b.name,
                 render: (text, record) => <span>{record.name}</span>
               },
               {
                 title: formatText("app.filemsf.size"),
                 dataIndex: "format_size",
                 key: "format_size",
+                sorter: (a, b) => a.size >= b.size,
                 width: 96
               },
               {
@@ -302,6 +304,7 @@ const FileMsf = props => {
                 dataIndex: "mtime",
                 key: "mtime",
                 width: 136,
+                sorter: (a, b) => a.mtime >= b.mtime,
                 render: (text, record) => (
                   <Tag color="cyan">{moment(record.mtime * 1000).format("YYYY-MM-DD HH:mm")}</Tag>
                 )
