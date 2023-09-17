@@ -565,7 +565,53 @@ const CreateHandlerModalContent = props => {
     }
   };
 
+  const handlerPayloadComnOption = () => {
+    let options = [];
+    if (selectPayload === null || selectPayload === undefined) {
+      return null;
+    }
+    if (~selectPayload.includes("reverse_dns")) {
+      let selectOptions = [];
+      for (let uuid in sessionDict) {
+        let session = sessionDict[uuid];
+        selectOptions.push(
+          <Radio value={session.id}>{sessionTagList(session)}</Radio>
+        );
+      }
 
+      options.push(<Form.Item
+          {...CommformLayout}
+          label={formatText("app.payloadandhandler.comm_label")}
+          tooltip={formatText("app.payloadandhandler.comm_tip")}
+          name="ReverseListenerComm"
+        >
+          <Radio.Group onChange={(e) => {
+            for (let uuid in sessionDict) {
+              let session = sessionDict[uuid];
+              if (session.id === e.target.value) {
+                form.setFieldsValue({ LHOST: session.session_host });
+              }
+            }
+
+          }}>
+            <Space direction="vertical">
+              {selectOptions}
+            </Space>
+          </Radio.Group>
+        </Form.Item>
+      );
+    }
+
+    if (options.length === 0) {
+      return null;
+    } else {
+      return (
+        <Panel header={formatText("app.payloadandhandler.comm")} key="Comm">
+          {options}
+        </Panel>
+      );
+    }
+  };
   const handlerPayloadWarnOption = () => {
 
     let options = [];
@@ -912,47 +958,6 @@ const CreateHandlerModalContent = props => {
   };
 
 
-  const handlerPayloadComnOption = () => {
-    let options = [];
-    if (selectPayload === null || selectPayload === undefined) {
-      return null;
-    }
-    if (~selectPayload.includes("reverse_dns")) {
-      let selectOptions = [];
-      for (let uuid in sessionDict) {
-        let session = sessionDict[uuid];
-        selectOptions.push(
-          <Radio value={session}>{sessionTagList(session)}</Radio>
-        );
-      }
-
-      options.push(<Form.Item
-          {...CommformLayout}
-          label={formatText("app.payloadandhandler.comm_label")}
-          tooltip={formatText("app.payloadandhandler.comm_tip")}
-          name="ReverseListenerComm"
-        >
-          <Radio.Group onChange={(e) => {
-            form.setFieldsValue({ LHOST: e.target.value.session_host });
-          }}>
-            <Space direction="vertical">
-              {selectOptions}
-            </Space>
-          </Radio.Group>
-        </Form.Item>
-      );
-    }
-
-    if (options.length === 0) {
-      return null;
-    } else {
-      return (
-        <Panel header={formatText("app.payloadandhandler.comm")} key="Comm">
-          {options}
-        </Panel>
-      );
-    }
-  };
   return (
     <Form
       form={form}
@@ -1008,6 +1013,7 @@ const CreateHandlerModalContent = props => {
           </Form.Item>
           {handlerPayloadWarnOption()}
         </Panel>
+
         {handlerPayloadComnOption()}
         {handlerPayloadSpecialOption()}
         <Panel header={formatText("app.payloadandhandler.auto")} key="auto">
@@ -1075,7 +1081,7 @@ const CreateHandlerModalContent = props => {
             label={formatText("app.payloadandhandler.SessionCommunicationTimeout")}
             name="SessionCommunicationTimeout"
             rules={[]}
-            initialValue={60*5}
+            initialValue={60 * 5}
           >
             <InputNumber
               style={{ width: 160 }} />
@@ -2160,7 +2166,7 @@ const CreatePayloadModalContent = props => {
             label={formatText("app.payloadandhandler.SessionCommunicationTimeout")}
             name="SessionCommunicationTimeout"
             rules={[]}
-            initialValue={60*5}
+            initialValue={60 * 5}
           >
             <InputNumber style={{ width: 160 }} />
           </Form.Item>
