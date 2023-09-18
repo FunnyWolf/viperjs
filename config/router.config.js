@@ -24,6 +24,13 @@ export default [
         component: './Core/HostAndSession',
       },
       {
+
+        icon: 'Cluster',
+        path: 'web',
+        name: 'control-board',
+        component: './Core/HostAndSession',
+      },
+      {
         component: '404',
       },
     ],
