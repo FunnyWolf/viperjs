@@ -38,6 +38,7 @@ export default {
   'app.runmodule.botmodule.newtask': 'Add Task',
   'app.runmodule.botmodule.time': 'Creation Time',
   'app.runmodule.botmodule.module': 'Module',
+  "app.runmodule.botmodule.scheduler.module": "Scheduler Module",
   'app.runmodule.botmodule.ip_list.count': 'IP Count',
   'app.runmodule.botmodule.ip_list': 'IPAddress',
   'app.runmodule.botmodule.view': 'View',
