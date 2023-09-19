@@ -436,6 +436,12 @@ export async function getPostModuleAutoAPI(params) {
   });
 }
 
+export async function putPostModuleAutoAPI(params) {
+  return request('/api/v1/postmodule/postmoduleauto/', {
+    method: 'PUT',
+    data: params,
+  });
+}
 export async function postPostModuleAutoAPI(params) {
   return request('/api/v1/postmodule/postmoduleauto/', {
     method: 'POST',

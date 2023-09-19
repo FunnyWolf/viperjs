@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "cross-env APP_TYPE=site umi dev",
-    "start:no-mock": "cross-env MOCK=none UMI_UI=none umi dev",
+    "start:no-mock": "cross-env MOCK=none UMI_UI=none USE_WEBPACK_5=1 umi dev",
     "build": "umi build",
     "site": "npm run presite && cross-env APP_TYPE=site npm run build && firebase deploy && npm run docker:push",
     "analyze": "cross-env ANALYZE=1 umi build",
@@ -113,7 +113,7 @@
     "tslint": "^5.10.0",
     "tslint-config-prettier": "^1.10.0",
     "tslint-react": "^3.6.0",
-    "umi": "^3.4.25",
+    "umi": "^3.5.0",
     "umi-plugin-ga": "^1.1.3"
   },
   "optionalDependencies": {

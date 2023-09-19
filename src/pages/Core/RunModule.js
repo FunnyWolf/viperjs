@@ -54,7 +54,7 @@ import {
     postCoreSettingAPI,
     postPostModuleAutoAPI,
     postPostmodulePostModuleActuatorAPI,
-    postProxyHttpScanAPI
+    postProxyHttpScanAPI, putPostModuleAutoAPI
 } from "@/services/apiv1";
 import { formatText, getModuleDesc, getModuleName, getOptionDesc, getOptionTag } from "@/utils/locales";
 import { postModuleOpts } from "@/pages/Core/RealTimeCard";
@@ -1078,6 +1078,9 @@ export const RunschedulerModule = props => {
                 label={formatText("app.runmodule.autoconf.scheduler.session")}
                 tooltip={formatText("app.runmodule.autoconf.scheduler.session.tip")}
                 name="scheduler_session"
+                rules={[{
+                    required: true
+                }]}
             >
                 <Radio.Group>
                     <Space direction="vertical">
@@ -1088,9 +1091,11 @@ export const RunschedulerModule = props => {
             <Form.Item label={formatText("app.runmodule.autoconf.interval")}
                        tooltip={formatText("app.runmodule.autoconf.interval.tip")}
                        name="scheduler_interval"
+                       rules={[{
+                           required: true
+                       }]}
             >
                 <Radio.Group>
-                    <Radio value={5}>{formatText("app.runmodule.autoconf.scheduler.1min")}</Radio>
                     <Radio value={60}>{formatText("app.runmodule.autoconf.scheduler.1min")}</Radio>
                     <Radio value={60 * 10}>{formatText("app.runmodule.autoconf.scheduler.10min")}</Radio>
                     <Radio value={60 * 60}>{formatText("app.runmodule.autoconf.scheduler.1hour")}</Radio>
@@ -2321,6 +2326,13 @@ const AutoRobot = () => {
         }
     });
 
+    const updatePostModuleSchedulerReq = useRequest(putPostModuleAutoAPI, {
+        manual: true, onSuccess: (result, params) => {
+            listPostModuleAutoReq.run();
+        }, onError: (error, params) => {
+        }
+    });
+
     const destoryPostModuleAutoReq = useRequest(deletePostModuleAutoAPI, {
         manual: true, onSuccess: (result, params) => {
             const { _module_uuid } = result;
@@ -2329,6 +2341,13 @@ const AutoRobot = () => {
         }
     });
 
+    const destoryPostModuleSchedulerReq = useRequest(deletePostModuleAutoAPI, {
+        manual: true, onSuccess: (result, params) => {
+            const { job_id } = result;
+            setPostModuleSchedulerList(postModuleSchedulerList.filter(item => item.job_id !== job_id));
+        }, onError: (error, params) => {
+        }
+    });
 
     return (<Tabs style={{ marginTop: -16 }} type="card" defaultActiveKey="system_info">
         <TabPane tab={formatText("app.runmodule.autoconf.auto")} key="auto">
@@ -2389,7 +2408,10 @@ const AutoRobot = () => {
                             render: (text, record) => (<div style={{ textAlign: "center" }}>
                                 <a
                                     style={{ color: "red" }}
-                                    onClick={() => destoryPostModuleAutoReq.run({ _module_uuid: record._module_uuid })}
+                                    onClick={() => destoryPostModuleAutoReq.run({
+                                        module_type: "auto",
+                                        _module_uuid: record._module_uuid
+                                    })}
                                 >{formatText("app.core.delete")}</a>
                             </div>)
                         }]}
@@ -2438,52 +2460,7 @@ const AutoRobot = () => {
                 </Col>
             </Row>
             <Row gutter={0}>
-                <Col span={12}>
-                    <Card style={{ margin: 0 }} bodyStyle={{ padding: "4px 4px 4px 4px" }}>
-                        <PostModuleAutoConfFormMemo />
-                    </Card>
-                    <Table
-                        className={styles.postModuleAutoTable}
-                        size="small"
-                        rowKey="job_id"
-                        pagination={false}
-                        dataSource={postModuleAutoList}
-                        bordered
-                        columns={[{
-                            title: formatText("app.runmodule.botmodule.module"),
-                            dataIndex: "moduleinfo",
-                            key: "moduleinfo",
-                            width: 240,
-                            render: (text, record) => (<Popover
-                                placement="right"
-                                content={PostModuleInfoContent(record.moduleinfo)}
-                                trigger="click"
-                            >
-                                <a>{getModuleName(record.moduleinfo)}</a>
-                            </Popover>)
-                        }, {
-                            title: formatText("app.runmodule.autorobot.params"),
-                            dataIndex: "opts",
-                            key: "opts",
-                            render: (text, record) => {
-                                return postModuleOpts(record.opts);
-                            }
-                        }, {
-                            dataIndex: "operation",
-                            width: 56,
-                            render: (text, record) => (<div style={{ textAlign: "center" }}>
-                                <a
-                                    style={{ color: "red" }}
-                                    onClick={() => destoryPostModuleAutoReq.run({ _module_uuid: record._module_uuid })}
-                                >{formatText("app.core.delete")}</a>
-                            </div>)
-                        }]}
-                    />
-                </Col>
-                <Col span={12}>
-                    <Card style={{ margin: 0 }} bodyStyle={{ padding: "4px 4px 4px 4px" }}>
-                        <PostModuleAutoConfFormMemo />
-                    </Card>
+                <Col span={24}>
                     <Table
                         className={styles.postModuleSchedulerTable}
                         size="small"
@@ -2492,35 +2469,110 @@ const AutoRobot = () => {
                         dataSource={postModuleSchedulerList}
                         bordered
                         columns={[{
-                            title: formatText("app.runmodule.botmodule.scheduler.module"),
-                            dataIndex: "moduleinfo",
-                            key: "moduleinfo",
-                            width: 240,
-                            render: (text, record) => (<Popover
-                                placement="right"
-                                content={PostModuleInfoContent(record.moduleinfo)}
-                                trigger="click"
-                            >
-                                <a>{getModuleName(record.moduleinfo)}</a>
-                            </Popover>)
-                        }, {
-                            title: formatText("app.runmodule.autorobot.params"),
-                            dataIndex: "opts",
-                            key: "opts",
-                            render: (text, record) => {
-                                return postModuleOpts(record.opts);
-                            }
-                        }, {
-                            dataIndex: "operation",
+                            title: formatText("app.runmodule.autorobot.session"),
+                            dataIndex: "scheduler_session",
+                            key: "scheduler_session",
                             width: 56,
-                            render: (text, record) => (<div style={{ textAlign: "center" }}>
-                                <a
-                                    style={{ color: "red" }}
-                                    onClick={() => destoryPostModuleAutoReq.run({ _module_uuid: record._module_uuid })}
-                                >{formatText("app.core.delete")}</a>
-                            </div>)
-                        }]}
-                    />
+                            render: (text, record) => {
+                                const sessionidTag = (
+                                    <Tag
+                                        color="purple"
+                                        style={{
+                                            width: "100%",
+                                            textAlign: "center",
+                                            cursor: "pointer"
+                                        }}
+                                    >
+                                        <strong>{record.scheduler_session}</strong>
+                                    </Tag>
+                                );
+                                return sessionidTag;
+                            }
+                        },
+                            {
+                                title: formatText("app.runmodule.botmodule.scheduler.module"),
+                                dataIndex: "moduleinfo",
+                                key: "moduleinfo",
+                                width: 240,
+                                render: (text, record) => (<Popover
+                                    placement="right"
+                                    content={PostModuleInfoContent(record.moduleinfo)}
+                                    trigger="click"
+                                >
+                                    <a>{getModuleName(record.moduleinfo)}</a>
+                                </Popover>)
+                            }, {
+                                title: formatText("app.runmodule.autorobot.params"),
+                                dataIndex: "opts",
+                                key: "opts",
+                                render: (text, record) => {
+                                    return postModuleOpts(record.opts);
+                                }
+                            }, {
+                                title: formatText("app.runmodule.autorobot.next_run_time"),
+                                dataIndex: "next_run_time",
+                                key: "next_run_time",
+                                width: 120,
+                                render: (text, record) => {
+                                    if (record.next_run_time !== null) {
+                                        return <Tag
+                                            color="cyan">{moment(record.next_run_time * 1000).format("YYYY-MM-DD HH:mm")}</Tag>;
+                                    } else {
+                                        return <Tag
+                                            color="orange">{formatText("app.runmodule.autorobot.scheduler.pause")}</Tag>;
+                                    }
+
+                                }
+                            }, {
+                                title: formatText("app.runmodule.autoconf.scheduler.interval"),
+                                dataIndex: "interval",
+                                key: "interval",
+                                width: 80,
+                                render: (text, record) => {
+                                    return <Tag
+                                        color="green">{moment.duration(record.interval, "seconds").humanize()}</Tag>;
+
+                                }
+                            }, {
+                                dataIndex: "operation",
+                                width: 136,
+                                render: (text, record) => {
+                                    let jobAction = null;
+                                    if (record.next_run_time !== null) {
+                                        jobAction = (
+                                            <a style={{ color: "#faad14" }}
+                                               onClick={() => updatePostModuleSchedulerReq.run({
+                                                   job_id: record.job_id,
+                                                   action: "pause"
+                                               })}>
+                                                {formatText("app.runmodule.autorobot.scheduler.pause")}
+                                            </a>
+                                        );
+                                    } else {
+                                        jobAction = (
+                                            <a style={{ color: "#a5a5a5" }}
+                                               onClick={() => updatePostModuleSchedulerReq.run({
+                                                   job_id: record.job_id,
+                                                   action: "resume"
+                                               })}>
+                                                {formatText("app.runmodule.autorobot.scheduler.resume")}
+                                            </a>
+                                        );
+                                    }
+                                    return <div style={{ textAlign: "center" }}>
+                                        <Space size="middle">
+                                            {jobAction}
+                                            <a
+                                                style={{ color: "red" }}
+                                                onClick={() => destoryPostModuleSchedulerReq.run({
+                                                    module_type: "scheduler",
+                                                    job_id: record.job_id
+                                                })}
+                                            >{formatText("app.core.delete")}</a>
+                                        </Space>
+                                    </div>;
+                                }
+                            }]} />
                 </Col>
             </Row>
             <Modal
