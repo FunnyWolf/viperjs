@@ -6,9 +6,8 @@ import { deleteMsgrpcFileMsfAPI, getMsgrpcFileMsfAPI, postPostmodulePostModuleAc
 import { Button, Card, Col, Modal, Row, Space, Table, Tag, Upload } from "antd";
 import { CopyOutlined, SyncOutlined, UploadOutlined } from "@ant-design/icons";
 import copy from "copy-to-clipboard";
-import styles from "./FileMsf.less";
 import { getToken } from "@/utils/authority";
-import { Downheight } from "@/utils/utils";
+import { cssCalc, Downheight } from "@/utils/utils";
 import { formatText, manuali18n, msgerror, msgsuccess, msgwarning } from "@/utils/locales";
 import { DocIcon } from "@/pages/Core/Common";
 
@@ -278,7 +277,11 @@ const FileMsf = props => {
             {formatText("app.core.refresh")}
           </Button>
           <Table
-            className={styles.filesTable}
+            style={{
+              overflow: "auto",
+              maxHeight: cssCalc("{0} - 32px".format(Downheight)),
+              minHeight: cssCalc("{0} - 32px".format(Downheight))
+            }}
             scroll={{ y: "calc({0} - 32px - 32px)".format(Downheight) }}
             size="small"
             bordered
@@ -429,7 +432,11 @@ export const FileMsfModal = props => {
         bodyStyle={{ padding: "0px 0px 0px 0px" }}
       >
         <Table
-          className={styles.filesTableModal}
+          style={{
+            overflow: "auto",
+            maxHeight: cssCalc("50vh"),
+            minHeight: cssCalc("50vh")
+          }}
           loading={listFileMsfReq.loading || listFileMsfForDownloadReq.loading}
           size="small"
           bordered

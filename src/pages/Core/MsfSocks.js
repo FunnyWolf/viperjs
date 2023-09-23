@@ -18,7 +18,6 @@ import {
   Alert, Avatar, Button, Col, Form, Input, InputNumber, Modal, Radio, Row, Select, Space, Table, Tag
 } from "antd";
 import { DocIcon, SidTag } from "@/pages/Core/Common";
-import styles from "./MsfSocks.less";
 import {
   deleteCoreHostAPI,
   deleteMsgrpcPortFwdAPI,
@@ -33,6 +32,7 @@ import copy from "copy-to-clipboard";
 import { useRequest } from "umi";
 import moment from "moment";
 import { formatText, msgsuccess } from "@/utils/locales";
+import { cssCalc, Downheight } from "@/utils/utils";
 
 const { Option } = Select;
 
@@ -312,8 +312,12 @@ const MsfSocks = () => {
           </Col>
         </Row>
         <Table
-          style={{ marginTop: 0 }}
-          className={styles.muitHostsTable}
+          style={{
+            marginTop: 0,
+            overflow: "auto",
+            maxHeight: cssCalc("{0} - 32px - 36px".format(Downheight)),
+            minHeight: cssCalc("{0} - 32px - 36px".format(Downheight))
+          }}
           size="small"
           bordered
           pagination={false}
@@ -403,7 +407,11 @@ const MsfSocks = () => {
             >{formatText("app.core.refresh")}</Button>
             <Table
               bordered
-              className={styles.proxyTable}
+              style={{
+                overflow: "auto",
+                maxHeight: cssCalc("{0} - 32px - 36px - 25vh".format(Downheight)),
+                minHeight: cssCalc("{0} - 32px - 36px - 25vh".format(Downheight))
+              }}
               size="small"
               rowKey="subnet"
               pagination={false}
@@ -438,7 +446,11 @@ const MsfSocks = () => {
             </Button>
             <Table
               bordered
-              className={styles.routesTable}
+              style={{
+                overflow: "auto",
+                maxHeight: cssCalc("{0} - 32px - 36px - 25vh".format(Downheight)),
+                minHeight: cssCalc("{0} - 32px - 36px - 25vh".format(Downheight))
+              }}
               size="small"
               rowKey="port"
               pagination={false}
@@ -458,8 +470,12 @@ const MsfSocks = () => {
           </Col>
         </Row>
         <Table
-          style={{ marginTop: -16 }}
-          className={styles.portfwdTable}
+          style={{
+            marginTop: -16,
+            overflow: "auto",
+            maxHeight: cssCalc("25vh"),
+            minHeight: cssCalc("25vh")
+          }}
           bordered
           size="small"
           rowKey="index"

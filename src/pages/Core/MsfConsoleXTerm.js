@@ -8,10 +8,10 @@ import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
 import "./xterm.css";
 import { getToken } from "@/utils/authority";
-import styles from "@/pages/Core/MsfConsoleXTerm.less";
 import { useInterval } from "ahooks";
 import { DocIcon } from "@/pages/Core/Common";
 import { HostIP } from "@/config";
+import { cssCalc, Downheight } from "@/utils/utils";
 //websocket连接地址设置
 let webHost = HostIP + ":8002";
 let protocol = "ws://";
@@ -162,7 +162,12 @@ const Msfconsole = props => {
         />
       </Space>
       <div
-        className={styles.msfconsolediv}
+        style={{
+          marginTop: -16,
+          padding: "0 0 0 4px",
+          maxHeight: cssCalc(Downheight),
+          minHeight: cssCalc(Downheight)
+        }}
         ref={terminalRef}
       />
     </Fragment>
@@ -261,7 +266,10 @@ const MsfconsoleWindows = props => {
 
   return (
     <div
-      className={styles.msfconsolewindows}
+      style={{
+        padding: "0 0 0 0",
+        height: "100%"
+      }}
       ref={terminalRef}
     >
       <Space

@@ -60,6 +60,7 @@ import { formatText, getModuleDesc, getModuleName, getOptionDesc, getOptionTag }
 import { postModuleOpts } from "@/pages/Core/RealTimeCard";
 import { sessionTagList } from "@/pages/Core/HostAndSession";
 import { DocIcon, DocIconInDiv } from "@/pages/Core/Common";
+import { cssCalc, Downheight } from "@/utils/utils";
 
 const { Title, Paragraph, Text } = Typography;
 const { Search, TextArea } = Input;
@@ -685,7 +686,12 @@ export const RunModule = props => {
                         {/*<Option value="Command_and_Control">命令控制</Option>*/}
                     </Radio.Group>
                     <Table
-                        className={styles.moduleConfigTable}
+                        style={{
+                            padding: "0 0 0 0",
+                            marginTop: 8,
+                            maxHeight: cssCalc("80vh - 128px"),
+                            minHeight: cssCalc("80vh - 128px")
+                        }}
                         scroll={{ y: "calc(80vh - 128px)" }}
                         rowClassName={styles.moduleTr}
                         showHeader={false}
@@ -727,8 +733,12 @@ export const RunModule = props => {
                             </Fragment>
                         </div>
                         <Form
-                            className={styles.moduleCardNew}
-                            style={{ marginBottom: 16 }}
+                            style={{
+                                marginBottom: 16,
+                                overflow: "auto",
+                                maxHeight: cssCalc("80vh - 88px"),
+                                minHeight: cssCalc("80vh - 88px")
+                            }}
                             layout="vertical"
                             wrapperCol={{ span: 24 }}
                             onFinish={onCreatePostModuleActuator}
@@ -953,7 +963,12 @@ export const RunAutoModule = props => {
                         value="Collection">{formatText("app.runmodule.postmodule.moduletype.Collection")}</Radio.Button>
                 </Radio.Group>
                 <Table
-                    className={styles.moduleConfigTable}
+                    style={{
+                        padding: "0 0 0 0",
+                        marginTop: 8,
+                        maxHeight: cssCalc("80vh - 128px"),
+                        minHeight: cssCalc("80vh - 128px")
+                    }}
                     scroll={{ y: "calc(80vh - 104px)" }}
                     rowClassName={styles.moduleTr}
                     showHeader={false}
@@ -978,8 +993,12 @@ export const RunAutoModule = props => {
                     key="params"
                 >
                     <Form
-                        className={styles.moduleCardNew}
-                        style={{ marginBottom: 16 }}
+                        style={{
+                            marginBottom: 16,
+                            overflow: "auto",
+                            maxHeight: cssCalc("80vh - 88px"),
+                            minHeight: cssCalc("80vh - 88px")
+                        }}
                         layout="vertical"
                         wrapperCol={{ span: 24 }}
                         onFinish={onCreatePostModuleAuto}
@@ -1254,7 +1273,12 @@ export const RunschedulerModule = props => {
                         value="Collection">{formatText("app.runmodule.postmodule.moduletype.Collection")}</Radio.Button>
                 </Radio.Group>
                 <Table
-                    className={styles.moduleConfigTable}
+                    style={{
+                        padding: "0 0 0 0",
+                        marginTop: 8,
+                        maxHeight: cssCalc("80vh - 128px"),
+                        minHeight: cssCalc("80vh - 128px")
+                    }}
                     scroll={{ y: "calc(80vh - 104px)" }}
                     rowClassName={styles.moduleTr}
                     showHeader={false}
@@ -1279,8 +1303,12 @@ export const RunschedulerModule = props => {
                     key="params"
                 >
                     <Form
-                        className={styles.moduleCardNew}
-                        style={{ marginBottom: 16 }}
+                        style={{
+                            marginBottom: 16,
+                            overflow: "auto",
+                            maxHeight: cssCalc("80vh - 88px"),
+                            minHeight: cssCalc("80vh - 88px")
+                        }}
                         layout="vertical"
                         wrapperCol={{ span: 24 }}
                         onFinish={onCreatePostModuleAuto}
@@ -1545,20 +1573,21 @@ export const RunBotModule = props => {
         }
     };
 
-    const waitTime = (time = 100) => {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(true);
-            }, time);
-        });
-    };
     return (<Row>
         <Col span={6}>
-            <Card bordered={false} className={styles.botModuleCard}>
+            <Card bordered={false}
+                  style={{
+                      minHeight: cssCalc("100vh - 40px")
+                  }}
+            >
                 <Search placeholder={formatText("app.runmodule.postmodule.searchmodule.ph")}
                         onSearch={value => handleModuleSearch(value)} />
                 <Table
-                    className={styles.botmoduleTableNew}
+                    style={{
+                        padding: "0 0 0 0",
+                        maxHeight: cssCalc("100vh - 120px"),
+                        minHeight: cssCalc("100vh - 120px")
+                    }}
                     scroll={{ y: "calc(100vh - 120px)" }}
                     rowClassName={styles.moduleTr}
                     showHeader={false}
@@ -1741,9 +1770,13 @@ export const RunBotModule = props => {
                         </Col>
                         <Col span={12}>
                             <Table
-                                style={{ marginTop: 0, padding: "0px 8px 16px 0px" }}
                                 loading={listNetworkSearchReq.loading}
-                                className={styles.searchHostsTable}
+                                style={{
+                                    marginTop: 0,
+                                    padding: "0px 8px 16px 0px",
+                                    maxHeight: "560px",
+                                    minHeight: "560px"
+                                }}
                                 scroll={{ y: 480 }}
                                 size="small"
                                 bordered
@@ -1938,7 +1971,12 @@ const RealTimeBotWaitList = () => {
             return (<Popover
                 placement="right"
                 content={<List
-                    className={styles.noticelist}
+                    style={{
+                        padding: "0 0 0 0",
+                        overflow: "auto",
+                        maxHeight: cssCalc("50vh"),
+                        minHeight: cssCalc("50vh")
+                    }}
                     size="small"
                     bordered
                     dataSource={record.ip_list}
@@ -1971,8 +2009,12 @@ const RealTimeBotWaitList = () => {
     }];
 
     return (<Table
-        style={{ marginTop: 0 }}
-        className={styles.botWaitListTable}
+        style={{
+            marginTop: 0,
+            overflow: "auto",
+            maxHeight: cssCalc("{0} - 32px".format(Downheight)),
+            minHeight: cssCalc("{0} - 32px".format(Downheight))
+        }}
         size="small"
         rowKey="uuid"
         pagination={false}
@@ -2377,7 +2419,12 @@ const AutoRobot = () => {
                         <PostModuleAutoConfFormMemo />
                     </Card>
                     <Table
-                        className={styles.postModuleAutoTable}
+                        style={{
+                            padding: "0 0 0 0",
+                            overflow: "auto",
+                            maxHeight: cssCalc("{0} - 72px - 36px".format(Downheight)),
+                            minHeight: cssCalc("{0} - 72px - 36px".format(Downheight))
+                        }}
                         size="small"
                         rowKey="job_id"
                         pagination={false}
@@ -2462,7 +2509,12 @@ const AutoRobot = () => {
             <Row gutter={0}>
                 <Col span={24}>
                     <Table
-                        className={styles.postModuleSchedulerTable}
+                        style={{
+                            padding: "0 0 0 0",
+                            overflow: "auto",
+                            maxHeight: cssCalc("{0} - 72px".format(Downheight)),
+                            minHeight: cssCalc("{0} - 72px".format(Downheight))
+                        }}
                         size="small"
                         rowKey="job_id"
                         pagination={false}
@@ -2795,7 +2847,12 @@ export const ProxyHttpScanModule = props => {
                     }}
                 />
                 <Table
-                    className={styles.moduleConfigTable}
+                    style={{
+                        padding: "0 0 0 0",
+                        marginTop: 8,
+                        maxHeight: cssCalc("80vh - 128px"),
+                        minHeight: cssCalc("80vh - 128px")
+                    }}
                     scroll={{ y: "calc(80vh - 104px)" }}
                     rowClassName={styles.moduleTr}
                     showHeader={false}
@@ -2820,8 +2877,12 @@ export const ProxyHttpScanModule = props => {
                     key="params"
                 >
                     <Form
-                        className={styles.moduleCardNew}
-                        style={{ marginBottom: 16 }}
+                        style={{
+                            marginBottom: 16,
+                            overflow: "auto",
+                            maxHeight: cssCalc("80vh - 88px"),
+                            minHeight: cssCalc("80vh - 88px")
+                        }}
                         layout="vertical"
                         wrapperCol={{ span: 24 }}
                         onFinish={onCreateProxyHttpScan}
@@ -2915,7 +2976,12 @@ const ProxyHttpScan = () => {
         <Row gutter={0}>
             <Col span={20}>
                 <Table
-                    className={styles.postModuleAutoTable}
+                    style={{
+                        padding: "0 0 0 0",
+                        overflow: "auto",
+                        maxHeight: cssCalc("{0} - 72px - 36px".format(Downheight)),
+                        minHeight: cssCalc("{0} - 72px - 36px".format(Downheight))
+                    }}
                     size="small"
                     rowKey="job_id"
                     pagination={false}

@@ -28,8 +28,7 @@ import {
 } from "antd";
 import moment from "moment";
 import { DocIcon, MyIcon, SidTag } from "@/pages/Core/Common";
-import styles from "./RealTimeCard.less";
-import { Upheight } from "@/utils/utils";
+import { cssCalc, Downheight, Upheight } from "@/utils/utils";
 import { PostModuleInfoContent } from "@/pages/Core/RunModule";
 import { formatText, getModuleName, getModuleResultTable, getOptionTag, getResultData } from "@/utils/locales";
 import ReactJson from "react-json-view";
@@ -185,7 +184,11 @@ const RealTimeModuleResult = () => {
             <List
                 id="moduleresultlist"
                 bordered
-                className={styles.moduleresultlist}
+                style={{
+                    overflow: "auto",
+                    maxHeight: cssCalc("{0} - 30px".format(Downheight)),
+                    minHeight: cssCalc("{0} - 30px".format(Downheight))
+                }}
                 itemLayout="vertical"
                 size="small"
                 dataSource={postModuleResultHistoryActive}
@@ -368,10 +371,6 @@ const RealTimeNotices = () => {
                 type={KeyToUserIcon[key]}
                 style={{
                     padding: "0px 0px 0px 0px",
-                    // marginBottom: 0,
-                    // marginTop: 0,
-                    // marginLeft: 0,
-                    // marginRight: 0,
                     fontSize: "16px"
                 }}
             />
@@ -383,35 +382,35 @@ const RealTimeNotices = () => {
             const content = item[getLocale()];
             if (item.level === 0) {
                 return (
-                    <Text style={{ color: "#49aa19" }} className={styles.wordBreakClass}>
+                    <Text style={{ color: "#49aa19", wordBreak: "break-all" }}>
                         {content}
                     </Text>
                 );
             }
             if (item.level === 1) {
                 return (
-                    <Text style={{ color: "#13a8a8" }} className={styles.wordBreakClass}>
+                    <Text style={{ color: "#13a8a8", wordBreak: "break-all" }}>
                         {content}
                     </Text>
                 );
             }
             if (item.level === 2) {
                 return (
-                    <Text type="warning" className={styles.wordBreakClass}>
+                    <Text type="warning" style={{ wordBreak: "break-all" }}>
                         {content}
                     </Text>
                 );
             }
             if (item.level === 3) {
                 return (
-                    <Text type="danger" className={styles.wordBreakClass}>
+                    <Text type="danger" style={{ wordBreak: "break-all" }}>
                         {content}
                     </Text>
                 );
             }
             if (item.level === 4) {
                 return (
-                    <Text mark className={styles.wordBreakClass}>
+                    <Text mark style={{ wordBreak: "break-all" }}>
                         {content}
                     </Text>
                 );
@@ -419,7 +418,7 @@ const RealTimeNotices = () => {
             if (item.level === 5) {
                 // 提醒
                 return (
-                    <Text style={{ color: "#642ab5" }} className={styles.wordBreakClass}>
+                    <Text style={{ color: "#642ab5", wordBreak: "break-all" }}>
                         {content}
                     </Text>
                 );
@@ -428,14 +427,14 @@ const RealTimeNotices = () => {
                 return (
                     <Space>
                         {userIconLarge(item.userkey)}
-                        <Text style={{ color: "#cb2b83" }} className={styles.wordBreakClass}>
+                        <Text style={{ color: "#cb2b83", wordBreak: "break-all" }}>
                             {">"} {content}
                         </Text>
                     </Space>
                 );
             }
             return (
-                <Text type="warning" className={styles.wordBreakClass}>
+                <Text type="warning" style={{ wordBreak: "break-all" }}>
                     {content}
                 </Text>
             );
@@ -443,7 +442,11 @@ const RealTimeNotices = () => {
         return (
             <List
                 id="noticescard"
-                className={styles.noticelist}
+                style={{
+                    overflow: "auto",
+                    maxHeight: cssCalc("{0} - 30px".format(Downheight)),
+                    minHeight: cssCalc("{0} - 30px".format(Downheight))
+                }}
                 split={false}
                 size="small"
                 bordered
@@ -524,7 +527,11 @@ const RealTimeNotices = () => {
                 width: "50vw",
                 content: (
                     <Card
-                        className={styles.uuidjsonCard}
+                        style={{
+                            overflow: "auto",
+                            maxHeight: cssCalc("100vh - 240px"),
+                            minHeight: cssCalc("100vh - 240px")
+                        }}
                         bodyStyle={{ padding: "0px 0px 0px 0px" }}
                     >
                         <ReactJson
@@ -607,8 +614,13 @@ const RealTimeJobs = () => {
         <Fragment>
             <DocIcon url="https://www.yuque.com/vipersec/help/rokuc0" />
             <Table
-                style={{ marginTop: -16 }}
-                className={styles.jobListTable}
+                style={{
+                    marginTop: -16,
+                    overflow: "auto",
+                    maxHeight: cssCalc(Downheight),
+                    minHeight: cssCalc(Downheight)
+                }}
+                // className={styles.jobListTable}
                 size="small"
                 rowKey="job_id"
                 pagination={false}

@@ -1,6 +1,6 @@
-import React, { Fragment, memo, useState } from 'react';
-import { DownloadOutlined, SyncOutlined } from '@ant-design/icons';
-import { useRequest } from 'umi';
+import React, { Fragment, memo, useState } from "react";
+import { DownloadOutlined, SyncOutlined } from "@ant-design/icons";
+import { useRequest } from "umi";
 import {
   Button,
   Card,
@@ -14,12 +14,12 @@ import {
   Switch,
   Table,
   Tag,
-  Tooltip,
-} from 'antd';
-import Ellipsis from '@/components/Ellipsis';
-import moment from 'moment';
-import styles from './LazyLoader.less';
-import { deleteMsgrpcLazyLoaderAPI, getMsgrpcLazyLoaderAPI, putMsgrpcLazyLoaderAPI } from '@/services/apiv1';
+  Tooltip
+} from "antd";
+import Ellipsis from "@/components/Ellipsis";
+import moment from "moment";
+import { deleteMsgrpcLazyLoaderAPI, getMsgrpcLazyLoaderAPI, putMsgrpcLazyLoaderAPI } from "@/services/apiv1";
+import { cssCalc, Downheight } from "@/utils/utils";
 
 const { Option } = Select;
 
@@ -33,7 +33,7 @@ String.prototype.format = function() {
 
 
 const LazyLoader = () => {
-  console.log('LazyLoader');
+  console.log("LazyLoader");
   const [lazyloaderList, setLazyloaderList] = useState([]);
   const [handlers, setHandlers] = useState([]);
 
@@ -43,7 +43,7 @@ const LazyLoader = () => {
       setHandlers(result.handlers);
     },
     onError: (error, params) => {
-    },
+    }
   });
 
   const listLazyloaderReq = useRequest(getMsgrpcLazyLoaderAPI, {
@@ -53,7 +53,7 @@ const LazyLoader = () => {
       setHandlers(result.handlers);
     },
     onError: (error, params) => {
-    },
+    }
   });
 
   const downloadLazyLoaderSourceCodeReq = useRequest(() => getMsgrpcLazyLoaderAPI({ sourcecode: true }), {
@@ -61,7 +61,7 @@ const LazyLoader = () => {
     onSuccess: (result, params) => {
     },
     onError: (error, params) => {
-    },
+    }
   });
 
   const updateLazyLoaderReq = useRequest(putMsgrpcLazyLoaderAPI, {
@@ -70,7 +70,7 @@ const LazyLoader = () => {
       listLazyloaderReq.run();
     },
     onError: (error, params) => {
-    },
+    }
   });
 
   const destoryLazyLoaderReq = useRequest(deleteMsgrpcLazyLoaderAPI, {
@@ -79,12 +79,12 @@ const LazyLoader = () => {
       listLazyloaderReq.run();
     },
     onError: (error, params) => {
-    },
+    }
   });
 
   const selectOptions = [];
   for (const oneselect of handlers) {
-    if (oneselect.name.includes('rc4')) {
+    if (oneselect.name.includes("rc4")) {
       // rc4类传输协议无法使用
     } else {
       selectOptions.push(<Option value={oneselect.value}>{oneselect.name}</Option>);
@@ -94,10 +94,10 @@ const LazyLoader = () => {
     const Descriptions_Items = [];
     let showstr = null;
     for (const key in item) {
-      if (item[key] === null || item[key] === '') {
+      if (item[key] === null || item[key] === "") {
         continue;
       } else if (item[key] === true || item[key] === false) {
-        showstr = item[key] ? 'True' : 'False';
+        showstr = item[key] ? "True" : "False";
       } else {
         showstr = item[key];
       }
@@ -106,8 +106,8 @@ const LazyLoader = () => {
     Modal.info({
       mask: false,
       style: { top: 20 },
-      width: '95%',
-      icon: '',
+      width: "95%",
+      icon: "",
       content: (
         <Descriptions
           style={{ marginTop: -32, marginRight: -24, marginLeft: -24, marginBottom: -16 }}
@@ -119,7 +119,7 @@ const LazyLoader = () => {
         </Descriptions>
       ),
       onOk() {
-      },
+      }
     });
   };
 
@@ -130,7 +130,7 @@ const LazyLoader = () => {
           <Button
             block
             type="dashed"
-            icon={<DownloadOutlined/>}
+            icon={<DownloadOutlined />}
             onClick={() => downloadLazyLoaderSourceCodeReq.run()}
           >
             示例源码
@@ -139,7 +139,7 @@ const LazyLoader = () => {
         <Col span={12}>
           <Button
             block
-            icon={<SyncOutlined/>}
+            icon={<SyncOutlined />}
             onClick={() => listLazyloaderReq.run()}
             loading={listLazyloaderReq.loading || updateLazyLoaderReq.loading || destoryLazyLoaderReq.loading}
           >
@@ -147,54 +147,59 @@ const LazyLoader = () => {
           </Button>
         </Col>
       </Row>
-      <Card style={{ marginTop: 0 }} bodyStyle={{ padding: '0px 0px 0px 0px' }}>
+      <Card style={{ marginTop: 0 }} bodyStyle={{ padding: "0px 0px 0px 0px" }}>
         <Table
-          className={styles.lazyloaderlist}
+          style={{
+            padding: "0 0 0 0",
+            overflow: "auto",
+            maxHeight: cssCalc("{0} - 32px".format(Downheight)),
+            minHeight: cssCalc("{0} - 32px".format(Downheight))
+          }}
           size="small"
           bordered
           pagination={false}
           rowKey="id"
           columns={[
             {
-              title: 'UUID',
-              dataIndex: 'uuid',
-              key: 'uuid',
+              title: "UUID",
+              dataIndex: "uuid",
+              key: "uuid",
               width: 160,
               render: (text, record) => (
                 <Ellipsis tooltip lines={2}>
                   {text}
                 </Ellipsis>
-              ),
+              )
             },
             {
-              title: 'IP地址',
-              dataIndex: 'ipaddress',
-              key: 'ipaddress',
+              title: "IP地址",
+              dataIndex: "ipaddress",
+              key: "ipaddress",
               width: 120,
               render: (text, record) => {
-                return <strong style={{ color: '#d8bd14' }}>{text}</strong>;
-              },
+                return <strong style={{ color: "#d8bd14" }}>{text}</strong>;
+              }
             },
             {
-              title: '更新时间',
-              dataIndex: 'last_check',
-              key: 'last_check',
+              title: "更新时间",
+              dataIndex: "last_check",
+              key: "last_check",
               width: 136,
               render: (text, record) => {
                 const last_check = (
-                  <Tooltip title={moment(record.last_check * 1000).format('YYYY-MM-DD HH:mm:ss')}>
+                  <Tooltip title={moment(record.last_check * 1000).format("YYYY-MM-DD HH:mm:ss")}>
                     <Tag color="cyan">
-                      {moment(record.last_check * 1000).format('YYYY-MM-DD HH:mm')}
+                      {moment(record.last_check * 1000).format("YYYY-MM-DD HH:mm")}
                     </Tag>
                   </Tooltip>
                 );
                 return <span>{last_check}</span>;
-              },
+              }
             },
             {
-              title: '最小间隔',
-              dataIndex: 'interval',
-              key: 'interval',
+              title: "最小间隔",
+              dataIndex: "interval",
+              key: "interval",
               width: 80,
               render: (text, record) => {
                 let com = (
@@ -202,8 +207,8 @@ const LazyLoader = () => {
                     color="green"
                     style={{
                       width: 56,
-                      textAlign: 'center',
-                      cursor: 'pointer',
+                      textAlign: "center",
+                      cursor: "pointer"
                     }}
                   >
                     {record.interval} 秒
@@ -215,8 +220,8 @@ const LazyLoader = () => {
                       color="orange"
                       style={{
                         width: 56,
-                        textAlign: 'center',
-                        cursor: 'pointer',
+                        textAlign: "center",
+                        cursor: "pointer"
                       }}
                     >
                       {record.interval} 秒
@@ -224,24 +229,24 @@ const LazyLoader = () => {
                   );
                 }
                 return com;
-              },
+              }
             },
             {
-              title: '载荷(reverse_https)',
-              dataIndex: 'payload',
-              key: 'payload',
+              title: "载荷(reverse_https)",
+              dataIndex: "payload",
+              key: "payload",
               render: (text, item) => {
                 if (item.payload === undefined || item.payload === null) {
                   return null;
                 } else {
                   return <a onClick={() => handlerDetail(item.payload)}>详情</a>;
                 }
-              },
+              }
             },
             {
-              title: '载荷状态',
-              dataIndex: 'send_payload',
-              key: 'send_payload',
+              title: "载荷状态",
+              dataIndex: "send_payload",
+              key: "send_payload",
               width: 80,
               render: (text, record) => {
                 let sendpayloadcom = record.send_payload ? (
@@ -249,8 +254,8 @@ const LazyLoader = () => {
                     color="green"
                     style={{
                       // width: 32,
-                      textAlign: 'center',
-                      cursor: 'pointer',
+                      textAlign: "center",
+                      cursor: "pointer"
                     }}
                   >
                     已发送
@@ -260,8 +265,8 @@ const LazyLoader = () => {
                     color="orange"
                     style={{
                       // width: 32,
-                      textAlign: 'center',
-                      cursor: 'pointer',
+                      textAlign: "center",
+                      cursor: "pointer"
                     }}
                   >
                     未发送
@@ -270,21 +275,21 @@ const LazyLoader = () => {
                 return (
                   <div
                     style={{
-                      display: 'flex',
-                      cursor: 'pointer',
+                      display: "flex",
+                      cursor: "pointer"
                     }}
                   >
                     {sendpayloadcom}
                   </div>
                 );
-              },
+              }
             },
             {
-              title: '操作',
-              dataIndex: 'operation',
+              title: "操作",
+              dataIndex: "operation",
               width: 200,
               render: (text, record) => (
-                <div style={{ textAlign: 'center' }}>
+                <div style={{ textAlign: "center" }}>
                   <Space size="middle">
                     <Popover
                       content={
@@ -295,24 +300,24 @@ const LazyLoader = () => {
                           rowKey="name"
                           columns={[
                             {
-                              title: '监听',
-                              dataIndex: 'name',
-                              key: 'name',
-                              render: text => <span>{text}</span>,
+                              title: "监听",
+                              dataIndex: "name",
+                              key: "name",
+                              render: text => <span>{text}</span>
                             },
                             {
-                              title: '操作',
-                              dataIndex: 'operation',
+                              title: "操作",
+                              dataIndex: "operation",
                               width: 64,
                               render: (text, inlinerecord) => {
-                                if (inlinerecord.name.includes('reverse_https')) {
+                                if (inlinerecord.name.includes("reverse_https")) {
                                   return (
-                                    <div style={{ textAlign: 'center' }}>
+                                    <div style={{ textAlign: "center" }}>
                                       <a
                                         onClick={() => updateLazyLoaderReq.run({
                                           uuid: record.uuid,
-                                          field: 'payload',
-                                          data: inlinerecord.value,
+                                          field: "payload",
+                                          data: inlinerecord.value
                                         })
                                         }
                                       >
@@ -321,8 +326,8 @@ const LazyLoader = () => {
                                     </div>
                                   );
                                 }
-                              },
-                            },
+                              }
+                            }
                           ]}
                           dataSource={handlers}
                         />
@@ -333,24 +338,24 @@ const LazyLoader = () => {
                     </Popover>
                     <Switch
                       style={{ marginTop: -4 }}
-                      checkedChildren={'循环'}
-                      unCheckedChildren={'退出'}
+                      checkedChildren={"循环"}
+                      unCheckedChildren={"退出"}
                       checked={!record.exit_loop}
                       onClick={() => updateLazyLoaderReq.run({
                         uuid: record.uuid,
-                        field: 'exit_loop',
-                        data: !record.exit_loop,
+                        field: "exit_loop",
+                        data: !record.exit_loop
                       })}
                     />
                     <a
-                      style={{ color: 'red' }}
+                      style={{ color: "red" }}
                       onClick={() => destoryLazyLoaderReq.run({ uuid: record.uuid })}>
                       删除
                     </a>
                   </Space>
                 </div>
-              ),
-            },
+              )
+            }
           ]}
           dataSource={lazyloaderList}
         />

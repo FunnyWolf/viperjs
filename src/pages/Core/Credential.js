@@ -9,7 +9,6 @@ import {
 } from "@ant-design/icons";
 import { Button, Col, Collapse, Form, Input, Modal, Popover, Radio, Row, Table, Tooltip } from "antd";
 import Ellipsis from "@/components/Ellipsis";
-import styles from "./Credential.less";
 import {
   deletePostlateralCredentialAPI,
   getPostlateralCredentialAPI,
@@ -19,6 +18,7 @@ import {
 import { useRequest } from "umi";
 import { formatText, getOptionTag } from "@/utils/locales";
 import { DocIcon } from "@/pages/Core/Common";
+import { cssCalc, Downheight } from "@/utils/utils";
 
 const { Panel } = Collapse;
 const { Search } = Input;
@@ -113,8 +113,13 @@ const Credential = () => {
         </Col>
       </Row>
       <Table
-        style={{ marginTop: 0 }}
-        className={styles.credentiallist}
+        style={{
+          marginTop: 0,
+          padding: "0 0 0 0",
+          overflow: "auto",
+          maxHeight: cssCalc("{0} - 32px".format(Downheight)),
+          minHeight: cssCalc("{0} - 32px".format(Downheight))
+        }}
         size="small"
         bordered
         pagination={false}

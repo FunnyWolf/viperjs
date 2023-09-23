@@ -143,7 +143,9 @@ const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(
 export function isUrl(path) {
   return reg.test(path);
 }
-
+export function cssCalc(expression) {
+  return `calc(${expression})`
+}
 export const heightCon = '16vh';
 export const Upheight = '120px + {0}'.format(heightCon);
 export const Downheight = '100vh - 164px - {0}'.format(heightCon);

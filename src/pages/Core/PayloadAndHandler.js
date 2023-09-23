@@ -6,7 +6,6 @@ import {
   postMsgrpcHandlerAPI,
   postMsgrpcPayloadAPI
 } from "@/services/apiv1";
-import styles from "./PayloadAndHandler.less";
 import { DocIcon, randomstr } from "@/pages/Core/Common";
 import {
   Alert,
@@ -33,6 +32,7 @@ import { BlockOutlined, CustomerServiceOutlined, SyncOutlined, SaveOutlined } fr
 import { useRequest } from "umi";
 import { formatText } from "@/utils/locales";
 import { sessionTagList } from "@/pages/Core/HostAndSession";
+import { cssCalc, Downheight } from "@/utils/utils";
 
 const { Panel } = Collapse;
 const { Option } = Select;
@@ -2467,7 +2467,13 @@ const PayloadAndHandler = (props) => {
         </Col>
       </Row>
       <Table
-        className={styles.handlerTable}
+        style={{
+          marginTop: 0,
+          padding: "0 0 0 0",
+          overflow: "auto",
+          maxHeight: cssCalc("{0} - 32px".format(Downheight)),
+          minHeight: cssCalc("{0} - 32px".format(Downheight))
+        }}
         size="small"
         bordered
         pagination={false}
@@ -2665,4 +2671,3 @@ const PayloadAndHandler = (props) => {
   );
 };
 export const PayloadAndHandlerMemo = memo(PayloadAndHandler);
-export default PayloadAndHandler;

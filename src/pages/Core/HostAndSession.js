@@ -135,11 +135,11 @@ import { MsfSocksMemo } from "@/pages/Core/MsfSocks";
 import { CredentialMemo } from "@/pages/Core/Credential";
 import { getToken } from "@/utils/authority";
 import styles from "./HostAndSession.less";
-import NetworkMemo, { NetworkWindowMemo } from "@/pages/Core/Network";
+import { NetworkMemo,NetworkWindowMemo } from "@/pages/Core/Network";
 import ReactJson from "react-json-view";
 import NewWindow from "rc-new-window";
 import MsfConsoleXTermMemo, { MsfconsoleMemo } from "@/pages/Core/MsfConsoleXTerm";
-import { Upheight } from "@/utils/utils";
+import { cssCalc, Upheight } from "@/utils/utils";
 import { formatText, getOptionDesc, getOptionTag, getSessionlocate, manuali18n, msgsuccess } from "@/utils/locales";
 import { IPFilterMemo } from "@/pages/Core/IPFilter";
 import { HostIP } from "@/config";
@@ -1055,7 +1055,7 @@ const HostAndSessionCard = () => {
         <QuestionCircleOutlined
           style={{
             fontSize: 16,
-            top: "calc({0} - 24px) ".format(Upheight),
+            top: cssCalc("{0} - 24px".format(Upheight)),
             right: 16,
             position: "absolute",
             zIndex: 100
@@ -1082,7 +1082,11 @@ const HostAndSessionCard = () => {
         }}
 
         scroll={{ y: "calc({0})".format(Upheight) }}
-        className={styles.hostandsessionTable}
+        style={{
+          overflow: "auto",
+          minHeight: "calc({0})".format(Upheight),
+          maxHeight: "calc({0})".format(Upheight)
+        }}
         rowKey="ipaddress"
         size="small"
         locale={{ emptyText: null }}

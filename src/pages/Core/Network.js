@@ -1,12 +1,12 @@
 import React, { memo } from "react";
 import { useModel } from "umi";
-import styles from "./Network.less";
 import Graphin, { Behaviors, Utils } from "@antv/graphin";
 import "./iconfont.css";
 import fonts from "./iconfont.json";
 import { formatText } from "@/utils/locales";
 import { useLocalStorageState } from "ahooks";
 import { DocIcon } from "@/pages/Core/Common";
+import { cssCalc, Downheight } from "@/utils/utils";
 //字符串格式化函数
 String.prototype.format = function() {
   let args = arguments;
@@ -248,9 +248,10 @@ const Network = () => {
   return (
     <div
       style={{
-        marginTop: -16
+        marginTop: -16,
+        height: cssCalc("{0}".format(Downheight)),
       }}
-      className={styles.networkCard}>
+    >
       <DocIcon url="https://www.yuque.com/vipersec/help/eoign5" />
       <Graphin
         fitView={true}
@@ -502,4 +503,3 @@ const NetworkWindow = () => {
 
 export const NetworkMemo = memo(Network);
 export const NetworkWindowMemo = memo(NetworkWindow);
-export default NetworkMemo;
