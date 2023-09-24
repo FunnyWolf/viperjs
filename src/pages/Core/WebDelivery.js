@@ -29,6 +29,7 @@ import { useRequest } from "umi";
 import { DocIcon, randomstr } from "@/pages/Core/Common";
 import { formatText, getOptionTag } from "@/utils/locales";
 import { cssCalc, Downheight } from "@/utils/utils";
+import { useModel } from "@@/plugin-model/useModel";
 
 const { Panel } = Collapse;
 const { Option } = Select;
@@ -324,7 +325,11 @@ const WebDelivery = (props) => {
     console.log("WebDelivery");
     const [createWebDeliveryModalVisible, setCreateWebDeliveryModalVisible] = useState(false);
     const [webDeliveryList, setWebDeliveryList] = useState([]);
-
+    const {
+        resizeDownHeight,
+    } = useModel("Resize", model => ({
+        resizeDownHeight: model.resizeDownHeight,
+    }));
     //初始化数据
     useImperativeHandle(props.onRef, () => {
         return {
@@ -407,8 +412,8 @@ const WebDelivery = (props) => {
                     marginTop: 0,
                     padding: "0 0 0 0",
                     overflow: "auto",
-                    maxHeight: cssCalc("{0} - 32px".format(Downheight)),
-                    minHeight: cssCalc("{0} - 32px".format(Downheight))
+                    maxHeight: cssCalc(`${resizeDownHeight} - 32px`),
+                    minHeight: cssCalc(`${resizeDownHeight} - 32px`)
                 }}
                 size="small"
                 bordered

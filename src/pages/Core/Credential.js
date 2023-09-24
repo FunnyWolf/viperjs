@@ -19,23 +19,20 @@ import { useRequest } from "umi";
 import { formatText, getOptionTag } from "@/utils/locales";
 import { DocIcon } from "@/pages/Core/Common";
 import { cssCalc, Downheight } from "@/utils/utils";
+import { useModel } from "@@/plugin-model/useModel";
 
 const { Panel } = Collapse;
 const { Search } = Input;
-
-//字符串格式化函数
-String.prototype.format = function() {
-  let args = arguments;
-  return this.replace(/\{(\d+)\}/g, function(m, i) {
-    return args[i];
-  });
-};
 
 const Credential = () => {
   console.log("Credential");
   const [createCredentialModalVisible, setCreateCredentialModalVisible] = useState(false);
   const [credentialList, setCredentialList] = useState([]);
-
+  const {
+    resizeDownHeight,
+  } = useModel("Resize", model => ({
+    resizeDownHeight: model.resizeDownHeight,
+  }));
   const initListCredentialReq = useRequest(getPostlateralCredentialAPI, {
     onSuccess: (result, params) => {
       setCredentialList(result);
@@ -117,8 +114,8 @@ const Credential = () => {
           marginTop: 0,
           padding: "0 0 0 0",
           overflow: "auto",
-          maxHeight: cssCalc("{0} - 32px".format(Downheight)),
-          minHeight: cssCalc("{0} - 32px".format(Downheight))
+          maxHeight: cssCalc(`${resizeDownHeight} - 32px`),
+          minHeight: cssCalc(`${resizeDownHeight} - 32px`)
         }}
         size="small"
         bordered

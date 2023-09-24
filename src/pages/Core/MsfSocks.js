@@ -33,16 +33,9 @@ import { useRequest } from "umi";
 import moment from "moment";
 import { formatText, msgsuccess } from "@/utils/locales";
 import { cssCalc, Downheight } from "@/utils/utils";
+import { useModel } from "@@/plugin-model/useModel";
 
 const { Option } = Select;
-
-//字符串格式化函数
-String.prototype.format = function() {
-  let args = arguments;
-  return this.replace(/\{(\d+)\}/g, function(m, i) {
-    return args[i];
-  });
-};
 
 const host_type_to_avatar = {
   ad_server: (<Avatar
@@ -92,7 +85,11 @@ const MsfSocks = () => {
   const [routeAll, setRouteAll] = useState([]);
   const [portfwds, setPortfwds] = useState([]);
   const [hostsRoute, setHostsRoute] = useState([]);
-
+  const {
+    resizeDownHeight,
+  } = useModel("Resize", model => ({
+    resizeDownHeight: model.resizeDownHeight,
+  }));
 
   useRequest(getCoreHostAPI, {
     onSuccess: (result, params) => {
@@ -315,8 +312,8 @@ const MsfSocks = () => {
           style={{
             marginTop: 0,
             overflow: "auto",
-            maxHeight: cssCalc("{0} - 32px - 36px".format(Downheight)),
-            minHeight: cssCalc("{0} - 32px - 36px".format(Downheight))
+            maxHeight: cssCalc(`${resizeDownHeight} - 68px`),
+            minHeight: cssCalc(`${resizeDownHeight} - 68px`)
           }}
           size="small"
           bordered
@@ -409,8 +406,8 @@ const MsfSocks = () => {
               bordered
               style={{
                 overflow: "auto",
-                maxHeight: cssCalc("{0} - 32px - 36px - 25vh".format(Downheight)),
-                minHeight: cssCalc("{0} - 32px - 36px - 25vh".format(Downheight))
+                maxHeight: cssCalc(`${resizeDownHeight} - 68px - 25vh`),
+                minHeight: cssCalc(`${resizeDownHeight} - 68px - 25vh`)
               }}
               size="small"
               rowKey="subnet"
@@ -448,8 +445,8 @@ const MsfSocks = () => {
               bordered
               style={{
                 overflow: "auto",
-                maxHeight: cssCalc("{0} - 32px - 36px - 25vh".format(Downheight)),
-                minHeight: cssCalc("{0} - 32px - 36px - 25vh".format(Downheight))
+                maxHeight: cssCalc(`${resizeDownHeight} - 68px - 25vh`),
+                minHeight: cssCalc(`${resizeDownHeight} - 68px - 25vh`)
               }}
               size="small"
               rowKey="port"

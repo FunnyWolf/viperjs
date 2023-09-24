@@ -33,6 +33,7 @@ import { useRequest } from "umi";
 import { formatText } from "@/utils/locales";
 import { sessionTagList } from "@/pages/Core/HostAndSession";
 import { cssCalc, Downheight } from "@/utils/utils";
+import { useModel } from "@@/plugin-model/useModel";
 
 const { Panel } = Collapse;
 const { Option } = Select;
@@ -2352,7 +2353,11 @@ const PayloadAndHandler = (props) => {
   const [createPayloadModalVisible, setCreatePayloadModalVisible] = useState(false);
   const [handlerListActive, setHandlerListActive] = useState([]);
   const [genPayloadByHandlerVisible, setGenPayloadByHandlerVisible] = useState(false);
-
+  const {
+    resizeDownHeight,
+  } = useModel("Resize", model => ({
+    resizeDownHeight: model.resizeDownHeight,
+  }));
   const listHanderReq = useRequest(getMsgrpcHandlerAPI, {
     manual: true,
     onSuccess: (result, params) => {
@@ -2471,8 +2476,8 @@ const PayloadAndHandler = (props) => {
           marginTop: 0,
           padding: "0 0 0 0",
           overflow: "auto",
-          maxHeight: cssCalc("{0} - 32px".format(Downheight)),
-          minHeight: cssCalc("{0} - 32px".format(Downheight))
+          maxHeight: cssCalc(`${resizeDownHeight} - 32px`),
+          minHeight: cssCalc(`${resizeDownHeight} - 32px`)
         }}
         size="small"
         bordered

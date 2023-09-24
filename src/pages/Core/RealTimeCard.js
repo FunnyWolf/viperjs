@@ -35,19 +35,14 @@ import ReactJson from "react-json-view";
 
 const { Text, Link } = Typography;
 const { Search } = Input;
-String.prototype.format = function() {
-    let args = arguments;
-    return this.replace(/\{(\d+)\}/g, function(m, i) {
-        return args[i];
-    });
-};
+
 
 export const postModuleOpts = opts => {
     const optcoms = [];
     for (const key in opts) {
         optcoms.push(<div><strong>{getOptionTag(opts[key])}</strong><span> : {opts[key].data}</span></div>);
     }
-    return <Space direction="vertical" size={0}>{optcoms}</Space>;
+    return <Space direction="horizontal" size="large">{optcoms}</Space>;
 };
 
 const RealTimeModuleResult = () => {
@@ -63,6 +58,14 @@ const RealTimeModuleResult = () => {
         postModuleResultHistoryActive: model.postModuleResultHistoryActive,
         setPostModuleResultHistoryActive: model.setPostModuleResultHistoryActive
     }));
+    const {
+        resizeUpHeight,
+        resizeDownHeight
+    } = useModel("Resize", model => ({
+        resizeUpHeight: model.resizeUpHeight,
+        resizeDownHeight: model.resizeDownHeight
+    }));
+
 
     const [text, setText] = useState("");
 
@@ -186,8 +189,8 @@ const RealTimeModuleResult = () => {
                 bordered
                 style={{
                     overflow: "auto",
-                    maxHeight: cssCalc("{0} - 30px".format(Downheight)),
-                    minHeight: cssCalc("{0} - 30px".format(Downheight))
+                    maxHeight: cssCalc(`${resizeDownHeight} - 30px`),
+                    minHeight: cssCalc(`${resizeDownHeight} - 30px`)
                 }}
                 itemLayout="vertical"
                 size="small"
@@ -248,8 +251,8 @@ const RealTimeModuleResult = () => {
             >
                 <BackTop
                     style={{
-                        top: "calc({0} + 112px)".format(Upheight),
-                        left: "calc(53vw - 40px)"
+                        top: cssCalc(`${resizeUpHeight} + 112px`),
+                        left: cssCalc("53vw - 40px")
                     }}
                     target={() => document.getElementById("moduleresultlist")}
                 >
@@ -364,6 +367,15 @@ const RealTimeNotices = () => {
     }));
     const [refresh, setRefresh] = useState(false);
     useInterval(() => setRefresh(!refresh), 60000);
+    const {
+        resizeUpHeight,
+        resizeDownHeight,
+        setResizeDownHeight
+    } = useModel("Resize", model => ({
+        resizeUpHeight: model.resizeUpHeight,
+        resizeDownHeight: model.resizeDownHeight,
+        setResizeDownHeight: model.setResizeDownHeight
+    }));
 
     const userIconLarge = key => {
         return (
@@ -444,8 +456,8 @@ const RealTimeNotices = () => {
                 id="noticescard"
                 style={{
                     overflow: "auto",
-                    maxHeight: cssCalc("{0} - 30px".format(Downheight)),
-                    minHeight: cssCalc("{0} - 30px".format(Downheight))
+                    maxHeight: cssCalc(`${resizeDownHeight} - 30px`),
+                    minHeight: cssCalc(`${resizeDownHeight} - 30px`)
                 }}
                 split={false}
                 size="small"
@@ -478,7 +490,7 @@ const RealTimeNotices = () => {
             >
                 <BackTop
                     style={{
-                        top: "calc({0} + 112px)".format(Upheight),
+                        top: cssCalc(`${resizeUpHeight} + 112px`),
                         right: 24
                     }}
                     target={() => document.getElementById("noticescard")}
@@ -594,7 +606,11 @@ const RealTimeJobs = () => {
         jobList: model.jobList,
         setJobList: model.setJobList
     }));
-
+    const {
+        resizeDownHeight
+    } = useModel("Resize", model => ({
+        resizeDownHeight: model.resizeDownHeight
+    }));
     const destoryJobReq = useRequest(deleteMsgrpcJobAPI, {
         manual: true,
         onSuccess: (result, params) => {
@@ -617,8 +633,8 @@ const RealTimeJobs = () => {
                 style={{
                     marginTop: -16,
                     overflow: "auto",
-                    maxHeight: cssCalc(Downheight),
-                    minHeight: cssCalc(Downheight)
+                    maxHeight: cssCalc(resizeDownHeight),
+                    minHeight: cssCalc(resizeDownHeight)
                 }}
                 // className={styles.jobListTable}
                 size="small"

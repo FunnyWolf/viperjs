@@ -12,6 +12,7 @@ import { useInterval } from "ahooks";
 import { DocIcon } from "@/pages/Core/Common";
 import { HostIP } from "@/config";
 import { cssCalc, Downheight } from "@/utils/utils";
+import { useModel } from "@@/plugin-model/useModel";
 //websocket连接地址设置
 let webHost = HostIP + ":8002";
 let protocol = "ws://";
@@ -27,7 +28,11 @@ const Msfconsole = props => {
   const msfConsoleTerm = useRef(null);
   const wsmsf = useRef(null);
   const terminalRef = useRef(null);
-
+  const {
+    resizeDownHeight,
+  } = useModel("Resize", model => ({
+    resizeDownHeight: model.resizeDownHeight,
+  }));
   const urlargs = `&token=${getToken()}`;
   const urlpatternsMsf = "/ws/v1/websocket/msfconsole/?";
   const socketUrlMsf = protocol + webHost + urlpatternsMsf + urlargs;
@@ -165,8 +170,8 @@ const Msfconsole = props => {
         style={{
           marginTop: -16,
           padding: "0 0 0 4px",
-          maxHeight: cssCalc(Downheight),
-          minHeight: cssCalc(Downheight)
+          maxHeight: cssCalc(resizeDownHeight),
+          minHeight: cssCalc(resizeDownHeight)
         }}
         ref={terminalRef}
       />

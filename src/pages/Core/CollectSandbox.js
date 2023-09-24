@@ -7,24 +7,20 @@ import {
   deleteMsgrpcCollectSandboxAPI, getMsgrpcCollectSandboxAPI, putMsgrpcCollectSandboxAPI
 } from "@/services/apiv1";
 import { formatText } from "@/utils/locales";
-import { Downheight } from "@/utils/utils";
-
-const { Option } = Select;
-const { Search } = Input;
-//字符串格式化函数
-String.prototype.format = function() {
-  let args = arguments;
-  return this.replace(/\{(\d+)\}/g, function(m, i) {
-    return args[i];
-  });
-};
-
+import { cssCalc, Downheight } from "@/utils/utils";
+import { useModel } from "@@/plugin-model/useModel";
 
 const CollectSandbox = () => {
   const [tagForm] = Form.useForm();
   console.log("CollectSandbox");
   const [collectSandList, setCollectSandList] = useState([]);
   const [collectSandTag, setCollectSandTag] = useState("");
+  const {
+    resizeDownHeight,
+  } = useModel("Resize", model => ({
+    resizeDownHeight: model.resizeDownHeight,
+  }));
+
   const initListCollectSandReq = useRequest(getMsgrpcCollectSandboxAPI, {
     onSuccess: (result, params) => {
       setCollectSandList(result);
@@ -89,8 +85,8 @@ const CollectSandbox = () => {
               style={{
                 padding: "0 0 0 0",
                 overflow: auto,
-                maxHeight: calc("@{0} - 36px".format(Downheight)),
-                minHeight: calc("@{0} - 36px".format(Downheight))
+                maxHeight: cssCalc(`${resizeDownHeight} - 36px`),
+                minHeight: cssCalc(`${resizeDownHeight} - 36px`)
               }}
               size="small"
               bordered

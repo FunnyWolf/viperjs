@@ -7,13 +7,7 @@ import { formatText } from "@/utils/locales";
 import { useLocalStorageState } from "ahooks";
 import { DocIcon } from "@/pages/Core/Common";
 import { cssCalc, Downheight } from "@/utils/utils";
-//字符串格式化函数
-String.prototype.format = function() {
-  let args = arguments;
-  return this.replace(/\{(\d+)\}/g, function(m, i) {
-    return args[i];
-  });
-};
+
 
 const { ActivateRelations, FitView } = Behaviors;
 const iconLoader = () => {
@@ -31,6 +25,11 @@ const Network = () => {
 
   const { networkData } = useModel("HostAndSessionModel", model => ({
     networkData: model.networkData
+  }));
+  const {
+    resizeDownHeight,
+  } = useModel("Resize", model => ({
+    resizeDownHeight: model.resizeDownHeight,
   }));
   const [onlyShowSession, setOnlyShowSession] = useLocalStorageState("only-show-session", false);
   const ranksepFunc = node => {
@@ -249,7 +248,7 @@ const Network = () => {
     <div
       style={{
         marginTop: -16,
-        height: cssCalc("{0}".format(Downheight)),
+        height: cssCalc(`${resizeDownHeight}`),
       }}
     >
       <DocIcon url="https://www.yuque.com/vipersec/help/eoign5" />

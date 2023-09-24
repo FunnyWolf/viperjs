@@ -9,13 +9,6 @@ import { DocIcon } from "@/pages/Core/Common";
 const { Search } = Input;
 const { TextArea } = Input;
 
-//字符串格式化函数
-String.prototype.format = function() {
-  let args = arguments;
-  return this.replace(/\{(\d+)\}/g, function(m, i) {
-    return args[i];
-  });
-};
 
 
 const IPFilter = (props) => {
@@ -253,18 +246,6 @@ const IPFilter = (props) => {
                 />
               </Form.Item>
             </Col>
-            {/*<Col span={4}>*/}
-            {/*  <Form.Item*/}
-            {/*    tooltip={formatText("app.ipfilter.geo_whitelist.tip")}*/}
-            {/*    label={formatText("app.ipfilter.geo_whitelist")}*/}
-            {/*    name="geo_whitelist"*/}
-            {/*  >*/}
-            {/*    <Checkbox.Group*/}
-            {/*      options={plainOptions}*/}
-            {/*    />*/}
-            {/*  </Form.Item>*/}
-            {/*</Col>*/}
-
           </Row>
           <Button
             block

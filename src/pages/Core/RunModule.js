@@ -67,14 +67,6 @@ const { Search, TextArea } = Input;
 const { TabPane } = Tabs;
 const { Option, OptGroup } = Select;
 
-//字符串格式化函数
-String.prototype.format = function() {
-    let args = arguments;
-    return this.replace(/\{(\d+)\}/g, function(m, i) {
-        return args[i];
-    });
-};
-
 export const PostModuleInfoContent = postModuleConfig => {
     const platform = postModuleConfig.PLATFORM;
     const platformCom = [];
@@ -1568,7 +1560,7 @@ export const RunBotModule = props => {
         if (value === null || value.length === 0 || logic === null || field == null) {
             return;
         } else {
-            const newinputstr = "{0} {1} {2}:\"{3}\"".format(inputStr, logic, field, value);
+            const newinputstr = `${inputStr} ${logic} ${field}:\"${value}\"`;
             setInputStr(newinputstr);
         }
     };
@@ -1898,6 +1890,11 @@ const RealTimeBotWaitList = () => {
     const { botWaitList, setBotWaitList } = useModel("HostAndSessionModel", model => ({
         botWaitList: model.botWaitList, setBotWaitList: model.setBotWaitList
     }));
+    const {
+        resizeDownHeight,
+    } = useModel("Resize", model => ({
+        resizeDownHeight: model.resizeDownHeight,
+    }));
     const destoryBotWaitReq = useRequest(deleteMsgrpcJobAPI, {
         manual: true, onSuccess: (result, params) => {
             const { uuid } = result;
@@ -2012,8 +2009,8 @@ const RealTimeBotWaitList = () => {
         style={{
             marginTop: 0,
             overflow: "auto",
-            maxHeight: cssCalc("{0} - 32px".format(Downheight)),
-            minHeight: cssCalc("{0} - 32px".format(Downheight))
+            maxHeight: cssCalc(`${resizeDownHeight} - 32px`),
+            minHeight: cssCalc(`${resizeDownHeight} - 32px`)
         }}
         size="small"
         rowKey="uuid"
@@ -2342,6 +2339,11 @@ const AutoRobot = () => {
     const [postModuleSchedulerList, setPostModuleSchedulerList] = useState([]);
     const [runAutoModuleModalVisable, setRunAutoModuleModalModalVisable] = useState(false);
     const [runAutoModuleSchedulerModalVisable, setRunAutoModuleSchedulerModalModalVisable] = useState(false);
+    const {
+        resizeDownHeight,
+    } = useModel("Resize", model => ({
+        resizeDownHeight: model.resizeDownHeight,
+    }));
     //初始化数据
     useRequest(getPostModuleAutoAPI, {
         onSuccess: (result, params) => {
@@ -2422,8 +2424,8 @@ const AutoRobot = () => {
                         style={{
                             padding: "0 0 0 0",
                             overflow: "auto",
-                            maxHeight: cssCalc("{0} - 72px - 36px".format(Downheight)),
-                            minHeight: cssCalc("{0} - 72px - 36px".format(Downheight))
+                            maxHeight: cssCalc(`${resizeDownHeight} - 108px`),
+                            minHeight: cssCalc(`${resizeDownHeight} - 108px`)
                         }}
                         size="small"
                         rowKey="job_id"
@@ -2512,8 +2514,8 @@ const AutoRobot = () => {
                         style={{
                             padding: "0 0 0 0",
                             overflow: "auto",
-                            maxHeight: cssCalc("{0} - 72px".format(Downheight)),
-                            minHeight: cssCalc("{0} - 72px".format(Downheight))
+                            maxHeight: cssCalc(`${resizeDownHeight} - 72px`),
+                            minHeight: cssCalc(`${resizeDownHeight} - 72px`)
                         }}
                         size="small"
                         rowKey="job_id"
@@ -2922,6 +2924,11 @@ const ProxyHttpScan = () => {
     console.log("ProxyHttpScan");
     const [proxyHttpScanList, setProxyHttpScanList] = useState([]);
     const [runProxyHttpScanModuleModalVisable, setRunProxyHttpScanModuleModalVisable] = useState(false);
+    const {
+        resizeDownHeight,
+    } = useModel("Resize", model => ({
+        resizeDownHeight: model.resizeDownHeight,
+    }));
     //初始化数据
     useRequest(getProxyHttpScanAPI, {
         onSuccess: (result, params) => {
@@ -2979,8 +2986,8 @@ const ProxyHttpScan = () => {
                     style={{
                         padding: "0 0 0 0",
                         overflow: "auto",
-                        maxHeight: cssCalc("{0} - 72px - 36px".format(Downheight)),
-                        minHeight: cssCalc("{0} - 72px - 36px".format(Downheight))
+                        maxHeight: cssCalc(`${resizeDownHeight} - 108px`),
+                        minHeight: cssCalc(`${resizeDownHeight} - 108px`)
                     }}
                     size="small"
                     rowKey="job_id"
