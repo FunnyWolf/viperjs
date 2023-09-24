@@ -394,6 +394,73 @@ const CreateHandlerModalContent = props => {
       ]
     },
     {
+      value: "osx",
+      label: "osx",
+      children: [
+        {
+          value: "x64",
+          label: "x64",
+          children: [
+            {
+              value: "meterpreter",
+              label: "meterpreter",
+              children: [
+                {
+                  value: "bind_tcp",
+                  label: "bind_tcp"
+                },
+                {
+                  value: "reverse_tcp",
+                  label: "reverse_tcp"
+                }
+              ]
+            },
+
+            {
+              value: "meterpreter_reverse_http",
+              label: "meterpreter_reverse_http"
+            },
+            {
+              value: "meterpreter_reverse_https",
+              label: "meterpreter_reverse_https"
+            },
+            {
+              value: "meterpreter_reverse_tcp",
+              label: "meterpreter_reverse_tcp"
+            }
+          ]
+        },
+        {
+          value: "aarch64",
+          label: "aarch64",
+          children: [
+            {
+              value: "meterpreter",
+              label: "meterpreter",
+              children: [
+                {
+                  value: "reverse_tcp",
+                  label: "reverse_tcp"
+                }
+              ]
+            },
+            {
+              value: "meterpreter_reverse_http",
+              label: "meterpreter_reverse_http"
+            },
+            {
+              value: "meterpreter_reverse_https",
+              label: "meterpreter_reverse_https"
+            },
+            {
+              value: "meterpreter_reverse_tcp",
+              label: "meterpreter_reverse_tcp"
+            }
+          ]
+        },
+      ]
+    },
+    {
       value: "php",
       label: "php",
       children: [
@@ -1501,6 +1568,73 @@ const CreatePayloadModalContent = props => {
           value: "meterpreter_reverse_tcp",
           label: "meterpreter_reverse_tcp"
         }
+      ]
+    },
+    {
+      value: "osx",
+      label: "osx",
+      children: [
+        {
+          value: "x64",
+          label: "x64",
+          children: [
+            {
+              value: "meterpreter",
+              label: "meterpreter",
+              children: [
+                {
+                  value: "bind_tcp",
+                  label: "bind_tcp"
+                },
+                {
+                  value: "reverse_tcp",
+                  label: "reverse_tcp"
+                }
+              ]
+            },
+
+            {
+              value: "meterpreter_reverse_http",
+              label: "meterpreter_reverse_http"
+            },
+            {
+              value: "meterpreter_reverse_https",
+              label: "meterpreter_reverse_https"
+            },
+            {
+              value: "meterpreter_reverse_tcp",
+              label: "meterpreter_reverse_tcp"
+            }
+          ]
+        },
+        {
+          value: "aarch64",
+          label: "aarch64",
+          children: [
+            {
+              value: "meterpreter",
+              label: "meterpreter",
+              children: [
+                {
+                  value: "reverse_tcp",
+                  label: "reverse_tcp"
+                }
+              ]
+            },
+            {
+              value: "meterpreter_reverse_http",
+              label: "meterpreter_reverse_http"
+            },
+            {
+              value: "meterpreter_reverse_https",
+              label: "meterpreter_reverse_https"
+            },
+            {
+              value: "meterpreter_reverse_tcp",
+              label: "meterpreter_reverse_tcp"
+            }
+          ]
+        },
       ]
     },
     {

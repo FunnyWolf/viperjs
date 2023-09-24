@@ -1061,8 +1061,8 @@ const HostAndSessionCard = () => {
                 <QuestionCircleOutlined
                     style={{
                         fontSize: 16,
-                        top: cssCalc(`${resizeUpHeight} - 20px`),
-                        right: 16,
+                        top: cssCalc(`${resizeUpHeight} - 28px`),
+                        right: 56,
                         position: "absolute",
                         zIndex: 100
                     }} />
