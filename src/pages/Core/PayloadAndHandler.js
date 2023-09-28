@@ -48,6 +48,10 @@ const CreateHandlerModalContent = props => {
     labelCol: { span: 6 },
     wrapperCol: { span: 14 }
   };
+  const shortFormLayout = {
+    labelCol: { span: 6 },
+    wrapperCol: { span: 4 }
+  };
   const CommformLayout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 20 }
@@ -760,16 +764,82 @@ const CreateHandlerModalContent = props => {
         </Form.Item>
       );
       options.push(
-        <Form.Item
-          {...formLayout}
-          label={formatText("app.payloadandhandler.ssl_label")}
-          tooltip={formatText("app.payloadandhandler.ssl_tip")}
-          initialValue={false}
-          name="StagerVerifySSLCert"
-          valuePropName="checked"
-        >
-          <Checkbox defaultChecked />
-        </Form.Item>
+          <Form.Item
+              {...shortFormLayout}
+              label={formatText("app.payloadandhandler.ssl_version")}
+              tooltip={formatText("app.payloadandhandler.ssl_version_tip")}
+              initialValue="TLS1"
+              name="SSLVersion"
+          >
+            <Select
+                defaultValue="TLS1"
+                options={[
+                  {
+                    value: 'Auto',
+                    label: 'Auto',
+                  },
+                  {
+                    value: 'TLS',
+                    label: 'TLS',
+                  },
+                  {
+                    value: 'SSL23',
+                    label: 'SSL23',
+                  },
+                  {
+                    value: 'SSL3',
+                    label: 'SSL3',
+                  },
+                  {
+                    value: 'TLS1',
+                    label: 'TLS1',
+                  },
+                  {
+                    value: 'TLS1.1',
+                    label: 'TLS1.1',
+                  },
+                  {
+                    value: 'TLS1.2',
+                    label: 'TLS1.2',
+                  },
+                ]}
+            />
+          </Form.Item>
+      );
+      options.push(
+          <Form.Item
+              {...formLayout}
+              label={formatText("app.payloadandhandler.sslcipher")}
+              tooltip={formatText("app.payloadandhandler.sslcipher_tip")}
+              name="SSLCipher"
+              initialValue={null}
+          >
+            <Select
+                allowClear
+                options={[
+                  {
+                    value: 'DHE-RSA-AES256-SHA',
+                    label: 'DHE-RSA-AES256-SHA',
+                  },
+                  {
+                    value: 'DHE-DSS-AES256-SHA',
+                    label: 'DHE-DSS-AES256-SHA',
+                  },
+                ]}
+            />
+          </Form.Item>
+      );
+      options.push(
+          <Form.Item
+              {...formLayout}
+              label={formatText("app.payloadandhandler.ssl_label")}
+              tooltip={formatText("app.payloadandhandler.ssl_tip")}
+              initialValue={false}
+              name="StagerVerifySSLCert"
+              valuePropName="checked"
+          >
+            <Checkbox defaultChecked />
+          </Form.Item>
       );
     }
 
@@ -2486,7 +2556,6 @@ const PayloadAndHandler = (props) => {
   const [createHandlerModalVisible, setCreateHandlerModalVisible] = useState(false);
   const [createPayloadModalVisible, setCreatePayloadModalVisible] = useState(false);
   const [handlerListActive, setHandlerListActive] = useState([]);
-  const [genPayloadByHandlerVisible, setGenPayloadByHandlerVisible] = useState(false);
   const {
     resizeDownHeight,
   } = useModel("Resize", model => ({

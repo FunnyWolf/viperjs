@@ -12,6 +12,7 @@ export default {
     // compact: true, // 开启紧凑主题
   },
   // mfsu : {},
+  // esbuild: {},
   targets: {
     chrome: 79,
     firefox: 86,

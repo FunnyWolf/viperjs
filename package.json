@@ -83,6 +83,7 @@
   "devDependencies": {
     "@types/react": "^16.14.8",
     "@types/react-dom": "^16.9.13",
+    "@umijs/plugin-esbuild": "^1.4.2",
     "@umijs/preset-react": "^1.8.12",
     "antd-pro-merge-less": "^1.0.0",
     "antd-theme-webpack-plugin": "^1.1.8",
