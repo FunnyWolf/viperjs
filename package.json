@@ -40,7 +40,7 @@
     "@babel/runtime": "^7.14.6",
     "@umijs/hooks": "^1.9.2",
     "ahooks": "^2.10.6",
-    "antd": "^4.16.3",
+    "antd": "^5.9.4",
     "bizcharts": "^3.4.2",
     "bizcharts-plugin-slider": "^2.1.1-beta.1",
     "caniuse-lite": "^1.0.30001238",
