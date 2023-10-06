@@ -91,7 +91,7 @@ import {
     AlignLeftOutlined,
     QuestionCircleOutlined,
     VerticalAlignMiddleOutlined,
-    ColumnHeightOutlined,
+    ColumnHeightOutlined
 } from "@ant-design/icons";
 
 import {
@@ -1062,7 +1062,7 @@ const HostAndSessionCard = () => {
                     style={{
                         fontSize: 16,
                         top: cssCalc(`${resizeUpHeight} - 28px`),
-                        right: 56,
+                        right: 20,
                         position: "absolute",
                         zIndex: 100
                     }} />
@@ -1514,11 +1514,15 @@ const FloatingButtons = () => {
         if (lang === "en-US") {
             return <Button
                 style={{ width: 40 }}
-                onClick={() => setLocale("zh-CN", true)}><strong>中</strong></Button>;
+                onClick={() => setLocale("zh-CN", true)}>
+                <div style={{ marginLeft: -4 }}>中</div>
+            </Button>;
         } else {
             return <Button
                 style={{ width: 40 }}
-                onClick={() => setLocale("en-US", true)}><strong>En</strong></Button>;
+                onClick={() => setLocale("en-US", true)}>
+                <div style={{ marginLeft: -4 }}>En</div>
+            </Button>;
         }
     };
 
@@ -1587,7 +1591,7 @@ const FloatingButtons = () => {
                 }
                 icon={<AlignLeftOutlined />}
             />}
-            {resizeUpHeight === "24vh" ? <Button
+            {resizeUpHeight === "28vh" ? <Button
                 style={{ width: 40 }}
                 onClick={() => {
                     setResizeUpHeight("48vh");
@@ -1598,8 +1602,8 @@ const FloatingButtons = () => {
             /> : <Button
                 style={{ width: 40 }}
                 onClick={() => {
-                    setResizeUpHeight("24vh");
-                    setResizeDownHeight(`100vh - 44px - 24vh`);
+                    setResizeUpHeight("28vh");
+                    setResizeDownHeight(`100vh - 44px - 28vh`);
                 }
                 }
                 icon={<VerticalAlignMiddleOutlined />}
