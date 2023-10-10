@@ -1,14 +1,3 @@
-.textOverflow() {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: break-all;
-  white-space: nowrap;
-}
-
-@heightCon: '16vh';
-@Upheight: '120px + @{heightCon}';
-@Downheight: '100vh - 164px - @{heightCon}';
-
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -25,4 +14,16 @@
   border-radius: 2px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: #555;
+}
+
+.moduleTr {
+  td {
+    padding-top: 2px !important;
+    padding-bottom: 4px !important;
+    padding-left: 4px !important;
+  }
+}
+
+.comment {
+  color: @text-color-secondary;
 }

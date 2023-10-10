@@ -42,7 +42,7 @@ import {
     Typography
 } from "antd";
 import moment from "moment";
-import styles from "./RunModule.less";
+import styles from '@/utils/utils.less';
 import {
     deleteMsgrpcJobAPI,
     deletePostModuleAutoAPI,
