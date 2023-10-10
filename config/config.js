@@ -38,7 +38,7 @@ export default {
   theme: {
     // 'font-size-base': '12px',
     // 'form-item-margin-bottom': '16px',
-    "border-radius-base": "4px",
+    "border-radius-base": "6px",
     "layout-header-height": "28px",
     "tabs-card-height": "36px",
     "table-padding-vertical": "8px",
