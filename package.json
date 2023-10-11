@@ -30,11 +30,10 @@
     "docker:push": "npm run docker-hub:build && npm run docker:tag && docker push antdesign/ant-design-pro"
   },
   "dependencies": {
-    "@ant-design/compatible": "^5.1.2",
     "@ant-design/icons": "^4.0.2",
     "@ant-design/pro-components": "^2.6.28",
     "@ant-design/pro-form": "^1.49.3",
-    "@ant-design/pro-layout": "^4.11.4",
+    "@ant-design/pro-layout": "^4.9.11",
     "@antv/data-set": "^0.10.0",
     "@antv/graphin": "^2.7.0",
     "@antv/graphin-components": "^2.0.7",
@@ -42,7 +41,7 @@
     "@babel/runtime": "^7.14.6",
     "@umijs/hooks": "^1.9.2",
     "ahooks": "^2.10.6",
-    "antd": "^5.10.0",
+    "antd": "^4.24.14",
     "bizcharts": "^3.4.2",
     "bizcharts-plugin-slider": "^2.1.1-beta.1",
     "caniuse-lite": "^1.0.30001238",
