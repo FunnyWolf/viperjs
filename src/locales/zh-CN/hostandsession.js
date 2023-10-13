@@ -179,6 +179,6 @@ export default {
 
   'app.hostandsession.updatehost.comment.rule': '备注最长支持二十个字符',
 
-
+  'app.webmain.tab.ipdomain': 'IPDomain',
 
 };

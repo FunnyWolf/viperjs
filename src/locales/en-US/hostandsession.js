@@ -177,4 +177,6 @@ export default {
 
   'app.hostandsession.updatehost.comment.rule': 'Comment support up to 20 characters',
 
+  'app.webmain.tab.ipdomain': 'IPDomain',
+
 };
