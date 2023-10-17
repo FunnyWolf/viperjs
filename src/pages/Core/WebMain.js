@@ -1,30 +1,14 @@
 import React, {
-    Fragment,
-    memo,
-    useCallback,
-    useEffect,
-    useRef,
-    useState,
+    Fragment, memo, useCallback, useEffect, useRef, useState,
 } from 'react'
 import {
-    formatMessage,
-    FormattedMessage,
-    getLocale,
-    setLocale,
-    useModel,
-    useRequest,
+    formatMessage, FormattedMessage, getLocale, setLocale, useModel, useRequest,
 } from 'umi'
 import {
-    AutoRobotMemo,
-    BotScan,
-    PostModuleMemo,
-    ProxyHttpScanMemo,
-    RunModuleMemo,
+    AutoRobotMemo, BotScan, PostModuleMemo, ProxyHttpScanMemo, RunModuleMemo,
 } from '@/pages/Core/RunModule'
 import {
-    useInterval,
-    useLocalStorageState,
-    useSessionStorageState,
+    useInterval, useLocalStorageState, useSessionStorageState,
 } from 'ahooks'
 import {
     deleteCoreHostAPI,
@@ -152,7 +136,7 @@ import {
     RealTimeNoticesMemo,
     TaskQueueTagMemo,
 } from '@/pages/Core/RealTimeCard'
-import { IPDomainMemo} from '@/pages/Core/IPDomain'
+import { IPDomainMemo } from '@/pages/Core/IPDomain'
 import { PayloadAndHandlerMemo } from '@/pages/Core/PayloadAndHandler'
 import { WebDeliveryMemo } from '@/pages/Core/WebDelivery'
 import {
@@ -205,34 +189,16 @@ if (process.env.NODE_ENV === 'production') {
 const WebMain = props => {
     console.log('HostAndSession')
     const {
-        setProxyHttpScanModuleOptions,
-        setBotModuleOptions,
-        setPostModuleOptions,
-        setHostAndSessionList,
-        setHeatbeatsocketalive,
-        setTaskQueueLength,
-        setJobList,
-        setPostModuleResultHistory,
-        setPostModuleResultHistoryActive,
-        setNotices,
-        setBotWaitList,
-        setNetworkData,
-        setModuleOptions,
+        setHeatbeatsocketalive, heatbeatsocketalive,
     } = useModel('HostAndSessionModel', model => ({
-        setProxyHttpScanModuleOptions: model.setProxyHttpScanModuleOptions,
-        setBotModuleOptions: model.setBotModuleOptions,
-        setPostModuleOptions: model.setPostModuleOptions,
         setHeatbeatsocketalive: model.setHeatbeatsocketalive,
-        taskQueueLength: model.taskQueueLength,
-        setTaskQueueLength: model.setTaskQueueLength,
-        setHostAndSessionList: model.setHostAndSessionList,
-        setNetworkData: model.setNetworkData,
-        setJobList: model.setJobList,
-        setPostModuleResultHistory: model.setPostModuleResultHistory,
-        setPostModuleResultHistoryActive: model.setPostModuleResultHistoryActive,
-        setNotices: model.setNotices,
-        setBotWaitList: model.setBotWaitList,
-        setModuleOptions: model.setModuleOptions,
+        heatbeatsocketalive: model.heatbeatsocketalive,
+    }))
+
+    const {
+        ipdomains, setIPDomains,
+    } = useModel('WebMainModel', model => ({
+        ipdomains: model.ipdomains, setIPDomains: model.setIPDomains,
     }))
 
     const listCurrentUserReq = useRequest(getCoreCurrentUserAPI, {
@@ -241,13 +207,13 @@ const WebMain = props => {
         },
     })
 
-    const urlpatterns = '/ws/v1/websocket/heartbeat/?'
+    const urlpatterns = '/ws/v1/websocket/websync/?'
     const urlargs = `&token=${getToken()}`
     const socketUrl = protocol + webHost + urlpatterns + urlargs
 
     const ws = useRef(null)
 
-    const initHeartBeat = () => {
+    const initWebSync = () => {
         try {
             listCurrentUserReq.run()
             ws.current = new WebSocket(socketUrl)
@@ -266,65 +232,15 @@ const WebMain = props => {
         }
         ws.current.onmessage = event => {
             const response = JSON.parse(event.data)
-            const { task_queue_length } = response
-
-            const { hosts_sorted_update } = response
-            const { hosts_sorted } = response
-
-            const { network_data_update } = response
-            const { network_data } = response
-
-            const { result_history_update } = response
-            const { result_history } = response
-
-            const { notices_update } = response
-            const { notices } = response
-
-            const { jobs_update } = response
-            const { jobs } = response
-
-            const { bot_wait_list_update } = response
-            const { bot_wait_list } = response
-
-            const { module_options } = response
-            const { module_options_update } = response
-
-            setTaskQueueLength(task_queue_length)
-
-            if (hosts_sorted_update) {
-                setHostAndSessionList(hosts_sorted)
-            }
-
-            if (network_data_update) {
-                setNetworkData(network_data)
-            }
-
-            if (jobs_update) {
-                setJobList(jobs)
-            }
-            if (result_history_update) {
-                setPostModuleResultHistory(result_history)
-                setPostModuleResultHistoryActive(result_history)
-            }
-            if (notices_update) {
-                setNotices(notices)
-            }
-            if (bot_wait_list_update) {
-                setBotWaitList(bot_wait_list)
-            }
-
-            if (module_options_update) {
-                setPostModuleOptions(module_options.filter(
-                    item => item.BROKER.indexOf('post') === 0))
-                setBotModuleOptions(module_options.filter(
-                    item => item.BROKER.indexOf('bot') === 0))
-                setProxyHttpScanModuleOptions(module_options.filter(
-                    item => item.BROKER.indexOf('proxy') === 0))
+            const { ipdomains_update } = response
+            const { ipdomains } = response
+            if (ipdomains_update) {
+                setIPDomains(ipdomains)
             }
         }
     }
 
-    const heartbeatmonitor = () => {
+    const websyncmonitor = () => {
         if (ws.current !== undefined && ws.current !== null &&
             ws.current.readyState === WebSocket.OPEN) {
         } else {
@@ -336,12 +252,12 @@ const WebMain = props => {
                 ws.current = null
             } catch (error) {
             }
-            initHeartBeat()
+            initWebSync()
         }
     }
-    useInterval(() => heartbeatmonitor(), 3000)
+    useInterval(() => websyncmonitor(), 3000)
     useEffect(() => {
-        initHeartBeat()
+        initWebSync()
         return () => {
             try {
                 ws.current.close()
@@ -355,50 +271,53 @@ const WebMain = props => {
     }, [])
 
     return (<GridContent>
-
         <TabsBottom />
     </GridContent>)
+}
+
+const TabsOptions = () => {
+    const handleChange = (value) => {
+        console.log(`selected ${value}`)
+    }
+    const operations = <Space.Compact
+        style={{
+            paddingTop: 0,
+            paddingBottom: 2,
+        }}
+    >
+        <Select
+            defaultValue="lucy"
+            style={{ width: 160 }}
+            onChange={handleChange}
+            options={[
+                {
+                    value: 'jack',
+                    label: 'Jack',
+                },
+                {
+                    value: 'lucy',
+                    label: 'Lucy',
+                },
+            ]}
+        />
+        <Button icon={<SettingOutlined />} />
+    </Space.Compact>
+    return operations
 }
 
 const TabsBottom = () => {
     console.log('TabsBottom')
     let ipdomainRef = React.createRef()
-    let payloadandhandlerRef = React.createRef()
-    let webDeliveryRef = React.createRef()
-    let filemsfRef = React.createRef()
-    let ipfileterRef = React.createRef()
     const tabActiveOnChange = activeKey => {
         switch (activeKey) {
             case 'MsfConsole':
                 break
             case 'MsfSocks':
                 break
-            case 'FileMsf':
-                if (filemsfRef.current === null) {
+            case 'IPDomain':
+                if (ipdomainRef.current === null) {
                 } else {
-                    filemsfRef.current.updateData()
-                }
-                break
-            case 'Credential':
-                break
-            case 'LazyLoader':
-                break
-            case 'PayloadAndHandler':
-                if (payloadandhandlerRef.current === null) {
-                } else {
-                    payloadandhandlerRef.current.updateData()
-                }
-                break
-            case 'WebDelivery':
-                if (webDeliveryRef.current === null) {
-                } else {
-                    webDeliveryRef.current.updateData()
-                }
-                break
-            case 'IPFilter':
-                if (ipfileterRef.current === null) {
-                } else {
-                    ipfileterRef.current.updateData()
+                    ipdomainRef.current.updateData()
                 }
                 break
             case 'SystemSetting':
@@ -414,22 +333,33 @@ const TabsBottom = () => {
         // marginLeft: '-4px',
     }
 
-    return (<Fragment>
+    return (
         <Tabs
-            // style={{ marginTop: 4, marginRight: 1, marginLeft: 1 }}
-            type="card" onChange={tabActiveOnChange}>
+            tabBarExtraContent={<TabsOptions />}
+            style={{ margin: 4 }}
+            type="card"
+            onChange={tabActiveOnChange}
+        >
             <TabPane
-                tab={<div style={tabPanedivSytle}>
-                    <CustomerServiceOutlined />
-                    <span
-                        style={tabPanespanSytle}>{formatText(
-                        'app.webmain.tab.ipdomain')}</span>
-                </div>}
+                tab={
+                    <div style={tabPanedivSytle}>
+                        <CustomerServiceOutlined />
+                        <span
+                            style={tabPanespanSytle}>
+                            {formatText('app.webmain.tab.ipdomain')}
+                        </span>
+                    </div>
+                }
                 key="IPDomain"
             >
-                <IPDomainMemo onRef={ipdomainRef} />
+                <div
+                    style={{
+                        marginTop: -16,
+                    }}
+                >
+                    <IPDomainMemo onRef={ipdomainRef} />
+                </div>
             </TabPane>
-
             <TabPane
                 tab={<div style={tabPanedivSytle}>
                     <SettingOutlined />
@@ -441,8 +371,7 @@ const TabsBottom = () => {
             >
                 <SystemSettingMemo />
             </TabPane>
-        </Tabs>
-    </Fragment>)
+        </Tabs>)
 }
 
 export default WebMain

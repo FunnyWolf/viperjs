@@ -147,4 +147,4 @@ export const DocIconInHostSession = ({ url }) => {
     )
 }
 
-export const WebMainHeight = '100vh - 4px'
+export const WebMainHeight = '100vh - 12px'
