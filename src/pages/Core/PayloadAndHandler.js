@@ -461,7 +461,7 @@ const CreateHandlerModalContent = props => {
               label: "meterpreter_reverse_tcp"
             }
           ]
-        },
+        }
       ]
     },
     {
@@ -764,82 +764,82 @@ const CreateHandlerModalContent = props => {
         </Form.Item>
       );
       options.push(
-          <Form.Item
-              {...shortFormLayout}
-              label={formatText("app.payloadandhandler.ssl_version")}
-              tooltip={formatText("app.payloadandhandler.ssl_version_tip")}
-              initialValue="TLS1"
-              name="SSLVersion"
-          >
-            <Select
-                defaultValue="TLS1"
-                options={[
-                  {
-                    value: 'Auto',
-                    label: 'Auto',
-                  },
-                  {
-                    value: 'TLS',
-                    label: 'TLS',
-                  },
-                  {
-                    value: 'SSL23',
-                    label: 'SSL23',
-                  },
-                  {
-                    value: 'SSL3',
-                    label: 'SSL3',
-                  },
-                  {
-                    value: 'TLS1',
-                    label: 'TLS1',
-                  },
-                  {
-                    value: 'TLS1.1',
-                    label: 'TLS1.1',
-                  },
-                  {
-                    value: 'TLS1.2',
-                    label: 'TLS1.2',
-                  },
-                ]}
-            />
-          </Form.Item>
+        <Form.Item
+          {...shortFormLayout}
+          label={formatText("app.payloadandhandler.ssl_version")}
+          tooltip={formatText("app.payloadandhandler.ssl_version_tip")}
+          initialValue="Auto"
+          name="SSLVersion"
+        >
+          <Select
+            defaultValue="Auto"
+            options={[
+              {
+                value: "Auto",
+                label: "Auto"
+              },
+              {
+                value: "TLS",
+                label: "TLS"
+              },
+              {
+                value: "SSL23",
+                label: "SSL23"
+              },
+              {
+                value: "SSL3",
+                label: "SSL3"
+              },
+              {
+                value: "TLS1",
+                label: "TLS1"
+              },
+              {
+                value: "TLS1.1",
+                label: "TLS1.1"
+              },
+              {
+                value: "TLS1.2",
+                label: "TLS1.2"
+              }
+            ]}
+          />
+        </Form.Item>
       );
       options.push(
-          <Form.Item
-              {...formLayout}
-              label={formatText("app.payloadandhandler.sslcipher")}
-              tooltip={formatText("app.payloadandhandler.sslcipher_tip")}
-              name="SSLCipher"
-              initialValue={null}
-          >
-            <Select
-                allowClear
-                options={[
-                  {
-                    value: 'DHE-RSA-AES256-SHA',
-                    label: 'DHE-RSA-AES256-SHA',
-                  },
-                  {
-                    value: 'DHE-DSS-AES256-SHA',
-                    label: 'DHE-DSS-AES256-SHA',
-                  },
-                ]}
-            />
-          </Form.Item>
+        <Form.Item
+          {...formLayout}
+          label={formatText("app.payloadandhandler.sslcipher")}
+          tooltip={formatText("app.payloadandhandler.sslcipher_tip")}
+          name="SSLCipher"
+          initialValue={null}
+        >
+          <Select
+            allowClear
+            options={[
+              {
+                value: "DHE-RSA-AES256-SHA",
+                label: "DHE-RSA-AES256-SHA"
+              },
+              {
+                value: "DHE-DSS-AES256-SHA",
+                label: "DHE-DSS-AES256-SHA"
+              }
+            ]}
+          />
+        </Form.Item>
       );
       options.push(
-          <Form.Item
-              {...formLayout}
-              label={formatText("app.payloadandhandler.ssl_label")}
-              tooltip={formatText("app.payloadandhandler.ssl_tip")}
-              initialValue={false}
-              name="StagerVerifySSLCert"
-              valuePropName="checked"
-          >
-            <Checkbox defaultChecked />
-          </Form.Item>
+        <Form.Item
+          {...formLayout}
+          label={formatText("app.payloadandhandler.ssl_label")}
+          tooltip={formatText("app.payloadandhandler.ssl_tip")}
+          initialValue={false}
+          name="StagerVerifySSLCert"
+          valuePropName="checked"
+        >
+          <Checkbox defaultChecked />
+        </Form.Item>
       );
     }
 
@@ -1096,6 +1096,34 @@ const CreateHandlerModalContent = props => {
   };
 
 
+  const handlerMeterpreterDebugLogging = () => {
+    if (selectPayload === null || selectPayload === undefined) {
+      return null;
+    }
+    if (selectPayload.includes("reverse")) {
+      return <Form.Item
+        {...formLayout}
+        label="MeterpreterDebugLogging"
+        name="MeterpreterDebugLogging"
+        rules={[]}
+        initialValue="rpath:C:/Windows/Temp/foo.txt"
+      >
+        <Input placeholder="rpath:C:/Windows/Temp/foo.txt rpath:/tmp/foo.txt" />
+      </Form.Item>;
+    } else {
+      return <Form.Item
+        {...formLayout}
+        label="MeterpreterDebugLogging"
+        name="MeterpreterDebugLogging"
+        rules={[]}
+        initialValue="rpath:/tmp/foo.txt"
+      >
+        <Input placeholder="rpath:C:/Windows/Temp/foo.txt rpath:/tmp/foo.txt" />
+      </Form.Item>;
+    }
+  };
+
+
   return (
     <Form
       form={form}
@@ -1291,6 +1319,16 @@ const CreateHandlerModalContent = props => {
               </Form.Item>
             </Input.Group>
           </Form.Item>
+          <Form.Item
+            {...formLayout}
+            label="MeterpreterDebugBuild"
+            name="MeterpreterDebugBuild"
+            valuePropName="checked"
+            rules={[]}
+          >
+            <Checkbox />
+          </Form.Item>
+          {handlerMeterpreterDebugLogging()}
         </Panel>
       </Collapse>
       <Form.Item style={{ marginTop: 24 }} {...buttonLayout}>
@@ -1704,7 +1742,7 @@ const CreatePayloadModalContent = props => {
               label: "meterpreter_reverse_tcp"
             }
           ]
-        },
+        }
       ]
     },
     {
@@ -2557,9 +2595,9 @@ const PayloadAndHandler = (props) => {
   const [createPayloadModalVisible, setCreatePayloadModalVisible] = useState(false);
   const [handlerListActive, setHandlerListActive] = useState([]);
   const {
-    resizeDownHeight,
+    resizeDownHeight
   } = useModel("Resize", model => ({
-    resizeDownHeight: model.resizeDownHeight,
+    resizeDownHeight: model.resizeDownHeight
   }));
   const listHanderReq = useRequest(getMsgrpcHandlerAPI, {
     manual: true,
