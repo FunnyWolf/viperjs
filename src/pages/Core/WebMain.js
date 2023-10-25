@@ -151,36 +151,36 @@ const TabsBottom = () => {
     }
 
     return (<Tabs
-      tabBarExtraContent={<TabsOptions/>}
-      style={{ margin: 4 }}
-      type="card"
-      onChange={tabActiveOnChange}
+        tabBarExtraContent={<TabsOptions/>}
+        style={{ margin: 1 }}
+        type="card"
+        onChange={tabActiveOnChange}
     >
         <TabPane
-          tab={<div style={tabPanedivSytle}>
-              <CustomerServiceOutlined/>
-              <span
-                style={tabPanespanSytle}>
+            tab={<div style={tabPanedivSytle}>
+                <CustomerServiceOutlined/>
+                <span
+                    style={tabPanespanSytle}>
                             {formatText('app.webmain.tab.ipdomain')}
                         </span>
-          </div>}
-          key="IPDomain"
+            </div>}
+            key="IPDomain"
         >
             <div
-              style={{
-                  marginTop: -16,
-              }}
+                style={{
+                    marginTop: -16,
+                }}
             >
                 <IPDomainMemo onRef={ipdomainRef}/>
             </div>
         </TabPane>
         <TabPane
-          tab={<div style={tabPanedivSytle}>
-              <SettingOutlined/>
-              <span
-                style={tabPanespanSytle}>{formatText('app.hostandsession.tab.SystemSetting')}</span>
-          </div>}
-          key="SystemSetting"
+            tab={<div style={tabPanedivSytle}>
+                <SettingOutlined/>
+                <span
+                    style={tabPanespanSytle}>{formatText('app.hostandsession.tab.SystemSetting')}</span>
+            </div>}
+            key="SystemSetting"
         >
             <SystemSettingMemo/>
         </TabPane>
