@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { useModel, useRequest } from 'umi'
 import { useInterval } from 'ahooks'
-import { getCoreCurrentUserAPI } from '@/services/apiv1'
+import { getCoreCurrentUserAPI, getWebdatabaseProjectAPI } from '@/services/apiv1'
 
 import { CustomerServiceOutlined, SettingOutlined } from '@ant-design/icons'
 
@@ -41,10 +41,18 @@ const WebMain = props => {
     }))
 
     const {
-        ipdomains, setIPDomains,
+        setIPDomains, setProjects,
     } = useModel('WebMainModel', model => ({
-        ipdomains: model.ipdomains, setIPDomains: model.setIPDomains,
+        setIPDomains: model.setIPDomains,
+        setProjects: model.setProjects,
     }))
+
+    useRequest(getWebdatabaseProjectAPI, {
+        onSuccess: (result, params) => {
+            setProjects(result)
+        }, onError: (error, params) => {
+        },
+    })
 
     const listCurrentUserReq = useRequest(getCoreCurrentUserAPI, {
         manual: true, onSuccess: (result, params) => {
@@ -151,36 +159,36 @@ const TabsBottom = () => {
     }
 
     return (<Tabs
-        tabBarExtraContent={<TabsOptions/>}
-        style={{ margin: 1 }}
-        type="card"
-        onChange={tabActiveOnChange}
+      tabBarExtraContent={<TabsOptions/>}
+      style={{ margin: 1 }}
+      type="card"
+      onChange={tabActiveOnChange}
     >
         <TabPane
-            tab={<div style={tabPanedivSytle}>
-                <CustomerServiceOutlined/>
-                <span
-                    style={tabPanespanSytle}>
+          tab={<div style={tabPanedivSytle}>
+              <CustomerServiceOutlined/>
+              <span
+                style={tabPanespanSytle}>
                             {formatText('app.webmain.tab.ipdomain')}
                         </span>
-            </div>}
-            key="IPDomain"
+          </div>}
+          key="IPDomain"
         >
             <div
-                style={{
-                    marginTop: -16,
-                }}
+              style={{
+                  marginTop: -16,
+              }}
             >
                 <IPDomainMemo onRef={ipdomainRef}/>
             </div>
         </TabPane>
         <TabPane
-            tab={<div style={tabPanedivSytle}>
-                <SettingOutlined/>
-                <span
-                    style={tabPanespanSytle}>{formatText('app.hostandsession.tab.SystemSetting')}</span>
-            </div>}
-            key="SystemSetting"
+          tab={<div style={tabPanedivSytle}>
+              <SettingOutlined/>
+              <span
+                style={tabPanespanSytle}>{formatText('app.hostandsession.tab.SystemSetting')}</span>
+          </div>}
+          key="SystemSetting"
         >
             <SystemSettingMemo/>
         </TabPane>

@@ -424,6 +424,12 @@ export async function getWebdatabaseProjectAPI (params) {
     })
 }
 
+export async function postWebdatabaseProjectAPI (params) {
+    return request('/api/v1/webdatabase/project/', {
+        method: 'POST', data: params,
+    })
+}
+
 export async function putWebdatabaseProjectAPI (params) {
     return request('/api/v1/webdatabase/project/', {
         method: 'PUT', data: params,

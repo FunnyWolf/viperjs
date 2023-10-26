@@ -2,11 +2,16 @@ import React, { Fragment, memo, useImperativeHandle, useState } from 'react'
 import moment from 'moment'
 import { getLocale, useRequest } from 'umi'
 import {
-    deleteMsgrpcFileMsfAPI, getCoreCurrentUserAPI, getMsgrpcFileMsfAPI, postPostmodulePostModuleActuatorAPI,
+    deleteMsgrpcFileMsfAPI,
+    getCoreCurrentUserAPI,
+    getMsgrpcFileMsfAPI,
+    postPostmodulePostModuleActuatorAPI,
+    postWebdatabaseProjectAPI,
+    putWebdatabaseProjectAPI,
 } from '@/services/apiv1'
 
-import { Button, Card, Col, Modal, Row, Space, Table, Tag, Upload, List, Typography, Tabs, Image } from 'antd'
-import { CopyOutlined, SyncOutlined, UploadOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Modal, Row, Space, Table, Tag, Upload, List, Typography, Tabs, Image, Avatar, Menu, Dropdown } from 'antd'
+import { CopyOutlined, SyncOutlined, UploadOutlined, ProjectOutlined } from '@ant-design/icons'
 import copy from 'copy-to-clipboard'
 import { getToken } from '@/utils/authority'
 import { cssCalc, Downheight } from '@/utils/utils'
@@ -19,7 +24,7 @@ import { HostIP } from '@/config'
 import { useEffect, useRef } from 'react'
 import { useInterval } from 'ahooks'
 import {
-    CaretRightOutlined, SubnodeOutlined, AppleOutlined, MacCommandOutlined,
+    CaretRightOutlined, SubnodeOutlined, AppleOutlined, MacCommandOutlined, LinkOutlined,
 } from '@ant-design/icons'
 import './IPDomain.css'
 
@@ -39,9 +44,9 @@ const IPDomain = props => {
     }))
 
     const {
-        ipdomains, setIPDomains,
+        ipdomains, setIPDomains, projects, setProjects,
     } = useModel('WebMainModel', model => ({
-        ipdomains: model.ipdomains, setIPDomains: model.setIPDomains,
+        ipdomains: model.ipdomains, setIPDomains: model.setIPDomains, projects: model.projects, setProjects: model.setProjects,
     }))
 
     const listitemHeight = 240
@@ -56,16 +61,16 @@ const IPDomain = props => {
                     const isp = location.isp
                     if (item.location !== null) {
                         return <><Tag
-                            color="geekblue"
-                            style={{
-                                textAlign: 'center', cursor: 'pointer',
-                            }}
+                          color="geekblue"
+                          style={{
+                              textAlign: 'center', cursor: 'pointer',
+                          }}
                         >{isp}</Tag>
                             <Tag
-                                color="geekblue"
-                                style={{
-                                    textAlign: 'center', cursor: 'pointer',
-                                }}
+                              color="geekblue"
+                              style={{
+                                  textAlign: 'center', cursor: 'pointer',
+                              }}
                             >{geo_info.country_cn} {geo_info.province_cn} {geo_info.city_cn}
                             </Tag></>
                     } else {
@@ -74,19 +79,19 @@ const IPDomain = props => {
                 }
                 return <Space size={0}>
                     <Tag
-                        color="blue"
-                        style={{
-                            textAlign: 'center', cursor: 'pointer',
-                        }}
+                      color="blue"
+                      style={{
+                          textAlign: 'center', cursor: 'pointer',
+                      }}
                     >
                         {item.ipdomain}
                     </Tag>
                     {LocationTag(item)}
                     <Tag
-                        color="cyan"
-                        style={{
-                            textAlign: 'center',
-                        }}
+                      color="cyan"
+                      style={{
+                          textAlign: 'center',
+                      }}
                     >
                         {moment(item.update_time * 1000).format('YYYY-MM-DD HH:mm:ss')}
                     </Tag>
@@ -94,55 +99,158 @@ const IPDomain = props => {
 
             }
             const PortInfoRow = (item) => {
-                return <Space size={0}>
-                    <Tag
-                        color="green"
-                        style={{
-                            // width: 160,
-                            textAlign: 'center', cursor: 'pointer',
-                        }}
-                    >
-                        <strong>{item.port}</strong>
-                    </Tag>
-                    <Tag
-                        color="cyan"
-                        style={{
-                            // width: 160,
-                            textAlign: 'center', cursor: 'pointer',
-                        }}
-                    >
-                        <strong>{item.service}</strong>
-                    </Tag>
-                </Space>
-            }
-            const ComponentRow = (item) => {
                 const component_list = item.component_list
                 const tagslist = component_list.map(component => {
                     return <Tag
-                        // icon={<MacCommandOutlined/>}
-                        color="purple"
-                        style={{
-                            textAlign: 'center',
-                        }}
+                      // icon={<MacCommandOutlined/>}
+                      color="purple"
+                      style={{
+                          textAlign: 'center',
+                      }}
                     >
                         {component.product_name}
                     </Tag>
                 })
 
-                return <Space size={0}>
+                return <Space size={0} wrap>
+                    <Tag
+                      color="green"
+                      style={{
+                          // width: 160,
+                          textAlign: 'center', cursor: 'pointer',
+                      }}
+                    >
+                        <strong>{item.port}</strong>
+                    </Tag>
+                    <Tag
+                      color="cyan"
+                      style={{
+                          // width: 160,
+                          textAlign: 'center', cursor: 'pointer',
+                      }}
+                    >
+                        <strong>{item.service}</strong>
+                    </Tag>
                     {tagslist}
                 </Space>
             }
+
+            const HttpRow = (item) => {
+                const cndTag = (cdn) => {
+                    if (cdn !== null) {
+                        return <Tag
+                          color="cyan"
+                          style={{
+                              textAlign: 'center', cursor: 'pointer',
+                          }}
+                        >
+                            <strong>CDN</strong>
+                        </Tag>
+                    } else {
+                        return null
+                    }
+                }
+
+                if (item.http !== null) {
+                    const http = item.http
+                    const httpbase = http.httpbase
+                    const httpfavicon = http.httpfavicon
+                    const cdn = http.cdn
+                    const src = 'data:image/png;base64,' + httpfavicon.content
+                    return <Space>
+                        <Avatar
+                          shape="square"
+                          size={20}
+                          src={src}
+                        />
+                        <Button type="link" size="small" shape="round" icon={<LinkOutlined/>}>{httpbase.title}</Button>
+                        <Tag
+                          color="cyan"
+                          style={{
+                              textAlign: 'center', cursor: 'pointer',
+                          }}
+                        >
+                            <strong>{httpbase.status_code}</strong>
+                        </Tag>
+                        {cndTag(cdn)}
+                    </Space>
+                } else {
+                    return null
+                }
+            }
+
+            const DetailRow = (item) => {
+                return <Card
+                  bodyStyle={{
+                      maxHeight: listitemHeight - 64 - 16, minHeight: listitemHeight - 64 - 16,
+                  }}
+                >
+                    <div>111</div>
+                </Card>
+            }
+
+            const ActionRow = (item) => {
+
+                const ProjectSwitchButton = (item) => {
+                    const {
+                        projects,
+                    } = useModel('WebMainModel', model => ({
+                        projects: model.projects,
+                    }))
+                    const projectItems = projects.map(project => {
+                        console.log(project)
+                        return {
+                            key: project.project_id, label: project.name, icon: <ProjectOutlined/>,
+                        }
+                    })
+
+                    const switchProjectReq = useRequest(postWebdatabaseProjectAPI, {
+                        manual: true, onSuccess: (result, params) => {
+                            console.log(result)
+                        }, onError: (error, params) => {
+                        },
+                    })
+
+                    const switchProject = ({ key }) => {
+                        switchProjectReq.run({
+                            project_id: key, ipdomain: item.ipdomain,
+                        })
+                    }
+
+                    return <Dropdown
+                      placement="top"
+                      overlay={<Menu
+                        onClick={switchProject}
+                        items={projectItems}
+                      />}
+                      trigger={['click']}
+                    >
+                        <Button size="small" icon={<ProjectOutlined/>}>切换项目</Button>
+                    </Dropdown>
+                }
+
+                return <Space>
+                    {ProjectSwitchButton(item)}
+                    <Button size="small" icon={<LinkOutlined/>}>Detail</Button>
+                </Space>
+            }
+
             return <Col span={12}>
                 <Row
-                    style={{ marginTop: 3, marginLeft: 4 }}
+                  style={{ marginTop: 3, marginLeft: 4 }}
                 >{IPDomainInfoRow(item)}</Row>
                 <Row
-                    style={{ marginTop: 2, marginLeft: 4 }}
+                  style={{ marginTop: 2, marginLeft: 4 }}
                 >{PortInfoRow(item)}</Row>
                 <Row
-                    style={{ marginTop: 2, marginLeft: 4 }}
-                >{ComponentRow(item)}</Row>
+                  style={{ marginTop: 3, marginLeft: 4 }}
+                >{HttpRow(item)}</Row>
+                {/*<Row*/}
+                {/*  style={{ marginTop: 3, marginLeft: 4 }}*/}
+                {/*>{DetailRow(item)}</Row>*/}
+                <Row
+                  style={{ marginTop: 11, marginLeft: 4 }}
+                >{ActionRow(item)}</Row>
             </Col>
         }
 
@@ -157,18 +265,18 @@ const IPDomain = props => {
                     const ATable = (a) => {
                         if (a !== null && a.length > 0) {
                             return <Table
-                                style={{
-                                    overflow: 'auto', minHeight: listitemHeight, maxHeight: listitemHeight,
-                                }}
-                                columns={[{
-                                    title: 'A', dataIndex: 'domain', // sorter: (a, b) => a.pid >= b.pid,
-                                }]}
-                                dataSource={a.map(record => {
-                                    return { 'domain': record }
-                                })}
-                                pagination={false}
-                                scroll={{ y: listitemHeight - 32 }}
-                                size="small"
+                              style={{
+                                  overflow: 'auto', minHeight: listitemHeight, maxHeight: listitemHeight,
+                              }}
+                              columns={[{
+                                  title: 'A', dataIndex: 'domain', // sorter: (a, b) => a.pid >= b.pid,
+                              }]}
+                              dataSource={a.map(record => {
+                                  return { 'domain': record }
+                              })}
+                              pagination={false}
+                              scroll={{ y: listitemHeight - 32 }}
+                              size="small"
                             />
                         } else {
                             return null
@@ -177,15 +285,15 @@ const IPDomain = props => {
                     const CNameTable = (cname) => {
                         if (cname !== null && cname.length > 0) {
                             return <Table
-                                columns={[{
-                                    title: 'CNAME', dataIndex: 'domain', // sorter: (a, b) => a.pid >= b.pid,
-                                }]}
-                                dataSource={cname.map(record => {
-                                    return { 'domain': record }
-                                })}
-                                pagination={false}
-                                scroll={{ y: 168 }}
-                                size="small"
+                              columns={[{
+                                  title: 'CNAME', dataIndex: 'domain', // sorter: (a, b) => a.pid >= b.pid,
+                              }]}
+                              dataSource={cname.map(record => {
+                                  return { 'domain': record }
+                              })}
+                              pagination={false}
+                              scroll={{ y: 168 }}
+                              size="small"
                             />
                         } else {
                             return null
@@ -193,9 +301,9 @@ const IPDomain = props => {
                     }
                     return <Tabs.TabPane tab={<span>DNS</span>} key="DNSRecord">
                         <Row
-                            style={{
-                                marginTop: -16,
-                            }}
+                          style={{
+                              marginTop: -16,
+                          }}
                         >
                             <Col span={12}>
                                 {ATable(a)}
@@ -215,15 +323,16 @@ const IPDomain = props => {
                 if (cert !== null) {
                     return <Tabs.TabPane tab={<span>Cert</span>} key="Cert">
                         <pre
-                            style={{
-                                marginTop: -16,
-                                padding: '0 0 0 0',
-                                overflowX: 'hidden',
-                                maxHeight: listitemHeight - 14,
-                                minHeight: listitemHeight - 14,
-                                whiteSpace: 'pre-wrap',
-                                background: '#000',
-                            }}
+                          style={{
+                              marginTop: -16,
+                              marginBottom: 0,
+                              padding: '0 0 0 0',
+                              overflowX: 'hidden',
+                              maxHeight: listitemHeight,
+                              minHeight: listitemHeight,
+                              whiteSpace: 'pre-wrap',
+                              background: '#141414',
+                          }}
                         >{cert.cert}</pre>
                     </Tabs.TabPane>
                 } else {
@@ -237,39 +346,63 @@ const IPDomain = props => {
                     const src = 'data:image/png;base64,' + screenshot.content
                     return <Tabs.TabPane tab={<span>Image</span>} key="Image">
                         <Image
-                            style={{
-                                marginTop: -16,
-                            }}
-                            width={listitemHeight - 16}
-                            height={listitemHeight - 16}
-                            src={src}
+                          style={{
+                              marginTop: -16,
+                          }}
+                          width={listitemHeight - 16}
+                          height={listitemHeight - 16}
+                          src={src}
                         />
                     </Tabs.TabPane>
                 } else {
                     return null
                 }
             }
+            const ResponseTabPane = (item) => {
+                const http = item.http
+                if (http !== null) {
+                    const http = item.http
+                    const httpbase = http.httpbase
 
+                    return <Tabs.TabPane tab={<span>Response</span>} key="Response">
+                        <pre
+                          style={{
+                              marginTop: -16,
+                              marginBottom: 0,
+                              padding: '0 0 0 0',
+                              overflowX: 'hidden',
+                              maxHeight: listitemHeight,
+                              minHeight: listitemHeight,
+                              whiteSpace: 'pre-wrap',
+                              background: '#141414',
+                          }}
+                        >{httpbase.response}</pre>
+                    </Tabs.TabPane>
+                } else {
+                    return null
+                }
+            }
             return <Col span={12}>
                 <Tabs
-                    style={{
-                        marginTop: -4,
-                    }}
-                    size="small">
+                  style={{
+                      marginTop: -4,
+                  }}
+                  size="small">
                     {DNSTabPane(item)}
                     {CertTabPane(item)}
                     {ScreenshotTabPane(item)}
+                    {ResponseTabPane(item)}
                 </Tabs>
             </Col>
         }
 
         const renderItem = item => {
             return <List.Item
-                key={item.id}
-                style={{ padding: 0, marginBottom: 4 }}
+              key={item.id}
+              style={{ padding: 0, marginBottom: 4 }}
             >
                 <Card
-                    bodyStyle={{ padding: 0, margin: 0 }}
+                  bodyStyle={{ padding: 0, margin: 0 }}
                 >
                     <Row>
                         {LeftCol(item)}
@@ -279,19 +412,16 @@ const IPDomain = props => {
             </List.Item>
         }
 
-
         return <List
-            style={{
-                overflow: 'auto',
-                maxHeight: cssCalc(`${WebMainHeight} - 64px`),
-                minHeight: cssCalc(`${WebMainHeight} - 64px`),
-            }}
-            bordered={false}
-            split={false}
-            itemLayout="vertical"
-            size="small"
-            dataSource={ipdomains}
-            renderItem={item => renderItem(item)}
+          style={{
+              overflow: 'auto', maxHeight: cssCalc(`${WebMainHeight} - 64px`), minHeight: cssCalc(`${WebMainHeight} - 64px`),
+          }}
+          bordered={false}
+          split={false}
+          itemLayout="vertical"
+          size="small"
+          dataSource={ipdomains}
+          renderItem={item => renderItem(item)}
         >
         </List>
     }
@@ -299,22 +429,22 @@ const IPDomain = props => {
     return (<Fragment>
         <DocIcon url="https://www.yuque.com/vipersec/help/yc0ipk"/>
         <Row
-            gutter={0}
-            style={{
-                // margin: 0,
-            }}
+          gutter={0}
+          style={{
+              // margin: 0,
+          }}
         ><Col span={4}>
             <Button
-                block
-                icon={<SyncOutlined/>}
+              block
+              icon={<SyncOutlined/>}
             >
                 {formatText('app.core.refresh')}
             </Button>
         </Col>
             <Col span={8}>
                 <Button
-                    block
-                    icon={<SyncOutlined/>}
+                  block
+                  icon={<SyncOutlined/>}
                 >
                     {formatText('app.core.refresh')}
                 </Button>
