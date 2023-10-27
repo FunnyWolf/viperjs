@@ -426,6 +426,12 @@ const IPDomain = props => {
           size="small"
           dataSource={ipdomainActiveProject}
           renderItem={item => renderItem(item)}
+          pagination={{
+              onChange: page => {
+                  console.log(page)
+              },
+              pageSize: 5,
+          }}
         >
         </List>
     }
