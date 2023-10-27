@@ -35,18 +35,12 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const IPDomain = props => {
-    console.log('FileMsf')
-    const {
-        setHeatbeatsocketalive, heatbeatsocketalive,
-    } = useModel('HostAndSessionModel', model => ({
-        setHeatbeatsocketalive: model.setHeatbeatsocketalive, heatbeatsocketalive: model.heatbeatsocketalive,
-    }))
+    console.log('IPDomain')
 
     const {
-        projectActive, setProjectActive, ipdomains,
+        projectActive, ipdomains,
     } = useModel('WebMainModel', model => ({
         projectActive: model.projectActive,
-        setProjectActive: model.setProjectActive,
         ipdomains: model.ipdomains,
     }))
 
@@ -57,7 +51,7 @@ const IPDomain = props => {
     } else {
         ipdomainActiveProject = ipdomains.filter(item => item.project_id === projectActive.project_id)
     }
-    console.log(ipdomainActiveProject)
+
     const IPDomainList = () => {
 
         const LeftCol = (item) => {
@@ -217,7 +211,6 @@ const IPDomain = props => {
 
                     const switchProjectReq = useRequest(postWebdatabaseProjectAPI, {
                         manual: true, onSuccess: (result, params) => {
-                            console.log(result)
                         }, onError: (error, params) => {
                         },
                     })
