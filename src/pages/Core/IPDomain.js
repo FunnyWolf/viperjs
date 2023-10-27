@@ -26,7 +26,6 @@ import { useInterval } from 'ahooks'
 import {
     CaretRightOutlined, SubnodeOutlined, AppleOutlined, MacCommandOutlined, LinkOutlined,
 } from '@ant-design/icons'
-import './IPDomain.css'
 
 let protocol = 'ws://'
 let webHost = HostIP + ':8002'
@@ -44,14 +43,22 @@ const IPDomain = props => {
     }))
 
     const {
-        ipdomains, setIPDomains, projects, setProjects,
+        projectActive, setProjectActive, ipdomains,
     } = useModel('WebMainModel', model => ({
-        ipdomains: model.ipdomains, setIPDomains: model.setIPDomains, projects: model.projects, setProjects: model.setProjects,
+        projectActive: model.projectActive,
+        setProjectActive: model.setProjectActive,
+        ipdomains: model.ipdomains,
     }))
 
     const listitemHeight = 240
-
-    const IPDomainTable = () => {
+    let ipdomainActiveProject = []
+    if (ipdomains === undefined) {
+        ipdomainActiveProject = []
+    } else {
+        ipdomainActiveProject = ipdomains.filter(item => item.project_id === projectActive.project_id)
+    }
+    console.log(ipdomainActiveProject)
+    const IPDomainList = () => {
 
         const LeftCol = (item) => {
             const IPDomainInfoRow = (item) => {
@@ -197,12 +204,16 @@ const IPDomain = props => {
                     } = useModel('WebMainModel', model => ({
                         projects: model.projects,
                     }))
-                    const projectItems = projects.map(project => {
-                        console.log(project)
-                        return {
-                            key: project.project_id, label: project.name, icon: <ProjectOutlined/>,
-                        }
-                    })
+                    let projectItems = []
+                    if (projects === null || projects === undefined) {
+                        projectItems = []
+                    } else {
+                        projectItems = projects.map(project => {
+                            return {
+                                key: project.project_id, label: project.name, icon: <ProjectOutlined/>,
+                            }
+                        })
+                    }
 
                     const switchProjectReq = useRequest(postWebdatabaseProjectAPI, {
                         manual: true, onSuccess: (result, params) => {
@@ -420,7 +431,7 @@ const IPDomain = props => {
           split={false}
           itemLayout="vertical"
           size="small"
-          dataSource={ipdomains}
+          dataSource={ipdomainActiveProject}
           renderItem={item => renderItem(item)}
         >
         </List>
@@ -450,7 +461,7 @@ const IPDomain = props => {
                 </Button>
             </Col>
         </Row>
-        <IPDomainTable/>
+        <IPDomainList/>
     </Fragment>)
 }
 export const IPDomainMemo = memo(IPDomain)
