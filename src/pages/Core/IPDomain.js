@@ -511,7 +511,7 @@ const IPDomain = props => {
     </Row>
     <List
       style={{
-        overflow: "auto", maxHeight: cssCalc(`${WebMainHeight} - 64px`), minHeight: cssCalc(`${WebMainHeight} - 64px`)
+        overflow: "auto", maxHeight: cssCalc(`${WebMainHeight} - 56px`), minHeight: cssCalc(`${WebMainHeight} - 56px`)
       }}
       bordered={false}
       split={false}
