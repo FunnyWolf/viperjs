@@ -24,102 +24,12 @@ const ButtonGroup = Button.Group
 const { Search, TextArea } = Input
 const { TabPane } = Tabs
 const { confirm } = Modal
-//websocket连接地址设置
-let protocol = 'ws://'
-let webHost = HostIP + ':8002'
-if (process.env.NODE_ENV === 'production') {
-    webHost = location.hostname + (location.port ? `:${location.port}` : '')
-    protocol = 'wss://'
-}
+
 
 const WebMain = props => {
-    console.log('HostAndSession')
-    const {
-        setHeatbeatsocketalive, heatbeatsocketalive,
-    } = useModel('HostAndSessionModel', model => ({
-        setHeatbeatsocketalive: model.setHeatbeatsocketalive, heatbeatsocketalive: model.heatbeatsocketalive,
-    }))
+    console.log('WebMain')
 
-    const {
-        setIPDomains, setProjects,
-    } = useModel('WebMainModel', model => ({
-        setIPDomains: model.setIPDomains,
-        setProjects: model.setProjects,
-    }))
-
-    useRequest(getWebdatabaseProjectAPI, {
-        onSuccess: (result, params) => {
-            setProjects(result)
-        }, onError: (error, params) => {
-        },
-    })
-
-    const listCurrentUserReq = useRequest(getCoreCurrentUserAPI, {
-        manual: true, onSuccess: (result, params) => {
-        }, onError: (error, params) => {
-        },
-    })
-
-    const urlpatterns = '/ws/v1/websocket/websync/?'
-    const urlargs = `&token=${getToken()}`
-    const socketUrl = protocol + webHost + urlpatterns + urlargs
-
-    const ws = useRef(null)
-
-    const initWebSync = () => {
-        try {
-            listCurrentUserReq.run()
-            ws.current = new WebSocket(socketUrl)
-        } catch (error) {
-            return
-        }
-
-        ws.current.onopen = () => {
-            setHeatbeatsocketalive(true)
-        }
-        ws.current.onclose = CloseEvent => {
-            setHeatbeatsocketalive(false)
-        }
-        ws.current.onerror = ErrorEvent => {
-            setHeatbeatsocketalive(false)
-        }
-        ws.current.onmessage = event => {
-            const response = JSON.parse(event.data)
-            const { ipdomains_update } = response
-            const { ipdomains } = response
-            if (ipdomains_update) {
-                setIPDomains(ipdomains)
-            }
-        }
-    }
-
-    const websyncmonitor = () => {
-        if (ws.current !== undefined && ws.current !== null && ws.current.readyState === WebSocket.OPEN) {
-        } else {
-            try {
-                ws.current.close()
-            } catch (error) {
-            }
-            try {
-                ws.current = null
-            } catch (error) {
-            }
-            initWebSync()
-        }
-    }
-    useInterval(() => websyncmonitor(), 3000)
     useEffect(() => {
-        initWebSync()
-        return () => {
-            try {
-                ws.current.close()
-            } catch (error) {
-            }
-            try {
-                ws.current = null
-            } catch (error) {
-            }
-        }
     }, [])
 
     return (<GridContent>
@@ -159,36 +69,33 @@ const TabsBottom = () => {
     }
 
     return (<Tabs
-      tabBarExtraContent={<TabsOptions/>}
-      style={{ margin: 1 }}
-      type="card"
-      onChange={tabActiveOnChange}
+        tabBarExtraContent={<TabsOptions/>}
+        style={{ margin: 1 }}
+        type="card"
+        onChange={tabActiveOnChange}
     >
         <TabPane
-          tab={<div style={tabPanedivSytle}>
-              <CustomerServiceOutlined/>
-              <span
-                style={tabPanespanSytle}>
-                            {formatText('app.webmain.tab.ipdomain')}
-                        </span>
-          </div>}
-          key="IPDomain"
+            tab={<div style={tabPanedivSytle}>
+                <CustomerServiceOutlined/>
+                <span style={tabPanespanSytle}>{formatText('app.webmain.tab.ipdomain')}</span>
+            </div>}
+            key="IPDomain"
         >
             <div
-              style={{
-                  marginTop: -16,
-              }}
+                style={{
+                    marginTop: -16,
+                }}
             >
                 <IPDomainMemo onRef={ipdomainRef}/>
             </div>
         </TabPane>
         <TabPane
-          tab={<div style={tabPanedivSytle}>
-              <SettingOutlined/>
-              <span
-                style={tabPanespanSytle}>{formatText('app.hostandsession.tab.SystemSetting')}</span>
-          </div>}
-          key="SystemSetting"
+            tab={<div style={tabPanedivSytle}>
+                <SettingOutlined/>
+                <span
+                    style={tabPanespanSytle}>{formatText('app.hostandsession.tab.SystemSetting')}</span>
+            </div>}
+            key="SystemSetting"
         >
             <SystemSettingMemo/>
         </TabPane>

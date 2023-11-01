@@ -441,3 +441,27 @@ export async function deleteWebdatabaseProjectAPI (params) {
         method: 'DELETE', params,
     })
 }
+
+export async function getWebdatabaseIPDomainAPI (params) {
+    return request('/api/v1/webdatabase/ipdomain/', {
+        params,
+    })
+}
+
+export async function postWebdatabaseIPDomainAPI (params) {
+    return request('/api/v1/webdatabase/ipdomain/', {
+        method: 'POST', data: params,
+    })
+}
+
+export async function putWebdatabaseIPDomainAPI (params) {
+    return request('/api/v1/webdatabase/ipdomain/', {
+        method: 'PUT', data: params,
+    })
+}
+
+export async function deleteWebdatabaseIPDomainAPI (params) {
+    return request('/api/v1/webdatabase/ipdomain/', {
+        method: 'DELETE', params,
+    })
+}
