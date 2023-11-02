@@ -40,7 +40,8 @@ const WebMain = props => {
 const TabsOptions = () => {
   return <Space
     style={{
-      paddingTop: 1, paddingBottom: 3
+      paddingTop: 1,
+      paddingBottom: 2
     }}><ProjectButton /></Space>;
 };
 
