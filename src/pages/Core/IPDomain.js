@@ -2,7 +2,9 @@ import React, { Fragment, memo, useImperativeHandle, useState } from 'react'
 import moment from 'moment'
 import { getLocale, useRequest } from 'umi'
 import {
-    deleteMsgrpcFileMsfAPI, deleteMsgrpcSessionioAPI, deleteWebdatabaseProjectAPI,
+    deleteMsgrpcFileMsfAPI,
+    deleteMsgrpcSessionioAPI,
+    deleteWebdatabaseProjectAPI,
     getCoreCurrentUserAPI,
     getMsgrpcFileMsfAPI,
     getWebdatabaseIPDomainAPI,
@@ -52,149 +54,6 @@ import styles from '@/utils/utils.less'
 
 const listitemHeight = 240
 
-const RightCol = (item) => {
-    const DNSTabPane = (item) => {
-        const dnsrecord = item.dnsrecord
-
-        if (dnsrecord !== null) {
-            const a = dnsrecord.a
-            const cname = dnsrecord.cname
-
-            const ATable = (a) => {
-                if (a !== null && a.length > 0) {
-                    return <Table
-                        style={{
-                            overflow: 'auto', minHeight: listitemHeight, maxHeight: listitemHeight,
-                        }}
-                        columns={[{
-                            title: 'A', dataIndex: 'domain', // sorter: (a, b) => a.pid >= b.pid,
-                        }]}
-                        dataSource={a.map(record => {
-                            return { 'domain': record }
-                        })}
-                        pagination={false}
-                        scroll={{ y: listitemHeight - 32 }}
-                        size="small"
-                    />
-                } else {
-                    return null
-                }
-            }
-            const CNameTable = (cname) => {
-                if (cname !== null && cname.length > 0) {
-                    return <Table
-                        columns={[{
-                            title: 'CNAME', dataIndex: 'domain', // sorter: (a, b) => a.pid >= b.pid,
-                        }]}
-                        dataSource={cname.map(record => {
-                            return { 'domain': record }
-                        })}
-                        pagination={false}
-                        scroll={{ y: 168 }}
-                        size="small"
-                    />
-                } else {
-                    return null
-                }
-            }
-            return <Tabs.TabPane tab={<span>DNS</span>} key="DNSRecord">
-                <Row
-                    style={{
-                        marginTop: -16,
-                    }}
-                >
-                    <Col span={12}>
-                        {ATable(a)}
-                    </Col>
-                    <Col span={12}>
-                        {CNameTable(cname)}
-                    </Col>
-                </Row>
-            </Tabs.TabPane>
-        } else {
-            return null
-        }
-    }
-
-    const CertTabPane = (item) => {
-        const cert = item.cert
-        if (cert !== null) {
-            return <Tabs.TabPane tab={<span>Cert</span>} key="Cert">
-                        <pre
-                            style={{
-                                marginTop: -16,
-                                marginBottom: 0,
-                                padding: '0 0 0 0',
-                                overflowX: 'hidden',
-                                maxHeight: listitemHeight,
-                                minHeight: listitemHeight,
-                                whiteSpace: 'pre-wrap',
-                                background: '#141414',
-                            }}
-                        >{cert.cert}</pre>
-            </Tabs.TabPane>
-        } else {
-            return null
-        }
-    }
-
-    const ScreenshotTabPane = (item) => {
-        const screenshot = item.screenshot
-        if (screenshot !== null) {
-            const src = 'data:image/png;base64,' + screenshot.content
-            return <Tabs.TabPane tab={<span>Image</span>} key="Image">
-                <Image
-                    style={{
-                        // marginTop: -16,
-                    }}
-                    width={listitemHeight - 16}
-                    height={listitemHeight - 16}
-                    src={src}
-                />
-            </Tabs.TabPane>
-        } else {
-            return null
-        }
-    }
-    const ResponseTabPane = (item) => {
-        const http = item.http
-        if (http !== null) {
-            const http = item.http
-            const httpbase = http.httpbase
-
-            return <Tabs.TabPane tab={<span>Response</span>} key="Response">
-                        <pre
-                            style={{
-                                marginTop: -16,
-                                marginBottom: 0,
-                                padding: '0 0 0 0',
-                                overflowX: 'hidden',
-                                maxHeight: listitemHeight,
-                                minHeight: listitemHeight,
-                                whiteSpace: 'pre-wrap',
-                                background: '#141414',
-                            }}
-                        >{httpbase.response}</pre>
-            </Tabs.TabPane>
-        } else {
-            return null
-        }
-    }
-    return <Col span={12}>
-        <Tabs
-            style={{
-                marginTop: -4,
-            }}
-            size="small">
-            {DNSTabPane(item)}
-            {CertTabPane(item)}
-            {ScreenshotTabPane(item)}
-            {ResponseTabPane(item)}
-        </Tabs>
-    </Col>
-}
-
-
 const IPDomain = props => {
     console.log('IPDomain')
 
@@ -211,7 +70,6 @@ const IPDomain = props => {
     const [tableParams, setTableParams] = useState({
         current: 1, pageSize: 10,
     })
-
 
     const listIPdomainReq = useRequest(getWebdatabaseIPDomainAPI, {
         manual: true, onSuccess: (result, params) => {
@@ -241,7 +99,6 @@ const IPDomain = props => {
         }, onError: (error, params) => {
         },
     })
-
 
     const switchProject = (key, record) => {
         switchProjectReq.run({
@@ -346,36 +203,51 @@ const IPDomain = props => {
                 {component.product_name}
             </Tag>
         })
-        return <Space size={0}>{tagslist}</Space>
+        return <Space
+            wrap
+            size={[0, 4]}>{tagslist}</Space>
     }
     const HttpRow = (item) => {
-        const cndTag = (cdn) => {
-            if (cdn !== null) {
-                return <Tag
-                    color="cyan"
-                    style={{
-                        textAlign: 'center', cursor: 'pointer',
-                    }}
-                >
-                    <strong>CDN</strong>
-                </Tag>
+        const cdnTag = (cdn) => {
+            if (cdn === null) {
+                return null
+            } else {
+                if (cdn.flag === true) {
+                    return <Tag
+                        color="orange"
+                        style={{
+                            textAlign: 'center', cursor: 'pointer',
+                        }}
+                    >CDN</Tag>
+                } else {
+                    return <Tag
+                        color="green"
+                        style={{
+                            textAlign: 'center', cursor: 'pointer',
+                        }}
+                    >No CDN</Tag>
+                }
+            }
+        }
+        const httpFaviconTag = (httpfavicon) => {
+            if (httpfavicon !== null) {
+                const src = 'data:image/png;base64,' + httpfavicon.content
+                return <Avatar
+                    shape="square"
+                    size={20}
+                    src={src}
+                />
             } else {
                 return null
             }
         }
-
         if (item.http !== null) {
             const http = item.http
             const httpbase = http.httpbase
             const httpfavicon = http.httpfavicon
             const cdn = http.cdn
-            const src = 'data:image/png;base64,' + httpfavicon.content
             return <Space>
-                <Avatar
-                    shape="square"
-                    size={20}
-                    src={src}
-                />
+                {httpFaviconTag(httpfavicon)}
                 <Button type="link" size="small" shape="round" icon={<LinkOutlined/>}>{httpbase.title}</Button>
                 <Tag
                     color="cyan"
@@ -385,7 +257,7 @@ const IPDomain = props => {
                 >
                     <strong>{httpbase.status_code}</strong>
                 </Tag>
-                {cndTag(cdn)}
+                {cdnTag(cdn)}
             </Space>
         } else {
             return null
@@ -402,6 +274,107 @@ const IPDomain = props => {
         </Card>
     }
 
+    const DNSTabPane = (record) => {
+        const dnsrecord = record.dnsrecord
+
+        if (dnsrecord !== null && dnsrecord.length > 0) {
+
+            return <Tabs.TabPane tab={<span>DNS</span>} key="DNSRecord">
+                <Row
+                    style={{
+                        marginTop: -16,
+                    }}
+                >
+                    <Col span={12}>
+                        <Table
+                            style={{
+                                overflow: 'auto', minHeight: listitemHeight, maxHeight: listitemHeight,
+                            }}
+                            columns={[{
+                                title: 'Type', dataIndex: 'type',
+                                width: 64,
+                            }, {
+                                title: 'Value', dataIndex: 'value',
+                            },
+                            ]}
+                            dataSource={dnsrecord}
+                            pagination={false}
+                            scroll={{ y: listitemHeight - 32 }}
+                            size="small"
+                        />
+                    </Col>
+
+                </Row>
+            </Tabs.TabPane>
+        } else {
+            return null
+        }
+    }
+
+    const CertTabPane = (record) => {
+        const cert = record.cert
+        if (cert !== null) {
+            return <Tabs.TabPane tab={<span>Cert</span>} key="Cert">
+                        <pre
+                            style={{
+                                marginTop: -16,
+                                marginBottom: 0,
+                                padding: '0 0 0 0',
+                                overflowX: 'hidden',
+                                maxHeight: listitemHeight,
+                                minHeight: listitemHeight,
+                                whiteSpace: 'pre-wrap',
+                                background: '#141414',
+                            }}
+                        >{cert.cert}</pre>
+            </Tabs.TabPane>
+        } else {
+            return null
+        }
+    }
+
+    const ScreenshotTabPane = (record) => {
+        const screenshot = record.screenshot
+        if (screenshot !== null) {
+            const src = 'data:image/png;base64,' + screenshot.content
+            return <Tabs.TabPane tab={<span>Image</span>} key="Image">
+                <Image
+                    style={{
+                        // marginTop: -16,
+                    }}
+                    width={listitemHeight - 16}
+                    height={listitemHeight - 16}
+                    src={src}
+                />
+            </Tabs.TabPane>
+        } else {
+            return null
+        }
+    }
+    const ResponseTabPane = (record) => {
+        const http = record.http
+        if (http !== null) {
+            const http = record.http
+            const httpbase = http.httpbase
+
+            return <Tabs.TabPane tab={<span>Response</span>} key="Response">
+                        <pre
+                            style={{
+                                marginTop: -16,
+                                marginBottom: 0,
+                                padding: '0 0 0 0',
+                                overflowX: 'hidden',
+                                maxHeight: listitemHeight,
+                                minHeight: listitemHeight,
+                                whiteSpace: 'pre-wrap',
+                                background: '#141414',
+                            }}
+                        >{httpbase.response}</pre>
+            </Tabs.TabPane>
+        } else {
+            return null
+        }
+    }
 
     const renderItem = record => {
         return <List.Item
@@ -452,7 +425,18 @@ const IPDomain = props => {
                             >删除</Button>
                         </Space></Row>
                     </Col>
-                    {RightCol(record)}
+                    <Col span={12}>
+                        <Tabs
+                            style={{
+                                marginTop: -4,
+                            }}
+                            size="small">
+                            {DNSTabPane(record)}
+                            {CertTabPane(record)}
+                            {ScreenshotTabPane(record)}
+                            {ResponseTabPane(record)}
+                        </Tabs>
+                    </Col>
                 </Row>
             </Card>
         </List.Item>
@@ -461,9 +445,6 @@ const IPDomain = props => {
         <DocIcon url="https://www.yuque.com/vipersec/help/yc0ipk"/>
         <Row
             gutter={0}
-            style={{
-                // margin: 0,
-            }}
         >
             <Col span={4}>
                 <Button
