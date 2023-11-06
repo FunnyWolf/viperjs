@@ -16,7 +16,7 @@ import { formatText } from '@/utils/locales'
 import { HostIP } from '@/config'
 import { ProjectButton } from '@/pages/Core/Project'
 import styles from '@/utils/utils.less'
-import { SwapOutlined } from '_@ant-design_icons@4.8.1@@ant-design/icons'
+import { SwapOutlined } from '@ant-design/icons'
 
 const { Text } = Typography
 const { Paragraph } = Typography
@@ -44,10 +44,10 @@ const WebMain = props => {
 
 const TabsOptions = () => {
     return <Space
-        style={{
-            // paddingTop: 2,
-            // paddingBottom: 0,
-        }}>
+      style={{
+          // paddingTop: 2,
+          // paddingBottom: 0,
+      }}>
         <Button icon={<SwapOutlined/>}>切换</Button>
         <ProjectButton/>
     </Space>
@@ -62,7 +62,6 @@ const TabsBottom = () => {
         setHeatbeatsocketalive: model.setHeatbeatsocketalive,
         setWebModuleOptions: model.setWebModuleOptions,
     }))
-
 
     let ipdomainRef = React.createRef()
     const tabActiveOnChange = activeKey => {
@@ -80,10 +79,10 @@ const TabsBottom = () => {
     }
 
     const tabPanedivSytle = {
-        marginLeft: '-6px', marginRight: '-6px',
+        // marginLeft: '-6px', marginRight: '-6px',
     }
     const tabPanespanSytle = {
-        marginLeft: '-4px',
+        // marginLeft: '-4px',
     }
 
     const listCurrentUserReq = useRequest(getCoreCurrentUserAPI, {
@@ -154,34 +153,33 @@ const TabsBottom = () => {
         }
     }, [])
 
-
     return (<Tabs
-        tabBarExtraContent={<TabsOptions/>}
-        type="card"
-        onChange={tabActiveOnChange}
+      tabBarExtraContent={<TabsOptions/>}
+      type="card"
+      onChange={tabActiveOnChange}
     >
         <TabPane
-            tab={<div style={tabPanedivSytle}>
-                <GlobalOutlined/>
-                <span style={tabPanespanSytle}>{formatText('app.webmain.tab.ipdomain')}</span>
-            </div>}
-            key="IPDomain"
+          tab={<div style={tabPanedivSytle}>
+              <GlobalOutlined/>
+              <span style={tabPanespanSytle}>{formatText('app.webmain.tab.ipdomain')}</span>
+          </div>}
+          key="IPDomain"
         >
             <div
-                style={{
-                    marginTop: -16,
-                }}
+              style={{
+                  marginTop: -16,
+              }}
             >
                 <IPDomainMemo onRef={ipdomainRef}/>
             </div>
         </TabPane>
         <TabPane
-            tab={<div style={tabPanedivSytle}>
-                <SettingOutlined/>
-                <span
-                    style={tabPanespanSytle}>{formatText('app.hostandsession.tab.SystemSetting')}</span>
-            </div>}
-            key="SystemSetting"
+          tab={<div style={tabPanedivSytle}>
+              <SettingOutlined/>
+              <span
+                style={tabPanespanSytle}>{formatText('app.hostandsession.tab.SystemSetting')}</span>
+          </div>}
+          key="SystemSetting"
         >
             <SystemSettingMemo/>
         </TabPane>
