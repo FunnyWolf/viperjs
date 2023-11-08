@@ -448,10 +448,7 @@ const IPDomain = props => {
                                     icon={<DeleteOutlined/>}
                                     onClick={() => addToWebTaskListPortScan({ipdomain: record.ipdomain})}
                             >PortScan</Button>
-                            <Button size="small"
-                                    icon={<DeleteOutlined/>}
-                                    onClick={() => cleanWebTaskListPortScan({ipdomain: record.ipdomain})}
-                            >Clean</Button>
+
                             <Button size="small"
                                     danger
                                     icon={<DeleteOutlined/>}

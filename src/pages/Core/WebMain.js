@@ -17,7 +17,7 @@ import {HostIP} from '@/config'
 import {ProjectButton} from '@/pages/Core/Project'
 import styles from '@/utils/utils.less'
 import {SwapOutlined} from '@ant-design/icons'
-import {PortScan} from "@/pages/Core/RunModule";
+import {PortScan, RunPortScanModuleMemo} from "@/pages/Core/RunModule";
 
 const {Text} = Typography
 const {Paragraph} = Typography
@@ -183,7 +183,7 @@ const TabsBottom = () => {
         >
             <Tabs style={{marginTop: -16}} type="card" defaultActiveKey="portscan">
                 <TabPane tab={formatText("app.webmain.tab.webscan.portscan")} key="portscan">
-                    <PortScan/>
+                    <RunPortScanModuleMemo/>
                 </TabPane>
             </Tabs>
         </TabPane>

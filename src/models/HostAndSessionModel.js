@@ -1,14 +1,14 @@
-import { useState } from 'react'
-import { useLocalStorageState } from 'ahooks'
+import {useState} from 'react'
+import {useLocalStorageState} from 'ahooks'
 
-export default function HostAndSessionModel () {
+export default function HostAndSessionModel() {
 
     const [postModuleOptions, setPostModuleOptions] = useState([])
     const [botModuleOptions, setBotModuleOptions] = useState([])
     const [proxyHttpScanModuleOptions, setProxyHttpScanModuleOptions] = useState([])
     const [webModuleOptions, setWebModuleOptions] = useState([])
     const [hostAndSessionList, setHostAndSessionList] = useState([])
-    const [networkData, setNetworkData] = useState({ nodes: [], edges: [] })
+    const [networkData, setNetworkData] = useState({nodes: [], edges: []})
 
     const [heatbeatsocketalive, setHeatbeatsocketalive] = useState(false)
     const [taskQueueLength, setTaskQueueLength] = useState(0)

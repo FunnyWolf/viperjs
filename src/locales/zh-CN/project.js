@@ -5,4 +5,6 @@ export default {
     'project.desc': '描述',
     'project.desc.placeholder': '项目描述',
     'project.select': '切换',
+
+    'ipdomain.portscan.ipdomainlist.ph': '192.168.1.1/24\n192.168.1.3',
 }

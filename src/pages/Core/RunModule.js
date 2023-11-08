@@ -1,7 +1,7 @@
-import React, {Fragment, memo, useState} from 'react'
-import {getLocale, useModel, useRequest} from 'umi'
-import {useLocalStorageState} from 'ahooks'
-import {ModalForm, ProFormTextArea} from '@ant-design/pro-form'
+import React, { Fragment, memo, useState } from 'react'
+import { getLocale, useModel, useRequest } from 'umi'
+import { useLocalStorageState } from 'ahooks'
+import { ModalForm, ProFormTextArea } from '@ant-design/pro-form'
 import {
     CaretRightOutlined,
     CheckOutlined,
@@ -57,16 +57,17 @@ import {
     postProxyHttpScanAPI,
     putPostModuleAutoAPI,
 } from '@/services/apiv1'
-import {formatText, getModuleDesc, getModuleName, getOptionDesc, getOptionTag, msgsuccess} from '@/utils/locales'
-import {postModuleOpts} from '@/pages/Core/RealTimeCard'
-import {sessionTagList} from '@/pages/Core/HostAndSession'
-import {DocIcon, DocIconInDiv} from '@/pages/Core/Common'
-import {cssCalc, Downheight} from '@/utils/utils'
+import { formatText, getModuleDesc, getModuleName, getOptionDesc, getOptionTag, msgsuccess } from '@/utils/locales'
+import { postModuleOpts } from '@/pages/Core/RealTimeCard'
+import { sessionTagList } from '@/pages/Core/HostAndSession'
+import { DocIcon, DocIconInDiv } from '@/pages/Core/Common'
+import { cssCalc, Downheight } from '@/utils/utils'
+import { DeleteOutlined } from '_@ant-design_icons@4.8.1@@ant-design/icons'
 
-const {Title, Paragraph, Text} = Typography
-const {Search, TextArea} = Input
-const {TabPane} = Tabs
-const {Option, OptGroup} = Select
+const { Title, Paragraph, Text } = Typography
+const { Search, TextArea } = Input
+const { TabPane } = Tabs
+const { Option, OptGroup } = Select
 
 export const PostModuleInfoContent = postModuleConfig => {
     const platform = postModuleConfig.PLATFORM
@@ -178,7 +179,7 @@ const getModuleOptions = (postModuleConfigActive) => {
                     }]}
                 >
                     <Input
-                        style={{width: '90%'}}
+                        style={{ width: '90%' }}
                     />
                 </Form.Item>
             </Col>)
@@ -195,7 +196,7 @@ const getModuleOptions = (postModuleConfigActive) => {
                     }]}
                 >
                     <TextArea
-                        style={{width: '95%'}}
+                        style={{ width: '95%' }}
                         showCount
                         allowClear
                     />
@@ -214,7 +215,7 @@ const getModuleOptions = (postModuleConfigActive) => {
                         message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
                     }]}
                 >
-                    <Checkbox style={{width: '90%'}} defaultChecked={oneOption.default}/>
+                    <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
                 </Form.Item>
             </Col>)
         } else if (oneOption.type === 'integer') {
@@ -244,10 +245,10 @@ const getModuleOptions = (postModuleConfigActive) => {
                     name={oneOption.name}
                     initialValue={oneOption.default}
                     rules={rules}
-                    wrapperCol={{span: 24}}
+                    wrapperCol={{ span: 24 }}
                 >
                     <InputNumber
-                        style={{width: '90%'}}
+                        style={{ width: '90%' }}
                     />
                 </Form.Item>
             </Col>)
@@ -262,11 +263,11 @@ const getModuleOptions = (postModuleConfigActive) => {
                         required: oneOption.required,
                         message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
                     }]}
-                    wrapperCol={{span: 24}}
+                    wrapperCol={{ span: 24 }}
                 >
                     <InputNumber
                         step={0.1}
-                        style={{width: '90%'}}
+                        style={{ width: '90%' }}
                     />
                 </Form.Item>
             </Col>)
@@ -289,7 +290,7 @@ const getModuleOptions = (postModuleConfigActive) => {
                         required: oneOption.required,
                         message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
                     }]}
-                    wrapperCol={{span: 24}}
+                    wrapperCol={{ span: 24 }}
                 >
                     <Select
                         allowClear
@@ -312,10 +313,10 @@ const getModuleOptions = (postModuleConfigActive) => {
                         required: oneOption.required,
                         message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
                     }]}
-                    wrapperCol={{span: 24}}
+                    wrapperCol={{ span: 24 }}
                 >
                     <Input
-                        style={{width: '90%'}}
+                        style={{ width: '90%' }}
                     />
                 </Form.Item>
             </Col>)
@@ -332,7 +333,7 @@ const getWarn = (postModuleConfigActive) => {
         if (locale === 'en-US') {
             return <Col span={22}>
                 <Alert
-                    style={{marginBottom: 16}}
+                    style={{ marginBottom: 16 }}
                     type="warning"
                     showIcon
                     message={postModuleConfigActive.WARN_EN}
@@ -341,7 +342,7 @@ const getWarn = (postModuleConfigActive) => {
         } else {
             return <Col span={22}>
                 <Alert
-                    style={{marginBottom: 16}}
+                    style={{ marginBottom: 16 }}
                     type="warning"
                     showIcon
                     message={postModuleConfigActive.WARN_ZH}
@@ -373,7 +374,7 @@ const changePin = loadpath => {
 }
 
 const ModuleInfoContent = props => {
-    const {postModuleConfig} = props
+    const { postModuleConfig } = props
     if (postModuleConfig === undefined) {
         return null
     }
@@ -470,8 +471,8 @@ const ModuleInfoContent = props => {
 
 export const RunModule = props => {
     console.log('RunModule')
-    const {closeModel} = props
-    const {hostAndSessionActive, postModuleOptions, moduleOptions} = useModel('HostAndSessionModel', model => ({
+    const { closeModel } = props
+    const { hostAndSessionActive, postModuleOptions, moduleOptions } = useModel('HostAndSessionModel', model => ({
         hostAndSessionActive: model.hostAndSessionActive,
         postModuleOptions: model.postModuleOptions,
         moduleOptions: model.moduleOptions,
@@ -483,18 +484,18 @@ export const RunModule = props => {
     let postModuleConfigListRun = postModuleOptions.map(record => {
         if (record.REQUIRE_SESSION) {
             if (hasSession) {
-                return {...record}
+                return { ...record }
             }
             return null
         }
-        return {...record}
+        return { ...record }
     }).filter(record => !!record)
 
     const pins = getPins()
 
     postModuleConfigListRun = postModuleConfigListRun.map(record => {
         record.pin = pins.indexOf(record.loadpath)
-        return {...record}
+        return { ...record }
     })
 
     postModuleConfigListRun.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath))
@@ -547,7 +548,7 @@ export const RunModule = props => {
     const onPostModuleConfigListPinsChange = (postModuleConfigListState, pins) => {
         postModuleConfigListState = postModuleConfigListState.map(record => {
             record.pin = pins.indexOf(record.loadpath)
-            return {...record}
+            return { ...record }
         })
         setPostModuleConfigList(postModuleConfigListState)
     }
@@ -615,9 +616,9 @@ export const RunModule = props => {
                 }}
             />)
 
-            return (<div style={{display: 'inline'}}>
+            return (<div style={{ display: 'inline' }}>
                 {pinIcon}
-                <a style={{...selectStyles}}>{getModuleName(record)}</a>
+                <a style={{ ...selectStyles }}>{getModuleName(record)}</a>
             </div>)
         },
     }]
@@ -633,7 +634,7 @@ export const RunModule = props => {
                     <Input
                         allowClear
                         prefix={<SearchOutlined/>}
-                        style={{width: '100%'}}
+                        style={{ width: '100%' }}
                         placeholder={formatText('app.runmodule.postmodule.search.ph')}
                         value={text}
                         onChange={e => {
@@ -643,7 +644,7 @@ export const RunModule = props => {
                     />
                     <Radio.Group
                         defaultValue=""
-                        style={{marginTop: 8}}
+                        style={{ marginTop: 8 }}
                         buttonStyle="solid"
                         onChange={(e) => moduleTypeOnChange(e.target.value)}
                     >
@@ -678,7 +679,7 @@ export const RunModule = props => {
                             maxHeight: cssCalc('80vh - 128px'),
                             minHeight: cssCalc('80vh - 128px'),
                         }}
-                        scroll={{y: 'calc(80vh - 128px)'}}
+                        scroll={{ y: 'calc(80vh - 128px)' }}
                         rowClassName={styles.moduleTr}
                         showHeader={false}
                         onRow={record => ({
@@ -696,7 +697,7 @@ export const RunModule = props => {
                 </Card>
             </Col>
             <Col span={16}>
-                <Tabs defaultActiveKey="params" style={{marginTop: 12}}>
+                <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
                     <TabPane
                         tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
                         key="params"
@@ -726,7 +727,7 @@ export const RunModule = props => {
                                 minHeight: cssCalc('80vh - 88px'),
                             }}
                             layout="vertical"
-                            wrapperCol={{span: 24}}
+                            wrapperCol={{ span: 24 }}
                             onFinish={onCreatePostModuleActuator}
                         >
                             <Row>{getModuleOptions(postModuleConfigActive)}</Row>
@@ -760,15 +761,15 @@ export const RunModuleMemo = memo(RunModule)
 
 export const RunAutoModule = props => {
     console.log('RunAutoModule')
-    const {closeModel, listData} = props
-    const {postModuleOptions} = useModel('HostAndSessionModel', model => ({
+    const { closeModel, listData } = props
+    const { postModuleOptions } = useModel('HostAndSessionModel', model => ({
         postModuleOptions: model.postModuleOptions,
     }))
     const [text, setText] = useState('')
 
     let postModuleConfigAuto = postModuleOptions.map(record => {
         if (record.REQUIRE_SESSION) {
-            return {...record}
+            return { ...record }
         } else {
             return null
         }
@@ -777,7 +778,7 @@ export const RunAutoModule = props => {
     const pins = getPins()
     postModuleConfigAuto = postModuleConfigAuto.map(record => {
         record.pin = pins.indexOf(record.loadpath)
-        return {...record}
+        return { ...record }
     })
 
     postModuleConfigAuto.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath))
@@ -828,7 +829,7 @@ export const RunAutoModule = props => {
     const onPostModuleConfigListPinsChange = (postModuleConfigListState, pins) => {
         postModuleConfigListState = postModuleConfigListState.map(record => {
             record.pin = pins.indexOf(record.loadpath)
-            return {...record}
+            return { ...record }
         })
         setPostModuleConfigList(postModuleConfigListState)
     }
@@ -894,9 +895,9 @@ export const RunAutoModule = props => {
                     marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
                 }}
             />)
-            return (<div style={{display: 'inline'}}>
+            return (<div style={{ display: 'inline' }}>
                 {pinIcon}
-                <a style={{...selectStyles}}>{getModuleName(record)}</a>
+                <a style={{ ...selectStyles }}>{getModuleName(record)}</a>
             </div>)
         },
     }]
@@ -907,7 +908,7 @@ export const RunAutoModule = props => {
                 <Input
                     allowClear
                     prefix={<SearchOutlined/>}
-                    style={{width: '100%'}}
+                    style={{ width: '100%' }}
                     placeholder={formatText('app.runmodule.postmodule.search.ph')}
                     value={text}
                     onChange={e => {
@@ -917,7 +918,7 @@ export const RunAutoModule = props => {
                 />
                 <Radio.Group
                     defaultValue=""
-                    style={{marginTop: 8}}
+                    style={{ marginTop: 8 }}
                     buttonStyle="solid"
                     onChange={(e) => moduleTypeOnChange(e.target.value)}
                 >
@@ -950,7 +951,7 @@ export const RunAutoModule = props => {
                         maxHeight: cssCalc('80vh - 128px'),
                         minHeight: cssCalc('80vh - 128px'),
                     }}
-                    scroll={{y: 'calc(80vh - 104px)'}}
+                    scroll={{ y: 'calc(80vh - 104px)' }}
                     rowClassName={styles.moduleTr}
                     showHeader={false}
                     onRow={record => ({
@@ -968,7 +969,7 @@ export const RunAutoModule = props => {
             </Card>
         </Col>
         <Col span={16}>
-            <Tabs defaultActiveKey="params" style={{marginTop: 12}}>
+            <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
                 <TabPane
                     tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
                     key="params"
@@ -981,7 +982,7 @@ export const RunAutoModule = props => {
                             minHeight: cssCalc('80vh - 88px'),
                         }}
                         layout="vertical"
-                        wrapperCol={{span: 24}}
+                        wrapperCol={{ span: 24 }}
                         onFinish={onCreatePostModuleAuto}
                     >
                         <Row>{getModuleOptions(postModuleConfigActive)}</Row>
@@ -1013,8 +1014,8 @@ export const RunAutoModule = props => {
 export const RunAutoModuleMemo = memo(RunAutoModule)
 export const RunschedulerModule = props => {
     console.log('RunAutoModule')
-    const {closeModel, listData} = props
-    const {postModuleOptions} = useModel('HostAndSessionModel', model => ({
+    const { closeModel, listData } = props
+    const { postModuleOptions } = useModel('HostAndSessionModel', model => ({
         postModuleOptions: model.postModuleOptions,
     }))
     const [text, setText] = useState('')
@@ -1022,7 +1023,7 @@ export const RunschedulerModule = props => {
 
     let postModuleConfigAuto = postModuleOptions.map(record => {
         if (record.REQUIRE_SESSION) {
-            return {...record}
+            return { ...record }
         } else {
             return null
         }
@@ -1031,7 +1032,7 @@ export const RunschedulerModule = props => {
     const pins = getPins()
     postModuleConfigAuto = postModuleConfigAuto.map(record => {
         record.pin = pins.indexOf(record.loadpath)
-        return {...record}
+        return { ...record }
     })
 
     postModuleConfigAuto.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath))
@@ -1059,7 +1060,7 @@ export const RunschedulerModule = props => {
         },
     })
 
-    useRequest(() => getCoreSettingAPI({kind: 'lhost'}), {
+    useRequest(() => getCoreSettingAPI({ kind: 'lhost' }), {
         onSuccess: (result, params) => {
             setSessionDict(result.sessions)
         }, onError: (error, params) => {
@@ -1113,7 +1114,7 @@ export const RunschedulerModule = props => {
     })
 
     const onCreatePostModuleAuto = params => {
-        let {scheduler_session, scheduler_interval} = params
+        let { scheduler_session, scheduler_interval } = params
         delete params.scheduler_session
         delete params.scheduler_interval
         createPostModuleAutoReq.run({
@@ -1134,7 +1135,7 @@ export const RunschedulerModule = props => {
     const onPostModuleConfigListPinsChange = (postModuleConfigListState, pins) => {
         postModuleConfigListState = postModuleConfigListState.map(record => {
             record.pin = pins.indexOf(record.loadpath)
-            return {...record}
+            return { ...record }
         })
         setPostModuleConfigList(postModuleConfigListState)
     }
@@ -1200,9 +1201,9 @@ export const RunschedulerModule = props => {
                     marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
                 }}
             />)
-            return (<div style={{display: 'inline'}}>
+            return (<div style={{ display: 'inline' }}>
                 {pinIcon}
-                <a style={{...selectStyles}}>{getModuleName(record)}</a>
+                <a style={{ ...selectStyles }}>{getModuleName(record)}</a>
             </div>)
         },
     }]
@@ -1213,7 +1214,7 @@ export const RunschedulerModule = props => {
                 <Input
                     allowClear
                     prefix={<SearchOutlined/>}
-                    style={{width: '100%'}}
+                    style={{ width: '100%' }}
                     placeholder={formatText('app.runmodule.postmodule.search.ph')}
                     value={text}
                     onChange={e => {
@@ -1223,7 +1224,7 @@ export const RunschedulerModule = props => {
                 />
                 <Radio.Group
                     defaultValue=""
-                    style={{marginTop: 8}}
+                    style={{ marginTop: 8 }}
                     buttonStyle="solid"
                     onChange={(e) => moduleTypeOnChange(e.target.value)}
                 >
@@ -1256,7 +1257,7 @@ export const RunschedulerModule = props => {
                         maxHeight: cssCalc('80vh - 128px'),
                         minHeight: cssCalc('80vh - 128px'),
                     }}
-                    scroll={{y: 'calc(80vh - 104px)'}}
+                    scroll={{ y: 'calc(80vh - 104px)' }}
                     rowClassName={styles.moduleTr}
                     showHeader={false}
                     onRow={record => ({
@@ -1274,7 +1275,7 @@ export const RunschedulerModule = props => {
             </Card>
         </Col>
         <Col span={16}>
-            <Tabs defaultActiveKey="params" style={{marginTop: 12}}>
+            <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
                 <TabPane
                     tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
                     key="params"
@@ -1287,7 +1288,7 @@ export const RunschedulerModule = props => {
                             minHeight: cssCalc('80vh - 88px'),
                         }}
                         layout="vertical"
-                        wrapperCol={{span: 24}}
+                        wrapperCol={{ span: 24 }}
                         onFinish={onCreatePostModuleAuto}
                     >
                         {sessionListOption()}
@@ -1355,7 +1356,7 @@ export const RunBotModule = props => {
         FOFA: false, Quake: false, Zoomeye: false,
     })
     const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState('viper-debug-flag', false)
-    useRequest(() => getCoreNetworkSearchAPI({cmdtype: 'list_config'}), {
+    useRequest(() => getCoreNetworkSearchAPI({ cmdtype: 'list_config' }), {
         onSuccess: (result, params) => {
             setEngineConfs(result)
         }, onError: (error, params) => {
@@ -1459,7 +1460,7 @@ export const RunBotModule = props => {
                 }}
             >
                 {pinIcon}
-                <a style={{marginLeft: 4, ...selectStyles}}>{getModuleName(record)}</a>
+                <a style={{ marginLeft: 4, ...selectStyles }}>{getModuleName(record)}</a>
             </div>)
         },
     }]
@@ -1472,7 +1473,7 @@ export const RunBotModule = props => {
         setInputStr(e.target.value)
     }
     const ModuleInfoContent = props => {
-        const {postModuleConfig} = props
+        const { postModuleConfig } = props
         if (postModuleConfig === undefined) {
             return null
         }
@@ -1559,7 +1560,7 @@ export const RunBotModule = props => {
                     style={{
                         padding: '0 0 0 0', maxHeight: cssCalc('100vh - 120px'), minHeight: cssCalc('100vh - 120px'),
                     }}
-                    scroll={{y: 'calc(100vh - 120px)'}}
+                    scroll={{ y: 'calc(100vh - 120px)' }}
                     rowClassName={styles.moduleTr}
                     showHeader={false}
                     onRow={record => ({
@@ -1581,7 +1582,7 @@ export const RunBotModule = props => {
             </Card>
         </Col>
         <Col span={18}>
-            <Tabs defaultActiveKey="ipportlist" style={{marginTop: 12}}>
+            <Tabs defaultActiveKey="ipportlist" style={{ marginTop: 12 }}>
                 <TabPane
                     tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
                     key="ipportlist"
@@ -1590,20 +1591,20 @@ export const RunBotModule = props => {
                         <Col span={12}>
                             <TextArea
                                 placeholder={formatText('app.runmodule.postmodule.inputstr.ph')}
-                                autoSize={{minRows: 3, maxRows: 3}}
+                                autoSize={{ minRows: 3, maxRows: 3 }}
                                 onChange={onChageInputStr}
                                 value={inputStr}
                             />
                             <Input.Group compact
-                                         style={{marginTop: 8, marginBottom: 24}}
+                                         style={{ marginTop: 8, marginBottom: 24 }}
                             >
-                                <Select style={{width: '15%'}}
+                                <Select style={{ width: '15%' }}
                                         onChange={(value) => setLogic(value)}
                                 >
                                     <Option value="AND">AND</Option>
                                     <Option value="OR">OR</Option>
                                 </Select>
-                                <Select style={{width: '25%'}}
+                                <Select style={{ width: '25%' }}
                                         onChange={(value) => setField(value)}
                                 >
                                     <OptGroup label={formatText('app.runmodule.botmodule.base')}>
@@ -1643,13 +1644,13 @@ export const RunBotModule = props => {
                                         <Option value="isp">isp</Option>
                                     </OptGroup>
                                 </Select>
-                                <Search style={{width: '60%'}}
+                                <Search style={{ width: '60%' }}
                                         enterButton={<PlusOutlined/>}
                                         onSearch={addToInputStr}
                                 />
                             </Input.Group>
                             <Form layout="horizontal" onFinish={searchNetworkSubmit}>
-                                <div style={{display: 'flex'}}>
+                                <div style={{ display: 'flex' }}>
                                     <Form.Item
                                         label={formatText('app.runmodule.postmodule.engine')}
                                         name="engine"
@@ -1701,7 +1702,7 @@ export const RunBotModule = props => {
                                         name="size"
                                     >
                                         <InputNumber
-                                            style={{width: 160}}
+                                            style={{ width: 160 }}
                                         />
                                     </Form.Item>
                                 </Space>
@@ -1725,7 +1726,7 @@ export const RunBotModule = props => {
                                 onFinish={async (values) => {
                                     const ipportlist = values.ipporttext.split('\n').map((record, index) => {
                                         let ipportpair = record.split(':')
-                                        return {index: index, ip: ipportpair[0], port: ipportpair[1]}
+                                        return { index: index, ip: ipportpair[0], port: ipportpair[1] }
                                     })
                                     setIpportListState(ipportlist)
                                     return true
@@ -1745,7 +1746,7 @@ export const RunBotModule = props => {
                                 style={{
                                     marginTop: 0, padding: '0px 8px 16px 0px', maxHeight: '560px', minHeight: '560px',
                                 }}
-                                scroll={{y: 480}}
+                                scroll={{ y: 480 }}
                                 size="small"
                                 bordered
                                 pagination={false}
@@ -1802,7 +1803,7 @@ export const RunBotModule = props => {
                     </Row>
                     <Form
                         layout="vertical"
-                        wrapperCol={{span: 24}}
+                        wrapperCol={{ span: 24 }}
                         onFinish={onCreatePostModuleActuator}
                     >
                         <Row>{getModuleOptions(botModuleConfigActive)}</Row>
@@ -1836,7 +1837,7 @@ export const BotScan = () => {
     const [runBotModuleModalVisable, setRunBotModuleModalVisable] = useState(false)
     return (<Fragment>
         <DocIcon url="https://www.yuque.com/vipersec/help/yrys61"/>
-        <Row style={{marginTop: -16}} gutter={0}>
+        <Row style={{ marginTop: -16 }} gutter={0}>
             <Col span={24}>
                 <Button
                     block
@@ -1848,13 +1849,13 @@ export const BotScan = () => {
         <RealTimeBotWaitListMemo/>
         <Modal
             mask={false}
-            style={{top: 16}}
+            style={{ top: 16 }}
             width="90vw"
             destroyOnClose
             visible={runBotModuleModalVisable}
             onCancel={() => setRunBotModuleModalVisable(false)}
             footer={null}
-            bodyStyle={{padding: '0px 0px 0px 0px'}}
+            bodyStyle={{ padding: '0px 0px 0px 0px' }}
         >
             <RunBotModuleMemo/>
         </Modal>
@@ -1863,7 +1864,7 @@ export const BotScan = () => {
 
 const RealTimeBotWaitList = () => {
     console.log('RealTimeBotWaitList')
-    const {botWaitList, setBotWaitList} = useModel('HostAndSessionModel', model => ({
+    const { botWaitList, setBotWaitList } = useModel('HostAndSessionModel', model => ({
         botWaitList: model.botWaitList, setBotWaitList: model.setBotWaitList,
     }))
     const {
@@ -1873,7 +1874,7 @@ const RealTimeBotWaitList = () => {
     }))
     const destoryBotWaitReq = useRequest(deleteMsgrpcJobAPI, {
         manual: true, onSuccess: (result, params) => {
-            const {uuid} = result
+            const { uuid } = result
             setBotWaitList(botWaitList.filter(item => item.group_uuid !== uuid))
         }, onError: (error, params) => {
         },
@@ -1898,7 +1899,7 @@ const RealTimeBotWaitList = () => {
             }
             Descriptions_Items.push(<Descriptions.Item label={key}>{showstr}</Descriptions.Item>)
         }
-        return (<Descriptions style={{width: '80vw'}} bordered size="small" column={2}>
+        return (<Descriptions style={{ width: '80vw' }} bordered size="small" column={2}>
             {Descriptions_Items}
         </Descriptions>)
     }
@@ -1973,7 +1974,7 @@ const RealTimeBotWaitList = () => {
     }, {
         dataIndex: 'operation',
         width: 48,
-        render: (text, record) => (<a style={{color: 'red'}} onClick={() => onDestoryBotWait(record)}>
+        render: (text, record) => (<a style={{ color: 'red' }} onClick={() => onDestoryBotWait(record)}>
             {formatText('app.core.delete')}
         </a>),
     }]
@@ -1998,7 +1999,7 @@ const RealTimeBotWaitListMemo = memo(RealTimeBotWaitList)
 
 export const PostModule = props => {
     console.log('PostModule')
-    const {loadpath, initialValues} = props
+    const { loadpath, initialValues } = props
     const {
         hostAndSessionActive, postModuleOptions,
     } = useModel('HostAndSessionModel', model => ({
@@ -2042,7 +2043,7 @@ export const PostModule = props => {
         return []
     }
     for (const oneOption of moduleconfig.OPTIONS) {
-        form.setFieldsValue({[oneOption.name]: oneOption.default})
+        form.setFieldsValue({ [oneOption.name]: oneOption.default })
         if (oneOption.type === 'str') {
             options.push(<Col span={oneOption.length}>
                 <Form.Item
@@ -2055,7 +2056,7 @@ export const PostModule = props => {
                     }]}
                 >
                     <Input
-                        style={{width: '90%'}}
+                        style={{ width: '90%' }}
                     />
                 </Form.Item>
             </Col>)
@@ -2071,7 +2072,7 @@ export const PostModule = props => {
                         message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
                     }]}
                 >
-                    <Checkbox style={{width: '90%'}} defaultChecked={oneOption.default}/>
+                    <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
                 </Form.Item>
             </Col>)
         } else if (oneOption.type === 'integer') {
@@ -2084,10 +2085,10 @@ export const PostModule = props => {
                         required: oneOption.required,
                         message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
                     }]}
-                    wrapperCol={{span: 24}}
+                    wrapperCol={{ span: 24 }}
                 >
                     <InputNumber
-                        style={{width: '90%'}}
+                        style={{ width: '90%' }}
                         // defaultValue={oneOption.default}
                     />
                 </Form.Item>
@@ -2102,11 +2103,11 @@ export const PostModule = props => {
                         required: oneOption.required,
                         message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
                     }]}
-                    wrapperCol={{span: 24}}
+                    wrapperCol={{ span: 24 }}
                 >
                     <InputNumber
                         step={0.1}
-                        style={{width: '90%'}}
+                        style={{ width: '90%' }}
                     />
                 </Form.Item>
             </Col>)
@@ -2128,7 +2129,7 @@ export const PostModule = props => {
                         required: oneOption.required,
                         message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
                     }]}
-                    wrapperCol={{span: 24}}
+                    wrapperCol={{ span: 24 }}
                 >
                     <Select
                         style={{
@@ -2149,10 +2150,10 @@ export const PostModule = props => {
                         required: oneOption.required,
                         message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
                     }]}
-                    wrapperCol={{span: 24}}
+                    wrapperCol={{ span: 24 }}
                 >
                     <Input
-                        style={{width: '90%'}}
+                        style={{ width: '90%' }}
                     />
                 </Form.Item>
             </Col>)
@@ -2162,7 +2163,7 @@ export const PostModule = props => {
     return (<Form
         form={form}
         layout="vertical"
-        wrapperCol={{span: 24}}
+        wrapperCol={{ span: 24 }}
         onFinish={onCreatePostModuleActuator}
         initialValues={initialValues}
     >
@@ -2183,7 +2184,7 @@ export const PostModule = props => {
 
 export const PostModuleMemo = memo(PostModule)
 
-export const ModuleInfo = ({postModuleConfig}) => {
+export const ModuleInfo = ({ postModuleConfig }) => {
     const references = postModuleConfig.REFERENCES
     const referencesCom = []
     for (let i = 0; i < references.length; i++) {
@@ -2246,7 +2247,7 @@ const PostModuleAutoConfForm = props => {
     const [settingsPostModuleAutoConf, setSettingsPostModuleAutoConf] = useState({})
 
     //初始化数据
-    const initListPostModuleAutoConfReq = useRequest(() => getCoreSettingAPI({kind: 'postmoduleautoconf'}), {
+    const initListPostModuleAutoConfReq = useRequest(() => getCoreSettingAPI({ kind: 'postmoduleautoconf' }), {
         onSuccess: (result, params) => {
             setSettingsPostModuleAutoConf(result)
             postModuleAutoConfForm.setFieldsValue(result)
@@ -2275,13 +2276,13 @@ const PostModuleAutoConfForm = props => {
                 checkedChildren={<CheckOutlined/>}
                 unCheckedChildren={<MinusOutlined/>}
                 checked={settingsPostModuleAutoConf.flag}
-                onClick={() => onUpdateSessionMonitor({flag: !settingsPostModuleAutoConf.flag})}
+                onClick={() => onUpdateSessionMonitor({ flag: !settingsPostModuleAutoConf.flag })}
             />
         </Form.Item>
         <Form.Item label={formatText('app.runmodule.autoconf.interval')}
                    tooltip={formatText('app.runmodule.autoconf.interval.tip')}>
             <Radio.Group
-                onChange={e => onUpdateSessionMonitor({interval: e.target.value})}
+                onChange={e => onUpdateSessionMonitor({ interval: e.target.value })}
                 value={settingsPostModuleAutoConf.interval}
             >
                 <Radio value={10}>{formatText('app.runmodule.autoconf.10s')}</Radio>
@@ -2294,7 +2295,7 @@ const PostModuleAutoConfForm = props => {
             tooltip={formatText('app.runmodule.autoconf.max_session.tip')}
         >
             <Radio.Group
-                onChange={e => onUpdateSessionMonitor({max_session: e.target.value})}
+                onChange={e => onUpdateSessionMonitor({ max_session: e.target.value })}
                 value={settingsPostModuleAutoConf.max_session}
             >
                 <Radio value={3}>3</Radio>
@@ -2320,7 +2321,7 @@ const AutoRobot = () => {
     //初始化数据
     useRequest(getPostModuleAutoAPI, {
         onSuccess: (result, params) => {
-            let {auto, scheduler} = result
+            let { auto, scheduler } = result
             setPostModuleAutoList(auto)
             setPostModuleSchedulerList(scheduler)
         }, onError: (error, params) => {
@@ -2329,7 +2330,7 @@ const AutoRobot = () => {
 
     const listPostModuleAutoReq = useRequest(getPostModuleAutoAPI, {
         manual: true, onSuccess: (result, params) => {
-            let {auto, scheduler} = result
+            let { auto, scheduler } = result
             setPostModuleAutoList(auto)
             setPostModuleSchedulerList(scheduler)
         }, onError: (error, params) => {
@@ -2352,7 +2353,7 @@ const AutoRobot = () => {
 
     const destoryPostModuleAutoReq = useRequest(deletePostModuleAutoAPI, {
         manual: true, onSuccess: (result, params) => {
-            const {_module_uuid} = result
+            const { _module_uuid } = result
             setPostModuleAutoList(postModuleAutoList.filter(item => item._module_uuid !== _module_uuid))
         }, onError: (error, params) => {
         },
@@ -2360,16 +2361,16 @@ const AutoRobot = () => {
 
     const destoryPostModuleSchedulerReq = useRequest(deletePostModuleAutoAPI, {
         manual: true, onSuccess: (result, params) => {
-            const {job_id} = result
+            const { job_id } = result
             setPostModuleSchedulerList(postModuleSchedulerList.filter(item => item.job_id !== job_id))
         }, onError: (error, params) => {
         },
     })
 
-    return (<Tabs style={{marginTop: -16}} type="card" defaultActiveKey="system_info">
+    return (<Tabs style={{ marginTop: -16 }} type="card" defaultActiveKey="system_info">
         <TabPane tab={formatText('app.runmodule.autoconf.auto')} key="auto">
             <DocIcon url="https://www.yuque.com/vipersec/help/gh60e1"/>
-            <Row gutter={0} style={{marginTop: -16}}>
+            <Row gutter={0} style={{ marginTop: -16 }}>
                 <Col span={12}>
                     <Button
                         block
@@ -2390,7 +2391,7 @@ const AutoRobot = () => {
             </Row>
             <Row gutter={0}>
                 <Col span={24}>
-                    <Card style={{margin: 0}} bodyStyle={{padding: '4px 4px 4px 4px'}}>
+                    <Card style={{ margin: 0 }} bodyStyle={{ padding: '4px 4px 4px 4px' }}>
                         <PostModuleAutoConfFormMemo/>
                     </Card>
                     <Table
@@ -2427,9 +2428,9 @@ const AutoRobot = () => {
                         }, {
                             dataIndex: 'operation',
                             width: 56,
-                            render: (text, record) => (<div style={{textAlign: 'center'}}>
+                            render: (text, record) => (<div style={{ textAlign: 'center' }}>
                                 <a
-                                    style={{color: 'red'}}
+                                    style={{ color: 'red' }}
                                     onClick={() => destoryPostModuleAutoReq.run({
                                         module_type: 'auto', _module_uuid: record._module_uuid,
                                     })}
@@ -2441,13 +2442,13 @@ const AutoRobot = () => {
             </Row>
             <Modal
                 mask={false}
-                style={{top: 32}}
+                style={{ top: 32 }}
                 width="90vw"
                 destroyOnClose
                 visible={runAutoModuleModalVisable}
                 onCancel={() => setRunAutoModuleModalModalVisable(false)}
                 footer={null}
-                bodyStyle={{padding: '0px 0px 0px 0px'}}
+                bodyStyle={{ padding: '0px 0px 0px 0px' }}
             >
                 <RunAutoModuleMemo
                     closeModel={() => {
@@ -2461,7 +2462,7 @@ const AutoRobot = () => {
         </TabPane>
         <TabPane tab={formatText('app.runmodule.autoconf.scheduler')} key="scheduler">
             <DocIcon url="https://www.yuque.com/vipersec/help/gh60e1"/>
-            <Row gutter={0} style={{marginTop: -16}}>
+            <Row gutter={0} style={{ marginTop: -16 }}>
                 <Col span={12}>
                     <Button
                         block
@@ -2558,25 +2559,25 @@ const AutoRobot = () => {
                             dataIndex: 'operation', width: 136, render: (text, record) => {
                                 let jobAction = null
                                 if (record.next_run_time !== null) {
-                                    jobAction = (<a style={{color: '#faad14'}}
+                                    jobAction = (<a style={{ color: '#faad14' }}
                                                     onClick={() => updatePostModuleSchedulerReq.run({
                                                         job_id: record.job_id, action: 'pause',
                                                     })}>
                                         {formatText('app.runmodule.autorobot.scheduler.pause')}
                                     </a>)
                                 } else {
-                                    jobAction = (<a style={{color: '#a5a5a5'}}
+                                    jobAction = (<a style={{ color: '#a5a5a5' }}
                                                     onClick={() => updatePostModuleSchedulerReq.run({
                                                         job_id: record.job_id, action: 'resume',
                                                     })}>
                                         {formatText('app.runmodule.autorobot.scheduler.resume')}
                                     </a>)
                                 }
-                                return <div style={{textAlign: 'center'}}>
+                                return <div style={{ textAlign: 'center' }}>
                                     <Space size="middle">
                                         {jobAction}
                                         <a
-                                            style={{color: 'red'}}
+                                            style={{ color: 'red' }}
                                             onClick={() => destoryPostModuleSchedulerReq.run({
                                                 module_type: 'scheduler', job_id: record.job_id,
                                             })}
@@ -2589,13 +2590,13 @@ const AutoRobot = () => {
             </Row>
             <Modal
                 mask={false}
-                style={{top: 32}}
+                style={{ top: 32 }}
                 width="90vw"
                 destroyOnClose
                 visible={runAutoModuleSchedulerModalVisable}
                 onCancel={() => setRunAutoModuleSchedulerModalModalVisable(false)}
                 footer={null}
-                bodyStyle={{padding: '0px 0px 0px 0px'}}
+                bodyStyle={{ padding: '0px 0px 0px 0px' }}
             >
                 <RunschedulerModuleMemo
                     closeModel={() => {
@@ -2617,7 +2618,7 @@ const ProxyHttpScanConfForm = props => {
     const [settingsProxyHttpScanConf, setSettingsProxyHttpScanConf] = useState({})
 
     //初始化数据
-    const initListPostModuleAutoConfReq = useRequest(() => getCoreSettingAPI({kind: 'proxyhttpscanconf'}), {
+    const initListPostModuleAutoConfReq = useRequest(() => getCoreSettingAPI({ kind: 'proxyhttpscanconf' }), {
         onSuccess: (result, params) => {
             setSettingsProxyHttpScanConf(result)
             proxyHttpScanConfForm.setFieldsValue(result)
@@ -2640,13 +2641,13 @@ const ProxyHttpScanConfForm = props => {
         updateSessionMonitorReq.run(params)
     }
 
-    return (<Form labelCol={{span: 24}} wrapperCol={{span: 24}} layout="vertical">
+    return (<Form labelCol={{ span: 24 }} wrapperCol={{ span: 24 }} layout="vertical">
         <Form.Item label={formatText('app.runmodule.autoconf.switch')}>
             <Switch
                 checkedChildren={<CheckOutlined/>}
                 unCheckedChildren={<MinusOutlined/>}
                 checked={settingsProxyHttpScanConf.flag}
-                onClick={() => onUpdateProxyHttpScanConf({flag: !settingsProxyHttpScanConf.flag})}
+                onClick={() => onUpdateProxyHttpScanConf({ flag: !settingsProxyHttpScanConf.flag })}
             />
         </Form.Item>
         PROXY : <Text strong>Http://VPSIP:28888</Text>
@@ -2655,16 +2656,16 @@ const ProxyHttpScanConfForm = props => {
 
 export const ProxyHttpScanModule = props => {
     console.log('RunProxyHttpScanModule')
-    const {closeModel, listData} = props
+    const { closeModel, listData } = props
     const [text, setText] = useState('')
-    const {proxyHttpScanModuleOptions} = useModel('HostAndSessionModel', model => ({
+    const { proxyHttpScanModuleOptions } = useModel('HostAndSessionModel', model => ({
         proxyHttpScanModuleOptions: model.proxyHttpScanModuleOptions,
     }))
 
     const pins = getPins()
     let proxyHttpScanModuleOptionsAuto = proxyHttpScanModuleOptions.map(record => {
         record.pin = pins.indexOf(record.loadpath)
-        return {...record}
+        return { ...record }
     })
 
     proxyHttpScanModuleOptionsAuto.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath))
@@ -2715,7 +2716,7 @@ export const ProxyHttpScanModule = props => {
     const onPostModuleConfigListPinsChange = (postModuleConfigListState, pins) => {
         postModuleConfigListState = postModuleConfigListState.map(record => {
             record.pin = pins.indexOf(record.loadpath)
-            return {...record}
+            return { ...record }
         })
         setPostModuleConfigList(postModuleConfigListState)
     }
@@ -2781,9 +2782,9 @@ export const ProxyHttpScanModule = props => {
                     marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
                 }}
             />)
-            return (<div style={{display: 'inline'}}>
+            return (<div style={{ display: 'inline' }}>
                 {pinIcon}
-                <a style={{...selectStyles}}>{getModuleName(record)}</a>
+                <a style={{ ...selectStyles }}>{getModuleName(record)}</a>
             </div>)
         },
     }]
@@ -2794,7 +2795,7 @@ export const ProxyHttpScanModule = props => {
                 <Input
                     allowClear
                     prefix={<SearchOutlined/>}
-                    style={{width: '100%'}}
+                    style={{ width: '100%' }}
                     placeholder={formatText('app.runmodule.postmodule.search.ph')}
                     value={text}
                     onChange={e => {
@@ -2809,7 +2810,7 @@ export const ProxyHttpScanModule = props => {
                         maxHeight: cssCalc('80vh - 128px'),
                         minHeight: cssCalc('80vh - 128px'),
                     }}
-                    scroll={{y: 'calc(80vh - 104px)'}}
+                    scroll={{ y: 'calc(80vh - 104px)' }}
                     rowClassName={styles.moduleTr}
                     showHeader={false}
                     onRow={record => ({
@@ -2827,7 +2828,7 @@ export const ProxyHttpScanModule = props => {
             </Card>
         </Col>
         <Col span={16}>
-            <Tabs defaultActiveKey="params" style={{marginTop: 12}}>
+            <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
                 <TabPane
                     tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
                     key="params"
@@ -2840,7 +2841,7 @@ export const ProxyHttpScanModule = props => {
                             minHeight: cssCalc('80vh - 88px'),
                         }}
                         layout="vertical"
-                        wrapperCol={{span: 24}}
+                        wrapperCol={{ span: 24 }}
                         onFinish={onCreateProxyHttpScan}
                     >
                         <Row>{getModuleOptions(postModuleConfigActive)}</Row>
@@ -2907,7 +2908,7 @@ const ProxyHttpScan = () => {
 
     const destoryProxyHttpScanReq = useRequest(deleteProxyHttpScanAPI, {
         manual: true, onSuccess: (result, params) => {
-            const {_module_uuid} = result
+            const { _module_uuid } = result
             setProxyHttpScanList(proxyHttpScanList.filter(item => item._module_uuid !== _module_uuid))
         }, onError: (error, params) => {
         },
@@ -2915,7 +2916,7 @@ const ProxyHttpScan = () => {
 
     return (<Fragment>
         <DocIcon url="https://www.yuque.com/vipersec/help/bg1zvcdmg5f6q71e"/>
-        <Row gutter={0} style={{marginTop: -16}}>
+        <Row gutter={0} style={{ marginTop: -16 }}>
             <Col span={12}>
                 <Button
                     block
@@ -2970,30 +2971,30 @@ const ProxyHttpScan = () => {
                     }, {
                         dataIndex: 'operation',
                         width: 56,
-                        render: (text, record) => (<div style={{textAlign: 'center'}}>
+                        render: (text, record) => (<div style={{ textAlign: 'center' }}>
                             <a
-                                style={{color: 'red'}}
-                                onClick={() => destoryProxyHttpScanReq.run({_module_uuid: record._module_uuid})}
+                                style={{ color: 'red' }}
+                                onClick={() => destoryProxyHttpScanReq.run({ _module_uuid: record._module_uuid })}
                             >{formatText('app.core.delete')}</a>
                         </div>),
                     }]}
                 />
             </Col>
             <Col span={4}>
-                <Card style={{marginTop: 0}}>
+                <Card style={{ marginTop: 0 }}>
                     <ProxyHttpScanConfFormMemo/>
                 </Card>
             </Col>
         </Row>
         <Modal
             mask={false}
-            style={{top: 32}}
+            style={{ top: 32 }}
             width="90vw"
             destroyOnClose
             visible={runProxyHttpScanModuleModalVisable}
             onCancel={() => setRunProxyHttpScanModuleModalVisable(false)}
             footer={null}
-            bodyStyle={{padding: '0px 0px 0px 0px'}}
+            bodyStyle={{ padding: '0px 0px 0px 0px' }}
         >
             <ProxyHttpScanModuleMemo
                 closeModel={() => {
@@ -3009,115 +3010,21 @@ const ProxyHttpScan = () => {
 
 export const ProxyHttpScanMemo = memo(ProxyHttpScan)
 
-export const PortScan = () => {
+export const RunPortScanModule = props => {
+    console.log('RunPortScanModule')
+
+    const { webModuleOptions } = useModel('HostAndSessionModel', model => ({
+        webModuleOptions: model.webModuleOptions,
+    }))
+
     const {
         webTaskListPortScan, setWebTaskListPortScan,
     } = useModel('WebMainModel', model => ({
         webTaskListPortScan: model.webTaskListPortScan, setWebTaskListPortScan: model.setWebTaskListPortScan,
     }))
 
-    const addToWebTaskListPortScan = (params) => {
-        const {ipdomain} = params;
-
-        if (!webTaskListPortScan.some(item => item.ipdomain === ipdomain)) {
-            setWebTaskListPortScan([...webTaskListPortScan, params]);
-        }
-        msgsuccess(`已添加到任务队列`, `Added to task queue`)
-        console.log(webTaskListPortScan);
-    }
-
-    const cleanWebTaskListPortScan = () => {
-        setWebTaskListPortScan([])
-    }
-    const deleteFromWebTaskListPortScan = (params) => {
-        setWebTaskListPortScan(webTaskListPortScan.filter(record => record.ipdomain !== params.ipdomain))
-    }
-    const onFinish = (values) => {
-        console.log('Success:', values);
-    };
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-    };
-    return (<Fragment>
-        <DocIcon url="https://www.yuque.com/vipersec/help/yrys61"/>
-        <Row style={{marginTop: -16}} gutter={0}>
-            <Col span={6}>
-                <Form
-                    name="basic"
-                    onFinish={addToWebTaskListPortScan}
-                    layout="inline"
-                >
-                    <Form.Item
-                        // label="Username"
-                        name="ipdomain"
-                        // rules={[
-                        //     {
-                        //         required: true,
-                        //         // message: 'Please input your username!',
-                        //     },
-                        // ]}
-                    >
-                        <Input/>
-                    </Form.Item>
-                    <Form.Item>
-                        <Button type="primary" htmlType="submit">
-                            Submit
-                        </Button>
-                    </Form.Item>
-                </Form>
-                <Table
-                    // loading={listNetworkSearchReq.loading}
-                    style={{
-                        marginTop: 0, padding: '0px 8px 16px 0px', maxHeight: '560px', minHeight: '560px',
-                    }}
-                    scroll={{y: 480}}
-                    size="small"
-                    bordered
-                    pagination={false}
-                    rowKey="ipdomain"
-                    // rowSelection={rowSelection}
-                    columns={[{
-                        title: 'IPDomain', dataIndex: 'ipdomain', key: 'ipdomain', // width: 200,
-                        render: (text, record) => (<strong
-                            style={{
-                                color: '#13a8a8',
-                            }}
-                        >
-                            {text}
-                        </strong>),
-                    }, {
-                        dataIndex: "operation",
-                        width: 48,
-                        render: (text, record) => (<div style={{textAlign: "center"}}>
-                            <a
-                                onClick={() => deleteFromWebTaskListPortScan(record)}
-                                style={{color: "red"}}
-                            >
-                                {formatText("app.core.delete")}
-                            </a>
-                        </div>)
-                    }]}
-                    dataSource={webTaskListPortScan}
-                />
-            </Col>
-            <Col span={16}>
-
-            </Col>
-        </Row>
-    </Fragment>)
-}
-
-export const RunPortScanModule = props => {
-    console.log('RunBotModule')
-
-    const botModuleOptions = useModel('HostAndSessionModel', model => ({
-        botModuleOptions: model.botModuleOptions,
-    })).botModuleOptions
-
-    const pins = getPins()
-    botModuleOptions.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath))
-    const [botModuleConfigList, setBotModuleConfigList] = useState(botModuleOptions)
-    const [botModuleConfigActive, setBotModuleConfigActive] = useState({
+    const [webModuleConfigList, setWebModuleConfigList] = useState(webModuleOptions)
+    const [webModuleConfigActive, setWebModuleConfigActive] = useState({
         NAME_ZH: null,
         NAME_EN: null,
         DESC_ZH: null,
@@ -3130,24 +3037,20 @@ export const RunPortScanModule = props => {
         README: [],
         SEARCH: '',
     })
-    const [inputStr, setInputStr] = useState(null)
 
-    const [logic, setLogic] = useState(null)
-    const [field, setField] = useState(null)
-
-    const [ipportListState, setIpportListState] = useState([])
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
     const [selectedRows, setSelectedRows] = useState([])
-    const [engineConfs, setEngineConfs] = useState({
-        FOFA: false, Quake: false, Zoomeye: false,
-    })
-    const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState('viper-debug-flag', false)
-    useRequest(() => getCoreNetworkSearchAPI({cmdtype: 'list_config'}), {
-        onSuccess: (result, params) => {
-            setEngineConfs(result)
-        }, onError: (error, params) => {
-        },
-    })
+
+
+    const pins = getPins()
+    webModuleConfigList.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath))
+
+    // useRequest(() => getCoreNetworkSearchAPI({ cmdtype: 'list_config' }), {
+    //     onSuccess: (result, params) => {
+    //         setEngineConfs(result)
+    //     }, onError: (error, params) => {
+    //     },
+    // })
 
     const createPostModuleActuatorReq = useRequest(postPostmodulePostModuleActuatorAPI, {
         manual: true, onSuccess: (result, params) => {
@@ -3155,11 +3058,11 @@ export const RunPortScanModule = props => {
         },
     })
 
-    const onCreatePostModuleActuator = params => {
+    const onCreateWebModuleActuator = params => {
         createPostModuleActuatorReq.run({
-            moduletype: 'Bot',
-            ipportlist: selectedRows,
-            loadpath: botModuleConfigActive.loadpath,
+            moduletype: 'Web',
+            input_list: selectedRows,
+            loadpath: webModuleConfigActive.loadpath,
             custom_param: JSON.stringify(params),
         })
     }
@@ -3167,12 +3070,12 @@ export const RunPortScanModule = props => {
     const onPostModuleConfigListChange = botModuleConfigList => {
         const pins = getPins()
         botModuleConfigList.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath))
-        setBotModuleConfigList(botModuleConfigList)
+        setWebModuleConfigList(botModuleConfigList)
     }
 
     const handleModuleSearch = value => {
         const reg = new RegExp(value, 'gi')
-        onPostModuleConfigListChange(botModuleOptions.map(record => {
+        onPostModuleConfigListChange(webModuleOptions.map(record => {
             let NAMEMatch = false
             let DESCMatch = false
             let REFERENCESMatch = false
@@ -3192,20 +3095,6 @@ export const RunPortScanModule = props => {
         }).filter(record => !!record))
     }
 
-    const listNetworkSearchReq = useRequest(getCoreNetworkSearchAPI, {
-        manual: true, onSuccess: (result, params) => {
-            console.log(result)
-            setIpportListState(result)
-        }, onError: (error, params) => {
-        },
-    })
-
-    const searchNetworkSubmit = values => {
-        listNetworkSearchReq.run({
-            inputstr: inputStr, engine: values.engine, page: values.page, size: values.size,
-        })
-    }
-
     const onSelectChange = (selectedRowKeys, selectedRows) => {
         setSelectedRowKeys(selectedRowKeys)
         setSelectedRows(selectedRows)
@@ -3218,7 +3107,7 @@ export const RunPortScanModule = props => {
                 twoToneColor="#d89614"
                 onClick={() => {
                     const newpins = changePin(record.loadpath)
-                    onPostModuleConfigListChange(botModuleConfigList)
+                    onPostModuleConfigListChange(webModuleConfigList)
                 }}
                 style={{
                     marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
@@ -3226,7 +3115,7 @@ export const RunPortScanModule = props => {
             />) : (<StarOutlined
                 onClick={() => {
                     const newpins = changePin(record.loadpath)
-                    onPostModuleConfigListChange(botModuleConfigList)
+                    onPostModuleConfigListChange(webModuleConfigList)
                 }}
                 style={{
                     marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
@@ -3235,7 +3124,7 @@ export const RunPortScanModule = props => {
 
             let tag = null
             let selectStyles = {}
-            if (record.loadpath === botModuleConfigActive.loadpath) {
+            if (record.loadpath === webModuleConfigActive.loadpath) {
                 selectStyles = {
                     color: '#d89614', fontWeight: 'bolder',
                 }
@@ -3246,7 +3135,7 @@ export const RunPortScanModule = props => {
                 }}
             >
                 {pinIcon}
-                <a style={{marginLeft: 4, ...selectStyles}}>{getModuleName(record)}</a>
+                <a style={{ marginLeft: 4, ...selectStyles }}>{getModuleName(record)}</a>
             </div>)
         },
     }]
@@ -3255,11 +3144,8 @@ export const RunPortScanModule = props => {
         selectedRowKeys, onChange: onSelectChange,
     }
 
-    const onChageInputStr = (e) => {
-        setInputStr(e.target.value)
-    }
     const ModuleInfoContent = props => {
-        const {postModuleConfig} = props
+        const { postModuleConfig } = props
         if (postModuleConfig === undefined) {
             return null
         }
@@ -3291,7 +3177,7 @@ export const RunPortScanModule = props => {
         return (<Descriptions
             size="small"
             style={{
-                padding: '0 0 0 0', marginRight: 8,
+                padding: '0 0 0 0',
             }}
             column={12}
             bordered
@@ -3324,297 +3210,146 @@ export const RunPortScanModule = props => {
         </Descriptions>)
     }
 
-    const addToInputStr = (value) => {
-        if (value === null || value.length === 0 || logic === null || field == null) {
-            return
-        } else {
-            const newinputstr = `${inputStr} ${logic} ${field}:\"${value}\"`
-            setInputStr(newinputstr)
-        }
+    const addListToWebTaskListPortScan = (params) => {
+        let addipdomains = params.ipdomaintext.split('\n')
+        addipdomains = addipdomains.filter(record => !webTaskListPortScan.some(item => item.ipdomain === record))
+        addipdomains = addipdomains.map((record, index) => {
+            return { ipdomain: record }
+        })
+        setWebTaskListPortScan([...webTaskListPortScan, ...addipdomains])
+        msgsuccess(`已添加到任务队列`, `Added to task queue`)
     }
 
-    return (<Row>
-        <Col span={6}>
-            <Card bordered={false}
-                  style={{
-                      minHeight: cssCalc('100vh - 40px'),
-                  }}
-            >
-                <Search placeholder={formatText('app.runmodule.postmodule.searchmodule.ph')}
-                        onSearch={value => handleModuleSearch(value)}/>
-                <Table
-                    style={{
-                        padding: '0 0 0 0', maxHeight: cssCalc('100vh - 120px'), minHeight: cssCalc('100vh - 120px'),
-                    }}
-                    scroll={{y: 'calc(100vh - 120px)'}}
-                    rowClassName={styles.moduleTr}
-                    showHeader={false}
-                    onRow={record => ({
-                        onClick: () => {
-                            setBotModuleConfigActive(record)
-                            setInputStr(record.SEARCH.Quake)
-                            setSelectedRowKeys([])
-                            setSelectedRows([])
-                        },
-                    })}
-                    size="small"
-                    bordered
-                    pagination={false}
-                    rowKey={item => item.loadpath}
-                    rowSelection={undefined}
-                    columns={postModuleConfigTableColumns}
-                    dataSource={botModuleConfigList}
-                />
-            </Card>
-        </Col>
-        <Col span={18}>
-            <Tabs defaultActiveKey="ipportlist" style={{marginTop: 12}}>
-                <TabPane
-                    tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
-                    key="ipportlist"
-                >
-                    <Row gutter={8}>
-                        <Col span={12}>
-                            <TextArea
-                                placeholder={formatText('app.runmodule.postmodule.inputstr.ph')}
-                                autoSize={{minRows: 3, maxRows: 3}}
-                                onChange={onChageInputStr}
-                                value={inputStr}
-                            />
-                            <Input.Group compact
-                                         style={{marginTop: 8, marginBottom: 24}}
-                            >
-                                <Select style={{width: '15%'}}
-                                        onChange={(value) => setLogic(value)}
-                                >
-                                    <Option value="AND">AND</Option>
-                                    <Option value="OR">OR</Option>
-                                </Select>
-                                <Select style={{width: '25%'}}
-                                        onChange={(value) => setField(value)}
-                                >
-                                    <OptGroup label={formatText('app.runmodule.botmodule.base')}>
-                                        <Option value="ip">ip</Option>
-                                        <Option value="port">port</Option>
-                                        <Option value="ports">ports</Option>
-                                        <Option value="domain">domain</Option>
-                                        <Option value="transport">transport</Option>
-                                    </OptGroup>
-                                    <OptGroup label={formatText('app.runmodule.botmodule.service')}>
-                                        <Option value="service">service</Option>
-                                        <Option value="services">services</Option>
-                                        <Option value="app">app</Option>
-                                        <Option value="version">version</Option>
-                                        <Option value="response">response</Option>
-                                        <Option value="os">os</Option>
-                                    </OptGroup>
-                                    <OptGroup label={formatText('app.runmodule.botmodule.app')}>
-                                        <Option value="catalog">catalog</Option>
-                                        <Option value="type">type</Option>
-                                        <Option value="level">level</Option>
-                                        <Option value="vendor">vendor</Option>
-                                    </OptGroup>
-                                    <OptGroup label={formatText('app.runmodule.botmodule.location')}>
-                                        <Option value="country">country</Option>
-                                        <Option value="country_cn">country_cn</Option>
-                                        <Option value="province">province</Option>
-                                        <Option value="province_cn">province_cn</Option>
-                                        <Option value="city">city</Option>
-                                        <Option value="city_cn">city_cn</Option>
-                                    </OptGroup>
-                                    <OptGroup label={formatText('app.runmodule.botmodule.other')}>
-                                        <Option value="is_latest">is_latest</Option>
-                                        <Option value="is_ipv6">is_ipv6</Option>
-                                        <Option value="cert">cert</Option>
-                                        <Option value="owner">owner</Option>
-                                        <Option value="isp">isp</Option>
-                                    </OptGroup>
-                                </Select>
-                                <Search style={{width: '60%'}}
-                                        enterButton={<PlusOutlined/>}
-                                        onSearch={addToInputStr}
-                                />
-                            </Input.Group>
-                            <Form layout="horizontal" onFinish={searchNetworkSubmit}>
-                                <div style={{display: 'flex'}}>
-                                    <Form.Item
-                                        label={formatText('app.runmodule.postmodule.engine')}
-                                        name="engine"
-                                        required>
-                                        <Radio.Group>
-                                            {viperDebugFlag ? (<Radio.Button value="FOFA" disabled={!engineConfs.FOFA}>
-                                                FOFA
-                                            </Radio.Button>) : null}
-                                            <Radio.Button value="Quake" disabled={!engineConfs.Quake}>
-                                                Quake
-                                            </Radio.Button>
-                                            <Radio.Button value="Zoomeye" disabled={!engineConfs.Zoomeye}>
-                                                Zoomeye
-                                            </Radio.Button>
-                                        </Radio.Group>
-                                    </Form.Item>
-                                    <Button type="link"
-                                            target="_blank"
-                                            href="https://quake.360.cn/quake/#/help?id=5eb238f110d2e850d5c6aec8&title=%E6%A3%80%E7%B4%A2%E5%85%B3%E9%94%AE%E8%AF%8D">
-                                        Quake Doc
-                                    </Button>
-                                    <Button type="link"
-                                            target="_blank"
-                                            href="https://www.zoomeye.org/doc">
-                                        Zoomeye Doc
-                                    </Button>
-                                </div>
-                                <Space
-                                    size="middle"
-                                >
-                                    <Form.Item
-                                        label={formatText('app.runmodule.postmodule.page')}
-                                        name="page"
-                                        required
-                                        initialValue={1}
-                                        rules={[{
-                                            type: 'number', min: 1,
-                                        }]}
-                                    >
-                                        <InputNumber/>
-                                    </Form.Item>
-                                    <Form.Item
-                                        required
-                                        label={formatText('app.runmodule.postmodule.number')}
-                                        initialValue={10}
-                                        rules={[{
-                                            type: 'number', min: 1,
-                                        }]}
-                                        name="size"
-                                    >
-                                        <InputNumber
-                                            style={{width: 160}}
-                                        />
-                                    </Form.Item>
-                                </Space>
-                                <Form.Item>
-                                    <Button
-                                        block
-                                        icon={<SearchOutlined/>}
-                                        type="primary"
-                                        htmlType="submit"
-                                        disabled={botModuleConfigActive.loadpath === null}
-                                        loading={listNetworkSearchReq.loading}
-                                    >{formatText('app.runmodule.postmodule.search')}</Button>
-                                </Form.Item>
-                            </Form>
-                            <Divider/>
-                            <ModalForm
-                                mask={false}
-                                width={400}
-                                trigger={<Button block
-                                                 type="dashed">{formatText('app.runmodule.botmodule.manualinput')}</Button>}
-                                onFinish={async (values) => {
-                                    const ipportlist = values.ipporttext.split('\n').map((record, index) => {
-                                        let ipportpair = record.split(':')
-                                        return {index: index, ip: ipportpair[0], port: ipportpair[1]}
-                                    })
-                                    setIpportListState(ipportlist)
-                                    return true
-                                }}
-                            >
-                                <ProFormTextArea
-                                    name="ipporttext"
-                                    label={formatText('app.runmodule.botmodule.ipporttext')}
-                                    tooltip={formatText('app.runmodule.botmodule.ipporttext.tp')}
-                                    placeholder={formatText('app.runmodule.botmodule.ipporttext.ph')}
-                                />
-                            </ModalForm>
-                        </Col>
-                        <Col span={12}>
-                            <Table
-                                loading={listNetworkSearchReq.loading}
-                                style={{
-                                    marginTop: 0, padding: '0px 8px 16px 0px', maxHeight: '560px', minHeight: '560px',
-                                }}
-                                scroll={{y: 480}}
-                                size="small"
-                                bordered
-                                pagination={false}
-                                rowKey="index"
-                                rowSelection={rowSelection}
-                                columns={[{
-                                    title: 'IP',
-                                    dataIndex: 'ip',
-                                    key: 'ip',
-                                    width: 120,
-                                    render: (text, record) => (<strong
-                                        style={{
-                                            color: '#13a8a8',
-                                        }}
-                                    >
-                                        {text}
-                                    </strong>),
-                                }, {
-                                    title: formatText('app.runmodule.botmodule.port'),
-                                    dataIndex: 'port',
-                                    key: 'port',
-                                    width: 56,
-                                    render: (text, record) => {
-                                        return text
-                                    },
-                                }, {
-                                    title: formatText('app.runmodule.botmodule.protocol'),
-                                    dataIndex: 'protocol',
-                                    key: 'protocol',
-                                    width: 80,
-                                    render: (text, record) => {
-                                        return text
-                                    },
-                                }, {
-                                    title: formatText('app.runmodule.botmodule.country_name'),
-                                    dataIndex: 'country_name',
-                                    key: 'country_name',
-                                    width: 80,
-                                    render: (text, record) => {
-                                        return text
-                                    },
-                                }, {
-                                    title: formatText('app.runmodule.botmodule.as_organization'),
-                                    dataIndex: 'as_organization',
-                                    key: 'as_organization',
-                                    render: (text, record) => {
-                                        return text
-                                    },
-                                }]}
-                                dataSource={ipportListState}
-                            />
+    const deleteSelectedWebTaskListPortScan = () => {
 
-                        </Col>
+        setWebTaskListPortScan(webTaskListPortScan.filter(item => {
+            return !selectedRowKeys.includes(item.ipdomain)
+        }))
+    }
+    const deleteFromWebTaskListPortScan = (params) => {
+        setWebTaskListPortScan(webTaskListPortScan.filter(record => record.ipdomain !== params.ipdomain))
+    }
+
+    const addIPDomainForm = () => {
+        return <Form
+
+            onFinish={addListToWebTaskListPortScan}
+            // layout="inline"
+        >
+            <Form.Item
+                name="ipdomaintext"
+                // rules={[
+                //     {
+                //         required: true,
+                //         // message: 'Please input your username!',
+                //     },
+                // ]}
+            >
+                <TextArea
+                    style={{
+                        width: 240,
+                    }}
+                    placeholder={formatText('ipdomain.portscan.ipdomainlist.ph')}
+                    autoSize={{ minRows: 3, maxRows: 10 }}
+                />
+            </Form.Item>
+            <Form.Item>
+                <Button type="primary" htmlType="submit" block>
+                    添加
+                </Button>
+            </Form.Item>
+        </Form>
+    }
+
+    return (<Row style={{ marginTop: -16 }} gutter={0}>
+        <Col span={6}>
+            <Search placeholder={formatText('app.runmodule.postmodule.searchmodule.ph')}
+                    onSearch={value => handleModuleSearch(value)}/>
+            <Table
+                style={{
+                    padding: '0 0 0 0', maxHeight: cssCalc('100vh - 560px'), minHeight: cssCalc('100vh - 560px'),
+                }}
+                scroll={{ y: 'calc(100vh - 480px)' }}
+                rowClassName={styles.moduleTr}
+                showHeader={false}
+                onRow={record => ({
+                    onClick: () => {
+                        setWebModuleConfigActive(record)
+                        setSelectedRowKeys([])
+                        setSelectedRows([])
+                    },
+                })}
+                size="small"
+                bordered
+                pagination={false}
+                rowKey={item => item.loadpath}
+                rowSelection={undefined}
+                columns={postModuleConfigTableColumns}
+                dataSource={webModuleConfigList}
+            />
+            <ModuleInfoContent postModuleConfig={webModuleConfigActive}/>
+        </Col>
+        <Col span={12}>
+            <Row gutter={8}>
+                <Col span={12}>
+                    <Row>
+                        <Popover content={addIPDomainForm} trigger="click">
+                            <Button>添加目标</Button>
+                        </Popover>
+                        <Button
+                            icon={<DeleteOutlined/>}
+                            onClick={() => deleteSelectedWebTaskListPortScan()}
+                        >Clean</Button>
                     </Row>
-                    <Form
-                        layout="vertical"
-                        wrapperCol={{span: 24}}
-                        onFinish={onCreatePostModuleActuator}
-                    >
-                        <Row>{getModuleOptions(botModuleConfigActive)}</Row>
-                        <Row>
-                            <Col span={22}>
-                                <Button
-                                    type="primary"
-                                    htmlType="submit"
-                                    block
-                                    disabled={botModuleConfigActive.loadpath === null || selectedRows.length === 0}
-                                    icon={<PlayCircleOutlined/>}
-                                    loading={createPostModuleActuatorReq.loading}
-                                >{formatText('app.runmodule.postmodule.run')}</Button>
-                            </Col>
-                        </Row>
-                    </Form>
-                </TabPane>
-                <TabPane
-                    tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
-                    key="desc"
-                >
-                    <ModuleInfoContent postModuleConfig={botModuleConfigActive}/>
-                </TabPane>
-            </Tabs>
+                    <Table
+                        // loading={listNetworkSearchReq.loading}
+                        style={{
+                            // marginTop: 0,
+                            // maxHeight: '560px', minHeight: '560px',
+                        }}
+                        scroll={{ y: 480 }}
+                        size="small"
+                        bordered
+                        pagination={false}
+                        rowKey="ipdomain"
+                        rowSelection={rowSelection}
+                        columns={[{
+                            title: 'IPDomain',
+                            dataIndex: 'ipdomain',
+                            key: 'ipdomain',
+                            width: 120,
+                            render: (text, record) => (<strong
+                                style={{
+                                    color: '#13a8a8',
+                                }}
+                            >
+                                {text}
+                            </strong>),
+                        }]}
+                        dataSource={webTaskListPortScan}
+                    />
+                </Col>
+            </Row>
+            <Form
+                layout="vertical"
+                wrapperCol={{ span: 24 }}
+                onFinish={onCreateWebModuleActuator}
+            >
+                <Row>{getModuleOptions(webModuleConfigActive)}</Row>
+                <Row>
+                    <Col span={22}>
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            block
+                            disabled={webModuleConfigActive.loadpath === null || selectedRows.length === 0}
+                            icon={<PlayCircleOutlined/>}
+                            loading={createPostModuleActuatorReq.loading}
+                        >{formatText('app.runmodule.postmodule.run')}</Button>
+                    </Col>
+                </Row>
+            </Form>
         </Col>
     </Row>)
 }
-export const RunPortScanMModuleMemo = memo(RunPortScanModule)
+export const RunPortScanModuleMemo = memo(RunPortScanModule)
