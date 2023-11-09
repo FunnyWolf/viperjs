@@ -62,7 +62,7 @@ import { postModuleOpts } from '@/pages/Core/RealTimeCard'
 import { sessionTagList } from '@/pages/Core/HostAndSession'
 import { DocIcon, DocIconInDiv } from '@/pages/Core/Common'
 import { cssCalc, Downheight } from '@/utils/utils'
-import { DeleteOutlined } from '_@ant-design_icons@4.8.1@@ant-design/icons'
+import { DeleteOutlined } from '@ant-design/icons'
 
 const { Title, Paragraph, Text } = Typography
 const { Search, TextArea } = Input
