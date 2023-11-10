@@ -412,7 +412,7 @@ const IPDomain = props => {
                 <Descriptions
                   size="small"
                   column={12}
-                  // bordered
+                  bordered
                 >
                     <Descriptions.Item label={'unit'} span={4}>
                         {domainicp.unit}

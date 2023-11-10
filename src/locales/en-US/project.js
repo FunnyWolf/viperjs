@@ -3,4 +3,6 @@ export default {
     'project.desc': 'Description',
     'project.select': 'Select',
     'ipdomain.portscan.ipdomainlist.ph': '192.168.1.1/24\n192.168.1.3',
+    'webmodule.portscan': 'Port',
+    'webmodule.subdomain': 'Subdomain',
 }

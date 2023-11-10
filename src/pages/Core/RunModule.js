@@ -57,12 +57,11 @@ import {
     postProxyHttpScanAPI,
     putPostModuleAutoAPI,
 } from '@/services/apiv1'
-import { formatText, getModuleDesc, getModuleName, getOptionDesc, getOptionTag, msgsuccess } from '@/utils/locales'
+import { formatText, getModuleDesc, getModuleName, getOptionDesc, getOptionTag } from '@/utils/locales'
 import { postModuleOpts } from '@/pages/Core/RealTimeCard'
 import { sessionTagList } from '@/pages/Core/HostAndSession'
 import { DocIcon, DocIconInDiv } from '@/pages/Core/Common'
-import { cssCalc, Downheight } from '@/utils/utils'
-import { DeleteOutlined } from '@ant-design/icons'
+import { cssCalc } from '@/utils/utils'
 
 const { Title, Paragraph, Text } = Typography
 const { Search, TextArea } = Input
@@ -125,12 +124,12 @@ export const PostModuleInfoContent = postModuleConfig => {
     }
 
     return (<Descriptions
-        size="small"
-        style={{
-            padding: '0 0 0 0', marginRight: 8,
-        }}
-        column={8}
-        bordered
+      size="small"
+      style={{
+          padding: '0 0 0 0', marginRight: 8,
+      }}
+      column={8}
+      bordered
     >
         <Descriptions.Item label={formatText('app.runmodule.postmodule.NAME')} span={8}>
             {getModuleName(postModuleConfig)}
@@ -155,65 +154,65 @@ export const PostModuleInfoContent = postModuleConfig => {
         </Descriptions.Item>
         <Descriptions.Item span={8} label={formatText('app.runmodule.postmodule.DESC')}>
         <pre
-            style={{
-                whiteSpace: 'pre-wrap', overflowX: 'hidden', padding: '0 0 0 0',
-            }}
+          style={{
+              whiteSpace: 'pre-wrap', overflowX: 'hidden', padding: '0 0 0 0',
+          }}
         >{getModuleDesc(postModuleConfig)}</pre>
         </Descriptions.Item>
     </Descriptions>)
 }
 
-const getModuleOptions = (postModuleConfigActive) => {
+export const getModuleOptions = (postModuleConfigActive) => {
     const options = []
     for (const oneOption of postModuleConfigActive.OPTIONS) {
         if (oneOption.type === 'str') {
             options.push(<Col span={oneOption.length}>
                 <Form.Item
-                    label={getOptionTag(oneOption)}
-                    tooltip={getOptionDesc(oneOption)}
-                    name={oneOption.name}
-                    initialValue={oneOption.default}
-                    rules={[{
-                        required: oneOption.required,
-                        message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
-                    }]}
+                  label={getOptionTag(oneOption)}
+                  tooltip={getOptionDesc(oneOption)}
+                  name={oneOption.name}
+                  initialValue={oneOption.default}
+                  rules={[{
+                      required: oneOption.required,
+                      message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+                  }]}
                 >
                     <Input
-                        style={{ width: '90%' }}
+                      style={{ width: '90%' }}
                     />
                 </Form.Item>
             </Col>)
         } else if (oneOption.type === 'text') {
             options.push(<Col span={oneOption.length}>
                 <Form.Item
-                    label={getOptionTag(oneOption)}
-                    tooltip={getOptionDesc(oneOption)}
-                    name={oneOption.name}
-                    initialValue={oneOption.default}
-                    rules={[{
-                        required: oneOption.required,
-                        message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
-                    }]}
+                  label={getOptionTag(oneOption)}
+                  tooltip={getOptionDesc(oneOption)}
+                  name={oneOption.name}
+                  initialValue={oneOption.default}
+                  rules={[{
+                      required: oneOption.required,
+                      message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+                  }]}
                 >
                     <TextArea
-                        style={{ width: '95%' }}
-                        showCount
-                        allowClear
+                      style={{ width: '95%' }}
+                      showCount
+                      allowClear
                     />
                 </Form.Item>
             </Col>)
         } else if (oneOption.type === 'bool') {
             options.push(<Col span={oneOption.length}>
                 <Form.Item
-                    label={getOptionTag(oneOption)}
-                    tooltip={getOptionDesc(oneOption)}
-                    name={oneOption.name}
-                    valuePropName="checked"
-                    initialValue={oneOption.default}
-                    rules={[{
-                        required: oneOption.required,
-                        message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
-                    }]}
+                  label={getOptionTag(oneOption)}
+                  tooltip={getOptionDesc(oneOption)}
+                  name={oneOption.name}
+                  valuePropName="checked"
+                  initialValue={oneOption.default}
+                  rules={[{
+                      required: oneOption.required,
+                      message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+                  }]}
                 >
                     <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
                 </Form.Item>
@@ -240,34 +239,34 @@ const getModuleOptions = (postModuleConfigActive) => {
             }
             options.push(<Col span={oneOption.length}>
                 <Form.Item
-                    label={getOptionTag(oneOption)}
-                    tooltip={getOptionDesc(oneOption)}
-                    name={oneOption.name}
-                    initialValue={oneOption.default}
-                    rules={rules}
-                    wrapperCol={{ span: 24 }}
+                  label={getOptionTag(oneOption)}
+                  tooltip={getOptionDesc(oneOption)}
+                  name={oneOption.name}
+                  initialValue={oneOption.default}
+                  rules={rules}
+                  wrapperCol={{ span: 24 }}
                 >
                     <InputNumber
-                        style={{ width: '90%' }}
+                      style={{ width: '90%' }}
                     />
                 </Form.Item>
             </Col>)
         } else if (oneOption.type === 'float') {
             options.push(<Col span={oneOption.length}>
                 <Form.Item
-                    label={getOptionTag(oneOption)}
-                    tooltip={getOptionDesc(oneOption)}
-                    name={oneOption.name}
-                    initialValue={oneOption.default}
-                    rules={[{
-                        required: oneOption.required,
-                        message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
-                    }]}
-                    wrapperCol={{ span: 24 }}
+                  label={getOptionTag(oneOption)}
+                  tooltip={getOptionDesc(oneOption)}
+                  name={oneOption.name}
+                  initialValue={oneOption.default}
+                  rules={[{
+                      required: oneOption.required,
+                      message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+                  }]}
+                  wrapperCol={{ span: 24 }}
                 >
                     <InputNumber
-                        step={0.1}
-                        style={{ width: '90%' }}
+                      step={0.1}
+                      style={{ width: '90%' }}
                     />
                 </Form.Item>
             </Col>)
@@ -282,21 +281,21 @@ const getModuleOptions = (postModuleConfigActive) => {
             }
             options.push(<Col span={oneOption.length}>
                 <Form.Item
-                    label={getOptionTag(oneOption)}
-                    tooltip={getOptionDesc(oneOption)}
-                    name={oneOption.name}
-                    initialValue={oneOption.default}
-                    rules={[{
-                        required: oneOption.required,
-                        message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
-                    }]}
-                    wrapperCol={{ span: 24 }}
+                  label={getOptionTag(oneOption)}
+                  tooltip={getOptionDesc(oneOption)}
+                  name={oneOption.name}
+                  initialValue={oneOption.default}
+                  rules={[{
+                      required: oneOption.required,
+                      message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+                  }]}
+                  wrapperCol={{ span: 24 }}
                 >
                     <Select
-                        allowClear
-                        style={{
-                            width: '90%',
-                        }}
+                      allowClear
+                      style={{
+                          width: '90%',
+                      }}
                     >
                         {selectOptions}
                     </Select>
@@ -305,18 +304,18 @@ const getModuleOptions = (postModuleConfigActive) => {
         } else {
             options.push(<Col span={oneOption.length}>
                 <Form.Item
-                    label={getOptionTag(oneOption)}
-                    tooltip={getOptionDesc(oneOption)}
-                    name={oneOption.name}
-                    initialValue={oneOption.default}
-                    rules={[{
-                        required: oneOption.required,
-                        message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
-                    }]}
-                    wrapperCol={{ span: 24 }}
+                  label={getOptionTag(oneOption)}
+                  tooltip={getOptionDesc(oneOption)}
+                  name={oneOption.name}
+                  initialValue={oneOption.default}
+                  rules={[{
+                      required: oneOption.required,
+                      message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+                  }]}
+                  wrapperCol={{ span: 24 }}
                 >
                     <Input
-                        style={{ width: '90%' }}
+                      style={{ width: '90%' }}
                     />
                 </Form.Item>
             </Col>)
@@ -333,26 +332,26 @@ const getWarn = (postModuleConfigActive) => {
         if (locale === 'en-US') {
             return <Col span={22}>
                 <Alert
-                    style={{ marginBottom: 16 }}
-                    type="warning"
-                    showIcon
-                    message={postModuleConfigActive.WARN_EN}
+                  style={{ marginBottom: 16 }}
+                  type="warning"
+                  showIcon
+                  message={postModuleConfigActive.WARN_EN}
                 />
             </Col>
         } else {
             return <Col span={22}>
                 <Alert
-                    style={{ marginBottom: 16 }}
-                    type="warning"
-                    showIcon
-                    message={postModuleConfigActive.WARN_ZH}
+                  style={{ marginBottom: 16 }}
+                  type="warning"
+                  showIcon
+                  message={postModuleConfigActive.WARN_ZH}
                 />
             </Col>
         }
     }
 }
 
-const getPins = () => {
+export const getPins = () => {
     if (localStorage.getItem('Pins') === null) {
         localStorage.setItem('Pins', JSON.stringify([]))
         return []
@@ -360,7 +359,7 @@ const getPins = () => {
     return JSON.parse(localStorage.getItem('Pins'))
 }
 
-const changePin = loadpath => {
+export const changePin = loadpath => {
     const pins = getPins()
     const index = pins.indexOf(loadpath)
     if (index > -1) {
@@ -431,12 +430,12 @@ const ModuleInfoContent = props => {
     }
 
     return (<Descriptions
-        size="small"
-        style={{
-            padding: '0 0 0 0', marginRight: 8,
-        }}
-        column={8}
-        bordered
+      size="small"
+      style={{
+          padding: '0 0 0 0', marginRight: 8,
+      }}
+      column={8}
+      bordered
     >
         <Descriptions.Item label={formatText('app.runmodule.postmodule.NAME')} span={8}>
             {getModuleName(postModuleConfig)}
@@ -461,9 +460,9 @@ const ModuleInfoContent = props => {
         </Descriptions.Item>
         <Descriptions.Item span={8} label={formatText('app.runmodule.postmodule.DESC')}>
         <pre
-            style={{
-                whiteSpace: 'pre-wrap', overflowX: 'hidden', padding: '0 0 0 0',
-            }}
+          style={{
+              whiteSpace: 'pre-wrap', overflowX: 'hidden', padding: '0 0 0 0',
+          }}
         >{getModuleDesc(postModuleConfig)}</pre>
         </Descriptions.Item>
     </Descriptions>)
@@ -598,22 +597,22 @@ export const RunModule = props => {
             }
             const pins = getPins()
             const pinIcon = record.pin > -1 ? (<StarTwoTone
-                twoToneColor="#d89614"
-                onClick={() => {
-                    const pins = changePin(record.loadpath)
-                    onPostModuleConfigListPinsChange(postModuleConfigList, pins)
-                }}
-                style={{
-                    marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
-                }}
+              twoToneColor="#d89614"
+              onClick={() => {
+                  const pins = changePin(record.loadpath)
+                  onPostModuleConfigListPinsChange(postModuleConfigList, pins)
+              }}
+              style={{
+                  marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
+              }}
             />) : (<StarOutlined
-                onClick={() => {
-                    const pins = changePin(record.loadpath)
-                    onPostModuleConfigListPinsChange(postModuleConfigList, pins)
-                }}
-                style={{
-                    marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
-                }}
+              onClick={() => {
+                  const pins = changePin(record.loadpath)
+                  onPostModuleConfigListPinsChange(postModuleConfigList, pins)
+              }}
+              style={{
+                  marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
+              }}
             />)
 
             return (<div style={{ display: 'inline' }}>
@@ -632,87 +631,87 @@ export const RunModule = props => {
             <Col span={8}>
                 <Card bordered={false}>
                     <Input
-                        allowClear
-                        prefix={<SearchOutlined/>}
-                        style={{ width: '100%' }}
-                        placeholder={formatText('app.runmodule.postmodule.search.ph')}
-                        value={text}
-                        onChange={e => {
-                            setText(e.target.value)
-                            handleModuleSearch(e.target.value)
-                        }}
+                      allowClear
+                      prefix={<SearchOutlined/>}
+                      style={{ width: '100%' }}
+                      placeholder={formatText('app.runmodule.postmodule.search.ph')}
+                      value={text}
+                      onChange={e => {
+                          setText(e.target.value)
+                          handleModuleSearch(e.target.value)
+                      }}
                     />
                     <Radio.Group
-                        defaultValue=""
-                        style={{ marginTop: 8 }}
-                        buttonStyle="solid"
-                        onChange={(e) => moduleTypeOnChange(e.target.value)}
+                      defaultValue=""
+                      style={{ marginTop: 8 }}
+                      buttonStyle="solid"
+                      onChange={(e) => moduleTypeOnChange(e.target.value)}
                     >
                         <Radio.Button value="">{formatText('app.runmodule.postmodule.moduletype.all')}</Radio.Button>
                         {/*<Radio.Button value="Reconnaissance">前期侦查</Radio.Button>*/}
                         <Radio.Button
-                            value="Resource_Development">{formatText('app.runmodule.postmodule.moduletype.Resource_Development')}</Radio.Button>
+                          value="Resource_Development">{formatText('app.runmodule.postmodule.moduletype.Resource_Development')}</Radio.Button>
                         <Radio.Button
-                            value="Initial_Access">{formatText('app.runmodule.postmodule.moduletype.Initial_Access')}</Radio.Button>
+                          value="Initial_Access">{formatText('app.runmodule.postmodule.moduletype.Initial_Access')}</Radio.Button>
                         <Radio.Button
-                            value="Execution">{formatText('app.runmodule.postmodule.moduletype.Execution')}</Radio.Button>
+                          value="Execution">{formatText('app.runmodule.postmodule.moduletype.Execution')}</Radio.Button>
                         <Radio.Button
-                            value="Persistence">{formatText('app.runmodule.postmodule.moduletype.Persistence')}</Radio.Button>
+                          value="Persistence">{formatText('app.runmodule.postmodule.moduletype.Persistence')}</Radio.Button>
                         <Radio.Button
-                            value="Privilege_Escalation">{formatText('app.runmodule.postmodule.moduletype.Privilege_Escalation')}</Radio.Button>
+                          value="Privilege_Escalation">{formatText('app.runmodule.postmodule.moduletype.Privilege_Escalation')}</Radio.Button>
                         <Radio.Button
-                            value="Defense_Evasion">{formatText('app.runmodule.postmodule.moduletype.Defense_Evasion')}</Radio.Button>
+                          value="Defense_Evasion">{formatText('app.runmodule.postmodule.moduletype.Defense_Evasion')}</Radio.Button>
                         <Radio.Button
-                            value="Credential_Access">{formatText('app.runmodule.postmodule.moduletype.Credential_Access')}</Radio.Button>
+                          value="Credential_Access">{formatText('app.runmodule.postmodule.moduletype.Credential_Access')}</Radio.Button>
                         <Radio.Button
-                            value="Discovery">{formatText('app.runmodule.postmodule.moduletype.Discovery')}</Radio.Button>
+                          value="Discovery">{formatText('app.runmodule.postmodule.moduletype.Discovery')}</Radio.Button>
                         <Radio.Button
-                            value="Lateral_Movement">{formatText('app.runmodule.postmodule.moduletype.Lateral_Movement')}</Radio.Button>
+                          value="Lateral_Movement">{formatText('app.runmodule.postmodule.moduletype.Lateral_Movement')}</Radio.Button>
                         <Radio.Button
-                            value="Collection">{formatText('app.runmodule.postmodule.moduletype.Collection')}</Radio.Button>
+                          value="Collection">{formatText('app.runmodule.postmodule.moduletype.Collection')}</Radio.Button>
                         {/*<Option value="Command_and_Control">命令控制</Option>*/}
                     </Radio.Group>
                     <Table
-                        style={{
-                            padding: '0 0 0 0',
-                            marginTop: 8,
-                            maxHeight: cssCalc('80vh - 128px'),
-                            minHeight: cssCalc('80vh - 128px'),
-                        }}
-                        scroll={{ y: 'calc(80vh - 128px)' }}
-                        rowClassName={styles.moduleTr}
-                        showHeader={false}
-                        onRow={record => ({
-                            onClick: () => {
-                                setPostModuleConfigActive(record)
-                            },
-                        })}
-                        size="small"
-                        bordered
-                        pagination={false}
-                        rowKey={item => item.loadpath}
-                        columns={postModuleConfigTableColumns}
-                        dataSource={postModuleConfigList}
+                      style={{
+                          padding: '0 0 0 0',
+                          marginTop: 8,
+                          maxHeight: cssCalc('80vh - 128px'),
+                          minHeight: cssCalc('80vh - 128px'),
+                      }}
+                      scroll={{ y: 'calc(80vh - 128px)' }}
+                      // rowClassName={styles.moduleTr}
+                      showHeader={false}
+                      onRow={record => ({
+                          onClick: () => {
+                              setPostModuleConfigActive(record)
+                          },
+                      })}
+                      size="small"
+                      bordered
+                      pagination={false}
+                      rowKey={item => item.loadpath}
+                      columns={postModuleConfigTableColumns}
+                      dataSource={postModuleConfigList}
                     />
                 </Card>
             </Col>
             <Col span={16}>
                 <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
                     <TabPane
-                        tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
-                        key="params"
+                      tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
+                      key="params"
                     >
                         <div
-                            style={{
-                                display: 'flex', cursor: 'pointer', marginBottom: 24,
-                            }}
+                          style={{
+                              display: 'flex', cursor: 'pointer', marginBottom: 24,
+                          }}
                         >
                             <Fragment>
                                 <Tag
-                                    color="orange"
-                                    style={{
-                                        width: 120, textAlign: 'center', cursor: 'pointer',
-                                    }}
+                                  color="orange"
+                                  style={{
+                                      width: 120, textAlign: 'center', cursor: 'pointer',
+                                  }}
                                 >
                                     <strong>{record.ipaddress}</strong>
                                 </Tag>
@@ -720,35 +719,35 @@ export const RunModule = props => {
                             </Fragment>
                         </div>
                         <Form
-                            style={{
-                                marginBottom: 16,
-                                overflow: 'auto',
-                                maxHeight: cssCalc('80vh - 88px'),
-                                minHeight: cssCalc('80vh - 88px'),
-                            }}
-                            layout="vertical"
-                            wrapperCol={{ span: 24 }}
-                            onFinish={onCreatePostModuleActuator}
+                          style={{
+                              marginBottom: 16,
+                              overflow: 'auto',
+                              maxHeight: cssCalc('80vh - 88px'),
+                              minHeight: cssCalc('80vh - 88px'),
+                          }}
+                          layout="vertical"
+                          wrapperCol={{ span: 24 }}
+                          onFinish={onCreatePostModuleActuator}
                         >
                             <Row>{getModuleOptions(postModuleConfigActive)}</Row>
                             <Row>
                                 {getWarn(postModuleConfigActive)}
                                 <Col span={22}>
                                     <Button
-                                        type="primary"
-                                        htmlType="submit"
-                                        block
-                                        disabled={postModuleConfigActive.loadpath === null}
-                                        icon={<CaretRightOutlined/>}
-                                        loading={createPostModuleActuatorReq.loading}
+                                      type="primary"
+                                      htmlType="submit"
+                                      block
+                                      disabled={postModuleConfigActive.loadpath === null}
+                                      icon={<CaretRightOutlined/>}
+                                      loading={createPostModuleActuatorReq.loading}
                                     >{formatText('app.runmodule.postmodule.run')}</Button>
                                 </Col>
                             </Row>
                         </Form>
                     </TabPane>
                     <TabPane
-                        tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
-                        key="desc"
+                      tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
+                      key="desc"
                     >
                         <ModuleInfoContent postModuleConfig={postModuleConfigActive}/>
                     </TabPane>
@@ -878,22 +877,22 @@ export const RunAutoModule = props => {
                 }
             }
             const pinIcon = record.pin > -1 ? (<StarTwoTone
-                twoToneColor="#d89614"
-                onClick={() => {
-                    const pins = changePin(record.loadpath)
-                    onPostModuleConfigListPinsChange(postModuleConfigList, pins)
-                }}
-                style={{
-                    marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
-                }}
+              twoToneColor="#d89614"
+              onClick={() => {
+                  const pins = changePin(record.loadpath)
+                  onPostModuleConfigListPinsChange(postModuleConfigList, pins)
+              }}
+              style={{
+                  marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
+              }}
             />) : (<StarOutlined
-                onClick={() => {
-                    const pins = changePin(record.loadpath)
-                    onPostModuleConfigListPinsChange(postModuleConfigList, pins)
-                }}
-                style={{
-                    marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
-                }}
+              onClick={() => {
+                  const pins = changePin(record.loadpath)
+                  onPostModuleConfigListPinsChange(postModuleConfigList, pins)
+              }}
+              style={{
+                  marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
+              }}
             />)
             return (<div style={{ display: 'inline' }}>
                 {pinIcon}
@@ -906,104 +905,104 @@ export const RunAutoModule = props => {
         <Col span={8}>
             <Card bordered={false}>
                 <Input
-                    allowClear
-                    prefix={<SearchOutlined/>}
-                    style={{ width: '100%' }}
-                    placeholder={formatText('app.runmodule.postmodule.search.ph')}
-                    value={text}
-                    onChange={e => {
-                        setText(e.target.value)
-                        handleModuleSearch(e.target.value)
-                    }}
+                  allowClear
+                  prefix={<SearchOutlined/>}
+                  style={{ width: '100%' }}
+                  placeholder={formatText('app.runmodule.postmodule.search.ph')}
+                  value={text}
+                  onChange={e => {
+                      setText(e.target.value)
+                      handleModuleSearch(e.target.value)
+                  }}
                 />
                 <Radio.Group
-                    defaultValue=""
-                    style={{ marginTop: 8 }}
-                    buttonStyle="solid"
-                    onChange={(e) => moduleTypeOnChange(e.target.value)}
+                  defaultValue=""
+                  style={{ marginTop: 8 }}
+                  buttonStyle="solid"
+                  onChange={(e) => moduleTypeOnChange(e.target.value)}
                 >
                     <Radio.Button value="">{formatText('app.runmodule.postmodule.moduletype.all')}</Radio.Button>
                     <Radio.Button
-                        value="Resource_Development">{formatText('app.runmodule.postmodule.moduletype.Resource_Development')}</Radio.Button>
+                      value="Resource_Development">{formatText('app.runmodule.postmodule.moduletype.Resource_Development')}</Radio.Button>
                     <Radio.Button
-                        value="Initial_Access">{formatText('app.runmodule.postmodule.moduletype.Initial_Access')}</Radio.Button>
+                      value="Initial_Access">{formatText('app.runmodule.postmodule.moduletype.Initial_Access')}</Radio.Button>
                     <Radio.Button
-                        value="Execution">{formatText('app.runmodule.postmodule.moduletype.Execution')}</Radio.Button>
+                      value="Execution">{formatText('app.runmodule.postmodule.moduletype.Execution')}</Radio.Button>
                     <Radio.Button
-                        value="Persistence">{formatText('app.runmodule.postmodule.moduletype.Persistence')}</Radio.Button>
+                      value="Persistence">{formatText('app.runmodule.postmodule.moduletype.Persistence')}</Radio.Button>
                     <Radio.Button
-                        value="Privilege_Escalation">{formatText('app.runmodule.postmodule.moduletype.Privilege_Escalation')}</Radio.Button>
+                      value="Privilege_Escalation">{formatText('app.runmodule.postmodule.moduletype.Privilege_Escalation')}</Radio.Button>
                     <Radio.Button
-                        value="Defense_Evasion">{formatText('app.runmodule.postmodule.moduletype.Defense_Evasion')}</Radio.Button>
+                      value="Defense_Evasion">{formatText('app.runmodule.postmodule.moduletype.Defense_Evasion')}</Radio.Button>
                     <Radio.Button
-                        value="Credential_Access">{formatText('app.runmodule.postmodule.moduletype.Credential_Access')}</Radio.Button>
+                      value="Credential_Access">{formatText('app.runmodule.postmodule.moduletype.Credential_Access')}</Radio.Button>
                     <Radio.Button
-                        value="Discovery">{formatText('app.runmodule.postmodule.moduletype.Discovery')}</Radio.Button>
+                      value="Discovery">{formatText('app.runmodule.postmodule.moduletype.Discovery')}</Radio.Button>
                     <Radio.Button
-                        value="Lateral_Movement">{formatText('app.runmodule.postmodule.moduletype.Lateral_Movement')}</Radio.Button>
+                      value="Lateral_Movement">{formatText('app.runmodule.postmodule.moduletype.Lateral_Movement')}</Radio.Button>
                     <Radio.Button
-                        value="Collection">{formatText('app.runmodule.postmodule.moduletype.Collection')}</Radio.Button>
+                      value="Collection">{formatText('app.runmodule.postmodule.moduletype.Collection')}</Radio.Button>
                 </Radio.Group>
                 <Table
-                    style={{
-                        padding: '0 0 0 0',
-                        marginTop: 8,
-                        maxHeight: cssCalc('80vh - 128px'),
-                        minHeight: cssCalc('80vh - 128px'),
-                    }}
-                    scroll={{ y: 'calc(80vh - 104px)' }}
-                    rowClassName={styles.moduleTr}
-                    showHeader={false}
-                    onRow={record => ({
-                        onClick: () => {
-                            setPostModuleConfigActive(record)
-                        },
-                    })}
-                    size="small"
-                    bordered
-                    pagination={false}
-                    rowKey={item => item.loadpath}
-                    columns={postModuleConfigTableColumns}
-                    dataSource={postModuleConfigList}
+                  style={{
+                      padding: '0 0 0 0',
+                      marginTop: 8,
+                      maxHeight: cssCalc('80vh - 128px'),
+                      minHeight: cssCalc('80vh - 128px'),
+                  }}
+                  scroll={{ y: 'calc(80vh - 104px)' }}
+                  // rowClassName={styles.moduleTr}
+                  showHeader={false}
+                  onRow={record => ({
+                      onClick: () => {
+                          setPostModuleConfigActive(record)
+                      },
+                  })}
+                  size="small"
+                  bordered
+                  pagination={false}
+                  rowKey={item => item.loadpath}
+                  columns={postModuleConfigTableColumns}
+                  dataSource={postModuleConfigList}
                 />
             </Card>
         </Col>
         <Col span={16}>
             <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
                 <TabPane
-                    tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
-                    key="params"
+                  tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
+                  key="params"
                 >
                     <Form
-                        style={{
-                            marginBottom: 16,
-                            overflow: 'auto',
-                            maxHeight: cssCalc('80vh - 88px'),
-                            minHeight: cssCalc('80vh - 88px'),
-                        }}
-                        layout="vertical"
-                        wrapperCol={{ span: 24 }}
-                        onFinish={onCreatePostModuleAuto}
+                      style={{
+                          marginBottom: 16,
+                          overflow: 'auto',
+                          maxHeight: cssCalc('80vh - 88px'),
+                          minHeight: cssCalc('80vh - 88px'),
+                      }}
+                      layout="vertical"
+                      wrapperCol={{ span: 24 }}
+                      onFinish={onCreatePostModuleAuto}
                     >
                         <Row>{getModuleOptions(postModuleConfigActive)}</Row>
                         <Row>
                             {getWarn(postModuleConfigActive)}
                             <Col span={22}>
                                 <Button
-                                    type="primary"
-                                    htmlType="submit"
-                                    block
-                                    disabled={postModuleConfigActive.loadpath === null}
-                                    icon={<PlusOutlined/>}
-                                    loading={createPostModuleAutoReq.loading}
+                                  type="primary"
+                                  htmlType="submit"
+                                  block
+                                  disabled={postModuleConfigActive.loadpath === null}
+                                  icon={<PlusOutlined/>}
+                                  loading={createPostModuleAutoReq.loading}
                                 >{formatText('app.runmodule.postmodule.add')}</Button>
                             </Col>
                         </Row>
                     </Form>
                 </TabPane>
                 <TabPane
-                    tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
-                    key="desc"
+                  tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
+                  key="desc"
                 >
                     <ModuleInfoContent postModuleConfig={postModuleConfigActive}/>
                 </TabPane>
@@ -1075,12 +1074,12 @@ export const RunschedulerModule = props => {
         }
         return <Col span={20}>
             <Form.Item
-                label={formatText('app.runmodule.autoconf.scheduler.session')}
-                tooltip={formatText('app.runmodule.autoconf.scheduler.session.tip')}
-                name="scheduler_session"
-                rules={[{
-                    required: true,
-                }]}
+              label={formatText('app.runmodule.autoconf.scheduler.session')}
+              tooltip={formatText('app.runmodule.autoconf.scheduler.session.tip')}
+              name="scheduler_session"
+              rules={[{
+                  required: true,
+              }]}
             >
                 <Radio.Group>
                     <Space direction="vertical">
@@ -1184,22 +1183,22 @@ export const RunschedulerModule = props => {
                 }
             }
             const pinIcon = record.pin > -1 ? (<StarTwoTone
-                twoToneColor="#d89614"
-                onClick={() => {
-                    const pins = changePin(record.loadpath)
-                    onPostModuleConfigListPinsChange(postModuleConfigList, pins)
-                }}
-                style={{
-                    marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
-                }}
+              twoToneColor="#d89614"
+              onClick={() => {
+                  const pins = changePin(record.loadpath)
+                  onPostModuleConfigListPinsChange(postModuleConfigList, pins)
+              }}
+              style={{
+                  marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
+              }}
             />) : (<StarOutlined
-                onClick={() => {
-                    const pins = changePin(record.loadpath)
-                    onPostModuleConfigListPinsChange(postModuleConfigList, pins)
-                }}
-                style={{
-                    marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
-                }}
+              onClick={() => {
+                  const pins = changePin(record.loadpath)
+                  onPostModuleConfigListPinsChange(postModuleConfigList, pins)
+              }}
+              style={{
+                  marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
+              }}
             />)
             return (<div style={{ display: 'inline' }}>
                 {pinIcon}
@@ -1212,84 +1211,84 @@ export const RunschedulerModule = props => {
         <Col span={8}>
             <Card bordered={false}>
                 <Input
-                    allowClear
-                    prefix={<SearchOutlined/>}
-                    style={{ width: '100%' }}
-                    placeholder={formatText('app.runmodule.postmodule.search.ph')}
-                    value={text}
-                    onChange={e => {
-                        setText(e.target.value)
-                        handleModuleSearch(e.target.value)
-                    }}
+                  allowClear
+                  prefix={<SearchOutlined/>}
+                  style={{ width: '100%' }}
+                  placeholder={formatText('app.runmodule.postmodule.search.ph')}
+                  value={text}
+                  onChange={e => {
+                      setText(e.target.value)
+                      handleModuleSearch(e.target.value)
+                  }}
                 />
                 <Radio.Group
-                    defaultValue=""
-                    style={{ marginTop: 8 }}
-                    buttonStyle="solid"
-                    onChange={(e) => moduleTypeOnChange(e.target.value)}
+                  defaultValue=""
+                  style={{ marginTop: 8 }}
+                  buttonStyle="solid"
+                  onChange={(e) => moduleTypeOnChange(e.target.value)}
                 >
                     <Radio.Button value="">{formatText('app.runmodule.postmodule.moduletype.all')}</Radio.Button>
                     <Radio.Button
-                        value="Resource_Development">{formatText('app.runmodule.postmodule.moduletype.Resource_Development')}</Radio.Button>
+                      value="Resource_Development">{formatText('app.runmodule.postmodule.moduletype.Resource_Development')}</Radio.Button>
                     <Radio.Button
-                        value="Initial_Access">{formatText('app.runmodule.postmodule.moduletype.Initial_Access')}</Radio.Button>
+                      value="Initial_Access">{formatText('app.runmodule.postmodule.moduletype.Initial_Access')}</Radio.Button>
                     <Radio.Button
-                        value="Execution">{formatText('app.runmodule.postmodule.moduletype.Execution')}</Radio.Button>
+                      value="Execution">{formatText('app.runmodule.postmodule.moduletype.Execution')}</Radio.Button>
                     <Radio.Button
-                        value="Persistence">{formatText('app.runmodule.postmodule.moduletype.Persistence')}</Radio.Button>
+                      value="Persistence">{formatText('app.runmodule.postmodule.moduletype.Persistence')}</Radio.Button>
                     <Radio.Button
-                        value="Privilege_Escalation">{formatText('app.runmodule.postmodule.moduletype.Privilege_Escalation')}</Radio.Button>
+                      value="Privilege_Escalation">{formatText('app.runmodule.postmodule.moduletype.Privilege_Escalation')}</Radio.Button>
                     <Radio.Button
-                        value="Defense_Evasion">{formatText('app.runmodule.postmodule.moduletype.Defense_Evasion')}</Radio.Button>
+                      value="Defense_Evasion">{formatText('app.runmodule.postmodule.moduletype.Defense_Evasion')}</Radio.Button>
                     <Radio.Button
-                        value="Credential_Access">{formatText('app.runmodule.postmodule.moduletype.Credential_Access')}</Radio.Button>
+                      value="Credential_Access">{formatText('app.runmodule.postmodule.moduletype.Credential_Access')}</Radio.Button>
                     <Radio.Button
-                        value="Discovery">{formatText('app.runmodule.postmodule.moduletype.Discovery')}</Radio.Button>
+                      value="Discovery">{formatText('app.runmodule.postmodule.moduletype.Discovery')}</Radio.Button>
                     <Radio.Button
-                        value="Lateral_Movement">{formatText('app.runmodule.postmodule.moduletype.Lateral_Movement')}</Radio.Button>
+                      value="Lateral_Movement">{formatText('app.runmodule.postmodule.moduletype.Lateral_Movement')}</Radio.Button>
                     <Radio.Button
-                        value="Collection">{formatText('app.runmodule.postmodule.moduletype.Collection')}</Radio.Button>
+                      value="Collection">{formatText('app.runmodule.postmodule.moduletype.Collection')}</Radio.Button>
                 </Radio.Group>
                 <Table
-                    style={{
-                        padding: '0 0 0 0',
-                        marginTop: 8,
-                        maxHeight: cssCalc('80vh - 128px'),
-                        minHeight: cssCalc('80vh - 128px'),
-                    }}
-                    scroll={{ y: 'calc(80vh - 104px)' }}
-                    rowClassName={styles.moduleTr}
-                    showHeader={false}
-                    onRow={record => ({
-                        onClick: () => {
-                            setPostModuleConfigActive(record)
-                        },
-                    })}
-                    size="small"
-                    bordered
-                    pagination={false}
-                    rowKey={item => item.loadpath}
-                    columns={postModuleConfigTableColumns}
-                    dataSource={postModuleConfigList}
+                  style={{
+                      padding: '0 0 0 0',
+                      marginTop: 8,
+                      maxHeight: cssCalc('80vh - 128px'),
+                      minHeight: cssCalc('80vh - 128px'),
+                  }}
+                  scroll={{ y: 'calc(80vh - 104px)' }}
+                  // rowClassName={styles.moduleTr}
+                  showHeader={false}
+                  onRow={record => ({
+                      onClick: () => {
+                          setPostModuleConfigActive(record)
+                      },
+                  })}
+                  size="small"
+                  bordered
+                  pagination={false}
+                  rowKey={item => item.loadpath}
+                  columns={postModuleConfigTableColumns}
+                  dataSource={postModuleConfigList}
                 />
             </Card>
         </Col>
         <Col span={16}>
             <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
                 <TabPane
-                    tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
-                    key="params"
+                  tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
+                  key="params"
                 >
                     <Form
-                        style={{
-                            marginBottom: 16,
-                            overflow: 'auto',
-                            maxHeight: cssCalc('80vh - 88px'),
-                            minHeight: cssCalc('80vh - 88px'),
-                        }}
-                        layout="vertical"
-                        wrapperCol={{ span: 24 }}
-                        onFinish={onCreatePostModuleAuto}
+                      style={{
+                          marginBottom: 16,
+                          overflow: 'auto',
+                          maxHeight: cssCalc('80vh - 88px'),
+                          minHeight: cssCalc('80vh - 88px'),
+                      }}
+                      layout="vertical"
+                      wrapperCol={{ span: 24 }}
+                      onFinish={onCreatePostModuleAuto}
                     >
                         {sessionListOption()}
                         <Divider></Divider>
@@ -1298,20 +1297,20 @@ export const RunschedulerModule = props => {
                             {getWarn(postModuleConfigActive)}
                             <Col span={22}>
                                 <Button
-                                    type="primary"
-                                    htmlType="submit"
-                                    block
-                                    disabled={postModuleConfigActive.loadpath === null}
-                                    icon={<PlusOutlined/>}
-                                    loading={createPostModuleAutoReq.loading}
+                                  type="primary"
+                                  htmlType="submit"
+                                  block
+                                  disabled={postModuleConfigActive.loadpath === null}
+                                  icon={<PlusOutlined/>}
+                                  loading={createPostModuleAutoReq.loading}
                                 >{formatText('app.runmodule.postmodule.add')}</Button>
                             </Col>
                         </Row>
                     </Form>
                 </TabPane>
                 <TabPane
-                    tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
-                    key="desc"
+                  tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
+                  key="desc"
                 >
                     <ModuleInfoContent postModuleConfig={postModuleConfigActive}/>
                 </TabPane>
@@ -1408,7 +1407,6 @@ export const RunBotModule = props => {
 
     const listNetworkSearchReq = useRequest(getCoreNetworkSearchAPI, {
         manual: true, onSuccess: (result, params) => {
-            console.log(result)
             setIpportListState(result)
         }, onError: (error, params) => {
         },
@@ -1429,22 +1427,22 @@ export const RunBotModule = props => {
         dataIndex: 'loadpath', render: (text, record) => {
             const pins = getPins()
             const pinIcon = pins.indexOf(record.loadpath) > -1 ? (<StarTwoTone
-                twoToneColor="#d89614"
-                onClick={() => {
-                    const newpins = changePin(record.loadpath)
-                    onPostModuleConfigListChange(botModuleConfigList)
-                }}
-                style={{
-                    marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
-                }}
+              twoToneColor="#d89614"
+              onClick={() => {
+                  const newpins = changePin(record.loadpath)
+                  onPostModuleConfigListChange(botModuleConfigList)
+              }}
+              style={{
+                  marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
+              }}
             />) : (<StarOutlined
-                onClick={() => {
-                    const newpins = changePin(record.loadpath)
-                    onPostModuleConfigListChange(botModuleConfigList)
-                }}
-                style={{
-                    marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
-                }}
+              onClick={() => {
+                  const newpins = changePin(record.loadpath)
+                  onPostModuleConfigListChange(botModuleConfigList)
+              }}
+              style={{
+                  marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
+              }}
             />)
 
             let tag = null
@@ -1455,9 +1453,9 @@ export const RunBotModule = props => {
                 }
             }
             return (<div
-                style={{
-                    display: 'inline',
-                }}
+              style={{
+                  display: 'inline',
+              }}
             >
                 {pinIcon}
                 <a style={{ marginLeft: 4, ...selectStyles }}>{getModuleName(record)}</a>
@@ -1503,12 +1501,12 @@ export const RunBotModule = props => {
         }
 
         return (<Descriptions
-            size="small"
-            style={{
-                padding: '0 0 0 0', marginRight: 8,
-            }}
-            column={12}
-            bordered
+          size="small"
+          style={{
+              padding: '0 0 0 0', marginRight: 8,
+          }}
+          column={12}
+          bordered
         >
             <Descriptions.Item label={formatText('app.runmodule.postmodule.NAME')} span={12}>
                 {getModuleName(postModuleConfig)}
@@ -1530,9 +1528,9 @@ export const RunBotModule = props => {
             </Descriptions.Item>
             <Descriptions.Item span={12} label={formatText('app.runmodule.postmodule.DESC')}>
           <pre
-              style={{
-                  whiteSpace: 'pre-wrap', overflowX: 'hidden', padding: '0 0 0 0',
-              }}
+            style={{
+                whiteSpace: 'pre-wrap', overflowX: 'hidden', padding: '0 0 0 0',
+            }}
           >{getModuleDesc(postModuleConfig)}</pre>
             </Descriptions.Item>
         </Descriptions>)
@@ -1557,43 +1555,43 @@ export const RunBotModule = props => {
                 <Search placeholder={formatText('app.runmodule.postmodule.searchmodule.ph')}
                         onSearch={value => handleModuleSearch(value)}/>
                 <Table
-                    style={{
-                        padding: '0 0 0 0', maxHeight: cssCalc('100vh - 120px'), minHeight: cssCalc('100vh - 120px'),
-                    }}
-                    scroll={{ y: 'calc(100vh - 120px)' }}
-                    rowClassName={styles.moduleTr}
-                    showHeader={false}
-                    onRow={record => ({
-                        onClick: () => {
-                            setBotModuleConfigActive(record)
-                            setInputStr(record.SEARCH.Quake)
-                            setSelectedRowKeys([])
-                            setSelectedRows([])
-                        },
-                    })}
-                    size="small"
-                    bordered
-                    pagination={false}
-                    rowKey={item => item.loadpath}
-                    rowSelection={undefined}
-                    columns={postModuleConfigTableColumns}
-                    dataSource={botModuleConfigList}
+                  style={{
+                      padding: '0 0 0 0', maxHeight: cssCalc('100vh - 120px'), minHeight: cssCalc('100vh - 120px'),
+                  }}
+                  scroll={{ y: 'calc(100vh - 120px)' }}
+                  // rowClassName={styles.moduleTr}
+                  showHeader={false}
+                  onRow={record => ({
+                      onClick: () => {
+                          setBotModuleConfigActive(record)
+                          setInputStr(record.SEARCH.Quake)
+                          setSelectedRowKeys([])
+                          setSelectedRows([])
+                      },
+                  })}
+                  size="small"
+                  bordered
+                  pagination={false}
+                  rowKey={item => item.loadpath}
+                  rowSelection={undefined}
+                  columns={postModuleConfigTableColumns}
+                  dataSource={botModuleConfigList}
                 />
             </Card>
         </Col>
         <Col span={18}>
             <Tabs defaultActiveKey="ipportlist" style={{ marginTop: 12 }}>
                 <TabPane
-                    tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
-                    key="ipportlist"
+                  tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
+                  key="ipportlist"
                 >
                     <Row gutter={8}>
                         <Col span={12}>
                             <TextArea
-                                placeholder={formatText('app.runmodule.postmodule.inputstr.ph')}
-                                autoSize={{ minRows: 3, maxRows: 3 }}
-                                onChange={onChageInputStr}
-                                value={inputStr}
+                              placeholder={formatText('app.runmodule.postmodule.inputstr.ph')}
+                              autoSize={{ minRows: 3, maxRows: 3 }}
+                              onChange={onChageInputStr}
+                              value={inputStr}
                             />
                             <Input.Group compact
                                          style={{ marginTop: 8, marginBottom: 24 }}
@@ -1652,9 +1650,9 @@ export const RunBotModule = props => {
                             <Form layout="horizontal" onFinish={searchNetworkSubmit}>
                                 <div style={{ display: 'flex' }}>
                                     <Form.Item
-                                        label={formatText('app.runmodule.postmodule.engine')}
-                                        name="engine"
-                                        required>
+                                      label={formatText('app.runmodule.postmodule.engine')}
+                                      name="engine"
+                                      required>
                                         <Radio.Group>
                                             {viperDebugFlag ? (<Radio.Button value="FOFA" disabled={!engineConfs.FOFA}>
                                                 FOFA
@@ -1679,151 +1677,151 @@ export const RunBotModule = props => {
                                     </Button>
                                 </div>
                                 <Space
-                                    size="middle"
+                                  size="middle"
                                 >
                                     <Form.Item
-                                        label={formatText('app.runmodule.postmodule.page')}
-                                        name="page"
-                                        required
-                                        initialValue={1}
-                                        rules={[{
-                                            type: 'number', min: 1,
-                                        }]}
+                                      label={formatText('app.runmodule.postmodule.page')}
+                                      name="page"
+                                      required
+                                      initialValue={1}
+                                      rules={[{
+                                          type: 'number', min: 1,
+                                      }]}
                                     >
                                         <InputNumber/>
                                     </Form.Item>
                                     <Form.Item
-                                        required
-                                        label={formatText('app.runmodule.postmodule.number')}
-                                        initialValue={10}
-                                        rules={[{
-                                            type: 'number', min: 1,
-                                        }]}
-                                        name="size"
+                                      required
+                                      label={formatText('app.runmodule.postmodule.number')}
+                                      initialValue={10}
+                                      rules={[{
+                                          type: 'number', min: 1,
+                                      }]}
+                                      name="size"
                                     >
                                         <InputNumber
-                                            style={{ width: 160 }}
+                                          style={{ width: 160 }}
                                         />
                                     </Form.Item>
                                 </Space>
                                 <Form.Item>
                                     <Button
-                                        block
-                                        icon={<SearchOutlined/>}
-                                        type="primary"
-                                        htmlType="submit"
-                                        disabled={botModuleConfigActive.loadpath === null}
-                                        loading={listNetworkSearchReq.loading}
+                                      block
+                                      icon={<SearchOutlined/>}
+                                      type="primary"
+                                      htmlType="submit"
+                                      disabled={botModuleConfigActive.loadpath === null}
+                                      loading={listNetworkSearchReq.loading}
                                     >{formatText('app.runmodule.postmodule.search')}</Button>
                                 </Form.Item>
                             </Form>
                             <Divider/>
                             <ModalForm
-                                mask={false}
-                                width={400}
-                                trigger={<Button block
-                                                 type="dashed">{formatText('app.runmodule.botmodule.manualinput')}</Button>}
-                                onFinish={async (values) => {
-                                    const ipportlist = values.ipporttext.split('\n').map((record, index) => {
-                                        let ipportpair = record.split(':')
-                                        return { index: index, ip: ipportpair[0], port: ipportpair[1] }
-                                    })
-                                    setIpportListState(ipportlist)
-                                    return true
-                                }}
+                              mask={false}
+                              width={400}
+                              trigger={<Button block
+                                               type="dashed">{formatText('app.runmodule.botmodule.manualinput')}</Button>}
+                              onFinish={async (values) => {
+                                  const ipportlist = values.ipporttext.split('\n').map((record, index) => {
+                                      let ipportpair = record.split(':')
+                                      return { index: index, ip: ipportpair[0], port: ipportpair[1] }
+                                  })
+                                  setIpportListState(ipportlist)
+                                  return true
+                              }}
                             >
                                 <ProFormTextArea
-                                    name="ipporttext"
-                                    label={formatText('app.runmodule.botmodule.ipporttext')}
-                                    tooltip={formatText('app.runmodule.botmodule.ipporttext.tp')}
-                                    placeholder={formatText('app.runmodule.botmodule.ipporttext.ph')}
+                                  name="ipporttext"
+                                  label={formatText('app.runmodule.botmodule.ipporttext')}
+                                  tooltip={formatText('app.runmodule.botmodule.ipporttext.tp')}
+                                  placeholder={formatText('app.runmodule.botmodule.ipporttext.ph')}
                                 />
                             </ModalForm>
                         </Col>
                         <Col span={12}>
                             <Table
-                                loading={listNetworkSearchReq.loading}
-                                style={{
-                                    marginTop: 0, padding: '0px 8px 16px 0px', maxHeight: '560px', minHeight: '560px',
-                                }}
-                                scroll={{ y: 480 }}
-                                size="small"
-                                bordered
-                                pagination={false}
-                                rowKey="index"
-                                rowSelection={rowSelection}
-                                columns={[{
-                                    title: 'IP',
-                                    dataIndex: 'ip',
-                                    key: 'ip',
-                                    width: 120,
-                                    render: (text, record) => (<strong
-                                        style={{
-                                            color: '#13a8a8',
-                                        }}
-                                    >
-                                        {text}
-                                    </strong>),
-                                }, {
-                                    title: formatText('app.runmodule.botmodule.port'),
-                                    dataIndex: 'port',
-                                    key: 'port',
-                                    width: 56,
-                                    render: (text, record) => {
-                                        return text
-                                    },
-                                }, {
-                                    title: formatText('app.runmodule.botmodule.protocol'),
-                                    dataIndex: 'protocol',
-                                    key: 'protocol',
-                                    width: 80,
-                                    render: (text, record) => {
-                                        return text
-                                    },
-                                }, {
-                                    title: formatText('app.runmodule.botmodule.country_name'),
-                                    dataIndex: 'country_name',
-                                    key: 'country_name',
-                                    width: 80,
-                                    render: (text, record) => {
-                                        return text
-                                    },
-                                }, {
-                                    title: formatText('app.runmodule.botmodule.as_organization'),
-                                    dataIndex: 'as_organization',
-                                    key: 'as_organization',
-                                    render: (text, record) => {
-                                        return text
-                                    },
-                                }]}
-                                dataSource={ipportListState}
+                              loading={listNetworkSearchReq.loading}
+                              style={{
+                                  marginTop: 0, padding: '0px 8px 16px 0px', maxHeight: '560px', minHeight: '560px',
+                              }}
+                              scroll={{ y: 480 }}
+                              size="small"
+                              bordered
+                              pagination={false}
+                              rowKey="index"
+                              rowSelection={rowSelection}
+                              columns={[{
+                                  title: 'IP',
+                                  dataIndex: 'ip',
+                                  key: 'ip',
+                                  width: 120,
+                                  render: (text, record) => (<strong
+                                    style={{
+                                        color: '#13a8a8',
+                                    }}
+                                  >
+                                      {text}
+                                  </strong>),
+                              }, {
+                                  title: formatText('app.runmodule.botmodule.port'),
+                                  dataIndex: 'port',
+                                  key: 'port',
+                                  width: 56,
+                                  render: (text, record) => {
+                                      return text
+                                  },
+                              }, {
+                                  title: formatText('app.runmodule.botmodule.protocol'),
+                                  dataIndex: 'protocol',
+                                  key: 'protocol',
+                                  width: 80,
+                                  render: (text, record) => {
+                                      return text
+                                  },
+                              }, {
+                                  title: formatText('app.runmodule.botmodule.country_name'),
+                                  dataIndex: 'country_name',
+                                  key: 'country_name',
+                                  width: 80,
+                                  render: (text, record) => {
+                                      return text
+                                  },
+                              }, {
+                                  title: formatText('app.runmodule.botmodule.as_organization'),
+                                  dataIndex: 'as_organization',
+                                  key: 'as_organization',
+                                  render: (text, record) => {
+                                      return text
+                                  },
+                              }]}
+                              dataSource={ipportListState}
                             />
 
                         </Col>
                     </Row>
                     <Form
-                        layout="vertical"
-                        wrapperCol={{ span: 24 }}
-                        onFinish={onCreatePostModuleActuator}
+                      layout="vertical"
+                      wrapperCol={{ span: 24 }}
+                      onFinish={onCreatePostModuleActuator}
                     >
                         <Row>{getModuleOptions(botModuleConfigActive)}</Row>
                         <Row>
                             <Col span={22}>
                                 <Button
-                                    type="primary"
-                                    htmlType="submit"
-                                    block
-                                    disabled={botModuleConfigActive.loadpath === null || selectedRows.length === 0}
-                                    icon={<PlayCircleOutlined/>}
-                                    loading={createPostModuleActuatorReq.loading}
+                                  type="primary"
+                                  htmlType="submit"
+                                  block
+                                  disabled={botModuleConfigActive.loadpath === null || selectedRows.length === 0}
+                                  icon={<PlayCircleOutlined/>}
+                                  loading={createPostModuleActuatorReq.loading}
                                 >{formatText('app.runmodule.postmodule.run')}</Button>
                             </Col>
                         </Row>
                     </Form>
                 </TabPane>
                 <TabPane
-                    tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
-                    key="desc"
+                  tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
+                  key="desc"
                 >
                     <ModuleInfoContent postModuleConfig={botModuleConfigActive}/>
                 </TabPane>
@@ -1840,22 +1838,22 @@ export const BotScan = () => {
         <Row style={{ marginTop: -16 }} gutter={0}>
             <Col span={24}>
                 <Button
-                    block
-                    icon={<PlusOutlined/>}
-                    onClick={() => setRunBotModuleModalVisable(true)}
+                  block
+                  icon={<PlusOutlined/>}
+                  onClick={() => setRunBotModuleModalVisable(true)}
                 >{formatText('app.runmodule.botmodule.newtask')}</Button>
             </Col>
         </Row>
         <RealTimeBotWaitListMemo/>
         <Modal
-            mask={false}
-            style={{ top: 16 }}
-            width="90vw"
-            destroyOnClose
-            visible={runBotModuleModalVisable}
-            onCancel={() => setRunBotModuleModalVisable(false)}
-            footer={null}
-            bodyStyle={{ padding: '0px 0px 0px 0px' }}
+          mask={false}
+          style={{ top: 16 }}
+          width="90vw"
+          destroyOnClose
+          visible={runBotModuleModalVisable}
+          onCancel={() => setRunBotModuleModalVisable(false)}
+          footer={null}
+          bodyStyle={{ padding: '0px 0px 0px 0px' }}
         >
             <RunBotModuleMemo/>
         </Modal>
@@ -1916,9 +1914,9 @@ const RealTimeBotWaitList = () => {
         key: 'moduleinfo',
         width: 240,
         render: (text, record) => (<Popover
-            placement="right"
-            content={<ModuleInfoMemo postModuleConfig={record.moduleinfo}/>}
-            trigger="click"
+          placement="right"
+          content={<ModuleInfoMemo postModuleConfig={record.moduleinfo}/>}
+          trigger="click"
         >
             <a>{getModuleName(record.moduleinfo)}</a>
         </Popover>),
@@ -1929,9 +1927,9 @@ const RealTimeBotWaitList = () => {
         width: 120,
         render: (text, record) => {
             return (<strong
-                style={{
-                    color: '#13a8a8',
-                }}
+              style={{
+                  color: '#13a8a8',
+              }}
             >
                 {record.ip_list.length} 个
             </strong>)
@@ -1943,17 +1941,17 @@ const RealTimeBotWaitList = () => {
         width: 96,
         render: (text, record) => {
             return (<Popover
-                placement="right"
-                content={<List
-                    style={{
-                        padding: '0 0 0 0', overflow: 'auto', maxHeight: cssCalc('50vh'), minHeight: cssCalc('50vh'),
-                    }}
-                    size="small"
-                    bordered
-                    dataSource={record.ip_list}
-                    renderItem={item => <List.Item>{item}</List.Item>}
-                />}
-                trigger="click"
+              placement="right"
+              content={<List
+                style={{
+                    padding: '0 0 0 0', overflow: 'auto', maxHeight: cssCalc('50vh'), minHeight: cssCalc('50vh'),
+                }}
+                size="small"
+                bordered
+                dataSource={record.ip_list}
+                renderItem={item => <List.Item>{item}</List.Item>}
+              />}
+              trigger="click"
             >
                 <a>{formatText('app.runmodule.botmodule.view')}</a>
             </Popover>)
@@ -1964,9 +1962,9 @@ const RealTimeBotWaitList = () => {
         key: 'moduleinfo',
         render: (text, record) => {
             return (<Popover
-                placement="top"
-                content={taskDetail(record.moduleinfo._custom_param)}
-                trigger="click"
+              placement="top"
+              content={taskDetail(record.moduleinfo._custom_param)}
+              trigger="click"
             >
                 <a>{formatText('app.runmodule.botmodule.view')}</a>
             </Popover>)
@@ -1980,18 +1978,18 @@ const RealTimeBotWaitList = () => {
     }]
 
     return (<Table
-        style={{
-            marginTop: 0,
-            overflow: 'auto',
-            maxHeight: cssCalc(`${resizeDownHeight} - 32px`),
-            minHeight: cssCalc(`${resizeDownHeight} - 32px`),
-        }}
-        size="small"
-        rowKey="uuid"
-        pagination={false}
-        dataSource={botWaitList}
-        bordered
-        columns={columns}
+      style={{
+          marginTop: 0,
+          overflow: 'auto',
+          maxHeight: cssCalc(`${resizeDownHeight} - 32px`),
+          minHeight: cssCalc(`${resizeDownHeight} - 32px`),
+      }}
+      size="small"
+      rowKey="uuid"
+      pagination={false}
+      dataSource={botWaitList}
+      bordered
+      columns={columns}
     />)
 }
 
@@ -2047,30 +2045,30 @@ export const PostModule = props => {
         if (oneOption.type === 'str') {
             options.push(<Col span={oneOption.length}>
                 <Form.Item
-                    label={getOptionTag(oneOption)}
-                    tooltip={getOptionDesc(oneOption)}
-                    name={oneOption.name}
-                    rules={[{
-                        required: oneOption.required,
-                        message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
-                    }]}
+                  label={getOptionTag(oneOption)}
+                  tooltip={getOptionDesc(oneOption)}
+                  name={oneOption.name}
+                  rules={[{
+                      required: oneOption.required,
+                      message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+                  }]}
                 >
                     <Input
-                        style={{ width: '90%' }}
+                      style={{ width: '90%' }}
                     />
                 </Form.Item>
             </Col>)
         } else if (oneOption.type === 'bool') {
             options.push(<Col span={oneOption.length}>
                 <Form.Item
-                    label={getOptionTag(oneOption)}
-                    tooltip={getOptionDesc(oneOption)}
-                    name={oneOption.name}
-                    valuePropName="checked"
-                    rules={[{
-                        required: oneOption.required,
-                        message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
-                    }]}
+                  label={getOptionTag(oneOption)}
+                  tooltip={getOptionDesc(oneOption)}
+                  name={oneOption.name}
+                  valuePropName="checked"
+                  rules={[{
+                      required: oneOption.required,
+                      message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+                  }]}
                 >
                     <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
                 </Form.Item>
@@ -2078,36 +2076,36 @@ export const PostModule = props => {
         } else if (oneOption.type === 'integer') {
             options.push(<Col span={oneOption.length}>
                 <Form.Item
-                    label={getOptionTag(oneOption)}
-                    tooltip={getOptionDesc(oneOption)}
-                    name={oneOption.name}
-                    rules={[{
-                        required: oneOption.required,
-                        message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
-                    }]}
-                    wrapperCol={{ span: 24 }}
+                  label={getOptionTag(oneOption)}
+                  tooltip={getOptionDesc(oneOption)}
+                  name={oneOption.name}
+                  rules={[{
+                      required: oneOption.required,
+                      message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+                  }]}
+                  wrapperCol={{ span: 24 }}
                 >
                     <InputNumber
-                        style={{ width: '90%' }}
-                        // defaultValue={oneOption.default}
+                      style={{ width: '90%' }}
+                      // defaultValue={oneOption.default}
                     />
                 </Form.Item>
             </Col>)
         } else if (oneOption.type === 'float') {
             options.push(<Col span={oneOption.length}>
                 <Form.Item
-                    label={getOptionTag(oneOption)}
-                    tooltip={getOptionDesc(oneOption)}
-                    name={oneOption.name}
-                    rules={[{
-                        required: oneOption.required,
-                        message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
-                    }]}
-                    wrapperCol={{ span: 24 }}
+                  label={getOptionTag(oneOption)}
+                  tooltip={getOptionDesc(oneOption)}
+                  name={oneOption.name}
+                  rules={[{
+                      required: oneOption.required,
+                      message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+                  }]}
+                  wrapperCol={{ span: 24 }}
                 >
                     <InputNumber
-                        step={0.1}
-                        style={{ width: '90%' }}
+                      step={0.1}
+                      style={{ width: '90%' }}
                     />
                 </Form.Item>
             </Col>)
@@ -2122,19 +2120,19 @@ export const PostModule = props => {
             }
             options.push(<Col span={oneOption.length}>
                 <Form.Item
-                    label={getOptionTag(oneOption)}
-                    tooltip={getOptionDesc(oneOption)}
-                    name={oneOption.name}
-                    rules={[{
-                        required: oneOption.required,
-                        message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
-                    }]}
-                    wrapperCol={{ span: 24 }}
+                  label={getOptionTag(oneOption)}
+                  tooltip={getOptionDesc(oneOption)}
+                  name={oneOption.name}
+                  rules={[{
+                      required: oneOption.required,
+                      message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+                  }]}
+                  wrapperCol={{ span: 24 }}
                 >
                     <Select
-                        style={{
-                            width: '90%',
-                        }}
+                      style={{
+                          width: '90%',
+                      }}
                     >
                         {selectOptions}
                     </Select>
@@ -2143,17 +2141,17 @@ export const PostModule = props => {
         } else {
             options.push(<Col span={oneOption.length}>
                 <Form.Item
-                    label={getOptionTag(oneOption)}
-                    tooltip={getOptionDesc(oneOption)}
-                    name={oneOption.name}
-                    rules={[{
-                        required: oneOption.required,
-                        message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
-                    }]}
-                    wrapperCol={{ span: 24 }}
+                  label={getOptionTag(oneOption)}
+                  tooltip={getOptionDesc(oneOption)}
+                  name={oneOption.name}
+                  rules={[{
+                      required: oneOption.required,
+                      message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+                  }]}
+                  wrapperCol={{ span: 24 }}
                 >
                     <Input
-                        style={{ width: '90%' }}
+                      style={{ width: '90%' }}
                     />
                 </Form.Item>
             </Col>)
@@ -2161,21 +2159,21 @@ export const PostModule = props => {
     }
     form.setFieldsValue(initialValues)
     return (<Form
-        form={form}
-        layout="vertical"
-        wrapperCol={{ span: 24 }}
-        onFinish={onCreatePostModuleActuator}
-        initialValues={initialValues}
+      form={form}
+      layout="vertical"
+      wrapperCol={{ span: 24 }}
+      onFinish={onCreatePostModuleActuator}
+      initialValues={initialValues}
     >
         <Row>{options}</Row>
         <Row>
             <Col span={12}>
                 <Button
-                    type="primary"
-                    htmlType="submit"
-                    block
-                    icon={<PlayCircleOutlined/>}
-                    loading={createPostModuleActuatorReq.loading}
+                  type="primary"
+                  htmlType="submit"
+                  block
+                  icon={<PlayCircleOutlined/>}
+                  loading={createPostModuleActuatorReq.loading}
                 >{formatText('app.runmodule.postmodule.run')}</Button>
             </Col>
         </Row>
@@ -2212,12 +2210,12 @@ export const ModuleInfo = ({ postModuleConfig }) => {
     }
 
     return (<Descriptions
-        size="small"
-        style={{
-            padding: '0 0 0 0', marginRight: 8,
-        }}
-        column={8}
-        bordered
+      size="small"
+      style={{
+          padding: '0 0 0 0', marginRight: 8,
+      }}
+      column={8}
+      bordered
     >
         <Descriptions.Item label={formatText('app.runmodule.postmodule.NAME')} span={8}>
             {getModuleName(postModuleConfig)}
@@ -2233,9 +2231,9 @@ export const ModuleInfo = ({ postModuleConfig }) => {
         </Descriptions.Item>
         <Descriptions.Item span={8} label={formatText('app.runmodule.postmodule.DESC')}>
         <pre
-            style={{
-                whiteSpace: 'pre-wrap', overflowX: 'hidden', padding: '0 0 0 0',
-            }}
+          style={{
+              whiteSpace: 'pre-wrap', overflowX: 'hidden', padding: '0 0 0 0',
+          }}
         >{getModuleDesc(postModuleConfig)}</pre>
         </Descriptions.Item>
     </Descriptions>)
@@ -2273,17 +2271,17 @@ const PostModuleAutoConfForm = props => {
     return (<Form layout="inline">
         <Form.Item label={formatText('app.runmodule.autoconf.switch')}>
             <Switch
-                checkedChildren={<CheckOutlined/>}
-                unCheckedChildren={<MinusOutlined/>}
-                checked={settingsPostModuleAutoConf.flag}
-                onClick={() => onUpdateSessionMonitor({ flag: !settingsPostModuleAutoConf.flag })}
+              checkedChildren={<CheckOutlined/>}
+              unCheckedChildren={<MinusOutlined/>}
+              checked={settingsPostModuleAutoConf.flag}
+              onClick={() => onUpdateSessionMonitor({ flag: !settingsPostModuleAutoConf.flag })}
             />
         </Form.Item>
         <Form.Item label={formatText('app.runmodule.autoconf.interval')}
                    tooltip={formatText('app.runmodule.autoconf.interval.tip')}>
             <Radio.Group
-                onChange={e => onUpdateSessionMonitor({ interval: e.target.value })}
-                value={settingsPostModuleAutoConf.interval}
+              onChange={e => onUpdateSessionMonitor({ interval: e.target.value })}
+              value={settingsPostModuleAutoConf.interval}
             >
                 <Radio value={10}>{formatText('app.runmodule.autoconf.10s')}</Radio>
                 <Radio value={60}>{formatText('app.runmodule.autoconf.1min')}</Radio>
@@ -2291,12 +2289,12 @@ const PostModuleAutoConfForm = props => {
             </Radio.Group>
         </Form.Item>
         <Form.Item
-            label={formatText('app.runmodule.autoconf.max_session')}
-            tooltip={formatText('app.runmodule.autoconf.max_session.tip')}
+          label={formatText('app.runmodule.autoconf.max_session')}
+          tooltip={formatText('app.runmodule.autoconf.max_session.tip')}
         >
             <Radio.Group
-                onChange={e => onUpdateSessionMonitor({ max_session: e.target.value })}
-                value={settingsPostModuleAutoConf.max_session}
+              onChange={e => onUpdateSessionMonitor({ max_session: e.target.value })}
+              value={settingsPostModuleAutoConf.max_session}
             >
                 <Radio value={3}>3</Radio>
                 <Radio value={5}>5</Radio>
@@ -2373,19 +2371,19 @@ const AutoRobot = () => {
             <Row gutter={0} style={{ marginTop: -16 }}>
                 <Col span={12}>
                     <Button
-                        block
-                        icon={<PlusOutlined/>}
-                        onClick={() => setRunAutoModuleModalModalVisable(true)}
+                      block
+                      icon={<PlusOutlined/>}
+                      onClick={() => setRunAutoModuleModalModalVisable(true)}
                     >{formatText('app.runmodule.autorobot.add')}</Button>
                 </Col>
                 <Col span={12}>
                     <Button
-                        icon={<SyncOutlined/>}
-                        style={{
-                            width: '100%',
-                        }}
-                        loading={listPostModuleAutoReq.loading || createPostModuleAutoReq.loading || destoryPostModuleAutoReq.loading}
-                        onClick={() => listPostModuleAutoReq.run()}
+                      icon={<SyncOutlined/>}
+                      style={{
+                          width: '100%',
+                      }}
+                      loading={listPostModuleAutoReq.loading || createPostModuleAutoReq.loading || destoryPostModuleAutoReq.loading}
+                      onClick={() => listPostModuleAutoReq.run()}
                     >{formatText('app.core.refresh')}</Button>
                 </Col>
             </Row>
@@ -2395,68 +2393,68 @@ const AutoRobot = () => {
                         <PostModuleAutoConfFormMemo/>
                     </Card>
                     <Table
-                        style={{
-                            padding: '0 0 0 0',
-                            overflow: 'auto',
-                            maxHeight: cssCalc(`${resizeDownHeight} - 108px`),
-                            minHeight: cssCalc(`${resizeDownHeight} - 108px`),
-                        }}
-                        size="small"
-                        rowKey="job_id"
-                        pagination={false}
-                        dataSource={postModuleAutoList}
-                        bordered
-                        columns={[{
-                            title: formatText('app.runmodule.botmodule.module'),
-                            dataIndex: 'moduleinfo',
-                            key: 'moduleinfo',
-                            width: 240,
-                            render: (text, record) => (<Popover
-                                placement="right"
-                                content={PostModuleInfoContent(record.moduleinfo)}
-                                trigger="click"
-                            >
-                                <a>{getModuleName(record.moduleinfo)}</a>
-                            </Popover>),
-                        }, {
-                            title: formatText('app.runmodule.autorobot.params'),
-                            dataIndex: 'opts',
-                            key: 'opts',
-                            render: (text, record) => {
-                                return postModuleOpts(record.opts)
-                            },
-                        }, {
-                            dataIndex: 'operation',
-                            width: 56,
-                            render: (text, record) => (<div style={{ textAlign: 'center' }}>
-                                <a
-                                    style={{ color: 'red' }}
-                                    onClick={() => destoryPostModuleAutoReq.run({
-                                        module_type: 'auto', _module_uuid: record._module_uuid,
-                                    })}
-                                >{formatText('app.core.delete')}</a>
-                            </div>),
-                        }]}
+                      style={{
+                          padding: '0 0 0 0',
+                          overflow: 'auto',
+                          maxHeight: cssCalc(`${resizeDownHeight} - 108px`),
+                          minHeight: cssCalc(`${resizeDownHeight} - 108px`),
+                      }}
+                      size="small"
+                      rowKey="job_id"
+                      pagination={false}
+                      dataSource={postModuleAutoList}
+                      bordered
+                      columns={[{
+                          title: formatText('app.runmodule.botmodule.module'),
+                          dataIndex: 'moduleinfo',
+                          key: 'moduleinfo',
+                          width: 240,
+                          render: (text, record) => (<Popover
+                            placement="right"
+                            content={PostModuleInfoContent(record.moduleinfo)}
+                            trigger="click"
+                          >
+                              <a>{getModuleName(record.moduleinfo)}</a>
+                          </Popover>),
+                      }, {
+                          title: formatText('app.runmodule.autorobot.params'),
+                          dataIndex: 'opts',
+                          key: 'opts',
+                          render: (text, record) => {
+                              return postModuleOpts(record.opts)
+                          },
+                      }, {
+                          dataIndex: 'operation',
+                          width: 56,
+                          render: (text, record) => (<div style={{ textAlign: 'center' }}>
+                              <a
+                                style={{ color: 'red' }}
+                                onClick={() => destoryPostModuleAutoReq.run({
+                                    module_type: 'auto', _module_uuid: record._module_uuid,
+                                })}
+                              >{formatText('app.core.delete')}</a>
+                          </div>),
+                      }]}
                     />
                 </Col>
             </Row>
             <Modal
-                mask={false}
-                style={{ top: 32 }}
-                width="90vw"
-                destroyOnClose
-                visible={runAutoModuleModalVisable}
-                onCancel={() => setRunAutoModuleModalModalVisable(false)}
-                footer={null}
-                bodyStyle={{ padding: '0px 0px 0px 0px' }}
+              mask={false}
+              style={{ top: 32 }}
+              width="90vw"
+              destroyOnClose
+              visible={runAutoModuleModalVisable}
+              onCancel={() => setRunAutoModuleModalModalVisable(false)}
+              footer={null}
+              bodyStyle={{ padding: '0px 0px 0px 0px' }}
             >
                 <RunAutoModuleMemo
-                    closeModel={() => {
-                        setRunAutoModuleModalModalVisable(false)
-                    }}
-                    listData={() => {
-                        listPostModuleAutoReq.run()
-                    }}
+                  closeModel={() => {
+                      setRunAutoModuleModalModalVisable(false)
+                  }}
+                  listData={() => {
+                      listPostModuleAutoReq.run()
+                  }}
                 />
             </Modal>
         </TabPane>
@@ -2465,146 +2463,146 @@ const AutoRobot = () => {
             <Row gutter={0} style={{ marginTop: -16 }}>
                 <Col span={12}>
                     <Button
-                        block
-                        icon={<PlusOutlined/>}
-                        onClick={() => setRunAutoModuleSchedulerModalModalVisable(true)}
+                      block
+                      icon={<PlusOutlined/>}
+                      onClick={() => setRunAutoModuleSchedulerModalModalVisable(true)}
                     >{formatText('app.runmodule.autorobot.scheduler.add')}</Button>
                 </Col>
                 <Col span={12}>
                     <Button
-                        icon={<SyncOutlined/>}
-                        style={{
-                            width: '100%',
-                        }}
-                        loading={listPostModuleAutoReq.loading || createPostModuleAutoReq.loading || destoryPostModuleAutoReq.loading}
-                        onClick={() => listPostModuleAutoReq.run()}
+                      icon={<SyncOutlined/>}
+                      style={{
+                          width: '100%',
+                      }}
+                      loading={listPostModuleAutoReq.loading || createPostModuleAutoReq.loading || destoryPostModuleAutoReq.loading}
+                      onClick={() => listPostModuleAutoReq.run()}
                     >{formatText('app.core.refresh')}</Button>
                 </Col>
             </Row>
             <Row gutter={0}>
                 <Col span={24}>
                     <Table
-                        style={{
-                            padding: '0 0 0 0',
-                            overflow: 'auto',
-                            maxHeight: cssCalc(`${resizeDownHeight} - 72px`),
-                            minHeight: cssCalc(`${resizeDownHeight} - 72px`),
-                        }}
-                        size="small"
-                        rowKey="job_id"
-                        pagination={false}
-                        dataSource={postModuleSchedulerList}
-                        bordered
-                        columns={[{
-                            title: formatText('app.runmodule.autorobot.session'),
-                            dataIndex: 'scheduler_session',
-                            key: 'scheduler_session',
-                            width: 56,
-                            render: (text, record) => {
-                                const sessionidTag = (<Tag
-                                    color="purple"
-                                    style={{
-                                        width: '100%', textAlign: 'center', cursor: 'pointer',
-                                    }}
-                                >
-                                    <strong>{record.scheduler_session}</strong>
-                                </Tag>)
-                                return sessionidTag
-                            },
-                        }, {
-                            title: formatText('app.runmodule.botmodule.scheduler.module'),
-                            dataIndex: 'moduleinfo',
-                            key: 'moduleinfo',
-                            width: 240,
-                            render: (text, record) => (<Popover
-                                placement="right"
-                                content={PostModuleInfoContent(record.moduleinfo)}
-                                trigger="click"
-                            >
-                                <a>{getModuleName(record.moduleinfo)}</a>
-                            </Popover>),
-                        }, {
-                            title: formatText('app.runmodule.autorobot.params'),
-                            dataIndex: 'opts',
-                            key: 'opts',
-                            render: (text, record) => {
-                                return postModuleOpts(record.opts)
-                            },
-                        }, {
-                            title: formatText('app.runmodule.autorobot.next_run_time'),
-                            dataIndex: 'next_run_time',
-                            key: 'next_run_time',
-                            width: 120,
-                            render: (text, record) => {
-                                if (record.next_run_time !== null) {
-                                    return <Tag
-                                        color="cyan">{moment(record.next_run_time * 1000).format('YYYY-MM-DD HH:mm')}</Tag>
-                                } else {
-                                    return <Tag
-                                        color="orange">{formatText('app.runmodule.autorobot.scheduler.pause')}</Tag>
-                                }
+                      style={{
+                          padding: '0 0 0 0',
+                          overflow: 'auto',
+                          maxHeight: cssCalc(`${resizeDownHeight} - 72px`),
+                          minHeight: cssCalc(`${resizeDownHeight} - 72px`),
+                      }}
+                      size="small"
+                      rowKey="job_id"
+                      pagination={false}
+                      dataSource={postModuleSchedulerList}
+                      bordered
+                      columns={[{
+                          title: formatText('app.runmodule.autorobot.session'),
+                          dataIndex: 'scheduler_session',
+                          key: 'scheduler_session',
+                          width: 56,
+                          render: (text, record) => {
+                              const sessionidTag = (<Tag
+                                color="purple"
+                                style={{
+                                    width: '100%', textAlign: 'center', cursor: 'pointer',
+                                }}
+                              >
+                                  <strong>{record.scheduler_session}</strong>
+                              </Tag>)
+                              return sessionidTag
+                          },
+                      }, {
+                          title: formatText('app.runmodule.botmodule.scheduler.module'),
+                          dataIndex: 'moduleinfo',
+                          key: 'moduleinfo',
+                          width: 240,
+                          render: (text, record) => (<Popover
+                            placement="right"
+                            content={PostModuleInfoContent(record.moduleinfo)}
+                            trigger="click"
+                          >
+                              <a>{getModuleName(record.moduleinfo)}</a>
+                          </Popover>),
+                      }, {
+                          title: formatText('app.runmodule.autorobot.params'),
+                          dataIndex: 'opts',
+                          key: 'opts',
+                          render: (text, record) => {
+                              return postModuleOpts(record.opts)
+                          },
+                      }, {
+                          title: formatText('app.runmodule.autorobot.next_run_time'),
+                          dataIndex: 'next_run_time',
+                          key: 'next_run_time',
+                          width: 120,
+                          render: (text, record) => {
+                              if (record.next_run_time !== null) {
+                                  return <Tag
+                                    color="cyan">{moment(record.next_run_time * 1000).format('YYYY-MM-DD HH:mm')}</Tag>
+                              } else {
+                                  return <Tag
+                                    color="orange">{formatText('app.runmodule.autorobot.scheduler.pause')}</Tag>
+                              }
 
-                            },
-                        }, {
-                            title: formatText('app.runmodule.autoconf.scheduler.interval'),
-                            dataIndex: 'interval',
-                            key: 'interval',
-                            width: 80,
-                            render: (text, record) => {
-                                return <Tag
-                                    color="green">{moment.duration(record.interval, 'seconds').humanize()}</Tag>
+                          },
+                      }, {
+                          title: formatText('app.runmodule.autoconf.scheduler.interval'),
+                          dataIndex: 'interval',
+                          key: 'interval',
+                          width: 80,
+                          render: (text, record) => {
+                              return <Tag
+                                color="green">{moment.duration(record.interval, 'seconds').humanize()}</Tag>
 
-                            },
-                        }, {
-                            dataIndex: 'operation', width: 136, render: (text, record) => {
-                                let jobAction = null
-                                if (record.next_run_time !== null) {
-                                    jobAction = (<a style={{ color: '#faad14' }}
-                                                    onClick={() => updatePostModuleSchedulerReq.run({
-                                                        job_id: record.job_id, action: 'pause',
-                                                    })}>
-                                        {formatText('app.runmodule.autorobot.scheduler.pause')}
-                                    </a>)
-                                } else {
-                                    jobAction = (<a style={{ color: '#a5a5a5' }}
-                                                    onClick={() => updatePostModuleSchedulerReq.run({
-                                                        job_id: record.job_id, action: 'resume',
-                                                    })}>
-                                        {formatText('app.runmodule.autorobot.scheduler.resume')}
-                                    </a>)
-                                }
-                                return <div style={{ textAlign: 'center' }}>
-                                    <Space size="middle">
-                                        {jobAction}
-                                        <a
-                                            style={{ color: 'red' }}
-                                            onClick={() => destoryPostModuleSchedulerReq.run({
-                                                module_type: 'scheduler', job_id: record.job_id,
-                                            })}
-                                        >{formatText('app.core.delete')}</a>
-                                    </Space>
-                                </div>
-                            },
-                        }]}/>
+                          },
+                      }, {
+                          dataIndex: 'operation', width: 136, render: (text, record) => {
+                              let jobAction = null
+                              if (record.next_run_time !== null) {
+                                  jobAction = (<a style={{ color: '#faad14' }}
+                                                  onClick={() => updatePostModuleSchedulerReq.run({
+                                                      job_id: record.job_id, action: 'pause',
+                                                  })}>
+                                      {formatText('app.runmodule.autorobot.scheduler.pause')}
+                                  </a>)
+                              } else {
+                                  jobAction = (<a style={{ color: '#a5a5a5' }}
+                                                  onClick={() => updatePostModuleSchedulerReq.run({
+                                                      job_id: record.job_id, action: 'resume',
+                                                  })}>
+                                      {formatText('app.runmodule.autorobot.scheduler.resume')}
+                                  </a>)
+                              }
+                              return <div style={{ textAlign: 'center' }}>
+                                  <Space size="middle">
+                                      {jobAction}
+                                      <a
+                                        style={{ color: 'red' }}
+                                        onClick={() => destoryPostModuleSchedulerReq.run({
+                                            module_type: 'scheduler', job_id: record.job_id,
+                                        })}
+                                      >{formatText('app.core.delete')}</a>
+                                  </Space>
+                              </div>
+                          },
+                      }]}/>
                 </Col>
             </Row>
             <Modal
-                mask={false}
-                style={{ top: 32 }}
-                width="90vw"
-                destroyOnClose
-                visible={runAutoModuleSchedulerModalVisable}
-                onCancel={() => setRunAutoModuleSchedulerModalModalVisable(false)}
-                footer={null}
-                bodyStyle={{ padding: '0px 0px 0px 0px' }}
+              mask={false}
+              style={{ top: 32 }}
+              width="90vw"
+              destroyOnClose
+              visible={runAutoModuleSchedulerModalVisable}
+              onCancel={() => setRunAutoModuleSchedulerModalModalVisable(false)}
+              footer={null}
+              bodyStyle={{ padding: '0px 0px 0px 0px' }}
             >
                 <RunschedulerModuleMemo
-                    closeModel={() => {
-                        setRunAutoModuleSchedulerModalModalVisable(false)
-                    }}
-                    listData={() => {
-                        listPostModuleAutoReq.run()
-                    }}
+                  closeModel={() => {
+                      setRunAutoModuleSchedulerModalModalVisable(false)
+                  }}
+                  listData={() => {
+                      listPostModuleAutoReq.run()
+                  }}
                 />
             </Modal>
         </TabPane>
@@ -2644,10 +2642,10 @@ const ProxyHttpScanConfForm = props => {
     return (<Form labelCol={{ span: 24 }} wrapperCol={{ span: 24 }} layout="vertical">
         <Form.Item label={formatText('app.runmodule.autoconf.switch')}>
             <Switch
-                checkedChildren={<CheckOutlined/>}
-                unCheckedChildren={<MinusOutlined/>}
-                checked={settingsProxyHttpScanConf.flag}
-                onClick={() => onUpdateProxyHttpScanConf({ flag: !settingsProxyHttpScanConf.flag })}
+              checkedChildren={<CheckOutlined/>}
+              unCheckedChildren={<MinusOutlined/>}
+              checked={settingsProxyHttpScanConf.flag}
+              onClick={() => onUpdateProxyHttpScanConf({ flag: !settingsProxyHttpScanConf.flag })}
             />
         </Form.Item>
         PROXY : <Text strong>Http://VPSIP:28888</Text>
@@ -2765,22 +2763,22 @@ export const ProxyHttpScanModule = props => {
                 }
             }
             const pinIcon = record.pin > -1 ? (<StarTwoTone
-                twoToneColor="#d89614"
-                onClick={() => {
-                    const pins = changePin(record.loadpath)
-                    onPostModuleConfigListPinsChange(postModuleConfigList, pins)
-                }}
-                style={{
-                    marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
-                }}
+              twoToneColor="#d89614"
+              onClick={() => {
+                  const pins = changePin(record.loadpath)
+                  onPostModuleConfigListPinsChange(postModuleConfigList, pins)
+              }}
+              style={{
+                  marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
+              }}
             />) : (<StarOutlined
-                onClick={() => {
-                    const pins = changePin(record.loadpath)
-                    onPostModuleConfigListPinsChange(postModuleConfigList, pins)
-                }}
-                style={{
-                    marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
-                }}
+              onClick={() => {
+                  const pins = changePin(record.loadpath)
+                  onPostModuleConfigListPinsChange(postModuleConfigList, pins)
+              }}
+              style={{
+                  marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
+              }}
             />)
             return (<div style={{ display: 'inline' }}>
                 {pinIcon}
@@ -2793,76 +2791,76 @@ export const ProxyHttpScanModule = props => {
         <Col span={8}>
             <Card bordered={false}>
                 <Input
-                    allowClear
-                    prefix={<SearchOutlined/>}
-                    style={{ width: '100%' }}
-                    placeholder={formatText('app.runmodule.postmodule.search.ph')}
-                    value={text}
-                    onChange={e => {
-                        setText(e.target.value)
-                        handleModuleSearch(e.target.value)
-                    }}
+                  allowClear
+                  prefix={<SearchOutlined/>}
+                  style={{ width: '100%' }}
+                  placeholder={formatText('app.runmodule.postmodule.search.ph')}
+                  value={text}
+                  onChange={e => {
+                      setText(e.target.value)
+                      handleModuleSearch(e.target.value)
+                  }}
                 />
                 <Table
-                    style={{
-                        padding: '0 0 0 0',
-                        marginTop: 8,
-                        maxHeight: cssCalc('80vh - 128px'),
-                        minHeight: cssCalc('80vh - 128px'),
-                    }}
-                    scroll={{ y: 'calc(80vh - 104px)' }}
-                    rowClassName={styles.moduleTr}
-                    showHeader={false}
-                    onRow={record => ({
-                        onClick: () => {
-                            setPostModuleConfigActive(record)
-                        },
-                    })}
-                    size="small"
-                    bordered
-                    pagination={false}
-                    rowKey={item => item.loadpath}
-                    columns={postModuleConfigTableColumns}
-                    dataSource={postModuleConfigList}
+                  style={{
+                      padding: '0 0 0 0',
+                      marginTop: 8,
+                      maxHeight: cssCalc('80vh - 128px'),
+                      minHeight: cssCalc('80vh - 128px'),
+                  }}
+                  scroll={{ y: 'calc(80vh - 104px)' }}
+                  // rowClassName={styles.moduleTr}
+                  showHeader={false}
+                  onRow={record => ({
+                      onClick: () => {
+                          setPostModuleConfigActive(record)
+                      },
+                  })}
+                  size="small"
+                  bordered
+                  pagination={false}
+                  rowKey={item => item.loadpath}
+                  columns={postModuleConfigTableColumns}
+                  dataSource={postModuleConfigList}
                 />
             </Card>
         </Col>
         <Col span={16}>
             <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
                 <TabPane
-                    tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
-                    key="params"
+                  tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
+                  key="params"
                 >
                     <Form
-                        style={{
-                            marginBottom: 16,
-                            overflow: 'auto',
-                            maxHeight: cssCalc('80vh - 88px'),
-                            minHeight: cssCalc('80vh - 88px'),
-                        }}
-                        layout="vertical"
-                        wrapperCol={{ span: 24 }}
-                        onFinish={onCreateProxyHttpScan}
+                      style={{
+                          marginBottom: 16,
+                          overflow: 'auto',
+                          maxHeight: cssCalc('80vh - 88px'),
+                          minHeight: cssCalc('80vh - 88px'),
+                      }}
+                      layout="vertical"
+                      wrapperCol={{ span: 24 }}
+                      onFinish={onCreateProxyHttpScan}
                     >
                         <Row>{getModuleOptions(postModuleConfigActive)}</Row>
                         <Row>
                             {getWarn(postModuleConfigActive)}
                             <Col span={22}>
                                 <Button
-                                    type="primary"
-                                    htmlType="submit"
-                                    block
-                                    disabled={postModuleConfigActive.loadpath === null}
-                                    icon={<PlusOutlined/>}
-                                    loading={createProxyHttpScanReq.loading}
+                                  type="primary"
+                                  htmlType="submit"
+                                  block
+                                  disabled={postModuleConfigActive.loadpath === null}
+                                  icon={<PlusOutlined/>}
+                                  loading={createProxyHttpScanReq.loading}
                                 >{formatText('app.runmodule.postmodule.add')}</Button>
                             </Col>
                         </Row>
                     </Form>
                 </TabPane>
                 <TabPane
-                    tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
-                    key="desc"
+                  tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
+                  key="desc"
                 >
                     <ModuleInfoContent postModuleConfig={postModuleConfigActive}/>
                 </TabPane>
@@ -2919,65 +2917,65 @@ const ProxyHttpScan = () => {
         <Row gutter={0} style={{ marginTop: -16 }}>
             <Col span={12}>
                 <Button
-                    block
-                    icon={<PlusOutlined/>}
-                    onClick={() => setRunProxyHttpScanModuleModalVisable(true)}
+                  block
+                  icon={<PlusOutlined/>}
+                  onClick={() => setRunProxyHttpScanModuleModalVisable(true)}
                 >{formatText('app.runmodule.autorobot.add')}</Button>
             </Col>
             <Col span={12}>
                 <Button
-                    icon={<SyncOutlined/>}
-                    style={{
-                        width: '100%',
-                    }}
-                    loading={listProxyHttpScanReq.loading || createProxyHttpScanReq.loading || destoryProxyHttpScanReq.loading}
-                    onClick={() => listProxyHttpScanReq.run()}
+                  icon={<SyncOutlined/>}
+                  style={{
+                      width: '100%',
+                  }}
+                  loading={listProxyHttpScanReq.loading || createProxyHttpScanReq.loading || destoryProxyHttpScanReq.loading}
+                  onClick={() => listProxyHttpScanReq.run()}
                 >{formatText('app.core.refresh')}</Button>
             </Col>
         </Row>
         <Row gutter={0}>
             <Col span={20}>
                 <Table
-                    style={{
-                        padding: '0 0 0 0',
-                        overflow: 'auto',
-                        maxHeight: cssCalc(`${resizeDownHeight} - 108px`),
-                        minHeight: cssCalc(`${resizeDownHeight} - 108px`),
-                    }}
-                    size="small"
-                    rowKey="job_id"
-                    pagination={false}
-                    dataSource={proxyHttpScanList}
-                    bordered
-                    columns={[{
-                        title: formatText('app.runmodule.botmodule.module'),
-                        dataIndex: 'moduleinfo',
-                        key: 'moduleinfo',
-                        width: 240,
-                        render: (text, record) => (<Popover
-                            placement="right"
-                            content={PostModuleInfoContent(record.moduleinfo)}
-                            trigger="click"
-                        >
-                            <a>{getModuleName(record.moduleinfo)}</a>
-                        </Popover>),
-                    }, {
-                        title: formatText('app.runmodule.autorobot.params'),
-                        dataIndex: 'opts',
-                        key: 'opts',
-                        render: (text, record) => {
-                            return postModuleOpts(record.opts)
-                        },
-                    }, {
-                        dataIndex: 'operation',
-                        width: 56,
-                        render: (text, record) => (<div style={{ textAlign: 'center' }}>
-                            <a
-                                style={{ color: 'red' }}
-                                onClick={() => destoryProxyHttpScanReq.run({ _module_uuid: record._module_uuid })}
-                            >{formatText('app.core.delete')}</a>
-                        </div>),
-                    }]}
+                  style={{
+                      padding: '0 0 0 0',
+                      overflow: 'auto',
+                      maxHeight: cssCalc(`${resizeDownHeight} - 108px`),
+                      minHeight: cssCalc(`${resizeDownHeight} - 108px`),
+                  }}
+                  size="small"
+                  rowKey="job_id"
+                  pagination={false}
+                  dataSource={proxyHttpScanList}
+                  bordered
+                  columns={[{
+                      title: formatText('app.runmodule.botmodule.module'),
+                      dataIndex: 'moduleinfo',
+                      key: 'moduleinfo',
+                      width: 240,
+                      render: (text, record) => (<Popover
+                        placement="right"
+                        content={PostModuleInfoContent(record.moduleinfo)}
+                        trigger="click"
+                      >
+                          <a>{getModuleName(record.moduleinfo)}</a>
+                      </Popover>),
+                  }, {
+                      title: formatText('app.runmodule.autorobot.params'),
+                      dataIndex: 'opts',
+                      key: 'opts',
+                      render: (text, record) => {
+                          return postModuleOpts(record.opts)
+                      },
+                  }, {
+                      dataIndex: 'operation',
+                      width: 56,
+                      render: (text, record) => (<div style={{ textAlign: 'center' }}>
+                          <a
+                            style={{ color: 'red' }}
+                            onClick={() => destoryProxyHttpScanReq.run({ _module_uuid: record._module_uuid })}
+                          >{formatText('app.core.delete')}</a>
+                      </div>),
+                  }]}
                 />
             </Col>
             <Col span={4}>
@@ -2987,22 +2985,22 @@ const ProxyHttpScan = () => {
             </Col>
         </Row>
         <Modal
-            mask={false}
-            style={{ top: 32 }}
-            width="90vw"
-            destroyOnClose
-            visible={runProxyHttpScanModuleModalVisable}
-            onCancel={() => setRunProxyHttpScanModuleModalVisable(false)}
-            footer={null}
-            bodyStyle={{ padding: '0px 0px 0px 0px' }}
+          mask={false}
+          style={{ top: 32 }}
+          width="90vw"
+          destroyOnClose
+          visible={runProxyHttpScanModuleModalVisable}
+          onCancel={() => setRunProxyHttpScanModuleModalVisable(false)}
+          footer={null}
+          bodyStyle={{ padding: '0px 0px 0px 0px' }}
         >
             <ProxyHttpScanModuleMemo
-                closeModel={() => {
-                    setRunProxyHttpScanModuleModalVisable(false)
-                }}
-                listData={() => {
-                    listProxyHttpScanReq.run()
-                }}
+              closeModel={() => {
+                  setRunProxyHttpScanModuleModalVisable(false)
+              }}
+              listData={() => {
+                  listProxyHttpScanReq.run()
+              }}
             />
         </Modal>
     </Fragment>)
@@ -3010,346 +3008,3 @@ const ProxyHttpScan = () => {
 
 export const ProxyHttpScanMemo = memo(ProxyHttpScan)
 
-export const RunPortScanModule = props => {
-    console.log('RunPortScanModule')
-
-    const { webModuleOptions } = useModel('HostAndSessionModel', model => ({
-        webModuleOptions: model.webModuleOptions,
-    }))
-
-    const {
-        webTaskListPortScan, setWebTaskListPortScan,
-    } = useModel('WebMainModel', model => ({
-        webTaskListPortScan: model.webTaskListPortScan, setWebTaskListPortScan: model.setWebTaskListPortScan,
-    }))
-
-    const [webModuleConfigList, setWebModuleConfigList] = useState(webModuleOptions)
-    const [webModuleConfigActive, setWebModuleConfigActive] = useState({
-        NAME_ZH: null,
-        NAME_EN: null,
-        DESC_ZH: null,
-        DESC_EN: null,
-        AUTHOR: [],
-        OPTIONS: [],
-        REQUIRE_SESSION: true,
-        loadpath: null,
-        REFERENCES: [],
-        README: [],
-        SEARCH: '',
-    })
-
-    const [selectedRowKeys, setSelectedRowKeys] = useState([])
-    const [selectedRows, setSelectedRows] = useState([])
-
-
-    const pins = getPins()
-    webModuleConfigList.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath))
-
-    // useRequest(() => getCoreNetworkSearchAPI({ cmdtype: 'list_config' }), {
-    //     onSuccess: (result, params) => {
-    //         setEngineConfs(result)
-    //     }, onError: (error, params) => {
-    //     },
-    // })
-
-    const createPostModuleActuatorReq = useRequest(postPostmodulePostModuleActuatorAPI, {
-        manual: true, onSuccess: (result, params) => {
-        }, onError: (error, params) => {
-        },
-    })
-
-    const onCreateWebModuleActuator = params => {
-        createPostModuleActuatorReq.run({
-            moduletype: 'Web',
-            input_list: selectedRows,
-            loadpath: webModuleConfigActive.loadpath,
-            custom_param: JSON.stringify(params),
-        })
-    }
-
-    const onPostModuleConfigListChange = botModuleConfigList => {
-        const pins = getPins()
-        botModuleConfigList.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath))
-        setWebModuleConfigList(botModuleConfigList)
-    }
-
-    const handleModuleSearch = value => {
-        const reg = new RegExp(value, 'gi')
-        onPostModuleConfigListChange(webModuleOptions.map(record => {
-            let NAMEMatch = false
-            let DESCMatch = false
-            let REFERENCESMatch = false
-            try {
-                NAMEMatch = record.NAME_ZH.match(reg) || record.NAME_EN.match(reg)
-                DESCMatch = record.DESC_ZH.match(reg) || record.DESC_EN.match(reg)
-                REFERENCESMatch = record.REFERENCES.toString().match(reg)
-            } catch (error) {
-            }
-
-            if (NAMEMatch || DESCMatch || REFERENCESMatch) {
-                return {
-                    ...record,
-                }
-            }
-            return null
-        }).filter(record => !!record))
-    }
-
-    const onSelectChange = (selectedRowKeys, selectedRows) => {
-        setSelectedRowKeys(selectedRowKeys)
-        setSelectedRows(selectedRows)
-    }
-
-    const postModuleConfigTableColumns = [{
-        dataIndex: 'loadpath', render: (text, record) => {
-            const pins = getPins()
-            const pinIcon = pins.indexOf(record.loadpath) > -1 ? (<StarTwoTone
-                twoToneColor="#d89614"
-                onClick={() => {
-                    const newpins = changePin(record.loadpath)
-                    onPostModuleConfigListChange(webModuleConfigList)
-                }}
-                style={{
-                    marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
-                }}
-            />) : (<StarOutlined
-                onClick={() => {
-                    const newpins = changePin(record.loadpath)
-                    onPostModuleConfigListChange(webModuleConfigList)
-                }}
-                style={{
-                    marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
-                }}
-            />)
-
-            let tag = null
-            let selectStyles = {}
-            if (record.loadpath === webModuleConfigActive.loadpath) {
-                selectStyles = {
-                    color: '#d89614', fontWeight: 'bolder',
-                }
-            }
-            return (<div
-                style={{
-                    display: 'inline',
-                }}
-            >
-                {pinIcon}
-                <a style={{ marginLeft: 4, ...selectStyles }}>{getModuleName(record)}</a>
-            </div>)
-        },
-    }]
-
-    const rowSelection = {
-        selectedRowKeys, onChange: onSelectChange,
-    }
-
-    const ModuleInfoContent = props => {
-        const { postModuleConfig } = props
-        if (postModuleConfig === undefined) {
-            return null
-        }
-        const readme = postModuleConfig.README
-        const readmeCom = []
-        for (let i = 0; i < readme.length; i++) {
-            readmeCom.push(<div>
-                <a href={readme[i]} target="_blank">
-                    {readme[i]}
-                </a>
-            </div>)
-        }
-        const references = postModuleConfig.REFERENCES
-        const referencesCom = []
-        for (let i = 0; i < references.length; i++) {
-            referencesCom.push(<div>
-                <a href={references[i]} target="_blank">
-                    {references[i]}
-                </a>
-            </div>)
-        }
-
-        const authors = postModuleConfig.AUTHOR
-        const authorCom = []
-        for (let i = 0; i < authors.length; i++) {
-            authorCom.push(<Tag color="lime">{authors[i]}</Tag>)
-        }
-
-        return (<Descriptions
-            size="small"
-            style={{
-                padding: '0 0 0 0',
-            }}
-            column={12}
-            bordered
-        >
-            <Descriptions.Item label={formatText('app.runmodule.postmodule.NAME')} span={12}>
-                {getModuleName(postModuleConfig)}
-            </Descriptions.Item>
-            <Descriptions.Item label={formatText('app.runmodule.postmodule.authorCom')} span={12}>
-                {authorCom}
-            </Descriptions.Item>
-            <Descriptions.Item span={12} label="FOFA">
-                <pre>{postModuleConfig.SEARCH.FOFA}</pre>
-            </Descriptions.Item>
-            <Descriptions.Item span={12} label="360Quake">
-                <pre>{postModuleConfig.SEARCH.Quake}</pre>
-            </Descriptions.Item>
-            <Descriptions.Item label={formatText('app.runmodule.postmodule.readmeCom')} span={12}>
-                {readmeCom}
-            </Descriptions.Item>
-            <Descriptions.Item label={formatText('app.runmodule.postmodule.referencesCom')} span={12}>
-                {referencesCom}
-            </Descriptions.Item>
-            <Descriptions.Item span={12} label={formatText('app.runmodule.postmodule.DESC')}>
-          <pre
-              style={{
-                  whiteSpace: 'pre-wrap', overflowX: 'hidden', padding: '0 0 0 0',
-              }}
-          >{getModuleDesc(postModuleConfig)}</pre>
-            </Descriptions.Item>
-        </Descriptions>)
-    }
-
-    const addListToWebTaskListPortScan = (params) => {
-        let addipdomains = params.ipdomaintext.split('\n')
-        addipdomains = addipdomains.filter(record => !webTaskListPortScan.some(item => item.ipdomain === record))
-        addipdomains = addipdomains.map((record, index) => {
-            return { ipdomain: record }
-        })
-        setWebTaskListPortScan([...webTaskListPortScan, ...addipdomains])
-        msgsuccess(`已添加到任务队列`, `Added to task queue`)
-    }
-
-    const deleteSelectedWebTaskListPortScan = () => {
-
-        setWebTaskListPortScan(webTaskListPortScan.filter(item => {
-            return !selectedRowKeys.includes(item.ipdomain)
-        }))
-    }
-    const deleteFromWebTaskListPortScan = (params) => {
-        setWebTaskListPortScan(webTaskListPortScan.filter(record => record.ipdomain !== params.ipdomain))
-    }
-
-    const addIPDomainForm = () => {
-        return <Form
-
-            onFinish={addListToWebTaskListPortScan}
-            // layout="inline"
-        >
-            <Form.Item
-                name="ipdomaintext"
-                // rules={[
-                //     {
-                //         required: true,
-                //         // message: 'Please input your username!',
-                //     },
-                // ]}
-            >
-                <TextArea
-                    style={{
-                        width: 240,
-                    }}
-                    placeholder={formatText('ipdomain.portscan.ipdomainlist.ph')}
-                    autoSize={{ minRows: 3, maxRows: 10 }}
-                />
-            </Form.Item>
-            <Form.Item>
-                <Button type="primary" htmlType="submit" block>
-                    添加
-                </Button>
-            </Form.Item>
-        </Form>
-    }
-
-    return (<Row style={{ marginTop: -16 }} gutter={0}>
-        <Col span={6}>
-            <Search placeholder={formatText('app.runmodule.postmodule.searchmodule.ph')}
-                    onSearch={value => handleModuleSearch(value)}/>
-            <Table
-                style={{
-                    padding: '0 0 0 0', maxHeight: cssCalc('100vh - 560px'), minHeight: cssCalc('100vh - 560px'),
-                }}
-                scroll={{ y: 'calc(100vh - 480px)' }}
-                rowClassName={styles.moduleTr}
-                showHeader={false}
-                onRow={record => ({
-                    onClick: () => {
-                        setWebModuleConfigActive(record)
-                        setSelectedRowKeys([])
-                        setSelectedRows([])
-                    },
-                })}
-                size="small"
-                bordered
-                pagination={false}
-                rowKey={item => item.loadpath}
-                rowSelection={undefined}
-                columns={postModuleConfigTableColumns}
-                dataSource={webModuleConfigList}
-            />
-            <ModuleInfoContent postModuleConfig={webModuleConfigActive}/>
-        </Col>
-        <Col span={12}>
-            <Row gutter={8}>
-                <Col span={12}>
-                    <Row>
-                        <Popover content={addIPDomainForm} trigger="click">
-                            <Button>添加目标</Button>
-                        </Popover>
-                        <Button
-                            icon={<DeleteOutlined/>}
-                            onClick={() => deleteSelectedWebTaskListPortScan()}
-                        >Clean</Button>
-                    </Row>
-                    <Table
-                        // loading={listNetworkSearchReq.loading}
-                        style={{
-                            // marginTop: 0,
-                            // maxHeight: '560px', minHeight: '560px',
-                        }}
-                        scroll={{ y: 480 }}
-                        size="small"
-                        bordered
-                        pagination={false}
-                        rowKey="ipdomain"
-                        rowSelection={rowSelection}
-                        columns={[{
-                            title: 'IPDomain',
-                            dataIndex: 'ipdomain',
-                            key: 'ipdomain',
-                            width: 120,
-                            render: (text, record) => (<strong
-                                style={{
-                                    color: '#13a8a8',
-                                }}
-                            >
-                                {text}
-                            </strong>),
-                        }]}
-                        dataSource={webTaskListPortScan}
-                    />
-                </Col>
-            </Row>
-            <Form
-                layout="vertical"
-                wrapperCol={{ span: 24 }}
-                onFinish={onCreateWebModuleActuator}
-            >
-                <Row>{getModuleOptions(webModuleConfigActive)}</Row>
-                <Row>
-                    <Col span={22}>
-                        <Button
-                            type="primary"
-                            htmlType="submit"
-                            block
-                            disabled={webModuleConfigActive.loadpath === null || selectedRows.length === 0}
-                            icon={<PlayCircleOutlined/>}
-                            loading={createPostModuleActuatorReq.loading}
-                        >{formatText('app.runmodule.postmodule.run')}</Button>
-                    </Col>
-                </Row>
-            </Form>
-        </Col>
-    </Row>)
-}
-export const RunPortScanModuleMemo = memo(RunPortScanModule)

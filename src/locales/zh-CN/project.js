@@ -7,4 +7,6 @@ export default {
     'project.select': '切换',
 
     'ipdomain.portscan.ipdomainlist.ph': '192.168.1.1/24\n192.168.1.3',
+    'webmodule.portscan': '端口扫描',
+    'webmodule.subdomain': '子域名扫描',
 }
