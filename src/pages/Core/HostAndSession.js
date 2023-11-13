@@ -402,7 +402,6 @@ const HostAndSessionCard = () => {
 
     const SessionMenu = record => {
         const onClick = ({ key }) => {
-            console.log(key)
             switch (key) {
                 case 'HostRuningInfo':
                     setActiveHostAndSession(record)

@@ -12,8 +12,8 @@ import { Radio } from '_antd@4.24.14@antd'
 
 const { Search, TextArea } = Input
 
-export const RunPortScanModule = props => {
-    console.log('RunPortScanModule')
+export const RunWebModule = props => {
+    console.log('RunWebModule')
 
     const { webModuleOptions } = useModel('HostAndSessionModel', model => ({
         webModuleOptions: model.webModuleOptions,
@@ -113,7 +113,6 @@ export const RunPortScanModule = props => {
 
     const postModuleConfigTableColumns = [{
         dataIndex: 'loadpath', render: (text, record) => {
-            console.log(record)
             const pins = getPins()
             const pinIcon = pins.indexOf(record.loadpath) > -1 ? (<StarTwoTone
               twoToneColor="#d89614"
@@ -162,6 +161,53 @@ export const RunPortScanModule = props => {
         selectedRowKeys, onChange: onSelectChange,
     }
 
+    const addListToWebTaskListPortScan = (params) => {
+        let addipdomains = params.ipdomaintext.split('\n')
+        addipdomains = addipdomains.filter(record => !webTaskListPortScan.some(item => item.ipdomain === record))
+        addipdomains = addipdomains.map((record, index) => {
+            return { ipdomain: record }
+        })
+        setWebTaskListPortScan([...webTaskListPortScan, ...addipdomains])
+        msgsuccess(`已添加到任务队列`, `Added to task queue`)
+    }
+
+    const deleteSelectedWebTaskListPortScan = () => {
+
+        setWebTaskListPortScan(webTaskListPortScan.filter(item => {
+            return !selectedRowKeys.includes(item.ipdomain)
+        }))
+    }
+
+    const addIPDomainForm = () => {
+        return <Form
+
+          onFinish={addListToWebTaskListPortScan}
+          // layout="inline"
+        >
+            <Form.Item
+              name="ipdomaintext"
+              // rules={[
+              //     {
+              //         required: true,
+              //         // message: 'Please input your username!',
+              //     },
+              // ]}
+            >
+                <TextArea
+                  style={{
+                      width: 240,
+                  }}
+                  placeholder={formatText('ipdomain.portscan.ipdomainlist.ph')}
+                  autoSize={{ minRows: 3, maxRows: 10 }}
+                />
+            </Form.Item>
+            <Form.Item>
+                <Button type="primary" htmlType="submit" block>
+                    添加
+                </Button>
+            </Form.Item>
+        </Form>
+    }
     const ModuleInfoContent = (record) => {
         const readme = record.README
         const readmeCom = []
@@ -224,62 +270,19 @@ export const RunPortScanModule = props => {
         </Descriptions>)
     }
 
-    const addListToWebTaskListPortScan = (params) => {
-        let addipdomains = params.ipdomaintext.split('\n')
-        addipdomains = addipdomains.filter(record => !webTaskListPortScan.some(item => item.ipdomain === record))
-        addipdomains = addipdomains.map((record, index) => {
-            return { ipdomain: record }
-        })
-        setWebTaskListPortScan([...webTaskListPortScan, ...addipdomains])
-        msgsuccess(`已添加到任务队列`, `Added to task queue`)
-    }
-
-    const deleteSelectedWebTaskListPortScan = () => {
-
-        setWebTaskListPortScan(webTaskListPortScan.filter(item => {
-            return !selectedRowKeys.includes(item.ipdomain)
-        }))
-    }
-
-    const addIPDomainForm = () => {
-        return <Form
-
-          onFinish={addListToWebTaskListPortScan}
-          // layout="inline"
-        >
-            <Form.Item
-              name="ipdomaintext"
-              // rules={[
-              //     {
-              //         required: true,
-              //         // message: 'Please input your username!',
-              //     },
-              // ]}
-            >
-                <TextArea
-                  style={{
-                      width: 240,
-                  }}
-                  placeholder={formatText('ipdomain.portscan.ipdomainlist.ph')}
-                  autoSize={{ minRows: 3, maxRows: 10 }}
-                />
-            </Form.Item>
-            <Form.Item>
-                <Button type="primary" htmlType="submit" block>
-                    添加
-                </Button>
-            </Form.Item>
-        </Form>
-    }
-
     return (<Row style={{ marginTop: -16 }} gutter={0}>
         <Col span={6}>
             <Search placeholder={formatText('app.runmodule.postmodule.searchmodule.ph')}
-                    onSearch={value => handleModuleSearch(value)}/>
+                    onSearch={value => handleModuleSearch(value)}
+
+            />
             <Radio.Group
               defaultValue=""
               buttonStyle="solid"
               onChange={(e) => moduleTypeOnChange(e.target.value)}
+              style={{
+                  marginTop: -1,
+              }}
             >
                 <Radio.Button value="">{formatText('app.runmodule.postmodule.moduletype.all')}</Radio.Button>
                 <Radio.Button
@@ -369,4 +372,4 @@ export const RunPortScanModule = props => {
         </Col>
     </Row>)
 }
-export const RunPortScanModuleMemo = memo(RunPortScanModule)
+export const RunWebModuleMemo = memo(RunWebModule)

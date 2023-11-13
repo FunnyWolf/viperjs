@@ -192,7 +192,6 @@ const CreateWebDeliveryModalContent = props => {
         if (selectTarget === null || selectTarget === undefined) {
             return null;
         }
-        console.log(selectTarget);
         if (selectTarget === 2) {
             options.push(
                 <Form.Item

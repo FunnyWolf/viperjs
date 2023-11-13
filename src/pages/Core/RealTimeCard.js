@@ -315,7 +315,6 @@ const UserInput = props => {
     const [iconkey, setIconkey] = useState(getUserIconKey());
     const PrefixIcon = () => {
         const onChange = e => {
-            console.log("radio checked", e.target.value);
             setIconkey(e.target.value);
             localStorage.setItem("UserIcon", e.target.value);
         };

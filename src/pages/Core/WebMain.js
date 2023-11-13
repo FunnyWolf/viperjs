@@ -18,7 +18,7 @@ import { ProjectButton } from '@/pages/Core/Project'
 import styles from '@/utils/utils.less'
 import { SwapOutlined } from '@ant-design/icons'
 import { PortScan } from '@/pages/Core/RunModule'
-import { RunPortScanModuleMemo } from '@/pages/Core/WebModule'
+import { RunWebModuleMemo } from '@/pages/Core/WebModule'
 
 const { Text } = Typography
 const { Paragraph } = Typography
@@ -182,7 +182,7 @@ const TabsBottom = () => {
           </div>}
           key="WebScan"
         >
-            <RunPortScanModuleMemo/>
+            <RunWebModuleMemo/>
         </TabPane>
         <TabPane
           tab={<div style={tabPanedivSytle}>
