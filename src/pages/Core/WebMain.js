@@ -47,8 +47,8 @@ const WebMain = props => {
 const TabsOptions = () => {
     return <Space
       style={{
-          // paddingTop: 2,
-          // paddingBottom: 0,
+          paddingTop: 1,
+          paddingBottom: 2,
       }}>
         <Button icon={<SwapOutlined/>}>切换</Button>
         <ProjectButton/>
