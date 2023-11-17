@@ -19,6 +19,8 @@ import styles from '@/utils/utils.less'
 import { SwapOutlined } from '@ant-design/icons'
 import { PortScan } from '@/pages/Core/RunModule'
 import { RunWebModuleMemo } from '@/pages/Core/WebModule'
+import { RealTimeJobsMemo, TaskQueueTagMemo } from '@/pages/Core/RealTimeCard'
+import { WebRealTimeJobsMemo } from '@/pages/Core/WebRealtimeJobs'
 
 const { Text } = Typography
 const { Paragraph } = Typography
@@ -35,7 +37,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 const WebMain = props => {
     console.log('WebMain')
-
     useEffect(() => {
     }, [])
 
@@ -47,8 +48,7 @@ const WebMain = props => {
 const TabsOptions = () => {
     return <Space
       style={{
-          paddingTop: 1,
-          paddingBottom: 2,
+          paddingTop: 1, paddingBottom: 2,
       }}>
         <Button icon={<SwapOutlined/>}>切换</Button>
         <ProjectButton/>
@@ -58,11 +58,15 @@ const TabsOptions = () => {
 const TabsBottom = () => {
     console.log('TabsBottom')
     const {
-        setHeatbeatsocketalive,
-        setWebModuleOptions,
+        setHeatbeatsocketalive, setWebModuleOptions,
     } = useModel('HostAndSessionModel', model => ({
-        setHeatbeatsocketalive: model.setHeatbeatsocketalive,
-        setWebModuleOptions: model.setWebModuleOptions,
+        setHeatbeatsocketalive: model.setHeatbeatsocketalive, setWebModuleOptions: model.setWebModuleOptions,
+    }))
+
+    const {
+        setWebjobList,
+    } = useModel('WebMainModel', model => ({
+        setWebjobList: model.setWebjobList,
     }))
 
     let ipdomainRef = React.createRef()
@@ -118,10 +122,19 @@ const TabsBottom = () => {
         }
         ws.current.onmessage = event => {
             const response = JSON.parse(event.data)
+
             const { module_options } = response
             const { module_options_update } = response
+
+            const { jobs_update } = response
+            const { jobs } = response
+
             if (module_options_update) {
                 setWebModuleOptions(module_options.filter(item => item.BROKER.indexOf('web') === 0))
+            }
+
+            if (jobs_update) {
+                setWebjobList(jobs)
             }
         }
     }
@@ -182,7 +195,22 @@ const TabsBottom = () => {
           </div>}
           key="WebScan"
         >
-            <RunWebModuleMemo/>
+            <div
+              style={{
+                  marginTop: -16,
+              }}
+            >
+                <RunWebModuleMemo/>
+            </div>
+        </TabPane>
+        <TabPane
+          tab={<div style={tabPanedivSytle}>
+              <TaskQueueTagMemo/>
+              <span style={tabPanespanSytle}>{formatText('app.hostandsession.tab.JobList')}</span>
+          </div>}
+          key="JobList"
+        >
+            <WebRealTimeJobsMemo/>
         </TabPane>
         <TabPane
           tab={<div style={tabPanedivSytle}>

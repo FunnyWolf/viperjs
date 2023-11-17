@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useLocalStorageState } from 'ahooks'
 
-export default function WebMainModel() {
+export default function WebMainModel () {
 
     const [ipdomains, setIPDomains] = useState([])
     const [projectActive, setProjectActive] = useLocalStorageState('project_active', {
@@ -9,7 +9,7 @@ export default function WebMainModel() {
     })
     const [projects, setProjects] = useState([])
     const [webTaskListPortScan, setWebTaskListPortScan] = useLocalStorageState('web_task_list_port_scan', [])
-
+    const [webJobList, setWebjobList] = useState([])
     return {
         ipdomains,
         setIPDomains,
@@ -19,5 +19,7 @@ export default function WebMainModel() {
         setProjects,
         webTaskListPortScan,
         setWebTaskListPortScan,
+        webJobList,
+        setWebjobList,
     }
 }
