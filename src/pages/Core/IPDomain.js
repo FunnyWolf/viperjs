@@ -196,13 +196,12 @@ const IPDomain = props => {
     listProjectReq.run()
   }, [])
 
-  const LocationTag = (item) => {
-
-    if (item.location) {
-      const location = item.location
+  const LocationRow = (record) => {
+    if (record.location) {
+      const location = record.location
       const geo_info = location.geo_info
       const isp = location.isp
-      return <><Tag
+      return <Space><Tag
         color="geekblue"
         style={{
           textAlign: 'center', cursor: 'pointer',
@@ -214,38 +213,37 @@ const IPDomain = props => {
             textAlign: 'center', cursor: 'pointer',
           }}
         >{geo_info.country_cn} {geo_info.province_cn} {geo_info.city_cn}
-        </Tag></>
+        </Tag>{TimeTag(location.update_time)}</Space>
     } else {
       return null
     }
   }
-  const IPInfoRow = (item) => {
-    return <Space size={0}>
-      <Tag
-        color="blue"
-        style={{
-          textAlign: 'center', cursor: 'pointer',
-        }}
-      >
-        {item.ip}
-      </Tag>
-      {LocationTag(item)}
-      {TimeTag(item.update_time)}
-    </Space>
-  }
 
-  const IPDomainInfoRow = (item) => {
-    return <Tag
+  const IPDomainInfoRow = (record) => {
+
+    return <Space size={0}><Tag
       color="blue"
       style={{
         textAlign: 'center', cursor: 'pointer',
       }}
     >
-      {item.ipdomain}
+      {record.ipdomain}
+    </Tag><Tag
+      color="blue"
+      style={{
+        textAlign: 'center', cursor: 'pointer',
+      }}
+    >
+      {record.ip}
     </Tag>
+      {TimeTag(record.update_time)}
+    </Space>
+
   }
 
-  const PortInfoRow = (item) => {
+  const PortInfoRow = (record) => {
+    const service = record.port.service
+
     return <Space size={0}>
       <Tag
         color="green"
@@ -254,7 +252,7 @@ const IPDomain = props => {
           textAlign: 'center', cursor: 'pointer',
         }}
       >
-        <strong>{item.port}</strong>
+        <strong>{service.port}</strong>
       </Tag>
       <Tag
         color="cyan"
@@ -263,30 +261,53 @@ const IPDomain = props => {
           textAlign: 'center', cursor: 'pointer',
         }}
       >
-        <strong>{item.service}</strong>
-      </Tag>
+        <strong>{service.service}</strong>
+      </Tag>{TimeTag(service.update_time)}
     </Space>
   }
-  const ComponentRow = (item) => {
-    if (item.component_list) {
-      const component_list = item.component_list
+  const ComponentRow = (record) => {
+    if (record.port) {
+      if (record.port.components) {
+        const components = record.port.components
 
-      const tagslist = component_list.map(component => {
-        return <Tag
-          // icon={<MacCommandOutlined/>}
-          color="purple"
-          style={{
-            textAlign: 'center',
-          }}
-        >
-          {component.product_name}
-        </Tag>
-      })
-      return <Space wrap size={[0, 4]}>{tagslist}</Space>
-    } else {
-      return null
+        const tagslist = components.map(component => {
+          return <Tag
+            // icon={<MacCommandOutlined/>}
+            color="purple"
+            style={{
+              textAlign: 'center',
+            }}
+          >
+            {component.product_name}
+          </Tag>
+        })
+        return <Space wrap size={[0, 4]}>
+          {tagslist}</Space>
+      }
     }
+    return null
+  }
 
+  const cdnRow = (record) => {
+    if (record.cdn === null) {
+      return null
+    } else {
+      if (record.cdn.flag === true) {
+        return <Tag
+          color="orange"
+          style={{
+            textAlign: 'center', cursor: 'pointer',
+          }}
+        >CDN</Tag>
+      } else {
+        return <Tag
+          color="green"
+          style={{
+            textAlign: 'center', cursor: 'pointer',
+          }}
+        >No CDN</Tag>
+      }
+    }
   }
 
   const SearchModel = () => {
@@ -330,66 +351,49 @@ const IPDomain = props => {
       <div>111</div>
     </Card>
   }
-
-  const HttpTabPane = (record) => {
-    const cdnTag = (cdn) => {
-      if (cdn === null) {
-        return null
-      } else {
-        if (cdn.flag === true) {
-          return <Tag
-            color="orange"
-            style={{
-              textAlign: 'center', cursor: 'pointer',
-            }}
-          >CDN</Tag>
-        } else {
-          return <Tag
-            color="green"
-            style={{
-              textAlign: 'center', cursor: 'pointer',
-            }}
-          >No CDN</Tag>
-        }
-      }
-    }
-    const httpFaviconTag = (httpfavicon) => {
-      if (httpfavicon !== null) {
-        const src = 'data:image/png;base64,' + httpfavicon.content
-        return <Avatar
-          shape="square"
-          size={20}
-          src={src}
-        />
-      } else {
-        return null
-      }
-    }
-    if (record.http !== null && record.http !== undefined) {
-      const http = record.http
-      const httpbase = http.httpbase
-      const httpfavicon = http.httpfavicon
-      const cdn = http.cdn
-      return <Tabs.TabPane tab={<span>HTTP</span>} key="HTTP">
-        <Space>
-          {httpFaviconTag(httpfavicon)}
-          <Button type="link" size="small" shape="round"
-                  icon={<LinkOutlined/>}>{httpbase.title}</Button>
-          <Tag
-            color="cyan"
-            style={{
-              textAlign: 'center', cursor: 'pointer',
-            }}
-          >
-            <strong>{httpbase.status_code}</strong>
-          </Tag>
-          {cdnTag(cdn)}
-        </Space>
-      </Tabs.TabPane>
+  const httpFaviconTag = (http_favicon) => {
+    if (http_favicon) {
+      const src = 'data:image/png;base64,' + http_favicon.content
+      return <Avatar
+        shape="square"
+        size={20}
+        src={src}
+      />
     } else {
-
       return null
     }
+  }
+
+  const httpBaseRow = (http_base) => {
+    if (http_base) {
+      return <>
+        <Button type="link" size="small" shape="round"
+                icon={<LinkOutlined/>}>{http_base.title}</Button>
+        <Tag
+          color="cyan"
+          style={{
+            textAlign: 'center', cursor: 'pointer',
+          }}
+        >
+          <strong>{http_base.status_code}</strong>
+        </Tag>
+      </>
+    }
+    return null
+  }
+
+  const HttpTabPane = (record) => {
+    if (record.port) {
+      const http_base = record.port.http_base
+      const http_favicon = record.port.http_favicon
+      return <Tabs.TabPane tab={<span>HTTP</span>} key="HTTP">
+        <Space>
+          {httpFaviconTag(http_favicon)}
+          {httpBaseRow(http_base)}
+        </Space>
+      </Tabs.TabPane>
+    }
+    return null
   }
 
   const DNSTabPane = (record) => {
@@ -473,11 +477,11 @@ const IPDomain = props => {
   }
 
   const ResponseTabPane = (record) => {
-
-    if (record.response) {
-      const response = record.response
-
-      return <Tabs.TabPane tab={<span>Response</span>} key="Response">
+    if (record.port) {
+      if (record.port.service) {
+        if (record.port.service.response) {
+          const response = record.port.service.response
+          return <Tabs.TabPane tab={<span>Response</span>} key="Response">
                         <pre
                           style={{
                             marginTop: -16,
@@ -490,10 +494,11 @@ const IPDomain = props => {
                             background: '#141414',
                           }}
                         >{response}</pre>
-      </Tabs.TabPane>
-    } else {
-      return null
+          </Tabs.TabPane>
+        }
+      }
     }
+    return null
   }
   const DomainICPTabPane = (record) => {
 
@@ -529,13 +534,16 @@ const IPDomain = props => {
           >{IPDomainInfoRow(record)}</Row>
           <Row
             style={{ marginTop: 4, marginLeft: 4 }}
-          >{IPInfoRow(record)}</Row>
+          >{LocationRow(record)}</Row>
           <Row
             style={{ marginTop: 4, marginLeft: 4 }}
           >{PortInfoRow(record)}</Row>
           <Row
             style={{ marginTop: 4, marginLeft: 4 }}
           >{ComponentRow(record)}</Row>
+          <Row
+            style={{ marginTop: 4, marginLeft: 4 }}
+          >{cdnRow(record)}</Row>
           <Row
             style={{ marginTop: 4, marginLeft: 4 }}
           ><Space>
@@ -583,7 +591,6 @@ const IPDomain = props => {
             {ScreenshotTabPane(record)}
             {ResponseTabPane(record)}
             {DNSTabPane(record)}
-            {DomainICPTabPane(record)}
           </Tabs>
         </Col>
       </Row>
@@ -653,7 +660,7 @@ const IPDomain = props => {
     if (record.port) {
       maincard = IPDomainPortCard(record)
     } else {
-      maincard = IPDomainOnlyCard(record)
+      // maincard = IPDomainOnlyCard(record)
     }
     return <List.Item
       style={{ padding: 0, margin: 0 }}

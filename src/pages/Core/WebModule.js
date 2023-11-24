@@ -423,8 +423,7 @@ export const RunWebModule = props => {
               type="primary"
               htmlType="submit"
               block
-              disabled={webModuleConfigActive.loadpath === null ||
-                selectedRows.length === 0}
+              disabled={webModuleConfigActive.loadpath === null}
               icon={<PlayCircleOutlined/>}
               loading={createPostModuleActuatorReq.loading}
             >{formatText('app.runmodule.postmodule.run')}</Button>
