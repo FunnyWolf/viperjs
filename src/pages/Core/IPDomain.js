@@ -435,26 +435,54 @@ const IPDomain = props => {
   }
 
   const CertTabPane = (record) => {
-    if (record.cert) {
-      const cert = record.cert
-      return <Tabs.TabPane tab={<span>Cert</span>} key="Cert">
-                        <pre
-                          style={{
-                            marginTop: -16,
-                            marginBottom: 0,
-                            padding: '0 0 0 0',
-                            overflowX: 'hidden',
-                            maxHeight: listitemHeight,
-                            minHeight: listitemHeight,
-                            whiteSpace: 'pre-wrap',
-                            wordWrap: 'break-word',
-                            background: '#141414',
-                          }}
-                        >{cert.cert}</pre>
-      </Tabs.TabPane>
-    } else {
-      return null
+    if (record.port) {
+      if (record.port.cert) {
+        const cert = record.port.cert
+        const subject = cert.subject
+
+        return <Tabs.TabPane tab={<span>Cert</span>} key="Cert">
+          <Row>
+            <Col span={8}>
+              <Descriptions
+                style={{
+                  marginTop: -16,
+                }}
+                // bordered size="small"
+                column={3}
+                layout="vertical">
+                <Descriptions.Item
+                  label="country">{subject.country}</Descriptions.Item>
+                <Descriptions.Item
+                  label="province">{subject.province}</Descriptions.Item>
+                <Descriptions.Item
+                  label="locality">{subject.locality}</Descriptions.Item>
+                <Descriptions.Item label="organization"
+                                   span={3}>{subject.organization}</Descriptions.Item>
+                <Descriptions.Item label="common_name"
+                                   span={3}>{subject.common_name}</Descriptions.Item>
+              </Descriptions>
+            </Col>
+            <Col span={16}>
+              <pre
+                style={{
+                  marginTop: -16,
+                  marginBottom: 0,
+                  padding: '0 0 0 0',
+                  overflowX: 'hidden',
+                  maxHeight: listitemHeight,
+                  minHeight: listitemHeight,
+                  whiteSpace: 'pre-wrap',
+                  wordWrap: 'break-word',
+                  background: '#141414',
+                }}
+              >{cert.cert}</pre>
+            </Col>
+          </Row>
+
+        </Tabs.TabPane>
+      }
     }
+    return null
   }
 
   const ScreenshotTabPane = (record) => {
@@ -528,7 +556,7 @@ const IPDomain = props => {
       bodyStyle={{ padding: 0, margin: 0, minHeight: listitemHeight + 36 }}
     >
       <Row>
-        <Col span={12}>
+        <Col span={10}>
           <Row
             style={{ marginTop: 4, marginLeft: 4 }}
           >{IPDomainInfoRow(record)}</Row>
@@ -580,7 +608,7 @@ const IPDomain = props => {
           </Space>
           </Row>
         </Col>
-        <Col span={12}>
+        <Col span={14}>
           <Tabs
             style={{
               marginTop: -4,
