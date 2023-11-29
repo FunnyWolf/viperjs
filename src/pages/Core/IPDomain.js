@@ -309,7 +309,22 @@ const IPDomain = props => {
       }
     }
   }
-
+  const wafRow = (record) => {
+    if (record.port) {
+      if (record.port.waf) {
+        const waf = record.port.waf
+        if (waf.flag === true) {
+          return <Tag
+            color="orange"
+            style={{
+              textAlign: 'center', cursor: 'pointer',
+            }}
+          >WAF</Tag>
+        }
+      }
+    }
+    return null
+  }
   const SearchModel = () => {
     const [form] = Form.useForm()
 
@@ -572,6 +587,9 @@ const IPDomain = props => {
           <Row
             style={{ marginTop: 4, marginLeft: 4 }}
           >{cdnRow(record)}</Row>
+          <Row
+            style={{ marginTop: 4, marginLeft: 4 }}
+          >{wafRow(record)}</Row>
           <Row
             style={{ marginTop: 4, marginLeft: 4 }}
           ><Space>
