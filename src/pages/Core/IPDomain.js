@@ -37,6 +37,7 @@ import {
   Input,
   Radio,
   InputNumber,
+  Select,
 } from 'antd'
 import {
   CopyOutlined,
@@ -325,7 +326,7 @@ const IPDomain = props => {
     }
     return null
   }
-  const SearchModel = () => {
+  const SearchRow = () => {
     const [form] = Form.useForm()
 
     return <Form
@@ -338,17 +339,39 @@ const IPDomain = props => {
       <Form.Item
         name="ipdomain"
         label="IP / Domain"
-        // rules={[
-        //     {
-        //         required: true,
-        //         message: 'Please input the title of collection!',
-        //     },
-        // ]}
       >
         <Input/>
       </Form.Item>
       <Form.Item name="port" label="Port">
         <InputNumber min={1} max={65535}/>
+      </Form.Item>
+      <Form.Item name="waf_flag" label="WAF">
+        <Select
+          style={{
+            width: 64,
+          }}
+          allowClear
+          options={[
+            {
+              value: true, label: 'Yes',
+            }, {
+              value: false, label: 'No',
+            }]}
+        />
+      </Form.Item>
+      <Form.Item name="cdn_flag" label="CDN">
+        <Select
+          style={{
+            width: 64,
+          }}
+          allowClear
+          options={[
+            {
+              value: true, label: 'Yes',
+            }, {
+              value: false, label: 'No',
+            }]}
+        />
       </Form.Item>
       <Form.Item>
         <Button icon={<SearchOutlined/>} htmlType="submit">{formatText(
@@ -722,7 +745,7 @@ const IPDomain = props => {
       // style={{ marginTop: 0, marginBottom: 0 }}
     >
       <Col span={16}>
-        <SearchModel/>
+        <SearchRow/>
       </Col>
       {/*<Col span={2}>*/}
 
