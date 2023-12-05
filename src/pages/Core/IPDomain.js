@@ -47,6 +47,7 @@ import {
   SwapOutlined,
   DeleteOutlined,
   SearchOutlined,
+  DeliveredProcedureOutlined,
 } from '@ant-design/icons'
 import copy from 'copy-to-clipboard'
 import { getToken } from '@/utils/authority'
@@ -88,16 +89,16 @@ const IPDomain = props => {
     setProjects,
     ipdomains,
     setIPDomains,
-    webTaskListPortScan,
-    setWebTaskListPortScan,
+    webIPDomainPortWaitList,
+    setWebIPDomainPortWaitList,
   } = useModel('WebMainModel', model => ({
     projectActive: model.projectActive,
     projects: model.projects,
     setProjects: model.setProjects,
     ipdomains: model.ipdomains,
     setIPDomains: model.setIPDomains,
-    webTaskListPortScan: model.webTaskListPortScan,
-    setWebTaskListPortScan: model.setWebTaskListPortScan,
+    webIPDomainPortWaitList: model.webIPDomainPortWaitList,
+    setWebIPDomainPortWaitList: model.setWebIPDomainPortWaitList,
   }))
   const initTableParams = {
     current: 1, pageSize: 10,
@@ -137,24 +138,16 @@ const IPDomain = props => {
     },
   })
 
-  const addToWebTaskListPortScan = (params) => {
-    const { ipdomain, tag } = params
+  const addToWebIPDomainPortWaitList = (record) => {
+    const { id } = record
 
-    if (!webTaskListPortScan.some(item => item.ipdomain === ipdomain)) {
-      setWebTaskListPortScan([...webTaskListPortScan, params])
+    if (!webIPDomainPortWaitList.some(item => item.id === id)) {
+      setWebIPDomainPortWaitList([...webIPDomainPortWaitList, record])
+      msgsuccess(`加入等待列表成功`, `Add to waiting list successfully`)
+    } else {
+      msgsuccess(`已在等待列表中`, `Already in the waiting list`)
     }
-    msgsuccess(`已添加到任务队列`, `Added to task queue`)
-  }
-  // const addToWebTaskListPortScan = (params) => {
-  //     if (!webTaskListPortScan.includes(params)) {
-  //         setWebTaskListPortScan([...webTaskListPortScan, params])
-  //     }
-  //     console.log(webTaskListPortScan)
-  //     msgsuccess(`已添加到任务队列`, `Added to task queue`)
-  // }
-
-  const cleanWebTaskListPortScan = () => {
-    setWebTaskListPortScan([])
+    console.log(webIPDomainPortWaitList)
   }
 
   const switchProject = (key, record) => {
@@ -243,7 +236,7 @@ const IPDomain = props => {
   }
 
   const PortInfoRow = (record) => {
-    const service = record.port.service
+    const service = record.port_info.service
 
     return <Space size={0}>
       <Tag
@@ -267,9 +260,9 @@ const IPDomain = props => {
     </Space>
   }
   const ComponentRow = (record) => {
-    if (record.port) {
-      if (record.port.components) {
-        const components = record.port.components
+    if (record.port_info) {
+      if (record.port_info.components) {
+        const components = record.port_info.components
 
         const tagslist = components.map(component => {
           return <Tag
@@ -311,9 +304,9 @@ const IPDomain = props => {
     }
   }
   const wafRow = (record) => {
-    if (record.port) {
-      if (record.port.waf) {
-        const waf = record.port.waf
+    if (record.port_info) {
+      if (record.port_info.waf) {
+        const waf = record.port_info.waf
         if (waf.flag === true) {
           return <Tag
             color="orange"
@@ -421,9 +414,9 @@ const IPDomain = props => {
   }
 
   const HttpTabPane = (record) => {
-    if (record.port) {
-      const http_base = record.port.http_base
-      const http_favicon = record.port.http_favicon
+    if (record.port_info) {
+      const http_base = record.port_info.http_base
+      const http_favicon = record.port_info.http_favicon
       return <Tabs.TabPane tab={<span>HTTP</span>} key="HTTP">
         <Space>
           {httpFaviconTag(http_favicon)}
@@ -473,9 +466,9 @@ const IPDomain = props => {
   }
 
   const CertTabPane = (record) => {
-    if (record.port) {
-      if (record.port.cert) {
-        const cert = record.port.cert
+    if (record.port_info) {
+      if (record.port_info.cert) {
+        const cert = record.port_info.cert
         const subject = cert.subject
 
         return <Tabs.TabPane tab={<span>Cert</span>} key="Cert">
@@ -543,10 +536,10 @@ const IPDomain = props => {
   }
 
   const ResponseTabPane = (record) => {
-    if (record.port) {
-      if (record.port.service) {
-        if (record.port.service.response) {
-          const response = record.port.service.response
+    if (record.port_info) {
+      if (record.port_info.service) {
+        if (record.port_info.service.response) {
+          const response = record.port_info.service.response
           return <Tabs.TabPane tab={<span>Response</span>} key="Response">
                         <pre
                           style={{
@@ -636,9 +629,8 @@ const IPDomain = props => {
               <Button icon={<SwapOutlined/>}></Button>
             </Dropdown>
             <Button
-              icon={<DeleteOutlined/>}
-              onClick={() => addToWebTaskListPortScan(
-                { ipdomain: record.ipdomain })}
+              icon={<DeliveredProcedureOutlined/>}
+              onClick={() => addToWebIPDomainPortWaitList(record)}
             ></Button>
             <Button
               danger
@@ -700,8 +692,7 @@ const IPDomain = props => {
             </Dropdown>
             <Button
               icon={<DeleteOutlined/>}
-              onClick={() => addToWebTaskListPortScan(
-                { ipdomain: record.ipdomain })}
+              onClick={() => addToWebIPDomainPortWaitList(record)}
             ></Button>
             <Button
               danger
@@ -726,10 +717,10 @@ const IPDomain = props => {
   }
   const renderItem = record => {
     let maincard = null
-    if (record.port) {
+    if (record.port_info) {
       maincard = IPDomainPortCard(record)
     } else {
-      // maincard = IPDomainOnlyCard(record)
+      maincard = IPDomainOnlyCard(record)
     }
     return <List.Item
       style={{ padding: 0, margin: 0 }}
@@ -742,23 +733,13 @@ const IPDomain = props => {
     <DocIcon url="https://www.yuque.com/vipersec/help/yc0ipk"/>
     <Row
       gutter={0}
-      // style={{ marginTop: 0, marginBottom: 0 }}
+      style={{ marginTop: 2, marginBottom: 2 }}
     >
       <Col span={16}>
         <SearchRow/>
       </Col>
-      {/*<Col span={2}>*/}
-
-      {/*</Col>*/}
       <Col span={8}>
         <Space>
-          <Button
-            icon={<SyncOutlined/>}
-            onClick={() => handleRefresh()}
-            loading={listIPdomainReq.loading || listIPdomainReq.loading}
-          >
-            {formatText('app.core.refresh')}
-          </Button>
           <Pagination
             // style={{
             //     float: 'right',
@@ -769,17 +750,25 @@ const IPDomain = props => {
             showSizeChanger={false}
             responsive={false}
           />
+          <Button
+            style={{ width: 120 }}
+            icon={<SyncOutlined/>}
+            onClick={() => handleRefresh()}
+            loading={listIPdomainReq.loading || listIPdomainReq.loading}
+          >
+            {formatText('app.core.refresh')}
+          </Button>
         </Space>
       </Col>
     </Row>
     <List
       style={{
         overflow: 'auto',
-        maxHeight: cssCalc(`${WebMainHeight} - 56px`),
-        minHeight: cssCalc(`${WebMainHeight} - 56px`),
+        maxHeight: cssCalc(`${WebMainHeight} - 60px`),
+        minHeight: cssCalc(`${WebMainHeight} - 60px`),
       }}
-      // rowKey={record => `${record.ipdomain}:${record.port}`}
-      bordered={true}
+      rowKey={'id'}
+      // bordered={true}
       split={false}
       itemLayout="vertical"
       size="small"

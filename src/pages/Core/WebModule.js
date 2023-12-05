@@ -1,9 +1,6 @@
 import { useModel } from '@@/plugin-model/useModel'
 import {
-  formatText,
-  getModuleDesc,
-  getModuleName,
-  msgsuccess,
+  formatText, getModuleDesc, getModuleName, msgsuccess,
 } from '@/utils/locales'
 import React, { memo, useState } from 'react'
 import { useRequest } from 'umi'
@@ -17,16 +14,7 @@ import {
   StarTwoTone,
 } from '@ant-design/icons'
 import {
-  Button,
-  Col,
-  Descriptions,
-  Form,
-  Popover,
-  Row,
-  Table,
-  Tag,
-  Input,
-  Segmented,
+  Button, Col, Descriptions, Form, Popover, Row, Table, Tag, Input, Segmented,
 } from 'antd'
 import { cssCalc } from '@/utils/utils'
 import styles from '@/utils/utils.less'
@@ -43,10 +31,10 @@ export const RunWebModule = props => {
   }))
 
   const {
-    webTaskListPortScan, setWebTaskListPortScan, projectActive,
+    webIPDomainPortWaitList, setWebIPDomainPortWaitList, projectActive,
   } = useModel('WebMainModel', model => ({
-    webTaskListPortScan: model.webTaskListPortScan,
-    setWebTaskListPortScan: model.setWebTaskListPortScan,
+    webIPDomainPortWaitList: model.webIPDomainPortWaitList,
+    setWebIPDomainPortWaitList: model.setWebIPDomainPortWaitList,
     projectActive: model.projectActive,
   }))
 
@@ -72,13 +60,6 @@ export const RunWebModule = props => {
   const pins = getPins()
   webModuleConfigList.sort(
     (a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath))
-
-  // useRequest(() => getCoreNetworkSearchAPI({ cmdtype: 'list_config' }), {
-  //     onSuccess: (result, params) => {
-  //         setEngineConfs(result)
-  //     }, onError: (error, params) => {
-  //     },
-  // })
 
   const createPostModuleActuatorReq = useRequest(
     postPostmodulePostModuleActuatorAPI, {
@@ -201,58 +182,83 @@ export const RunWebModule = props => {
       },
     }]
 
+  const waitListTableColumns = [
+    {
+      title: 'Domain',
+      dataIndex: 'ipdomain',
+
+      render: (text, record) => (<strong
+        style={{
+          color: '#13a8a8',
+        }}
+      >
+        {text}
+      </strong>),
+    }, {
+      title: 'IP',
+      dataIndex: 'ip',
+      width: 128,
+      render: (text, record) => (<strong
+        style={{
+          color: '#13a8a8',
+        }}
+      >
+        {text}
+      </strong>),
+    }, {
+      title: 'Port',
+      dataIndex: 'port',
+      width: 64,
+      render: (text, record) => (<strong
+        style={{
+          color: '#7cb305',
+        }}
+      >
+        {text}
+      </strong>),
+    }, {
+      title: 'CDN',
+      dataIndex: 'cdn',
+      width: 80,
+      render: (text, record) => {
+        if (record.cdn) {
+          if (record.cdn.flag) {
+            return (<Tag color="red">CDN</Tag>)
+          } else {
+            return (<Tag color="lime">No CDN</Tag>)
+          }
+        }
+        return (<Tag>Null</Tag>)
+      },
+    }, {
+      // show waf infomation
+      title: 'WAF',
+      dataIndex: 'waf',
+      width: 80,
+      render: (text, record) => {
+        if (record.port_info) {
+          if (record.port_info.waf) {
+            if (record.port_info.waf.flag) {
+              return (<Tag color="red">WAF</Tag>)
+            } else {
+              return (<Tag color="lime">No WAF</Tag>)
+            }
+          }
+          return (<Tag>Null</Tag>)
+        }
+        return (<Tag>Null</Tag>)
+      },
+    }]
   const rowSelection = {
     selectedRowKeys, onChange: onSelectChange,
   }
 
-  const addListToWebTaskListPortScan = (params) => {
-    let addipdomains = params.ipdomaintext.split('\n')
-    addipdomains = addipdomains.filter(
-      record => !webTaskListPortScan.some(item => item.ipdomain === record))
-    addipdomains = addipdomains.map((record, index) => {
-      return { ipdomain: record }
-    })
-    setWebTaskListPortScan([...webTaskListPortScan, ...addipdomains])
-    msgsuccess(`已添加到任务队列`, `Added to task queue`)
-  }
-
-  const deleteSelectedWebTaskListPortScan = () => {
-
-    setWebTaskListPortScan(webTaskListPortScan.filter(item => {
-      return !selectedRowKeys.includes(item.ipdomain)
+  const deleteSelectedWebIPDomainPortWaitList = () => {
+    setWebIPDomainPortWaitList(webIPDomainPortWaitList.filter(item => {
+      return !selectedRowKeys.includes(item.id)
     }))
   }
 
-  const addIPDomainForm = () => {
-    return <Form
-
-      onFinish={addListToWebTaskListPortScan}
-      // layout="inline"
-    >
-      <Form.Item
-        name="ipdomaintext"
-        // rules={[
-        //     {
-        //         required: true,
-        //         // message: 'Please input your username!',
-        //     },
-        // ]}
-      >
-        <TextArea
-          style={{
-            width: 240,
-          }}
-          placeholder={formatText('ipdomain.portscan.ipdomainlist.ph')}
-          autoSize={{ minRows: 3, maxRows: 10 }}
-        />
-      </Form.Item>
-      <Form.Item>
-        <Button type="primary" htmlType="submit" block>
-          添加
-        </Button>
-      </Form.Item>
-    </Form>
-  }
   const ModuleInfoContent = (record) => {
     const readme = record.README
     const readmeCom = []
@@ -320,12 +326,11 @@ export const RunWebModule = props => {
     </Descriptions>)
   }
 
-  return (<Row gutter={0}>
+  return (<Row gutter={[0, 0]}>
     <Col span={6}>
       <Search
         placeholder={formatText('app.runmodule.postmodule.searchmodule.ph')}
         onSearch={value => handleModuleSearch(value)}
-
       />
       <Radio.Group
         defaultValue=""
@@ -369,65 +374,45 @@ export const RunWebModule = props => {
         dataSource={webModuleConfigList}
       />
     </Col>
-    <Col span={12}>
-      <Row gutter={8}>
-        <Col span={12}>
-          <Row>
-            <Popover content={addIPDomainForm} trigger="click">
-              <Button>添加目标</Button>
-            </Popover>
-            <Button
-              icon={<DeleteOutlined/>}
-              onClick={() => deleteSelectedWebTaskListPortScan()}
-            >Clean</Button>
-          </Row>
-          <Table
-            // loading={listNetworkSearchReq.loading}
-            style={{
-              // marginTop: 0,
-              // maxHeight: '560px', minHeight: '560px',
-            }}
-            scroll={{ y: 480 }}
-            size="small"
-            bordered
-            pagination={false}
-            rowKey="ipdomain"
-            rowSelection={rowSelection}
-            columns={[
-              {
-                title: 'IPDomain',
-                dataIndex: 'ipdomain',
-                key: 'ipdomain',
-                width: 120,
-                render: (text, record) => (<strong
-                  style={{
-                    color: '#13a8a8',
-                  }}
-                >
-                  {text}
-                </strong>),
-              }]}
-            dataSource={webTaskListPortScan}
-          />
-        </Col>
+    <Col span={18}>
+      <Row gutter={0}>
+        <Row>
+          <Button
+            icon={<DeleteOutlined/>}
+            onClick={() => deleteSelectedWebIPDomainPortWaitList()}
+          >Clean</Button>
+        </Row>
+        <Table
+          style={{
+            // marginTop: 0,
+            // maxHeight: '560px', minHeight: '560px',
+          }}
+          scroll={{ y: 480 }}
+          size="small"
+          bordered
+          pagination={false}
+          rowKey="id"
+          rowSelection={rowSelection}
+          columns={waitListTableColumns}
+          dataSource={webIPDomainPortWaitList}
+        />
       </Row>
       <Form
+        style={{ marginTop: 16 }}
         layout="vertical"
         wrapperCol={{ span: 24 }}
         onFinish={onCreateWebModuleActuator}
       >
         <Row>{getModuleOptions(webModuleConfigActive)}</Row>
         <Row>
-          <Col span={22}>
-            <Button
-              type="primary"
-              htmlType="submit"
-              block
-              disabled={webModuleConfigActive.loadpath === null}
-              icon={<PlayCircleOutlined/>}
-              loading={createPostModuleActuatorReq.loading}
-            >{formatText('app.runmodule.postmodule.run')}</Button>
-          </Col>
+          <Button
+            type="primary"
+            htmlType="submit"
+            block
+            disabled={webModuleConfigActive.loadpath === null}
+            icon={<PlayCircleOutlined/>}
+            loading={createPostModuleActuatorReq.loading}
+          >{formatText('app.runmodule.postmodule.run')}</Button>
         </Row>
       </Form>
     </Col>
