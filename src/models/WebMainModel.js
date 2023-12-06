@@ -12,6 +12,8 @@ export default function WebMainModel () {
   const [webIPDomainPortWaitList, setWebIPDomainPortWaitList] = useLocalStorageState(
     'web_ipdomain_port_wait_list', [])
   const [webJobList, setWebjobList] = useState([])
+  const [webTaskResultList, setWebTaskResultList] = useState([])
+  const [webTaskResultListActive, setWebTaskResultListActive] = useState([])
   return {
     ipdomains,
     setIPDomains,
@@ -23,5 +25,9 @@ export default function WebMainModel () {
     setWebIPDomainPortWaitList,
     webJobList,
     setWebjobList,
+    webTaskResultList,
+    setWebTaskResultList,
+    webTaskResultListActive,
+    setWebTaskResultListActive,
   }
 }

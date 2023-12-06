@@ -1,8 +1,12 @@
 export default {
-    'project.name': 'Name',
-    'project.desc': 'Description',
-    'project.select': 'Select',
-    'ipdomain.portscan.ipdomainlist.ph': '192.168.1.1/24\n192.168.1.3',
-    'webmodule.portscan': 'Port',
-    'webmodule.subdomain': 'Subdomain',
+  'project.name': 'Name',
+  'project.desc': 'Description',
+  'project.select': 'Select',
+  'ipdomain.portscan.ipdomainlist.ph': '192.168.1.1/24\n192.168.1.3',
+  'webmodule.portscan': 'Port',
+  'webmodule.subdomain': 'Subdomain',
+  'webjobs.waiting': 'waiting',
+  'webjobs.running': 'running',
+  'webjobs.success': 'success',
+  'webjobs.error': 'error',
 }

@@ -733,7 +733,7 @@ const IPDomain = props => {
     <DocIcon url="https://www.yuque.com/vipersec/help/yc0ipk"/>
     <Row
       gutter={0}
-      style={{ marginTop: 2, marginBottom: 2 }}
+      style={{ marginTop: 0, marginBottom: 0 }}
     >
       <Col span={16}>
         <SearchRow/>
