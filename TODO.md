@@ -1,5 +1,5 @@
 - ~~测试WAF识别,CDN识别工具,确认数据库字段~~
-- LHOST信息新增check功能,是不是外网IP(或者是不是IP)
+- ~~LHOST信息新增check功能,是不是外网IP(或者是不是IP)~~
 - service搜索功能有提示,展示系统中所有已经存在的service,支持组件搜索
 - 集成项目https://github.com/qwqdanchun/Pillager
 - 针对某个端口记录可以添加备注功能,方便进行跟踪,也添加tag功能

@@ -366,10 +366,22 @@ const IPDomain = props => {
             }]}
         />
       </Form.Item>
+      <Form.Item
+        name="service"
+        label="Service"
+      >
+        <Input/>
+      </Form.Item>
       <Form.Item>
         <Button icon={<SearchOutlined/>} htmlType="submit">{formatText(
           'app.core.search')}</Button>
       </Form.Item>
+      <Button
+        // style={{ width: 120 }}
+        icon={<SyncOutlined/>}
+        onClick={() => handleRefresh()}
+        loading={listIPdomainReq.loading || listIPdomainReq.loading}
+      />
     </Form>
   }
   const DetailRow = (item) => {
@@ -735,14 +747,14 @@ const IPDomain = props => {
       gutter={0}
       style={{ marginTop: 0, marginBottom: 0 }}
     >
-      <Col span={16}>
+      <Col span={18}>
         <SearchRow/>
       </Col>
-      <Col span={8}>
+      <Col span={6}>
         <Space>
           <Pagination
             // style={{
-            //     float: 'right',
+            //   float: 'right',
             // }}
             {...tableParams}
             onChange={handlePageChange}
@@ -750,14 +762,7 @@ const IPDomain = props => {
             showSizeChanger={false}
             responsive={false}
           />
-          <Button
-            style={{ width: 120 }}
-            icon={<SyncOutlined/>}
-            onClick={() => handleRefresh()}
-            loading={listIPdomainReq.loading || listIPdomainReq.loading}
-          >
-            {formatText('app.core.refresh')}
-          </Button>
+
         </Space>
       </Col>
     </Row>
