@@ -14,6 +14,7 @@ export default function WebMainModel () {
   const [webJobList, setWebjobList] = useState([])
   const [webTaskResultList, setWebTaskResultList] = useState([])
   const [webTaskResultListActive, setWebTaskResultListActive] = useState([])
+  const [notices, setNotices] = useState([])
   return {
     ipdomains,
     setIPDomains,
@@ -29,5 +30,7 @@ export default function WebMainModel () {
     setWebTaskResultList,
     webTaskResultListActive,
     setWebTaskResultListActive,
+    notices,
+    setNotices,
   }
 }

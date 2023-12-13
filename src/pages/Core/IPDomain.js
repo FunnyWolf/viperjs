@@ -662,7 +662,7 @@ const IPDomain = props => {
       bodyStyle={{ padding: 0, margin: 0, minHeight: listitemHeight + 36 }}
     >
       <Row>
-        <Col span={12}>
+        <Col span={10}>
           <Row
             style={{ marginTop: 4, marginLeft: 4 }}
           >
@@ -702,7 +702,7 @@ const IPDomain = props => {
             ></Button>
           </Space></Row>
         </Col>
-        <Col span={12}>
+        <Col span={14}>
           <Tabs
             style={{
               marginTop: -4,

@@ -471,3 +471,9 @@ export async function deleteWebTaskResultAPI (params) {
     method: 'DELETE', params,
   })
 }
+
+export async function deleteWebNoticesAPI (params) {
+  return request('/api/v1/webdatabase/webnotices/', {
+    method: 'DELETE', params,
+  })
+}

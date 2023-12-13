@@ -1,7 +1,4 @@
-- 每个模块的参数可以完备的运行,不依赖input_list
-- 添加直接执行quake搜索语句的模块
-- 设计一个实时输出运行信息的新的Notice模块
-- 测试WAF识别,CDN识别工具,确认数据库字段
+- ~~测试WAF识别,CDN识别工具,确认数据库字段~~
 - LHOST信息新增check功能,是不是外网IP(或者是不是IP)
 - service搜索功能有提示,展示系统中所有已经存在的service,支持组件搜索
 - 集成项目https://github.com/qwqdanchun/Pillager
@@ -19,3 +16,4 @@
 - 将Setting页面优化,删除不相关功能
 - 邮箱信息收集 页面/收集工具/展示/数据库设计
 - nuclei集成,为数据库表结构和前端交互做准备
+- 展示一个project里面数据的所有ip地址,子网,子域名,主域名
