@@ -11,6 +11,7 @@ import {
   getWebdatabaseProjectAPI,
   postPostmodulePostModuleActuatorAPI,
   postWebdatabaseProjectAPI,
+  putWebdatabasePortAPI,
   putWebdatabaseProjectAPI,
 } from '@/services/apiv1'
 
@@ -76,10 +77,32 @@ import {
   LinkOutlined,
 } from '@ant-design/icons'
 import styles from '@/utils/utils.less'
-import { Descriptions } from '_antd@4.24.14@antd'
+import { Descriptions } from 'antd'
+import {
+  BugOutlined,
+  CloudOutlined,
+  GatewayOutlined,
+  LaptopOutlined,
+  PlusOutlined,
+  QuestionOutlined,
+  WindowsOutlined,
+} from '@ant-design/icons'
 
 const listitemHeight = 240
-
+const hostTypeToAvatar = {
+  ad_server: (<Avatar shape="square" size="small"
+                      style={{ backgroundColor: '#531dab' }}/>),
+  pc: <Avatar shape="square" size="small"
+              style={{ backgroundColor: '#096dd9' }}/>,
+  web_server: (<Avatar shape="square" size="small"
+                       style={{ backgroundColor: '#389e0d' }}/>),
+  firewall: (<Avatar shape="square" size="small"
+                     style={{ backgroundColor: '#d46b08' }}/>),
+  cms: <Avatar shape="square" size="small"
+               style={{ backgroundColor: '#cf1322' }}/>,
+  other: (<Avatar shape="square" size="small"
+                  style={{ backgroundColor: '#bfbfbf' }}/>),
+}
 const IPDomain = props => {
   console.log('IPDomain')
 
@@ -319,6 +342,17 @@ const IPDomain = props => {
     }
     return null
   }
+
+  const portCommentRow = (record) => {
+    if (record.comment) {
+      return <Space>
+        {hostTypeToAvatar[record.color]}
+        <span>{record.comment}</span>
+      </Space>
+    }
+    return null
+  }
+
   const SearchRow = () => {
     const [form] = Form.useForm()
 
@@ -384,16 +418,7 @@ const IPDomain = props => {
       />
     </Form>
   }
-  const DetailRow = (item) => {
-    return <Card
-      bodyStyle={{
-        maxHeight: listitemHeight - 64 - 16,
-        minHeight: listitemHeight - 64 - 16,
-      }}
-    >
-      <div>111</div>
-    </Card>
-  }
+
   const httpFaviconTag = (http_favicon) => {
     if (http_favicon) {
       const src = 'data:image/png;base64,' + http_favicon.content
@@ -594,6 +619,65 @@ const IPDomain = props => {
       return null
     }
   }
+
+  const PortCommentCard = (record) => {
+
+    const updatePortCommentReq = useRequest(putWebdatabasePortAPI, {
+      manual: true, onSuccess: (result, params) => {
+        handleRefresh()
+      }, onError: (error, params) => {
+      },
+    })
+
+    const onUpdatePortComment = values => {
+      updatePortCommentReq.run(
+        { ipdomain: record.ipdomain, port: record.port, ...values })
+    }
+
+    return <Form
+      onFinish={onUpdatePortComment}
+      initialValues={{
+        color: record.color, comment: record.comment,
+      }}
+    >
+      <Form.Item
+        // label={formatText('ipdomain.portcomment.comment')}
+        name="comment"
+        rules={[
+          {
+            message: formatText('app.hostandsession.updatehost.comment.rule'),
+            max: 20,
+          }]}
+      >
+        <Input placeholder={formatText(
+          'app.hostandsession.updatehost.comment.rule')}/>
+      </Form.Item>
+      <Form.Item
+        name="color"
+      >
+        <Radio.Group>
+          <Radio value="ad_server">{hostTypeToAvatar.ad_server}</Radio>
+          <Radio value="pc">{hostTypeToAvatar.pc}</Radio>
+          <Radio value="web_server">{hostTypeToAvatar.web_server}</Radio>
+          <Radio value="cms">{hostTypeToAvatar.cms}</Radio>
+          <Radio value="firewall">{hostTypeToAvatar.firewall}</Radio>
+          <Radio value="other">{hostTypeToAvatar.other}</Radio>
+        </Radio.Group>
+      </Form.Item>
+      <Form.Item>
+        <Button
+          loading={updatePortCommentReq.loading}
+          icon={<DeliveredProcedureOutlined/>}
+          block
+          type="primary"
+          htmlType="submit"
+        >
+          {formatText('app.core.update')}
+        </Button>
+      </Form.Item>
+    </Form>
+  }
+
   const IPDomainPortCard = (record) => {
     return <Card
       bodyStyle={{ padding: 0, margin: 0, minHeight: listitemHeight + 36 }}
@@ -620,6 +704,9 @@ const IPDomain = props => {
           >{wafRow(record)}</Row>
           <Row
             style={{ marginTop: 4, marginLeft: 4 }}
+          >{portCommentRow(record)}</Row>
+          <Row
+            style={{ marginTop: 4, marginLeft: 4 }}
           ><Space>
             <Dropdown
               placement="top"
@@ -644,6 +731,9 @@ const IPDomain = props => {
               icon={<DeliveredProcedureOutlined/>}
               onClick={() => addToWebIPDomainPortWaitList(record)}
             ></Button>
+            <Popover content={() => PortCommentCard(record)} trigger="click">
+              <Button>Click me</Button>
+            </Popover>
             <Button
               danger
               icon={<DeleteOutlined/>}
@@ -762,7 +852,6 @@ const IPDomain = props => {
             showSizeChanger={false}
             responsive={false}
           />
-
         </Space>
       </Col>
     </Row>

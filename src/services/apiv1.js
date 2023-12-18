@@ -477,3 +477,9 @@ export async function deleteWebNoticesAPI (params) {
     method: 'DELETE', params,
   })
 }
+
+export async function putWebdatabasePortAPI (params) {
+  return request('/api/v1/webdatabase/port/', {
+    method: 'PUT', data: params,
+  })
+}

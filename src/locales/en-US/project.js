@@ -9,4 +9,6 @@ export default {
   'webjobs.running': 'running',
   'webjobs.success': 'success',
   'webjobs.error': 'error',
+  'ipdomain.portcomment.comment': 'comment',
+  'ipdomain.portcomment.color': 'color',
 }
