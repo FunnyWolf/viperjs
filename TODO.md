@@ -1,5 +1,6 @@
 ### web
 
+- https://hunter.qianxin.com/home/helpCenter?r=5-1-3 hunter接口接入
 - 添加一个modal,全量展示说有的ipdomain
 - 统一参数控制调用quake等最大结果数
 - 支持nmap的扫描导入
