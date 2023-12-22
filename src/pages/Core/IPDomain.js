@@ -257,10 +257,24 @@ const IPDomain = props => {
     </Space>
 
   }
+  const ServiceTags = (record) => {
+    const service = record.port_info.service
+    if (service) {
+      return <Tag
+        color="cyan"
+        style={{
+          // width: 160,
+          textAlign: 'center', cursor: 'pointer',
+        }}
+      >
+        <strong>{service.service}</strong>
+      </Tag>
+    } else {
+      return null
+    }
+  }
 
   const PortInfoRow = (record) => {
-    const service = record.port_info.service
-
     return <Space size={0}>
       <Tag
         color="green"
@@ -269,17 +283,10 @@ const IPDomain = props => {
           textAlign: 'center', cursor: 'pointer',
         }}
       >
-        <strong>{service.port}</strong>
+        <strong>{record.port}</strong>
       </Tag>
-      <Tag
-        color="cyan"
-        style={{
-          // width: 160,
-          textAlign: 'center', cursor: 'pointer',
-        }}
-      >
-        <strong>{service.service}</strong>
-      </Tag>{TimeTag(service.update_time)}
+      {ServiceTags(record)}
+      {TimeTag(record.update_time)}
     </Space>
   }
   const ComponentRow = (record) => {
@@ -337,6 +344,13 @@ const IPDomain = props => {
               textAlign: 'center', cursor: 'pointer',
             }}
           >WAF</Tag>
+        } else {
+          return <Tag
+            color="green"
+            style={{
+              textAlign: 'center', cursor: 'pointer',
+            }}
+          >No WAF</Tag>
         }
       }
     }
@@ -454,14 +468,58 @@ const IPDomain = props => {
     if (record.port_info) {
       const http_base = record.port_info.http_base
       const http_favicon = record.port_info.http_favicon
-      return <Tabs.TabPane tab={<span>HTTP</span>} key="HTTP">
-        <Space>
-          {httpFaviconTag(http_favicon)}
-          {httpBaseRow(http_base)}
-        </Space>
-      </Tabs.TabPane>
+      if (http_base) {
+        return <Tabs.TabPane tab={<span>HTTP</span>} key="HTTP">
+          <Space>
+            {httpFaviconTag(http_favicon)}
+            {httpBaseRow(http_base)}
+          </Space>
+        </Tabs.TabPane>
+      } else {
+        return null
+      }
     }
     return null
+  }
+
+  const VulnerabilityTabPane = (record) => {
+    const port_info = record.port_info
+    const vulnerabilitys = port_info.vulnerabilitys
+
+    if (vulnerabilitys !== null && vulnerabilitys.length > 0) {
+      return <Tabs.TabPane tab={<span>Vulnerability</span>} key="DNSRecord">
+        <Row
+          style={{
+            marginTop: -16,
+          }}
+        >
+          <Col span={24}>
+            <Table
+              style={{
+                overflow: 'auto',
+                minHeight: listitemHeight,
+                maxHeight: listitemHeight,
+              }}
+              columns={[
+                {
+                  title: 'name', dataIndex: 'name',
+                }, {
+                  title: 'severity', dataIndex: 'severity',
+                }, {
+                  title: 'key', dataIndex: 'key',
+                },
+              ]}
+              dataSource={vulnerabilitys}
+              pagination={false}
+              scroll={{ y: listitemHeight - 32 }}
+              size="small"
+            />
+          </Col>
+        </Row>
+      </Tabs.TabPane>
+    } else {
+      return null
+    }
   }
 
   const DNSTabPane = (record) => {
@@ -754,6 +812,7 @@ const IPDomain = props => {
             {ScreenshotTabPane(record)}
             {ResponseTabPane(record)}
             {DNSTabPane(record)}
+            {VulnerabilityTabPane(record)}
           </Tabs>
         </Col>
       </Row>
