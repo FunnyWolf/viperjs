@@ -846,7 +846,6 @@ const FOFAForm = props => {
                 )}
               </Col>
             </Row>
-
             <Form.Item {...buttonItemLayout}>
               <Space>
                 <Button
@@ -868,10 +867,9 @@ const FOFAForm = props => {
                 'app.systemsetting.howtoconfig')}</Title>
               <Text>{formatText('app.systemsetting.openfofavip')}</Text>
               <br/>
-              <a
-                target="_blank"
-                href="https://fofa.so/static_pages/api_help">{formatText(
-                'app.systemsetting.fofaapireadme')}</a>
+              <a target="_blank"
+                 href="https://fofa.so/static_pages/api_help">
+                {formatText('app.systemsetting.fofaapireadme')}</a>
             </Paragraph>
           </Typography>
         </Col>
