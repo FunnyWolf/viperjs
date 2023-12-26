@@ -49,6 +49,9 @@ import {
   DeleteOutlined,
   SearchOutlined,
   DeliveredProcedureOutlined,
+  EditOutlined,
+  TagOutlined,
+  PlusCircleOutlined,
 } from '@ant-design/icons'
 import copy from 'copy-to-clipboard'
 import { getToken } from '@/utils/authority'
@@ -123,6 +126,10 @@ const IPDomain = props => {
     webIPDomainPortWaitList: model.webIPDomainPortWaitList,
     setWebIPDomainPortWaitList: model.setWebIPDomainPortWaitList,
   }))
+
+  const [activeRecord, setActiveRecord] = useState({})
+  const [showCommentModal, setShowCommentModal] = useState(false)
+
   const initTableParams = {
     current: 1, pageSize: 10,
   }
@@ -161,6 +168,25 @@ const IPDomain = props => {
     },
   })
 
+  const updatePortCommentReq = useRequest(putWebdatabasePortAPI, {
+    manual: true, onSuccess: (result, params) => {
+      ipdomains.map(item => {
+        if (item.ipdomain === params[0].ipdomain && item.port ===
+          params[0].port) {
+          item.color = params[0].color
+          item.comment = params[0].comment
+          return item
+        }
+      })
+      setIPDomains(ipdomains)
+    }, onError: (error, params) => {
+    },
+  })
+
+  const onUpdatePortComment = values => {
+    updatePortCommentReq.run(
+      { ipdomain: activeRecord.ipdomain, port: activeRecord.port, ...values })
+  }
   const addToWebIPDomainPortWaitList = (record) => {
     const { id } = record
 
@@ -236,27 +262,65 @@ const IPDomain = props => {
     }
   }
 
-  const IPDomainInfoRow = (record) => {
-
-    return <Space size={0}><Tag
-      color="blue"
-      style={{
-        textAlign: 'center', cursor: 'pointer',
-      }}
+  const FirstRow = (record) => {
+    return <Row
+      style={{ marginTop: 4, marginLeft: 4 }}
     >
-      {record.ipdomain}
-    </Tag><Tag
-      color="blue"
-      style={{
-        textAlign: 'center', cursor: 'pointer',
-      }}
-    >
-      {record.ip}
-    </Tag>
-      {TimeTag(record.update_time)}
-    </Space>
-
+      <Space>
+        <Tag
+          color="blue"
+          style={{
+            textAlign: 'center', cursor: 'pointer',
+          }}
+        >
+          {record.ipdomain}
+        </Tag>
+        <Tag
+          color="blue"
+          style={{
+            textAlign: 'center', cursor: 'pointer',
+          }}
+        >
+          {record.ip}
+        </Tag>
+        {TimeTag(record.update_time)}
+        <Dropdown
+          placement="top"
+          overlay={<Menu
+            onClick={({ item, key, keyPath, domEvent }) => switchProject(key,
+              record)}
+            items={projects.filter(
+              project => project.project_id !== projectActive.project_id).
+              map(project => {
+                return {
+                  key: project.project_id,
+                  label: project.name,
+                  icon: <ProjectOutlined/>,
+                }
+              })}
+          />}
+          trigger={['click']}
+        >
+          <Button icon={<SwapOutlined/>}></Button>
+        </Dropdown>
+        <Button
+          icon={<PlusCircleOutlined/>}
+          onClick={() => addToWebIPDomainPortWaitList(record)}
+        ></Button>
+        <Button icon={<TagOutlined/>}
+                onClick={() => {
+                  setActiveRecord(record)
+                  setShowCommentModal(true)
+                }}
+        />
+        <Button
+          danger
+          icon={<DeleteOutlined/>}
+          onClick={() => destoryProjectReq.run({ ipdomain: record.ipdomain })}
+        ></Button>
+      </Space></Row>
   }
+
   const ServiceTags = (record) => {
     const service = record.port_info.service
     if (service) {
@@ -312,7 +376,7 @@ const IPDomain = props => {
     return null
   }
 
-  const cdnRow = (record) => {
+  const CDNRow = (record) => {
     if (record.cdn === null) {
       return null
     } else {
@@ -333,7 +397,7 @@ const IPDomain = props => {
       }
     }
   }
-  const wafRow = (record) => {
+  const WAFRow = (record) => {
     if (record.port_info) {
       if (record.port_info.waf) {
         const waf = record.port_info.waf
@@ -357,7 +421,7 @@ const IPDomain = props => {
     return null
   }
 
-  const portCommentRow = (record) => {
+  const CommentRow = (record) => {
     if (record.comment) {
       return <Space>
         {hostTypeToAvatar[record.color]}
@@ -433,7 +497,7 @@ const IPDomain = props => {
     </Form>
   }
 
-  const httpFaviconTag = (http_favicon) => {
+  const HttpFaviconTag = (http_favicon) => {
     if (http_favicon) {
       const src = 'data:image/png;base64,' + http_favicon.content
       return <Avatar
@@ -446,7 +510,7 @@ const IPDomain = props => {
     }
   }
 
-  const httpBaseRow = (http_base) => {
+  const HttpBaseRow = (http_base) => {
     if (http_base) {
       return <>
         <Button type="link" size="small" shape="round"
@@ -471,8 +535,8 @@ const IPDomain = props => {
       if (http_base) {
         return <Tabs.TabPane tab={<span>HTTP</span>} key="HTTP">
           <Space>
-            {httpFaviconTag(http_favicon)}
-            {httpBaseRow(http_base)}
+            {HttpFaviconTag(http_favicon)}
+            {HttpBaseRow(http_base)}
           </Space>
         </Tabs.TabPane>
       } else {
@@ -507,8 +571,7 @@ const IPDomain = props => {
                   title: 'severity', dataIndex: 'severity',
                 }, {
                   title: 'key', dataIndex: 'key',
-                },
-              ]}
+                }]}
               dataSource={vulnerabilitys}
               pagination={false}
               scroll={{ y: listitemHeight - 32 }}
@@ -678,24 +741,11 @@ const IPDomain = props => {
     }
   }
 
-  const PortCommentCard = (record) => {
-
-    const updatePortCommentReq = useRequest(putWebdatabasePortAPI, {
-      manual: true, onSuccess: (result, params) => {
-        handleRefresh()
-      }, onError: (error, params) => {
-      },
-    })
-
-    const onUpdatePortComment = values => {
-      updatePortCommentReq.run(
-        { ipdomain: record.ipdomain, port: record.port, ...values })
-    }
-
+  const CommentCard = () => {
     return <Form
       onFinish={onUpdatePortComment}
       initialValues={{
-        color: record.color, comment: record.comment,
+        color: activeRecord.color, comment: activeRecord.comment,
       }}
     >
       <Form.Item
@@ -742,9 +792,7 @@ const IPDomain = props => {
     >
       <Row>
         <Col span={10}>
-          <Row
-            style={{ marginTop: 4, marginLeft: 4 }}
-          >{IPDomainInfoRow(record)}</Row>
+          {FirstRow(record)}
           <Row
             style={{ marginTop: 4, marginLeft: 4 }}
           >{LocationRow(record)}</Row>
@@ -756,50 +804,13 @@ const IPDomain = props => {
           >{ComponentRow(record)}</Row>
           <Row
             style={{ marginTop: 4, marginLeft: 4 }}
-          >{cdnRow(record)}</Row>
+          >{CDNRow(record)}</Row>
           <Row
             style={{ marginTop: 4, marginLeft: 4 }}
-          >{wafRow(record)}</Row>
+          >{WAFRow(record)}</Row>
           <Row
             style={{ marginTop: 4, marginLeft: 4 }}
-          >{portCommentRow(record)}</Row>
-          <Row
-            style={{ marginTop: 4, marginLeft: 4 }}
-          ><Space>
-            <Dropdown
-              placement="top"
-              overlay={<Menu
-                onClick={({ item, key, keyPath, domEvent }) => switchProject(
-                  key, record)}
-                items={projects.filter(
-                  project => project.project_id !== projectActive.project_id).
-                  map(project => {
-                    return {
-                      key: project.project_id,
-                      label: project.name,
-                      icon: <ProjectOutlined/>,
-                    }
-                  })}
-              />}
-              trigger={['click']}
-            >
-              <Button icon={<SwapOutlined/>}></Button>
-            </Dropdown>
-            <Button
-              icon={<DeliveredProcedureOutlined/>}
-              onClick={() => addToWebIPDomainPortWaitList(record)}
-            ></Button>
-            <Popover content={() => PortCommentCard(record)} trigger="click">
-              <Button>Click me</Button>
-            </Popover>
-            <Button
-              danger
-              icon={<DeleteOutlined/>}
-              onClick={() => destoryProjectReq.run(
-                { ipdomain: record.ipdomain })}
-            ></Button>
-          </Space>
-          </Row>
+          >{CommentRow(record)}</Row>
         </Col>
         <Col span={14}>
           <Tabs
@@ -824,44 +835,16 @@ const IPDomain = props => {
     >
       <Row>
         <Col span={10}>
+          {FirstRow(record)}
           <Row
             style={{ marginTop: 4, marginLeft: 4 }}
-          >
-            {IPDomainInfoRow(record)}
-          </Row>
+          >{LocationRow(record)}</Row>
           <Row
             style={{ marginTop: 4, marginLeft: 4 }}
-          ><Space>
-            <Dropdown
-              placement="top"
-              overlay={<Menu
-                onClick={({ item, key, keyPath, domEvent }) => switchProject(
-                  key, record)}
-                items={projects.filter(
-                  project => project.project_id !== projectActive.project_id).
-                  map(project => {
-                    return {
-                      key: project.project_id,
-                      label: project.name,
-                      icon: <ProjectOutlined/>,
-                    }
-                  })}
-              />}
-              trigger={['click']}
-            >
-              <Button icon={<SwapOutlined/>}></Button>
-            </Dropdown>
-            <Button
-              icon={<DeleteOutlined/>}
-              onClick={() => addToWebIPDomainPortWaitList(record)}
-            ></Button>
-            <Button
-              danger
-              icon={<DeleteOutlined/>}
-              onClick={() => destoryProjectReq.run(
-                { ipdomain: record.ipdomain })}
-            ></Button>
-          </Space></Row>
+          >{CDNRow(record)}</Row>
+          <Row
+            style={{ marginTop: 4, marginLeft: 4 }}
+          >{CommentRow(record)}</Row>
         </Col>
         <Col span={14}>
           <Tabs
@@ -888,7 +871,6 @@ const IPDomain = props => {
     >
       {maincard}
     </List.Item>
-
   }
   return (<Fragment>
     <DocIcon url="https://www.yuque.com/vipersec/help/yc0ipk"/>
@@ -930,6 +912,59 @@ const IPDomain = props => {
       loading={listIPdomainReq.loading}
     >
     </List>
+    <Modal
+      // style={{ top: 32 }}
+      width="32vw"
+      destroyOnClose
+      closable={false}
+      open={showCommentModal}
+      onCancel={() => setShowCommentModal(false)}
+      footer={null}
+      bodyStyle={{ padding: '8px 8px 4px 8px' }}
+    >
+      <Form
+        onFinish={onUpdatePortComment}
+        initialValues={{
+          color: activeRecord.color, comment: activeRecord.comment,
+        }}
+      >
+        <Form.Item
+          // label={formatText('ipdomain.portcomment.comment')}
+          name="comment"
+          rules={[
+            {
+              message: formatText('app.hostandsession.updatehost.comment.rule'),
+              max: 20,
+            }]}
+        >
+          <Input placeholder={formatText(
+            'app.hostandsession.updatehost.comment.rule')}/>
+        </Form.Item>
+        <Form.Item
+          name="color"
+        >
+          <Radio.Group>
+            <Radio value="ad_server">{hostTypeToAvatar.ad_server}</Radio>
+            <Radio value="pc">{hostTypeToAvatar.pc}</Radio>
+            <Radio value="web_server">{hostTypeToAvatar.web_server}</Radio>
+            <Radio value="cms">{hostTypeToAvatar.cms}</Radio>
+            <Radio value="firewall">{hostTypeToAvatar.firewall}</Radio>
+            <Radio value="other">{hostTypeToAvatar.other}</Radio>
+          </Radio.Group>
+        </Form.Item>
+        <Form.Item>
+          <Button
+            loading={updatePortCommentReq.loading}
+            icon={<DeliveredProcedureOutlined/>}
+            block
+            type="primary"
+            htmlType="submit"
+          >
+            {formatText('app.core.update')}
+          </Button>
+        </Form.Item>
+      </Form>
+    </Modal>
   </Fragment>)
 }
 export const IPDomainMemo = memo(IPDomain)

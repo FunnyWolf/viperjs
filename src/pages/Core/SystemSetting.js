@@ -2,7 +2,6 @@ import React, { memo, useState } from 'react'
 import {
   deleteCoreUUIDJsonAPI,
   getCoreSettingAPI,
-  getLastestVersion,
   getServiceStatusAPI,
   postCoreSettingAPI,
   putPostmodulePostModuleConfigAPI,
@@ -126,8 +125,6 @@ const SystemSetting = () => {
       {/*) : null}*/}
     </Tabs>)
 }
-
-export const SystemSettingMemo = memo(SystemSetting)
 
 const SystemInfo = () => {
   const datas = [
@@ -1157,4 +1154,4 @@ const LHostForm = props => {
   </Card>)
 }
 
-export default SystemSetting
+export const SystemSettingMemo = memo(SystemSetting)
