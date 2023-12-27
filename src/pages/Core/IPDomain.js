@@ -52,18 +52,15 @@ import {
   EditOutlined,
   TagOutlined,
   PlusCircleOutlined,
+  CheckOutlined,
+  CloseOutlined,
+  MinusOutlined,
 } from '@ant-design/icons'
 import copy from 'copy-to-clipboard'
 import { getToken } from '@/utils/authority'
 import { cssCalc, Downheight } from '@/utils/utils'
 import {
-  formatText,
-  getModuleName,
-  getSessionlocate,
-  manuali18n,
-  msgerror,
-  msgsuccess,
-  msgwarning,
+  formatText, getModuleName, getSessionlocate, manuali18n, msgerror, msgsuccess, msgwarning,
 } from '@/utils/locales'
 import {
   DocIcon, MyIcon, SidTag, TimeTag, WebMainHeight,
@@ -73,22 +70,12 @@ import { HostIP } from '@/config'
 import { useEffect, useRef } from 'react'
 import { useInterval } from 'ahooks'
 import {
-  CaretRightOutlined,
-  SubnodeOutlined,
-  AppleOutlined,
-  MacCommandOutlined,
-  LinkOutlined,
+  CaretRightOutlined, SubnodeOutlined, AppleOutlined, MacCommandOutlined, LinkOutlined,
 } from '@ant-design/icons'
 import styles from '@/utils/utils.less'
 import { Descriptions } from 'antd'
 import {
-  BugOutlined,
-  CloudOutlined,
-  GatewayOutlined,
-  LaptopOutlined,
-  PlusOutlined,
-  QuestionOutlined,
-  WindowsOutlined,
+  BugOutlined, CloudOutlined, GatewayOutlined, LaptopOutlined, PlusOutlined, QuestionOutlined, WindowsOutlined,
 } from '@ant-design/icons'
 
 const listitemHeight = 240
@@ -110,13 +97,7 @@ const IPDomain = props => {
   console.log('IPDomain')
 
   const {
-    projectActive,
-    projects,
-    setProjects,
-    ipdomains,
-    setIPDomains,
-    webIPDomainPortWaitList,
-    setWebIPDomainPortWaitList,
+    projectActive, projects, setProjects, ipdomains, setIPDomains, webIPDomainPortWaitList, setWebIPDomainPortWaitList,
   } = useModel('WebMainModel', model => ({
     projectActive: model.projectActive,
     projects: model.projects,
@@ -154,16 +135,14 @@ const IPDomain = props => {
 
   const switchProjectReq = useRequest(postWebdatabaseProjectAPI, {
     manual: true, onSuccess: (result, params) => {
-      setIPDomains(
-        ipdomains.filter(item => item.ipdomain !== params[0].ipdomain))
+      setIPDomains(ipdomains.filter(item => item.ipdomain !== params[0].ipdomain))
     }, onError: (error, params) => {
     },
   })
 
   const destoryProjectReq = useRequest(deleteWebdatabaseProjectAPI, {
     manual: true, onSuccess: (result, params) => {
-      setIPDomains(
-        ipdomains.filter(item => item.ipdomain !== params[0].ipdomain))
+      setIPDomains(ipdomains.filter(item => item.ipdomain !== params[0].ipdomain))
     }, onError: (error, params) => {
     },
   })
@@ -171,8 +150,7 @@ const IPDomain = props => {
   const updatePortCommentReq = useRequest(putWebdatabasePortAPI, {
     manual: true, onSuccess: (result, params) => {
       ipdomains.map(item => {
-        if (item.ipdomain === params[0].ipdomain && item.port ===
-          params[0].port) {
+        if (item.ipdomain === params[0].ipdomain && item.port === params[0].port) {
           item.color = params[0].color
           item.comment = params[0].comment
           return item
@@ -184,8 +162,7 @@ const IPDomain = props => {
   })
 
   const onUpdatePortComment = values => {
-    updatePortCommentReq.run(
-      { ipdomain: activeRecord.ipdomain, port: activeRecord.port, ...values })
+    updatePortCommentReq.run({ ipdomain: activeRecord.ipdomain, port: activeRecord.port, ...values })
   }
   const addToWebIPDomainPortWaitList = (record) => {
     const { id } = record
@@ -209,23 +186,20 @@ const IPDomain = props => {
     const pagination = { current: page, pageSize: pageSize }
     setTableParams({ ...tableParams, ...pagination })
     listIPdomainReq.run({
-      project_id: projectActive.project_id,
-      pagination: pagination, ...searchParams,
+      project_id: projectActive.project_id, pagination: pagination, ...searchParams,
     })
   }
 
   const handleRefresh = () => {
     listIPdomainReq.run({
-      project_id: projectActive.project_id,
-      pagination: tableParams, ...searchParams,
+      project_id: projectActive.project_id, pagination: tableParams, ...searchParams,
     })
   }
 
   const handleSearch = values => {
     setSearchParams(values)
     listIPdomainReq.run({
-      project_id: projectActive.project_id,
-      pagination: initTableParams, ...values, // init pagination when search
+      project_id: projectActive.project_id, pagination: initTableParams, ...values, // init pagination when search
     })
   }
 
@@ -244,7 +218,7 @@ const IPDomain = props => {
       const location = record.location
       const geo_info = location.geo_info
       const isp = location.isp
-      return <Space><Tag
+      return <><Tag
         color="geekblue"
         style={{
           textAlign: 'center', cursor: 'pointer',
@@ -256,68 +230,99 @@ const IPDomain = props => {
             textAlign: 'center', cursor: 'pointer',
           }}
         >{geo_info.country_cn} {geo_info.province_cn} {geo_info.city_cn}
-        </Tag>{TimeTag(location.update_time)}</Space>
+        </Tag>
+        {/*{TimeTag(location.update_time)}*/}
+      </>
     } else {
       return null
     }
   }
-
+  const ActionGroup = (record) => {
+    return <Space
+      style={{ float: 'right' }}
+      size={0}>
+      <Dropdown
+        placement="top"
+        overlay={<Menu
+          onClick={({ item, key, keyPath, domEvent }) => switchProject(key, record)}
+          items={projects.filter(project => project.project_id !== projectActive.project_id).
+            map(project => {
+              return {
+                key: project.project_id, label: project.name, icon: <ProjectOutlined/>,
+              }
+            })}
+        />}
+        trigger={['click']}
+      >
+        <Button
+          size="small" style={{ width: 48 }}
+          icon={<SwapOutlined/>}/>
+      </Dropdown>
+      <Button
+        size="small" style={{ width: 48 }}
+        icon={<PlusCircleOutlined/>}
+        onClick={() => addToWebIPDomainPortWaitList(record)}
+      ></Button>
+      <Button
+        size="small" style={{ width: 48 }}
+        icon={<TagOutlined/>}
+        onClick={() => {
+          setActiveRecord(record)
+          setShowCommentModal(true)
+        }}
+      />
+      <Button
+        size="small" style={{ width: 48 }}
+        danger
+        icon={<DeleteOutlined/>}
+        onClick={() => destoryProjectReq.run({ ipdomain: record.ipdomain })}
+      ></Button>
+    </Space>
+  }
   const FirstRow = (record) => {
+    const IPdomainTag = (record) => {
+      return <Tag
+        color="blue"
+        style={{
+          textAlign: 'center', cursor: 'pointer',
+        }}
+      >
+        <strong>{record.ipdomain}</strong>
+      </Tag>
+    }
+
     return <Row
       style={{ marginTop: 4, marginLeft: 4 }}
     >
-      <Space>
-        <Tag
-          color="blue"
-          style={{
-            textAlign: 'center', cursor: 'pointer',
-          }}
-        >
-          {record.ipdomain}
-        </Tag>
-        <Tag
-          color="blue"
-          style={{
-            textAlign: 'center', cursor: 'pointer',
-          }}
-        >
-          {record.ip}
-        </Tag>
+      <Space
+        size={0}
+      >
+        {IPdomainTag(record)}
         {TimeTag(record.update_time)}
-        <Dropdown
-          placement="top"
-          overlay={<Menu
-            onClick={({ item, key, keyPath, domEvent }) => switchProject(key,
-              record)}
-            items={projects.filter(
-              project => project.project_id !== projectActive.project_id).
-              map(project => {
-                return {
-                  key: project.project_id,
-                  label: project.name,
-                  icon: <ProjectOutlined/>,
-                }
-              })}
-          />}
-          trigger={['click']}
-        >
-          <Button icon={<SwapOutlined/>}></Button>
-        </Dropdown>
-        <Button
-          icon={<PlusCircleOutlined/>}
-          onClick={() => addToWebIPDomainPortWaitList(record)}
-        ></Button>
-        <Button icon={<TagOutlined/>}
-                onClick={() => {
-                  setActiveRecord(record)
-                  setShowCommentModal(true)
-                }}
-        />
-        <Button
-          danger
-          icon={<DeleteOutlined/>}
-          onClick={() => destoryProjectReq.run({ ipdomain: record.ipdomain })}
-        ></Button>
+      </Space>
+      {ActionGroup(record)}
+    </Row>
+  }
+
+  const IPRow = (record) => {
+    const IPTag = (record) => {
+      return <Tag
+        color="blue"
+        style={{
+          textAlign: 'center', cursor: 'pointer',
+        }}
+      >
+        {record.ip}
+      </Tag>
+    }
+    return <Row
+      style={{ marginTop: 4, marginLeft: 4 }}
+    >
+      <Space
+        size={0}
+      >
+        {IPTag(record)}
+        {LocationRow(record)}
       </Space></Row>
   }
 
@@ -337,21 +342,25 @@ const IPDomain = props => {
       return null
     }
   }
+  const PortnumTag = (record) => {
+    return <Tag
+      color="green"
+      style={{
+        // width: 160,
+        textAlign: 'center', cursor: 'pointer',
+      }}
+    >
+      <strong>{record.port}</strong>
+    </Tag>
+  }
 
   const PortInfoRow = (record) => {
-    return <Space size={0}>
-      <Tag
-        color="green"
-        style={{
-          // width: 160,
-          textAlign: 'center', cursor: 'pointer',
-        }}
-      >
-        <strong>{record.port}</strong>
-      </Tag>
+    return <Row
+      style={{ marginTop: 4, marginLeft: 4 }}
+    ><Space size={0}>
+      {PortnumTag(record)}
       {ServiceTags(record)}
-      {TimeTag(record.update_time)}
-    </Space>
+    </Space></Row>
   }
   const ComponentRow = (record) => {
     if (record.port_info) {
@@ -376,49 +385,78 @@ const IPDomain = props => {
     return null
   }
 
-  const CDNRow = (record) => {
+  const CDNTag = (record) => {
     if (record.cdn === null) {
-      return null
+      return <Tag
+        // color="warning"
+        icon={<MinusOutlined/>}
+        style={{
+          textAlign: 'center', cursor: 'pointer',
+        }}
+      >CDN</Tag>
     } else {
       if (record.cdn.flag === true) {
         return <Tag
-          color="orange"
+          color="warning"
+          icon={<CheckOutlined/>}
           style={{
             textAlign: 'center', cursor: 'pointer',
           }}
         >CDN</Tag>
       } else {
         return <Tag
-          color="green"
+          color="success"
+          icon={<CloseOutlined/>}
           style={{
             textAlign: 'center', cursor: 'pointer',
           }}
-        >No CDN</Tag>
+        >CDN</Tag>
       }
     }
   }
-  const WAFRow = (record) => {
+
+  const WAFTag = (record) => {
     if (record.port_info) {
-      if (record.port_info.waf) {
-        const waf = record.port_info.waf
+      const waf = record.port_info.waf
+      if (waf === null) {
+        return <Tag
+          // color="warning"
+          icon={<MinusOutlined/>}
+          style={{
+            textAlign: 'center', cursor: 'pointer',
+          }}
+        >WAF</Tag>
+      } else {
         if (waf.flag === true) {
           return <Tag
-            color="orange"
+            color="warning"
+            icon={<CheckOutlined/>}
             style={{
               textAlign: 'center', cursor: 'pointer',
             }}
           >WAF</Tag>
         } else {
           return <Tag
-            color="green"
+            color="success"
+            icon={<CloseOutlined/>}
             style={{
               textAlign: 'center', cursor: 'pointer',
             }}
-          >No WAF</Tag>
+          >WAF</Tag>
         }
       }
+    } else {
+      return null
     }
-    return null
+  }
+
+  const SecurityRow = (record) => {
+    return <Row style={{ marginTop: 4, marginLeft: 4 }}>
+      <Space size={0}>
+        {CDNTag(record)}
+        {WAFTag(record)}
+      </Space>
+    </Row>
   }
 
   const CommentRow = (record) => {
@@ -437,63 +475,85 @@ const IPDomain = props => {
     return <Form
       form={form}
       layout="inline"
-      name="form_in_modal"
       onFinish={handleSearch}
       initialValues={searchParams}
     >
-      <Form.Item
-        name="ipdomain"
-        label="IP / Domain"
-      >
-        <Input/>
-      </Form.Item>
-      <Form.Item name="port" label="Port">
-        <InputNumber min={1} max={65535}/>
-      </Form.Item>
-      <Form.Item name="waf_flag" label="WAF">
-        <Select
-          style={{
-            width: 64,
-          }}
-          allowClear
-          options={[
-            {
-              value: true, label: 'Yes',
-            }, {
-              value: false, label: 'No',
-            }]}
-        />
-      </Form.Item>
-      <Form.Item name="cdn_flag" label="CDN">
-        <Select
-          style={{
-            width: 64,
-          }}
-          allowClear
-          options={[
-            {
-              value: true, label: 'Yes',
-            }, {
-              value: false, label: 'No',
-            }]}
-        />
-      </Form.Item>
-      <Form.Item
-        name="service"
-        label="Service"
-      >
-        <Input/>
-      </Form.Item>
-      <Form.Item>
-        <Button icon={<SearchOutlined/>} htmlType="submit">{formatText(
-          'app.core.search')}</Button>
-      </Form.Item>
-      <Button
-        // style={{ width: 120 }}
-        icon={<SyncOutlined/>}
-        onClick={() => handleRefresh()}
-        loading={listIPdomainReq.loading || listIPdomainReq.loading}
-      />
+      <Space.Compact>
+        <Form.Item
+          name="ipdomain"
+          noStyle
+        >
+          <Input style={{ width: 200 }} placeholder="IP / Domain"/>
+        </Form.Item>
+        <Form.Item
+          name="service"
+          noStyle
+          // label="Service"
+        >
+          <Input
+            style={{
+              width: 120,
+            }}
+            placeholder="Service"/>
+        </Form.Item>
+        <Form.Item
+          name="port"
+          noStyle
+          // label="Port"
+        >
+          <InputNumber style={{ width: 96 }} placeholder="Port" min={1} max={65535}/>
+        </Form.Item>
+        <Form.Item
+          noStyle
+          name="waf_flag"
+          // label="WAF"
+        >
+          <Select
+            style={{
+              width: 116,
+            }}
+            showArrow={false}
+            placeholder="WAF"
+            allowClear
+            options={[
+              {
+                value: true, label: <span style={{ color: 'orange' }}><CheckOutlined/> Has WAF</span>,
+              }, {
+                value: false, label: <span style={{ color: 'green' }}><CheckOutlined/> No WAF</span>,
+              }]}
+          />
+        </Form.Item>
+        <Form.Item
+          noStyle
+          name="cdn_flag"
+          // label="CDN"
+        >
+          <Select
+            style={{
+              width: 116,
+            }}
+            placeholder="CDN"
+            allowClear
+            options={[
+              {
+                value: true, label: <span style={{ color: 'orange' }}><CheckOutlined/> Has CDN</span>,
+              }, {
+                value: false, label: <span style={{ color: 'green' }}><CheckOutlined/> No CDN</span>,
+              }]}
+          />
+        </Form.Item>
+        <Form.Item
+          noStyle
+        >
+          <Button
+            style={{ width: 64 }}
+            icon={<SearchOutlined/>}
+            htmlType="submit"
+            loading={listIPdomainReq.loading}
+          />
+        </Form.Item>
+
+      </Space.Compact>
     </Form>
   }
 
@@ -551,7 +611,7 @@ const IPDomain = props => {
     const vulnerabilitys = port_info.vulnerabilitys
 
     if (vulnerabilitys !== null && vulnerabilitys.length > 0) {
-      return <Tabs.TabPane tab={<span>Vulnerability</span>} key="DNSRecord">
+      return <Tabs.TabPane tab={<span>Vulnerability</span>} key="Vulnerability">
         <Row
           style={{
             marginTop: -16,
@@ -560,17 +620,15 @@ const IPDomain = props => {
           <Col span={24}>
             <Table
               style={{
-                overflow: 'auto',
-                minHeight: listitemHeight,
-                maxHeight: listitemHeight,
+                overflow: 'auto', minHeight: listitemHeight, maxHeight: listitemHeight,
               }}
               columns={[
                 {
-                  title: 'name', dataIndex: 'name',
+                  title: 'Name', dataIndex: 'name',
                 }, {
-                  title: 'severity', dataIndex: 'severity',
+                  title: 'Severity', dataIndex: 'severity', width: 64,
                 }, {
-                  title: 'key', dataIndex: 'key',
+                  title: 'Key', dataIndex: 'key',
                 }]}
               dataSource={vulnerabilitys}
               pagination={false}
@@ -599,9 +657,7 @@ const IPDomain = props => {
           <Col span={12}>
             <Table
               style={{
-                overflow: 'auto',
-                minHeight: listitemHeight,
-                maxHeight: listitemHeight,
+                overflow: 'auto', minHeight: listitemHeight, maxHeight: listitemHeight,
               }}
               columns={[
                 {
@@ -701,14 +757,8 @@ const IPDomain = props => {
           return <Tabs.TabPane tab={<span>Response</span>} key="Response">
                         <pre
                           style={{
-                            marginTop: -16,
-                            marginBottom: 0,
-                            padding: '0 0 0 0', // overflowX: 'hidden',
-                            maxHeight: listitemHeight,
-                            minHeight: listitemHeight,
-                            whiteSpace: 'pre-wrap',
-                            wordWrap: 'break-word',
-                            background: '#141414',
+                            marginTop: -16, marginBottom: 0, padding: '0 0 0 0', // overflowX: 'hidden',
+                            maxHeight: listitemHeight, minHeight: listitemHeight, whiteSpace: 'pre-wrap', wordWrap: 'break-word', background: '#141414',
                           }}
                         >{response}</pre>
           </Tabs.TabPane>
@@ -741,51 +791,6 @@ const IPDomain = props => {
     }
   }
 
-  const CommentCard = () => {
-    return <Form
-      onFinish={onUpdatePortComment}
-      initialValues={{
-        color: activeRecord.color, comment: activeRecord.comment,
-      }}
-    >
-      <Form.Item
-        // label={formatText('ipdomain.portcomment.comment')}
-        name="comment"
-        rules={[
-          {
-            message: formatText('app.hostandsession.updatehost.comment.rule'),
-            max: 20,
-          }]}
-      >
-        <Input placeholder={formatText(
-          'app.hostandsession.updatehost.comment.rule')}/>
-      </Form.Item>
-      <Form.Item
-        name="color"
-      >
-        <Radio.Group>
-          <Radio value="ad_server">{hostTypeToAvatar.ad_server}</Radio>
-          <Radio value="pc">{hostTypeToAvatar.pc}</Radio>
-          <Radio value="web_server">{hostTypeToAvatar.web_server}</Radio>
-          <Radio value="cms">{hostTypeToAvatar.cms}</Radio>
-          <Radio value="firewall">{hostTypeToAvatar.firewall}</Radio>
-          <Radio value="other">{hostTypeToAvatar.other}</Radio>
-        </Radio.Group>
-      </Form.Item>
-      <Form.Item>
-        <Button
-          loading={updatePortCommentReq.loading}
-          icon={<DeliveredProcedureOutlined/>}
-          block
-          type="primary"
-          htmlType="submit"
-        >
-          {formatText('app.core.update')}
-        </Button>
-      </Form.Item>
-    </Form>
-  }
-
   const IPDomainPortCard = (record) => {
     return <Card
       bodyStyle={{ padding: 0, margin: 0, minHeight: listitemHeight + 36 }}
@@ -793,21 +798,15 @@ const IPDomain = props => {
       <Row>
         <Col span={10}>
           {FirstRow(record)}
-          <Row
-            style={{ marginTop: 4, marginLeft: 4 }}
-          >{LocationRow(record)}</Row>
-          <Row
-            style={{ marginTop: 4, marginLeft: 4 }}
-          >{PortInfoRow(record)}</Row>
+          {IPRow(record)}
+          {PortInfoRow(record)}
           <Row
             style={{ marginTop: 4, marginLeft: 4 }}
           >{ComponentRow(record)}</Row>
-          <Row
-            style={{ marginTop: 4, marginLeft: 4 }}
-          >{CDNRow(record)}</Row>
-          <Row
-            style={{ marginTop: 4, marginLeft: 4 }}
-          >{WAFRow(record)}</Row>
+          {SecurityRow(record)}
+          {/*<Row*/}
+          {/*  style={{ marginTop: 4, marginLeft: 4 }}*/}
+          {/*>{WAFRow(record)}</Row>*/}
           <Row
             style={{ marginTop: 4, marginLeft: 4 }}
           >{CommentRow(record)}</Row>
@@ -841,7 +840,7 @@ const IPDomain = props => {
           >{LocationRow(record)}</Row>
           <Row
             style={{ marginTop: 4, marginLeft: 4 }}
-          >{CDNRow(record)}</Row>
+          >{CDNTag(record)}</Row>
           <Row
             style={{ marginTop: 4, marginLeft: 4 }}
           >{CommentRow(record)}</Row>
@@ -876,13 +875,11 @@ const IPDomain = props => {
     <DocIcon url="https://www.yuque.com/vipersec/help/yc0ipk"/>
     <Row
       gutter={0}
-      style={{ marginTop: 0, marginBottom: 0 }}
+      // style={{ marginTop: 0 }}
     >
-      <Col span={18}>
-        <SearchRow/>
-      </Col>
-      <Col span={6}>
+      <Col span={24}>
         <Space>
+          <SearchRow/>
           <Pagination
             // style={{
             //   float: 'right',
@@ -893,17 +890,21 @@ const IPDomain = props => {
             showSizeChanger={false}
             responsive={false}
           />
+          <Button
+            // style={{ width: 64 }}
+            icon={<SyncOutlined/>}
+            onClick={() => handleRefresh()}
+            loading={listIPdomainReq.loading}
+          />
         </Space>
       </Col>
     </Row>
     <List
       style={{
-        overflow: 'auto',
-        maxHeight: cssCalc(`${WebMainHeight} - 60px`),
-        minHeight: cssCalc(`${WebMainHeight} - 60px`),
+        overflow: 'auto', maxHeight: cssCalc(`${WebMainHeight} - 60px`), minHeight: cssCalc(`${WebMainHeight} - 60px`),
       }}
-      rowKey={'id'}
       // bordered={true}
+      rowKey={'id'}
       split={false}
       itemLayout="vertical"
       size="small"
@@ -933,12 +934,10 @@ const IPDomain = props => {
           name="comment"
           rules={[
             {
-              message: formatText('app.hostandsession.updatehost.comment.rule'),
-              max: 20,
+              message: formatText('app.hostandsession.updatehost.comment.rule'), max: 20,
             }]}
         >
-          <Input placeholder={formatText(
-            'app.hostandsession.updatehost.comment.rule')}/>
+          <Input placeholder={formatText('app.hostandsession.updatehost.comment.rule')}/>
         </Form.Item>
         <Form.Item
           name="color"

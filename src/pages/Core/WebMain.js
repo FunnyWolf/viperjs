@@ -226,6 +226,7 @@ const TabsBottom = () => {
   }, [])
 
   return (<Tabs
+    style={{ margin: 1 }}
     tabBarExtraContent={<TabsOptions/>}
     type="card"
     onChange={tabActiveOnChange}
