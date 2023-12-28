@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "cross-env APP_TYPE=site umi dev",
-    "start:no-mock": "cross-env MOCK=none UMI_UI=none USE_WEBPACK_5=1 umi dev",
+    "start:no-mock": "set NODE_OPTIONS=--openssl-legacy-provider && cross-env MOCK=none UMI_UI=none USE_WEBPACK_5=1 umi dev",
     "build": "umi build",
     "site": "npm run presite && cross-env APP_TYPE=site npm run build && firebase deploy && npm run docker:push",
     "analyze": "cross-env ANALYZE=1 umi build",
@@ -42,6 +42,7 @@
     "@umijs/hooks": "^1.9.2",
     "ahooks": "^2.10.6",
     "antd": "^4.24.14",
+    "antd-v5": "npm:antd@5",
     "bizcharts": "^3.4.2",
     "bizcharts-plugin-slider": "^2.1.1-beta.1",
     "caniuse-lite": "^1.0.30001238",

@@ -1,25 +1,12 @@
 import { useModel } from '@@/plugin-model/useModel'
-import {
-  formatText, getModuleDesc, getModuleName, msgsuccess,
-} from '@/utils/locales'
+import { formatText, getModuleDesc, getModuleName } from '@/utils/locales'
 import React, { memo, useState } from 'react'
 import { useRequest } from 'umi'
 import { postPostmodulePostModuleActuatorAPI } from '@/services/apiv1'
-import {
-  DeleteOutlined,
-  ExclamationCircleOutlined,
-  PlayCircleOutlined,
-  QuestionCircleOutlined,
-  StarOutlined,
-  StarTwoTone,
-} from '@ant-design/icons'
-import {
-  Button, Col, Descriptions, Form, Popover, Row, Table, Tag, Input, Segmented,
-} from 'antd'
+import { DeleteOutlined, ExclamationCircleOutlined, PlayCircleOutlined, StarOutlined, StarTwoTone } from '@ant-design/icons'
+import { Button, Col, Descriptions, Form, Input, Popover, Radio, Row, Table, Tag } from 'antd-v5'
 import { cssCalc } from '@/utils/utils'
-import styles from '@/utils/utils.less'
 import { changePin, getModuleOptions, getPins } from '@/pages/Core/RunModule'
-import { Radio } from '_antd@4.24.14@antd'
 
 const { Search, TextArea } = Input
 
@@ -288,7 +275,8 @@ export const RunWebModule = props => {
     return (<Descriptions
       size="small"
       style={{
-        padding: '0 0 0 0',
+        padding: 0,
+        margin: 0,
       }}
       column={12}
       bordered
@@ -300,12 +288,6 @@ export const RunWebModule = props => {
       <Descriptions.Item
         label={formatText('app.runmodule.postmodule.authorCom')} span={12}>
         {authorCom}
-      </Descriptions.Item>
-      <Descriptions.Item span={12} label="FOFA">
-        <pre>{record.SEARCH.FOFA}</pre>
-      </Descriptions.Item>
-      <Descriptions.Item span={12} label="360Quake">
-        <pre>{record.SEARCH.Quake}</pre>
       </Descriptions.Item>
       <Descriptions.Item
         label={formatText('app.runmodule.postmodule.readmeCom')} span={12}>
@@ -337,7 +319,7 @@ export const RunWebModule = props => {
         buttonStyle="solid"
         onChange={(e) => moduleTypeOnChange(e.target.value)}
         style={{
-          marginTop: -1,
+          marginTop: 0,
         }}
       >
         <Radio.Button value="">{formatText(

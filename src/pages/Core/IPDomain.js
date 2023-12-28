@@ -1,84 +1,58 @@
-import React, { Fragment, memo, useImperativeHandle, useState } from 'react'
-import moment from 'moment'
-import { getLocale, useRequest } from 'umi'
+import React, { Fragment, memo, useEffect, useState } from 'react'
+import { useRequest } from 'umi'
 import {
-  deleteMsgrpcFileMsfAPI,
-  deleteMsgrpcSessionioAPI,
   deleteWebdatabaseProjectAPI,
-  getCoreCurrentUserAPI,
-  getMsgrpcFileMsfAPI,
   getWebdatabaseIPDomainAPI,
   getWebdatabaseProjectAPI,
-  postPostmodulePostModuleActuatorAPI,
   postWebdatabaseProjectAPI,
   putWebdatabasePortAPI,
-  putWebdatabaseProjectAPI,
 } from '@/services/apiv1'
 
 import {
+  Avatar,
   Button,
   Card,
   Col,
+  Descriptions,
+  Form,
+  Image,
+  Input,
+  InputNumber,
+  List,
+  Menu,
   Modal,
+  Pagination,
+  Radio,
   Row,
+  Select,
   Space,
   Table,
-  Tag,
-  Upload,
-  List,
-  Typography,
   Tabs,
-  Image,
-  Avatar,
-  Menu,
-  Dropdown,
-  Pagination,
-  Popover,
-  Form,
-  Input,
-  Radio,
-  InputNumber,
-  Select,
-} from 'antd'
+  Tag,
+} from 'antd-v5'
+
 import {
-  CopyOutlined,
-  SyncOutlined,
-  UploadOutlined,
-  ProjectOutlined,
-  SwapOutlined,
-  DeleteOutlined,
-  SearchOutlined,
-  DeliveredProcedureOutlined,
-  EditOutlined,
-  TagOutlined,
-  PlusCircleOutlined,
   CheckOutlined,
   CloseOutlined,
-  MinusOutlined,
+  DeleteOutlined,
+  DeliveredProcedureOutlined,
+  LinkOutlined,
+  PlusCircleOutlined,
+  ProjectOutlined,
+  QuestionOutlined,
+  SearchOutlined,
+  SwapOutlined,
+  SyncOutlined,
+  TagOutlined,
 } from '@ant-design/icons'
-import copy from 'copy-to-clipboard'
-import { getToken } from '@/utils/authority'
-import { cssCalc, Downheight } from '@/utils/utils'
-import {
-  formatText, getModuleName, getSessionlocate, manuali18n, msgerror, msgsuccess, msgwarning,
-} from '@/utils/locales'
-import {
-  DocIcon, MyIcon, SidTag, TimeTag, WebMainHeight,
-} from '@/pages/Core/Common'
+import { cssCalc } from '@/utils/utils'
+import { formatText, msgsuccess } from '@/utils/locales'
+import { DocIcon, TimeTag, WebMainHeight } from '@/pages/Core/Common'
 import { useModel } from '@@/plugin-model/useModel'
-import { HostIP } from '@/config'
-import { useEffect, useRef } from 'react'
-import { useInterval } from 'ahooks'
-import {
-  CaretRightOutlined, SubnodeOutlined, AppleOutlined, MacCommandOutlined, LinkOutlined,
-} from '@ant-design/icons'
-import styles from '@/utils/utils.less'
-import { Descriptions } from 'antd'
-import {
-  BugOutlined, CloudOutlined, GatewayOutlined, LaptopOutlined, PlusOutlined, QuestionOutlined, WindowsOutlined,
-} from '@ant-design/icons'
 
 const listitemHeight = 240
+const listitemrowmargintop = 8
+const listitemrowmarginleft = 8
 const hostTypeToAvatar = {
   ad_server: (<Avatar shape="square" size="small"
                       style={{ backgroundColor: '#531dab' }}/>),
@@ -93,6 +67,7 @@ const hostTypeToAvatar = {
   other: (<Avatar shape="square" size="small"
                   style={{ backgroundColor: '#bfbfbf' }}/>),
 }
+
 const IPDomain = props => {
   console.log('IPDomain')
 
@@ -110,7 +85,7 @@ const IPDomain = props => {
 
   const [activeRecord, setActiveRecord] = useState({})
   const [showCommentModal, setShowCommentModal] = useState(false)
-
+  const [showSwitchModal, setShowSwitchModal] = useState(false)
   const initTableParams = {
     current: 1, pageSize: 10,
   }
@@ -136,6 +111,7 @@ const IPDomain = props => {
   const switchProjectReq = useRequest(postWebdatabaseProjectAPI, {
     manual: true, onSuccess: (result, params) => {
       setIPDomains(ipdomains.filter(item => item.ipdomain !== params[0].ipdomain))
+      setShowSwitchModal(false)
     }, onError: (error, params) => {
     },
   })
@@ -176,7 +152,7 @@ const IPDomain = props => {
     console.log(webIPDomainPortWaitList)
   }
 
-  const switchProject = (key, record) => {
+  const onSwitchProject = (key, record) => {
     switchProjectReq.run({
       project_id: key, ipdomain: record.ipdomain,
     })
@@ -238,33 +214,23 @@ const IPDomain = props => {
     }
   }
   const ActionGroup = (record) => {
-    return <Space
-      style={{ float: 'right' }}
-      size={0}>
-      <Dropdown
-        placement="top"
-        overlay={<Menu
-          onClick={({ item, key, keyPath, domEvent }) => switchProject(key, record)}
-          items={projects.filter(project => project.project_id !== projectActive.project_id).
-            map(project => {
-              return {
-                key: project.project_id, label: project.name, icon: <ProjectOutlined/>,
-              }
-            })}
-        />}
-        trigger={['click']}
-      >
-        <Button
-          size="small" style={{ width: 48 }}
-          icon={<SwapOutlined/>}/>
-      </Dropdown>
+    return <Space.Compact>
       <Button
-        size="small" style={{ width: 48 }}
+        size="small" style={{ width: 64 }}
+        icon={<SwapOutlined/>}
+        onClick={() => {
+          setActiveRecord(record)
+          setShowSwitchModal(true)
+        }}
+      />
+      {/*</Dropdown>*/}
+      <Button
+        size="small" style={{ width: 64 }}
         icon={<PlusCircleOutlined/>}
         onClick={() => addToWebIPDomainPortWaitList(record)}
       ></Button>
       <Button
-        size="small" style={{ width: 48 }}
+        size="small" style={{ width: 64 }}
         icon={<TagOutlined/>}
         onClick={() => {
           setActiveRecord(record)
@@ -272,12 +238,12 @@ const IPDomain = props => {
         }}
       />
       <Button
-        size="small" style={{ width: 48 }}
+        size="small" style={{ width: 64 }}
         danger
         icon={<DeleteOutlined/>}
         onClick={() => destoryProjectReq.run({ ipdomain: record.ipdomain })}
       ></Button>
-    </Space>
+    </Space.Compact>
   }
   const FirstRow = (record) => {
     const IPdomainTag = (record) => {
@@ -291,9 +257,7 @@ const IPDomain = props => {
       </Tag>
     }
 
-    return <Row
-      style={{ marginTop: 4, marginLeft: 4 }}
-    >
+    return <Row>
       <Space
         size={0}
       >
@@ -315,9 +279,7 @@ const IPDomain = props => {
         {record.ip}
       </Tag>
     }
-    return <Row
-      style={{ marginTop: 4, marginLeft: 4 }}
-    >
+    return <Row>
       <Space
         size={0}
       >
@@ -355,18 +317,24 @@ const IPDomain = props => {
   }
 
   const PortInfoRow = (record) => {
-    return <Row
-      style={{ marginTop: 4, marginLeft: 4 }}
-    ><Space size={0}>
+    return <Row><Space size={0}>
       {PortnumTag(record)}
       {ServiceTags(record)}
     </Space></Row>
   }
   const ComponentRow = (record) => {
-    if (record.port_info) {
-      if (record.port_info.components) {
-        const components = record.port_info.components
+    // const nulldiv = <Row><Tag
+    //   // icon={<MacCommandOutlined/>}
+    //   color="purple"
+    //   style={{
+    //     textAlign: 'center',
+    //   }}
+    // >111</Tag></Row>
+    const nulldiv = null
 
+    if (record.port_info) {
+      if (record.port_info.components && record.port_info.components.length > 0) {
+        const components = record.port_info.components
         const tagslist = components.map(component => {
           return <Tag
             // icon={<MacCommandOutlined/>}
@@ -378,18 +346,20 @@ const IPDomain = props => {
             {component.product_name}
           </Tag>
         })
-        return <Space wrap size={[0, 4]}>
-          {tagslist}</Space>
+        return <Row><Space wrap size={[0, 4]}>{tagslist}</Space></Row>
+      } else {
+        return nulldiv
       }
+    } else {
+      return nulldiv
     }
-    return null
   }
 
   const CDNTag = (record) => {
     if (record.cdn === null) {
       return <Tag
         // color="warning"
-        icon={<MinusOutlined/>}
+        icon={<QuestionOutlined/>}
         style={{
           textAlign: 'center', cursor: 'pointer',
         }}
@@ -421,7 +391,7 @@ const IPDomain = props => {
       if (waf === null) {
         return <Tag
           // color="warning"
-          icon={<MinusOutlined/>}
+          icon={<QuestionOutlined/>}
           style={{
             textAlign: 'center', cursor: 'pointer',
           }}
@@ -451,7 +421,7 @@ const IPDomain = props => {
   }
 
   const SecurityRow = (record) => {
-    return <Row style={{ marginTop: 4, marginLeft: 4 }}>
+    return <Row>
       <Space size={0}>
         {CDNTag(record)}
         {WAFTag(record)}
@@ -461,10 +431,11 @@ const IPDomain = props => {
 
   const CommentRow = (record) => {
     if (record.comment) {
-      return <Space>
-        {hostTypeToAvatar[record.color]}
-        <span>{record.comment}</span>
-      </Space>
+      return <Row>
+        <Space>
+          {hostTypeToAvatar[record.color]}
+          <span>{record.comment}</span>
+        </Space></Row>
     }
     return null
   }
@@ -501,7 +472,7 @@ const IPDomain = props => {
           noStyle
           // label="Port"
         >
-          <InputNumber style={{ width: 96 }} placeholder="Port" min={1} max={65535}/>
+          <InputNumber style={{ width: 104 }} placeholder="Port" min={1} max={65535}/>
         </Form.Item>
         <Form.Item
           noStyle
@@ -510,14 +481,13 @@ const IPDomain = props => {
         >
           <Select
             style={{
-              width: 116,
+              width: 120,
             }}
-            showArrow={false}
             placeholder="WAF"
             allowClear
             options={[
               {
-                value: true, label: <span style={{ color: 'orange' }}><CheckOutlined/> Has WAF</span>,
+                value: true, label: <span style={{ color: 'orange' }}><CloseOutlined/> Has WAF</span>,
               }, {
                 value: false, label: <span style={{ color: 'green' }}><CheckOutlined/> No WAF</span>,
               }]}
@@ -530,13 +500,13 @@ const IPDomain = props => {
         >
           <Select
             style={{
-              width: 116,
+              width: 120,
             }}
             placeholder="CDN"
             allowClear
             options={[
               {
-                value: true, label: <span style={{ color: 'orange' }}><CheckOutlined/> Has CDN</span>,
+                value: true, label: <span style={{ color: 'orange' }}><CloseOutlined/> Has CDN</span>,
               }, {
                 value: false, label: <span style={{ color: 'green' }}><CheckOutlined/> No CDN</span>,
               }]}
@@ -546,7 +516,7 @@ const IPDomain = props => {
           noStyle
         >
           <Button
-            style={{ width: 64 }}
+            style={{ width: 80 }}
             icon={<SearchOutlined/>}
             htmlType="submit"
             loading={listIPdomainReq.loading}
@@ -573,8 +543,7 @@ const IPDomain = props => {
   const HttpBaseRow = (http_base) => {
     if (http_base) {
       return <>
-        <Button type="link" size="small" shape="round"
-                icon={<LinkOutlined/>}>{http_base.title}</Button>
+        <a target="_blank" href={http_base.url}><LinkOutlined/> {http_base.title}</a>
         <Tag
           color="cyan"
           style={{
@@ -595,8 +564,8 @@ const IPDomain = props => {
       if (http_base) {
         return <Tabs.TabPane tab={<span>HTTP</span>} key="HTTP">
           <Space>
-            {HttpFaviconTag(http_favicon)}
             {HttpBaseRow(http_base)}
+            {HttpFaviconTag(http_favicon)}
           </Space>
         </Tabs.TabPane>
       } else {
@@ -797,19 +766,14 @@ const IPDomain = props => {
     >
       <Row>
         <Col span={10}>
-          {FirstRow(record)}
-          {IPRow(record)}
-          {PortInfoRow(record)}
-          <Row
-            style={{ marginTop: 4, marginLeft: 4 }}
-          >{ComponentRow(record)}</Row>
-          {SecurityRow(record)}
-          {/*<Row*/}
-          {/*  style={{ marginTop: 4, marginLeft: 4 }}*/}
-          {/*>{WAFRow(record)}</Row>*/}
-          <Row
-            style={{ marginTop: 4, marginLeft: 4 }}
-          >{CommentRow(record)}</Row>
+          <Space size={8} style={{ marginLeft: 8, marginTop: 8 }} direction="vertical">
+            {FirstRow(record)}
+            {IPRow(record)}
+            {PortInfoRow(record)}
+            {ComponentRow(record)}
+            {SecurityRow(record)}
+            {CommentRow(record)}
+          </Space>
         </Col>
         <Col span={14}>
           <Tabs
@@ -921,7 +885,9 @@ const IPDomain = props => {
       open={showCommentModal}
       onCancel={() => setShowCommentModal(false)}
       footer={null}
-      bodyStyle={{ padding: '8px 8px 4px 8px' }}
+      styles={{
+        body: { padding: 0, margin: 0 },
+      }}
     >
       <Form
         onFinish={onUpdatePortComment}
@@ -963,6 +929,32 @@ const IPDomain = props => {
           </Button>
         </Form.Item>
       </Form>
+    </Modal>
+    <Modal
+      // style={{
+      //   top: 32,
+      //   body: { padding: '8px 8px 4px 8px' },
+      // }}
+      styles={{
+        body: { padding: 0, margin: 0 },
+      }}
+      mask={false}
+      width="32vw"
+      destroyOnClose
+      closable={false}
+      open={showSwitchModal}
+      onCancel={() => setShowSwitchModal(false)}
+      footer={null}
+    >
+      <Menu
+        onClick={({ item, key, keyPath, domEvent }) => onSwitchProject(key, activeRecord)}
+        items={projects.filter(project => project.project_id !== projectActive.project_id).
+          map(project => {
+            return {
+              key: project.project_id, label: project.name, icon: <ProjectOutlined/>,
+            }
+          })}
+      />
     </Modal>
   </Fragment>)
 }

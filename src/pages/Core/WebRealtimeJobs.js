@@ -1,58 +1,25 @@
 import React, { Fragment, memo, useState } from 'react'
-import { getLocale, useModel, useRequest } from 'umi'
-import { useControllableValue, useInterval } from 'ahooks'
-import {
-  deleteMsgrpcJobAPI,
-  deleteNoticesAPI,
-  deletePostmodulePostModuleResultHistoryAPI,
-  deleteWebTaskResultAPI,
-  getCoreUUIDJsonAPI,
-  postCoreNoticesAPI,
-} from '@/services/apiv1'
+import { useModel, useRequest } from 'umi'
+import { useInterval } from 'ahooks'
+import { deleteMsgrpcJobAPI, deleteWebTaskResultAPI } from '@/services/apiv1'
 import {
   CheckCircleOutlined,
   ClockCircleOutlined,
   CloseCircleOutlined,
   DeleteOutlined,
-  FieldTimeOutlined,
   SearchOutlined,
   SyncOutlined,
   VerticalAlignTopOutlined,
 } from '@ant-design/icons'
-import {
-  BackTop,
-  Badge,
-  Button,
-  Card,
-  Col,
-  Input,
-  List,
-  Modal,
-  Popover,
-  Radio,
-  Row,
-  Space,
-  Table,
-  Tag,
-  Typography,
-  Descriptions,
-} from 'antd'
+import { BackTop, Button, Col, Descriptions, Input, List, Popover, Row, Space, Table, Tag, Typography } from 'antd-v5'
 import moment from 'moment'
-import { DocIcon, MyIcon, SidTag, WebMainHeight } from '@/pages/Core/Common'
-import { cssCalc, Downheight, Upheight } from '@/utils/utils'
+import { DocIcon, WebMainHeight } from '@/pages/Core/Common'
+import { cssCalc } from '@/utils/utils'
 
-import {
-  formatText,
-  getModuleDesc,
-  getModuleName,
-  getModuleResultTable,
-  getOptionTag,
-  getResultData,
-} from '@/utils/locales'
+import { formatText, getModuleDesc, getModuleName, getModuleResultTable, getResultData } from '@/utils/locales'
 import { postModuleOpts } from '@/pages/Core/RealTimeCard'
 
 const { Text, Link } = Typography
-const { Search } = Input
 
 const taskStatusDict = {
   running: <Tag icon={<SyncOutlined spin/>}

@@ -1,21 +1,11 @@
-import React, { useEffect, useRef } from 'react'
+import React, { Fragment, memo, useEffect, useRef, useState } from 'react'
 import { useModel, useRequest } from 'umi'
 import { useInterval } from 'ahooks'
-import {
-  deleteNoticesAPI,
-  deleteWebNoticesAPI,
-  getCoreCurrentUserAPI,
-  getCoreUUIDJsonAPI,
-  getWebdatabaseProjectAPI,
-  postCoreNoticesAPI,
-} from '@/services/apiv1'
+import { deleteWebNoticesAPI, getCoreCurrentUserAPI } from '@/services/apiv1'
 
-import {
-  AlertOutlined, BellOutlined,
-  CustomerServiceOutlined, GlobalOutlined, ScanOutlined, SettingOutlined,
-} from '@ant-design/icons'
+import { BellOutlined, DeleteOutlined, GlobalOutlined, ScanOutlined, SettingOutlined, VerticalAlignTopOutlined } from '@ant-design/icons'
 
-import { Button, Input, Modal, Select, Space, Tabs, Typography } from 'antd'
+import { BackTop, Button, Col, ConfigProvider, Input, List, Modal, Row, Select, Space, Tabs, Tag, theme, Typography } from 'antd-v5'
 import GridContent from '@/components/PageHeaderWrapper/GridContent'
 
 import { IPDomainMemo } from '@/pages/Core/IPDomain'
@@ -25,22 +15,13 @@ import { getToken } from '@/utils/authority'
 import { formatText } from '@/utils/locales'
 import { HostIP } from '@/config'
 import { ProjectButton } from '@/pages/Core/Project'
-import styles from '@/utils/utils.less'
-import { SwapOutlined } from '@ant-design/icons'
-import { PortScan } from '@/pages/Core/RunModule'
 import { RunWebModuleMemo } from '@/pages/Core/WebModule'
-import { RealTimeJobsMemo, TaskQueueTagMemo } from '@/pages/Core/RealTimeCard'
+import { TaskQueueTagMemo } from '@/pages/Core/RealTimeCard'
 import { WebRealTimeJobsMemo } from '@/pages/Core/WebRealtimeJobs'
-import { Fragment, memo, useState } from 'react'
-import { DocIcon, MyIcon } from '@/pages/Core/Common'
+import { MyIcon } from '@/pages/Core/Common'
 import { getLocale } from '@@/plugin-locale/localeExports'
-import { BackTop, Card, Col, List, Popover, Row, Tag } from '_antd@4.24.14@antd'
 import { cssCalc } from '@/utils/utils'
 import moment from 'moment/moment'
-import {
-  DeleteOutlined, SearchOutlined, VerticalAlignTopOutlined,
-} from '@ant-design/icons'
-import ReactJson from 'react-json-view'
 
 const { Text } = Typography
 const { Paragraph } = Typography
@@ -54,15 +35,6 @@ let webHost = HostIP + ':8002'
 if (process.env.NODE_ENV === 'production') {
   webHost = location.hostname + (location.port ? `:${location.port}` : '')
   protocol = 'wss://'
-}
-const WebMain = props => {
-  console.log('WebMain')
-  useEffect(() => {
-  }, [])
-
-  return (<GridContent>
-    <TabsBottom/>
-  </GridContent>)
 }
 
 const TabsOptions = () => {
@@ -96,8 +68,7 @@ const TabsBottom = () => {
   const {
     setHeatbeatsocketalive, setWebModuleOptions,
   } = useModel('HostAndSessionModel', model => ({
-    setHeatbeatsocketalive: model.setHeatbeatsocketalive,
-    setWebModuleOptions: model.setWebModuleOptions,
+    setHeatbeatsocketalive: model.setHeatbeatsocketalive, setWebModuleOptions: model.setWebModuleOptions,
   }))
 
   const {
@@ -176,8 +147,7 @@ const TabsBottom = () => {
       const { notices } = response
 
       if (module_options_update) {
-        setWebModuleOptions(
-          module_options.filter(item => item.BROKER.indexOf('web') === 0))
+        setWebModuleOptions(module_options.filter(item => item.BROKER.indexOf('web') === 0))
       }
 
       if (jobs_update) {
@@ -196,8 +166,7 @@ const TabsBottom = () => {
   }
 
   const websyncmonitor = () => {
-    if (ws.current !== undefined && ws.current !== null &&
-      ws.current.readyState === WebSocket.OPEN) {
+    if (ws.current !== undefined && ws.current !== null && ws.current.readyState === WebSocket.OPEN) {
     } else {
       try {
         ws.current.close()
@@ -234,8 +203,7 @@ const TabsBottom = () => {
     <TabPane
       tab={<div style={tabPanedivSytle}>
         <GlobalOutlined/>
-        <span style={tabPanespanSytle}>{formatText(
-          'app.webmain.tab.ipdomain')}</span>
+        <span style={tabPanespanSytle}>{formatText('app.webmain.tab.ipdomain')}</span>
       </div>}
       key="IPDomain"
     >
@@ -250,8 +218,7 @@ const TabsBottom = () => {
     <TabPane
       tab={<div style={tabPanedivSytle}>
         <ScanOutlined/>
-        <span style={tabPanespanSytle}>{formatText(
-          'app.webmain.tab.webscan')}</span>
+        <span style={tabPanespanSytle}>{formatText('app.webmain.tab.webscan')}</span>
       </div>}
       key="WebScan"
     >
@@ -266,8 +233,7 @@ const TabsBottom = () => {
     <TabPane
       tab={<div style={tabPanedivSytle}>
         <TaskQueueTagMemo/>
-        <span style={tabPanespanSytle}>{formatText(
-          'app.hostandsession.tab.JobList')}</span>
+        <span style={tabPanespanSytle}>{formatText('app.hostandsession.tab.JobList')}</span>
       </div>}
       key="JobList"
     >
@@ -277,8 +243,7 @@ const TabsBottom = () => {
       tab={<div style={tabPanedivSytle}>
         <SettingOutlined/>
         <span
-          style={tabPanespanSytle}>{formatText(
-          'app.hostandsession.tab.SystemSetting')}</span>
+          style={tabPanespanSytle}>{formatText('app.hostandsession.tab.SystemSetting')}</span>
       </div>}
       key="SystemSetting"
     >
@@ -305,9 +270,7 @@ const WebNotices = () => {
   const {
     resizeUpHeight, resizeDownHeight, setResizeDownHeight,
   } = useModel('Resize', model => ({
-    resizeUpHeight: model.resizeUpHeight,
-    resizeDownHeight: model.resizeDownHeight,
-    setResizeDownHeight: model.setResizeDownHeight,
+    resizeUpHeight: model.resizeUpHeight, resizeDownHeight: model.resizeDownHeight, setResizeDownHeight: model.setResizeDownHeight,
   }))
 
   const userIconLarge = key => {
@@ -368,9 +331,7 @@ const WebNotices = () => {
     return (<List
       id="noticescard"
       style={{
-        overflow: 'auto',
-        maxHeight: cssCalc(`${resizeDownHeight} - 30px`),
-        minHeight: cssCalc(`${resizeDownHeight} - 30px`),
+        overflow: 'auto', maxHeight: cssCalc(`${resizeDownHeight} - 30px`), minHeight: cssCalc(`${resizeDownHeight} - 30px`),
       }}
       split={false}
       size="small"
@@ -427,7 +388,6 @@ const WebNotices = () => {
   })
 
   return (<Fragment>
-    {/*<DocIcon url="https://www.yuque.com/vipersec/help/vdbhlm"/>*/}
     <Row
       // style={{ marginTop: -16 }}
     >
@@ -444,4 +404,24 @@ const WebNotices = () => {
 
 export const WebNoticesMemo = memo(WebNotices)
 
+const WebMain = props => {
+  console.log('WebMain')
+  useEffect(() => {
+  }, [])
+
+  return (<ConfigProvider
+    theme={{
+      algorithm: theme.darkAlgorithm,
+      // algorithm: [theme.darkAlgorithm, theme.compactAlgorithm],
+      components: {
+        Table: {
+          cellPaddingBlockSM: 4,
+          headerBorderRadius: 2,
+        },
+      },
+    }}
+  ><GridContent>
+    <TabsBottom/>
+  </GridContent></ConfigProvider>)
+}
 export default WebMain
