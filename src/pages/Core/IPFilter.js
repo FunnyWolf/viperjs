@@ -1,15 +1,13 @@
 import React, { Fragment, memo, useImperativeHandle } from "react";
 import { CloudUploadOutlined } from "@ant-design/icons";
 import { useRequest } from "umi";
-import { Button, Card, Checkbox, Col, Form, Input, Row, Radio } from "antd";
+import { Button, Card, Checkbox, Col, Form, Input, Radio, Row } from 'antd-v5';
 import { getMsgrpcIPFilterAPI, putMsgrpcIPFilteAPI } from "@/services/apiv1";
 import { formatText } from "@/utils/locales";
 import { DocIcon } from "@/pages/Core/Common";
 
 const { Search } = Input;
 const { TextArea } = Input;
-
-
 
 const IPFilter = (props) => {
   console.log("IPFilter");
@@ -26,9 +24,8 @@ const IPFilter = (props) => {
       onChange(result.geo_blacklist);
     },
     onError: (error, params) => {
-    }
+    },
   });
-
 
   const listIPFilterReq = useRequest(getMsgrpcIPFilterAPI, {
     manual: true,
@@ -38,14 +35,14 @@ const IPFilter = (props) => {
       onChange(result.geo_blacklist);
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   useImperativeHandle(props.onRef, () => {
     return {
       updateData: () => {
         listIPFilterReq.run();
-      }
+      },
     };
   });
 
@@ -55,7 +52,7 @@ const IPFilter = (props) => {
 
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const updateIPFilterReq = useRequest(putMsgrpcIPFilteAPI, {
@@ -64,14 +61,13 @@ const IPFilter = (props) => {
       listIPFilterReq.run();
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const onUpdateIPFilter = values => {
     values.geo_blacklist = geoBlacklist;
     updateIPFilterReq.run(values);
   };
-
 
   const plainOptions = [
     { label: "北京", value: "北京" },
@@ -107,7 +103,7 @@ const IPFilter = (props) => {
     { label: "香港", value: "香港" },
     { label: "澳门", value: "澳门" },
     { label: "台湾", value: "台湾" },
-    { label: "海外", value: "海外" }
+    { label: "海外", value: "海外" },
   ];
 
   const plainOptionsValues = [
@@ -144,7 +140,7 @@ const IPFilter = (props) => {
     "香港",
     "澳门",
     "台湾",
-    "海外"
+    "海外",
   ];
 
   const onChange = list => {
@@ -159,10 +155,9 @@ const IPFilter = (props) => {
     setGeoBlacklistGeoBlacklistCheckAll(e.target.checked);
   };
 
-
   return (
     <Fragment>
-      <DocIcon url="https://www.yuque.com/vipersec/help/lxlre4" />
+      <DocIcon url="https://www.yuque.com/vipersec/help/lxlre4"/>
       <Card style={{ marginTop: -16 }} bodyStyle={{ padding: "16px 16px 16px 16px" }}>
         <Form
           layout="vertical"
@@ -184,7 +179,7 @@ const IPFilter = (props) => {
               </Form.Item>
 
               <Search placeholder={formatText("app.ipfilter.search.ph")}
-                      onSearch={(value) => getIPFilterReq.run({ ip: value })} block />
+                      onSearch={(value) => getIPFilterReq.run({ ip: value })} block/>
             </Col>
             <Col span={4}>
               <Form.Item
@@ -195,7 +190,7 @@ const IPFilter = (props) => {
               >
                 <TextArea
                   autoSize={{ minRows: 10, maxRows: 10 }}
-                  placeholder={formatText("app.ipfilter.diy_whitelist.ph")} />
+                  placeholder={formatText("app.ipfilter.diy_whitelist.ph")}/>
               </Form.Item>
             </Col>
             <Col span={4}>
@@ -207,7 +202,7 @@ const IPFilter = (props) => {
               >
                 <TextArea
                   autoSize={{ minRows: 10, maxRows: 10 }}
-                  placeholder={formatText("app.ipfilter.diy_whitelist.ph")} />
+                  placeholder={formatText("app.ipfilter.diy_whitelist.ph")}/>
               </Form.Item>
             </Col>
             <Col span={2}>
@@ -217,7 +212,7 @@ const IPFilter = (props) => {
                 name="cloud_blacklist"
                 valuePropName="checked"
               >
-                <Checkbox />
+                <Checkbox/>
               </Form.Item>
               <Form.Item
                 tooltip={formatText("app.ipfilter.sandbox_blacklist.tip")}
@@ -225,7 +220,7 @@ const IPFilter = (props) => {
                 name="sandbox_blacklist"
                 valuePropName="checked"
               >
-                <Checkbox />
+                <Checkbox/>
               </Form.Item>
             </Col>
             <Col span={5}>
@@ -249,7 +244,7 @@ const IPFilter = (props) => {
           </Row>
           <Button
             block
-            icon={<CloudUploadOutlined />}
+            icon={<CloudUploadOutlined/>}
             type="primary"
             htmlType="submit"
             loading={updateIPFilterReq.loading}

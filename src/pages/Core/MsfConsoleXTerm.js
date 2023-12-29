@@ -2,7 +2,7 @@ import React, { Fragment, memo, useEffect, useRef } from "react";
 
 import { ClearOutlined, InteractionOutlined } from "@ant-design/icons";
 
-import { Button, Space } from "antd";
+import { Button, Space } from 'antd-v5';
 import copy from "copy-to-clipboard";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
@@ -11,7 +11,7 @@ import { getToken } from "@/utils/authority";
 import { useInterval } from "ahooks";
 import { DocIcon } from "@/pages/Core/Common";
 import { HostIP } from "@/config";
-import { cssCalc, Downheight } from "@/utils/utils";
+import { cssCalc } from "@/utils/utils";
 import { useModel } from "@@/plugin-model/useModel";
 //websocket连接地址设置
 let webHost = HostIP + ":8002";
@@ -20,7 +20,6 @@ if (process.env.NODE_ENV === "production") {
   webHost = location.hostname + (location.port ? `:${location.port}` : "");
   protocol = "wss://";
 }
-
 
 const Msfconsole = props => {
   console.log("Msfconsole");
@@ -92,7 +91,7 @@ const Msfconsole = props => {
         msfConsoleTerm.current = new Terminal({
           allowTransparency: false,
           useStyle: true,
-          cursorBlink: true
+          cursorBlink: true,
         });
 
         msfConsoleTerm.current.attachCustomKeyEventHandler(e => {
@@ -139,30 +138,30 @@ const Msfconsole = props => {
   };
   return (
     <Fragment>
-      <DocIcon url="https://www.yuque.com/vipersec/help/tzugzn" />
+      <DocIcon url="https://www.yuque.com/vipersec/help/tzugzn"/>
       <Space
         style={{
           top: "calc(16vh + 184px)",
           right: 8,
           position: "fixed",
-          zIndex: 100
+          zIndex: 100,
         }}
         direction="vertical"
       >
         <Button
           style={{
-            backgroundColor: "rgba(40,40,40,0.7)"
+            backgroundColor: "rgba(40,40,40,0.7)",
           }}
           size="large"
           onClick={() => clearConsole()}
-          icon={<ClearOutlined />}
+          icon={<ClearOutlined/>}
         />
         <Button
           style={{
-            backgroundColor: "rgba(40,40,40,0.7)"
+            backgroundColor: "rgba(40,40,40,0.7)",
           }}
           size="large"
-          icon={<InteractionOutlined />}
+          icon={<InteractionOutlined/>}
           onClick={() => resetBackendConsole()}
         />
       </Space>
@@ -171,7 +170,7 @@ const Msfconsole = props => {
           marginTop: -16,
           padding: "0 0 0 4px",
           maxHeight: cssCalc(resizeDownHeight),
-          minHeight: cssCalc(resizeDownHeight)
+          minHeight: cssCalc(resizeDownHeight),
         }}
         ref={terminalRef}
       />
@@ -180,7 +179,6 @@ const Msfconsole = props => {
 };
 
 export const MsfconsoleMemo = memo(Msfconsole);
-
 
 const MsfconsoleWindows = props => {
   console.log("MsfconsoleWindows");
@@ -223,7 +221,7 @@ const MsfconsoleWindows = props => {
         msfConsoleTerm.current = new Terminal({
           allowTransparency: false,
           useStyle: true,
-          cursorBlink: true
+          cursorBlink: true,
         });
 
         msfConsoleTerm.current.attachCustomKeyEventHandler(e => {
@@ -273,7 +271,7 @@ const MsfconsoleWindows = props => {
     <div
       style={{
         padding: "0 0 0 0",
-        height: "100%"
+        height: "100%",
       }}
       ref={terminalRef}
     >
@@ -282,24 +280,24 @@ const MsfconsoleWindows = props => {
           top: "calc(8vh)",
           right: 8,
           position: "absolute",
-          zIndex: 100
+          zIndex: 100,
         }}
         direction="vertical"
       >
         <Button
           style={{
-            backgroundColor: "rgba(40,40,40,0.7)"
+            backgroundColor: "rgba(40,40,40,0.7)",
           }}
           size="large"
           onClick={() => clearConsole()}
-          icon={<ClearOutlined />}
+          icon={<ClearOutlined/>}
         />
         <Button
           style={{
-            backgroundColor: "rgba(40,40,40,0.7)"
+            backgroundColor: "rgba(40,40,40,0.7)",
           }}
           size="large"
-          icon={<InteractionOutlined />}
+          icon={<InteractionOutlined/>}
           onClick={() => resetBackendConsole()}
         />
       </Space>

@@ -1,11 +1,5 @@
 import React, { Fragment, memo, useImperativeHandle, useState } from "react";
-import {
-  deleteMsgrpcHandlerAPI,
-  getCoreSettingAPI,
-  getMsgrpcHandlerAPI,
-  postMsgrpcHandlerAPI,
-  postMsgrpcPayloadAPI
-} from "@/services/apiv1";
+import { deleteMsgrpcHandlerAPI, getCoreSettingAPI, getMsgrpcHandlerAPI, postMsgrpcHandlerAPI, postMsgrpcPayloadAPI } from "@/services/apiv1";
 import { DocIcon, randomstr } from "@/pages/Core/Common";
 import {
   Alert,
@@ -19,20 +13,20 @@ import {
   Form,
   Input,
   InputNumber,
-  Modal,
   Popover,
   Radio,
   Row,
   Select,
   Space,
   Table,
-  Tooltip
-} from "antd";
-import { BlockOutlined, CustomerServiceOutlined, SyncOutlined, SaveOutlined } from "@ant-design/icons";
+  Tooltip,
+} from 'antd-v5';
+import { Modal } from 'antd'
+import { BlockOutlined, CustomerServiceOutlined, SaveOutlined, SyncOutlined } from "@ant-design/icons";
 import { useRequest } from "umi";
 import { formatText } from "@/utils/locales";
 import { sessionTagList } from "@/pages/Core/HostAndSession";
-import { cssCalc, Downheight } from "@/utils/utils";
+import { cssCalc } from "@/utils/utils";
 import { useModel } from "@@/plugin-model/useModel";
 
 const { Panel } = Collapse;
@@ -46,18 +40,18 @@ const CreateHandlerModalContent = props => {
   const { createHandlerFinish } = props;
   const formLayout = {
     labelCol: { span: 6 },
-    wrapperCol: { span: 14 }
+    wrapperCol: { span: 14 },
   };
   const shortFormLayout = {
     labelCol: { span: 6 },
-    wrapperCol: { span: 4 }
+    wrapperCol: { span: 4 },
   };
   const CommformLayout = {
     labelCol: { span: 4 },
-    wrapperCol: { span: 20 }
+    wrapperCol: { span: 20 },
   };
   const buttonLayout = {
-    wrapperCol: { offset: 5, span: 14 }
+    wrapperCol: { offset: 5, span: 14 },
   };
   const handlerPayloadOptions = [
     {
@@ -74,64 +68,64 @@ const CreateHandlerModalContent = props => {
               children: [
                 {
                   value: "bind_tcp",
-                  label: "bind_tcp"
+                  label: "bind_tcp",
                 },
                 {
                   value: "bind_tcp_rc4",
-                  label: "bind_tcp_rc4"
+                  label: "bind_tcp_rc4",
                 },
                 {
                   value: "reverse_http",
-                  label: "reverse_http"
+                  label: "reverse_http",
                 },
                 {
                   value: "reverse_https",
-                  label: "reverse_https"
+                  label: "reverse_https",
                 },
                 {
                   value: "reverse_tcp",
-                  label: "reverse_tcp"
+                  label: "reverse_tcp",
                 },
                 {
                   value: "reverse_tcp_rc4",
-                  label: "reverse_tcp_rc4"
+                  label: "reverse_tcp_rc4",
                 },
 
                 {
                   value: "reverse_winhttp",
-                  label: "reverse_winhttp"
+                  label: "reverse_winhttp",
                 },
                 {
                   value: "reverse_winhttps",
-                  label: "reverse_winhttps"
+                  label: "reverse_winhttps",
                 },
                 {
                   value: "reverse_dns",
-                  label: "reverse_dns"
-                }
-              ]
+                  label: "reverse_dns",
+                },
+              ],
             },
             {
               value: "meterpreter_bind_tcp",
-              label: "meterpreter_bind_tcp"
+              label: "meterpreter_bind_tcp",
             },
             {
               value: "meterpreter_reverse_http",
-              label: "meterpreter_reverse_http"
+              label: "meterpreter_reverse_http",
             },
             {
               value: "meterpreter_reverse_https",
-              label: "meterpreter_reverse_https"
+              label: "meterpreter_reverse_https",
             },
             {
               value: "meterpreter_reverse_tcp",
-              label: "meterpreter_reverse_tcp"
+              label: "meterpreter_reverse_tcp",
             },
             {
               value: "meterpreter_reverse_dns",
-              label: "meterpreter_reverse_dns"
-            }
-          ]
+              label: "meterpreter_reverse_dns",
+            },
+          ],
         },
         {
           value: "meterpreter",
@@ -139,64 +133,64 @@ const CreateHandlerModalContent = props => {
           children: [
             {
               value: "bind_tcp",
-              label: "bind_tcp"
+              label: "bind_tcp",
             },
             {
               value: "bind_tcp_rc4",
-              label: "bind_tcp_rc4"
+              label: "bind_tcp_rc4",
             },
             {
               value: "reverse_http",
-              label: "reverse_http"
+              label: "reverse_http",
             },
             {
               value: "reverse_https",
-              label: "reverse_https"
+              label: "reverse_https",
             },
             {
               value: "reverse_tcp",
-              label: "reverse_tcp"
+              label: "reverse_tcp",
             },
 
             {
               value: "reverse_tcp_rc4",
-              label: "reverse_tcp_rc4"
+              label: "reverse_tcp_rc4",
             },
             {
               value: "reverse_winhttp",
-              label: "reverse_winhttp"
+              label: "reverse_winhttp",
             },
             {
               value: "reverse_winhttps",
-              label: "reverse_winhttps"
+              label: "reverse_winhttps",
             },
             {
               value: "reverse_dns",
-              label: "reverse_dns"
-            }
-          ]
+              label: "reverse_dns",
+            },
+          ],
         },
         {
           value: "meterpreter_bind_tcp",
-          label: "meterpreter_bind_tcp"
+          label: "meterpreter_bind_tcp",
         },
         {
           value: "meterpreter_reverse_http",
-          label: "meterpreter_reverse_http"
+          label: "meterpreter_reverse_http",
         },
         {
           value: "meterpreter_reverse_https",
-          label: "meterpreter_reverse_https"
+          label: "meterpreter_reverse_https",
         },
         {
           value: "meterpreter_reverse_tcp",
-          label: "meterpreter_reverse_tcp"
+          label: "meterpreter_reverse_tcp",
         },
         {
           value: "meterpreter_reverse_dns",
-          label: "meterpreter_reverse_dns"
-        }
-      ]
+          label: "meterpreter_reverse_dns",
+        },
+      ],
     },
     {
       value: "linux",
@@ -212,28 +206,28 @@ const CreateHandlerModalContent = props => {
               children: [
                 {
                   value: "bind_tcp",
-                  label: "bind_tcp"
+                  label: "bind_tcp",
                 },
                 {
                   value: "reverse_tcp",
-                  label: "reverse_tcp"
-                }
-              ]
+                  label: "reverse_tcp",
+                },
+              ],
             },
 
             {
               value: "meterpreter_reverse_http",
-              label: "meterpreter_reverse_http"
+              label: "meterpreter_reverse_http",
             },
             {
               value: "meterpreter_reverse_https",
-              label: "meterpreter_reverse_https"
+              label: "meterpreter_reverse_https",
             },
             {
               value: "meterpreter_reverse_tcp",
-              label: "meterpreter_reverse_tcp"
-            }
-          ]
+              label: "meterpreter_reverse_tcp",
+            },
+          ],
         },
         {
           value: "x86",
@@ -245,29 +239,29 @@ const CreateHandlerModalContent = props => {
               children: [
                 {
                   value: "reverse_tcp",
-                  label: "reverse_tcp"
+                  label: "reverse_tcp",
                 },
                 {
                   value: "bind_tcp",
-                  label: "bind_tcp"
-                }
-              ]
+                  label: "bind_tcp",
+                },
+              ],
             },
             {
               value: "meterpreter_reverse_http",
-              label: "meterpreter_reverse_http"
+              label: "meterpreter_reverse_http",
             },
             {
               value: "meterpreter_reverse_https",
-              label: "meterpreter_reverse_https"
+              label: "meterpreter_reverse_https",
             },
             {
               value: "meterpreter_reverse_tcp",
-              label: "meterpreter_reverse_tcp"
-            }
-          ]
-        }
-      ]
+              label: "meterpreter_reverse_tcp",
+            },
+          ],
+        },
+      ],
     },
     {
       value: "multi",
@@ -279,15 +273,15 @@ const CreateHandlerModalContent = props => {
           children: [
             {
               value: "reverse_http",
-              label: "reverse_http"
+              label: "reverse_http",
             },
             {
               value: "reverse_https",
-              label: "reverse_https"
-            }
-          ]
-        }
-      ]
+              label: "reverse_https",
+            },
+          ],
+        },
+      ],
     },
     {
       value: "java",
@@ -299,19 +293,19 @@ const CreateHandlerModalContent = props => {
           children: [
             {
               value: "bind_tcp",
-              label: "bind_tcp"
+              label: "bind_tcp",
             },
             {
               value: "reverse_http",
-              label: "reverse_http"
+              label: "reverse_http",
             },
             {
               value: "reverse_tcp",
-              label: "reverse_tcp"
-            }
-          ]
-        }
-      ]
+              label: "reverse_tcp",
+            },
+          ],
+        },
+      ],
     },
     {
       value: "python",
@@ -323,43 +317,43 @@ const CreateHandlerModalContent = props => {
           children: [
             {
               value: "bind_tcp",
-              label: "bind_tcp"
+              label: "bind_tcp",
             },
             {
               value: "reverse_http",
-              label: "reverse_http"
+              label: "reverse_http",
             },
             {
               value: "reverse_https",
-              label: "reverse_https"
+              label: "reverse_https",
             },
             {
               value: "reverse_tcp",
-              label: "reverse_tcp"
+              label: "reverse_tcp",
             },
             {
               value: "reverse_tcp_ssl",
-              label: "reverse_tcp_ssl"
-            }
-          ]
+              label: "reverse_tcp_ssl",
+            },
+          ],
         },
         {
           value: "meterpreter_bind_tcp",
-          label: "meterpreter_bind_tcp"
+          label: "meterpreter_bind_tcp",
         },
         {
           value: "meterpreter_reverse_http",
-          label: "meterpreter_reverse_http"
+          label: "meterpreter_reverse_http",
         },
         {
           value: "meterpreter_reverse_https",
-          label: "meterpreter_reverse_https"
+          label: "meterpreter_reverse_https",
         },
         {
           value: "meterpreter_reverse_tcp",
-          label: "meterpreter_reverse_tcp"
-        }
-      ]
+          label: "meterpreter_reverse_tcp",
+        },
+      ],
     },
     {
       value: "android",
@@ -371,31 +365,31 @@ const CreateHandlerModalContent = props => {
           children: [
             {
               value: "reverse_http",
-              label: "reverse_http"
+              label: "reverse_http",
             },
             {
               value: "reverse_https",
-              label: "reverse_https"
+              label: "reverse_https",
             },
             {
               value: "reverse_tcp",
-              label: "reverse_tcp"
-            }
-          ]
+              label: "reverse_tcp",
+            },
+          ],
         },
         {
           value: "meterpreter_reverse_http",
-          label: "meterpreter_reverse_http"
+          label: "meterpreter_reverse_http",
         },
         {
           value: "meterpreter_reverse_https",
-          label: "meterpreter_reverse_https"
+          label: "meterpreter_reverse_https",
         },
         {
           value: "meterpreter_reverse_tcp",
-          label: "meterpreter_reverse_tcp"
-        }
-      ]
+          label: "meterpreter_reverse_tcp",
+        },
+      ],
     },
     {
       value: "osx",
@@ -411,28 +405,28 @@ const CreateHandlerModalContent = props => {
               children: [
                 {
                   value: "bind_tcp",
-                  label: "bind_tcp"
+                  label: "bind_tcp",
                 },
                 {
                   value: "reverse_tcp",
-                  label: "reverse_tcp"
-                }
-              ]
+                  label: "reverse_tcp",
+                },
+              ],
             },
 
             {
               value: "meterpreter_reverse_http",
-              label: "meterpreter_reverse_http"
+              label: "meterpreter_reverse_http",
             },
             {
               value: "meterpreter_reverse_https",
-              label: "meterpreter_reverse_https"
+              label: "meterpreter_reverse_https",
             },
             {
               value: "meterpreter_reverse_tcp",
-              label: "meterpreter_reverse_tcp"
-            }
-          ]
+              label: "meterpreter_reverse_tcp",
+            },
+          ],
         },
         {
           value: "aarch64",
@@ -444,25 +438,25 @@ const CreateHandlerModalContent = props => {
               children: [
                 {
                   value: "reverse_tcp",
-                  label: "reverse_tcp"
-                }
-              ]
+                  label: "reverse_tcp",
+                },
+              ],
             },
             {
               value: "meterpreter_reverse_http",
-              label: "meterpreter_reverse_http"
+              label: "meterpreter_reverse_http",
             },
             {
               value: "meterpreter_reverse_https",
-              label: "meterpreter_reverse_https"
+              label: "meterpreter_reverse_https",
             },
             {
               value: "meterpreter_reverse_tcp",
-              label: "meterpreter_reverse_tcp"
-            }
-          ]
-        }
-      ]
+              label: "meterpreter_reverse_tcp",
+            },
+          ],
+        },
+      ],
     },
     {
       value: "php",
@@ -474,20 +468,20 @@ const CreateHandlerModalContent = props => {
           children: [
             {
               value: "bind_tcp",
-              label: "bind_tcp"
+              label: "bind_tcp",
             },
             {
               value: "reverse_tcp",
-              label: "reverse_tcp"
-            }
-          ]
+              label: "reverse_tcp",
+            },
+          ],
         },
         {
           value: "meterpreter_reverse_tcp",
-          label: "meterpreter_reverse_tcp"
-        }
-      ]
-    }
+          label: "meterpreter_reverse_tcp",
+        },
+      ],
+    },
   ];
 
   const StageEncoder = ["x86/shikata_ga_nai", "x86/xor_dynamic", "x64/xor", "x64/xor_dynamic"];
@@ -508,7 +502,7 @@ const CreateHandlerModalContent = props => {
       setSessionDict(result.sessions);
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const createHandlerReq = useRequest(postMsgrpcHandlerAPI, {
@@ -517,7 +511,7 @@ const CreateHandlerModalContent = props => {
       createHandlerFinish();
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const onCreateHandlerBySubmit = params => {
@@ -535,7 +529,6 @@ const CreateHandlerModalContent = props => {
     }
   };
 
-
   const handlerPayloadBaseOption = () => {
     let options = [];
     if (selectPayload === null || selectPayload === undefined) {
@@ -550,8 +543,8 @@ const CreateHandlerModalContent = props => {
             name="RHOST"
             initialValue="127.0.0.1"
             style={{ display: "None" }}
-          ><Fragment />
-          </Form.Item>
+          ><Fragment/>
+          </Form.Item>,
         );
         options.push(
           <Form.Item
@@ -561,8 +554,8 @@ const CreateHandlerModalContent = props => {
             initialValue={60006}
             style={{ display: "None" }}
           >
-            <Fragment />
-          </Form.Item>
+            <Fragment/>
+          </Form.Item>,
         );
       } else {
         options.push(
@@ -574,12 +567,12 @@ const CreateHandlerModalContent = props => {
             rules={[
               {
                 required: true,
-                message: formatText("app.payloadandhandler.lhost_rule")
-              }
+                message: formatText("app.payloadandhandler.lhost_rule"),
+              },
             ]}
           >
-            <Input placeholder={formatText("app.payloadandhandler.lhost_rule")} />
-          </Form.Item>
+            <Input placeholder={formatText("app.payloadandhandler.lhost_rule")}/>
+          </Form.Item>,
         );
         options.push(
           <Form.Item
@@ -589,12 +582,12 @@ const CreateHandlerModalContent = props => {
             rules={[
               {
                 required: true,
-                message: formatText("app.payloadandhandler.port_rule")
-              }
+                message: formatText("app.payloadandhandler.port_rule"),
+              },
             ]}
           >
-            <InputNumber style={{ width: 160 }} />
-          </Form.Item>
+            <InputNumber style={{ width: 160 }}/>
+          </Form.Item>,
         );
       }
 
@@ -607,12 +600,12 @@ const CreateHandlerModalContent = props => {
           rules={[
             {
               required: true,
-              message: formatText("app.payloadandhandler.rhost_rule")
-            }
+              message: formatText("app.payloadandhandler.rhost_rule"),
+            },
           ]}
         >
-          <Input placeholder={formatText("app.payloadandhandler.rhost_rule")} />
-        </Form.Item>
+          <Input placeholder={formatText("app.payloadandhandler.rhost_rule")}/>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
@@ -622,12 +615,12 @@ const CreateHandlerModalContent = props => {
           rules={[
             {
               required: true,
-              message: formatText("app.payloadandhandler.port_rule")
-            }
+              message: formatText("app.payloadandhandler.port_rule"),
+            },
           ]}
         >
-          <InputNumber style={{ width: 160 }} />
-        </Form.Item>
+          <InputNumber style={{ width: 160 }}/>
+        </Form.Item>,
       );
     }
     if (options.length === 0) {
@@ -647,7 +640,7 @@ const CreateHandlerModalContent = props => {
       for (let uuid in sessionDict) {
         let session = sessionDict[uuid];
         selectOptions.push(
-          <Radio value={session.id}>{sessionTagList(session)}</Radio>
+          <Radio value={session.id}>{sessionTagList(session)}</Radio>,
         );
       }
 
@@ -670,7 +663,7 @@ const CreateHandlerModalContent = props => {
               {selectOptions}
             </Space>
           </Radio.Group>
-        </Form.Item>
+        </Form.Item>,
       );
     }
 
@@ -701,7 +694,7 @@ const CreateHandlerModalContent = props => {
               showIcon
             />
           </Col>
-        </Row>
+        </Row>,
       );
     }
 
@@ -715,7 +708,7 @@ const CreateHandlerModalContent = props => {
               showIcon
             />
           </Col>
-        </Row>
+        </Row>,
       );
     }
 
@@ -743,8 +736,8 @@ const CreateHandlerModalContent = props => {
           initialValue={randomstr(8)}
           name="LURI"
         >
-          <Input placeholder={formatText("app.payloadandhandler.luri_rule")} />
-        </Form.Item>
+          <Input placeholder={formatText("app.payloadandhandler.luri_rule")}/>
+        </Form.Item>,
       );
     }
 
@@ -761,7 +754,7 @@ const CreateHandlerModalContent = props => {
               <Option value={`/root/.msf4/loot/${encoder}`}>{encoder}</Option>
             ))}
           </Select>
-        </Form.Item>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
@@ -776,35 +769,35 @@ const CreateHandlerModalContent = props => {
             options={[
               {
                 value: "Auto",
-                label: "Auto"
+                label: "Auto",
               },
               {
                 value: "TLS",
-                label: "TLS"
+                label: "TLS",
               },
               {
                 value: "SSL23",
-                label: "SSL23"
+                label: "SSL23",
               },
               {
                 value: "SSL3",
-                label: "SSL3"
+                label: "SSL3",
               },
               {
                 value: "TLS1",
-                label: "TLS1"
+                label: "TLS1",
               },
               {
                 value: "TLS1.1",
-                label: "TLS1.1"
+                label: "TLS1.1",
               },
               {
                 value: "TLS1.2",
-                label: "TLS1.2"
-              }
+                label: "TLS1.2",
+              },
             ]}
           />
-        </Form.Item>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
@@ -819,15 +812,15 @@ const CreateHandlerModalContent = props => {
             options={[
               {
                 value: "DHE-RSA-AES256-SHA",
-                label: "DHE-RSA-AES256-SHA"
+                label: "DHE-RSA-AES256-SHA",
               },
               {
                 value: "DHE-DSS-AES256-SHA",
-                label: "DHE-DSS-AES256-SHA"
-              }
+                label: "DHE-DSS-AES256-SHA",
+              },
             ]}
           />
-        </Form.Item>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
@@ -838,8 +831,8 @@ const CreateHandlerModalContent = props => {
           name="StagerVerifySSLCert"
           valuePropName="checked"
         >
-          <Checkbox defaultChecked />
-        </Form.Item>
+          <Checkbox defaultChecked/>
+        </Form.Item>,
       );
     }
 
@@ -855,12 +848,12 @@ const CreateHandlerModalContent = props => {
           rules={[
             {
               required: true,
-              message: "Please input UserAgent"
-            }
+              message: "Please input UserAgent",
+            },
           ]}
         >
-          <TextArea placeholder="Please input UserAgent" />
-        </Form.Item>
+          <TextArea placeholder="Please input UserAgent"/>
+        </Form.Item>,
       );
       options_second.push(
         <Form.Item
@@ -872,8 +865,8 @@ const CreateHandlerModalContent = props => {
           valuePropName="checked"
           rules={[]}
         >
-          <Checkbox />
-        </Form.Item>
+          <Checkbox/>
+        </Form.Item>,
       );
 
       options_second.push(
@@ -888,7 +881,7 @@ const CreateHandlerModalContent = props => {
             <Option value="http">http</Option>
             <Option value="https">https</Option>
           </Select>
-        </Form.Item>
+        </Form.Item>,
       );
 
       options_second.push(
@@ -899,8 +892,8 @@ const CreateHandlerModalContent = props => {
           name="OverrideLHOST"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
       options_second.push(
         <Form.Item
@@ -910,10 +903,9 @@ const CreateHandlerModalContent = props => {
           name="OverrideLPORT"
           rules={[]}
         >
-          <InputNumber style={{ width: 160 }} />
-        </Form.Item>
+          <InputNumber style={{ width: 160 }}/>
+        </Form.Item>,
       );
-
 
       options_second.push(
         <Form.Item
@@ -923,8 +915,8 @@ const CreateHandlerModalContent = props => {
           name="HttpCookie"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
       options_second.push(
         <Form.Item
@@ -934,8 +926,8 @@ const CreateHandlerModalContent = props => {
           name="HttpHostHeader"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
 
       options_second.push(
@@ -950,7 +942,7 @@ const CreateHandlerModalContent = props => {
             <Option value="HTTP">HTTP</Option>
             <Option value="SOCKS">SOCKS</Option>
           </Select>
-        </Form.Item>
+        </Form.Item>,
       );
       options_second.push(
         <Form.Item
@@ -960,8 +952,8 @@ const CreateHandlerModalContent = props => {
           name="HttpProxyHost"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
 
       options_second.push(
@@ -972,8 +964,8 @@ const CreateHandlerModalContent = props => {
           name="HttpProxyPort"
           rules={[]}
         >
-          <InputNumber style={{ width: 160 }} />
-        </Form.Item>
+          <InputNumber style={{ width: 160 }}/>
+        </Form.Item>,
       );
       options_second.push(
         <Form.Item
@@ -983,8 +975,8 @@ const CreateHandlerModalContent = props => {
           name="HttpProxyUser"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
       options_second.push(
         <Form.Item
@@ -994,8 +986,8 @@ const CreateHandlerModalContent = props => {
           name="HttpProxyPass"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
     }
 
@@ -1010,12 +1002,12 @@ const CreateHandlerModalContent = props => {
           rules={[
             {
               required: true,
-              message: formatText("app.payloadandhandler.rc4password_rule")
-            }
+              message: formatText("app.payloadandhandler.rc4password_rule"),
+            },
           ]}
         >
-          <Input placeholder={formatText("app.payloadandhandler.rc4password_rule")} />
-        </Form.Item>
+          <Input placeholder={formatText("app.payloadandhandler.rc4password_rule")}/>
+        </Form.Item>,
       );
     }
     if (selectPayload.includes("reverse_dns")) {
@@ -1028,12 +1020,12 @@ const CreateHandlerModalContent = props => {
           rules={[
             {
               required: true,
-              message: formatText("app.payloadandhandler.domain_rule")
-            }
+              message: formatText("app.payloadandhandler.domain_rule"),
+            },
           ]}
         >
-          <Input placeholder={formatText("app.payloadandhandler.domain_rule")} />
-        </Form.Item>
+          <Input placeholder={formatText("app.payloadandhandler.domain_rule")}/>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
@@ -1045,14 +1037,14 @@ const CreateHandlerModalContent = props => {
           rules={[
             {
               required: true,
-              message: formatText("app.payloadandhandler.req_type_rule")
-            }
+              message: formatText("app.payloadandhandler.req_type_rule"),
+            },
           ]}>
           <Select style={{ width: 200 }}>
             <Option value="DNSKEY">{formatText("app.payloadandhandler.DNSKEY")}</Option>
             <Option value="IPv6">{formatText("app.payloadandhandler.IPv6")}</Option>
           </Select>
-        </Form.Item>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
@@ -1064,12 +1056,12 @@ const CreateHandlerModalContent = props => {
           rules={[
             {
               required: true,
-              message: formatText("app.payloadandhandler.SERVER_ID_rule")
-            }
+              message: formatText("app.payloadandhandler.SERVER_ID_rule"),
+            },
           ]}
         >
-          <Input placeholder={formatText("app.payloadandhandler.SERVER_ID_rule")} />
-        </Form.Item>
+          <Input placeholder={formatText("app.payloadandhandler.SERVER_ID_rule")}/>
+        </Form.Item>,
       );
     }
     if (options.length === 0) {
@@ -1095,7 +1087,6 @@ const CreateHandlerModalContent = props => {
     }
   };
 
-
   const handlerMeterpreterDebugLogging = () => {
     if (selectPayload === null || selectPayload === undefined) {
       return null;
@@ -1108,7 +1099,7 @@ const CreateHandlerModalContent = props => {
         rules={[]}
         initialValue="rpath:C:/Windows/Temp/foo.txt"
       >
-        <Input placeholder="rpath:C:/Windows/Temp/foo.txt rpath:/tmp/foo.txt" />
+        <Input placeholder="rpath:C:/Windows/Temp/foo.txt rpath:/tmp/foo.txt"/>
       </Form.Item>;
     } else {
       return <Form.Item
@@ -1118,11 +1109,10 @@ const CreateHandlerModalContent = props => {
         rules={[]}
         initialValue="rpath:/tmp/foo.txt"
       >
-        <Input placeholder="rpath:C:/Windows/Temp/foo.txt rpath:/tmp/foo.txt" />
+        <Input placeholder="rpath:C:/Windows/Temp/foo.txt rpath:/tmp/foo.txt"/>
       </Form.Item>;
     }
   };
-
 
   return (
     <Form
@@ -1138,8 +1128,8 @@ const CreateHandlerModalContent = props => {
             rules={[
               {
                 required: true,
-                message: formatText("app.payloadandhandler.payload_rule")
-              }
+                message: formatText("app.payloadandhandler.payload_rule"),
+              },
             ]}
           >
             <Cascader
@@ -1158,7 +1148,7 @@ const CreateHandlerModalContent = props => {
             rules={[]}
             initialValue={false}
           >
-            <Checkbox />
+            <Checkbox/>
           </Form.Item>
           <Form.Item
             {...formLayout}
@@ -1168,14 +1158,14 @@ const CreateHandlerModalContent = props => {
             valuePropName="checked"
             rules={[]}
           >
-            <Checkbox />
+            <Checkbox/>
           </Form.Item>
           <Form.Item
             {...formLayout}
             label={formatText("app.payloadandhandler.handlername")}
             name="HandlerName"
             rules={[]}>
-            <Input placeholder={formatText("app.payloadandhandler.handlername_ph")} />
+            <Input placeholder={formatText("app.payloadandhandler.handlername_ph")}/>
           </Form.Item>
           {handlerPayloadWarnOption()}
         </Panel>
@@ -1205,7 +1195,7 @@ const CreateHandlerModalContent = props => {
             initialValue={false}
             rules={[]}
           >
-            <Checkbox />
+            <Checkbox/>
           </Form.Item>
           <Form.Item
             {...formLayout}
@@ -1226,7 +1216,7 @@ const CreateHandlerModalContent = props => {
             rules={[]}
             initialValue={false}
           >
-            <Checkbox />
+            <Checkbox/>
           </Form.Item>
         </Panel>
         <Panel header={formatText("app.payloadandhandler.diy")} key="diy">
@@ -1240,7 +1230,7 @@ const CreateHandlerModalContent = props => {
           >
             <InputNumber
               style={{ width: 160 }}
-              placeholder={formatText("app.payloadandhandler.AutoVerifySessionTimeout_ph")} />
+              placeholder={formatText("app.payloadandhandler.AutoVerifySessionTimeout_ph")}/>
           </Form.Item>
           <Form.Item
             {...formLayout}
@@ -1250,7 +1240,7 @@ const CreateHandlerModalContent = props => {
             initialValue={60 * 5}
           >
             <InputNumber
-              style={{ width: 160 }} />
+              style={{ width: 160 }}/>
           </Form.Item>
           <Form.Item
             {...formLayout}
@@ -1270,7 +1260,7 @@ const CreateHandlerModalContent = props => {
             rules={[]}
             initialValue={31536000}
           >
-            <InputNumber style={{ width: 160 }} />
+            <InputNumber style={{ width: 160 }}/>
           </Form.Item>
 
           <Form.Item
@@ -1280,7 +1270,7 @@ const CreateHandlerModalContent = props => {
             rules={[]}
             initialValue={10}
           >
-            <InputNumber style={{ width: 160 }} />
+            <InputNumber style={{ width: 160 }}/>
           </Form.Item>
           <Form.Item {...formLayout} label="StageEncoder" name="StageEncoder" rules={[]}>
             <Select placeholder="Please select encoder">
@@ -1297,7 +1287,7 @@ const CreateHandlerModalContent = props => {
             rules={[]}
             initialValue
           >
-            <Checkbox defaultChecked />
+            <Checkbox defaultChecked/>
           </Form.Item>
 
           <Form.Item
@@ -1315,7 +1305,7 @@ const CreateHandlerModalContent = props => {
                 </Select>
               </Form.Item>
               <Form.Item name="proxies_ipport" noStyle rules={[]}>
-                <Input style={{ width: "70%" }} placeholder="IP:PORT" />
+                <Input style={{ width: "70%" }} placeholder="IP:PORT"/>
               </Form.Item>
             </Input.Group>
           </Form.Item>
@@ -1326,7 +1316,7 @@ const CreateHandlerModalContent = props => {
             valuePropName="checked"
             rules={[]}
           >
-            <Checkbox />
+            <Checkbox/>
           </Form.Item>
           {handlerMeterpreterDebugLogging()}
         </Panel>
@@ -1335,7 +1325,7 @@ const CreateHandlerModalContent = props => {
         <Button
           block
           loading={createHandlerReq.loading}
-          icon={<CustomerServiceOutlined />}
+          icon={<CustomerServiceOutlined/>}
           htmlType="submit"
           type="primary"
         >
@@ -1355,10 +1345,10 @@ const CreatePayloadModalContent = props => {
 
   const formLayout = {
     labelCol: { span: 6 },
-    wrapperCol: { span: 14 }
+    wrapperCol: { span: 14 },
   };
   const buttonLayout = {
-    wrapperCol: { offset: 5, span: 14 }
+    wrapperCol: { offset: 5, span: 14 },
   };
   const payloadOptions = [
     {
@@ -1375,64 +1365,64 @@ const CreatePayloadModalContent = props => {
               children: [
                 {
                   value: "bind_tcp",
-                  label: "bind_tcp"
+                  label: "bind_tcp",
                 },
                 {
                   value: "bind_tcp_rc4",
-                  label: "bind_tcp_rc4"
+                  label: "bind_tcp_rc4",
                 },
                 {
                   value: "reverse_http",
-                  label: "reverse_http"
+                  label: "reverse_http",
                 },
                 {
                   value: "reverse_https",
-                  label: "reverse_https"
+                  label: "reverse_https",
                 },
                 {
                   value: "reverse_tcp",
-                  label: "reverse_tcp"
+                  label: "reverse_tcp",
                 },
                 {
                   value: "reverse_tcp_rc4",
-                  label: "reverse_tcp_rc4"
+                  label: "reverse_tcp_rc4",
                 },
 
                 {
                   value: "reverse_winhttp",
-                  label: "reverse_winhttp"
+                  label: "reverse_winhttp",
                 },
                 {
                   value: "reverse_winhttps",
-                  label: "reverse_winhttps"
+                  label: "reverse_winhttps",
                 },
                 {
                   value: "reverse_dns",
-                  label: "reverse_dns"
-                }
-              ]
+                  label: "reverse_dns",
+                },
+              ],
             },
             {
               value: "meterpreter_bind_tcp",
-              label: "meterpreter_bind_tcp"
+              label: "meterpreter_bind_tcp",
             },
             {
               value: "meterpreter_reverse_http",
-              label: "meterpreter_reverse_http"
+              label: "meterpreter_reverse_http",
             },
             {
               value: "meterpreter_reverse_https",
-              label: "meterpreter_reverse_https"
+              label: "meterpreter_reverse_https",
             },
             {
               value: "meterpreter_reverse_tcp",
-              label: "meterpreter_reverse_tcp"
+              label: "meterpreter_reverse_tcp",
             },
             {
               value: "meterpreter_reverse_dns",
-              label: "meterpreter_reverse_dns"
-            }
-          ]
+              label: "meterpreter_reverse_dns",
+            },
+          ],
         },
         {
           value: "meterpreter",
@@ -1440,64 +1430,64 @@ const CreatePayloadModalContent = props => {
           children: [
             {
               value: "bind_tcp",
-              label: "bind_tcp"
+              label: "bind_tcp",
             },
             {
               value: "bind_tcp_rc4",
-              label: "bind_tcp_rc4"
+              label: "bind_tcp_rc4",
             },
             {
               value: "reverse_http",
-              label: "reverse_http"
+              label: "reverse_http",
             },
             {
               value: "reverse_https",
-              label: "reverse_https"
+              label: "reverse_https",
             },
             {
               value: "reverse_tcp",
-              label: "reverse_tcp"
+              label: "reverse_tcp",
             },
 
             {
               value: "reverse_tcp_rc4",
-              label: "reverse_tcp_rc4"
+              label: "reverse_tcp_rc4",
             },
             {
               value: "reverse_winhttp",
-              label: "reverse_winhttp"
+              label: "reverse_winhttp",
             },
             {
               value: "reverse_winhttps",
-              label: "reverse_winhttps"
+              label: "reverse_winhttps",
             },
             {
               value: "reverse_dns",
-              label: "reverse_dns"
-            }
-          ]
+              label: "reverse_dns",
+            },
+          ],
         },
         {
           value: "meterpreter_bind_tcp",
-          label: "meterpreter_bind_tcp"
+          label: "meterpreter_bind_tcp",
         },
         {
           value: "meterpreter_reverse_http",
-          label: "meterpreter_reverse_http"
+          label: "meterpreter_reverse_http",
         },
         {
           value: "meterpreter_reverse_https",
-          label: "meterpreter_reverse_https"
+          label: "meterpreter_reverse_https",
         },
         {
           value: "meterpreter_reverse_tcp",
-          label: "meterpreter_reverse_tcp"
+          label: "meterpreter_reverse_tcp",
         },
         {
           value: "meterpreter_reverse_dns",
-          label: "meterpreter_reverse_dns"
-        }
-      ]
+          label: "meterpreter_reverse_dns",
+        },
+      ],
     },
     {
       value: "linux",
@@ -1513,28 +1503,28 @@ const CreatePayloadModalContent = props => {
               children: [
                 {
                   value: "bind_tcp",
-                  label: "bind_tcp"
+                  label: "bind_tcp",
                 },
                 {
                   value: "reverse_tcp",
-                  label: "reverse_tcp"
-                }
-              ]
+                  label: "reverse_tcp",
+                },
+              ],
             },
 
             {
               value: "meterpreter_reverse_http",
-              label: "meterpreter_reverse_http"
+              label: "meterpreter_reverse_http",
             },
             {
               value: "meterpreter_reverse_https",
-              label: "meterpreter_reverse_https"
+              label: "meterpreter_reverse_https",
             },
             {
               value: "meterpreter_reverse_tcp",
-              label: "meterpreter_reverse_tcp"
-            }
-          ]
+              label: "meterpreter_reverse_tcp",
+            },
+          ],
         },
         {
           value: "x86",
@@ -1546,29 +1536,29 @@ const CreatePayloadModalContent = props => {
               children: [
                 {
                   value: "reverse_tcp",
-                  label: "reverse_tcp"
+                  label: "reverse_tcp",
                 },
                 {
                   value: "bind_tcp",
-                  label: "bind_tcp"
-                }
-              ]
+                  label: "bind_tcp",
+                },
+              ],
             },
             {
               value: "meterpreter_reverse_http",
-              label: "meterpreter_reverse_http"
+              label: "meterpreter_reverse_http",
             },
             {
               value: "meterpreter_reverse_https",
-              label: "meterpreter_reverse_https"
+              label: "meterpreter_reverse_https",
             },
             {
               value: "meterpreter_reverse_tcp",
-              label: "meterpreter_reverse_tcp"
-            }
-          ]
-        }
-      ]
+              label: "meterpreter_reverse_tcp",
+            },
+          ],
+        },
+      ],
     },
     {
       value: "python",
@@ -1580,43 +1570,43 @@ const CreatePayloadModalContent = props => {
           children: [
             {
               value: "bind_tcp",
-              label: "bind_tcp"
+              label: "bind_tcp",
             },
             {
               value: "reverse_http",
-              label: "reverse_http"
+              label: "reverse_http",
             },
             {
               value: "reverse_https",
-              label: "reverse_https"
+              label: "reverse_https",
             },
             {
               value: "reverse_tcp",
-              label: "reverse_tcp"
+              label: "reverse_tcp",
             },
             {
               value: "reverse_tcp_ssl",
-              label: "reverse_tcp_ssl"
-            }
-          ]
+              label: "reverse_tcp_ssl",
+            },
+          ],
         },
         {
           value: "meterpreter_bind_tcp",
-          label: "meterpreter_bind_tcp"
+          label: "meterpreter_bind_tcp",
         },
         {
           value: "meterpreter_reverse_http",
-          label: "meterpreter_reverse_http"
+          label: "meterpreter_reverse_http",
         },
         {
           value: "meterpreter_reverse_https",
-          label: "meterpreter_reverse_https"
+          label: "meterpreter_reverse_https",
         },
         {
           value: "meterpreter_reverse_tcp",
-          label: "meterpreter_reverse_tcp"
-        }
-      ]
+          label: "meterpreter_reverse_tcp",
+        },
+      ],
     },
     {
       value: "java",
@@ -1628,19 +1618,19 @@ const CreatePayloadModalContent = props => {
           children: [
             {
               value: "bind_tcp",
-              label: "bind_tcp"
+              label: "bind_tcp",
             },
             {
               value: "reverse_http",
-              label: "reverse_http"
+              label: "reverse_http",
             },
             {
               value: "reverse_tcp",
-              label: "reverse_tcp"
-            }
-          ]
-        }
-      ]
+              label: "reverse_tcp",
+            },
+          ],
+        },
+      ],
     },
     {
       value: "android",
@@ -1652,31 +1642,31 @@ const CreatePayloadModalContent = props => {
           children: [
             {
               value: "reverse_http",
-              label: "reverse_http"
+              label: "reverse_http",
             },
             {
               value: "reverse_https",
-              label: "reverse_https"
+              label: "reverse_https",
             },
             {
               value: "reverse_tcp",
-              label: "reverse_tcp"
-            }
-          ]
+              label: "reverse_tcp",
+            },
+          ],
         },
         {
           value: "meterpreter_reverse_http",
-          label: "meterpreter_reverse_http"
+          label: "meterpreter_reverse_http",
         },
         {
           value: "meterpreter_reverse_https",
-          label: "meterpreter_reverse_https"
+          label: "meterpreter_reverse_https",
         },
         {
           value: "meterpreter_reverse_tcp",
-          label: "meterpreter_reverse_tcp"
-        }
-      ]
+          label: "meterpreter_reverse_tcp",
+        },
+      ],
     },
     {
       value: "osx",
@@ -1692,28 +1682,28 @@ const CreatePayloadModalContent = props => {
               children: [
                 {
                   value: "bind_tcp",
-                  label: "bind_tcp"
+                  label: "bind_tcp",
                 },
                 {
                   value: "reverse_tcp",
-                  label: "reverse_tcp"
-                }
-              ]
+                  label: "reverse_tcp",
+                },
+              ],
             },
 
             {
               value: "meterpreter_reverse_http",
-              label: "meterpreter_reverse_http"
+              label: "meterpreter_reverse_http",
             },
             {
               value: "meterpreter_reverse_https",
-              label: "meterpreter_reverse_https"
+              label: "meterpreter_reverse_https",
             },
             {
               value: "meterpreter_reverse_tcp",
-              label: "meterpreter_reverse_tcp"
-            }
-          ]
+              label: "meterpreter_reverse_tcp",
+            },
+          ],
         },
         {
           value: "aarch64",
@@ -1725,25 +1715,25 @@ const CreatePayloadModalContent = props => {
               children: [
                 {
                   value: "reverse_tcp",
-                  label: "reverse_tcp"
-                }
-              ]
+                  label: "reverse_tcp",
+                },
+              ],
             },
             {
               value: "meterpreter_reverse_http",
-              label: "meterpreter_reverse_http"
+              label: "meterpreter_reverse_http",
             },
             {
               value: "meterpreter_reverse_https",
-              label: "meterpreter_reverse_https"
+              label: "meterpreter_reverse_https",
             },
             {
               value: "meterpreter_reverse_tcp",
-              label: "meterpreter_reverse_tcp"
-            }
-          ]
-        }
-      ]
+              label: "meterpreter_reverse_tcp",
+            },
+          ],
+        },
+      ],
     },
     {
       value: "php",
@@ -1755,20 +1745,20 @@ const CreatePayloadModalContent = props => {
           children: [
             {
               value: "bind_tcp",
-              label: "bind_tcp"
+              label: "bind_tcp",
             },
             {
               value: "reverse_tcp",
-              label: "reverse_tcp"
-            }
-          ]
+              label: "reverse_tcp",
+            },
+          ],
         },
         {
           value: "meterpreter_reverse_tcp",
-          label: "meterpreter_reverse_tcp"
-        }
-      ]
-    }
+          label: "meterpreter_reverse_tcp",
+        },
+      ],
+    },
   ];
 
   const payloadEncoder = [
@@ -1776,9 +1766,8 @@ const CreatePayloadModalContent = props => {
     "x86/xor_dynamic",
     "x64/xor",
     "x64/xor_dynamic",
-    "cmd/powershell_base64"
+    "cmd/powershell_base64",
   ];
-
 
   useRequest(() => getCoreSettingAPI({ kind: "lhost" }), {
     onSuccess: (result, params) => {
@@ -1790,7 +1779,7 @@ const CreatePayloadModalContent = props => {
       setPemfiles(result.pem_files);
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const createHandlerReq = useRequest(postMsgrpcHandlerAPI, {
@@ -1798,7 +1787,7 @@ const CreatePayloadModalContent = props => {
     onSuccess: (result, params) => {
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const createPayloadReq = useRequest(postMsgrpcPayloadAPI, {
@@ -1808,7 +1797,7 @@ const CreatePayloadModalContent = props => {
       createPayloadFinish();
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const payloadFormatOption = () => {
@@ -1840,7 +1829,7 @@ const CreatePayloadModalContent = props => {
         { show: "vba", value: "vba" },
         { show: "vbs", value: "vbs" },
         { show: "loop-vbs", value: "loop-vbs" },
-        { show: "war", value: "war" }
+        { show: "war", value: "war" },
       ];
     }
     if (selectPayload.includes("linux")) {
@@ -1852,14 +1841,14 @@ const CreatePayloadModalContent = props => {
         { show: "raw", value: "raw" },
         { show: "hex", value: "hex" },
         { show: "elf", value: "elf" },
-        { show: "elf-so", value: "elf-so" }
+        { show: "elf-so", value: "elf-so" },
       ];
     }
     if (selectPayload.includes("java")) {
       options = [
         { show: "jar", value: "jar" },
         { show: "java", value: "java" },
-        { show: "war", value: "war" }
+        { show: "war", value: "war" },
       ];
     }
     if (selectPayload.includes("python")) {
@@ -1877,8 +1866,8 @@ const CreatePayloadModalContent = props => {
         rules={[
           {
             required: true,
-            message: formatText("app.payloadandhandler.format_rule")
-          }
+            message: formatText("app.payloadandhandler.format_rule"),
+          },
         ]}
       >
         <Select style={{ width: 240 }}>
@@ -1904,8 +1893,8 @@ const CreatePayloadModalContent = props => {
             name="RHOST"
             initialValue="127.0.0.1"
             style={{ display: "None" }}
-          ><Fragment />
-          </Form.Item>
+          ><Fragment/>
+          </Form.Item>,
         );
         options.push(
           <Form.Item
@@ -1915,8 +1904,8 @@ const CreatePayloadModalContent = props => {
             initialValue={60006}
             style={{ display: "None" }}
           >
-            <Fragment />
-          </Form.Item>
+            <Fragment/>
+          </Form.Item>,
         );
       } else {
         options.push(
@@ -1928,12 +1917,12 @@ const CreatePayloadModalContent = props => {
             rules={[
               {
                 required: true,
-                message: formatText("app.payloadandhandler.lhost_rule")
-              }
+                message: formatText("app.payloadandhandler.lhost_rule"),
+              },
             ]}
           >
-            <Input placeholder={formatText("app.payloadandhandler.lhost_rule")} />
-          </Form.Item>
+            <Input placeholder={formatText("app.payloadandhandler.lhost_rule")}/>
+          </Form.Item>,
         );
         options.push(
           <Form.Item
@@ -1943,12 +1932,12 @@ const CreatePayloadModalContent = props => {
             rules={[
               {
                 required: true,
-                message: formatText("app.payloadandhandler.port_rule")
-              }
+                message: formatText("app.payloadandhandler.port_rule"),
+              },
             ]}
           >
-            <InputNumber style={{ width: 160 }} />
-          </Form.Item>
+            <InputNumber style={{ width: 160 }}/>
+          </Form.Item>,
         );
       }
 
@@ -1960,8 +1949,8 @@ const CreatePayloadModalContent = props => {
           name="RHOST"
           initialValue="0.0.0.0"
         >
-          <Input placeholder={formatText("app.payloadandhandler.rhost_rule")} />
-        </Form.Item>
+          <Input placeholder={formatText("app.payloadandhandler.rhost_rule")}/>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
@@ -1971,12 +1960,12 @@ const CreatePayloadModalContent = props => {
           rules={[
             {
               required: true,
-              message: formatText("app.payloadandhandler.port_rule")
-            }
+              message: formatText("app.payloadandhandler.port_rule"),
+            },
           ]}
         >
-          <InputNumber style={{ width: 160 }} />
-        </Form.Item>
+          <InputNumber style={{ width: 160 }}/>
+        </Form.Item>,
       );
     }
     if (options.length === 0) {
@@ -2004,7 +1993,7 @@ const CreatePayloadModalContent = props => {
               showIcon
             />
           </Col>
-        </Row>
+        </Row>,
       );
     }
 
@@ -2018,8 +2007,8 @@ const CreatePayloadModalContent = props => {
           initialValue={randomstr(8)}
           name="LURI"
         >
-          <Input placeholder={formatText("app.payloadandhandler.luri_rule")} />
-        </Form.Item>
+          <Input placeholder={formatText("app.payloadandhandler.luri_rule")}/>
+        </Form.Item>,
       );
     }
 
@@ -2036,7 +2025,7 @@ const CreatePayloadModalContent = props => {
               <Option value={`/root/.msf4/loot/${encoder}`}>{encoder}</Option>
             ))}
           </Select>
-        </Form.Item>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
@@ -2047,8 +2036,8 @@ const CreatePayloadModalContent = props => {
           name="StagerVerifySSLCert"
           valuePropName="checked"
         >
-          <Checkbox defaultChecked />
-        </Form.Item>
+          <Checkbox defaultChecked/>
+        </Form.Item>,
       );
     }
 
@@ -2063,12 +2052,12 @@ const CreatePayloadModalContent = props => {
           rules={[
             {
               required: true,
-              message: "Please input UserAgent"
-            }
+              message: "Please input UserAgent",
+            },
           ]}
         >
-          <TextArea placeholder="Please input UserAgent" />
-        </Form.Item>
+          <TextArea placeholder="Please input UserAgent"/>
+        </Form.Item>,
       );
 
       options.push(
@@ -2081,8 +2070,8 @@ const CreatePayloadModalContent = props => {
           valuePropName="checked"
           rules={[]}
         >
-          <Checkbox />
-        </Form.Item>
+          <Checkbox/>
+        </Form.Item>,
       );
 
       options.push(
@@ -2097,7 +2086,7 @@ const CreatePayloadModalContent = props => {
             <Option value="http">http</Option>
             <Option value="https">https</Option>
           </Select>
-        </Form.Item>
+        </Form.Item>,
       );
 
       options.push(
@@ -2108,8 +2097,8 @@ const CreatePayloadModalContent = props => {
           name="OverrideLHOST"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
@@ -2119,8 +2108,8 @@ const CreatePayloadModalContent = props => {
           name="OverrideLPORT"
           rules={[]}
         >
-          <InputNumber style={{ width: 160 }} />
-        </Form.Item>
+          <InputNumber style={{ width: 160 }}/>
+        </Form.Item>,
       );
 
       options.push(
@@ -2131,8 +2120,8 @@ const CreatePayloadModalContent = props => {
           name="HttpCookie"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
@@ -2142,8 +2131,8 @@ const CreatePayloadModalContent = props => {
           name="HttpHostHeader"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
 
       options.push(
@@ -2158,7 +2147,7 @@ const CreatePayloadModalContent = props => {
             <Option value="HTTP">HTTP</Option>
             <Option value="SOCKS">SOCKS</Option>
           </Select>
-        </Form.Item>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
@@ -2168,8 +2157,8 @@ const CreatePayloadModalContent = props => {
           name="HttpProxyHost"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
 
       options.push(
@@ -2180,8 +2169,8 @@ const CreatePayloadModalContent = props => {
           name="HttpProxyPort"
           rules={[]}
         >
-          <InputNumber style={{ width: 160 }} />
-        </Form.Item>
+          <InputNumber style={{ width: 160 }}/>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
@@ -2191,8 +2180,8 @@ const CreatePayloadModalContent = props => {
           name="HttpProxyUser"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
@@ -2202,8 +2191,8 @@ const CreatePayloadModalContent = props => {
           name="HttpProxyPass"
           rules={[]}
         >
-          <Input placeholder="" />
-        </Form.Item>
+          <Input placeholder=""/>
+        </Form.Item>,
       );
 
     }
@@ -2219,12 +2208,12 @@ const CreatePayloadModalContent = props => {
           rules={[
             {
               required: true,
-              message: formatText("app.payloadandhandler.rc4password_rule")
-            }
+              message: formatText("app.payloadandhandler.rc4password_rule"),
+            },
           ]}
         >
-          <Input placeholder="请输入RC4密码" />
-        </Form.Item>
+          <Input placeholder="请输入RC4密码"/>
+        </Form.Item>,
       );
     }
 
@@ -2238,12 +2227,12 @@ const CreatePayloadModalContent = props => {
           rules={[
             {
               required: true,
-              message: formatText("app.payloadandhandler.domain_rule")
-            }
+              message: formatText("app.payloadandhandler.domain_rule"),
+            },
           ]}
         >
-          <Input placeholder={formatText("app.payloadandhandler.domain_rule")} />
-        </Form.Item>
+          <Input placeholder={formatText("app.payloadandhandler.domain_rule")}/>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
@@ -2255,14 +2244,14 @@ const CreatePayloadModalContent = props => {
           rules={[
             {
               required: true,
-              message: formatText("app.payloadandhandler.req_type_rule")
-            }
+              message: formatText("app.payloadandhandler.req_type_rule"),
+            },
           ]}>
           <Select style={{ width: 200 }}>
             <Option value="DNSKEY">{formatText("app.payloadandhandler.DNSKEY")}</Option>
             <Option value="IPv6">{formatText("app.payloadandhandler.IPv6")}</Option>
           </Select>
-        </Form.Item>
+        </Form.Item>,
       );
       options.push(
         <Form.Item
@@ -2274,12 +2263,12 @@ const CreatePayloadModalContent = props => {
           rules={[
             {
               required: true,
-              message: formatText("app.payloadandhandler.SERVER_ID_rule")
-            }
+              message: formatText("app.payloadandhandler.SERVER_ID_rule"),
+            },
           ]}
         >
-          <Input placeholder={formatText("app.payloadandhandler.SERVER_ID_rule")} />
-        </Form.Item>
+          <Input placeholder={formatText("app.payloadandhandler.SERVER_ID_rule")}/>
+        </Form.Item>,
       );
     }
 
@@ -2321,8 +2310,8 @@ const CreatePayloadModalContent = props => {
             rules={[
               {
                 required: true,
-                message: formatText("app.payloadandhandler.payload_rule")
-              }
+                message: formatText("app.payloadandhandler.payload_rule"),
+              },
             ]}
           >
             <Cascader
@@ -2345,7 +2334,7 @@ const CreatePayloadModalContent = props => {
             initialValue={false}
             rules={[]}
           >
-            <Checkbox />
+            <Checkbox/>
           </Form.Item>
           <Form.Item
             {...formLayout}
@@ -2367,7 +2356,7 @@ const CreatePayloadModalContent = props => {
             initialValue={false}
             rules={[]}
           >
-            <Checkbox />
+            <Checkbox/>
           </Form.Item>
         </Panel>
 
@@ -2384,7 +2373,7 @@ const CreatePayloadModalContent = props => {
             label={formatText("app.payloadandhandler.Iterations")}
             name="Iterations"
             rules={[]}>
-            <InputNumber style={{ width: 160 }} />
+            <InputNumber style={{ width: 160 }}/>
           </Form.Item>
           <Form.Item
             {...formLayout}
@@ -2394,7 +2383,7 @@ const CreatePayloadModalContent = props => {
             initialValue={false}
             rules={[]}
           >
-            <Checkbox />
+            <Checkbox/>
           </Form.Item>
 
           <Form.Item
@@ -2402,7 +2391,7 @@ const CreatePayloadModalContent = props => {
             label={formatText("app.payloadandhandler.BadChars")}
             name="BadChars"
             rules={[]}>
-            <Input />
+            <Input/>
           </Form.Item>
           <Form.Item
             {...formLayout}
@@ -2411,7 +2400,7 @@ const CreatePayloadModalContent = props => {
             rules={[]}
             initialValue={60 * 5}
           >
-            <InputNumber style={{ width: 160 }} />
+            <InputNumber style={{ width: 160 }}/>
           </Form.Item>
           <Form.Item
             {...formLayout}
@@ -2420,7 +2409,7 @@ const CreatePayloadModalContent = props => {
             rules={[]}
             initialValue={31536000}
           >
-            <InputNumber style={{ width: 160 }} />
+            <InputNumber style={{ width: 160 }}/>
           </Form.Item>
           <Form.Item
             {...formLayout}
@@ -2429,7 +2418,7 @@ const CreatePayloadModalContent = props => {
             rules={[]}
             initialValue={31536000}
           >
-            <InputNumber style={{ width: 160 }} />
+            <InputNumber style={{ width: 160 }}/>
           </Form.Item>
           <Form.Item
             {...formLayout}
@@ -2438,7 +2427,7 @@ const CreatePayloadModalContent = props => {
             rules={[]}
             initialValue={10}
           >
-            <InputNumber style={{ width: 160 }} />
+            <InputNumber style={{ width: 160 }}/>
           </Form.Item>
         </Panel>
       </Collapse>
@@ -2446,7 +2435,7 @@ const CreatePayloadModalContent = props => {
         <Button
           block
           loading={createPayloadReq.loading}
-          icon={<BlockOutlined />}
+          icon={<BlockOutlined/>}
           htmlType="submit"
           type="primary"
         >
@@ -2485,29 +2474,28 @@ const showHandlerDetail = item => {
         {Descriptions_Items}
       </Descriptions>
     ),
-    onOk() {
-    }
+    onOk () {
+    },
   });
 };
 
-function genPayloadByHandler(item) {
+function genPayloadByHandler (item) {
   const createPayloadReq = useRequest(postMsgrpcPayloadAPI, {
     manual: true,
     onSuccess: (result, params) => {
     },
     onError: (error, params) => {
-    }
+    },
   });
 
-  function onCreatePayloadByHandler(params, format) {
+  function onCreatePayloadByHandler (params, format) {
     params.Format = format;
     createPayloadReq.run({ mname: params.PAYLOAD, opts: params });
-  };
+  }
 
   const buttonTemple = (type) => {
     return <Button onClick={() => onCreatePayloadByHandler(item, type)}>{type}</Button>;
   };
-
 
   const buttons = <Fragment>
     <Space direction="vertical">
@@ -2586,8 +2574,7 @@ function genPayloadByHandler(item) {
     </Space>
   </Fragment>;
   return buttons;
-};
-
+}
 
 const PayloadAndHandler = (props) => {
   console.log("PayloadAndHandler");
@@ -2595,9 +2582,9 @@ const PayloadAndHandler = (props) => {
   const [createPayloadModalVisible, setCreatePayloadModalVisible] = useState(false);
   const [handlerListActive, setHandlerListActive] = useState([]);
   const {
-    resizeDownHeight
+    resizeDownHeight,
   } = useModel("Resize", model => ({
-    resizeDownHeight: model.resizeDownHeight
+    resizeDownHeight: model.resizeDownHeight,
   }));
   const listHanderReq = useRequest(getMsgrpcHandlerAPI, {
     manual: true,
@@ -2605,7 +2592,7 @@ const PayloadAndHandler = (props) => {
       setHandlerListActive(result);
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   //初始化数据
@@ -2613,19 +2600,17 @@ const PayloadAndHandler = (props) => {
     return {
       updateData: () => {
         listHanderReq.run();
-      }
+      },
     };
   });
-
 
   useRequest(getMsgrpcHandlerAPI, {
     onSuccess: (result, params) => {
       setHandlerListActive(result);
     },
     onError: (error, params) => {
-    }
+    },
   });
-
 
   const createHandlerReq = useRequest(postMsgrpcHandlerAPI, {
     manual: true,
@@ -2633,7 +2618,7 @@ const PayloadAndHandler = (props) => {
       listHanderReq.run();
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const onCreateHandlerByVirtual = params => {
@@ -2651,7 +2636,7 @@ const PayloadAndHandler = (props) => {
       listHanderReq.run();
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const createPayloadReq = useRequest(postMsgrpcPayloadAPI, {
@@ -2659,7 +2644,7 @@ const PayloadAndHandler = (props) => {
     onSuccess: (result, params) => {
     },
     onError: (error, params) => {
-    }
+    },
   });
 
   const onCreatePayloadByHandler = params => {
@@ -2675,15 +2660,14 @@ const PayloadAndHandler = (props) => {
     setCreatePayloadModalVisible(false);
   };
 
-
   return (
     <Fragment>
-      <DocIcon url="https://www.yuque.com/vipersec/help/rxb29t" />
+      <DocIcon url="https://www.yuque.com/vipersec/help/rxb29t"/>
       <Row style={{ marginTop: -16 }} gutter={0}>
         <Col span={8}>
           <Button
             block
-            icon={<CustomerServiceOutlined />}
+            icon={<CustomerServiceOutlined/>}
             onClick={() => setCreateHandlerModalVisible(true)}
           >
             {formatText("app.payloadandhandler.addhandler")}
@@ -2693,7 +2677,7 @@ const PayloadAndHandler = (props) => {
           <Button
             loading={createPayloadReq.loading}
             block
-            icon={<BlockOutlined />}
+            icon={<BlockOutlined/>}
             onClick={() => setCreatePayloadModalVisible(true)}
           >
             {formatText("app.payloadandhandler.genpayload")}
@@ -2701,9 +2685,9 @@ const PayloadAndHandler = (props) => {
         </Col>
         <Col span={8}>
           <Button
-            icon={<SyncOutlined />}
+            icon={<SyncOutlined/>}
             style={{
-              width: "100%"
+              width: "100%",
             }}
             loading={listHanderReq.loading || createHandlerReq.loading || destoryHandlerReq.loading}
             onClick={() => listHanderReq.run()}
@@ -2718,7 +2702,7 @@ const PayloadAndHandler = (props) => {
           padding: "0 0 0 0",
           overflow: "auto",
           maxHeight: cssCalc(`${resizeDownHeight} - 32px`),
-          minHeight: cssCalc(`${resizeDownHeight} - 32px`)
+          minHeight: cssCalc(`${resizeDownHeight} - 32px`),
         }}
         size="small"
         bordered
@@ -2748,14 +2732,14 @@ const PayloadAndHandler = (props) => {
                     {-record.ID}
                   </Tooltip>
                 </Avatar>
-              )
+              ),
           },
           {
             title: formatText("app.payloadandhandler.payload"),
             dataIndex: "PAYLOAD",
             key: "PAYLOAD",
             width: 280,
-            render: (text, record) => record.PAYLOAD
+            render: (text, record) => record.PAYLOAD,
           },
           {
             title: "LHOST/RHOST",
@@ -2770,14 +2754,14 @@ const PayloadAndHandler = (props) => {
                 return <span>{record.LHOST}</span>;
               }
               return null;
-            }
+            },
           },
           {
             title: "PORT",
             dataIndex: "LPORT",
             key: "LPORT",
             width: 64,
-            render: (text, record) => <span>{record.LPORT}</span>
+            render: (text, record) => <span>{record.LPORT}</span>,
           },
           {
             title: formatText("app.payloadandhandler.params"),
@@ -2819,13 +2803,13 @@ const PayloadAndHandler = (props) => {
               }
 
               return <Space style={{ display: "flex" }}>{items}</Space>;
-            }
+            },
           },
           {
             title: formatText("app.payloadandhandler.handlername"),
             dataIndex: "HandlerName",
             key: "HandlerName",
-            render: (text, record) => record.HandlerName
+            render: (text, record) => record.HandlerName,
           },
           {
             title: formatText("app.payloadandhandler.backup"),
@@ -2839,9 +2823,9 @@ const PayloadAndHandler = (props) => {
                   shape="square"
                   size={24}
                 >
-                  <SaveOutlined />
+                  <SaveOutlined/>
                 </Avatar>
-              ) : null
+              ) : null,
           },
           {
             dataIndex: "operation",
@@ -2887,8 +2871,8 @@ const PayloadAndHandler = (props) => {
                   </Space>
                 </div>
               );
-            }
-          }
+            },
+          },
         ]}
       />
       <Modal
@@ -2900,7 +2884,7 @@ const PayloadAndHandler = (props) => {
         footer={null}
         onCancel={() => setCreateHandlerModalVisible(false)}
       >
-        <CreateHandlerModalContent createHandlerFinish={createHandlerFinish} />
+        <CreateHandlerModalContent createHandlerFinish={createHandlerFinish}/>
       </Modal>
       <Modal
         style={{ top: 20 }}
@@ -2911,7 +2895,7 @@ const PayloadAndHandler = (props) => {
         footer={null}
         onCancel={() => setCreatePayloadModalVisible(false)}
       >
-        <CreatePayloadModalContent createPayloadFinish={createPayloadFinish} />
+        <CreatePayloadModalContent createPayloadFinish={createPayloadFinish}/>
       </Modal>
     </Fragment>
   );

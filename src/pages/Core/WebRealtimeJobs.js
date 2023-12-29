@@ -19,7 +19,7 @@ import { cssCalc } from '@/utils/utils'
 import { formatText, getModuleDesc, getModuleName, getModuleResultTable, getResultData } from '@/utils/locales'
 import { postModuleOpts } from '@/pages/Core/RealTimeCard'
 
-const { Text, Link } = Typography
+const { Text } = Typography
 
 const taskStatusDict = {
   running: <Tag icon={<SyncOutlined spin/>}

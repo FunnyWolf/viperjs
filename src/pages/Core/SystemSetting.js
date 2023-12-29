@@ -1,39 +1,16 @@
 import React, { memo, useState } from 'react'
-import {
-  deleteCoreUUIDJsonAPI,
-  getCoreSettingAPI,
-  getServiceStatusAPI,
-  postCoreSettingAPI,
-  putPostmodulePostModuleConfigAPI,
-} from '@/services/apiv1'
+import { deleteCoreUUIDJsonAPI, getCoreSettingAPI, getServiceStatusAPI, postCoreSettingAPI, putPostmodulePostModuleConfigAPI } from '@/services/apiv1'
 import { history, useRequest } from 'umi'
 
 import { setToken } from '@/utils/authority'
-import {
-  Badge,
-  Button,
-  Card,
-  Col,
-  Descriptions,
-  Form,
-  Input,
-  List,
-  Popover,
-  Row,
-  Select,
-  Space,
-  Switch,
-  Tabs,
-  Tag,
-  Typography,
-} from 'antd'
+import { Badge, Button, Card, Col, Descriptions, Form, Input, List, Popover, Row, Select, Space, Switch, Tabs, Tag, Typography } from 'antd-v5'
+
 import {
   CheckOutlined,
   CloudDownloadOutlined,
   DeleteOutlined,
   DeliveredProcedureOutlined,
   LogoutOutlined,
-  MailOutlined,
   MinusOutlined,
   ReloadOutlined,
   SyncOutlined,
@@ -43,13 +20,12 @@ import { useLocalStorageState } from 'ahooks'
 import { reloadAuthorized } from '@/utils/Authorized'
 import { formatText } from '@/utils/locales'
 import { DocIcon } from '@/pages/Core/Common'
+import { Version } from '@/config'
 
 const { Option } = Select
 const { TabPane } = Tabs
 const { Title, Paragraph, Text } = Typography
-import { Version } from '@/config'
 
-const viper_version = 'v1.6.4'
 const viper_update_date = Version
 
 const buttonItemLayout = {
