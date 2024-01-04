@@ -327,8 +327,8 @@ const WebTaskResult = () => {
       bordered
       style={{
         overflow: 'auto',
-        maxHeight: cssCalc(`${WebMainHeight} - 56px`),
-        minHeight: cssCalc(`${WebMainHeight} - 56px`),
+        maxHeight: cssCalc(`${WebMainHeight} - 64px`),
+        minHeight: cssCalc(`${WebMainHeight} - 64px`),
       }}
       itemLayout="vertical"
       size="small"

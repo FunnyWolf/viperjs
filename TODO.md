@@ -1,6 +1,5 @@
 ### web
 
-- https://hunter.qianxin.com/home/helpCenter?r=5-1-3 hunter接口接入
 - 添加一个modal,全量展示说有的ipdomain
 - 统一参数控制调用quake等最大结果数
 - 支持nmap的扫描导入
@@ -15,6 +14,8 @@
 - 展示一个project里面数据的所有ip地址,子网,子域名,主域名
 - service搜索功能有提示,展示系统中所有已经存在的service,支持组件搜索
 - 后期实现自动化模块,通过API来组合各部分代码
+- https://github.com/projectdiscovery/nuclei/blob/dev/examples/advanced/advanced.go nuclei改造
+- 自动化通过运行原子模块来进行操作
 
 ### post
 
@@ -25,3 +26,4 @@
 - ~~测试WAF识别,CDN识别工具,确认数据库字段~~
 - ~~LHOST信息新增check功能,是不是外网IP(或者是不是IP)~~
 - ~~针对某个端口记录可以添加备注功能,方便进行跟踪,也添加tag功能~~
+- ~~https://hunter.qianxin.com/home/helpCenter?r=5-1-3 hunter接口接入~~

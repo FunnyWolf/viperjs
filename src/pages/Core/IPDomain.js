@@ -32,14 +32,21 @@ import {
 } from 'antd-v5'
 
 import {
+  AccountBookOutlined,
+  BugOutlined,
+  CameraOutlined,
   CheckOutlined,
+  ChromeOutlined,
   CloseOutlined,
   DeleteOutlined,
   DeliveredProcedureOutlined,
+  GlobalOutlined,
+  KeyOutlined,
   LinkOutlined,
   PlusCircleOutlined,
   ProjectOutlined,
   QuestionOutlined,
+  ReadOutlined,
   SearchOutlined,
   SwapOutlined,
   SyncOutlined,
@@ -49,23 +56,54 @@ import { cssCalc } from '@/utils/utils'
 import { formatText, msgsuccess } from '@/utils/locales'
 import { DocIcon, TimeTag, WebMainHeight } from '@/pages/Core/Common'
 import { useModel } from '@@/plugin-model/useModel'
+import moment from 'moment/moment'
 
 const listitemHeight = 240
-const listitemrowmargintop = 8
-const listitemrowmarginleft = 8
+// <Tag color="#f50">#f50</Tag>
+
 const hostTypeToAvatar = {
-  ad_server: (<Avatar shape="square" size="small"
-                      style={{ backgroundColor: '#531dab' }}/>),
-  pc: <Avatar shape="square" size="small"
-              style={{ backgroundColor: '#096dd9' }}/>,
-  web_server: (<Avatar shape="square" size="small"
-                       style={{ backgroundColor: '#389e0d' }}/>),
-  firewall: (<Avatar shape="square" size="small"
-                     style={{ backgroundColor: '#d46b08' }}/>),
-  cms: <Avatar shape="square" size="small"
-               style={{ backgroundColor: '#cf1322' }}/>,
-  other: (<Avatar shape="square" size="small"
-                  style={{ backgroundColor: '#bfbfbf' }}/>),
+  purple: <Tag color="#531dab"><TagOutlined/></Tag>,
+  blue: <Tag color="#096dd9"><TagOutlined/></Tag>,
+  green: <Tag color="#389e0d"><TagOutlined/></Tag>,
+  orange: <Tag color="#d46b08"><TagOutlined/></Tag>,
+  red: <Tag color="#cf1322"><TagOutlined/></Tag>,
+  grey: <Tag color="#bfbfbf"><TagOutlined/></Tag>,
+}
+
+const tagandcomment = (color, comment) => {
+  switch (color) {
+    case "purple":
+      return <Tag color="#531dab"><TagOutlined/> {comment}</Tag>
+    case "blue":
+      return <Tag color="#096dd9"><TagOutlined/> {comment}</Tag>
+    case "green":
+      return <Tag color="#389e0d"><TagOutlined/> {comment}</Tag>
+    case "orange":
+      return <Tag color="#d46b08"><TagOutlined/> {comment}</Tag>
+    case "red":
+      return <Tag color="#cf1322"><TagOutlined/> {comment}</Tag>
+    case "grey":
+      return <Tag color="#bfbfbf"><TagOutlined/> {comment}</Tag>
+    default:
+      return null
+  }
+}
+
+const tagSeverity = (severity) => {
+  switch (severity) {
+    case "info":
+      return <Tag style={{ width: 80 }} color="#531dab"><TagOutlined/>info</Tag>
+    case "low":
+      return <Tag color="#096dd9"><TagOutlined/>low</Tag>
+    case "medium":
+      return <Tag color="#389e0d"><TagOutlined/>medium</Tag>
+    case "high":
+      return <Tag color="#d46b08"><TagOutlined/>high</Tag>
+    case "critical":
+      return <Tag color="#cf1322"><TagOutlined/>critical</Tag>
+    default:
+      return null
+  }
 }
 
 const IPDomain = props => {
@@ -249,6 +287,7 @@ const IPDomain = props => {
     const IPdomainTag = (record) => {
       return <Tag
         color="blue"
+        // bordered={false}
         style={{
           textAlign: 'center', cursor: 'pointer',
         }}
@@ -262,9 +301,11 @@ const IPDomain = props => {
         size={0}
       >
         {IPdomainTag(record)}
+        {PortnumTag(record)}
+        {ServiceTags(record)}
         {TimeTag(record.update_time)}
+        {tagandcomment(record.color, record.comment)}
       </Space>
-      {ActionGroup(record)}
     </Row>
   }
 
@@ -289,19 +330,19 @@ const IPDomain = props => {
   }
 
   const ServiceTags = (record) => {
-    const service = record.port_info.service
-    if (service) {
-      return <Tag
-        color="cyan"
-        style={{
-          // width: 160,
-          textAlign: 'center', cursor: 'pointer',
-        }}
-      >
-        <strong>{service.service}</strong>
-      </Tag>
-    } else {
-      return null
+    if (record.port_info) {
+      const service = record.port_info.service
+      if (service) {
+        return <Tag
+          color="cyan"
+          style={{
+            // width: 160,
+            textAlign: 'center', cursor: 'pointer',
+          }}
+        >
+          <strong>{service.service}</strong>
+        </Tag>
+      }
     }
   }
   const PortnumTag = (record) => {
@@ -316,12 +357,6 @@ const IPDomain = props => {
     </Tag>
   }
 
-  const PortInfoRow = (record) => {
-    return <Row><Space size={0}>
-      {PortnumTag(record)}
-      {ServiceTags(record)}
-    </Space></Row>
-  }
   const ComponentRow = (record) => {
     // const nulldiv = <Row><Tag
     //   // icon={<MacCommandOutlined/>}
@@ -331,7 +366,6 @@ const IPDomain = props => {
     //   }}
     // >111</Tag></Row>
     const nulldiv = null
-
     if (record.port_info) {
       if (record.port_info.components && record.port_info.components.length > 0) {
         const components = record.port_info.components
@@ -388,7 +422,9 @@ const IPDomain = props => {
   const WAFTag = (record) => {
     if (record.port_info) {
       const waf = record.port_info.waf
-      if (waf === null) {
+      if (waf === undefined) {
+        return null
+      } else if (waf === null) {
         return <Tag
           // color="warning"
           icon={<QuestionOutlined/>}
@@ -429,17 +465,95 @@ const IPDomain = props => {
     </Row>
   }
 
-  const CommentRow = (record) => {
-    if (record.comment) {
-      return <Row>
-        <Space>
-          {hostTypeToAvatar[record.color]}
-          <span>{record.comment}</span>
-        </Space></Row>
+  const VulnerabilityRow = (record) => {
+    if (record.port_info) {
+      const port_info = record.port_info
+      const vulnerabilitys = port_info.vulnerabilitys
+      if (vulnerabilitys) {
+        const num_count = vulnerabilitys.num_count
+        return <Space size={0}>
+          <Tag
+            // bordered={false}
+            color="red"
+            style={{
+              textAlign: 'center', cursor: 'pointer',
+            }}
+          >
+            <strong>Critical {num_count.critical}</strong>
+          </Tag>
+          <Tag
+            // bordered={false}
+            color="orange"
+            style={{
+              textAlign: 'center', cursor: 'pointer',
+            }}
+          >
+            <strong>High {num_count.high}</strong>
+          </Tag>
+          <Tag
+            // bordered={false}
+            color="blue"
+            style={{
+              textAlign: 'center', cursor: 'pointer',
+            }}
+          >
+            <strong>Medium {num_count.medium}</strong>
+          </Tag>
+          <Tag
+            // bordered={false}
+            color="cyan"
+            style={{
+              textAlign: 'center', cursor: 'pointer',
+            }}
+          >
+            <strong>Low {num_count.low}</strong>
+          </Tag>
+          <Tag
+            // bordered={false}
+            // color="cyan"
+            style={{
+              textAlign: 'center', cursor: 'pointer',
+            }}
+          >
+            <strong>Info {num_count.info}</strong>
+          </Tag>
+        </Space>
+      }
     }
-    return null
   }
 
+  const ActionRow = (record) => {
+    return <Row><Space.Compact>
+      <Button
+        size="small" style={{ width: 64 }}
+        icon={<SwapOutlined/>}
+        onClick={() => {
+          setActiveRecord(record)
+          setShowSwitchModal(true)
+        }}
+      />
+      {/*</Dropdown>*/}
+      <Button
+        size="small" style={{ width: 64 }}
+        icon={<PlusCircleOutlined/>}
+        onClick={() => addToWebIPDomainPortWaitList(record)}
+      ></Button>
+      <Button
+        size="small" style={{ width: 64 }}
+        icon={<TagOutlined/>}
+        onClick={() => {
+          setActiveRecord(record)
+          setShowCommentModal(true)
+        }}
+      />
+      <Button
+        size="small" style={{ width: 64 }}
+        danger
+        icon={<DeleteOutlined/>}
+        onClick={() => destoryProjectReq.run({ ipdomain: record.ipdomain })}
+      ></Button>
+    </Space.Compact></Row>
+  }
   const SearchRow = () => {
     const [form] = Form.useForm()
 
@@ -562,7 +676,7 @@ const IPDomain = props => {
       const http_base = record.port_info.http_base
       const http_favicon = record.port_info.http_favicon
       if (http_base) {
-        return <Tabs.TabPane tab={<span>HTTP</span>} key="HTTP">
+        return <Tabs.TabPane icon={<ChromeOutlined/>} tab={<span>HTTP</span>} key="HTTP">
           <Space>
             {HttpBaseRow(http_base)}
             {HttpFaviconTag(http_favicon)}
@@ -576,39 +690,74 @@ const IPDomain = props => {
   }
 
   const VulnerabilityTabPane = (record) => {
-    const port_info = record.port_info
-    const vulnerabilitys = port_info.vulnerabilitys
-
-    if (vulnerabilitys !== null && vulnerabilitys.length > 0) {
-      return <Tabs.TabPane tab={<span>Vulnerability</span>} key="Vulnerability">
-        <Row
-          style={{
-            marginTop: -16,
-          }}
-        >
-          <Col span={24}>
-            <Table
-              style={{
-                overflow: 'auto', minHeight: listitemHeight, maxHeight: listitemHeight,
-              }}
-              columns={[
-                {
-                  title: 'Name', dataIndex: 'name',
-                }, {
-                  title: 'Severity', dataIndex: 'severity', width: 64,
-                }, {
-                  title: 'Key', dataIndex: 'key',
-                }]}
-              dataSource={vulnerabilitys}
-              pagination={false}
-              scroll={{ y: listitemHeight - 32 }}
-              size="small"
-            />
-          </Col>
-        </Row>
-      </Tabs.TabPane>
-    } else {
-      return null
+    if (record.port_info) {
+      const port_info = record.port_info
+      const vulnerabilitys = port_info.vulnerabilitys
+      if (vulnerabilitys !== null && vulnerabilitys.data.length > 0) {
+        return <Tabs.TabPane icon={<BugOutlined/>} tab={<span>Vulnerability</span>} key="Vulnerability">
+          <Row
+            style={{
+              marginTop: -16,
+            }}
+          >
+            <Col span={24}>
+              <Table
+                style={{
+                  overflow: 'auto', minHeight: listitemHeight, maxHeight: listitemHeight,
+                }}
+                columns={
+                  [
+                    {
+                      title: 'Name', dataIndex: 'name',
+                    },
+                    {
+                      title: 'Severity',
+                      dataIndex: 'severity',
+                      width: 96,
+                      filters: [
+                        {
+                          text: 'info',
+                          value: 'info',
+                        },
+                        {
+                          text: 'low',
+                          value: 'low',
+                        },
+                        {
+                          text: 'medium',
+                          value: 'medium',
+                        },
+                        {
+                          text: 'high',
+                          value: 'high',
+                        },
+                        {
+                          text: 'critical',
+                          value: 'critical',
+                        },
+                      ],
+                      onFilter: (value, record) => {
+                        return record.severity.indexOf(value) === 0
+                      },
+                      // sorter: (a, b) => a.severity - b.severity,
+                      render: (text, record) => {
+                        return <Tag color="cyan">{moment(record.time * 1000).format("YYYY-MM-DD HH:mm")}</Tag>
+                      },
+                    },
+                    {
+                      title: 'Key', dataIndex: 'key',
+                    },
+                  ]
+                }
+                dataSource={vulnerabilitys.data}
+                pagination={false}
+                scroll={{ y: listitemHeight - 32 }}
+                size="small"
+              />
+            </Col>
+          </Row>
+        </Tabs.TabPane>
+      }
     }
   }
 
@@ -617,7 +766,7 @@ const IPDomain = props => {
 
     if (dnsrecord !== null && dnsrecord.length > 0) {
 
-      return <Tabs.TabPane tab={<span>DNS</span>} key="DNSRecord">
+      return <Tabs.TabPane icon={<GlobalOutlined/>} tab={<span>DNS</span>} key="DNSRecord">
         <Row
           style={{
             marginTop: -16,
@@ -653,8 +802,7 @@ const IPDomain = props => {
       if (record.port_info.cert) {
         const cert = record.port_info.cert
         const subject = cert.subject
-
-        return <Tabs.TabPane tab={<span>Cert</span>} key="Cert">
+        return <Tabs.TabPane icon={<KeyOutlined/>} tab={<span>Cert</span>} key="Cert">
           <Row>
             <Col span={8}>
               <Descriptions
@@ -692,7 +840,6 @@ const IPDomain = props => {
               >{cert.cert}</pre>
             </Col>
           </Row>
-
         </Tabs.TabPane>
       }
     }
@@ -700,21 +847,21 @@ const IPDomain = props => {
   }
 
   const ScreenshotTabPane = (record) => {
-    if (record.screenshot) {
-      const screenshot = record.screenshot
-      const src = 'data:image/png;base64,' + screenshot.content
-      return <Tabs.TabPane tab={<span>Image</span>} key="Image">
-        <Image
-          style={{
-            // marginTop: -16,
-          }}
-          width={listitemHeight - 16}
-          height={listitemHeight - 16}
-          src={src}
-        />
-      </Tabs.TabPane>
-    } else {
-      return null
+    if (record.port_info) {
+      const screenshot = record.port_info.screenshot
+      if (screenshot) {
+        const src = 'data:image/png;base64,' + screenshot.content
+        return <Tabs.TabPane icon={<CameraOutlined/>} tab={<span>Image</span>} key="Image">
+          <Image
+            style={{
+              // marginTop: -16,
+            }}
+            width={listitemHeight - 16}
+            height={listitemHeight - 16}
+            src={src}
+          />
+        </Tabs.TabPane>
+      }
     }
   }
 
@@ -723,7 +870,7 @@ const IPDomain = props => {
       if (record.port_info.service) {
         if (record.port_info.service.response) {
           const response = record.port_info.service.response
-          return <Tabs.TabPane tab={<span>Response</span>} key="Response">
+          return <Tabs.TabPane icon={<ReadOutlined/>} tab={<span>Response</span>} key="Response">
                         <pre
                           style={{
                             marginTop: -16, marginBottom: 0, padding: '0 0 0 0', // overflowX: 'hidden',
@@ -737,10 +884,9 @@ const IPDomain = props => {
     return null
   }
   const DomainICPTabPane = (record) => {
-
     if (record.domainicp) {
       const domainicp = record.domainicp
-      return <Tabs.TabPane style={{ marginTop: -16 }} tab={<span>ICP</span>}
+      return <Tabs.TabPane icon={<AccountBookOutlined/>} style={{ marginTop: -16 }} tab={<span>ICP</span>}
                            key="domainicp">
         <Descriptions
           size="small"
@@ -762,17 +908,20 @@ const IPDomain = props => {
 
   const IPDomainPortCard = (record) => {
     return <Card
-      bodyStyle={{ padding: 0, margin: 0, minHeight: listitemHeight + 36 }}
+      bodyStyle={{
+        padding: 0,
+        minHeight: listitemHeight + 36,
+      }}
     >
       <Row>
         <Col span={10}>
           <Space size={8} style={{ marginLeft: 8, marginTop: 8 }} direction="vertical">
             {FirstRow(record)}
             {IPRow(record)}
-            {PortInfoRow(record)}
             {ComponentRow(record)}
             {SecurityRow(record)}
-            {CommentRow(record)}
+            {VulnerabilityRow(record)}
+            {ActionRow(record)}
           </Space>
         </Col>
         <Col span={14}>
@@ -805,9 +954,6 @@ const IPDomain = props => {
           <Row
             style={{ marginTop: 4, marginLeft: 4 }}
           >{CDNTag(record)}</Row>
-          <Row
-            style={{ marginTop: 4, marginLeft: 4 }}
-          >{CommentRow(record)}</Row>
         </Col>
         <Col span={14}>
           <Tabs
@@ -830,7 +976,10 @@ const IPDomain = props => {
       maincard = IPDomainOnlyCard(record)
     }
     return <List.Item
-      style={{ padding: 0, margin: 0 }}
+      style={{
+        padding: "2px 0px 2px 0px",
+        // marginBottom: 2,
+      }}
     >
       {maincard}
     </List.Item>
@@ -865,7 +1014,9 @@ const IPDomain = props => {
     </Row>
     <List
       style={{
-        overflow: 'auto', maxHeight: cssCalc(`${WebMainHeight} - 60px`), minHeight: cssCalc(`${WebMainHeight} - 60px`),
+        overflow: 'auto',
+        maxHeight: cssCalc(`${WebMainHeight} - 64px`),
+        minHeight: cssCalc(`${WebMainHeight} - 64px`),
       }}
       // bordered={true}
       rowKey={'id'}
@@ -879,7 +1030,7 @@ const IPDomain = props => {
     </List>
     <Modal
       // style={{ top: 32 }}
-      width="32vw"
+      width="40vw"
       destroyOnClose
       closable={false}
       open={showCommentModal}
@@ -909,12 +1060,12 @@ const IPDomain = props => {
           name="color"
         >
           <Radio.Group>
-            <Radio value="ad_server">{hostTypeToAvatar.ad_server}</Radio>
-            <Radio value="pc">{hostTypeToAvatar.pc}</Radio>
-            <Radio value="web_server">{hostTypeToAvatar.web_server}</Radio>
-            <Radio value="cms">{hostTypeToAvatar.cms}</Radio>
-            <Radio value="firewall">{hostTypeToAvatar.firewall}</Radio>
-            <Radio value="other">{hostTypeToAvatar.other}</Radio>
+            <Radio value="purple">{hostTypeToAvatar.purple}</Radio>
+            <Radio value="blue">{hostTypeToAvatar.blue}</Radio>
+            <Radio value="green">{hostTypeToAvatar.green}</Radio>
+            <Radio value="orange">{hostTypeToAvatar.orange}</Radio>
+            <Radio value="red">{hostTypeToAvatar.red}</Radio>
+            <Radio value="grey">{hostTypeToAvatar.grey}</Radio>
           </Radio.Group>
         </Form.Item>
         <Form.Item>

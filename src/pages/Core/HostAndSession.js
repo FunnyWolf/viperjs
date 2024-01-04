@@ -136,12 +136,12 @@ import { getToken } from '@/utils/authority'
 import styles from '@/utils/utils.less'
 import { NetworkMemo, NetworkWindowMemo } from '@/pages/Core/Network'
 import ReactJson from 'react-json-view'
-import NewWindow from 'rc-new-window'
 import MsfConsoleXTermMemo, { MsfconsoleMemo } from '@/pages/Core/MsfConsoleXTerm'
 import { cssCalc } from '@/utils/utils'
 import { formatText, getOptionDesc, getOptionTag, getSessionlocate, manuali18n, msgsuccess } from '@/utils/locales'
 import { IPFilterMemo } from '@/pages/Core/IPFilter'
 import { HostIP } from '@/config'
+import NewWindow from 'rc-new-window'
 
 const { Text } = Typography
 const { Paragraph } = Typography
@@ -1388,6 +1388,7 @@ const FloatingButtons = () => {
       style={{
         top: 8, right: 8, position: 'fixed', zIndex: 100,
       }}
+      size={2}
     >
       <LangSwitch/>
       {showMsfconsoleWindow ? <Button
@@ -1429,8 +1430,8 @@ const FloatingButtons = () => {
       {resizeUpHeight === '28vh' ? <Button
         style={{ width: 40 }}
         onClick={() => {
-          setResizeUpHeight('48vh')
-          setResizeDownHeight(`100vh - 44px - 48vh`)
+          setResizeUpHeight('58vh')
+          setResizeDownHeight(`100vh - 44px - 58vh`)
         }}
         icon={<ColumnHeightOutlined/>}
       /> : <Button

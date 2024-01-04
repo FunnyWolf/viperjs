@@ -706,7 +706,7 @@ export const RunModule = props => {
       <Col span={16}>
         <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
           <TabPane
-            tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
+            tab={<span><FormOutlined/> {formatText('app.runmodule.postmodule.params')}</span>}
             key="params"
           >
             <div
@@ -754,7 +754,7 @@ export const RunModule = props => {
             </Form>
           </TabPane>
           <TabPane
-            tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
+            tab={<span><InfoCircleOutlined/> {formatText('app.runmodule.postmodule.desc')}</span>}
             key="desc"
           >
             <ModuleInfoContent postModuleConfig={postModuleConfigActive}/>
@@ -979,7 +979,7 @@ export const RunAutoModule = props => {
     <Col span={16}>
       <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
         <TabPane
-          tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
+          tab={<span><FormOutlined/> {formatText('app.runmodule.postmodule.params')}</span>}
           key="params"
         >
           <Form
@@ -1010,7 +1010,7 @@ export const RunAutoModule = props => {
           </Form>
         </TabPane>
         <TabPane
-          tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
+          tab={<span><InfoCircleOutlined/> {formatText('app.runmodule.postmodule.desc')}</span>}
           key="desc"
         >
           <ModuleInfoContent postModuleConfig={postModuleConfigActive}/>
@@ -1288,7 +1288,7 @@ export const RunschedulerModule = props => {
     <Col span={16}>
       <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
         <TabPane
-          tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
+          tab={<span><FormOutlined/> {formatText('app.runmodule.postmodule.params')}</span>}
           key="params"
         >
           <Form
@@ -1321,7 +1321,7 @@ export const RunschedulerModule = props => {
           </Form>
         </TabPane>
         <TabPane
-          tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
+          tab={<span><InfoCircleOutlined/> {formatText('app.runmodule.postmodule.desc')}</span>}
           key="desc"
         >
           <ModuleInfoContent postModuleConfig={postModuleConfigActive}/>
@@ -1595,7 +1595,7 @@ export const RunBotModule = props => {
     <Col span={18}>
       <Tabs defaultActiveKey="ipportlist" style={{ marginTop: 12 }}>
         <TabPane
-          tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
+          tab={<span><FormOutlined/> {formatText('app.runmodule.postmodule.params')}</span>}
           key="ipportlist"
         >
           <Row gutter={8}>
@@ -1836,7 +1836,7 @@ export const RunBotModule = props => {
           </Form>
         </TabPane>
         <TabPane
-          tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
+          tab={<span><InfoCircleOutlined/> {formatText('app.runmodule.postmodule.desc')}</span>}
           key="desc"
         >
           <ModuleInfoContent postModuleConfig={botModuleConfigActive}/>
@@ -2854,7 +2854,7 @@ export const ProxyHttpScanModule = props => {
     <Col span={16}>
       <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
         <TabPane
-          tab={<span><FormOutlined/>{formatText('app.runmodule.postmodule.params')}</span>}
+          tab={<span><FormOutlined/> {formatText('app.runmodule.postmodule.params')}</span>}
           key="params"
         >
           <Form
@@ -2885,7 +2885,7 @@ export const ProxyHttpScanModule = props => {
           </Form>
         </TabPane>
         <TabPane
-          tab={<span><InfoCircleOutlined/>{formatText('app.runmodule.postmodule.desc')}</span>}
+          tab={<span><InfoCircleOutlined/> {formatText('app.runmodule.postmodule.desc')}</span>}
           key="desc"
         >
           <ModuleInfoContent postModuleConfig={postModuleConfigActive}/>

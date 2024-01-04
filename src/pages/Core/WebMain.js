@@ -413,6 +413,9 @@ const WebMain = props => {
     theme={{
       algorithm: theme.darkAlgorithm,
       // algorithm: [theme.darkAlgorithm, theme.compactAlgorithm],
+      token: {
+        // fontSizeSM: 16,
+      },
       components: {
         Table: {
           cellPaddingBlockSM: 4,
