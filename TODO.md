@@ -1,6 +1,5 @@
 ### web
 
-- 添加一个modal,全量展示说有的ipdomain
 - 统一参数控制调用quake等最大结果数
 - 支持nmap的扫描导入
 - 支持股权关联
@@ -16,6 +15,10 @@
 - 后期实现自动化模块,通过API来组合各部分代码
 - https://github.com/projectdiscovery/nuclei/blob/dev/examples/advanced/advanced.go nuclei改造
 - 自动化通过运行原子模块来进行操作
+- Django subquery和outerref优化
+- 通过模块配置项来确定自动化方式
+- 首先实现quake的全流程自动化
+- 使用代码来补充zoomeye/fofa等相对于quake缺失的功能
 
 ### post
 
