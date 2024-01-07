@@ -1002,11 +1002,16 @@ const IPDomain = props => {
     <DocIcon url="https://www.yuque.com/vipersec/help/yc0ipk" />
     <Row
       gutter={0}
-      // style={{ marginTop: 0 }}
     >
       <Col span={24}>
         <Space>
           <SearchRow />
+          <Button
+            // style={{ width: 64 }}
+            icon={<SyncOutlined />}
+            onClick={() => handleRefresh()}
+            loading={listIPdomainReq.loading}
+          />
           <Pagination
             // style={{
             //   float: 'right',
@@ -1016,12 +1021,6 @@ const IPDomain = props => {
             showLessItems={true}
             showSizeChanger={false}
             responsive={false}
-          />
-          <Button
-            // style={{ width: 64 }}
-            icon={<SyncOutlined />}
-            onClick={() => handleRefresh()}
-            loading={listIPdomainReq.loading}
           />
         </Space>
       </Col>

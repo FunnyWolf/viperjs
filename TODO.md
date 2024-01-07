@@ -19,6 +19,7 @@
 - 通过模块配置项来确定自动化方式
 - 首先实现quake的全流程自动化
 - 使用代码来补充zoomeye/fofa等相对于quake缺失的功能
+- https://beian.miit.gov.cn/#/Integrated/recordQuery
 
 ### post
 

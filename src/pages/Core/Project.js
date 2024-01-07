@@ -198,7 +198,11 @@ export const ProjectButton = () => {
   };
 
   return <>
-    <Button onClick={showProject} icon={<ProjectOutlined />} style={{ width: 240 }}>{projectActive.name}</Button>
+    <Button onClick={showProject}
+            icon={<ProjectOutlined />}
+            style={{ minWidth: 180 }}>
+      <span>{projectActive.name}</span>
+    </Button>
     <Modal
       closable={false}
       mask={false}
