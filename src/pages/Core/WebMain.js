@@ -47,7 +47,7 @@ if (process.env.NODE_ENV === "production") {
 const TabsOptions = () => {
   return <><Space
     style={{
-      paddingTop: 1, paddingBottom: 2
+      paddingTop: 1, paddingBottom: 2, paddingRight: 4
     }}>
     <WebNotice />
     <ProjectButton />
