@@ -11,7 +11,7 @@ import {
   SyncOutlined,
   VerticalAlignTopOutlined,
 } from '@ant-design/icons'
-import { BackTop, Button, Col, Descriptions, Input, List, Popover, Row, Space, Table, Tag, Typography } from 'antd-v5'
+import { BackTop, Button, Col, Descriptions, Input, List, Popover, Progress, Row, Space, Table, Tag, Typography } from 'antd-v5'
 import moment from 'moment'
 import { DocIcon, WebMainHeight } from '@/pages/Core/Common'
 import { cssCalc } from '@/utils/utils'
@@ -275,6 +275,9 @@ const WebTaskResult = () => {
           break
         case 'table':
           resultComs.push(getModuleResultTable(result))
+          break
+        case 'progress':
+          resultComs.push(<Progress percent={result.percent}/>)
           break
         default:
           resultComs.push(<pre

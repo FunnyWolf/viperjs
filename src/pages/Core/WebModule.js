@@ -3,13 +3,7 @@ import { formatText, getModuleDesc, getModuleName } from "@/utils/locales";
 import React, { memo, useState } from "react";
 import { useRequest } from "umi";
 import { postPostmodulePostModuleActuatorAPI } from "@/services/apiv1";
-import {
-  DeleteOutlined,
-  ExclamationCircleOutlined,
-  PlayCircleOutlined,
-  StarOutlined,
-  StarTwoTone
-} from "@ant-design/icons";
+import { DeleteOutlined, ExclamationCircleOutlined, PlayCircleOutlined, StarOutlined, StarTwoTone } from "@ant-design/icons";
 import { Button, Col, Descriptions, Form, Input, Popover, Radio, Row, Table, Tag } from "antd-v5";
 import { cssCalc } from "@/utils/utils";
 import { changePin, getModuleOptions, getPins } from "@/pages/Core/RunModule";
@@ -20,15 +14,15 @@ export const RunWebModule = props => {
   console.log("RunWebModule");
 
   const { webModuleOptions } = useModel("HostAndSessionModel", model => ({
-    webModuleOptions: model.webModuleOptions
+    webModuleOptions: model.webModuleOptions,
   }));
 
   const {
-    webIPDomainPortWaitList, setWebIPDomainPortWaitList, projectActive
+    webIPDomainPortWaitList, setWebIPDomainPortWaitList, projectActive,
   } = useModel("WebMainModel", model => ({
     webIPDomainPortWaitList: model.webIPDomainPortWaitList,
     setWebIPDomainPortWaitList: model.setWebIPDomainPortWaitList,
-    projectActive: model.projectActive
+    projectActive: model.projectActive,
   }));
 
   const [webModuleConfigList, setWebModuleConfigList] = useState(
@@ -44,7 +38,7 @@ export const RunWebModule = props => {
     loadpath: null,
     REFERENCES: [],
     README: [],
-    SEARCH: ""
+    SEARCH: "",
   });
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -58,7 +52,7 @@ export const RunWebModule = props => {
     postPostmodulePostModuleActuatorAPI, {
       manual: true, onSuccess: (result, params) => {
       }, onError: (error, params) => {
-      }
+      },
     });
 
   const onCreateWebModuleActuator = params => {
@@ -67,7 +61,7 @@ export const RunWebModule = props => {
       input_list: selectedRows,
       project_id: projectActive.project_id,
       loadpath: webModuleConfigActive.loadpath,
-      custom_param: JSON.stringify(params)
+      custom_param: JSON.stringify(params),
     });
   };
 
@@ -93,7 +87,7 @@ export const RunWebModule = props => {
 
       if (NAMEMatch || DESCMatch || REFERENCESMatch) {
         return {
-          ...record
+          ...record,
         };
       }
       return null;
@@ -134,7 +128,7 @@ export const RunWebModule = props => {
             marginLeft: 4,
             marginRight: 8,
             float: "left",
-            fontSize: "18px"
+            fontSize: "18px",
           }}
         />) : (<StarOutlined
           onClick={() => {
@@ -146,19 +140,19 @@ export const RunWebModule = props => {
             marginLeft: 4,
             marginRight: 8,
             float: "left",
-            fontSize: "18px"
+            fontSize: "18px",
           }}
         />);
 
         let selectStyles = {};
         if (record.loadpath === webModuleConfigActive.loadpath) {
           selectStyles = {
-            color: "#d89614", fontWeight: "bolder"
+            color: "#d89614", fontWeight: "bolder",
           };
         }
         return (<div
           style={{
-            display: "inline"
+            display: "inline",
           }}
         >
           {pinIcon}
@@ -167,12 +161,12 @@ export const RunWebModule = props => {
           <Popover content={() => ModuleInfoContent(record)} placement="right">
             <ExclamationCircleOutlined
               style={{
-                marginTop: 3, marginRight: 8, float: "right", fontSize: "18px"
+                marginTop: 3, marginRight: 8, float: "right", fontSize: "18px",
               }}
             />
           </Popover>
         </div>);
-      }
+      },
     }];
 
   const waitListTableColumns = [
@@ -182,33 +176,33 @@ export const RunWebModule = props => {
 
       render: (text, record) => (<strong
         style={{
-          color: "#13a8a8"
+          color: "#13a8a8",
         }}
       >
         {text}
-      </strong>)
+      </strong>),
     }, {
       title: "IP",
       dataIndex: "ip",
       width: 128,
       render: (text, record) => (<strong
         style={{
-          color: "#13a8a8"
+          color: "#13a8a8",
         }}
       >
         {text}
-      </strong>)
+      </strong>),
     }, {
       title: "Port",
       dataIndex: "port",
       width: 64,
       render: (text, record) => (<strong
         style={{
-          color: "#7cb305"
+          color: "#7cb305",
         }}
       >
         {text}
-      </strong>)
+      </strong>),
     }, {
       title: "CDN",
       dataIndex: "cdn",
@@ -222,7 +216,7 @@ export const RunWebModule = props => {
           }
         }
         return (<Tag>Null</Tag>);
-      }
+      },
     }, {
       // show waf infomation
       title: "WAF",
@@ -240,10 +234,10 @@ export const RunWebModule = props => {
           return (<Tag>Null</Tag>);
         }
         return (<Tag>Null</Tag>);
-      }
+      },
     }];
   const rowSelection = {
-    selectedRowKeys, onChange: onSelectChange
+    selectedRowKeys, onChange: onSelectChange,
   };
 
   const deleteSelectedWebIPDomainPortWaitList = () => {
@@ -282,7 +276,7 @@ export const RunWebModule = props => {
       size="small"
       style={{
         padding: 0,
-        margin: 0
+        margin: 0,
       }}
       column={12}
       bordered
@@ -307,7 +301,7 @@ export const RunWebModule = props => {
                          label={formatText("app.runmodule.postmodule.DESC")}>
           <pre
             style={{
-              whiteSpace: "pre-wrap", overflowX: "hidden", padding: "0 0 0 0"
+              whiteSpace: "pre-wrap", overflowX: "hidden", padding: "0 0 0 0",
             }}
           >{getModuleDesc(record)}</pre>
       </Descriptions.Item>
@@ -325,7 +319,7 @@ export const RunWebModule = props => {
         buttonStyle="solid"
         onChange={(e) => moduleTypeOnChange(e.target.value)}
         style={{
-          marginTop: 0
+          marginTop: 0,
         }}
       >
         <Radio.Button value="">{formatText(
@@ -347,7 +341,7 @@ export const RunWebModule = props => {
         style={{
           padding: "0 0 0 0",
           maxHeight: cssCalc("100vh - 560px"),
-          minHeight: cssCalc("100vh - 560px")
+          minHeight: cssCalc("100vh - 560px"),
         }}
         scroll={{ y: "calc(100vh - 480px)" }}
         // rowClassName={styles.moduleTr}
@@ -357,7 +351,7 @@ export const RunWebModule = props => {
             setWebModuleConfigActive(record);
             setSelectedRowKeys([]);
             setSelectedRows([]);
-          }
+          },
         })}
         size="small"
         bordered
@@ -372,7 +366,7 @@ export const RunWebModule = props => {
       <Row>
         <Row>
           <Button
-            icon={<DeleteOutlined />}
+            icon={<DeleteOutlined/>}
             onClick={() => deleteSelectedWebIPDomainPortWaitList()}
           >{formatText("common.delete")}</Button>
         </Row>
@@ -404,7 +398,7 @@ export const RunWebModule = props => {
             htmlType="submit"
             block
             disabled={webModuleConfigActive.loadpath === null}
-            icon={<PlayCircleOutlined />}
+            icon={<PlayCircleOutlined/>}
             loading={createPostModuleActuatorReq.loading}
           >{formatText("app.runmodule.postmodule.run")}</Button>
         </Row>

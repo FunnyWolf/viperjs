@@ -20,10 +20,12 @@
 - 首先实现quake的全流程自动化
 - 使用代码来补充zoomeye/fofa等相对于quake缺失的功能
 - https://beian.miit.gov.cn/#/Integrated/recordQuery
+- 将module result集成到模块运行页面中
 
 ### post
 
 - 集成项目https://github.com/qwqdanchun/Pillager
+- https://github.com/FunnyWolf/Viper/issues/196
 
 ### Done
 
@@ -31,3 +33,5 @@
 - ~~LHOST信息新增check功能,是不是外网IP(或者是不是IP)~~
 - ~~针对某个端口记录可以添加备注功能,方便进行跟踪,也添加tag功能~~
 - ~~https://hunter.qianxin.com/home/helpCenter?r=5-1-3 hunter接口接入~~
+- ~~moduleresult自动更新整体时间~~
+- ~~module result新增进度条功能~~
