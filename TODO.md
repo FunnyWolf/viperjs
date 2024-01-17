@@ -21,7 +21,7 @@
 - 使用代码来补充zoomeye/fofa等相对于quake缺失的功能
 - https://beian.miit.gov.cn/#/Integrated/recordQuery
 - 将module result集成到模块运行页面中
-
+- waf not alive 报错
 ### post
 
 - 集成项目https://github.com/qwqdanchun/Pillager
