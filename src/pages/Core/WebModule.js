@@ -20,13 +20,10 @@ export const RunWebModule = props => {
   const {
     webIPDomainPortWaitList, setWebIPDomainPortWaitList, projectActive,
   } = useModel("WebMainModel", model => ({
-    webIPDomainPortWaitList: model.webIPDomainPortWaitList,
-    setWebIPDomainPortWaitList: model.setWebIPDomainPortWaitList,
-    projectActive: model.projectActive,
+    webIPDomainPortWaitList: model.webIPDomainPortWaitList, setWebIPDomainPortWaitList: model.setWebIPDomainPortWaitList, projectActive: model.projectActive,
   }));
 
-  const [webModuleConfigList, setWebModuleConfigList] = useState(
-    webModuleOptions);
+  const [webModuleConfigList, setWebModuleConfigList] = useState(webModuleOptions);
   const [webModuleConfigActive, setWebModuleConfigActive] = useState({
     NAME_ZH: null,
     NAME_EN: null,
@@ -45,15 +42,13 @@ export const RunWebModule = props => {
   const [selectedRows, setSelectedRows] = useState([]);
 
   const pins = getPins();
-  webModuleConfigList.sort(
-    (a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath));
+  webModuleConfigList.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath));
 
-  const createPostModuleActuatorReq = useRequest(
-    postPostmodulePostModuleActuatorAPI, {
-      manual: true, onSuccess: (result, params) => {
-      }, onError: (error, params) => {
-      },
-    });
+  const createPostModuleActuatorReq = useRequest(postPostmodulePostModuleActuatorAPI, {
+    manual: true, onSuccess: (result, params) => {
+    }, onError: (error, params) => {
+    },
+  });
 
   const onCreateWebModuleActuator = params => {
     createPostModuleActuatorReq.run({
@@ -67,8 +62,7 @@ export const RunWebModule = props => {
 
   const onPostModuleConfigListChange = botModuleConfigList => {
     const pins = getPins();
-    botModuleConfigList.sort(
-      (a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath));
+    botModuleConfigList.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath));
     setWebModuleConfigList(botModuleConfigList);
   };
 
@@ -107,8 +101,7 @@ export const RunWebModule = props => {
     if (value.length <= 0) {
       onPostModuleConfigListChange(webModuleOptions);
     } else {
-      const newpostModuleConfigListState = webModuleOptions.filter(
-        item => value.indexOf(item.MODULETYPE) >= 0);
+      const newpostModuleConfigListState = webModuleOptions.filter(item => value.indexOf(item.MODULETYPE) >= 0);
       onPostModuleConfigListChange(newpostModuleConfigListState);
     }
   };
@@ -124,11 +117,7 @@ export const RunWebModule = props => {
             onPostModuleConfigListChange(webModuleConfigList);
           }}
           style={{
-            marginTop: 3,
-            marginLeft: 4,
-            marginRight: 8,
-            float: "left",
-            fontSize: "18px",
+            marginTop: 3, marginLeft: 4, marginRight: 8, float: "left", fontSize: "18px",
           }}
         />) : (<StarOutlined
           onClick={() => {
@@ -136,11 +125,7 @@ export const RunWebModule = props => {
             onPostModuleConfigListChange(webModuleConfigList);
           }}
           style={{
-            marginTop: 3,
-            marginLeft: 4,
-            marginRight: 8,
-            float: "left",
-            fontSize: "18px",
+            marginTop: 3, marginLeft: 4, marginRight: 8, float: "left", fontSize: "18px",
           }}
         />);
 
@@ -156,8 +141,7 @@ export const RunWebModule = props => {
           }}
         >
           {pinIcon}
-          <a style={{ marginLeft: 4, ...selectStyles }}>{getModuleName(
-            record)}</a>
+          <a style={{ marginLeft: 4, ...selectStyles }}>{getModuleName(record)}</a>
           <Popover content={() => ModuleInfoContent(record)} placement="right">
             <ExclamationCircleOutlined
               style={{
@@ -171,8 +155,7 @@ export const RunWebModule = props => {
 
   const waitListTableColumns = [
     {
-      title: "Domain",
-      dataIndex: "ipdomain",
+      title: "Domain", dataIndex: "ipdomain",
 
       render: (text, record) => (<strong
         style={{
@@ -182,10 +165,7 @@ export const RunWebModule = props => {
         {text}
       </strong>),
     }, {
-      title: "IP",
-      dataIndex: "ip",
-      width: 128,
-      render: (text, record) => (<strong
+      title: "IP", dataIndex: "ip", width: 128, render: (text, record) => (<strong
         style={{
           color: "#13a8a8",
         }}
@@ -193,10 +173,7 @@ export const RunWebModule = props => {
         {text}
       </strong>),
     }, {
-      title: "Port",
-      dataIndex: "port",
-      width: 64,
-      render: (text, record) => (<strong
+      title: "Port", dataIndex: "port", width: 64, render: (text, record) => (<strong
         style={{
           color: "#7cb305",
         }}
@@ -204,10 +181,7 @@ export const RunWebModule = props => {
         {text}
       </strong>),
     }, {
-      title: "CDN",
-      dataIndex: "cdn",
-      width: 80,
-      render: (text, record) => {
+      title: "CDN", dataIndex: "cdn", width: 80, render: (text, record) => {
         if (record.cdn) {
           if (record.cdn.flag) {
             return (<Tag color="red">CDN</Tag>);
@@ -219,10 +193,7 @@ export const RunWebModule = props => {
       },
     }, {
       // show waf infomation
-      title: "WAF",
-      dataIndex: "waf",
-      width: 80,
-      render: (text, record) => {
+      title: "WAF", dataIndex: "waf", width: 80, render: (text, record) => {
         if (record.port_info) {
           if (record.port_info.waf) {
             if (record.port_info.waf.flag) {
@@ -275,8 +246,7 @@ export const RunWebModule = props => {
     return (<Descriptions
       size="small"
       style={{
-        padding: 0,
-        margin: 0,
+        padding: 0, margin: 0,
       }}
       column={12}
       bordered
@@ -322,26 +292,19 @@ export const RunWebModule = props => {
           marginTop: 0,
         }}
       >
-        <Radio.Button value="">{formatText(
-          "app.runmodule.postmodule.moduletype.all")}</Radio.Button>
+        <Radio.Button value="">{formatText("app.runmodule.postmodule.moduletype.all")}</Radio.Button>
         <Radio.Button
-          value="Web_Auto_Module">{formatText(
-          "webmodule.auto")}</Radio.Button>
+          value="Web_Auto_Module">{formatText("webmodule.auto")}</Radio.Button>
         <Radio.Button
-          value="Web_Common_Module">{formatText(
-          "webmodule.common")}</Radio.Button>
+          value="Web_Common_Module">{formatText("webmodule.common")}</Radio.Button>
         <Radio.Button
-          value="Web_PortService_Scan">{formatText(
-          "webmodule.portscan")}</Radio.Button>
+          value="Web_PortService_Scan">{formatText("webmodule.portscan")}</Radio.Button>
         <Radio.Button
-          value="Web_Subdomain_Scan">{formatText(
-          "webmodule.subdomain")}</Radio.Button>
+          value="Web_Subdomain_Scan">{formatText("webmodule.subdomain")}</Radio.Button>
       </Radio.Group>
       <Table
         style={{
-          padding: "0 0 0 0",
-          maxHeight: cssCalc("100vh - 560px"),
-          minHeight: cssCalc("100vh - 560px"),
+          padding: "0 0 0 0", maxHeight: cssCalc("100vh - 560px"), minHeight: cssCalc("100vh - 560px"),
         }}
         scroll={{ y: "calc(100vh - 480px)" }}
         // rowClassName={styles.moduleTr}

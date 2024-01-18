@@ -8,6 +8,7 @@ import {
   CloseCircleOutlined,
   DeleteOutlined,
   SearchOutlined,
+  StopOutlined,
   SyncOutlined,
   VerticalAlignTopOutlined,
 } from '@ant-design/icons'
@@ -24,12 +25,9 @@ const { Text } = Typography
 const taskStatusDict = {
   running: <Tag icon={<SyncOutlined spin/>}
                 color="processing">{formatText('webjobs.running')}</Tag>,
-  waiting: <Tag icon={<ClockCircleOutlined/>} color="default">{formatText(
-    'webjobs.waiting')}</Tag>,
-  success: <Tag icon={<CheckCircleOutlined/>} color="success">{formatText(
-    'webjobs.success')}</Tag>,
-  error: <Tag icon={<CloseCircleOutlined/>} color="error">{formatText(
-    'webjobs.error')}</Tag>,
+  waiting: <Tag icon={<ClockCircleOutlined/>} color="default">{formatText('webjobs.waiting')}</Tag>,
+  success: <Tag icon={<CheckCircleOutlined/>} color="success">{formatText('webjobs.success')}</Tag>,
+  error: <Tag icon={<CloseCircleOutlined/>} color="error">{formatText('webjobs.error')}</Tag>,
 }
 
 const WebModuleInfoContent = postModuleConfig => {
@@ -131,10 +129,7 @@ const WebRealTimeJobs = () => {
       <Col span={12}>
         <Table
           style={{
-            marginTop: -16,
-            overflow: 'auto',
-            maxHeight: cssCalc(`${WebMainHeight} - 60px`),
-            minHeight: cssCalc(`${WebMainHeight} - 60px`),
+            marginTop: -16, overflow: 'auto', maxHeight: cssCalc(`${WebMainHeight} - 60px`), minHeight: cssCalc(`${WebMainHeight} - 60px`),
           }}
           size="small"
           rowKey="job_id"
@@ -143,11 +138,7 @@ const WebRealTimeJobs = () => {
           bordered
           columns={[
             {
-              title: formatText('app.realtimecard.jobtable_starttime'),
-              dataIndex: 'time',
-              key: 'time',
-              width: 120,
-              render: (text, record) => {
+              title: formatText('app.realtimecard.jobtable_starttime'), dataIndex: 'time', key: 'time', width: 120, render: (text, record) => {
                 return <Tag color="cyan"
                             style={{
                               textAlign: 'center', cursor: 'pointer',
@@ -167,18 +158,11 @@ const WebRealTimeJobs = () => {
                 <a>{getModuleName(record.module_config)}</a>
               </Popover>),
             }, {
-              title: formatText('app.realtimecard.jobtable_params'),
-              dataIndex: 'opts',
-              key: 'opts',
-              render: (text, record) => {
+              title: formatText('app.realtimecard.jobtable_params'), dataIndex: 'opts', key: 'opts', render: (text, record) => {
                 return <Fragment>{postModuleOpts(record.opts)}</Fragment>
               },
             }, {
-              title: formatText('app.realtimecard.status'),
-              dataIndex: 'status',
-              key: 'status',
-              width: 108,
-              render: (text, record) => {
+              title: formatText('app.realtimecard.status'), dataIndex: 'status', key: 'status', width: 108, render: (text, record) => {
                 return taskStatusDict[record.status]
               },
             }, {
@@ -207,10 +191,7 @@ export const WebRealTimeJobsMemo = memo(WebRealTimeJobs)
 const WebTaskResult = () => {
   console.log('WebTaskResult')
   const {
-    webTaskResultList,
-    setWebTaskResultList,
-    webTaskResultListActive,
-    setWebTaskResultListActive,
+    webTaskResultList, setWebTaskResultList, webTaskResultListActive, setWebTaskResultListActive,
   } = useModel('WebMainModel', model => ({
     webTaskResultList: model.webTaskResultList,
     setWebTaskResultList: model.setWebTaskResultList,
@@ -222,6 +203,18 @@ const WebTaskResult = () => {
 
   const [refresh, setRefresh] = useState(false)
   useInterval(() => setRefresh(!refresh), 60000)
+
+  const destoryJobReq = useRequest(deleteMsgrpcJobAPI, {
+    manual: true, onSuccess: (result, params) => {
+      const { uuid } = result
+      setWebjobList(webJobList.filter(item => item.uuid !== uuid))
+    }, onError: (error, params) => {
+    },
+  })
+
+  const onDestoryJob = record => {
+    destoryJobReq.run({ uuid: record.task_uuid, broker: record.broker })
+  }
 
   const handleWebTaskResultSearch = text => {
     const reg = new RegExp(text, 'gi')
@@ -299,6 +292,20 @@ const WebTaskResult = () => {
     },
   })
 
+  const moduleResultAction = (record) => {
+    if (record.status === "running" || record.status === "waiting") {
+      return <Space.Compact>
+        <Button
+          size="small" style={{ width: 56 }}
+          icon={<StopOutlined/>}
+          onClick={() => {
+            onDestoryJob(record)
+          }}
+        />
+      </Space.Compact>
+    }
+  }
+
   return (<Fragment>
     <Row style={{ marginTop: -16 }}>
       <Col span={20}>
@@ -329,9 +336,7 @@ const WebTaskResult = () => {
       id="moduleresultlist"
       bordered
       style={{
-        overflow: 'auto',
-        maxHeight: cssCalc(`${WebMainHeight} - 64px`),
-        minHeight: cssCalc(`${WebMainHeight} - 64px`),
+        overflow: 'auto', maxHeight: cssCalc(`${WebMainHeight} - 64px`), minHeight: cssCalc(`${WebMainHeight} - 64px`),
       }}
       itemLayout="vertical"
       size="small"
@@ -357,14 +362,7 @@ const WebTaskResult = () => {
             <strong>{getModuleName(record)}</strong>
           </Tag>
           {taskStatusDict[record.status]}
-          {/*{item.sessionid === undefined || item.sessionid === -1 ? null : <Tag*/}
-          {/*  color="purple"*/}
-          {/*  style={{*/}
-          {/*    minWidth: 48, textAlign: 'center', cursor: 'pointer',*/}
-          {/*  }}*/}
-          {/*>*/}
-          {/*  <strong>{item.sessionid}</strong>*/}
-          {/*</Tag>}*/}
+          {moduleResultAction(record)}
         </Space>
         <div
           style={{
@@ -378,7 +376,7 @@ const WebTaskResult = () => {
     >
       <BackTop
         style={{
-          top: cssCalc(`112px`), left: cssCalc('53vw - 40px'),
+          top: cssCalc(`112px`), right: cssCalc('40px'),
         }}
         target={() => document.getElementById('moduleresultlist')}
       >
