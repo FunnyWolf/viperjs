@@ -21,6 +21,7 @@
 - 使用代码来补充zoomeye/fofa等相对于quake缺失的功能
 - https://beian.miit.gov.cn/#/Integrated/recordQuery
 - 将module result集成到模块运行页面中
+- 等待任务停止时动作
 
 ### post
 
