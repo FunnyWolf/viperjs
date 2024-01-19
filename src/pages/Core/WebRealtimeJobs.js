@@ -7,6 +7,7 @@ import {
   ClockCircleOutlined,
   CloseCircleOutlined,
   DeleteOutlined,
+  ExclamationCircleOutlined,
   SearchOutlined,
   StopOutlined,
   SyncOutlined,
@@ -23,9 +24,9 @@ import { postModuleOpts } from '@/pages/Core/RealTimeCard'
 const { Text } = Typography
 
 const taskStatusDict = {
-  running: <Tag icon={<SyncOutlined spin/>}
-                color="processing">{formatText('webjobs.running')}</Tag>,
   waiting: <Tag icon={<ClockCircleOutlined/>} color="default">{formatText('webjobs.waiting')}</Tag>,
+  running: <Tag icon={<SyncOutlined spin/>} color="processing">{formatText('webjobs.running')}</Tag>,
+  cancel: <Tag icon={<ExclamationCircleOutlined/>} color="warning">{formatText('webjobs.cancel')}</Tag>,
   success: <Tag icon={<CheckCircleOutlined/>} color="success">{formatText('webjobs.success')}</Tag>,
   error: <Tag icon={<CloseCircleOutlined/>} color="error">{formatText('webjobs.error')}</Tag>,
 }
@@ -307,7 +308,7 @@ const WebTaskResult = () => {
   }
 
   return (<Fragment>
-    <Row style={{ marginTop: -16 }}>
+    <Row>
       <Col span={20}>
         <Input
           allowClear

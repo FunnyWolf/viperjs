@@ -10,6 +10,7 @@ export default {
   "webmodule.subdomain": "Subdomain",
   "webjobs.waiting": "waiting",
   "webjobs.running": "running",
+  "webjobs.cancel": "cancel",
   "webjobs.success": "success",
   "webjobs.error": "error",
   "ipdomain.portcomment.comment": "comment",

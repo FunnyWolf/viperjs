@@ -7,6 +7,7 @@ import { DeleteOutlined, ExclamationCircleOutlined, PlayCircleOutlined, StarOutl
 import { Button, Col, Descriptions, Form, Input, Popover, Radio, Row, Table, Tag } from "antd-v5";
 import { cssCalc } from "@/utils/utils";
 import { changePin, getModuleOptions, getPins } from "@/pages/Core/RunModule";
+import { WebTaskResultResultMemo } from '@/pages/Core/WebRealtimeJobs'
 
 const { Search, TextArea } = Input;
 
@@ -155,8 +156,8 @@ export const RunWebModule = props => {
 
   const waitListTableColumns = [
     {
-      title: "Domain", dataIndex: "ipdomain",
-
+      title: "Domain",
+      dataIndex: "ipdomain",
       render: (text, record) => (<strong
         style={{
           color: "#13a8a8",
@@ -165,7 +166,10 @@ export const RunWebModule = props => {
         {text}
       </strong>),
     }, {
-      title: "IP", dataIndex: "ip", width: 128, render: (text, record) => (<strong
+      title: "IP",
+      dataIndex: "ip",
+      width: 128,
+      render: (text, record) => (<strong
         style={{
           color: "#13a8a8",
         }}
@@ -173,7 +177,10 @@ export const RunWebModule = props => {
         {text}
       </strong>),
     }, {
-      title: "Port", dataIndex: "port", width: 64, render: (text, record) => (<strong
+      title: "Port",
+      dataIndex: "port",
+      width: 56,
+      render: (text, record) => (<strong
         style={{
           color: "#7cb305",
         }}
@@ -181,7 +188,10 @@ export const RunWebModule = props => {
         {text}
       </strong>),
     }, {
-      title: "CDN", dataIndex: "cdn", width: 80, render: (text, record) => {
+      title: "CDN",
+      dataIndex: "cdn",
+      width: 56,
+      render: (text, record) => {
         if (record.cdn) {
           if (record.cdn.flag) {
             return (<Tag color="red">CDN</Tag>);
@@ -193,7 +203,10 @@ export const RunWebModule = props => {
       },
     }, {
       // show waf infomation
-      title: "WAF", dataIndex: "waf", width: 80, render: (text, record) => {
+      title: "WAF",
+      dataIndex: "waf",
+      width: 56,
+      render: (text, record) => {
         if (record.port_info) {
           if (record.port_info.waf) {
             if (record.port_info.waf.flag) {
@@ -279,7 +292,8 @@ export const RunWebModule = props => {
   };
 
   return (<Row gutter={[0, 0]}>
-    <Col span={6}>
+    <Col
+      span={6}>
       <Search
         placeholder={formatText("app.runmodule.postmodule.searchmodule.ph")}
         onSearch={value => handleModuleSearch(value)}
@@ -306,8 +320,7 @@ export const RunWebModule = props => {
         style={{
           padding: "0 0 0 0", maxHeight: cssCalc("100vh - 560px"), minHeight: cssCalc("100vh - 560px"),
         }}
-        scroll={{ y: "calc(100vh - 480px)" }}
-        // rowClassName={styles.moduleTr}
+        scroll={{ y: "calc(100vh - 120px)" }}
         showHeader={false}
         onRow={record => ({
           onClick: () => {
@@ -325,31 +338,32 @@ export const RunWebModule = props => {
         dataSource={webModuleConfigList}
       />
     </Col>
-    <Col span={18}>
+    <Col
+      style={{ paddingLeft: 4, paddingRight: 4 }}
+      span={10}
+    >
       <Row>
-        <Row>
-          <Button
-            icon={<DeleteOutlined/>}
-            onClick={() => deleteSelectedWebIPDomainPortWaitList()}
-          >{formatText("common.delete")}</Button>
-        </Row>
-        <Table
-          style={{
-            // marginTop: 0,
-            // maxHeight: '560px', minHeight: '560px',
-          }}
-          scroll={{ y: "24vh" }}
-          size="small"
-          bordered
-          pagination={false}
-          rowKey="id"
-          rowSelection={rowSelection}
-          columns={waitListTableColumns}
-          dataSource={webIPDomainPortWaitList}
-        />
+        <Button
+          icon={<DeleteOutlined/>}
+          onClick={() => deleteSelectedWebIPDomainPortWaitList()}
+        >{formatText("common.delete")}</Button>
       </Row>
+      <Table
+        style={{
+          // marginTop: 0,
+          // maxHeight: '560px', minHeight: '560px',
+        }}
+        scroll={{ y: "40vh" }}
+        size="small"
+        bordered
+        pagination={false}
+        rowKey="id"
+        rowSelection={rowSelection}
+        columns={waitListTableColumns}
+        dataSource={webIPDomainPortWaitList}
+      />
       <Form
-        style={{ padding: 8 }}
+        style={{ marginTop: 16, padding: 4 }}
         layout="vertical"
         wrapperCol={{ span: 24 }}
         onFinish={onCreateWebModuleActuator}
@@ -366,6 +380,9 @@ export const RunWebModule = props => {
           >{formatText("app.runmodule.postmodule.run")}</Button>
         </Row>
       </Form>
+    </Col>
+    <Col span={8}>
+      <WebTaskResultResultMemo/>
     </Col>
   </Row>);
 };

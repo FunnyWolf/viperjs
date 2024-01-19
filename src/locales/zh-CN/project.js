@@ -14,6 +14,7 @@ export default {
   "webmodule.subdomain": "子域名扫描",
   "webjobs.waiting": "等待中",
   "webjobs.running": "运行中",
+  "webjobs.cancel": "取消",
   "webjobs.success": "成功",
   "webjobs.error": "失败",
   "ipdomain.portcomment.comment": "备注",
