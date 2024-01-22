@@ -18,5 +18,6 @@ export default {
   "webjobs.success": "成功",
   "webjobs.error": "失败",
   "ipdomain.portcomment.comment": "备注",
-  "ipdomain.portcomment.color": "标签"
+  "ipdomain.portcomment.color": "标签",
+  "company.companybaseinfo.search.ph": "搜索公司",
 };

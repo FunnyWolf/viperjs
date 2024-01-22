@@ -483,3 +483,9 @@ export async function putWebdatabasePortAPI (params) {
     method: 'PUT', data: params,
   })
 }
+
+export async function getWebdatabaseCompanyBaseInfoAPI (params) {
+  return request('/api/v1/webdatabase/companybaseinfo/', {
+    params,
+  })
+}

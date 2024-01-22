@@ -2,22 +2,9 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useModel, useRequest } from "umi";
 import { useInterval } from "ahooks";
 import { deleteWebNoticesAPI, getCoreCurrentUserAPI } from "@/services/apiv1";
-import { BellOutlined, DeleteOutlined, GlobalOutlined, ScanOutlined, SettingOutlined } from "@ant-design/icons";
+import { BankOutlined, BellOutlined, DeleteOutlined, GlobalOutlined, ScanOutlined, SettingOutlined } from "@ant-design/icons";
 
-import {
-  Button,
-  Col,
-  ConfigProvider,
-  FloatButton,
-  List,
-  Modal,
-  Row,
-  Space,
-  Tabs,
-  Tag,
-  theme,
-  Typography
-} from "antd-v5";
+import { Button, Col, ConfigProvider, FloatButton, List, Modal, Row, Space, Tabs, Tag, theme, Typography } from "antd-v5";
 import GridContent from "@/components/PageHeaderWrapper/GridContent";
 
 import { IPDomainMemo } from "@/pages/Core/IPDomain";
@@ -34,6 +21,7 @@ import { MyIcon } from "@/pages/Core/Common";
 import { getLocale } from "@@/plugin-locale/localeExports";
 import { cssCalc } from "@/utils/utils";
 import moment from "moment/moment";
+import { CompanyMemo } from '@/pages/Core/Company'
 
 const { Text } = Typography;
 const { TabPane } = Tabs;
@@ -47,10 +35,10 @@ if (process.env.NODE_ENV === "production") {
 const TabsOptions = () => {
   return <><Space
     style={{
-      paddingTop: 1, paddingBottom: 2, paddingRight: 4
+      paddingTop: 1, paddingBottom: 2, paddingRight: 4,
     }}>
-    <WebNotice />
-    <ProjectButton />
+    <WebNotice/>
+    <ProjectButton/>
   </Space>
 
   </>;
@@ -59,18 +47,18 @@ const TabsOptions = () => {
 const TabsTop = () => {
   console.log("TabsBottom");
   const {
-    setHeatbeatsocketalive, setWebModuleOptions
+    setHeatbeatsocketalive, setWebModuleOptions,
   } = useModel("HostAndSessionModel", model => ({
-    setHeatbeatsocketalive: model.setHeatbeatsocketalive, setWebModuleOptions: model.setWebModuleOptions
+    setHeatbeatsocketalive: model.setHeatbeatsocketalive, setWebModuleOptions: model.setWebModuleOptions,
   }));
 
   const {
-    setWebjobList, setWebTaskResultList, setWebTaskResultListActive, setNotices
+    setWebjobList, setWebTaskResultList, setWebTaskResultListActive, setNotices,
   } = useModel("WebMainModel", model => ({
     setNotices: model.setNotices,
     setWebjobList: model.setWebjobList,
     setWebTaskResultList: model.setWebTaskResultList,
-    setWebTaskResultListActive: model.setWebTaskResultListActive
+    setWebTaskResultListActive: model.setWebTaskResultListActive,
   }));
 
   let ipdomainRef = React.createRef();
@@ -98,7 +86,7 @@ const TabsTop = () => {
   const listCurrentUserReq = useRequest(getCoreCurrentUserAPI, {
     manual: true, onSuccess: (result, params) => {
     }, onError: (error, params) => {
-    }
+    },
   });
 
   const urlpatterns = "/ws/v1/websocket/websync/?";
@@ -189,58 +177,73 @@ const TabsTop = () => {
 
   return (<Tabs
     style={{ margin: 1 }}
-    tabBarExtraContent={<TabsOptions />}
+    tabBarExtraContent={<TabsOptions/>}
     type="card"
     onChange={tabActiveOnChange}
   >
     <TabPane
       tab={<div style={tabPanedivSytle}>
-        <GlobalOutlined />
+        <GlobalOutlined/>
         <span style={tabPanespanSytle}>{formatText("app.webmain.tab.ipdomain")}</span>
       </div>}
       key="IPDomain"
     >
       <div
         style={{
-          marginTop: -16
+          marginTop: -16,
         }}
       >
-        <IPDomainMemo onRef={ipdomainRef} />
+        <IPDomainMemo onRef={ipdomainRef}/>
       </div>
     </TabPane>
     <TabPane
       tab={<div style={tabPanedivSytle}>
-        <ScanOutlined />
+        <BankOutlined/>
+        <span style={tabPanespanSytle}>{formatText("app.webmain.tab.company")}</span>
+      </div>}
+      key="Company"
+    >
+      <div
+        style={{
+          marginTop: -16,
+        }}
+      >
+        <CompanyMemo/>
+      </div>
+    </TabPane>
+    <TabPane
+      tab={<div style={tabPanedivSytle}>
+        <ScanOutlined/>
         <span style={tabPanespanSytle}>{formatText("app.webmain.tab.webscan")}</span>
       </div>}
       key="WebScan"
     >
       <div
         style={{
-          marginTop: -16
+          marginTop: -16,
         }}
       >
-        <RunWebModuleMemo />
+        <RunWebModuleMemo/>
       </div>
     </TabPane>
     <TabPane
       tab={<div style={tabPanedivSytle}>
-        <TaskQueueTagMemo />
+        <TaskQueueTagMemo/>
         <span style={tabPanespanSytle}>{formatText("app.hostandsession.tab.JobList")}</span>
       </div>}
       key="JobList"
     >
-      <WebRealTimeJobsMemo />
+      <WebRealTimeJobsMemo/>
     </TabPane>
     <TabPane
       tab={<div style={tabPanedivSytle}>
-        <SettingOutlined />
+        <SettingOutlined/>
         <span
           style={tabPanespanSytle}>{formatText("app.hostandsession.tab.SystemSetting")}</span>
       </div>}
       key="SystemSetting"
     >
-      <SystemSettingMemo />
+      <SystemSettingMemo/>
     </TabPane>
   </Tabs>);
 };
@@ -250,28 +253,28 @@ const KeyToUserIcon = {
   "2": "icon-shuidibaoshi",
   "3": "icon-liujiaobaoshi",
   "4": "icon-lingxingbaoshi",
-  "5": "icon-duojiaobaoshi"
+  "5": "icon-duojiaobaoshi",
 };
 const WebNotice = () => {
   const [noticeModalVisible, setNoticeModalVisible] = useState(false);
   const { notices, setNotices } = useModel("WebMainModel", model => ({
-    notices: model.notices, setNotices: model.setNotices
+    notices: model.notices, setNotices: model.setNotices,
   }));
   const [refresh, setRefresh] = useState(false);
   useInterval(() => setRefresh(!refresh), 60000);
   const {
-    resizeUpHeight, resizeDownHeight, setResizeDownHeight
+    resizeUpHeight, resizeDownHeight, setResizeDownHeight,
   } = useModel("Resize", model => ({
     resizeUpHeight: model.resizeUpHeight,
     resizeDownHeight: model.resizeDownHeight,
-    setResizeDownHeight: model.setResizeDownHeight
+    setResizeDownHeight: model.setResizeDownHeight,
   }));
 
   const userIconLarge = key => {
     return (<MyIcon
       type={KeyToUserIcon[key]}
       style={{
-        padding: "0px 0px 0px 0px", fontSize: "16px"
+        padding: "0px 0px 0px 0px", fontSize: "16px",
       }}
     />);
   };
@@ -327,7 +330,7 @@ const WebNotice = () => {
       style={{
         overflow: "auto",
         maxHeight: cssCalc(`${resizeDownHeight} - 30px`),
-        minHeight: cssCalc(`${resizeDownHeight} - 30px`)
+        minHeight: cssCalc(`${resizeDownHeight} - 30px`),
       }}
       split={false}
       size="small"
@@ -337,13 +340,13 @@ const WebNotice = () => {
       renderItem={item => (<List.Item style={{ padding: "0px 0px 0px 0px" }}>
         <div
           style={{
-            display: "inline", marginTop: 0, marginBottom: 0
+            display: "inline", marginTop: 0, marginBottom: 0,
           }}
         >
           <Tag
             color="cyan"
             style={{
-              marginLeft: -1, marginRight: 4, textAlign: "center"
+              marginLeft: -1, marginRight: 4, textAlign: "center",
             }}
           >
             {moment(item.time * 1000).format("MM-DD HH:mm:ss")}
@@ -352,7 +355,7 @@ const WebNotice = () => {
         </div>
       </List.Item>)}
     >
-      <FloatButton.BackTop />
+      <FloatButton.BackTop/>
     </List>);
   };
 
@@ -360,11 +363,11 @@ const WebNotice = () => {
     manual: true, onSuccess: (result, params) => {
       setNotices([]);
     }, onError: (error, params) => {
-    }
+    },
   });
 
   return <>
-    <Button icon={<BellOutlined />}
+    <Button icon={<BellOutlined/>}
             onClick={() => setNoticeModalVisible(true)}
     />
     <Modal
@@ -376,12 +379,12 @@ const WebNotice = () => {
       closable={false}
       onCancel={() => setNoticeModalVisible(false)}
     >
-      <NoticesList notices={notices} />
+      <NoticesList notices={notices}/>
       <Row
         // style={{ marginTop: -16 }}
       >
         <Col span={4}>
-          <Button icon={<DeleteOutlined />} block danger
+          <Button icon={<DeleteOutlined/>} block danger
                   onClick={() => deleteNoticesReq.run()}>
             {formatText("app.core.clear")}
           </Button>
@@ -390,7 +393,6 @@ const WebNotice = () => {
     </Modal>
   </>;
 };
-
 
 const WebMain = props => {
   console.log("WebMain");
@@ -408,12 +410,13 @@ const WebMain = props => {
         components: {
           Table: {
             cellPaddingBlockSM: 4,
-            headerBorderRadius: 2
-          }
-        }
+            headerBorderRadius: 2,
+          },
+          Descriptions: {},
+        },
       }}
     >
-      <TabsTop />
+      <TabsTop/>
     </ConfigProvider>
   </GridContent>);
 };
