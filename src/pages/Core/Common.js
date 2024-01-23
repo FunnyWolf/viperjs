@@ -13,69 +13,48 @@ import {
 import moment from 'moment/moment'
 
 export const SidTag = sid => {
-  return (
-    <Tag
+  return (<Tag
       color="purple"
       style={{
-        width: 40,
-        marginRight: 0,
-        textAlign: 'center',
+        width: 40, marginRight: 0, textAlign: 'center',
       }}
     >
       <strong>{sid}</strong>
-    </Tag>
-  )
+  </Tag>)
 }
 
 export const host_type_to_avatar_table = {
-  ad_server: (
-    <Avatar
+  ad_server: (<Avatar
       size={22}
       shape="square"
       style={{ backgroundColor: '#177ddc', width: 80 }}
       icon={<WindowsOutlined/>}
-    />
-  ),
-  pc: (
-    <Avatar
+  />), pc: (<Avatar
       size={22}
       shape="square"
       style={{ backgroundColor: '#49aa19', width: 80 }}
       icon={<LaptopOutlined/>}
-    />
-  ),
-  web_server: (
-    <Avatar
+  />), web_server: (<Avatar
       size={22}
       shape="square"
       style={{ backgroundColor: '#13a8a8', width: 80 }}
       icon={<CloudOutlined/>}
-    />
-  ),
-  cms: (
-    <Avatar
+  />), cms: (<Avatar
       size={22}
       shape="square"
       style={{ backgroundColor: '#d84a1b', width: 80 }}
       icon={<BugOutlined/>}
-    />
-  ),
-  firewall: (
-    <Avatar
+  />), firewall: (<Avatar
       size={22}
       shape="square"
       style={{ backgroundColor: '#d87a16', width: 80 }}
       icon={<GatewayOutlined/>}
-    />
-  ),
-  other: (
-    <Avatar
+  />), other: (<Avatar
       size={22}
       shape="square"
       style={{ backgroundColor: '#bfbfbf', width: 80 }}
       icon={<QuestionOutlined/>}
-    />
-  ),
+  />),
 }
 
 //iconfont地址设置
@@ -86,8 +65,7 @@ export const MyIcon = createFromIconfontCN({
 export const randomstr = (length) => {
   let result = ''
   const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  for (let i = length; i > 0; --i) result += chars[Math.floor(
-    Math.random() * chars.length)]
+  for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)]
   return result
 }
 
@@ -95,42 +73,27 @@ export const DocIcon = ({ url }) => {
   return (<a target="_blank" href={url}>
       <QuestionCircleOutlined
         style={{
-          fontSize: 16,
-          bottom: 16,
-          right: 16,
-          position: 'fixed',
-          zIndex: 100,
+          fontSize: 16, bottom: 16, right: 16, position: 'fixed', zIndex: 100,
         }}/>
-    </a>
-  )
+  </a>)
 }
 
 export const DocIconInDiv = ({ url }) => {
   return (<a target="_blank" href={url}>
       <QuestionCircleOutlined
         style={{
-          fontSize: 16,
-          bottom: 16,
-          right: 16,
-          position: 'absolute',
-          zIndex: 100,
+          fontSize: 16, bottom: 16, right: 16, position: 'absolute', zIndex: 100,
         }}/>
-    </a>
-  )
+  </a>)
 }
 
 export const DocIconInDivSessionIO = ({ url }) => {
   return (<a target="_blank" href={url}>
       <QuestionCircleOutlined
         style={{
-          fontSize: 16,
-          bottom: 48,
-          right: 16,
-          position: 'absolute',
-          zIndex: 100,
+          fontSize: 16, bottom: 48, right: 16, position: 'absolute', zIndex: 100,
         }}/>
-    </a>
-  )
+  </a>)
 }
 
 export const TimeTag = (time) => {

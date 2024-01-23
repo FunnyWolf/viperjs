@@ -156,9 +156,7 @@ export const RunWebModule = props => {
 
   const waitListTableColumns = [
     {
-      title: "Domain",
-      dataIndex: "ipdomain",
-      render: (text, record) => (<strong
+      title: "Domain", dataIndex: "ipdomain", render: (text, record) => (<strong
         style={{
           color: "#13a8a8",
         }}
@@ -166,10 +164,7 @@ export const RunWebModule = props => {
         {text}
       </strong>),
     }, {
-      title: "IP",
-      dataIndex: "ip",
-      width: 128,
-      render: (text, record) => (<strong
+      title: "IP", dataIndex: "ip", width: 128, render: (text, record) => (<strong
         style={{
           color: "#13a8a8",
         }}
@@ -177,10 +172,7 @@ export const RunWebModule = props => {
         {text}
       </strong>),
     }, {
-      title: "Port",
-      dataIndex: "port",
-      width: 56,
-      render: (text, record) => (<strong
+      title: "Port", dataIndex: "port", width: 56, render: (text, record) => (<strong
         style={{
           color: "#7cb305",
         }}
@@ -188,10 +180,7 @@ export const RunWebModule = props => {
         {text}
       </strong>),
     }, {
-      title: "CDN",
-      dataIndex: "cdn",
-      width: 56,
-      render: (text, record) => {
+      title: "CDN", dataIndex: "cdn", width: 56, render: (text, record) => {
         if (record.cdn) {
           if (record.cdn.flag) {
             return (<Tag color="red">CDN</Tag>);
@@ -203,10 +192,7 @@ export const RunWebModule = props => {
       },
     }, {
       // show waf infomation
-      title: "WAF",
-      dataIndex: "waf",
-      width: 56,
-      render: (text, record) => {
+      title: "WAF", dataIndex: "waf", width: 56, render: (text, record) => {
         if (record.port_info) {
           if (record.port_info.waf) {
             if (record.port_info.waf.flag) {

@@ -37,11 +37,7 @@ const Msfconsole = props => {
   const socketUrlMsf = protocol + webHost + urlpatternsMsf + urlargs;
 
   const consolemonitor = () => {
-    if (
-      wsmsf.current !== undefined &&
-      wsmsf.current !== null &&
-      wsmsf.current.readyState === WebSocket.OPEN
-    ) {
+    if (wsmsf.current !== undefined && wsmsf.current !== null && wsmsf.current.readyState === WebSocket.OPEN) {
     } else {
       try {
         wsmsf.current.close();
@@ -89,9 +85,7 @@ const Msfconsole = props => {
     wsmsf.current.onopen = () => {
       if (msfConsoleTerm.current === null) {
         msfConsoleTerm.current = new Terminal({
-          allowTransparency: false,
-          useStyle: true,
-          cursorBlink: true,
+          allowTransparency: false, useStyle: true, cursorBlink: true,
         });
 
         msfConsoleTerm.current.attachCustomKeyEventHandler(e => {
@@ -136,15 +130,11 @@ const Msfconsole = props => {
       msfConsoleTerm.current.write(recv_message.data);
     };
   };
-  return (
-    <Fragment>
+  return (<Fragment>
       <DocIcon url="https://www.yuque.com/vipersec/help/tzugzn"/>
       <Space
         style={{
-          top: "calc(16vh + 184px)",
-          right: 8,
-          position: "fixed",
-          zIndex: 100,
+          top: "calc(16vh + 184px)", right: 8, position: "fixed", zIndex: 100,
         }}
         direction="vertical"
       >
@@ -167,15 +157,11 @@ const Msfconsole = props => {
       </Space>
       <div
         style={{
-          marginTop: -16,
-          padding: "0 0 0 4px",
-          maxHeight: cssCalc(resizeDownHeight),
-          minHeight: cssCalc(resizeDownHeight),
+          padding: "0 0 0 4px", maxHeight: cssCalc(resizeDownHeight), minHeight: cssCalc(resizeDownHeight),
         }}
         ref={terminalRef}
       />
-    </Fragment>
-  );
+  </Fragment>);
 };
 
 export const MsfconsoleMemo = memo(Msfconsole);
@@ -219,9 +205,7 @@ const MsfconsoleWindows = props => {
     wsmsf.current.onopen = () => {
       if (msfConsoleTerm.current === null) {
         msfConsoleTerm.current = new Terminal({
-          allowTransparency: false,
-          useStyle: true,
-          cursorBlink: true,
+          allowTransparency: false, useStyle: true, cursorBlink: true,
         });
 
         msfConsoleTerm.current.attachCustomKeyEventHandler(e => {
@@ -267,20 +251,15 @@ const MsfconsoleWindows = props => {
     };
   };
 
-  return (
-    <div
+  return (<div
       style={{
-        padding: "0 0 0 0",
-        height: "100%",
+        padding: "0 0 0 0", height: "100%",
       }}
       ref={terminalRef}
     >
       <Space
         style={{
-          top: "calc(8vh)",
-          right: 8,
-          position: "absolute",
-          zIndex: 100,
+          top: "calc(8vh)", right: 8, position: "absolute", zIndex: 100,
         }}
         direction="vertical"
       >
@@ -301,8 +280,7 @@ const MsfconsoleWindows = props => {
           onClick={() => resetBackendConsole()}
         />
       </Space>
-    </div>
-  );
+  </div>);
 };
 
 const MsfConsoleXTermMemo = memo(MsfconsoleWindows);

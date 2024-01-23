@@ -173,8 +173,7 @@ export const getModuleOptions = (postModuleConfigActive) => {
           initialValue={oneOption.default}
           rules={[
             {
-              required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
             }]}
         >
           <Input
@@ -191,8 +190,7 @@ export const getModuleOptions = (postModuleConfigActive) => {
           initialValue={oneOption.default}
           rules={[
             {
-              required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
             }]}
         >
           <TextArea
@@ -212,8 +210,7 @@ export const getModuleOptions = (postModuleConfigActive) => {
           initialValue={oneOption.default}
           rules={[
             {
-              required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
             }]}
         >
           <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
@@ -222,15 +219,13 @@ export const getModuleOptions = (postModuleConfigActive) => {
     } else if (oneOption.type === 'integer') {
       let rules = [
         {
-          required: oneOption.required,
-          message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+          required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
         }]
 
       if (oneOption.extra_data.min != null) {
         rules = [
           {
-            required: oneOption.required,
-            message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+            required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
           }, {
             validator: (rule, value, fn) => {
               if (value < oneOption.extra_data.min || value > oneOption.extra_data.max) {
@@ -264,8 +259,7 @@ export const getModuleOptions = (postModuleConfigActive) => {
           initialValue={oneOption.default}
           rules={[
             {
-              required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
             }]}
           wrapperCol={{ span: 24 }}
         >
@@ -292,8 +286,7 @@ export const getModuleOptions = (postModuleConfigActive) => {
           initialValue={oneOption.default}
           rules={[
             {
-              required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
             }]}
           wrapperCol={{ span: 24 }}
         >
@@ -316,8 +309,7 @@ export const getModuleOptions = (postModuleConfigActive) => {
           initialValue={oneOption.default}
           rules={[
             {
-              required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
             }]}
           wrapperCol={{ span: 24 }}
         >
@@ -479,9 +471,7 @@ export const RunModule = props => {
   console.log('RunModule')
   const { closeModel } = props
   const { hostAndSessionActive, postModuleOptions, moduleOptions } = useModel('HostAndSessionModel', model => ({
-    hostAndSessionActive: model.hostAndSessionActive,
-    postModuleOptions: model.postModuleOptions,
-    moduleOptions: model.moduleOptions,
+    hostAndSessionActive: model.hostAndSessionActive, postModuleOptions: model.postModuleOptions, moduleOptions: model.moduleOptions,
   }))
   const [text, setText] = useState('')
 
@@ -681,10 +671,7 @@ export const RunModule = props => {
           </Radio.Group>
           <Table
             style={{
-              padding: '0 0 0 0',
-              marginTop: 8,
-              maxHeight: cssCalc('80vh - 128px'),
-              minHeight: cssCalc('80vh - 128px'),
+              padding: '0 0 0 0', marginTop: 8, maxHeight: cssCalc('80vh - 128px'), minHeight: cssCalc('80vh - 128px'),
             }}
             scroll={{ y: 'calc(80vh - 128px)' }}
             // rowClassName={styles.moduleTr}
@@ -728,10 +715,7 @@ export const RunModule = props => {
             </div>
             <Form
               style={{
-                marginBottom: 16,
-                overflow: 'auto',
-                maxHeight: cssCalc('80vh - 88px'),
-                minHeight: cssCalc('80vh - 88px'),
+                marginBottom: 16, overflow: 'auto', maxHeight: cssCalc('80vh - 88px'), minHeight: cssCalc('80vh - 88px'),
               }}
               layout="vertical"
               wrapperCol={{ span: 24 }}
@@ -954,10 +938,7 @@ export const RunAutoModule = props => {
         </Radio.Group>
         <Table
           style={{
-            padding: '0 0 0 0',
-            marginTop: 8,
-            maxHeight: cssCalc('80vh - 128px'),
-            minHeight: cssCalc('80vh - 128px'),
+            padding: '0 0 0 0', marginTop: 8, maxHeight: cssCalc('80vh - 128px'), minHeight: cssCalc('80vh - 128px'),
           }}
           scroll={{ y: 'calc(80vh - 104px)' }}
           // rowClassName={styles.moduleTr}
@@ -984,10 +965,7 @@ export const RunAutoModule = props => {
         >
           <Form
             style={{
-              marginBottom: 16,
-              overflow: 'auto',
-              maxHeight: cssCalc('80vh - 88px'),
-              minHeight: cssCalc('80vh - 88px'),
+              marginBottom: 16, overflow: 'auto', maxHeight: cssCalc('80vh - 88px'), minHeight: cssCalc('80vh - 88px'),
             }}
             layout="vertical"
             wrapperCol={{ span: 24 }}
@@ -1263,10 +1241,7 @@ export const RunschedulerModule = props => {
         </Radio.Group>
         <Table
           style={{
-            padding: '0 0 0 0',
-            marginTop: 8,
-            maxHeight: cssCalc('80vh - 128px'),
-            minHeight: cssCalc('80vh - 128px'),
+            padding: '0 0 0 0', marginTop: 8, maxHeight: cssCalc('80vh - 128px'), minHeight: cssCalc('80vh - 128px'),
           }}
           scroll={{ y: 'calc(80vh - 104px)' }}
           // rowClassName={styles.moduleTr}
@@ -1293,10 +1268,7 @@ export const RunschedulerModule = props => {
         >
           <Form
             style={{
-              marginBottom: 16,
-              overflow: 'auto',
-              maxHeight: cssCalc('80vh - 88px'),
-              minHeight: cssCalc('80vh - 88px'),
+              marginBottom: 16, overflow: 'auto', maxHeight: cssCalc('80vh - 88px'), minHeight: cssCalc('80vh - 88px'),
             }}
             layout="vertical"
             wrapperCol={{ span: 24 }}
@@ -1382,10 +1354,7 @@ export const RunBotModule = props => {
 
   const onCreatePostModuleActuator = params => {
     createPostModuleActuatorReq.run({
-      moduletype: 'Bot',
-      ipportlist: selectedRows,
-      loadpath: botModuleConfigActive.loadpath,
-      custom_param: JSON.stringify(params),
+      moduletype: 'Bot', ipportlist: selectedRows, loadpath: botModuleConfigActive.loadpath, custom_param: JSON.stringify(params),
     })
   }
 
@@ -1767,11 +1736,7 @@ export const RunBotModule = props => {
                 rowSelection={rowSelection}
                 columns={[
                   {
-                    title: 'IP',
-                    dataIndex: 'ip',
-                    key: 'ip',
-                    width: 120,
-                    render: (text, record) => (<strong
+                    title: 'IP', dataIndex: 'ip', key: 'ip', width: 120, render: (text, record) => (<strong
                       style={{
                         color: '#13a8a8',
                       }}
@@ -1779,19 +1744,11 @@ export const RunBotModule = props => {
                       {text}
                     </strong>),
                   }, {
-                    title: formatText('app.runmodule.botmodule.port'),
-                    dataIndex: 'port',
-                    key: 'port',
-                    width: 56,
-                    render: (text, record) => {
+                    title: formatText('app.runmodule.botmodule.port'), dataIndex: 'port', key: 'port', width: 56, render: (text, record) => {
                       return text
                     },
                   }, {
-                    title: formatText('app.runmodule.botmodule.protocol'),
-                    dataIndex: 'protocol',
-                    key: 'protocol',
-                    width: 80,
-                    render: (text, record) => {
+                    title: formatText('app.runmodule.botmodule.protocol'), dataIndex: 'protocol', key: 'protocol', width: 80, render: (text, record) => {
                       return text
                     },
                   }, {
@@ -1851,7 +1808,7 @@ export const BotScan = () => {
   const [runBotModuleModalVisable, setRunBotModuleModalVisable] = useState(false)
   return (<Fragment>
     <DocIcon url="https://www.yuque.com/vipersec/help/yrys61"/>
-    <Row style={{ marginTop: -16 }} gutter={0}>
+    <Row gutter={0}>
       <Col span={24}>
         <Button
           block
@@ -1926,11 +1883,7 @@ const RealTimeBotWaitList = () => {
       width: 136,
       render: (text, record) => <Tag color="cyan">{moment(record.time * 1000).format('YYYY-MM-DD HH:mm')}</Tag>,
     }, {
-      title: formatText('app.runmodule.botmodule.module'),
-      dataIndex: 'moduleinfo',
-      key: 'moduleinfo',
-      width: 240,
-      render: (text, record) => (<Popover
+      title: formatText('app.runmodule.botmodule.module'), dataIndex: 'moduleinfo', key: 'moduleinfo', width: 240, render: (text, record) => (<Popover
         placement="right"
         content={<ModuleInfoMemo postModuleConfig={record.moduleinfo}/>}
         trigger="click"
@@ -1938,11 +1891,7 @@ const RealTimeBotWaitList = () => {
         <a>{getModuleName(record.moduleinfo)}</a>
       </Popover>),
     }, {
-      title: formatText('app.runmodule.botmodule.ip_list.count'),
-      dataIndex: 'ip_list',
-      key: 'ip_list',
-      width: 120,
-      render: (text, record) => {
+      title: formatText('app.runmodule.botmodule.ip_list.count'), dataIndex: 'ip_list', key: 'ip_list', width: 120, render: (text, record) => {
         return (<strong
           style={{
             color: '#13a8a8',
@@ -1952,11 +1901,7 @@ const RealTimeBotWaitList = () => {
         </strong>)
       },
     }, {
-      title: formatText('app.runmodule.botmodule.ip_list'),
-      dataIndex: 'ip_list',
-      key: 'ip_list',
-      width: 96,
-      render: (text, record) => {
+      title: formatText('app.runmodule.botmodule.ip_list'), dataIndex: 'ip_list', key: 'ip_list', width: 96, render: (text, record) => {
         return (<Popover
           placement="right"
           content={<List
@@ -1974,10 +1919,7 @@ const RealTimeBotWaitList = () => {
         </Popover>)
       },
     }, {
-      title: formatText('app.runmodule.botmodule.param'),
-      dataIndex: 'moduleinfo',
-      key: 'moduleinfo',
-      render: (text, record) => {
+      title: formatText('app.runmodule.botmodule.param'), dataIndex: 'moduleinfo', key: 'moduleinfo', render: (text, record) => {
         return (<Popover
           placement="top"
           content={taskDetail(record.moduleinfo._custom_param)}
@@ -1987,19 +1929,14 @@ const RealTimeBotWaitList = () => {
         </Popover>)
       },
     }, {
-      dataIndex: 'operation',
-      width: 48,
-      render: (text, record) => (<a style={{ color: 'red' }} onClick={() => onDestoryBotWait(record)}>
+      dataIndex: 'operation', width: 48, render: (text, record) => (<a style={{ color: 'red' }} onClick={() => onDestoryBotWait(record)}>
         {formatText('app.core.delete')}
       </a>),
     }]
 
   return (<Table
     style={{
-      marginTop: 0,
-      overflow: 'auto',
-      maxHeight: cssCalc(`${resizeDownHeight} - 32px`),
-      minHeight: cssCalc(`${resizeDownHeight} - 32px`),
+      marginTop: 0, overflow: 'auto', maxHeight: cssCalc(`${resizeDownHeight} - 32px`), minHeight: cssCalc(`${resizeDownHeight} - 32px`),
     }}
     size="small"
     rowKey="uuid"
@@ -2067,8 +2004,7 @@ export const PostModule = props => {
           name={oneOption.name}
           rules={[
             {
-              required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
             }]}
         >
           <Input
@@ -2085,8 +2021,7 @@ export const PostModule = props => {
           valuePropName="checked"
           rules={[
             {
-              required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
             }]}
         >
           <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
@@ -2100,8 +2035,7 @@ export const PostModule = props => {
           name={oneOption.name}
           rules={[
             {
-              required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
             }]}
           wrapperCol={{ span: 24 }}
         >
@@ -2119,8 +2053,7 @@ export const PostModule = props => {
           name={oneOption.name}
           rules={[
             {
-              required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
             }]}
           wrapperCol={{ span: 24 }}
         >
@@ -2146,8 +2079,7 @@ export const PostModule = props => {
           name={oneOption.name}
           rules={[
             {
-              required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
             }]}
           wrapperCol={{ span: 24 }}
         >
@@ -2168,8 +2100,7 @@ export const PostModule = props => {
           name={oneOption.name}
           rules={[
             {
-              required: oneOption.required,
-              message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+              required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
             }]}
           wrapperCol={{ span: 24 }}
         >
@@ -2388,10 +2319,10 @@ const AutoRobot = () => {
     },
   })
 
-  return (<Tabs style={{ marginTop: -16 }} type="card" defaultActiveKey="system_info">
+  return (<Tabs type="card" defaultActiveKey="system_info">
     <TabPane tab={formatText('app.runmodule.autoconf.auto')} key="auto">
       <DocIcon url="https://www.yuque.com/vipersec/help/gh60e1"/>
-      <Row gutter={0} style={{ marginTop: -16 }}>
+      <Row gutter={0}>
         <Col span={12}>
           <Button
             block
@@ -2417,10 +2348,7 @@ const AutoRobot = () => {
           </Card>
           <Table
             style={{
-              padding: '0 0 0 0',
-              overflow: 'auto',
-              maxHeight: cssCalc(`${resizeDownHeight} - 108px`),
-              minHeight: cssCalc(`${resizeDownHeight} - 108px`),
+              padding: '0 0 0 0', overflow: 'auto', maxHeight: cssCalc(`${resizeDownHeight} - 108px`), minHeight: cssCalc(`${resizeDownHeight} - 108px`),
             }}
             size="small"
             rowKey="job_id"
@@ -2429,11 +2357,7 @@ const AutoRobot = () => {
             bordered
             columns={[
               {
-                title: formatText('app.runmodule.botmodule.module'),
-                dataIndex: 'moduleinfo',
-                key: 'moduleinfo',
-                width: 240,
-                render: (text, record) => (<Popover
+                title: formatText('app.runmodule.botmodule.module'), dataIndex: 'moduleinfo', key: 'moduleinfo', width: 240, render: (text, record) => (<Popover
                   placement="right"
                   content={PostModuleInfoContent(record.moduleinfo)}
                   trigger="click"
@@ -2441,16 +2365,11 @@ const AutoRobot = () => {
                   <a>{getModuleName(record.moduleinfo)}</a>
                 </Popover>),
               }, {
-                title: formatText('app.runmodule.autorobot.params'),
-                dataIndex: 'opts',
-                key: 'opts',
-                render: (text, record) => {
+                title: formatText('app.runmodule.autorobot.params'), dataIndex: 'opts', key: 'opts', render: (text, record) => {
                   return postModuleOpts(record.opts)
                 },
               }, {
-                dataIndex: 'operation',
-                width: 56,
-                render: (text, record) => (<div style={{ textAlign: 'center' }}>
+                dataIndex: 'operation', width: 56, render: (text, record) => (<div style={{ textAlign: 'center' }}>
                   <a
                     style={{ color: 'red' }}
                     onClick={() => destoryPostModuleAutoReq.run({
@@ -2484,7 +2403,7 @@ const AutoRobot = () => {
     </TabPane>
     <TabPane tab={formatText('app.runmodule.autoconf.scheduler')} key="scheduler">
       <DocIcon url="https://www.yuque.com/vipersec/help/gh60e1"/>
-      <Row gutter={0} style={{ marginTop: -16 }}>
+      <Row gutter={0}>
         <Col span={12}>
           <Button
             block
@@ -2507,10 +2426,7 @@ const AutoRobot = () => {
         <Col span={24}>
           <Table
             style={{
-              padding: '0 0 0 0',
-              overflow: 'auto',
-              maxHeight: cssCalc(`${resizeDownHeight} - 72px`),
-              minHeight: cssCalc(`${resizeDownHeight} - 72px`),
+              padding: '0 0 0 0', overflow: 'auto', maxHeight: cssCalc(`${resizeDownHeight} - 72px`), minHeight: cssCalc(`${resizeDownHeight} - 72px`),
             }}
             size="small"
             rowKey="job_id"
@@ -2547,10 +2463,7 @@ const AutoRobot = () => {
                   <a>{getModuleName(record.moduleinfo)}</a>
                 </Popover>),
               }, {
-                title: formatText('app.runmodule.autorobot.params'),
-                dataIndex: 'opts',
-                key: 'opts',
-                render: (text, record) => {
+                title: formatText('app.runmodule.autorobot.params'), dataIndex: 'opts', key: 'opts', render: (text, record) => {
                   return postModuleOpts(record.opts)
                 },
               }, {
@@ -2569,11 +2482,7 @@ const AutoRobot = () => {
 
                 },
               }, {
-                title: formatText('app.runmodule.autoconf.scheduler.interval'),
-                dataIndex: 'interval',
-                key: 'interval',
-                width: 80,
-                render: (text, record) => {
+                title: formatText('app.runmodule.autoconf.scheduler.interval'), dataIndex: 'interval', key: 'interval', width: 80, render: (text, record) => {
                   return <Tag
                     color="green">{moment.duration(record.interval, 'seconds').humanize()}</Tag>
 
@@ -2829,10 +2738,7 @@ export const ProxyHttpScanModule = props => {
         />
         <Table
           style={{
-            padding: '0 0 0 0',
-            marginTop: 8,
-            maxHeight: cssCalc('80vh - 128px'),
-            minHeight: cssCalc('80vh - 128px'),
+            padding: '0 0 0 0', marginTop: 8, maxHeight: cssCalc('80vh - 128px'), minHeight: cssCalc('80vh - 128px'),
           }}
           scroll={{ y: 'calc(80vh - 104px)' }}
           // rowClassName={styles.moduleTr}
@@ -2859,10 +2765,7 @@ export const ProxyHttpScanModule = props => {
         >
           <Form
             style={{
-              marginBottom: 16,
-              overflow: 'auto',
-              maxHeight: cssCalc('80vh - 88px'),
-              minHeight: cssCalc('80vh - 88px'),
+              marginBottom: 16, overflow: 'auto', maxHeight: cssCalc('80vh - 88px'), minHeight: cssCalc('80vh - 88px'),
             }}
             layout="vertical"
             wrapperCol={{ span: 24 }}
@@ -2940,7 +2843,7 @@ const ProxyHttpScan = () => {
 
   return (<Fragment>
     <DocIcon url="https://www.yuque.com/vipersec/help/bg1zvcdmg5f6q71e"/>
-    <Row gutter={0} style={{ marginTop: -16 }}>
+    <Row gutter={0}>
       <Col span={12}>
         <Button
           block
@@ -2963,10 +2866,7 @@ const ProxyHttpScan = () => {
       <Col span={20}>
         <Table
           style={{
-            padding: '0 0 0 0',
-            overflow: 'auto',
-            maxHeight: cssCalc(`${resizeDownHeight} - 108px`),
-            minHeight: cssCalc(`${resizeDownHeight} - 108px`),
+            padding: '0 0 0 0', overflow: 'auto', maxHeight: cssCalc(`${resizeDownHeight} - 108px`), minHeight: cssCalc(`${resizeDownHeight} - 108px`),
           }}
           size="small"
           rowKey="job_id"
@@ -2975,11 +2875,7 @@ const ProxyHttpScan = () => {
           bordered
           columns={[
             {
-              title: formatText('app.runmodule.botmodule.module'),
-              dataIndex: 'moduleinfo',
-              key: 'moduleinfo',
-              width: 240,
-              render: (text, record) => (<Popover
+              title: formatText('app.runmodule.botmodule.module'), dataIndex: 'moduleinfo', key: 'moduleinfo', width: 240, render: (text, record) => (<Popover
                 placement="right"
                 content={PostModuleInfoContent(record.moduleinfo)}
                 trigger="click"
@@ -2987,16 +2883,11 @@ const ProxyHttpScan = () => {
                 <a>{getModuleName(record.moduleinfo)}</a>
               </Popover>),
             }, {
-              title: formatText('app.runmodule.autorobot.params'),
-              dataIndex: 'opts',
-              key: 'opts',
-              render: (text, record) => {
+              title: formatText('app.runmodule.autorobot.params'), dataIndex: 'opts', key: 'opts', render: (text, record) => {
                 return postModuleOpts(record.opts)
               },
             }, {
-              dataIndex: 'operation',
-              width: 56,
-              render: (text, record) => (<div style={{ textAlign: 'center' }}>
+              dataIndex: 'operation', width: 56, render: (text, record) => (<div style={{ textAlign: 'center' }}>
                 <a
                   style={{ color: 'red' }}
                   onClick={() => destoryProxyHttpScanReq.run({ _module_uuid: record._module_uuid })}

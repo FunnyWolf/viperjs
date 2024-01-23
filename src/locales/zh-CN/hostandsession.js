@@ -180,7 +180,7 @@ export default {
   'app.hostandsession.updatehost.comment.rule': '备注最长支持二十个字符',
 
   'app.webmain.tab.ipdomain': '网络资产',
-  'app.webmain.tab.webscan': '资产扫描',
+  'app.webmain.tab.webscan': '扫描管理',
   'app.webmain.tab.company': '公司信息',
   'app.webmain.tab.webscan.portscan': '端口扫描',
 }

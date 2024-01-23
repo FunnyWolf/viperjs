@@ -16,20 +16,16 @@ const { Option } = Select;
 const CreateWebDeliveryModalContent = props => {
   const { createWebDeliveryFinish } = props;
   const formLayoutLong = {
-    labelCol: { span: 6 },
-    wrapperCol: { span: 18 },
+    labelCol: { span: 6 }, wrapperCol: { span: 18 },
   };
   const formLayoutShort = {
-    labelCol: { span: 6 },
-    wrapperCol: { span: 10 },
+    labelCol: { span: 6 }, wrapperCol: { span: 10 },
   };
   const formLayoutVeryShort = {
-    labelCol: { span: 6 },
-    wrapperCol: { span: 6 },
+    labelCol: { span: 6 }, wrapperCol: { span: 6 },
   };
   const formLayout = {
-    labelCol: { span: 6 },
-    wrapperCol: { span: 14 },
+    labelCol: { span: 6 }, wrapperCol: { span: 14 },
   };
   const buttonLayout = {
     wrapperCol: { offset: 5, span: 14 },
@@ -49,25 +45,21 @@ const CreateWebDeliveryModalContent = props => {
         setLhost(result.lhost);
       }
       setPemfiles(result.pem_files);
-    },
-    onError: (error, params) => {
+    }, onError: (error, params) => {
     },
   });
 
   useRequest(() => getCoreSettingAPI({ kind: "handlerconf" }), {
     onSuccess: (result, params) => {
       setHandlerConf(result);
-    },
-    onError: (error, params) => {
+    }, onError: (error, params) => {
     },
   });
 
   const createWebDeliveryReq = useRequest(postMsgrpcWebDeliveryAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
+    manual: true, onSuccess: (result, params) => {
       createWebDeliveryFinish();
-    },
-    onError: (error, params) => {
+    }, onError: (error, params) => {
     },
   });
 
@@ -89,74 +81,59 @@ const CreateWebDeliveryModalContent = props => {
     if (selectPayload === null || selectPayload === undefined) {
       return null;
     }
-    options.push(
-      <Form.Item
-        {...formLayout}
-        initialValue={lhost}
-        label="URIHOST"
-        name="URIHOST"
-        rules={[
-          {
-            required: true,
-            message: formatText("app.webdelivery.URIHOST.rule"),
-          },
-        ]}
-      >
-        <Input placeholder={formatText("app.webdelivery.URIHOST.rule")}/>
-      </Form.Item>,
-    );
-    options.push(
-      <Form.Item
-        {...formLayout}
-        label="URIPORT"
-        name="URIPORT"
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      >
-        <InputNumber style={{ width: 160 }}/>
-      </Form.Item>,
-    );
+    options.push(<Form.Item
+      {...formLayout}
+      initialValue={lhost}
+      label="URIHOST"
+      name="URIHOST"
+      rules={[
+        {
+          required: true, message: formatText("app.webdelivery.URIHOST.rule"),
+        }]}
+    >
+      <Input placeholder={formatText("app.webdelivery.URIHOST.rule")}/>
+    </Form.Item>);
+    options.push(<Form.Item
+      {...formLayout}
+      label="URIPORT"
+      name="URIPORT"
+      rules={[
+        {
+          required: true,
+        }]}
+    >
+      <InputNumber style={{ width: 160 }}/>
+    </Form.Item>);
 
-    options.push(
-      <Form.Item
-        {...formLayout}
-        label="SSL"
-        name="SSL"
-        valuePropName="checked"
-        rules={[]}
-      >
-        <Checkbox/>
-      </Form.Item>,
-    );
-    options.push(
-      <Form.Item
-        {...formLayoutShort}
-        label={formatText("app.webdelivery.SSLCert")}
-        tooltip={formatText("app.webdelivery.SSLCert.tip")}
-        name="SSLCert"
-        initialValue={pem_files.length > 0 ? `/root/.msf4/loot/${pem_files[0]}` : null}
-      >
-        <Select placeholder={formatText("app.webdelivery.SSLCert.rule")} allowClear>
-          {pem_files.map((encoder, i) => (
-            <Option value={`/root/.msf4/loot/${encoder}`}>{encoder}</Option>
-          ))}
-        </Select>
-      </Form.Item>,
-    );
-    options.push(
-      <Form.Item
-        {...formLayoutShort}
-        label="URIPATH"
-        tooltip={formatText("app.webdelivery.URIPATH.tip")}
-        initialValue={randomstr(8)}
-        name="URIPATH"
-      >
-        <Input placeholder={formatText("app.webdelivery.URIPATH.rule")}/>
-      </Form.Item>,
-    );
+    options.push(<Form.Item
+      {...formLayout}
+      label="SSL"
+      name="SSL"
+      valuePropName="checked"
+      rules={[]}
+    >
+      <Checkbox/>
+    </Form.Item>);
+    options.push(<Form.Item
+      {...formLayoutShort}
+      label={formatText("app.webdelivery.SSLCert")}
+      tooltip={formatText("app.webdelivery.SSLCert.tip")}
+      name="SSLCert"
+      initialValue={pem_files.length > 0 ? `/root/.msf4/loot/${pem_files[0]}` : null}
+    >
+      <Select placeholder={formatText("app.webdelivery.SSLCert.rule")} allowClear>
+        {pem_files.map((encoder, i) => (<Option value={`/root/.msf4/loot/${encoder}`}>{encoder}</Option>))}
+      </Select>
+    </Form.Item>);
+    options.push(<Form.Item
+      {...formLayoutShort}
+      label="URIPATH"
+      tooltip={formatText("app.webdelivery.URIPATH.tip")}
+      initialValue={randomstr(8)}
+      name="URIPATH"
+    >
+      <Input placeholder={formatText("app.webdelivery.URIPATH.rule")}/>
+    </Form.Item>);
 
     if (options.length === 0) {
       return null;
@@ -171,18 +148,16 @@ const CreateWebDeliveryModalContent = props => {
       return null;
     }
     if (selectTarget === 2) {
-      options.push(
-        <Form.Item
-          {...formLayout}
-          label="AMSI/SBL bypass"
-          name="Powershell::prepend_protections_bypass"
-          valuePropName="checked"
-          initialValue={true}
-          rules={[]}
-        >
-          <Checkbox/>
-        </Form.Item>,
-      );
+      options.push(<Form.Item
+        {...formLayout}
+        label="AMSI/SBL bypass"
+        name="Powershell::prepend_protections_bypass"
+        valuePropName="checked"
+        initialValue={true}
+        rules={[]}
+      >
+        <Checkbox/>
+      </Form.Item>);
     }
 
     if (options.length === 0) {
@@ -191,18 +166,15 @@ const CreateWebDeliveryModalContent = props => {
       return options;
     }
   };
-  return (
-    <Form onFinish={onCreateWebDeliveryBySubmit}>
+  return (<Form onFinish={onCreateWebDeliveryBySubmit}>
       <Collapse bordered={false} defaultActiveKey={["payload", "web"]}>
         <Panel header={formatText("app.webdelivery.payload")} key="payload">
           <Form.Item
             {...formLayoutVeryShort}
             rules={[
               {
-                required: true,
-                message: formatText("app.webdelivery.target.rule"),
-              },
-            ]}
+                required: true, message: formatText("app.webdelivery.target.rule"),
+              }]}
             label="Target"
             tooltip={formatText("app.webdelivery.target.tip")}
             name="TARGET"
@@ -226,10 +198,8 @@ const CreateWebDeliveryModalContent = props => {
             {...formLayoutLong}
             rules={[
               {
-                required: true,
-                message: formatText("app.webdelivery.handlerconf.rule"),
-              },
-            ]}
+                required: true, message: formatText("app.webdelivery.handlerconf.rule"),
+              }]}
             label={<span>{formatText("app.webdelivery.handlerconf")}</span>}
             name="handlerconf"
           >
@@ -237,9 +207,7 @@ const CreateWebDeliveryModalContent = props => {
               placeholder={formatText("app.webdelivery.handlerconf.rule")}
               onChange={changePayloadOption}
               allowClear>
-              {handlerConf.map((handler, i) => (
-                <Option value={handler.value}>{getOptionTag(handler)}</Option>
-              ))}
+              {handlerConf.map((handler, i) => (<Option value={handler.value}>{getOptionTag(handler)}</Option>))}
             </Select>
           </Form.Item>
         </Panel>
@@ -261,8 +229,7 @@ const CreateWebDeliveryModalContent = props => {
           {formatText("app.webdelivery.submit")}
         </Button>
       </Form.Item>
-    </Form>
-  );
+  </Form>);
 };
 
 const showDeliveryDetail = item => {
@@ -279,21 +246,14 @@ const showDeliveryDetail = item => {
     Descriptions_Items.push(<Descriptions.Item label={key}>{showstr}</Descriptions.Item>);
   }
   Modal.info({
-    mask: false,
-    style: { top: 20 },
-    width: "70%",
-    icon: "",
-    content: (
-      <Descriptions
+    mask: false, style: { top: 20 }, width: "70%", icon: "", content: (<Descriptions
         style={{ marginTop: -32, marginRight: -24, marginLeft: -24, marginBottom: -16 }}
         bordered
         size="small"
         column={1}
       >
         {Descriptions_Items}
-      </Descriptions>
-    ),
-    onOk () {
+    </Descriptions>), onOk () {
     },
   });
 };
@@ -319,35 +279,28 @@ const WebDelivery = (props) => {
   useRequest(getMsgrpcWebDeliveryAPI, {
     onSuccess: (result, params) => {
       setWebDeliveryList(result);
-    },
-    onError: (error, params) => {
+    }, onError: (error, params) => {
     },
   });
 
   const listWebDeliveryReq = useRequest(getMsgrpcWebDeliveryAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
+    manual: true, onSuccess: (result, params) => {
       setWebDeliveryList(result);
-    },
-    onError: (error, params) => {
+    }, onError: (error, params) => {
     },
   });
 
   const createWebDeliveryReq = useRequest(postMsgrpcWebDeliveryAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
+    manual: true, onSuccess: (result, params) => {
       listWebDeliveryReq.run();
-    },
-    onError: (error, params) => {
+    }, onError: (error, params) => {
     },
   });
 
   const destoryWebDeliveryReq = useRequest(deleteMsgrpcWebDeliveryAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
+    manual: true, onSuccess: (result, params) => {
       listWebDeliveryReq.run();
-    },
-    onError: (error, params) => {
+    }, onError: (error, params) => {
     },
   });
 
@@ -356,10 +309,9 @@ const WebDelivery = (props) => {
     listWebDeliveryReq.run();
   };
 
-  return (
-    <Fragment>
+  return (<Fragment>
       <DocIcon url="https://www.yuque.com/vipersec/help/kvxr65"/>
-      <Row style={{ marginTop: -16 }} gutter={0}>
+    <Row gutter={0}>
         <Col span={12}>
           <Button
             block
@@ -395,32 +347,13 @@ const WebDelivery = (props) => {
         dataSource={webDeliveryList}
         columns={[
           {
-            title: "URL",
-            dataIndex: "URL",
-            key: "URL",
-            width: 320,
-            render: (text, record) => record.URL,
-          },
-          {
-            title: "Target",
-            dataIndex: "Target-Name",
-            key: "Target-Name",
-            width: 120,
-            render: (text, record) => record["Target-Name"],
-          },
-          {
-            title: formatText("app.webdelivery.payload.label"),
-            dataIndex: "PAYLOAD",
-            key: "PAYLOAD",
-            width: 280,
-            render: (text, record) => record.PAYLOAD,
-          },
-          {
-            title: "LHOST/RHOST",
-            dataIndex: "PAYLOAD",
-            key: "PAYLOAD",
-            width: 160,
-            render: (text, record) => {
+            title: "URL", dataIndex: "URL", key: "URL", width: 320, render: (text, record) => record.URL,
+          }, {
+            title: "Target", dataIndex: "Target-Name", key: "Target-Name", width: 120, render: (text, record) => record["Target-Name"],
+          }, {
+            title: formatText("app.webdelivery.payload.label"), dataIndex: "PAYLOAD", key: "PAYLOAD", width: 280, render: (text, record) => record.PAYLOAD,
+          }, {
+            title: "LHOST/RHOST", dataIndex: "PAYLOAD", key: "PAYLOAD", width: 160, render: (text, record) => {
               if (record.RHOST !== undefined && record.RHOST !== null) {
                 return <span>{record.RHOST}</span>;
               }
@@ -429,19 +362,10 @@ const WebDelivery = (props) => {
               }
               return null;
             },
-          },
-          {
-            title: "PORT",
-            dataIndex: "LPORT",
-            key: "LPORT",
-            width: 64,
-            render: (text, record) => <span>{record.LPORT}</span>,
-          },
-          {
-            title: formatText("app.webdelivery.payload"),
-            dataIndex: "PAYLOAD",
-            key: "PAYLOAD",
-            render: (text, record) => {
+          }, {
+            title: "PORT", dataIndex: "LPORT", key: "LPORT", width: 64, render: (text, record) => <span>{record.LPORT}</span>,
+          }, {
+            title: formatText("app.webdelivery.payload"), dataIndex: "PAYLOAD", key: "PAYLOAD", render: (text, record) => {
               const items = [];
 
               if (record.LURI !== undefined && record.LURI !== null) {
@@ -449,17 +373,14 @@ const WebDelivery = (props) => {
               }
               if (record.HandlerSSLCert !== undefined && record.HandlerSSLCert !== null) {
                 const pos = record.HandlerSSLCert.lastIndexOf("/");
-                items.push(
-                  <span>{` ${formatText("app.payloadandhandler.pemfile")}: ${record.HandlerSSLCert.substr(pos + 1)}`}</span>);
+                items.push(<span>{` ${formatText("app.payloadandhandler.pemfile")}: ${record.HandlerSSLCert.substr(pos + 1)}`}</span>);
               }
 
               if (record.RC4PASSWORD !== undefined && record.RC4PASSWORD !== null) {
-                items.push(
-                  <span>{` ${formatText("app.payloadandhandler.rc4password")}: ${record.RC4PASSWORD}`}</span>);
+                items.push(<span>{` ${formatText("app.payloadandhandler.rc4password")}: ${record.RC4PASSWORD}`}</span>);
               }
               if (record.proxies !== undefined && record.proxies !== null) {
-                items.push(
-                  <span>{` ${formatText("app.payloadandhandler.proxy")}: ${record.proxies}`}</span>);
+                items.push(<span>{` ${formatText("app.payloadandhandler.proxy")}: ${record.proxies}`}</span>);
               }
 
               if (record.DOMAIN !== undefined && record.DOMAIN !== null) {
@@ -473,23 +394,17 @@ const WebDelivery = (props) => {
               }
               return <Space style={{ display: "flex" }}>{items}</Space>;
             },
-          },
-          {
-            dataIndex: "operation",
-            width: 216,
-            render: (text, record) => {
-              return (
-                <div style={{ textAlign: "center" }}>
+          }, {
+            dataIndex: "operation", width: 216, render: (text, record) => {
+              return (<div style={{ textAlign: "center" }}>
                   <Space size="middle">
                     <Popover placement="left" title={text} trigger="click"
-                             content={
-                               <Card
-                                 style={{ width: "50vw" }}
-                               >
-                                 <Typography.Text
-                                   copyable
-                                 >{record["ONE-LINE-CMD"]}</Typography.Text></Card>
-                             }
+                             content={<Card
+                               style={{ width: "50vw" }}
+                             >
+                               <Typography.Text
+                                 copyable
+                               >{record["ONE-LINE-CMD"]}</Typography.Text></Card>}
                     >
                       <a style={{ color: "#faad14" }}>{formatText("app.webdelivery.onelinecmd")}</a>
                     </Popover>
@@ -499,11 +414,9 @@ const WebDelivery = (props) => {
                       style={{ color: "red" }}
                     >{formatText("app.core.delete")}</a>
                   </Space>
-                </div>
-              );
+              </div>);
             },
-          },
-        ]}
+          }]}
       />
       <Modal
         style={{ top: 20 }}
@@ -516,8 +429,7 @@ const WebDelivery = (props) => {
       >
         <CreateWebDeliveryModalContent createWebDeliveryFinish={createWebDeliveryFinish}/>
       </Modal>
-    </Fragment>
-  );
+  </Fragment>);
 };
 export const WebDeliveryMemo = memo(WebDelivery);
 export default WebDelivery;

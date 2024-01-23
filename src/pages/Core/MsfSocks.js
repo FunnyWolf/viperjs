@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { Fragment, memo, useState } from "react";
 import {
   BugOutlined,
   CloudOutlined,
@@ -217,10 +217,7 @@ const MsfSocks = () => {
   const expandedRowRender = record => {
     const portsColumns = [
       {
-        title: formatText("app.msfsocks.ports.port"),
-        dataIndex: "port",
-        width: 80,
-        render: (val, record) => <span>{val}</span>,
+        title: formatText("app.msfsocks.ports.port"), dataIndex: "port", width: 80, render: (val, record) => <span>{val}</span>,
       }, {
         title: formatText("app.msfsocks.ports.service"), dataIndex: "service",
       }, {
@@ -270,9 +267,7 @@ const MsfSocks = () => {
     other: (<Avatar shape="square" style={{ backgroundColor: "#bfbfbf" }} icon={<QuestionOutlined/>}/>),
   };
 
-  return (<div
-    style={{ marginTop: -16 }}
-  >
+  return (<Fragment>
     <DocIcon url="https://www.yuque.com/vipersec/help/cv0shx"/>
     <Row>
       <Col span={10}>
@@ -307,10 +302,7 @@ const MsfSocks = () => {
         </Row>
         <Table
           style={{
-            marginTop: 0,
-            overflow: "auto",
-            maxHeight: cssCalc(`${resizeDownHeight} - 68px`),
-            minHeight: cssCalc(`${resizeDownHeight} - 68px`),
+            marginTop: 0, overflow: "auto", maxHeight: cssCalc(`${resizeDownHeight} - 68px`), minHeight: cssCalc(`${resizeDownHeight} - 68px`),
           }}
           size="small"
           bordered
@@ -322,11 +314,7 @@ const MsfSocks = () => {
           rowSelection={rowSelection}
           columns={[
             {
-              title: formatText("app.msfsocks.ports.host"),
-              dataIndex: "ipaddress",
-              key: "ipaddress",
-              width: 120,
-              render: (text, record) => (<strong
+              title: formatText("app.msfsocks.ports.host"), dataIndex: "ipaddress", key: "ipaddress", width: 120, render: (text, record) => (<strong
                 style={{
                   color: "#d8bd14",
                 }}
@@ -349,11 +337,7 @@ const MsfSocks = () => {
                 </strong>);
               },
             }, {
-              title: formatText("app.msfsocks.ports.route"),
-              dataIndex: "route",
-              key: "route",
-              width: 120,
-              render: (text, record) => {
+              title: formatText("app.msfsocks.ports.route"), dataIndex: "route", key: "route", width: 120, render: (text, record) => {
                 let routepath = null;
                 if (record.route === null || record.route === undefined || Object.keys(record.route).length === 0) {
                   routepath = <span style={{ color: "orange" }}>{formatText("app.msfsocks.ports.tag.direct")}</span>;
@@ -403,9 +387,7 @@ const MsfSocks = () => {
             <Table
               bordered
               style={{
-                overflow: "auto",
-                maxHeight: cssCalc(`${resizeDownHeight} - 68px - 25vh`),
-                minHeight: cssCalc(`${resizeDownHeight} - 68px - 25vh`),
+                overflow: "auto", maxHeight: cssCalc(`${resizeDownHeight} - 68px - 25vh`), minHeight: cssCalc(`${resizeDownHeight} - 68px - 25vh`),
               }}
               size="small"
               rowKey="subnet"
@@ -443,9 +425,7 @@ const MsfSocks = () => {
             <Table
               bordered
               style={{
-                overflow: "auto",
-                maxHeight: cssCalc(`${resizeDownHeight} - 68px - 25vh`),
-                minHeight: cssCalc(`${resizeDownHeight} - 68px - 25vh`),
+                overflow: "auto", maxHeight: cssCalc(`${resizeDownHeight} - 68px - 25vh`), minHeight: cssCalc(`${resizeDownHeight} - 68px - 25vh`),
               }}
               size="small"
               rowKey="port"
@@ -457,9 +437,7 @@ const MsfSocks = () => {
                 }, {
                   title: formatText("app.msfsocks.socks.port"), dataIndex: "port", key: "port",
                 }, {
-                  dataIndex: "operation",
-                  width: 64,
-                  render: (text, record) => (<a style={{ color: "red" }} onClick={() => destorySocksReq.run(record)}>
+                  dataIndex: "operation", width: 64, render: (text, record) => (<a style={{ color: "red" }} onClick={() => destorySocksReq.run(record)}>
                     {formatText("app.core.delete")}
                   </a>),
                 }]}
@@ -468,10 +446,7 @@ const MsfSocks = () => {
         </Row>
         <Table
           style={{
-            marginTop: -16,
-            overflow: "auto",
-            maxHeight: cssCalc("25vh"),
-            minHeight: cssCalc("25vh"),
+            overflow: "auto", maxHeight: cssCalc("25vh"), minHeight: cssCalc("25vh"),
           }}
           bordered
           size="small"
@@ -484,11 +459,7 @@ const MsfSocks = () => {
                 return SidTag(text);
               },
             }, {
-              title: formatText("app.msfsocks.portfwd.type"),
-              dataIndex: "type",
-              key: "type",
-              width: 80,
-              render: (text, record) => {
+              title: formatText("app.msfsocks.portfwd.type"), dataIndex: "type", key: "type", width: 80, render: (text, record) => {
                 if (record.type === "Forward") {
                   return (<div>
                     <Tag color="cyan">{formatText("app.msfsocks.portfwd.type.forword")}</Tag>
@@ -499,10 +470,7 @@ const MsfSocks = () => {
                 </div>);
               },
             }, {
-              title: formatText("app.msfsocks.portfwd.local"),
-              dataIndex: "local",
-              key: "local",
-              render: (text, record) => {
+              title: formatText("app.msfsocks.portfwd.local"), dataIndex: "local", key: "local", render: (text, record) => {
                 if (record.type === "Forward") {
                   return (<div>
                     <Tag style={{ marginRight: 8 }} color="green">
@@ -519,10 +487,7 @@ const MsfSocks = () => {
                 </div>);
               },
             }, {
-              title: formatText("app.msfsocks.portfwd.remote"),
-              dataIndex: "remote",
-              key: "remote",
-              render: (text, record) => {
+              title: formatText("app.msfsocks.portfwd.remote"), dataIndex: "remote", key: "remote", render: (text, record) => {
                 if (record.type === "Forward") {
                   return (<div>
                     <Tag style={{ marginRight: 8 }} color="gold">
@@ -538,23 +503,14 @@ const MsfSocks = () => {
                   <span>{`${record.rhost}:${record.rport}`}</span>
                 </div>);
               },
-            },
-            {
-              title: formatText("app.msfsocks.portfwd.tip"),
-              dataIndex: "remote",
-              key: "remote",
-              render: (text, record) => {
-                return (
-                  <div>
+            }, {
+              title: formatText("app.msfsocks.portfwd.tip"), dataIndex: "remote", key: "remote", render: (text, record) => {
+                return (<div>
                     <span>{`${record.tip}`}</span>
-                  </div>
-                );
+                </div>);
               },
-            },
-            {
-              dataIndex: "operation",
-              width: 40,
-              render: (text, record) => (<a style={{ color: "red" }} onClick={() => destoryPortFwdReq.run(record)}>
+            }, {
+              dataIndex: "operation", width: 40, render: (text, record) => (<a style={{ color: "red" }} onClick={() => destoryPortFwdReq.run(record)}>
                 {formatText("app.core.delete")}
               </a>),
             }]}
@@ -679,7 +635,7 @@ const MsfSocks = () => {
         </Row>
       </Form>
     </Modal>
-  </div>);
+  </Fragment>);
 };
 
 export const MsfSocksMemo = memo(MsfSocks);

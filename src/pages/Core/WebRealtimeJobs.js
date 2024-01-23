@@ -130,7 +130,7 @@ const WebRealTimeJobs = () => {
       <Col span={12}>
         <Table
           style={{
-            marginTop: -16, overflow: 'auto', maxHeight: cssCalc(`${WebMainHeight} - 60px`), minHeight: cssCalc(`${WebMainHeight} - 60px`),
+            overflow: 'auto', maxHeight: cssCalc(`${WebMainHeight} - 60px`), minHeight: cssCalc(`${WebMainHeight} - 60px`),
           }}
           size="small"
           rowKey="job_id"

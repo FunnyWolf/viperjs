@@ -15,8 +15,6 @@ import { formatText } from "@/utils/locales";
 import { HostIP } from "@/config";
 import { ProjectButton } from "@/pages/Core/Project";
 import { RunWebModuleMemo } from "@/pages/Core/WebModule";
-import { TaskQueueTagMemo } from "@/pages/Core/RealTimeCard";
-import { WebRealTimeJobsMemo } from "@/pages/Core/WebRealtimeJobs";
 import { MyIcon } from "@/pages/Core/Common";
 import { getLocale } from "@@/plugin-locale/localeExports";
 import { cssCalc } from "@/utils/utils";
@@ -188,13 +186,7 @@ const TabsTop = () => {
       </div>}
       key="IPDomain"
     >
-      <div
-        style={{
-          marginTop: -16,
-        }}
-      >
-        <IPDomainMemo onRef={ipdomainRef}/>
-      </div>
+      <IPDomainMemo onRef={ipdomainRef}/>
     </TabPane>
     <TabPane
       tab={<div style={tabPanedivSytle}>
@@ -203,13 +195,7 @@ const TabsTop = () => {
       </div>}
       key="Company"
     >
-      <div
-        style={{
-          marginTop: -16,
-        }}
-      >
-        <CompanyMemo/>
-      </div>
+      <CompanyMemo/>
     </TabPane>
     <TabPane
       tab={<div style={tabPanedivSytle}>
@@ -218,23 +204,17 @@ const TabsTop = () => {
       </div>}
       key="WebScan"
     >
-      <div
-        style={{
-          marginTop: -16,
-        }}
-      >
-        <RunWebModuleMemo/>
-      </div>
+      <RunWebModuleMemo/>
     </TabPane>
-    <TabPane
-      tab={<div style={tabPanedivSytle}>
-        <TaskQueueTagMemo/>
-        <span style={tabPanespanSytle}>{formatText("app.hostandsession.tab.JobList")}</span>
-      </div>}
-      key="JobList"
-    >
-      <WebRealTimeJobsMemo/>
-    </TabPane>
+    {/*<TabPane*/}
+    {/*  tab={<div style={tabPanedivSytle}>*/}
+    {/*    <TaskQueueTagMemo/>*/}
+    {/*    <span style={tabPanespanSytle}>{formatText("app.hostandsession.tab.JobList")}</span>*/}
+    {/*  </div>}*/}
+    {/*  key="JobList"*/}
+    {/*>*/}
+    {/*  <WebRealTimeJobsMemo/>*/}
+    {/*</TabPane>*/}
     <TabPane
       tab={<div style={tabPanedivSytle}>
         <SettingOutlined/>
@@ -265,9 +245,7 @@ const WebNotice = () => {
   const {
     resizeUpHeight, resizeDownHeight, setResizeDownHeight,
   } = useModel("Resize", model => ({
-    resizeUpHeight: model.resizeUpHeight,
-    resizeDownHeight: model.resizeDownHeight,
-    setResizeDownHeight: model.setResizeDownHeight,
+    resizeUpHeight: model.resizeUpHeight, resizeDownHeight: model.resizeDownHeight, setResizeDownHeight: model.setResizeDownHeight,
   }));
 
   const userIconLarge = key => {
@@ -328,9 +306,7 @@ const WebNotice = () => {
     return (<List
       id="noticescard"
       style={{
-        overflow: "auto",
-        maxHeight: cssCalc(`${resizeDownHeight} - 30px`),
-        minHeight: cssCalc(`${resizeDownHeight} - 30px`),
+        overflow: "auto", maxHeight: cssCalc(`${resizeDownHeight} - 30px`), minHeight: cssCalc(`${resizeDownHeight} - 30px`),
       }}
       split={false}
       size="small"
@@ -380,9 +356,7 @@ const WebNotice = () => {
       onCancel={() => setNoticeModalVisible(false)}
     >
       <NoticesList notices={notices}/>
-      <Row
-        // style={{ marginTop: -16 }}
-      >
+      <Row>
         <Col span={4}>
           <Button icon={<DeleteOutlined/>} block danger
                   onClick={() => deleteNoticesReq.run()}>
@@ -402,17 +376,15 @@ const WebMain = props => {
   return (<GridContent>
     <ConfigProvider
       theme={{
-        algorithm: theme.darkAlgorithm,
-        // algorithm: [theme.darkAlgorithm, theme.compactAlgorithm],
+        algorithm: theme.darkAlgorithm, // algorithm: [theme.darkAlgorithm, theme.compactAlgorithm],
         token: {
           // fontSizeSM: 16,
-        },
-        components: {
+        }, components: {
           Table: {
-            cellPaddingBlockSM: 4,
-            headerBorderRadius: 2,
+            cellPaddingBlockSM: 4, headerBorderRadius: 2,
+          }, Descriptions: {}, Tabs: {
+            horizontalMargin: "0 0 0 0", /* 这里是你的组件 token */
           },
-          Descriptions: {},
         },
       }}
     >

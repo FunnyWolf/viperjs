@@ -178,7 +178,7 @@ export default {
   'app.hostandsession.updatehost.comment.rule': 'Comment support up to 20 characters',
 
   'app.webmain.tab.ipdomain': 'Network Assets',
-  'app.webmain.tab.webscan': 'Assets Scan',
+  'app.webmain.tab.webscan': 'Scan Management',
   'app.webmain.tab.company': 'Company Info',
   'app.webmain.tab.webscan.portscan': 'Port Scan',
 }

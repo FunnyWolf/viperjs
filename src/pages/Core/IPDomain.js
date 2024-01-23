@@ -56,7 +56,6 @@ import { cssCalc } from "@/utils/utils";
 import { formatText, msgsuccess } from "@/utils/locales";
 import { DocIcon, TimeTag, WebMainHeight } from "@/pages/Core/Common";
 import { useModel } from "@@/plugin-model/useModel";
-import moment from "moment/moment";
 
 const listitemHeight = 240;
 
@@ -91,15 +90,15 @@ const tagComment = (color, comment) => {
 const tagSeverity = (severity) => {
   switch (severity) {
     case "info":
-      return <Tag style={{ width: 80 }} color="#531dab"><TagOutlined/>info</Tag>;
+      return <Tag color="#531dab">Info</Tag>;
     case "low":
-      return <Tag color="#096dd9"><TagOutlined/>low</Tag>;
+      return <Tag color="#096dd9">Low</Tag>;
     case "medium":
-      return <Tag color="#389e0d"><TagOutlined/>medium</Tag>;
+      return <Tag color="#389e0d">Medium</Tag>;
     case "high":
-      return <Tag color="#d46b08"><TagOutlined/>high</Tag>;
+      return <Tag color="#d46b08">High</Tag>;
     case "critical":
-      return <Tag color="#cf1322"><TagOutlined/>critical</Tag>;
+      return <Tag color="#cf1322">Critical</Tag>;
     default:
       return null;
   }
@@ -499,7 +498,6 @@ const IPDomain = props => {
           setShowSwitchModal(true);
         }}
       />
-      {/*</Dropdown>*/}
       <Button
         size="small" style={{ width: 64 }}
         icon={<PlusCircleOutlined/>}
@@ -627,17 +625,32 @@ const IPDomain = props => {
 
   const HttpBaseRow = (http_base) => {
     if (http_base) {
-      return <>
-        <a target="_blank" href={http_base.url}><LinkOutlined/> {http_base.title}</a>
-        <Tag
-          color="cyan"
-          style={{
-            textAlign: "center", cursor: "pointer",
-          }}
-        >
-          <strong>{http_base.status_code}</strong>
-        </Tag>
-      </>;
+
+      return <Descriptions
+        size="small"
+        column={3}
+        // bordered
+        layout="vertical"
+      >
+        <Descriptions.Item label="Title">
+          <a target="_blank" href={http_base.url}><LinkOutlined/> {http_base.title}</a>
+        </Descriptions.Item>
+        <Descriptions.Item label="Status Code">
+          <Tag
+            color="cyan"
+            style={{
+              textAlign: "center", cursor: "pointer",
+            }}
+          >
+            <strong>{http_base.status_code}</strong>
+          </Tag>
+        </Descriptions.Item>
+      </Descriptions>
+
+      // return <>
+      //   <a target="_blank" href={http_base.url}><LinkOutlined/> {http_base.title}</a>
+
+      // </>;
     }
     return null;
   };
@@ -666,11 +679,7 @@ const IPDomain = props => {
       const vulnerabilitys = port_info.vulnerabilitys;
       if (vulnerabilitys !== null && vulnerabilitys.data.length > 0) {
         return <Tabs.TabPane icon={<BugOutlined/>} tab={<span>Vulnerability</span>} key="Vulnerability">
-          <Row
-            style={{
-              marginTop: -16,
-            }}
-          >
+          <Row>
             <Col span={24}>
               <Table
                 style={{
@@ -679,8 +688,12 @@ const IPDomain = props => {
                 columns={[
                   {
                     title: "Name", dataIndex: "name",
-                  }, {
-                    title: "Severity", dataIndex: "severity", width: 96, filters: [
+                  },
+                  {
+                    title: "Severity",
+                    dataIndex: "severity",
+                    width: 96,
+                    filters: [
                       {
                         text: "info", value: "info",
                       }, {
@@ -691,13 +704,15 @@ const IPDomain = props => {
                         text: "high", value: "high",
                       }, {
                         text: "critical", value: "critical",
-                      }], onFilter: (value, record) => {
+                      }],
+                    onFilter: (value, record) => {
                       return record.severity.indexOf(value) === 0;
-                    }, // sorter: (a, b) => a.severity - b.severity,
-                    render: (text, record) => {
-                      return <Tag color="cyan">{moment(record.time * 1000).format("YYYY-MM-DD HH:mm")}</Tag>;
                     },
-                  }, {
+                    render: (text, record) => {
+                      return tagSeverity(text);
+                    },
+                  },
+                  {
                     title: "Key", dataIndex: "key",
                   }]}
                 dataSource={vulnerabilitys.data}
@@ -718,11 +733,7 @@ const IPDomain = props => {
     if (dnsrecord !== null && dnsrecord.length > 0) {
 
       return <Tabs.TabPane icon={<GlobalOutlined/>} tab={<span>DNS</span>} key="DNSRecord">
-        <Row
-          style={{
-            marginTop: -16,
-          }}
-        >
+        <Row>
           <Col span={12}>
             <Table
               style={{
@@ -757,10 +768,6 @@ const IPDomain = props => {
           <Row>
             <Col span={8}>
               <Descriptions
-                style={{
-                  marginTop: -16,
-                }}
-                // bordered size="small"
                 column={3}
                 layout="vertical">
                 <Descriptions.Item
@@ -778,7 +785,6 @@ const IPDomain = props => {
             <Col span={16}>
               <pre
                 style={{
-                  marginTop: -16,
                   marginBottom: 0,
                   padding: "0 0 0 0",
                   overflowX: "hidden",
@@ -804,9 +810,6 @@ const IPDomain = props => {
         const src = "data:image/png;base64," + screenshot.content;
         return <Tabs.TabPane icon={<CameraOutlined/>} tab={<span>Image</span>} key="Image">
           <Image
-            style={{
-              // marginTop: -16,
-            }}
             width={listitemHeight - 16}
             height={listitemHeight - 16}
             src={src}
@@ -824,7 +827,7 @@ const IPDomain = props => {
           return <Tabs.TabPane icon={<ReadOutlined/>} tab={<span>Response</span>} key="Response">
                         <pre
                           style={{
-                            marginTop: -16, marginBottom: 0, padding: "0 0 0 0", // overflowX: 'hidden',
+                            marginBottom: 0, padding: "0 0 0 0", // overflowX: 'hidden',
                             maxHeight: listitemHeight, minHeight: listitemHeight, whiteSpace: "pre-wrap", wordWrap: "break-word", background: "#141414",
                           }}
                         >{response}</pre>
@@ -837,7 +840,7 @@ const IPDomain = props => {
   const DomainICPTabPane = (record) => {
     if (record.domainicp) {
       const domainicp = record.domainicp;
-      return <Tabs.TabPane icon={<AccountBookOutlined/>} style={{ marginTop: -16 }} tab={<span>ICP</span>}
+      return <Tabs.TabPane icon={<AccountBookOutlined/>} tab={<span>ICP</span>}
                            key="domainicp">
         <Descriptions
           size="small"
@@ -1029,14 +1032,13 @@ const IPDomain = props => {
     </Modal>
     <Modal
       // style={{
-      //   top: 32,
-      //   body: { padding: '8px 8px 4px 8px' },
+      //   right: 120,
       // }}
       styles={{
-        body: { padding: 0, margin: 0 },
+        body: { margin: -16 },
       }}
       mask={false}
-      width="32vw"
+      width="24vw"
       destroyOnClose
       closable={false}
       open={showSwitchModal}

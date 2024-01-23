@@ -119,7 +119,7 @@ const RealTimeModuleResult = () => {
   });
 
   return (<Fragment>
-    <Row style={{ marginTop: -16 }}>
+    <Row>
       <Col span={21}>
         <Input
           allowClear
@@ -450,7 +450,7 @@ const RealTimeNotices = () => {
 
   return (<Fragment>
     <DocIcon url="https://www.yuque.com/vipersec/help/vdbhlm"/>
-    <Row style={{ marginTop: -16 }}>
+    <Row>
       <Col span={16}>
         <UserInput createNotice={params => createNoticeReq.run(params)}/>
       </Col>
@@ -507,7 +507,7 @@ const RealTimeJobs = () => {
     <DocIcon url="https://www.yuque.com/vipersec/help/rokuc0"/>
     <Table
       style={{
-        marginTop: -16, overflow: "auto", maxHeight: cssCalc(resizeDownHeight), minHeight: cssCalc(resizeDownHeight),
+        overflow: "auto", maxHeight: cssCalc(resizeDownHeight), minHeight: cssCalc(resizeDownHeight),
       }}
       // className={styles.jobListTable}
       size="small"

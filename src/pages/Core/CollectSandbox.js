@@ -75,15 +75,12 @@ const CollectSandbox = () => {
   };
 
   return (<Fragment>
-    <Card style={{ marginTop: -16 }} bodyStyle={{ padding: "0px 0px 0px 0px" }}>
+    <Card bodyStyle={{ padding: "0px 0px 0px 0px" }}>
       <Row>
         <Col span={12}>
           <Table
             style={{
-              padding: "0 0 0 0",
-              overflow: auto,
-              maxHeight: cssCalc(`${resizeDownHeight} - 36px`),
-              minHeight: cssCalc(`${resizeDownHeight} - 36px`),
+              padding: "0 0 0 0", overflow: auto, maxHeight: cssCalc(`${resizeDownHeight} - 36px`), minHeight: cssCalc(`${resizeDownHeight} - 36px`),
             }}
             size="small"
             bordered
@@ -105,10 +102,7 @@ const CollectSandbox = () => {
                   return <span>{last_check}</span>;
                 },
               }, {
-                title: "操作",
-                dataIndex: "operation",
-                width: 80,
-                render: (text, record) => (<div style={{ textAlign: "center" }}>
+                title: "操作", dataIndex: "operation", width: 80, render: (text, record) => (<div style={{ textAlign: "center" }}>
                   <Space size="middle">
                     <a
                       style={{ color: "red" }}

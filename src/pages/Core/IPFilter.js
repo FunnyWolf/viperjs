@@ -22,19 +22,16 @@ const IPFilter = (props) => {
       setIpfilterActive(result.switch);
       mainForm.setFieldsValue(result);
       onChange(result.geo_blacklist);
-    },
-    onError: (error, params) => {
+    }, onError: (error, params) => {
     },
   });
 
   const listIPFilterReq = useRequest(getMsgrpcIPFilterAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
+    manual: true, onSuccess: (result, params) => {
       setIpfilterActive(result.switch);
       mainForm.setFieldsValue(result);
       onChange(result.geo_blacklist);
-    },
-    onError: (error, params) => {
+    }, onError: (error, params) => {
     },
   });
 
@@ -47,20 +44,16 @@ const IPFilter = (props) => {
   });
 
   const getIPFilterReq = useRequest(getMsgrpcIPFilterAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
+    manual: true, onSuccess: (result, params) => {
 
-    },
-    onError: (error, params) => {
+    }, onError: (error, params) => {
     },
   });
 
   const updateIPFilterReq = useRequest(putMsgrpcIPFilteAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
+    manual: true, onSuccess: (result, params) => {
       listIPFilterReq.run();
-    },
-    onError: (error, params) => {
+    }, onError: (error, params) => {
     },
   });
 
@@ -103,8 +96,7 @@ const IPFilter = (props) => {
     { label: "香港", value: "香港" },
     { label: "澳门", value: "澳门" },
     { label: "台湾", value: "台湾" },
-    { label: "海外", value: "海外" },
-  ];
+    { label: "海外", value: "海外" }];
 
   const plainOptionsValues = [
     "北京",
@@ -140,8 +132,7 @@ const IPFilter = (props) => {
     "香港",
     "澳门",
     "台湾",
-    "海外",
-  ];
+    "海外"];
 
   const onChange = list => {
     setGeoBlacklist(list);
@@ -155,10 +146,9 @@ const IPFilter = (props) => {
     setGeoBlacklistGeoBlacklistCheckAll(e.target.checked);
   };
 
-  return (
-    <Fragment>
+  return (<Fragment>
       <DocIcon url="https://www.yuque.com/vipersec/help/lxlre4"/>
-      <Card style={{ marginTop: -16 }} bodyStyle={{ padding: "16px 16px 16px 16px" }}>
+    <Card bodyStyle={{ padding: "16px 16px 16px 16px" }}>
         <Form
           layout="vertical"
           form={mainForm}
@@ -253,8 +243,7 @@ const IPFilter = (props) => {
           </Button>
         </Form>
       </Card>
-    </Fragment>
-  );
+  </Fragment>);
 };
 export const IPFilterMemo = memo(IPFilter);
 

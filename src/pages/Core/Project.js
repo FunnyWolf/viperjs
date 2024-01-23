@@ -9,9 +9,9 @@ const { Search, TextArea } = Input;
 
 export const ProjectButton = () => {
   const {
-    projectActive, setProjectActive
+    projectActive, setProjectActive,
   } = useModel("WebMainModel", model => ({
-    projectActive: model.projectActive, setProjectActive: model.setProjectActive
+    projectActive: model.projectActive, setProjectActive: model.setProjectActive,
   }));
   const [openProject, setOpenProject] = useState(false);
 
@@ -24,12 +24,9 @@ export const ProjectButton = () => {
 
   const Project = () => {
     const {
-      projectActive, setProjectActive, projects, setProjects
+      projectActive, setProjectActive, projects, setProjects,
     } = useModel("WebMainModel", model => ({
-      projectActive: model.projectActive,
-      setProjectActive: model.setProjectActive,
-      projects: model.projects,
-      setProjects: model.setProjects
+      projectActive: model.projectActive, setProjectActive: model.setProjectActive, projects: model.projects, setProjects: model.setProjects,
     }));
 
     const updateProjectReq = useRequest(putWebdatabaseProjectAPI, {
@@ -40,21 +37,21 @@ export const ProjectButton = () => {
         }
         listProjectReq.run();
       }, onError: (error, params) => {
-      }
+      },
     });
 
     const listProjectReq = useRequest(getWebdatabaseProjectAPI, {
       manual: true, onSuccess: (result, params) => {
         setProjects(result);
       }, onError: (error, params) => {
-      }
+      },
     });
 
     const destoryProjectReq = useRequest(deleteWebdatabaseProjectAPI, {
       manual: true, onSuccess: (result, params) => {
         listProjectReq.run();
       }, onError: (error, params) => {
-      }
+      },
     });
 
     useEffect(() => {
@@ -75,23 +72,23 @@ export const ProjectButton = () => {
           name="name"
           rules={[
             {
-              required: true, message: formatText("project.name.rule")
+              required: true, message: formatText("project.name.rule"),
             }]}
         >
           <Input style={{ width: 240 }}
-                 placeholder={formatText("project.name.placeholder")} />
+                 placeholder={formatText("project.name.placeholder")}/>
         </Form.Item>
         <Form.Item
           label={formatText("project.desc")}
           name="desc"
         >
           <Input style={{ width: 320 }}
-                 placeholder={formatText("project.desc.placeholder")} />
+                 placeholder={formatText("project.desc.placeholder")}/>
         </Form.Item>
         <Form.Item>
           <Button
             loading={updateProjectReq.loading}
-            icon={<PlusOutlined />}
+            icon={<PlusOutlined/>}
             type="primary"
             htmlType="submit"
           >
@@ -103,8 +100,7 @@ export const ProjectButton = () => {
     const ProjectTable = () => {
       return <Table
         style={{
-          overflow: "auto",
-          marginTop: 16
+          overflow: "auto", marginTop: 16,
           // padding: '0 0 0 0',
           // maxHeight: cssCalc(`${resizeDownHeight} - 32px`),
           // minHeight: cssCalc(`${resizeDownHeight} - 32px`)
@@ -115,14 +111,9 @@ export const ProjectButton = () => {
         rowKey="project_id"
         columns={[
           {
-            title: formatText("project.name"),
-            dataIndex: "name",
-            key: "name",
-            width: 240,
-            render: (text, record) => {
+            title: formatText("project.name"), dataIndex: "name", key: "name", width: 240, render: (text, record) => {
               return <Fragment>
-                {projectActive.project_id === record.project_id ?
-                  <strong style={{ color: "#d8bd14" }}>{text}</strong> : <span>{text}</span>}
+                {projectActive.project_id === record.project_id ? <strong style={{ color: "#d8bd14" }}>{text}</strong> : <span>{text}</span>}
                 <Popover
                   content={<Search
                     defaultValue={text}
@@ -130,22 +121,21 @@ export const ProjectButton = () => {
                     enterButton={formatText("app.core.update")}
                     size="default"
                     onSearch={value => updateProjectReq.run({
-                      project_id: record.project_id, name: value, desc: record.desc
+                      project_id: record.project_id, name: value, desc: record.desc,
                     })}
                     loading={updateProjectReq.loading}
                   />}
 
                   trigger="click"
                 >
-                  <a style={{ float: "right" }}><FormOutlined /></a>
+                  <a style={{ float: "right" }}><FormOutlined/></a>
                 </Popover>
               </Fragment>;
-            }
+            },
           }, {
             title: formatText("project.desc"), dataIndex: "desc", key: "desc", render: (text, record) => {
               return (<Fragment>
-                {projectActive.project_id === record.project_id ?
-                  <strong style={{ color: "#d8bd14" }}>{text}</strong> : <span>{text}</span>}
+                {projectActive.project_id === record.project_id ? <strong style={{ color: "#d8bd14" }}>{text}</strong> : <span>{text}</span>}
                 <Popover
                   content={<Search
                     defaultValue={text}
@@ -153,17 +143,17 @@ export const ProjectButton = () => {
                     enterButton={formatText("app.core.update")}
                     size="default"
                     onSearch={value => updateProjectReq.run({
-                      project_id: record.project_id, name: record.name, desc: value
+                      project_id: record.project_id, name: record.name, desc: value,
                     })}
                     loading={updateProjectReq.loading}
                   />}
 
                   trigger="click"
                 >
-                  <a style={{ float: "right" }}><FormOutlined /></a>
+                  <a style={{ float: "right" }}><FormOutlined/></a>
                 </Popover>
               </Fragment>);
-            }
+            },
           }, {
             dataIndex: "operation", width: 96, render: (text, record) => {
               const selectbutton = <a
@@ -174,32 +164,31 @@ export const ProjectButton = () => {
               </a>;
 
               return <div style={{ textAlign: "center" }}><Space size="middle">
-                {projectActive.project_id === record.project_id ?
-                  <a style={{ visibility: "Hidden" }}>占位</a> : selectbutton}
+                {projectActive.project_id === record.project_id ? <a style={{ visibility: "Hidden" }}>占位</a> : selectbutton}
                 <a
                   onClick={() => destoryProjectReq.run({
-                    project_id: record.project_id
+                    project_id: record.project_id,
                   })}
                   style={{ color: "red" }}
                 >
                   {formatText("app.core.delete")}
                 </a>
               </Space></div>;
-            }
+            },
           }]}
         dataSource={projects}
       />;
     };
 
     return <>
-      <ProjectForm />
-      <ProjectTable />
+      <ProjectForm/>
+      <ProjectTable/>
     </>;
   };
 
   return <>
     <Button onClick={showProject}
-            icon={<ProjectOutlined />}
+            icon={<ProjectOutlined/>}
             style={{ minWidth: 180 }}>
       <span>{projectActive.name}</span>
     </Button>
@@ -213,10 +202,10 @@ export const ProjectButton = () => {
       onCancel={closeProject}
       footer={null}
       styles={{
-        body: { padding: 0, margin: 0 }
+        body: { padding: 0, margin: 0 },
       }}
     >
-      <Project />
+      <Project/>
     </Modal>
   </>;
 

@@ -94,7 +94,6 @@ import {
   WindowsOutlined,
 } from '@ant-design/icons'
 
-
 import {
   Avatar,
   Button,
@@ -309,14 +308,13 @@ const HostAndSession = props => {
 
   return (<ConfigProvider
     theme={{
-      algorithm: theme.darkAlgorithm,
-      // algorithm: [theme.darkAlgorithm, theme.compactAlgorithm],
+      algorithm: theme.darkAlgorithm, // algorithm: [theme.darkAlgorithm, theme.compactAlgorithm],
       components: {
         Table: {
-          cellPaddingBlockSM: 4,
-          headerBorderRadius: 2,
-        },
-        // Modal: {
+          cellPaddingBlockSM: 4, headerBorderRadius: 2,
+        }, Tabs: {
+          horizontalMargin: "0 0 0 0", /* 这里是你的组件 token */
+        }, // Modal: {
         //   margin: 0,
         //   padding: 0,
         //   paddingLG: 0,
@@ -333,10 +331,7 @@ const HostAndSession = props => {
 const HostAndSessionCard = () => {
   console.log('HostAndSessionCard')
   const {
-    hostAndSessionList,
-    setHostAndSessionActive,
-    heatbeatsocketalive,
-    onlyShowSessionModel,
+    hostAndSessionList, setHostAndSessionActive, heatbeatsocketalive, onlyShowSessionModel,
   } = useModel('HostAndSessionModel', model => ({
     hostAndSessionList: model.hostAndSessionList,
     setHostAndSessionActive: model.setHostAndSessionActive,
@@ -777,17 +772,16 @@ const HostAndSessionCard = () => {
             </Tag>
           </Tooltip>)
 
-          const connectTag = (
-            <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={session.tunnel_peer_locate_en}>
-              <Tag
-                color="cyan"
-                style={{
-                  textAlign: 'center', marginLeft: -6, cursor: 'pointer',
-                }}
-              >
-                {session.tunnel_local}{' <- '}{session.tunnel_peer} {getSessionlocate(session)}
-              </Tag>
-            </Tooltip>)
+          const connectTag = (<Tooltip mouseEnterDelay={1} placement="bottomLeft" title={session.tunnel_peer_locate_en}>
+            <Tag
+              color="cyan"
+              style={{
+                textAlign: 'center', marginLeft: -6, cursor: 'pointer',
+              }}
+            >
+              {session.tunnel_local}{' <- '}{session.tunnel_peer} {getSessionlocate(session)}
+            </Tag>
+          </Tooltip>)
 
           // arch
           const archTag = session.arch === 'x64' ? (<Tag
@@ -807,25 +801,24 @@ const HostAndSessionCard = () => {
           </Tag>)
 
           // os标签
-          const os_tag = session.platform === 'windows' ? (
-            <Tooltip mouseEnterDelay={1} placement="bottomLeft" title={session.os}>
-              <Tag
-                color="blue"
-                style={{
-                  marginLeft: -6, cursor: 'pointer',
-                }}
-              >
-                <div>
-                  <MyIcon
-                    type="icon-windows"
-                    style={{
-                      marginBottom: 0, marginRight: 4, fontSize: '14px',
-                    }}
-                  />
-                  {session.os_short}
-                </div>
-              </Tag>
-            </Tooltip>) : (<Tooltip mouseEnterDelay={0.5} placement="right" title={session.os}>
+          const os_tag = session.platform === 'windows' ? (<Tooltip mouseEnterDelay={1} placement="bottomLeft" title={session.os}>
+            <Tag
+              color="blue"
+              style={{
+                marginLeft: -6, cursor: 'pointer',
+              }}
+            >
+              <div>
+                <MyIcon
+                  type="icon-windows"
+                  style={{
+                    marginBottom: 0, marginRight: 4, fontSize: '14px',
+                  }}
+                />
+                {session.os_short}
+              </div>
+            </Tag>
+          </Tooltip>) : (<Tooltip mouseEnterDelay={0.5} placement="right" title={session.os}>
             <Tag
               color="magenta"
               style={{
@@ -869,8 +862,7 @@ const HostAndSessionCard = () => {
             </Tooltip>)
           }
           // handler标签
-          const jobidTagTooltip = (
-            <span>{session.job_info.PAYLOAD} {session.job_info.LHOST}{' '}{session.job_info.RHOST} {session.job_info.LPORT}{' '}</span>)
+          const jobidTagTooltip = (<span>{session.job_info.PAYLOAD} {session.job_info.LHOST}{' '}{session.job_info.RHOST} {session.job_info.LPORT}{' '}</span>)
           const jobidTag = (<Tooltip mouseEnterDelay={0.5} placement="bottomLeft" title={jobidTagTooltip}>
             <Tag
               color="lime"
@@ -934,11 +926,7 @@ const HostAndSessionCard = () => {
     <a target="_blank" href="https://www.yuque.com/vipersec/help/cr9w1rgb3pyvvnt1">
       <QuestionCircleOutlined
         style={{
-          fontSize: 16,
-          top: cssCalc(`${resizeUpHeight} - 28px`),
-          right: 20,
-          position: 'absolute',
-          zIndex: 100,
+          fontSize: 16, top: cssCalc(`${resizeUpHeight} - 28px`), right: 20, position: 'absolute', zIndex: 100,
         }}/>
     </a>
     {/*<Resizable*/}
@@ -1345,9 +1333,7 @@ const FloatingButtons = () => {
   const {
     resizeUpHeight, setResizeUpHeight, setResizeDownHeight,
   } = useModel('Resize', model => ({
-    setResizeUpHeight: model.setResizeUpHeight,
-    resizeUpHeight: model.resizeUpHeight,
-    setResizeDownHeight: model.setResizeDownHeight,
+    setResizeUpHeight: model.setResizeUpHeight, resizeUpHeight: model.resizeUpHeight, setResizeDownHeight: model.setResizeDownHeight,
   }))
 
   const LangSwitch = () => {
@@ -1642,8 +1628,7 @@ const SessionInfo = () => {
             {os_tag_new}
           </Descriptions.Item>
           <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.adminright')} span={4}>
-            {sessionInfoActive.is_admin ? (
-              <Tag color="green">{formatText('app.hostandsession.yes')}</Tag>) : (
+            {sessionInfoActive.is_admin ? (<Tag color="green">{formatText('app.hostandsession.yes')}</Tag>) : (
               <Tag color="volcano">{formatText('app.hostandsession.no')}</Tag>)}
           </Descriptions.Item>
           <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.localadmin')} span={4}>
@@ -1653,20 +1638,17 @@ const SessionInfo = () => {
             {sessionInfoActive.user}
           </Descriptions.Item>
           <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.is_uac_enable')} span={4}>
-            {sessionInfoActive.is_uac_enable ? (
-              <Tag color="magenta">{formatText('app.core.open')}</Tag>) : (
+            {sessionInfoActive.is_uac_enable ? (<Tag color="magenta">{formatText('app.core.open')}</Tag>) : (
               <Tag color="green">{formatText('app.core.close')}</Tag>)}
           </Descriptions.Item>
           <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.uac_level')} span={4}>
             {uac_to_tag[sessionInfoActive.uac_level.toString()]}
           </Descriptions.Item>
           <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.integrity')} span={4}>
-            {sessionInfoActive.integrity === null ? (
-              <Tag>未知</Tag>) : (integrity_to_tag[sessionInfoActive.integrity])}
+            {sessionInfoActive.integrity === null ? (<Tag>未知</Tag>) : (integrity_to_tag[sessionInfoActive.integrity])}
           </Descriptions.Item>
           <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.is_in_domain')} span={4}>
-            {sessionInfoActive.is_in_domain ? (
-              <Tag color="lime">{formatText('app.hostandsession.yes')}</Tag>) : (
+            {sessionInfoActive.is_in_domain ? (<Tag color="lime">{formatText('app.hostandsession.yes')}</Tag>) : (
               <Tag color="magenta">{formatText('app.hostandsession.no')}</Tag>)}
           </Descriptions.Item>
           <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.domain')} span={4}>
@@ -1697,14 +1679,12 @@ const SessionInfo = () => {
           </Descriptions.Item>
           <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.load_powershell')}
                              span={6}>
-            {sessionInfoActive.load_powershell ? (
-              <Tag color="lime">{formatText('app.hostandsession.sessioninfo.loaded')}</Tag>) : (
+            {sessionInfoActive.load_powershell ? (<Tag color="lime">{formatText('app.hostandsession.sessioninfo.loaded')}</Tag>) : (
               <Tag>{formatText('app.hostandsession.sessioninfo.unload')}</Tag>)}
           </Descriptions.Item>
           <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.load_python')} span={6}>
-            {sessionInfoActive.load_python ?
-              <Tag color="lime">{formatText('app.hostandsession.sessioninfo.loaded')}</Tag> :
-              <Tag>{formatText('app.hostandsession.sessioninfo.unload')}</Tag>}
+            {sessionInfoActive.load_python ? <Tag color="lime">{formatText('app.hostandsession.sessioninfo.loaded')}</Tag> : <Tag>{formatText(
+              'app.hostandsession.sessioninfo.unload')}</Tag>}
           </Descriptions.Item>
         </Descriptions>
         <Space style={{ marginTop: 8 }}>
@@ -1998,9 +1978,7 @@ const MsfRoute = () => {
         }, {
           title: formatText('app.hostandsession.msfroute.netmask'), dataIndex: 'netmask', key: 'netmask',
         }, {
-          dataIndex: 'operation',
-          width: 64,
-          render: (text, record) => (<a style={{ color: 'red' }} onClick={() => onDestoryRoute(record)}>
+          dataIndex: 'operation', width: 64, render: (text, record) => (<a style={{ color: 'red' }} onClick={() => onDestoryRoute(record)}>
             {formatText('app.core.delete')}
           </a>),
         }]}
@@ -2128,21 +2106,14 @@ const PortFwd = () => {
       loading={listPortFwdReq.loading || destoryPortFwdReq.loading}
       columns={[
         {
-          title: formatText('app.msfsocks.portfwd.type'),
-          dataIndex: 'type',
-          key: 'type',
-          width: '10%',
-          render: (text, record) => {
+          title: formatText('app.msfsocks.portfwd.type'), dataIndex: 'type', key: 'type', width: '10%', render: (text, record) => {
             if (record.type === 'Forward') {
               return (<Tag color="cyan">{formatText('app.msfsocks.portfwd.type.forword')}</Tag>)
             }
             return (<Tag color="geekblue">{formatText('app.msfsocks.portfwd.type.reverse')}</Tag>)
           },
         }, {
-          title: formatText('app.msfsocks.portfwd.local'),
-          dataIndex: 'local',
-          key: 'local',
-          render: (text, record) => {
+          title: formatText('app.msfsocks.portfwd.local'), dataIndex: 'local', key: 'local', render: (text, record) => {
             if (record.type === 'Forward') {
               return (<div>
                 <Tag style={{ marginRight: 8 }} color="green">
@@ -2159,10 +2130,7 @@ const PortFwd = () => {
             </div>)
           },
         }, {
-          title: formatText('app.msfsocks.portfwd.remote'),
-          dataIndex: 'remote',
-          key: 'remote',
-          render: (text, record) => {
+          title: formatText('app.msfsocks.portfwd.remote'), dataIndex: 'remote', key: 'remote', render: (text, record) => {
             if (record.type === 'Forward') {
               return (<div>
                 <Tag style={{ marginRight: 8 }} color="gold">
@@ -2179,18 +2147,13 @@ const PortFwd = () => {
             </div>)
           },
         }, {
-          title: formatText('app.msfsocks.portfwd.tip'),
-          dataIndex: 'remote',
-          key: 'remote',
-          render: (text, record) => {
+          title: formatText('app.msfsocks.portfwd.tip'), dataIndex: 'remote', key: 'remote', render: (text, record) => {
             return (<div>
               <span>{`${record.tip}`}</span>
             </div>)
           },
         }, {
-          dataIndex: 'operation',
-          width: '10%',
-          render: (text, record) => (<a style={{ color: 'red' }} onClick={() => destoryPortFwdReq.run(record)}>
+          dataIndex: 'operation', width: '10%', render: (text, record) => (<a style={{ color: 'red' }} onClick={() => destoryPortFwdReq.run(record)}>
             {formatText('app.core.delete')}
           </a>),
         }]}
@@ -2207,8 +2170,7 @@ const PortFwd = () => {
               name="lport"
               rules={[
                 {
-                  required: true,
-                  message: formatText('app.hostandsession.portfwd.forword.lport.rule'),
+                  required: true, message: formatText('app.hostandsession.portfwd.forword.lport.rule'),
                 }]}
             >
               <InputNumber style={{ width: 120 }}
@@ -2219,8 +2181,7 @@ const PortFwd = () => {
               name="rhost"
               rules={[
                 {
-                  required: true,
-                  message: formatText('app.hostandsession.portfwd.forword.rhost.rule'),
+                  required: true, message: formatText('app.hostandsession.portfwd.forword.rhost.rule'),
                 }]}
             >
               <Input style={{ width: 160 }}
@@ -2231,8 +2192,7 @@ const PortFwd = () => {
               name="rport"
               rules={[
                 {
-                  required: true,
-                  message: formatText('app.hostandsession.portfwd.forword.rport.rule'),
+                  required: true, message: formatText('app.hostandsession.portfwd.forword.rport.rule'),
                 }]}
             >
               <InputNumber style={{ width: 120 }}
@@ -2280,8 +2240,7 @@ const PortFwd = () => {
               name="lhost"
               rules={[
                 {
-                  required: true,
-                  message: formatText('app.hostandsession.portfwd.reverse.lhost.rule'),
+                  required: true, message: formatText('app.hostandsession.portfwd.reverse.lhost.rule'),
                 }]}
             >
               <Input style={{ width: 160 }}
@@ -2292,8 +2251,7 @@ const PortFwd = () => {
               name="lport"
               rules={[
                 {
-                  required: true,
-                  message: formatText('app.hostandsession.portfwd.reverse.lport.rule'),
+                  required: true, message: formatText('app.hostandsession.portfwd.reverse.lport.rule'),
                 }]}
             >
               <InputNumber style={{ width: 120 }}
@@ -2304,8 +2262,7 @@ const PortFwd = () => {
               name="rport"
               rules={[
                 {
-                  required: true,
-                  message: formatText('app.hostandsession.portfwd.reverse.rport.rule'),
+                  required: true, message: formatText('app.hostandsession.portfwd.reverse.rport.rule'),
                 }]}
             >
               <InputNumber style={{ width: 120 }}
@@ -2422,16 +2379,11 @@ const Transport = props => {
   }
 
   const expandedRowRender = record => (<Descriptions size="small" column={3} bordered>
-    {record.proxy_host !== null && record.proxy_host !== undefined ? (
-      <Descriptions.Item label="Proxy Host">{record.proxy_host}</Descriptions.Item>) : null}
-    {record.proxy_user !== null && record.proxy_user !== undefined ? (
-      <Descriptions.Item label="Proxy User">{record.proxy_user}</Descriptions.Item>) : null}
-    {record.proxy_pass !== null && record.proxy_pass !== undefined ? (
-      <Descriptions.Item label="Proxy Pass">{record.proxy_pass}</Descriptions.Item>) : null}
-    {record.ua !== null && record.ua !== undefined ? (
-      <Descriptions.Item label="User Agent">{record.ua}</Descriptions.Item>) : null}
-    {record.cert_hash !== null && record.cert_hash !== undefined ? (
-      <Descriptions.Item label="Cert Hash">{record.cert_hash}</Descriptions.Item>) : null}
+    {record.proxy_host !== null && record.proxy_host !== undefined ? (<Descriptions.Item label="Proxy Host">{record.proxy_host}</Descriptions.Item>) : null}
+    {record.proxy_user !== null && record.proxy_user !== undefined ? (<Descriptions.Item label="Proxy User">{record.proxy_user}</Descriptions.Item>) : null}
+    {record.proxy_pass !== null && record.proxy_pass !== undefined ? (<Descriptions.Item label="Proxy Pass">{record.proxy_pass}</Descriptions.Item>) : null}
+    {record.ua !== null && record.ua !== undefined ? (<Descriptions.Item label="User Agent">{record.ua}</Descriptions.Item>) : null}
+    {record.cert_hash !== null && record.cert_hash !== undefined ? (<Descriptions.Item label="Cert Hash">{record.cert_hash}</Descriptions.Item>) : null}
   </Descriptions>)
 
   const selectOptions = []
@@ -2484,31 +2436,19 @@ const Transport = props => {
             }
           },
         }, {
-          title: formatText('app.hostandsession.transport.comm_timeout'),
-          dataIndex: 'comm_timeout',
-          width: 108,
-          render: (text, record) => {
+          title: formatText('app.hostandsession.transport.comm_timeout'), dataIndex: 'comm_timeout', width: 108, render: (text, record) => {
             return <span>{text} s</span>
           },
         }, {
-          title: formatText('app.hostandsession.transport.retry_total'),
-          dataIndex: 'retry_total',
-          width: 108,
-          render: (text, record) => {
+          title: formatText('app.hostandsession.transport.retry_total'), dataIndex: 'retry_total', width: 108, render: (text, record) => {
             return <span>{text}</span>
           },
         }, {
-          title: formatText('app.hostandsession.transport.retry_wait'),
-          dataIndex: 'retry_wait',
-          width: 108,
-          render: (text, record) => {
+          title: formatText('app.hostandsession.transport.retry_wait'), dataIndex: 'retry_wait', width: 108, render: (text, record) => {
             return <span>{text} s</span>
           },
         }, {
-          title: formatText('app.hostandsession.transport.session_exp'),
-          dataIndex: 'session_exp',
-          width: 136,
-          render: (text, record) => {
+          title: formatText('app.hostandsession.transport.session_exp'), dataIndex: 'session_exp', width: 136, render: (text, record) => {
             return (<Tag
               color="cyan"
             >
@@ -2890,10 +2830,7 @@ const FileSession = () => {
       <DocIconInDiv url="https://www.yuque.com/vipersec/help/gaas8e"/>
       <Table
         style={{
-          marginTop: '8px',
-          minHeight: cssCalc('80vh - 40px'),
-          maxHeight: cssCalc('80vh - 40px'),
-          width: '72vw',
+          marginTop: '8px', minHeight: cssCalc('80vh - 40px'), maxHeight: cssCalc('80vh - 40px'), width: '72vw',
         }}
         scroll={{ y: 'calc(80vh - 40px)' }}
         size="small"
@@ -2911,16 +2848,11 @@ const FileSession = () => {
         })}
         columns={[
           {
-            title: formatText('app.hostandsession.filesession.type'),
-            dataIndex: 'type',
-            key: 'type',
-            width: 64,
-            sorter: {
+            title: formatText('app.hostandsession.filesession.type'), dataIndex: 'type', key: 'type', width: 64, sorter: {
               compare: (a, b) => {
                 return a.type.length - b.type.length
               }, multiple: 4,
-            },
-            render: (text, record) => {
+            }, render: (text, record) => {
               if (text === 'file') {
                 return (<div style={{ textAlign: 'center' }}>
                   <MyIcon type="icon-wenjian1" style={{ fontSize: '22px' }}/>
@@ -2952,14 +2884,9 @@ const FileSession = () => {
               </div>)
             },
           }, {
-            title: formatText('app.hostandsession.filesession.name'),
-            dataIndex: 'name',
-            key: 'name',
-            sorter: {
+            title: formatText('app.hostandsession.filesession.name'), dataIndex: 'name', key: 'name', sorter: {
               compare: (a, b) => a.name.localeCompare(b.name), multiple: 3,
-            },
-            ellipsis: true,
-            render: (text, record) => {
+            }, ellipsis: true, render: (text, record) => {
               if (text === 'file') {
                 return <span>{text}</span>
               }
@@ -2975,28 +2902,15 @@ const FileSession = () => {
               return <span>{text}</span>
             },
           }, {
-            title: formatText('app.hostandsession.filesession.format_mode'),
-            dataIndex: 'format_mode',
-            key: 'format_mode',
-            width: 136,
+            title: formatText('app.hostandsession.filesession.format_mode'), dataIndex: 'format_mode', key: 'format_mode', width: 136,
           }, {
-            title: formatText('app.hostandsession.filesession.format_size'),
-            dataIndex: 'format_size',
-            key: 'format_size',
-            width: 96,
-            sorter: {
+            title: formatText('app.hostandsession.filesession.format_size'), dataIndex: 'format_size', key: 'format_size', width: 96, sorter: {
               compare: (a, b) => a.size - b.size, multiple: 2,
             },
           }, {
-            title: formatText('app.hostandsession.filesession.mtime'),
-            dataIndex: 'mtime',
-            key: 'mtime',
-            width: 120,
-            sorter: {
+            title: formatText('app.hostandsession.filesession.mtime'), dataIndex: 'mtime', key: 'mtime', width: 120, sorter: {
               compare: (a, b) => a.mtime - b.mtime, multiple: 2,
-            },
-            render: (text, record) => (
-              <Tag color="cyan">{moment(record.mtime * 1000).format('YYYY-MM-DD HH:mm')}</Tag>),
+            }, render: (text, record) => (<Tag color="cyan">{moment(record.mtime * 1000).format('YYYY-MM-DD HH:mm')}</Tag>),
           }, {
             dataIndex: 'operation', width: 226, render: (text, record) => {
               if (record.type === 'directory') {
@@ -3144,9 +3058,7 @@ const HostRuningInfo = () => {
 
   const onUpdateHostInfo = () => {
     updateHostInfoReq.run({
-      ipaddress: hostAndSessionActive.ipaddress,
-      loadpath: 'MODULES.HostBaseInfoModule',
-      sessionid: hostAndSessionActive.session.id,
+      ipaddress: hostAndSessionActive.ipaddress, loadpath: 'MODULES.HostBaseInfoModule', sessionid: hostAndSessionActive.session.id,
     })
   }
 
@@ -3279,11 +3191,8 @@ const HostRuningInfo = () => {
           <Table
             style={{
               overflow: 'auto',
-              marginTop: '-16px',
-              minHeight: cssCalc('80vh'),
-              maxHeight: cssCalc('80vh'),
-              minWidth: cssCalc('80vw - 16px'),
-              maxWidth: cssCalc('80vw - 16px'),
+
+              minHeight: cssCalc('80vh'), maxHeight: cssCalc('80vh'), minWidth: cssCalc('80vw - 16px'), maxWidth: cssCalc('80vw - 16px'),
             }}
             columns={interfaceColumns}
             dataSource={hostAndSessionBaseInfo.INTERFACE}
@@ -3297,11 +3206,8 @@ const HostRuningInfo = () => {
           <Table
             style={{
               overflow: 'auto',
-              marginTop: '-16px',
-              minHeight: cssCalc('80vh'),
-              maxHeight: cssCalc('80vh'),
-              minWidth: cssCalc('80vw - 16px'),
-              maxWidth: cssCalc('80vw - 16px'),
+
+              minHeight: cssCalc('80vh'), maxHeight: cssCalc('80vh'), minWidth: cssCalc('80vw - 16px'), maxWidth: cssCalc('80vw - 16px'),
             }}
             columns={netstatColumns}
             dataSource={hostAndSessionBaseInfo.listen_address}
@@ -3313,11 +3219,8 @@ const HostRuningInfo = () => {
           <Table
             style={{
               overflow: 'auto',
-              marginTop: '-16px',
-              minHeight: cssCalc('80vh'),
-              maxHeight: cssCalc('80vh'),
-              minWidth: cssCalc('80vw - 16px'),
-              maxWidth: cssCalc('80vw - 16px'),
+
+              minHeight: cssCalc('80vh'), maxHeight: cssCalc('80vh'), minWidth: cssCalc('80vw - 16px'), maxWidth: cssCalc('80vw - 16px'),
             }}
             columns={netstatColumns}
             dataSource={hostAndSessionBaseInfo.public_ipaddress}
@@ -3329,11 +3232,8 @@ const HostRuningInfo = () => {
           <Table
             style={{
               overflow: 'auto',
-              marginTop: '-16px',
-              minHeight: cssCalc('80vh'),
-              maxHeight: cssCalc('80vh'),
-              minWidth: cssCalc('80vw - 16px'),
-              maxWidth: cssCalc('80vw - 16px'),
+
+              minHeight: cssCalc('80vh'), maxHeight: cssCalc('80vh'), minWidth: cssCalc('80vw - 16px'), maxWidth: cssCalc('80vw - 16px'),
             }}
             columns={netstatColumns}
             dataSource={hostAndSessionBaseInfo.private_ipaddress}
@@ -3345,11 +3245,8 @@ const HostRuningInfo = () => {
           <Table
             style={{
               overflow: 'auto',
-              marginTop: '-16px',
-              minHeight: cssCalc('80vh'),
-              maxHeight: cssCalc('80vh'),
-              minWidth: cssCalc('80vw - 16px'),
-              maxWidth: cssCalc('80vw - 16px'),
+
+              minHeight: cssCalc('80vh'), maxHeight: cssCalc('80vh'), minWidth: cssCalc('80vw - 16px'), maxWidth: cssCalc('80vw - 16px'),
             }}
             columns={arpColumns}
             dataSource={hostAndSessionBaseInfo.ARP}
@@ -3361,11 +3258,8 @@ const HostRuningInfo = () => {
           <Table
             style={{
               overflow: 'auto',
-              marginTop: '-16px',
-              minHeight: cssCalc('80vh'),
-              maxHeight: cssCalc('80vh'),
-              minWidth: cssCalc('80vw - 16px'),
-              maxWidth: cssCalc('80vw - 16px'),
+
+              minHeight: cssCalc('80vh'), maxHeight: cssCalc('80vh'), minWidth: cssCalc('80vw - 16px'), maxWidth: cssCalc('80vw - 16px'),
             }}
             scroll={{ x: 'calc(70vw - 16px)' }}
             columns={usefulProcessColumns}
@@ -3378,11 +3272,8 @@ const HostRuningInfo = () => {
           <Table
             style={{
               overflow: 'auto',
-              marginTop: '-16px',
-              minHeight: cssCalc('80vh'),
-              maxHeight: cssCalc('80vh'),
-              minWidth: cssCalc('80vw - 16px'),
-              maxWidth: cssCalc('80vw - 16px'),
+
+              minHeight: cssCalc('80vh'), maxHeight: cssCalc('80vh'), minWidth: cssCalc('80vw - 16px'), maxWidth: cssCalc('80vw - 16px'),
             }}
             columns={netstatColumns}
             dataSource={hostAndSessionBaseInfo.NETSTAT}
@@ -3394,11 +3285,8 @@ const HostRuningInfo = () => {
           <Table
             style={{
               overflow: 'auto',
-              marginTop: '-16px',
-              minHeight: cssCalc('80vh'),
-              maxHeight: cssCalc('80vh'),
-              minWidth: cssCalc('80vw - 16px'),
-              maxWidth: cssCalc('80vw - 16px'),
+
+              minHeight: cssCalc('80vh'), maxHeight: cssCalc('80vh'), minWidth: cssCalc('80vw - 16px'), maxWidth: cssCalc('80vw - 16px'),
             }}
             columns={processColumns}
             dataSource={hostAndSessionBaseInfo.PROCESSES}
@@ -3487,15 +3375,9 @@ const PortService = () => {
       loading={listPortServiceReq.loading || initListPortServiceReq.loading}
       columns={[
         {
-          title: formatText('app.hostandsession.portservice.port'),
-          dataIndex: 'port',
-          key: 'port',
-          width: '10%',
+          title: formatText('app.hostandsession.portservice.port'), dataIndex: 'port', key: 'port', width: '10%',
         }, {
-          title: formatText('app.hostandsession.portservice.service'),
-          dataIndex: 'service',
-          key: 'service',
-          width: '15%',
+          title: formatText('app.hostandsession.portservice.service'), dataIndex: 'service', key: 'service', width: '15%',
         }, {
           title: formatText('app.hostandsession.portservice.banner'), dataIndex: 'banner', key: 'banner',
         }, {
@@ -3503,12 +3385,9 @@ const PortService = () => {
           dataIndex: 'update_time',
           key: 'update_time',
           width: 136,
-          render: (text, record) => (
-            <Tag color="cyan">{moment(record.update_time * 1000).format('YYYY-MM-DD HH:mm')}</Tag>),
+          render: (text, record) => (<Tag color="cyan">{moment(record.update_time * 1000).format('YYYY-MM-DD HH:mm')}</Tag>),
         }, {
-          dataIndex: 'operation',
-          width: 48,
-          render: (text, record) => (<a onClick={() => onDestoryPortService(record)} style={{ color: 'red' }}>
+          dataIndex: 'operation', width: 48, render: (text, record) => (<a onClick={() => onDestoryPortService(record)} style={{ color: 'red' }}>
             {formatText('app.core.delete')}
           </a>),
         }]}
@@ -3560,24 +3439,17 @@ const Vulnerability = () => {
       loading={listVulnerabilityReq.loading || initListVulnerabilityeReq.loading}
       columns={[
         {
-          title: formatText('app.hostandsession.Vulnerability.source_module_name'),
-          dataIndex: 'source_module_name',
-          key: 'source_module_name',
+          title: formatText('app.hostandsession.Vulnerability.source_module_name'), dataIndex: 'source_module_name', key: 'source_module_name',
         }, {
-          title: formatText('app.hostandsession.Vulnerability.desc'),
-          dataIndex: 'desc',
-          key: 'desc', // width: '15%',
+          title: formatText('app.hostandsession.Vulnerability.desc'), dataIndex: 'desc', key: 'desc', // width: '15%',
         }, {
           title: formatText('app.core.updatetime'),
           dataIndex: 'update_time',
           key: 'update_time',
           width: 136,
-          render: (text, record) => (
-            <Tag color="cyan">{moment(record.update_time * 1000).format('YYYY-MM-DD HH:mm')}</Tag>),
+          render: (text, record) => (<Tag color="cyan">{moment(record.update_time * 1000).format('YYYY-MM-DD HH:mm')}</Tag>),
         }, {
-          dataIndex: 'operation',
-          width: 48,
-          render: (text, record) => (<a onClick={() => onDestoryVulnerability(record)} style={{ color: 'red' }}>
+          dataIndex: 'operation', width: 48, render: (text, record) => (<a onClick={() => onDestoryVulnerability(record)} style={{ color: 'red' }}>
             {formatText('app.core.delete')}
           </a>),
         }]}
@@ -3622,9 +3494,7 @@ const UpdateHost = props => {
         width: '440px',
       }}
       initialValues={{
-        ipaddress: hostAndSessionActive.ipaddress,
-        tag: hostAndSessionActive.tag,
-        comment: hostAndSessionActive.comment,
+        ipaddress: hostAndSessionActive.ipaddress, tag: hostAndSessionActive.tag, comment: hostAndSessionActive.comment,
       }}
       onFinish={onUpdateHost}
     >
@@ -3775,25 +3645,24 @@ export const sessionTagList = session => {
   </Tag>)
 
   // os标签
-  const os_tag_new = session.platform === 'windows' ? (
-    <Tooltip mouseEnterDelay={1} placement="right" title={session.os}>
-      <Tag
-        color="blue"
-        style={{
-          marginLeft: -6, cursor: 'pointer',
-        }}
-      >
-        <div>
-          <MyIcon
-            type="icon-windows"
-            style={{
-              marginBottom: 0, marginRight: 4, fontSize: '14px',
-            }}
-          />
-          {session.os_short}
-        </div>
-      </Tag>
-    </Tooltip>) : (<Tooltip mouseEnterDelay={1} placement="right" title={session.os}>
+  const os_tag_new = session.platform === 'windows' ? (<Tooltip mouseEnterDelay={1} placement="right" title={session.os}>
+    <Tag
+      color="blue"
+      style={{
+        marginLeft: -6, cursor: 'pointer',
+      }}
+    >
+      <div>
+        <MyIcon
+          type="icon-windows"
+          style={{
+            marginBottom: 0, marginRight: 4, fontSize: '14px',
+          }}
+        />
+        {session.os_short}
+      </div>
+    </Tag>
+  </Tooltip>) : (<Tooltip mouseEnterDelay={1} placement="right" title={session.os}>
     <Tag
       color="magenta"
       style={{

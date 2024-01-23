@@ -23,44 +23,35 @@ const LazyLoader = () => {
     onSuccess: (result, params) => {
       setLazyloaderList(result.lazyloaders);
       setHandlers(result.handlers);
-    },
-    onError: (error, params) => {
+    }, onError: (error, params) => {
     },
   });
 
   const listLazyloaderReq = useRequest(getMsgrpcLazyLoaderAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
+    manual: true, onSuccess: (result, params) => {
       setLazyloaderList(result.lazyloaders);
       setHandlers(result.handlers);
-    },
-    onError: (error, params) => {
+    }, onError: (error, params) => {
     },
   });
 
   const downloadLazyLoaderSourceCodeReq = useRequest(() => getMsgrpcLazyLoaderAPI({ sourcecode: true }), {
-    manual: true,
-    onSuccess: (result, params) => {
-    },
-    onError: (error, params) => {
+    manual: true, onSuccess: (result, params) => {
+    }, onError: (error, params) => {
     },
   });
 
   const updateLazyLoaderReq = useRequest(putMsgrpcLazyLoaderAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
+    manual: true, onSuccess: (result, params) => {
       listLazyloaderReq.run();
-    },
-    onError: (error, params) => {
+    }, onError: (error, params) => {
     },
   });
 
   const destoryLazyLoaderReq = useRequest(deleteMsgrpcLazyLoaderAPI, {
-    manual: true,
-    onSuccess: (result, params) => {
+    manual: true, onSuccess: (result, params) => {
       listLazyloaderReq.run();
-    },
-    onError: (error, params) => {
+    }, onError: (error, params) => {
     },
   });
 
@@ -86,28 +77,20 @@ const LazyLoader = () => {
       Descriptions_Items.push(<Descriptions.Item label={key}>{showstr}</Descriptions.Item>);
     }
     Modal.info({
-      mask: false,
-      style: { top: 20 },
-      width: "95%",
-      icon: "",
-      content: (
-        <Descriptions
+      mask: false, style: { top: 20 }, width: "95%", icon: "", content: (<Descriptions
           style={{ marginTop: -32, marginRight: -24, marginLeft: -24, marginBottom: -16 }}
           bordered
           size="small"
           column={3}
         >
           {Descriptions_Items}
-        </Descriptions>
-      ),
-      onOk () {
+      </Descriptions>), onOk () {
       },
     });
   };
 
-  return (
-    <Fragment>
-      <Row style={{ marginTop: -16 }} gutter={0}>
+  return (<Fragment>
+    <Row gutter={0}>
         <Col span={12}>
           <Button
             block
@@ -132,10 +115,7 @@ const LazyLoader = () => {
       <Card style={{ marginTop: 0 }} bodyStyle={{ padding: "0px 0px 0px 0px" }}>
         <Table
           style={{
-            padding: "0 0 0 0",
-            overflow: "auto",
-            maxHeight: cssCalc(`${resizeDownHeight} - 32px`),
-            minHeight: cssCalc(`${resizeDownHeight} - 32px`),
+            padding: "0 0 0 0", overflow: "auto", maxHeight: cssCalc(`${resizeDownHeight} - 32px`), minHeight: cssCalc(`${resizeDownHeight} - 32px`),
           }}
           size="small"
           bordered
@@ -143,177 +123,108 @@ const LazyLoader = () => {
           rowKey="id"
           columns={[
             {
-              title: "UUID",
-              dataIndex: "uuid",
-              key: "uuid",
-              width: 160,
-              render: (text, record) => (
-                <Ellipsis tooltip lines={2}>
+              title: "UUID", dataIndex: "uuid", key: "uuid", width: 160, render: (text, record) => (<Ellipsis tooltip lines={2}>
                   {text}
-                </Ellipsis>
-              ),
-            },
-            {
-              title: "IP地址",
-              dataIndex: "ipaddress",
-              key: "ipaddress",
-              width: 120,
-              render: (text, record) => {
+              </Ellipsis>),
+            }, {
+              title: "IP地址", dataIndex: "ipaddress", key: "ipaddress", width: 120, render: (text, record) => {
                 return <strong style={{ color: "#d8bd14" }}>{text}</strong>;
               },
-            },
-            {
-              title: "更新时间",
-              dataIndex: "last_check",
-              key: "last_check",
-              width: 136,
-              render: (text, record) => {
-                const last_check = (
-                  <Tooltip title={moment(record.last_check * 1000).format("YYYY-MM-DD HH:mm:ss")}>
+            }, {
+              title: "更新时间", dataIndex: "last_check", key: "last_check", width: 136, render: (text, record) => {
+                const last_check = (<Tooltip title={moment(record.last_check * 1000).format("YYYY-MM-DD HH:mm:ss")}>
                     <Tag color="cyan">
                       {moment(record.last_check * 1000).format("YYYY-MM-DD HH:mm")}
                     </Tag>
-                  </Tooltip>
-                );
+                </Tooltip>);
                 return <span>{last_check}</span>;
               },
-            },
-            {
-              title: "最小间隔",
-              dataIndex: "interval",
-              key: "interval",
-              width: 80,
-              render: (text, record) => {
-                let com = (
-                  <Tag
+            }, {
+              title: "最小间隔", dataIndex: "interval", key: "interval", width: 80, render: (text, record) => {
+                let com = (<Tag
                     color="green"
                     style={{
-                      width: 56,
-                      textAlign: "center",
-                      cursor: "pointer",
+                      width: 56, textAlign: "center", cursor: "pointer",
                     }}
                   >
                     {record.interval} 秒
-                  </Tag>
-                );
+                </Tag>);
                 if (record.interval < 60) {
-                  com = (
-                    <Tag
+                  com = (<Tag
                       color="orange"
                       style={{
-                        width: 56,
-                        textAlign: "center",
-                        cursor: "pointer",
+                        width: 56, textAlign: "center", cursor: "pointer",
                       }}
                     >
                       {record.interval} 秒
-                    </Tag>
-                  );
+                  </Tag>);
                 }
                 return com;
               },
-            },
-            {
-              title: "载荷(reverse_https)",
-              dataIndex: "payload",
-              key: "payload",
-              render: (text, item) => {
+            }, {
+              title: "载荷(reverse_https)", dataIndex: "payload", key: "payload", render: (text, item) => {
                 if (item.payload === undefined || item.payload === null) {
                   return null;
                 } else {
                   return <a onClick={() => handlerDetail(item.payload)}>详情</a>;
                 }
               },
-            },
-            {
-              title: "载荷状态",
-              dataIndex: "send_payload",
-              key: "send_payload",
-              width: 80,
-              render: (text, record) => {
-                let sendpayloadcom = record.send_payload ? (
-                  <Tag
+            }, {
+              title: "载荷状态", dataIndex: "send_payload", key: "send_payload", width: 80, render: (text, record) => {
+                let sendpayloadcom = record.send_payload ? (<Tag
                     color="green"
                     style={{
                       // width: 32,
-                      textAlign: "center",
-                      cursor: "pointer",
+                      textAlign: "center", cursor: "pointer",
                     }}
                   >
                     已发送
-                  </Tag>
-                ) : (
-                  <Tag
+                </Tag>) : (<Tag
                     color="orange"
                     style={{
                       // width: 32,
-                      textAlign: "center",
-                      cursor: "pointer",
+                      textAlign: "center", cursor: "pointer",
                     }}
                   >
                     未发送
-                  </Tag>
-                );
-                return (
-                  <div
+                </Tag>);
+                return (<div
                     style={{
-                      display: "flex",
-                      cursor: "pointer",
+                      display: "flex", cursor: "pointer",
                     }}
                   >
                     {sendpayloadcom}
-                  </div>
-                );
+                </div>);
               },
-            },
-            {
-              title: "操作",
-              dataIndex: "operation",
-              width: 200,
-              render: (text, record) => (
-                <div style={{ textAlign: "center" }}>
+            }, {
+              title: "操作", dataIndex: "operation", width: 200, render: (text, record) => (<div style={{ textAlign: "center" }}>
                   <Space size="middle">
                     <Popover
-                      content={
-                        <Table
-                          size="small"
-                          bordered
-                          pagination={false}
-                          rowKey="name"
-                          columns={[
-                            {
-                              title: "监听",
-                              dataIndex: "name",
-                              key: "name",
-                              render: text => <span>{text}</span>,
+                      content={<Table
+                        size="small"
+                        bordered
+                        pagination={false}
+                        rowKey="name"
+                        columns={[
+                          {
+                            title: "监听", dataIndex: "name", key: "name", render: text => <span>{text}</span>,
+                          }, {
+                            title: "操作", dataIndex: "operation", width: 64, render: (text, inlinerecord) => {
+                              if (inlinerecord.name.includes("reverse_https")) {
+                                return (<div style={{ textAlign: "center" }}>
+                                  <a
+                                    onClick={() => updateLazyLoaderReq.run({
+                                      uuid: record.uuid, field: "payload", data: inlinerecord.value,
+                                    })}
+                                  >
+                                    加载
+                                  </a>
+                                </div>);
+                              }
                             },
-                            {
-                              title: "操作",
-                              dataIndex: "operation",
-                              width: 64,
-                              render: (text, inlinerecord) => {
-                                if (inlinerecord.name.includes("reverse_https")) {
-                                  return (
-                                    <div style={{ textAlign: "center" }}>
-                                      <a
-                                        onClick={() => updateLazyLoaderReq.run({
-                                          uuid: record.uuid,
-                                          field: "payload",
-                                          data: inlinerecord.value,
-                                        })
-                                        }
-                                      >
-                                        加载
-                                      </a>
-                                    </div>
-                                  );
-                                }
-                              },
-                            },
-                          ]}
-                          dataSource={handlers}
-                        />
-                      }
+                          }]}
+                        dataSource={handlers}
+                      />}
                       trigger="click"
                     >
                       <a>加载载荷</a>
@@ -324,9 +235,7 @@ const LazyLoader = () => {
                       unCheckedChildren={"退出"}
                       checked={!record.exit_loop}
                       onClick={() => updateLazyLoaderReq.run({
-                        uuid: record.uuid,
-                        field: "exit_loop",
-                        data: !record.exit_loop,
+                        uuid: record.uuid, field: "exit_loop", data: !record.exit_loop,
                       })}
                     />
                     <a
@@ -335,15 +244,12 @@ const LazyLoader = () => {
                       删除
                     </a>
                   </Space>
-                </div>
-              ),
-            },
-          ]}
+              </div>),
+            }]}
           dataSource={lazyloaderList}
         />
       </Card>
-    </Fragment>
-  );
+  </Fragment>);
 };
 export const LazyLoaderMemo = memo(LazyLoader);
 

@@ -11,8 +11,7 @@ import { cssCalc } from "@/utils/utils";
 const { ActivateRelations, FitView } = Behaviors;
 const iconLoader = () => {
   return {
-    fontFamily: "iconfont",
-    glyphs: fonts.glyphs,
+    fontFamily: "iconfont", glyphs: fonts.glyphs,
   };
 };
 const { fontFamily } = iconLoader();
@@ -55,39 +54,19 @@ const Network = () => {
       if (data.type === "viper") {
         node.style = {
           keyshape: {
-            size: 80,
-            stroke: "#791a1f",
-            fill: "#791a1f",
-            fillOpacity: 0.2,
-          },
-          icon: {
-            type: "font",
-            fontFamily: fontFamily,
-            value: icons["v"],
-            fill: "#e84749",
-            size: 40,
+            size: 80, stroke: "#791a1f", fill: "#791a1f", fillOpacity: 0.2,
+          }, icon: {
+            type: "font", fontFamily: fontFamily, value: icons["v"], fill: "#e84749", size: 40,
           },
         };
       } else if (data.type === "host") {
         node.style = {
           label: {
-            fill: "#e8b339",
-            value: node.id,
-            fontSize: 14,
-            offset: [0, 12],
-          },
-          keyshape: {
-            size: 48,
-            stroke: "#7c5914",
-            fill: "#7c5914",
-            fillOpacity: 0.2,
-          },
-          icon: {
-            type: "font",
-            fontFamily: fontFamily,
-            value: icons["电脑"],
-            fill: "#e8b339",
-            size: 30,
+            fill: "#e8b339", value: node.id, fontSize: 14, offset: [0, 12],
+          }, keyshape: {
+            size: 48, stroke: "#7c5914", fill: "#7c5914", fillOpacity: 0.2,
+          }, icon: {
+            type: "font", fontFamily: fontFamily, value: icons["电脑"], fill: "#e8b339", size: 30,
           },
         };
         // host节点
@@ -97,25 +76,12 @@ const Network = () => {
         if (platform === "windows") {
           node.style = {
             label: {
-              value: node.id,
-              fill: "#ab7ae0",
-              fontSize: 14,
-              offset: [0, 12],
-            },
-            keyshape: {
-              size: 60,
-              stroke: "#642ab5",
-              fill: "#642ab5",
-              fillOpacity: 0.2,
-            },
-            icon: {
-              type: "font",
-              fontFamily: fontFamily,
-              value: icons["windows"],
-              fill: "#2b4acb",
-              size: 40,
-            },
-            // badges: [
+              value: node.id, fill: "#ab7ae0", fontSize: 14, offset: [0, 12],
+            }, keyshape: {
+              size: 60, stroke: "#642ab5", fill: "#642ab5", fillOpacity: 0.2,
+            }, icon: {
+              type: "font", fontFamily: fontFamily, value: icons["windows"], fill: "#2b4acb", size: 40,
+            }, // badges: [
             //   {
             //     position: 'RT',
             //     type: 'text',
@@ -129,23 +95,11 @@ const Network = () => {
         } else {
           node.style = {
             label: {
-              value: node.id,
-              fill: "#ab7ae0",
-              fontSize: 14,
-              offset: [0, 12],
-            },
-            keyshape: {
-              size: 60,
-              stroke: "#642ab5",
-              fill: "#642ab5",
-              fillOpacity: 0.2,
-            },
-            icon: {
-              type: "font",
-              fontFamily: fontFamily,
-              value: icons["linux"],
-              fill: "#d89614",
-              size: 40,
+              value: node.id, fill: "#ab7ae0", fontSize: 14, offset: [0, 12],
+            }, keyshape: {
+              size: 60, stroke: "#642ab5", fill: "#642ab5", fillOpacity: 0.2,
+            }, icon: {
+              type: "font", fontFamily: fontFamily, value: icons["linux"], fill: "#d89614", size: 40,
             },
           };
         }
@@ -159,60 +113,38 @@ const Network = () => {
         const { payload, alive } = data;
         edge.style = {
           label: {
-            value: payload,
-            fill: "#33bcb7",
-            fontSize: 14,
-          },
-          keyshape: {
-            stroke: "#138585",
-            lineWidth: 4,
-          },
-          animate: {
-            type: "circle-running",
-            color: "#33bcb7",
-            repeat: true,
-            duration: 4000,
+            value: payload, fill: "#33bcb7", fontSize: 14,
+          }, keyshape: {
+            stroke: "#138585", lineWidth: 4,
+          }, animate: {
+            type: "circle-running", color: "#33bcb7", repeat: true, duration: 4000,
           },
         };
       } else if (type === "route") {
         const { sid } = data;
         edge.style = {
           label: {
-            value: ` ${formatText("app.network.msfroute")} `,
-            fill: "#3c9ae8",
-            fontSize: 14,
-          },
-          keyshape: {
-            stroke: "#164c7e",
-            lineWidth: 3,
+            value: ` ${formatText("app.network.msfroute")} `, fill: "#3c9ae8", fontSize: 14,
+          }, keyshape: {
+            stroke: "#164c7e", lineWidth: 3,
           },
         };
       } else if (type === "scan") {
         const { method } = data;
         edge.style = {
           label: {
-            value: ` ${formatText("app.network.NetScan")} ${method}`,
-            fill: "#6abe39",
-            fontSize: 14,
-          },
-          keyshape: {
-            stroke: "#3c8618",
-            lineWidth: 2,
-            lineDash: [8, 8],
+            value: ` ${formatText("app.network.NetScan")} ${method}`, fill: "#6abe39", fontSize: 14,
+          }, keyshape: {
+            stroke: "#3c8618", lineWidth: 2, lineDash: [8, 8],
           },
         };
       } else if (type === "online") {
         const { payload } = data;
         edge.style = {
           label: {
-            value: payload,
-            fill: "#e0529c",
-            fontSize: 14,
-          },
-          keyshape: {
-            stroke: "#75204f",
-            lineDash: [8, 8],
-            lineWidth: 2,
+            value: payload, fill: "#e0529c", fontSize: 14,
+          }, keyshape: {
+            stroke: "#75204f", lineDash: [8, 8], lineWidth: 2,
           },
         };
 
@@ -220,19 +152,11 @@ const Network = () => {
         const { payload, sessionid } = data;
         edge.style = {
           label: {
-            value: ` ${formatText("app.network.Comm")} ${sessionid}\n${payload}`,
-            fill: "#e8b339",
-            fontSize: 14,
-          },
-          keyshape: {
-            stroke: "#7c5914",
-            lineWidth: 3,
-          },
-          animate: {
-            type: "circle-running",
-            color: "#e8b339",
-            repeat: true,
-            duration: 4000,
+            value: ` ${formatText("app.network.Comm")} ${sessionid}\n${payload}`, fill: "#e8b339", fontSize: 14,
+          }, keyshape: {
+            stroke: "#7c5914", lineWidth: 3,
+          }, animate: {
+            type: "circle-running", color: "#e8b339", repeat: true, duration: 4000,
           },
         };
       }
@@ -243,10 +167,8 @@ const Network = () => {
   };
   let data = formatData(networkData);
 
-  return (
-    <div
+  return (<div
       style={{
-        marginTop: -16,
         height: cssCalc(`${resizeDownHeight}`),
       }}
     >
@@ -256,17 +178,13 @@ const Network = () => {
         data={data}
         theme={{ mode: "dark" }}
         layout={{
-          type: "dagre",
-          rankdir: "RL",
-          align: "DR",
-          ranksepFunc: ranksepFunc,
+          type: "dagre", rankdir: "RL", align: "DR", ranksepFunc: ranksepFunc,
         }}
       >
         <FitView/>
         <ActivateRelations/>
       </Graphin>
-    </div>
-  );
+  </div>);
 };
 
 const NetworkWindow = () => {
@@ -291,40 +209,20 @@ const NetworkWindow = () => {
       if (data.type === "viper") {
         node.style = {
           keyshape: {
-            size: 80,
-            stroke: "#791a1f",
-            fill: "#791a1f",
-            fillOpacity: 0.2,
-          },
-          icon: {
-            type: "font",
-            fontFamily: fontFamily,
-            value: icons["v"],
-            fill: "#e84749",
-            size: 40,
+            size: 80, stroke: "#791a1f", fill: "#791a1f", fillOpacity: 0.2,
+          }, icon: {
+            type: "font", fontFamily: fontFamily, value: icons["v"], fill: "#e84749", size: 40,
           },
         };
       } else if (data.type === "host") {
         // host节点
         node.style = {
           label: {
-            fill: "#e8b339",
-            value: node.id,
-            fontSize: 14,
-            offset: [0, 12],
-          },
-          keyshape: {
-            size: 48,
-            stroke: "#7c5914",
-            fill: "#7c5914",
-            fillOpacity: 0.2,
-          },
-          icon: {
-            type: "font",
-            fontFamily: fontFamily,
-            value: icons["电脑"],
-            fill: "#e8b339",
-            size: 30,
+            fill: "#e8b339", value: node.id, fontSize: 14, offset: [0, 12],
+          }, keyshape: {
+            size: 48, stroke: "#7c5914", fill: "#7c5914", fillOpacity: 0.2,
+          }, icon: {
+            type: "font", fontFamily: fontFamily, value: icons["电脑"], fill: "#e8b339", size: 30,
           },
         };
       } else if (data.type === "session") {
@@ -333,25 +231,12 @@ const NetworkWindow = () => {
         if (platform === "windows") {
           node.style = {
             label: {
-              value: node.id,
-              fill: "#ab7ae0",
-              fontSize: 14,
-              offset: [0, 12],
-            },
-            keyshape: {
-              size: 60,
-              stroke: "#642ab5",
-              fill: "#642ab5",
-              fillOpacity: 0.2,
-            },
-            icon: {
-              type: "font",
-              fontFamily: fontFamily,
-              value: icons["windows"],
-              fill: "#2b4acb",
-              size: 40,
-            },
-            // badges: [
+              value: node.id, fill: "#ab7ae0", fontSize: 14, offset: [0, 12],
+            }, keyshape: {
+              size: 60, stroke: "#642ab5", fill: "#642ab5", fillOpacity: 0.2,
+            }, icon: {
+              type: "font", fontFamily: fontFamily, value: icons["windows"], fill: "#2b4acb", size: 40,
+            }, // badges: [
             //   {
             //     position: 'RT',
             //     type: 'text',
@@ -365,23 +250,11 @@ const NetworkWindow = () => {
         } else {
           node.style = {
             label: {
-              value: node.id,
-              fill: "#ab7ae0",
-              fontSize: 14,
-              offset: [0, 12],
-            },
-            keyshape: {
-              size: 60,
-              stroke: "#642ab5",
-              fill: "#642ab5",
-              fillOpacity: 0.2,
-            },
-            icon: {
-              type: "font",
-              fontFamily: fontFamily,
-              value: icons["linux"],
-              fill: "#d89614",
-              size: 40,
+              value: node.id, fill: "#ab7ae0", fontSize: 14, offset: [0, 12],
+            }, keyshape: {
+              size: 60, stroke: "#642ab5", fill: "#642ab5", fillOpacity: 0.2,
+            }, icon: {
+              type: "font", fontFamily: fontFamily, value: icons["linux"], fill: "#d89614", size: 40,
             },
           };
         }
@@ -395,79 +268,49 @@ const NetworkWindow = () => {
         const { payload, alive } = data;
         edge.style = {
           label: {
-            value: payload,
-            fill: "#33bcb7",
-            fontSize: 14,
-          },
-          keyshape: {
-            stroke: "#138585",
-            lineWidth: 4,
-          },
-          animate: {
-            type: "circle-running",
-            color: "#33bcb7",
-            repeat: true,
-            duration: 4000,
+            value: payload, fill: "#33bcb7", fontSize: 14,
+          }, keyshape: {
+            stroke: "#138585", lineWidth: 4,
+          }, animate: {
+            type: "circle-running", color: "#33bcb7", repeat: true, duration: 4000,
           },
         };
       } else if (type === "route") {
         const { sid } = data;
         edge.style = {
           label: {
-            value: ` ${formatText("app.network.msfroute")} `,
-            fill: "#3c9ae8",
-            fontSize: 14,
-          },
-          keyshape: {
-            stroke: "#164c7e",
-            lineWidth: 3,
+            value: ` ${formatText("app.network.msfroute")} `, fill: "#3c9ae8", fontSize: 14,
+          }, keyshape: {
+            stroke: "#164c7e", lineWidth: 3,
           },
         };
       } else if (type === "scan") {
         const { method } = data;
         edge.style = {
           label: {
-            value: ` ${formatText("app.network.NetScan")} ${method}`,
-            fill: "#f3ea62",
-            fontSize: 14,
-          },
-          keyshape: {
-            stroke: "#aa9514",
-            lineWidth: 2,
-            lineDash: [8, 8],
+            value: ` ${formatText("app.network.NetScan")} ${method}`, fill: "#f3ea62", fontSize: 14,
+          }, keyshape: {
+            stroke: "#aa9514", lineWidth: 2, lineDash: [8, 8],
           },
         };
       } else if (type === "online") {
         const { payload } = data;
         edge.style = {
           label: {
-            value: payload,
-            fill: "#e0529c",
-            fontSize: 14,
-          },
-          keyshape: {
-            stroke: "#75204f",
-            lineDash: [8, 8],
-            lineWidth: 2,
+            value: payload, fill: "#e0529c", fontSize: 14,
+          }, keyshape: {
+            stroke: "#75204f", lineDash: [8, 8], lineWidth: 2,
           },
         };
       } else if (type === "comm") {
         const { payload, sessionid } = data;
         edge.style = {
           label: {
-            value: ` ${formatText("app.network.Comm")} ${sessionid}\n${payload}`,
-            fill: "#e8b339",
-            fontSize: 14,
-          },
-          keyshape: {
-            stroke: "#7c5914",
-            lineWidth: 3,
-          },
-          animate: {
-            type: "circle-running",
-            color: "#e8b339",
-            repeat: true,
-            duration: 4000,
+            value: ` ${formatText("app.network.Comm")} ${sessionid}\n${payload}`, fill: "#e8b339", fontSize: 14,
+          }, keyshape: {
+            stroke: "#7c5914", lineWidth: 3,
+          }, animate: {
+            type: "circle-running", color: "#e8b339", repeat: true, duration: 4000,
           },
         };
       }
@@ -478,24 +321,19 @@ const NetworkWindow = () => {
   };
   let data = formatData(networkData);
 
-  return (
-    <Graphin
+  return (<Graphin
       height={window.innerHeight / 10 * 8}
       width={window.innerWidth / 10 * 8}
       data={data}
       theme={{ mode: "dark" }}
       fitView={true}
       layout={{
-        type: "dagre",
-        rankdir: "RL",
-        align: "DR",
-        ranksepFunc: ranksepFunc,
+        type: "dagre", rankdir: "RL", align: "DR", ranksepFunc: ranksepFunc,
       }}
     >
       <FitView/>
       <ActivateRelations/>
-    </Graphin>
-  );
+  </Graphin>);
 };
 
 export const NetworkMemo = memo(Network);

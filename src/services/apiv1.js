@@ -489,3 +489,9 @@ export async function getWebdatabaseCompanyBaseInfoAPI (params) {
     params,
   })
 }
+
+export async function deleteWebdatabaseCompanyBaseInfoAPI (params) {
+  return request('/api/v1/webdatabase/companybaseinfo/', {
+    method: 'DELETE', params,
+  })
+}
