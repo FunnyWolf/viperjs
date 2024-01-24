@@ -300,6 +300,35 @@ export const getModuleOptions = (postModuleConfigActive) => {
           </Select>
         </Form.Item>
       </Col>)
+    } else if (oneOption.type === 'select_multi') {
+      const selectOptions = []
+      for (const oneselect of oneOption.options) {
+        selectOptions.push({ label: getOptionTag(oneselect), value: oneselect.value })
+      }
+      options.push(<Col span={oneOption.length}>
+        <Form.Item
+          label={getOptionTag(oneOption)}
+          tooltip={getOptionDesc(oneOption)}
+          name={oneOption.name}
+          initialValue={oneOption.default}
+          rules={[
+            {
+              required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
+            }]}
+          wrapperCol={{ span: 24 }}
+        >
+          <Select
+            mode="tags"
+            allowClear
+            defaultValue={oneOption.default}
+            style={{
+              width: '90%',
+            }}
+            options={selectOptions}
+          />
+
+        </Form.Item>
+      </Col>)
     } else {
       options.push(<Col span={oneOption.length}>
         <Form.Item

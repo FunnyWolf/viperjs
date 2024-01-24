@@ -3,14 +3,14 @@ import { formatText, getModuleDesc, getModuleName } from "@/utils/locales";
 import React, { memo, useState } from "react";
 import { useRequest } from "umi";
 import { postPostmodulePostModuleActuatorAPI } from "@/services/apiv1";
-import { DeleteOutlined, ExclamationCircleOutlined, PlayCircleOutlined, StarOutlined, StarTwoTone } from "@ant-design/icons";
-import { Button, Col, Descriptions, Form, Input, Popover, Radio, Row, Table, Tag } from "antd-v5";
+import { ControlOutlined, DeleteOutlined, ExclamationCircleOutlined, GlobalOutlined, PlayCircleOutlined, StarOutlined, StarTwoTone } from "@ant-design/icons";
+import { Button, Col, Descriptions, Form, Input, Popover, Radio, Row, Table, Tabs, Tag } from "antd-v5";
 import { cssCalc } from "@/utils/utils";
 import { changePin, getModuleOptions, getPins } from "@/pages/Core/RunModule";
 import { WebTaskResultResultMemo } from '@/pages/Core/WebRealtimeJobs'
 
 const { Search, TextArea } = Input;
-
+const { TabPane } = Tabs;
 export const RunWebModule = props => {
   console.log("RunWebModule");
 
@@ -325,47 +325,68 @@ export const RunWebModule = props => {
       />
     </Col>
     <Col
-      style={{ paddingLeft: 4, paddingRight: 4 }}
+      // style={{ paddingLeft: 2, paddingRight: 2 }}
       span={10}
     >
-      <Row>
-        <Button
-          icon={<DeleteOutlined/>}
-          onClick={() => deleteSelectedWebIPDomainPortWaitList()}
-        >{formatText("common.delete")}</Button>
-      </Row>
-      <Table
-        style={{
-          // marginTop: 0,
-          // maxHeight: '560px', minHeight: '560px',
-        }}
-        scroll={{ y: "40vh" }}
+      <Tabs
         size="small"
-        bordered
-        pagination={false}
-        rowKey="id"
-        rowSelection={rowSelection}
-        columns={waitListTableColumns}
-        dataSource={webIPDomainPortWaitList}
-      />
-      <Form
-        style={{ marginTop: 16, padding: 4 }}
-        layout="vertical"
-        wrapperCol={{ span: 24 }}
-        onFinish={onCreateWebModuleActuator}
+        type="card"
+        defaultActiveKey="Params"
+        tabBarStyle={{ height: 32 }}
       >
-        <Row>{getModuleOptions(webModuleConfigActive)}</Row>
-        <Row>
-          <Button
-            type="primary"
-            htmlType="submit"
-            block
-            disabled={webModuleConfigActive.loadpath === null}
-            icon={<PlayCircleOutlined/>}
-            loading={createPostModuleActuatorReq.loading}
-          >{formatText("app.runmodule.postmodule.run")}</Button>
-        </Row>
-      </Form>
+        <TabPane
+          icon={<ControlOutlined/>}
+          tab={<span>模块参数</span>}
+          key="Params">
+          <Form
+            style={{ marginTop: 4, padding: 4 }}
+            layout="vertical"
+            wrapperCol={{ span: 24 }}
+            onFinish={onCreateWebModuleActuator}
+          >
+            <Row style={{ maxHeight: cssCalc("100vh - 120px"), overflowY: "auto" }}>
+              {getModuleOptions(webModuleConfigActive)}
+            </Row>
+            <Row>
+              <Button
+                type="primary"
+                htmlType="submit"
+                block
+                disabled={webModuleConfigActive.loadpath === null}
+                icon={<PlayCircleOutlined/>}
+                loading={createPostModuleActuatorReq.loading}
+              >{formatText("app.runmodule.postmodule.run")}</Button>
+            </Row>
+          </Form>
+        </TabPane>
+        <TabPane
+          icon={<GlobalOutlined/>}
+          tab={<span>网络资产</span>}
+          key="IPDomains">
+          <Row>
+            <Button
+              icon={<DeleteOutlined/>}
+              onClick={() => deleteSelectedWebIPDomainPortWaitList()}
+            >{formatText("common.delete")}</Button>
+          </Row>
+          <Table
+            style={{
+              // marginTop: 0,
+              // maxHeight: '560px', minHeight: '560px',
+            }}
+            scroll={{ y: "40vh" }}
+            size="small"
+            bordered
+            pagination={false}
+            rowKey="id"
+            rowSelection={rowSelection}
+            columns={waitListTableColumns}
+            dataSource={webIPDomainPortWaitList}
+          />
+        </TabPane>
+      </Tabs>
+
+
     </Col>
     <Col span={8}>
       <WebTaskResultResultMemo/>

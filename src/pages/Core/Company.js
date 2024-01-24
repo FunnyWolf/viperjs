@@ -5,7 +5,7 @@ import { useRequest } from "umi";
 import { deleteWebdatabaseCompanyBaseInfoAPI, getWebdatabaseCompanyBaseInfoAPI } from "@/services/apiv1";
 import { Button, Col, Descriptions, Image, Input, Row, Space, Table, Tabs, Typography } from "antd-v5";
 import { cssCalc } from "@/utils/utils";
-import { DeleteOutlined } from '@ant-design/icons'
+import { DeleteOutlined, SyncOutlined } from '@ant-design/icons'
 
 const { Paragraph, Text } = Typography;
 const { TabPane } = Tabs;
@@ -223,10 +223,14 @@ export const Company = props => {
   });
 
   useEffect(() => {
+    handleRefresh()
+  }, [projectActive]);
+
+  const handleRefresh = () => {
     listCompanyReq.run({
       project_id: projectActive.project_id,
     });
-  }, [projectActive]);
+  };
 
   const onCompanyBaseInfoListChange = companyBaseInfoListTmp => {
     setCompanyBaseInfoListTmp(companyBaseInfoListTmp);
@@ -304,9 +308,15 @@ export const Company = props => {
       span={8}>
       <Row>
         <Search
-          style={{ width: "100%" }}
+          style={{ width: "80%" }}
           placeholder={formatText("company.companybaseinfo.search.ph")}
           onSearch={value => handleModuleSearch(value)}
+        />
+        <Button
+          style={{ width: "20%" }}
+          icon={<SyncOutlined/>}
+          onClick={() => handleRefresh()}
+          loading={listCompanyReq.loading}
         />
         {/*<Select*/}
         {/*  defaultValue="lucy"*/}

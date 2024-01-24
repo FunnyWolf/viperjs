@@ -20,7 +20,7 @@ export const postModuleOpts = opts => {
   for (const key in opts) {
     optcoms.push(<div><strong>{getOptionTag(opts[key])}</strong><span> : {opts[key].data}</span></div>);
   }
-  return <Space direction="horizontal" size="large">{optcoms}</Space>;
+  return <Space direction="vertical" size={0}>{optcoms}</Space>;
 };
 
 const RealTimeModuleResult = () => {

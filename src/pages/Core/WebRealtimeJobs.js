@@ -367,7 +367,7 @@ const WebTaskResult = () => {
         </Space>
         <div
           style={{
-            marginTop: 4,
+            marginTop: 8,
           }}
         >
           <Text type="secondary">{postModuleOpts(record.opts)}</Text>

@@ -22,6 +22,7 @@
 - https://beian.miit.gov.cn/#/Integrated/recordQuery
 - 将module result集成到模块运行页面中
 - 等待任务停止时动作
+- 定制化搜索功能,可以进行一键搜索感兴趣的资产
 
 ### post
 

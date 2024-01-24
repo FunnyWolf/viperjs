@@ -165,14 +165,14 @@ export const ProjectButton = () => {
 
               return <div style={{ textAlign: "center" }}><Space size="middle">
                 {projectActive.project_id === record.project_id ? <a style={{ visibility: "Hidden" }}>占位</a> : selectbutton}
-                <a
+                {projectActive.project_id === record.project_id ? <a style={{ visibility: "Hidden" }}>占位</a> : <a
                   onClick={() => destoryProjectReq.run({
                     project_id: record.project_id,
                   })}
                   style={{ color: "red" }}
                 >
                   {formatText("app.core.delete")}
-                </a>
+                </a>}
               </Space></div>;
             },
           }]}
