@@ -12,17 +12,14 @@
 - nuclei集成,为数据库表结构和前端交互做准备
 - 展示一个project里面数据的所有ip地址,子网,子域名,主域名
 - service搜索功能有提示,展示系统中所有已经存在的service,支持组件搜索
-- 后期实现自动化模块,通过API来组合各部分代码
 - https://github.com/projectdiscovery/nuclei/blob/dev/examples/advanced/advanced.go nuclei改造
-- 自动化通过运行原子模块来进行操作
 - Django subquery和outerref优化
-- 通过模块配置项来确定自动化方式
-- 首先实现quake的全流程自动化
 - 使用代码来补充zoomeye/fofa等相对于quake缺失的功能
 - https://beian.miit.gov.cn/#/Integrated/recordQuery
 - 将module result集成到模块运行页面中
 - 等待任务停止时动作
 - 定制化搜索功能,可以进行一键搜索感兴趣的资产
+- 数据存储时都存,但是在展示时进行优先级排序,唯一性数据只展示最新的一条
 
 ### post
 
@@ -38,3 +35,6 @@
 - ~~moduleresult自动更新整体时间~~
 - ~~module result新增进度条功能~~
 - ~~waf not alive 报错~~
+- ~~后期实现自动化模块,通过API来组合各部分代码~~
+- ~~通过模块配置项来确定自动化方式~~
+- ~~首先实现quake的全流程自动化~~

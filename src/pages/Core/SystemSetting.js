@@ -958,17 +958,17 @@ const ZoomeyeForm = props => {
                                                text={formatText("app.core.working")}/>) : (<Badge status="error" text={formatText("app.core.error")}/>)}
             </Col>
           </Row>
-          <Form.Item {...buttonItemLayout}>
-            <Space>
-              <Button
-                icon={<DeliveredProcedureOutlined/>}
-                type="primary"
-                htmlType="submit"
-                loading={updateZoomeyeReq.loading}
-              >
-                {formatText("app.core.update")}
-              </Button>
-            </Space>
+          <Form.Item
+            wrapperCol={{ span: 20, offset: 4 }}
+          >
+            <Button
+              icon={<DeliveredProcedureOutlined/>}
+              type="primary"
+              htmlType="submit"
+              loading={updateZoomeyeReq.loading}
+            >
+              {formatText("app.core.update")}
+            </Button>
           </Form.Item>
         </Form>
       </Col>
@@ -1021,10 +1021,14 @@ const AiqichaForm = props => {
   return (<Card>
     <DocIcon url="https://www.yuque.com/vipersec/help/ary2q9yqzv1zb8k8"/>
     <Row>
-      <Col span={16}>
-        <Form form={aiqichaForm}
-              onFinish={onUpdateAiqicha} {...inputItemLayout}>
-          <Form.Item
+      <Col span={20}>
+        <Form
+          form={aiqichaForm}
+          onFinish={onUpdateAiqicha}
+          labelCol={{ span: 2, offset: 0 }}
+          wrapperCol={{ span: 20, offset: 0 }}
+        >
+          < Form.Item
             label="cookie"
             name="cookie"
             rules={[
@@ -1035,26 +1039,26 @@ const AiqichaForm = props => {
             <TextArea autoSize/>
           </Form.Item>
           <Row>
-            <Col style={{ marginBottom: 24 }} span={4} offset={4}>
+            <Col style={{ marginBottom: 24 }} span={4} offset={2}>
               {settingsAiqicha.alive ? (<Badge status="processing"
                                                text={formatText("app.core.working")}/>) : (<Badge status="error" text={formatText("app.core.error")}/>)}
             </Col>
           </Row>
-          <Form.Item {...buttonItemLayout}>
-            <Space>
-              <Button
-                icon={<DeliveredProcedureOutlined/>}
-                type="primary"
-                htmlType="submit"
-                loading={updateAiqichaReq.loading}
-              >
-                {formatText("app.core.update")}
-              </Button>
-            </Space>
+          <Form.Item
+            wrapperCol={{ span: 20, offset: 2 }}
+          >
+            <Button
+              icon={<DeliveredProcedureOutlined/>}
+              type="primary"
+              htmlType="submit"
+              loading={updateAiqichaReq.loading}
+            >
+              {formatText("app.core.update")}
+            </Button>
           </Form.Item>
         </Form>
       </Col>
-      <Col span={8}>
+      <Col span={4}>
         <Typography>
           <Paragraph>
             <Title level={4}>{formatText("app.systemsetting.howtoconfig")}</Title>
@@ -1069,7 +1073,8 @@ const AiqichaForm = props => {
         </Typography>
       </Col>
     </Row>
-  </Card>);
+  </Card>)
+    ;
 };
 
 const LHostForm = props => {
