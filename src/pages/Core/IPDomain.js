@@ -32,7 +32,6 @@ import {
 } from "antd-v5";
 
 import {
-  AccountBookOutlined,
   BugOutlined,
   CameraOutlined,
   CheckOutlined,
@@ -476,7 +475,7 @@ const IPDomain = props => {
   const ActionRow = (record) => {
     return <Row><Space.Compact>
       <Button
-        size="small" style={{ width: 64 }}
+        size="middle" style={{ width: 64 }}
         icon={<SwapOutlined/>}
         onClick={() => {
           setActiveRecord(record);
@@ -484,12 +483,12 @@ const IPDomain = props => {
         }}
       />
       <Button
-        size="small" style={{ width: 64 }}
+        size="middle" style={{ width: 64 }}
         icon={<PlusCircleOutlined/>}
         onClick={() => addToWebIPDomainPortWaitList(record)}
       ></Button>
       <Button
-        size="small" style={{ width: 64 }}
+        size="middle" style={{ width: 64 }}
         icon={<TagOutlined/>}
         onClick={() => {
           setActiveRecord(record);
@@ -497,7 +496,7 @@ const IPDomain = props => {
         }}
       />
       <Button
-        size="small" style={{ width: 64 }}
+        size="middle" style={{ width: 64 }}
         danger
         icon={<DeleteOutlined/>}
         onClick={() => destoryProjectReq.run({ ipdomain: record.ipdomain })}
@@ -809,28 +808,6 @@ const IPDomain = props => {
     }
     return null;
   };
-  const DomainICPTabPane = (record) => {
-    if (record.domainicp) {
-      const domainicp = record.domainicp;
-      return <Tabs.TabPane icon={<AccountBookOutlined/>} tab={<span>ICP</span>}
-                           key="domainicp">
-        <Descriptions
-          size="small"
-          column={12}
-          bordered
-        >
-          <Descriptions.Item label={"unit"} span={4}>
-            {domainicp.unit}
-          </Descriptions.Item>
-          <Descriptions.Item label={"license"} span={4}>
-            {domainicp.license}
-          </Descriptions.Item>
-        </Descriptions>
-      </Tabs.TabPane>;
-    } else {
-      return null;
-    }
-  };
 
   const IPDomainPortCard = (record) => {
     return <Card
@@ -839,7 +816,7 @@ const IPDomain = props => {
       }}
     >
       <Row>
-        <Col span={10}>
+        <Col span={8}>
           <Space size={8} style={{ marginLeft: 8, marginTop: 8 }} direction="vertical">
             {FirstRow(record)}
             {IPRow(record)}
@@ -849,11 +826,12 @@ const IPDomain = props => {
             {ActionRow(record)}
           </Space>
         </Col>
-        <Col span={14}>
+        <Col span={16}>
           <Tabs
             style={{
               marginTop: -4,
             }}
+            tabBarExtraContent={ActionRow(record)}
             size="small">
             {HttpTabPane(record)}
             {CertTabPane(record)}
