@@ -425,13 +425,12 @@ const IPDomain = props => {
       const num_count = vulnerability.num_count;
       return <Space size={0}>
         <Tag
-          // bordered={false}
           color="red"
           style={{
             textAlign: "center", cursor: "pointer",
           }}
         >
-          <strong>Critical {num_count.critical}</strong>
+          Critical {num_count.critical}
         </Tag>
         <Tag
           // bordered={false}
@@ -440,7 +439,7 @@ const IPDomain = props => {
             textAlign: "center", cursor: "pointer",
           }}
         >
-          <strong>High {num_count.high}</strong>
+          High {num_count.high}
         </Tag>
         <Tag
           // bordered={false}
@@ -449,7 +448,7 @@ const IPDomain = props => {
             textAlign: "center", cursor: "pointer",
           }}
         >
-          <strong>Medium {num_count.medium}</strong>
+          Medium {num_count.medium}
         </Tag>
         <Tag
           // bordered={false}
@@ -458,7 +457,7 @@ const IPDomain = props => {
             textAlign: "center", cursor: "pointer",
           }}
         >
-          <strong>Low {num_count.low}</strong>
+          Low {num_count.low}
         </Tag>
         <Tag
           // bordered={false}
@@ -467,7 +466,7 @@ const IPDomain = props => {
             textAlign: "center", cursor: "pointer",
           }}
         >
-          <strong>Info {num_count.info}</strong>
+          Info {num_count.info}
         </Tag>
       </Space>;
     }
@@ -635,12 +634,18 @@ const IPDomain = props => {
             <strong>{http_base.status_code}</strong>
           </Tag>
         </Descriptions.Item>
+        <Descriptions.Item label="Favicon">
+          <Tag
+            color="cyan"
+            style={{
+              textAlign: "center", cursor: "pointer",
+            }}
+          >
+            <strong>{http_base.status_code}</strong>
+          </Tag>
+        </Descriptions.Item>
+
       </Descriptions>
-
-      // return <>
-      //   <a target="_blank" href={http_base.url}><LinkOutlined/> {http_base.title}</a>
-
-      // </>;
     }
     return null;
   };
@@ -648,12 +653,45 @@ const IPDomain = props => {
   const HttpTabPane = (record) => {
     const http_base = record.http_base;
     const http_favicon = record.http_favicon;
+    let src = null;
+    if (http_favicon) {
+      src = "data:image/png;base64," + http_favicon.content;
+    }
     if (http_base) {
       return <Tabs.TabPane icon={<ChromeOutlined/>} tab={<span>HTTP</span>} key="HTTP">
-        <Space>
-          {HttpBaseRow(http_base)}
-          {HttpFaviconTag(http_favicon)}
-        </Space>
+        <Descriptions
+          size="small"
+          column={24}
+          // bordered
+          layout="vertical"
+        >
+          <Descriptions.Item
+            span={4}
+            label="Title">
+            <a target="_blank" href={http_base.url}><LinkOutlined/> {http_base.title}</a>
+          </Descriptions.Item>
+          <Descriptions.Item
+            span={4}
+            label="Status Code">
+            <Tag
+              color="cyan"
+              style={{
+                textAlign: "center", cursor: "pointer",
+              }}
+            >
+              <strong>{http_base.status_code}</strong>
+            </Tag>
+          </Descriptions.Item>
+          <Descriptions.Item
+            span={4}
+            label="Favicon">
+            <Avatar
+              shape="square"
+              size={20}
+              src={src}
+            />
+          </Descriptions.Item>
+        </Descriptions>
       </Tabs.TabPane>;
     } else {
       return null;
@@ -823,7 +861,7 @@ const IPDomain = props => {
       }}
     >
       <Row>
-        <Col span={8}>
+        <Col span={10}>
           <Space
             style={{ marginLeft: 8, marginTop: 8 }}
             direction="vertical"
@@ -835,7 +873,7 @@ const IPDomain = props => {
             {VulnerabilityRow(record)}
           </Space>
         </Col>
-        <Col span={16}>
+        <Col span={14}>
           <Tabs
             tabBarExtraContent={ActionRow(record)}
             size="small">
@@ -852,14 +890,12 @@ const IPDomain = props => {
   };
 
   const renderItem = record => {
-    let maincard = null;
-    maincard = IPDomainPortCard(record);
     return <List.Item
       style={{
         padding: "2px 0px 2px 0px", // marginBottom: 2,
       }}
     >
-      {maincard}
+      {IPDomainPortCard(record)}
     </List.Item>;
   };
   return (<Fragment>
