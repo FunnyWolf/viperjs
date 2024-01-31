@@ -376,13 +376,17 @@ const WebMain = props => {
   return (<GridContent>
     <ConfigProvider
       theme={{
-        algorithm: theme.darkAlgorithm, // algorithm: [theme.darkAlgorithm, theme.compactAlgorithm],
+        algorithm: theme.darkAlgorithm,
+        // algorithm: [theme.darkAlgorithm, theme.compactAlgorithm],
         token: {
           // fontSizeSM: 16,
-        }, components: {
+        },
+        components: {
           Table: {
             cellPaddingBlockSM: 4, headerBorderRadius: 2,
-          }, Descriptions: {}, Tabs: {
+          },
+          Descriptions: {},
+          Tabs: {
             horizontalMargin: "0 0 0 0", /* 这里是你的组件 token */
           },
         },

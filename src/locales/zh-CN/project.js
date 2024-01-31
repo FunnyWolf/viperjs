@@ -8,6 +8,7 @@ export default {
   "project.select": "切换",
 
   "ipdomain.portscan.ipdomainlist.ph": "192.168.1.1/24\n192.168.1.3",
+  "ipdomain.delete.confirm": "确认删除该记录?",
   "webmodule.auto": "自动化",
   "webmodule.common": "通用",
   "webmodule.portscan": "端口扫描",

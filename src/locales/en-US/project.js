@@ -4,6 +4,7 @@ export default {
   "project.desc": "Description",
   "project.select": "Select",
   "ipdomain.portscan.ipdomainlist.ph": "192.168.1.1/24\n192.168.1.3",
+  "ipdomain.delete.confirm": "Are you sure to delete this record?",
   "webmodule.auto": "Automation",
   "webmodule.common": "Common",
   "webmodule.portscan": "PortScan",

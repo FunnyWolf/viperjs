@@ -118,7 +118,7 @@ const SystemInfo = () => {
   const [lastestVersion, setLastestVersion] = useState(null);
   const [lastestVersionLoading, setLastestVersionLoading] = useState(false);
   const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState("viper-debug-flag", false);
-  const [onlyShowSession, setOnlyShowSession] = useLocalStorageState("only-show-session", false);
+  // const [onlyShowSession, setOnlyShowSession] = useLocalStorageState("only-show-session", false);
 
   //初始化数据
   useRequest(getServiceStatusAPI, {
@@ -251,18 +251,6 @@ const SystemInfo = () => {
             >
             </Button>
           </Space>
-        </Descriptions.Item>
-        <Descriptions.Item
-          label={formatText("app.systemsetting.onlyshowsession")}>
-          <Switch
-            checkedChildren={<CheckOutlined/>}
-            unCheckedChildren={<MinusOutlined/>}
-            checked={onlyShowSession}
-            onClick={() => {
-              setOnlyShowSession(!onlyShowSession);
-              location.reload();
-            }}
-          />
         </Descriptions.Item>
         <Descriptions.Item
           label={formatText("app.systemsetting.betafunction")}>

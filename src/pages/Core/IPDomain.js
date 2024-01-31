@@ -1,7 +1,7 @@
 import React, { Fragment, memo, useEffect, useState } from "react";
 import { useRequest } from "umi";
 import {
-  deleteWebdatabaseProjectAPI,
+  deleteWebdatabaseIPDomainAPI,
   getWebdatabaseIPDomainAPI,
   getWebdatabaseProjectAPI,
   postWebdatabaseProjectAPI,
@@ -22,6 +22,7 @@ import {
   Menu,
   Modal,
   Pagination,
+  Popconfirm,
   Radio,
   Row,
   Select,
@@ -151,7 +152,7 @@ const IPDomain = props => {
     },
   });
 
-  const destoryProjectReq = useRequest(deleteWebdatabaseProjectAPI, {
+  const destoryIPDomainReq = useRequest(deleteWebdatabaseIPDomainAPI, {
     manual: true, onSuccess: (result, params) => {
       setIPDomains(ipdomains.filter(item => item.ipdomain !== params[0].ipdomain));
     }, onError: (error, params) => {
@@ -473,9 +474,11 @@ const IPDomain = props => {
   };
 
   const ActionRow = (record) => {
-    return <Row><Space.Compact>
+    return <Space
+      style={{ paddingRight: 16 }}
+    >
       <Button
-        size="middle" style={{ width: 64 }}
+        size="middle"
         icon={<SwapOutlined/>}
         onClick={() => {
           setActiveRecord(record);
@@ -483,25 +486,29 @@ const IPDomain = props => {
         }}
       />
       <Button
-        size="middle" style={{ width: 64 }}
+        size="middle"
         icon={<PlusCircleOutlined/>}
         onClick={() => addToWebIPDomainPortWaitList(record)}
       ></Button>
       <Button
-        size="middle" style={{ width: 64 }}
+        size="middle"
         icon={<TagOutlined/>}
         onClick={() => {
           setActiveRecord(record);
           setShowCommentModal(true);
         }}
       />
-      <Button
-        size="middle" style={{ width: 64 }}
-        danger
-        icon={<DeleteOutlined/>}
-        onClick={() => destoryProjectReq.run({ ipdomain: record.ipdomain })}
-      ></Button>
-    </Space.Compact></Row>;
+      <Popconfirm
+        description={formatText("ipdomain.delete.confirm")}
+        onConfirm={() => destoryIPDomainReq.run({ ipdomain: record.ipdomain })}
+      >
+        <Button
+          size="middle"
+          danger
+          icon={<DeleteOutlined/>}
+        />
+      </Popconfirm>
+    </Space>;
   };
   const SearchRow = () => {
     const [form] = Form.useForm();
@@ -812,25 +819,24 @@ const IPDomain = props => {
   const IPDomainPortCard = (record) => {
     return <Card
       bodyStyle={{
-        padding: 0, minHeight: listitemHeight + 36,
+        padding: 0, minHeight: listitemHeight + 40,
       }}
     >
       <Row>
         <Col span={8}>
-          <Space size={8} style={{ marginLeft: 8, marginTop: 8 }} direction="vertical">
+          <Space
+            style={{ marginLeft: 8, marginTop: 8 }}
+            direction="vertical"
+          >
             {FirstRow(record)}
             {IPRow(record)}
             {ComponentRow(record)}
             {SecurityRow(record)}
             {VulnerabilityRow(record)}
-            {ActionRow(record)}
           </Space>
         </Col>
         <Col span={16}>
           <Tabs
-            style={{
-              marginTop: -4,
-            }}
             tabBarExtraContent={ActionRow(record)}
             size="small">
             {HttpTabPane(record)}
@@ -844,33 +850,7 @@ const IPDomain = props => {
       </Row>
     </Card>;
   };
-  // const IPDomainOnlyCard = (record) => {
-  //   return <Card
-  //     bodyStyle={{ padding: 0, margin: 0, minHeight: listitemHeight + 36 }}
-  //   >
-  //     <Row>
-  //       <Col span={10}>
-  //         {FirstRow(record)}
-  //         <Row
-  //           style={{ marginTop: 4, marginLeft: 4 }}
-  //         >{LocationRow(record)}</Row>
-  //         <Row
-  //           style={{ marginTop: 4, marginLeft: 4 }}
-  //         >{CDNTag(record)}</Row>
-  //       </Col>
-  //       <Col span={14}>
-  //         <Tabs
-  //           style={{
-  //             marginTop: -4,
-  //           }}
-  //           size="small">
-  //           {DomainICPTabPane(record)}
-  //           {DNSTabPane(record)}
-  //         </Tabs>
-  //       </Col>
-  //     </Row>
-  //   </Card>;
-  // };
+
   const renderItem = record => {
     let maincard = null;
     maincard = IPDomainPortCard(record);
@@ -977,11 +957,8 @@ const IPDomain = props => {
       </Form>
     </Modal>
     <Modal
-      // style={{
-      //   right: 120,
-      // }}
       styles={{
-        body: { margin: -16 },
+        body: { margin: -24 },
       }}
       mask={false}
       width="24vw"
@@ -1003,5 +980,3 @@ const IPDomain = props => {
   </Fragment>);
 };
 export const IPDomainMemo = memo(IPDomain);
-
-
