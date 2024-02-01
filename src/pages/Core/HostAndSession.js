@@ -79,6 +79,7 @@ import {
   RetweetOutlined,
   RightOutlined,
   RobotOutlined,
+  SafetyCertificateOutlined,
   SearchOutlined,
   SettingOutlined,
   SisternodeOutlined,
@@ -926,33 +927,9 @@ const HostAndSessionCard = () => {
     <a target="_blank" href="https://www.yuque.com/vipersec/help/cr9w1rgb3pyvvnt1">
       <QuestionCircleOutlined
         style={{
-          fontSize: 16, top: cssCalc(`${resizeUpHeight} - 28px`), right: 20, position: 'absolute', zIndex: 100,
+          fontSize: 16, top: cssCalc(`${resizeUpHeight} - 28px`), right: 64, position: 'absolute', zIndex: 100,
         }}/>
     </a>
-    {/*<Resizable*/}
-    {/*    enable={{*/}
-    {/*        top: false,*/}
-    {/*        right: false,*/}
-    {/*        bottom: true,*/}
-    {/*        left: false,*/}
-    {/*        topRight: false,*/}
-    {/*        bottomRight: false,*/}
-    {/*        bottomLeft: false,*/}
-    {/*        topLeft: false*/}
-    {/*    }}*/}
-    {/*    size={{ height: cssCalc(`${Upheight}`) }}*/}
-    {/*    onResizeStop={(e, direction, ref, d) => {*/}
-    {/*        console.log(direction);*/}
-    {/*        console.log(d.height);*/}
-    {/*        if (d.height < 0) {*/}
-    {/*            setResizeUpHeight(`- ${-d.height}px`);*/}
-    {/*            setResizeDownHeight(`+ ${-d.height}px`);*/}
-    {/*        } else {*/}
-    {/*            setResizeUpHeight(`+ ${d.height}px`);*/}
-    {/*            setResizeDownHeight(`- ${d.height}px`);*/}
-    {/*        }*/}
-    {/*    }}*/}
-    {/*>*/}
     <Table
       loading={!heatbeatsocketalive}
       dataSource={onlyShowSessionModel ? hostAndSessionList.map(record => {
@@ -1429,6 +1406,12 @@ const FloatingButtons = () => {
         }}
         icon={<VerticalAlignMiddleOutlined/>}
       />}
+      <Button
+        style={{ width: 40 }}
+        icon={<SafetyCertificateOutlined/>}
+        href={"#/web"}
+        target={'_blank'}
+      />
     </Space>
   </Fragment>
 }
