@@ -219,6 +219,13 @@ const IPDomain = props => {
     listIPdomainReq.run({
       project_id: projectActive.project_id, pagination: tableParams,
     });
+
+    if (ipdomains.length === 0) {
+      listIPdomainReq.run({
+        project_id: projectActive.project_id, pagination: tableParams,
+      });
+    }
+
   }, [projectActive]);
 
   useEffect(() => {

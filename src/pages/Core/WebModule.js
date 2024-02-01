@@ -266,8 +266,9 @@ export const RunWebModule = props => {
         label={formatText("app.runmodule.postmodule.referencesCom")} span={12}>
         {referencesCom}
       </Descriptions.Item>
-      <Descriptions.Item span={12}
-                         label={formatText("app.runmodule.postmodule.DESC")}>
+      <Descriptions.Item
+        span={12}
+        label={formatText("app.runmodule.postmodule.DESC")}>
           <pre
             style={{
               whiteSpace: "pre-wrap", overflowX: "hidden", padding: "0 0 0 0",
