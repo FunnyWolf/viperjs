@@ -220,16 +220,15 @@ const IPDomain = props => {
       project_id: projectActive.project_id, pagination: tableParams,
     });
 
+  }, [projectActive]);
+
+  useEffect(() => {
+    listProjectReq.run();
     if (ipdomains.length === 0) {
       listIPdomainReq.run({
         project_id: projectActive.project_id, pagination: tableParams,
       });
     }
-
-  }, [projectActive]);
-
-  useEffect(() => {
-    listProjectReq.run();
   }, []);
 
   const LocationRow = (record) => {
