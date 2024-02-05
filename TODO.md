@@ -25,6 +25,7 @@
 
 - 集成项目https://github.com/qwqdanchun/Pillager
 - https://github.com/FunnyWolf/Viper/issues/196
+- 收集日志时自动将系统的配置信息收集(Session/Handler),将目标的IP地址等要做匿名化处理
 
 ### Done
 
