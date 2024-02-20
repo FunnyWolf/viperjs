@@ -1,6 +1,6 @@
 export default {
   "app.systemsetting.howtoconfig": "配置方法",
-  "app.systemsetting.openquakevip": "申请开通Quake会员/账号,获取key",
+  "app.systemsetting.openquakevip": "开通Quake账号,获取 API KEY",
   "app.systemsetting.quakeapireadme": "Quake API教程",
   "app.systemsetting.openhuntervip": "申请开通Hunter会员/账号,获取key",
   "app.systemsetting.hunterapireadme": "Hunter API教程",
@@ -61,5 +61,5 @@ export default {
 
   "app.systemsetting.defaultdnslogbase": "DNSLOG域名",
   "app.systemsetting.defaultdnslogbasetooltip": "请输入DNSLOG域名(例如:xxx.ceye.io)",
-  "app.systemsetting.defaultdnslogbaseplaceholder": "DNSLOG域名(例如:xxx.ceye.io)"
+  "app.systemsetting.defaultdnslogbaseplaceholder": "DNSLOG域名(例如:xxx.ceye.io)",
 };

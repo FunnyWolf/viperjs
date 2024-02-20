@@ -9,6 +9,7 @@ import {
 } from "@/services/apiv1";
 
 import {
+  AutoComplete,
   Avatar,
   Button,
   Card,
@@ -517,7 +518,6 @@ const IPDomain = props => {
   };
   const SearchRow = () => {
     const [form] = Form.useForm();
-
     return <Form
       form={form}
       layout="inline"
@@ -536,11 +536,22 @@ const IPDomain = props => {
           noStyle
           // label="Service"
         >
-          <Input
+          <AutoComplete
             style={{
               width: 120,
             }}
-            placeholder="Service"/>
+            options={
+              [
+                {
+                  value: "http",
+                },
+              ]
+            }
+            placeholder="Service"
+            // onSelect={onSelect}
+            // onSearch={(text) => setAnotherOptions(getPanelValue(text))}
+            // onChange={onChange}
+          />
         </Form.Item>
         <Form.Item
           name="port"
@@ -595,7 +606,8 @@ const IPDomain = props => {
           noStyle
         >
           <Button
-            style={{ width: 80 }}
+            type="primary"
+            style={{ width: 96 }}
             icon={<SearchOutlined/>}
             htmlType="submit"
             loading={listIPdomainReq.loading}
@@ -898,7 +910,7 @@ const IPDomain = props => {
   const renderItem = record => {
     return <List.Item
       style={{
-        padding: "2px 0px 2px 0px", // marginBottom: 2,
+        padding: "0px 0px 4px 0px", // marginBottom: 2,
       }}
     >
       {IPDomainPortCard(record)}
@@ -913,7 +925,7 @@ const IPDomain = props => {
         <Space size={0}>
           <SearchRow/>
           <Button
-            style={{ width: 80 }}
+            style={{ width: 96 }}
             icon={<SyncOutlined/>}
             onClick={() => handleRefresh()}
             loading={listIPdomainReq.loading}

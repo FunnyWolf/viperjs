@@ -1,14 +1,26 @@
 import { request } from 'umi'
 
+export async function getCoreSettingAPI (params) {
+  return request('/api/v1/core/setting/', {
+    params,
+  })
+}
+
 export async function postCoreSettingAPI (params) {
   return request('/api/v1/core/setting/', {
     method: 'POST', data: params,
   })
 }
 
-export async function getCoreSettingAPI (params) {
+export async function putCoreSettingAPI (params) {
   return request('/api/v1/core/setting/', {
-    params,
+    method: 'PUT', data: params,
+  })
+}
+
+export async function deleteCoreSettingAPI (params) {
+  return request('/api/v1/core/setting/', {
+    method: 'DELETE', params,
   })
 }
 

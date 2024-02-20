@@ -1,5 +1,13 @@
-import React, { memo, useState } from "react";
-import { deleteCoreUUIDJsonAPI, getCoreSettingAPI, getServiceStatusAPI, postCoreSettingAPI, putPostmodulePostModuleConfigAPI } from "@/services/apiv1";
+import React, { memo, useEffect, useState } from "react";
+import {
+  deleteCoreSettingAPI,
+  deleteCoreUUIDJsonAPI,
+  getCoreSettingAPI,
+  getServiceStatusAPI,
+  postCoreSettingAPI,
+  putCoreSettingAPI,
+  putPostmodulePostModuleConfigAPI,
+} from "@/services/apiv1";
 import { history, useRequest } from "umi";
 
 import { setToken } from "@/utils/authority";
@@ -11,6 +19,7 @@ import {
   DeliveredProcedureOutlined,
   LogoutOutlined,
   MinusOutlined,
+  PlusOutlined,
   ReloadOutlined,
   SyncOutlined,
 } from "@ant-design/icons";
@@ -20,6 +29,7 @@ import { reloadAuthorized } from "@/utils/Authorized";
 import { formatText } from "@/utils/locales";
 import { DocIcon } from "@/pages/Core/Common";
 import { Version } from "@/config";
+import { Table } from 'antd'
 
 const { TextArea } = Input;
 
@@ -736,20 +746,43 @@ const FOFAForm = props => {
 const QuakeForm = props => {
   const [quakeForm] = Form.useForm();
   const [settingsQuake, setSettingsQuake] = useState({});
-
+  const [settingsQuakeList, setSettingsQuakeList] = useState([]);
   //初始化数据
-  const initListQuakeReq = useRequest(() => getCoreSettingAPI({ kind: "Quake" }), {
-    onSuccess: (result, params) => {
-      setSettingsQuake(result);
-      quakeForm.setFieldsValue(result);
+  // const initListQuakeReq = useRequest(() => getCoreSettingAPI({ kind: "Quake" }), {
+  //   onSuccess: (result, params) => {
+  //     setSettingsQuakeList(result);
+  //   }, onError: (error, params) => {
+  //   },
+  // });
+
+  useEffect(() => {
+    listQuakeReq.run({ kind: "Quake" });
+  }, []);
+
+  const listQuakeReq = useRequest(getCoreSettingAPI, {
+    manual: true, onSuccess: (result, params) => {
+      setSettingsQuakeList(result);
     }, onError: (error, params) => {
     },
   });
 
-  const updateQuakeReq = useRequest(postCoreSettingAPI, {
+  const createQuakeReq = useRequest(postCoreSettingAPI, {
     manual: true, onSuccess: (result, params) => {
-      setSettingsQuake(result);
-      quakeForm.setFieldsValue(result);
+      listQuakeReq.run({ kind: "Quake" });
+    }, onError: (error, params) => {
+    },
+  });
+
+  const updateQuakeReq = useRequest(putCoreSettingAPI, {
+    manual: true, onSuccess: (result, params) => {
+      listQuakeReq.run({ kind: "Quake" });
+    }, onError: (error, params) => {
+    },
+  });
+
+  const destoryQuakeReq = useRequest(deleteCoreSettingAPI, {
+    manual: true, onSuccess: (result, params) => {
+      listQuakeReq.run({ kind: "Quake" });
     }, onError: (error, params) => {
     },
   });
@@ -758,46 +791,114 @@ const QuakeForm = props => {
     let params = {
       kind: "Quake", tag: "default", setting: { ...values },
     };
-    updateQuakeReq.run(params);
+    createQuakeReq.run(params);
   };
 
-  return (<Card>
+  return (<Card
+    bodyStyle={{ padding: "0px 0px 0px 0px" }}
+  >
     <DocIcon url="https://www.yuque.com/vipersec/help/hufexqh266gf76s9"/>
     <Row>
-      <Col span={16}>
-        <Form form={quakeForm} onFinish={onUpdateQuake} {...inputItemLayout}>
+      <Col span={18}>
+        <Table
+          columns={[
+            {
+              title: "API KEY",
+              dataIndex: "key",
+              // width: 320,
+            },
+            {
+              title: "状态",
+              dataIndex: "ban_status",
+              width: 80,
+            },
+            {
+              title: "免费查询次数",
+              dataIndex: "free_query_api_count",
+              width: 104,
+            },
+            {
+              title: "月度剩余积分",
+              dataIndex: "month_remaining_credit",
+              width: 104,
+            },
+            {
+              title: "长效剩余积分",
+              dataIndex: "constant_credit",
+              width: 104,
+            },
+            {
+              title: "账号类型",
+              dataIndex: "account_role",
+              width: 80,
+            },
+            {
+              dataIndex: "operation",
+              width: 120,
+              render: (text, record) => {
+                return <div style={{ textAlign: "center" }}>
+                  <Space size="middle">
+                    <a
+                      onClick={() => updateQuakeReq.run({
+                        kind: "Quake", tag: "default", setting: { key: record.key },
+                      })}
+                      style={{ color: "yellow" }}
+                    >
+                      {formatText("app.core.update")}
+                    </a>
+                    <a
+                      onClick={() => destoryQuakeReq.run({
+                        kind: "Quake", tag: "default", setting: { key: record.key },
+                      })}
+                      style={{ color: "red" }}
+                    >
+                      {formatText("app.core.delete")}
+                    </a>
+                  </Space></div>;
+              },
+            },
+          ]}
+          dataSource={settingsQuakeList}
+          pagination={false}
+          size="small"
+          loading={listQuakeReq.loading}
+          // style={{
+          //   overflow: "auto", minHeight: listitemHeight, maxHeight: listitemHeight,
+          // }}
+          // scroll={{ y: listitemHeight - 32 }}
+        />
+        <Form
+          style={{ padding: 8 }}
+          form={quakeForm}
+          onFinish={onUpdateQuake}
+          layout="inline"
+        >
           <Form.Item
-            label="key"
+            label="API KEY"
             name="key"
             rules={[
               {
                 required: true, message: formatText("app.systemsetting.inputkey"),
               }]}
           >
-            <Input/>
+            <Input style={{ width: 320 }}/>
           </Form.Item>
-          <Row>
-            <Col style={{ marginBottom: 24 }} span={4} offset={4}>
-              {settingsQuake.alive ? (<Badge status="processing"
-                                             text={formatText("app.core.working")}/>) : (<Badge status="error" text={formatText("app.core.error")}/>)}
-            </Col>
-          </Row>
-          <Form.Item {...buttonItemLayout}>
-            <Space>
-              <Button
-                icon={<DeliveredProcedureOutlined/>}
-                type="primary"
-                htmlType="submit"
-                loading={updateQuakeReq.loading}
-              >
-                {formatText("app.core.update")}
-              </Button>
-            </Space>
+          <Form.Item>
+            <Button
+              icon={<PlusOutlined/>}
+              type="primary"
+              htmlType="submit"
+              loading={createQuakeReq.loading}
+            >
+              {formatText("app.core.add")}
+            </Button>
           </Form.Item>
         </Form>
       </Col>
-      <Col span={8}>
-        <Typography>
+      <Col span={6}>
+        <Typography
+          style={{ padding: 32 }}
+        >
           <Paragraph>
             <Title level={4}>{formatText("app.systemsetting.howtoconfig")}</Title>
             <Text>{formatText("app.systemsetting.openquakevip")}</Text>

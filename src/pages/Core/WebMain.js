@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useModel, useRequest } from "umi";
 import { useInterval } from "ahooks";
 import { deleteWebNoticesAPI, getCoreCurrentUserAPI } from "@/services/apiv1";
-import { BankOutlined, BellOutlined, DeleteOutlined, GlobalOutlined, ScanOutlined, SettingOutlined } from "@ant-design/icons";
+import { BankOutlined, BellOutlined, DeleteOutlined, GlobalOutlined, SafetyCertificateOutlined, ScanOutlined, SettingOutlined } from "@ant-design/icons";
 
 import { Button, Col, ConfigProvider, FloatButton, List, Modal, Row, Space, Tabs, Tag, theme, Typography } from "antd-v5";
 import GridContent from "@/components/PageHeaderWrapper/GridContent";
@@ -35,6 +35,12 @@ const TabsOptions = () => {
     style={{
       paddingTop: 1, paddingBottom: 2, paddingRight: 4,
     }}>
+    <Button
+      style={{ width: 40 }}
+      icon={<SafetyCertificateOutlined/>}
+      href={"#/main"}
+      target={'_blank'}
+    />
     <WebNotice/>
     <ProjectButton/>
   </Space>

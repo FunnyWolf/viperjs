@@ -60,6 +60,7 @@ import {
   FolderOpenOutlined,
   FundViewOutlined,
   GatewayOutlined,
+  GlobalOutlined,
   HomeOutlined,
   InteractionOutlined,
   KeyOutlined,
@@ -79,7 +80,6 @@ import {
   RetweetOutlined,
   RightOutlined,
   RobotOutlined,
-  SafetyCertificateOutlined,
   SearchOutlined,
   SettingOutlined,
   SisternodeOutlined,
@@ -1408,7 +1408,7 @@ const FloatingButtons = () => {
       />}
       <Button
         style={{ width: 40 }}
-        icon={<SafetyCertificateOutlined/>}
+        icon={<GlobalOutlined/>}
         href={"#/web"}
         target={'_blank'}
       />
