@@ -91,15 +91,15 @@ const tagComment = (color, comment) => {
 const tagSeverity = (severity) => {
   switch (severity) {
     case "info":
-      return <Tag color="#531dab">Info</Tag>;
+      return <Tag style={{ width: 80 }}>Info</Tag>;
     case "low":
-      return <Tag color="#096dd9">Low</Tag>;
+      return <Tag color="cyan" bordered={false} style={{ textAlign: "center", cursor: "pointer", width: 80 }}>Low</Tag>;
     case "medium":
-      return <Tag color="#389e0d">Medium</Tag>;
+      return <Tag color="blue" bordered={false} style={{ textAlign: "center", cursor: "pointer", width: 80 }}>Medium</Tag>;
     case "high":
-      return <Tag color="#d46b08">High</Tag>;
+      return <Tag color="orange" bordered={false} style={{ textAlign: "center", cursor: "pointer", width: 80 }}>High</Tag>;
     case "critical":
-      return <Tag color="#cf1322">Critical</Tag>;
+      return <Tag color="red" bordered={false} style={{ textAlign: "center", cursor: "pointer", width: 80 }}>Critical</Tag>;
     default:
       return null;
   }
@@ -618,98 +618,101 @@ const IPDomain = props => {
     </Form>;
   };
 
-  const HttpFaviconTag = (http_favicon) => {
-    if (http_favicon) {
-      const src = "data:image/png;base64," + http_favicon.content;
-      return <Avatar
-        shape="square"
-        size={20}
-        src={src}
-      />;
-    } else {
-      return null;
-    }
-  };
-
-  const HttpBaseRow = (http_base) => {
-    if (http_base) {
-      return <Descriptions
-        size="small"
-        column={3}
-        // bordered
-        layout="vertical"
-      >
-        <Descriptions.Item label="Title">
-          <a target="_blank" href={http_base.url}><LinkOutlined/> {http_base.title}</a>
-        </Descriptions.Item>
-        <Descriptions.Item label="Status Code">
-          <Tag
-            color="cyan"
-            style={{
-              textAlign: "center", cursor: "pointer",
-            }}
-          >
-            <strong>{http_base.status_code}</strong>
-          </Tag>
-        </Descriptions.Item>
-        <Descriptions.Item label="Favicon">
-          <Tag
-            color="cyan"
-            style={{
-              textAlign: "center", cursor: "pointer",
-            }}
-          >
-            <strong>{http_base.status_code}</strong>
-          </Tag>
-        </Descriptions.Item>
-
-      </Descriptions>
-    }
-    return null;
-  };
-
   const HttpTabPane = (record) => {
     const http_base = record.http_base;
     const http_favicon = record.http_favicon;
+    const waf = record.waf;
     let src = null;
     if (http_favicon) {
       src = "data:image/png;base64," + http_favicon.content;
     }
-    if (http_base) {
-      return <Tabs.TabPane icon={<ChromeOutlined/>} tab={<span>HTTP</span>} key="HTTP">
-        <Descriptions
+    let WAFDesc = null;
+    if (waf) {
+      if (waf.flag) {
+        WAFDesc = <Descriptions
           size="small"
-          column={24}
+          column={8}
           // bordered
           layout="vertical"
         >
           <Descriptions.Item
             span={4}
-            label="Title">
-            <a target="_blank" href={http_base.url}><LinkOutlined/> {http_base.title}</a>
+            label="WAF Name">
+            {WAFTag(record)}
           </Descriptions.Item>
           <Descriptions.Item
-            span={4}
-            label="Status Code">
+            span={2}
+            label="WAF Manufacturer">
             <Tag
               color="cyan"
               style={{
                 textAlign: "center", cursor: "pointer",
               }}
             >
-              <strong>{http_base.status_code}</strong>
+              <strong>{waf.manufacturer}</strong>
             </Tag>
           </Descriptions.Item>
           <Descriptions.Item
-            span={4}
-            label="Favicon">
-            <Avatar
-              shape="square"
-              size={20}
-              src={src}
-            />
+            span={2}
+            label="Trigger URL">
+            <a target="_blank" href={waf.trigger_url}><LinkOutlined/>URL</a>
           </Descriptions.Item>
         </Descriptions>
+      } else {
+        WAFDesc = <Descriptions
+          size="small"
+          column={8}
+          // bordered
+          layout="vertical"
+        >
+          <Descriptions.Item
+            span={4}
+            label="Name">
+            {WAFTag(record)}
+          </Descriptions.Item>
+        </Descriptions>
+      }
+
+    }
+
+    if (http_base) {
+      return <Tabs.TabPane icon={<ChromeOutlined/>} tab={<span>HTTP</span>} key="HTTP">
+        <Space direction="vertical">
+          <Descriptions
+            size="small"
+            column={8}
+            // bordered
+            layout="vertical"
+          >
+            <Descriptions.Item
+              span={4}
+              label="Title">
+              <a target="_blank" href={http_base.url}><LinkOutlined/> {http_base.title}</a>
+            </Descriptions.Item>
+            <Descriptions.Item
+              span={2}
+              label="Status Code">
+              <Tag
+                color="cyan"
+                style={{
+                  textAlign: "center", cursor: "pointer",
+                }}
+              >
+                <strong>{http_base.status_code}</strong>
+              </Tag>
+            </Descriptions.Item>
+            <Descriptions.Item
+              span={2}
+              label="Favicon">
+              <Avatar
+                shape="square"
+                size={20}
+                src={src}
+              />
+            </Descriptions.Item>
+          </Descriptions>
+          {WAFDesc}
+        </Space>
       </Tabs.TabPane>;
     } else {
       return null;
@@ -727,9 +730,6 @@ const IPDomain = props => {
                 overflow: "auto", minHeight: listitemHeight, maxHeight: listitemHeight,
               }}
               columns={[
-                {
-                  title: "Name", dataIndex: "name",
-                },
                 {
                   title: "Severity",
                   dataIndex: "severity",
@@ -754,7 +754,11 @@ const IPDomain = props => {
                   },
                 },
                 {
-                  title: "Key", dataIndex: "key",
+                  title: "Name", dataIndex: "name",
+                },
+                {
+                  title: "TemplateID", dataIndex: "template_id",
+                  width: 160,
                 }]}
               dataSource={vulnerabilitys.data}
               pagination={false}
