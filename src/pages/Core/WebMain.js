@@ -4,7 +4,7 @@ import { useInterval } from "ahooks";
 import { deleteWebNoticesAPI, getCoreCurrentUserAPI } from "@/services/apiv1";
 import { BankOutlined, BellOutlined, DeleteOutlined, GlobalOutlined, SafetyCertificateOutlined, ScanOutlined, SettingOutlined } from "@ant-design/icons";
 
-import { Button, Col, ConfigProvider, FloatButton, List, Modal, Row, Space, Tabs, Tag, theme, Typography } from "antd-v5";
+import { App, Button, Col, ConfigProvider, FloatButton, List, Modal, Row, Space, Tabs, Tag, theme, Typography } from "antd-v5";
 import GridContent from "@/components/PageHeaderWrapper/GridContent";
 
 import { IPDomainMemo } from "@/pages/Core/IPDomain";
@@ -397,8 +397,9 @@ const WebMain = props => {
           },
         },
       }}
-    >
+    ><App>
       <TabsTop/>
+    </App>
     </ConfigProvider>
   </GridContent>);
 };

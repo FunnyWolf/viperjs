@@ -21,7 +21,6 @@ import {
   InputNumber,
   List,
   Menu,
-  Modal,
   Pagination,
   Popconfirm,
   Radio,
@@ -32,7 +31,6 @@ import {
   Tabs,
   Tag,
 } from "antd-v5";
-
 import {
   BugOutlined,
   CameraOutlined,
@@ -53,6 +51,7 @@ import {
   SyncOutlined,
   TagOutlined,
 } from "@ant-design/icons";
+import { Modal } from 'antd'
 import { cssCalc } from "@/utils/utils";
 import { formatText, msgsuccess } from "@/utils/locales";
 import { DocIcon, TimeTag, WebMainHeight } from "@/pages/Core/Common";
@@ -91,15 +90,15 @@ const tagComment = (color, comment) => {
 const tagSeverity = (severity) => {
   switch (severity) {
     case "info":
-      return <Tag style={{ width: 80 }}>Info</Tag>;
+      return <Tag bordered={false} style={{ textAlign: "center", cursor: "pointer", width: 64 }}>Info</Tag>;
     case "low":
-      return <Tag color="cyan" bordered={false} style={{ textAlign: "center", cursor: "pointer", width: 80 }}>Low</Tag>;
+      return <Tag color="cyan" bordered={false} style={{ textAlign: "center", cursor: "pointer", width: 64 }}>Low</Tag>;
     case "medium":
-      return <Tag color="blue" bordered={false} style={{ textAlign: "center", cursor: "pointer", width: 80 }}>Medium</Tag>;
+      return <Tag color="blue" bordered={false} style={{ textAlign: "center", cursor: "pointer", width: 64 }}>Medium</Tag>;
     case "high":
-      return <Tag color="orange" bordered={false} style={{ textAlign: "center", cursor: "pointer", width: 80 }}>High</Tag>;
+      return <Tag color="orange" bordered={false} style={{ textAlign: "center", cursor: "pointer", width: 64 }}>High</Tag>;
     case "critical":
-      return <Tag color="red" bordered={false} style={{ textAlign: "center", cursor: "pointer", width: 80 }}>Critical</Tag>;
+      return <Tag color="red" bordered={false} style={{ textAlign: "center", cursor: "pointer", width: 64 }}>Critical</Tag>;
     default:
       return null;
   }
@@ -123,6 +122,8 @@ const IPDomain = props => {
   const [activeRecord, setActiveRecord] = useState({});
   const [showCommentModal, setShowCommentModal] = useState(false);
   const [showSwitchModal, setShowSwitchModal] = useState(false);
+  const [showVulnModal, setShowVulnModal] = useState(false);
+  const [vulnActive, setVulnActive] = useState({ reference: [] });
   const initTableParams = {
     current: 1, pageSize: 10,
   };
@@ -275,7 +276,7 @@ const IPDomain = props => {
         size={0}
       >
         {IPdomainTag(record)}
-        {PortnumTag(record)}
+        {PortNumTag(record)}
         {ServiceTag(record)}
         {TimeTag(record.update_time)}
         {tagComment(record.color, record.comment)}
@@ -321,16 +322,29 @@ const IPDomain = props => {
       </Tag>;
     }
   };
-  const PortnumTag = (record) => {
-    return <Tag
-      color="green"
-      style={{
-        // width: 160,
-        textAlign: "center", cursor: "pointer",
-      }}
-    >
-      <strong>{record.port}</strong>
-    </Tag>;
+  const PortNumTag = (record) => {
+    if (record.alive) {
+      return <Tag
+        color="green"
+        style={{
+          // width: 160,
+          textAlign: "center", cursor: "pointer",
+        }}
+      >
+        <strong>{record.port}</strong>
+      </Tag>;
+    } else {
+      return <Tag
+        color="red"
+        style={{
+          // width: 160,
+          textAlign: "center", cursor: "pointer",
+        }}
+      >
+        <strong>{record.port}</strong>
+      </Tag>;
+    }
+
   };
 
   const ComponentRow = (record) => {
@@ -719,7 +733,13 @@ const IPDomain = props => {
     }
   };
 
+  const showVulnDetail = record => {
+    setVulnActive(record)
+    setShowVulnModal(true);
+  };
+
   const VulnerabilityTabPane = (record) => {
+
     const vulnerabilitys = record.vulnerability;
     if (vulnerabilitys !== null && vulnerabilitys.data.length > 0) {
       return <Tabs.TabPane icon={<BugOutlined/>} tab={<span>Vulnerability</span>} key="Vulnerability">
@@ -733,18 +753,18 @@ const IPDomain = props => {
                 {
                   title: "Severity",
                   dataIndex: "severity",
-                  width: 96,
+                  width: 88,
                   filters: [
                     {
-                      text: "info", value: "info",
+                      text: tagSeverity("info"), value: "info",
                     }, {
-                      text: "low", value: "low",
+                      text: tagSeverity("low"), value: "low",
                     }, {
-                      text: "medium", value: "medium",
+                      text: tagSeverity("medium"), value: "medium",
                     }, {
-                      text: "high", value: "high",
+                      text: tagSeverity("high"), value: "high",
                     }, {
-                      text: "critical", value: "critical",
+                      text: tagSeverity("critical"), value: "critical",
                     }],
                   onFilter: (value, record) => {
                     return record.severity.indexOf(value) === 0;
@@ -754,12 +774,25 @@ const IPDomain = props => {
                   },
                 },
                 {
+                  title: "TemplateID", dataIndex: "template_id",
+                  width: 160,
+                },
+                {
                   title: "Name", dataIndex: "name",
                 },
                 {
-                  title: "TemplateID", dataIndex: "template_id",
-                  width: 160,
-                }]}
+                  // title: "Action",
+                  width: 64,
+                  dataIndex: "template_id",
+                  render: (text, record) => {
+                    return <div style={{ textAlign: "center" }}>
+                      <Space size="middle">
+                        <a onClick={() => showVulnDetail(record)}>{formatText("ipdomain.detail")}</a>
+                      </Space>
+                    </div>
+                  },
+                },
+              ]}
               dataSource={vulnerabilitys.data}
               pagination={false}
               scroll={{ y: listitemHeight - 32 }}
@@ -883,7 +916,7 @@ const IPDomain = props => {
       }}
     >
       <Row>
-        <Col span={10}>
+        <Col span={8}>
           <Space
             style={{ marginLeft: 8, marginTop: 8 }}
             direction="vertical"
@@ -895,7 +928,7 @@ const IPDomain = props => {
             {VulnerabilityRow(record)}
           </Space>
         </Col>
-        <Col span={14}>
+        <Col span={16}>
           <Tabs
             tabBarExtraContent={ActionRow(record)}
             size="small">
@@ -920,6 +953,7 @@ const IPDomain = props => {
       {IPDomainPortCard(record)}
     </List.Item>;
   };
+
   return (<Fragment>
     <DocIcon url="https://www.yuque.com/vipersec/help/yc0ipk"/>
     <Row
@@ -1034,6 +1068,76 @@ const IPDomain = props => {
           };
         })}
       />
+    </Modal>
+    <Modal
+      bodyStyle={{ padding: "0px 0px 0px 0px" }}
+      size="small"
+      mask={false}
+      width="70vw"
+      destroyOnClose
+      closable={false}
+      open={showVulnModal}
+      onCancel={() => setShowVulnModal(false)}
+      footer={null}
+    >
+      <Descriptions
+        column={6}
+        layout="vertical"
+        bordered
+      >
+        <Descriptions.Item
+          span={2}
+          label="name"
+        >
+          {vulnActive.name}
+        </Descriptions.Item>
+        <Descriptions.Item
+          label="template_id"
+          span={2}
+        >
+          {vulnActive.template_id}
+        </Descriptions.Item>
+        <Descriptions.Item
+          span={2}
+          label="severity"
+        >
+          {vulnActive.severity}
+        </Descriptions.Item>
+        <Descriptions.Item
+          span={6}
+          label="description"
+        >
+          {vulnActive.description}
+        </Descriptions.Item>
+        <Descriptions.Item label="reference" span={6}>
+          <Space size={0} direction="vertical">
+            {vulnActive.reference.map(one_reference => {
+              return <a target="_blank " href={one_reference.url}>{one_reference}</a>;
+            })}
+          </Space>
+        </Descriptions.Item>
+        <Descriptions.Item label="matched_at" span={6}>
+          {vulnActive.matched_at}
+        </Descriptions.Item>
+        <Descriptions.Item label="request" span={6}>
+          <pre
+            style={{
+              padding: '0 0 0 0',
+              whiteSpace: 'pre-wrap',
+              marginBottom: 8,
+            }}
+          >{vulnActive.request}</pre>
+        </Descriptions.Item>
+        <Descriptions.Item label="response" span={6}>
+          <pre
+            style={{
+              padding: '0 0 0 0',
+              whiteSpace: 'pre-wrap',
+              marginBottom: 8,
+            }}
+          >{vulnActive.response}</pre>
+        </Descriptions.Item>
+      </Descriptions>
     </Modal>
   </Fragment>);
 };

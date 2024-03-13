@@ -14,16 +14,15 @@ import { getRequestMsg, msgsuccess } from "@/utils/locales";
 message.config({
   // top: 100,
   duration: 2,
-  maxCount: 3
+  maxCount: 3,
 });
 notification.config({
-  duration: 2
+  duration: 2,
 });
-
 
 let authRoutes = {};
 
-function ergodicRoutes(routes, authKey, authority) {
+function ergodicRoutes (routes, authKey, authority) {
   routes.forEach(element => {
     if (element.path === authKey) {
       if (!element.authority) element.authority = []; // eslint-disable-line
@@ -35,14 +34,14 @@ function ergodicRoutes(routes, authKey, authority) {
   });
 }
 
-export function patchRoutes(routes) {
+export function patchRoutes (routes) {
   Object.keys(authRoutes).map(authKey =>
-    ergodicRoutes(routes, authKey, authRoutes[authKey].authority)
+    ergodicRoutes(routes, authKey, authRoutes[authKey].authority),
   );
   window.g_routes = routes;
 }
 
-export function render(oldRender) {
+export function render (oldRender) {
   oldRender();
 }
 
@@ -62,7 +61,7 @@ const codeMessage = {
   500: "An error occurred on the server, please check the server. ",
   502: "Gateway error. ",
   503: "The service is not available. The server is temporarily overloaded or maintained. ",
-  504: "Gateway timed out. "
+  504: "Gateway timed out. ",
 };
 
 /**
@@ -75,12 +74,15 @@ const errorHandler = error => {
     const { status, url } = response;
     if (status === 401) {
       notification.error({
-        message: "You have not logged in or your session has expired, please log in again."
+        message: "You have not logged in or your session has expired, please log in again.",
       });
 
       history.push({
-        pathname: "/user/login"
+        pathname: "/user/login",
       });
+      return;
+    } else if (status === 504) {
+      console.log(`Request error ${status}: ${url}`);
       return;
     }
     //下载文件特殊处理
@@ -92,7 +94,7 @@ const errorHandler = error => {
 
     notification.error({
       message: `Request error ${status}: ${url}`,
-      description: errortext
+      description: errortext,
     });
     return;
   } else if (!response) {
@@ -112,13 +114,13 @@ const errorHandler = error => {
         break;
       case ErrorShowType.NOTIFICATION:
         notification.open({
-          message: errorMessage
+          message: errorMessage,
         });
         break;
       case ErrorShowType.REDIRECT:
         // @ts-ignore
         history.push({
-          pathname: "/404"
+          pathname: "/404",
         });
         // redirect to error page
         break;
@@ -156,16 +158,16 @@ export const request = {
         success: success,
         showType: showType,
         errorMessage: getRequestMsg(resData),
-        data: resData.data
+        data: resData.data,
       };
-    }
+    },
   },
   requestInterceptors: [
     (url, options) => {
       if (url === "/api/v1/core/baseauth/") {
         return {
           url,
-          options
+          options,
         };
       }
       const token = getToken();
@@ -173,13 +175,13 @@ export const request = {
       options.headers = {
         Authorization: tokenstr,
         Accept: "application/json",
-        "Content-Type": "application/json;"
+        "Content-Type": "application/json;",
       };
       return {
         url,
-        options
+        options,
       };
-    }
+    },
   ],
   responseInterceptors: [
     (response, options) => {
@@ -195,6 +197,6 @@ export const request = {
         return response;
       }
       return response;
-    }
-  ]
+    },
+  ],
 };

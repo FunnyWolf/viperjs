@@ -16,5 +16,6 @@ export default {
   "webjobs.error": "error",
   "ipdomain.portcomment.comment": "comment",
   "ipdomain.portcomment.color": "color",
+  "ipdomain.detail": "Detail",
   "company.companybaseinfo.search.ph": "Search Company",
 };
