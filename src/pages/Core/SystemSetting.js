@@ -11,7 +11,7 @@ import {
 import { history, useRequest } from "umi";
 
 import { setToken } from "@/utils/authority";
-import { Badge, Button, Card, Col, Descriptions, Form, Input, List, Popover, Row, Select, Space, Switch, Tabs, Tag, Typography } from "antd-v5";
+import { Badge, Button, Card, Col, Descriptions, Form, Input, InputNumber, List, Popover, Row, Select, Space, Switch, Tabs, Tag, Typography } from "antd-v5";
 import {
   CheckOutlined,
   CloudDownloadOutlined,
@@ -51,9 +51,10 @@ const buttonItemLayout = {
 
 const inputItemLayout = {
   labelCol: {
-    xs: { span: 24 }, sm: { span: 4 },
-  }, wrapperCol: {
-    xs: { span: 24 }, sm: { span: 16 },
+    span: 4,
+  },
+  wrapperCol: {
+    span: 16,
   },
 };
 
@@ -76,6 +77,9 @@ const SystemSetting = () => {
     </TabPane>
     <TabPane tab="FOFA API" key="FOFA">
       <FOFAForm/>
+    </TabPane>
+    <TabPane tab={formatText("app.systemsetting.networksearchengine")} key="Network_search_engine">
+      <NetworkSearchEngineForm/>
     </TabPane>
     <TabPane tab={formatText("app.systemsetting.aiqicha")} key="Aiqicha">
       <AiqichaForm/>
@@ -720,6 +724,79 @@ const FOFAForm = props => {
                 type="primary"
                 htmlType="submit"
                 loading={updateFOFAReq.loading}
+              >
+                {formatText("app.core.update")}
+              </Button>
+            </Space>
+          </Form.Item>
+        </Form>
+      </Col>
+      <Col span={8}>
+        <Typography>
+          <Paragraph>
+            <Title level={4}>{formatText("app.systemsetting.howtoconfig")}</Title>
+            <Text>{formatText("app.systemsetting.openfofavip")}</Text>
+            <br/>
+            <a target="_blank"
+               href="https://fofa.so/static_pages/api_help">
+              {formatText("app.systemsetting.fofaapireadme")}</a>
+          </Paragraph>
+        </Typography>
+      </Col>
+    </Row>
+  </Card>);
+};
+
+const NetworkSearchEngineForm = props => {
+  const [networkSearchEngineForm] = Form.useForm();
+  const [settingsNetworkSearchEnging, setSettingsNetworkSearchEnging] = useState({});
+
+  //初始化数据
+  const initListFOFAReq = useRequest(() => getCoreSettingAPI({ kind: "network_search_engine" }), {
+    onSuccess: (result, params) => {
+      setSettingsNetworkSearchEnging(result);
+      networkSearchEngineForm.setFieldsValue(result);
+    }, onError: (error, params) => {
+    },
+  });
+
+  const updateNetworkSearchEngineReq = useRequest(postCoreSettingAPI, {
+    manual: true, onSuccess: (result, params) => {
+      setSettingsNetworkSearchEnging(result);
+      networkSearchEngineForm.setFieldsValue(result);
+    }, onError: (error, params) => {
+    },
+  });
+
+  const onUpdateNetworkSearchEngine = values => {
+    let params = {
+      kind: "network_search_engine", tag: "default", setting: { ...values },
+    };
+    updateNetworkSearchEngineReq.run(params);
+  };
+
+  return (<Card>
+    <DocIcon url="https://www.yuque.com/vipersec/help/ngb9ta9tr5zo43qg"/>
+    <Row>
+      <Col span={16}>
+        <Form form={networkSearchEngineForm} onFinish={onUpdateNetworkSearchEngine} {...inputItemLayout}>
+          <Form.Item
+            label="每次获取最大记录数"
+            name="max_record_num_for_one_search"
+            rules={[
+              {
+                required: true, message: formatText("app.systemsetting.inputemail"),
+              }]}
+          >
+            <InputNumber min={1000} max={5000} defaultValue={1000}/>
+          </Form.Item>
+          <Form.Item {...buttonItemLayout}>
+            <Space>
+              <Button
+                icon={<DeliveredProcedureOutlined/>}
+                type="primary"
+                htmlType="submit"
+                loading={updateNetworkSearchEngineReq.loading}
               >
                 {formatText("app.core.update")}
               </Button>

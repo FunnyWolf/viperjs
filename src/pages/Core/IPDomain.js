@@ -236,7 +236,6 @@ const IPDomain = props => {
   const LocationRow = (record) => {
     if (record.location) {
       const location = record.location;
-      const geo_info = location.geo_info;
       const isp = location.isp;
       return <><Tag
         color="geekblue"
@@ -249,7 +248,7 @@ const IPDomain = props => {
           style={{
             textAlign: "center", cursor: "pointer",
           }}
-        >{geo_info.country_cn} {geo_info.province_cn} {geo_info.city_cn}
+        >{location.country_cn} {location.province_cn} {location.city_cn}
         </Tag>
         {/*{TimeTag(location.update_time)}*/}
       </>;
@@ -614,6 +613,27 @@ const IPDomain = props => {
               }, {
                 value: "unknown", label: <span><QuestionOutlined/> CDN</span>,
               }]}
+          />
+        </Form.Item>
+        <Form.Item
+          noStyle
+          name="alive_flag"
+          // label="CDN"
+        >
+          <Select
+            style={{
+              width: 96,
+            }}
+            placeholder="Status"
+            allowClear
+            options={[
+              {
+                value: true, label: <span style={{ color: "green" }}><CheckOutlined/> Open</span>,
+              },
+              {
+                value: false, label: <span style={{ color: "orange" }}><CloseOutlined/> Close</span>,
+              },
+            ]}
           />
         </Form.Item>
         <Form.Item

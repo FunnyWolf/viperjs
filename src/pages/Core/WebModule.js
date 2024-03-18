@@ -349,7 +349,11 @@ export const RunWebModule = props => {
             wrapperCol={{ span: 24 }}
             onFinish={onCreateWebModuleActuator}
           >
-            <Row style={{ maxHeight: cssCalc("100vh - 120px"), overflowY: "auto" }}>
+            <Row style={{
+              maxHeight: cssCalc("100vh - 160px"),
+              overflowY: "auto",
+              marginBottom: 16,
+            }}>
               {getModuleOptions(webModuleConfigActive)}
             </Row>
             <Row>

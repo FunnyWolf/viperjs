@@ -12,6 +12,7 @@ export default {
   "app.systemsetting.getaiqichareadme": "Get Aiqicha Cookie Readme",
   "app.systemsetting.serverchan": "Serverchan Bot",
   "app.systemsetting.aiqicha": "Aiqicha API",
+  "app.systemsetting.networksearchengine": "Network Search Engine",
   "app.systemsetting.openserverchan": "Login Serverchan,config message pipe,get sendkey",
   "app.systemsetting.serverchanapireadme": "ServerChan Turbo",
   "app.systemsetting.opendingding": "Start DingDing Bot,get token",
@@ -62,5 +63,5 @@ export default {
 
   "app.systemsetting.defaultdnslogbase": "DNSLOG domain",
   "app.systemsetting.defaultdnslogbasetooltip": "Input DNSLOG domain(e.g: xxx.ceye.io)",
-  "app.systemsetting.defaultdnslogbaseplaceholder": "DNSLOG domain(e.g: xxx.ceye.io)"
+  "app.systemsetting.defaultdnslogbaseplaceholder": "DNSLOG domain(e.g: xxx.ceye.io)",
 };
