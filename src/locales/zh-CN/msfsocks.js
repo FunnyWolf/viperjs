@@ -3,7 +3,7 @@ export default {
   'app.msfsocks.ports.service': '服务',
   'app.msfsocks.ports.ph': 'IP/端口/服务',
   'app.msfsocks.ports.host': '主机',
-  'app.msfsocks.ports.portService': '开放端口',
+  'app.msfsocks.ports.portService': '端口数',
   'app.msfsocks.ports.route': '路由路径',
   'app.msfsocks.ports.comment': '备注',
   'app.msfsocks.ports.tag.direct': '网络直连',

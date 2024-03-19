@@ -3,7 +3,6 @@ import { deleteMsgrpcHandlerAPI, getCoreSettingAPI, getMsgrpcHandlerAPI, postMsg
 import { DocIcon, randomstr } from "@/pages/Core/Common";
 import {
   Alert,
-  Avatar,
   Button,
   Cascader,
   Checkbox,
@@ -21,7 +20,7 @@ import {
   Table,
   Tooltip,
 } from 'antd-v5';
-import { Modal } from 'antd'
+import { Avatar, Modal } from 'antd'
 import { BlockOutlined, CustomerServiceOutlined, SaveOutlined, SyncOutlined } from "@ant-design/icons";
 import { useRequest } from "umi";
 import { formatText } from "@/utils/locales";
@@ -434,7 +433,7 @@ const CreateHandlerModalContent = props => {
       return null;
     } else {
       return (<Panel header={formatText("app.payloadandhandler.comm")} key="Comm">
-          {options}
+        {options}
       </Panel>);
     }
   };
@@ -754,16 +753,16 @@ const CreateHandlerModalContent = props => {
     } else {
       if (options_second.length === 0) {
         return (<Panel header={formatText("app.payloadandhandler.advance")} key="advance">
-            {options}
+          {options}
         </Panel>);
       } else {
         return (<Fragment>
-            <Panel header={formatText("app.payloadandhandler.advance")} key="advance">
-              {options}
-            </Panel>
-            <Panel header={formatText("app.payloadandhandler.advance_second")} key="advance_second">
-              {options_second}
-            </Panel>
+          <Panel header={formatText("app.payloadandhandler.advance")} key="advance">
+            {options}
+          </Panel>
+          <Panel header={formatText("app.payloadandhandler.advance_second")} key="advance_second">
+            {options_second}
+          </Panel>
         </Fragment>);
       }
     }
@@ -797,214 +796,214 @@ const CreateHandlerModalContent = props => {
   };
 
   return (<Form
-      form={form}
-      onFinish={onCreateHandlerBySubmit}
-    >
-      <Collapse bordered={false} defaultActiveKey={["base", "advance"]}>
-        <Panel header={formatText("app.payloadandhandler.base")} key="base">
-          <Form.Item
-            {...formLayout}
-            label={formatText("app.payloadandhandler.payload")}
-            name="PAYLOAD"
-            rules={[
-              {
-                required: true, message: formatText("app.payloadandhandler.payload_rule"),
-              }]}
-          >
-            <Cascader
-              options={handlerPayloadOptions}
-              onChange={changePayloadOption}
-              placeholder={formatText("app.payloadandhandler.payload_rule")}
-            />
-          </Form.Item>
-          {handlerPayloadBaseOption()}
-          <Form.Item
-            {...formLayout}
-            label={formatText("app.payloadandhandler.EXITONSESSION")}
-            tooltip={formatText("app.payloadandhandler.EXITONSESSION_tip")}
-            name="ExitOnSession"
-            valuePropName="checked"
-            rules={[]}
-            initialValue={false}
-          >
-            <Checkbox/>
-          </Form.Item>
-          <Form.Item
-            {...formLayout}
-            label={formatText("app.payloadandhandler.VIRTUALHANDLER")}
-            tooltip={formatText("app.payloadandhandler.VIRTUALHANDLER_tip")}
-            name="VIRTUALHANDLER"
-            valuePropName="checked"
-            rules={[]}
-          >
-            <Checkbox/>
-          </Form.Item>
-          <Form.Item
-            {...formLayout}
-            label={formatText("app.payloadandhandler.handlername")}
-            name="HandlerName"
-            rules={[]}>
-            <Input placeholder={formatText("app.payloadandhandler.handlername_ph")}/>
-          </Form.Item>
-          {handlerPayloadWarnOption()}
-        </Panel>
-
-        {handlerPayloadComnOption()}
-        {handlerPayloadSpecialOption()}
-        <Panel header={formatText("app.payloadandhandler.auto")} key="auto">
-          <Form.Item
-            {...formLayout}
-            label={formatText("app.payloadandhandler.AutoRunScript")}
-            tooltip={formatText("app.payloadandhandler.AutoRunScript_tip")}
-            name="InitialAutoRunScript"
-            rules={[]}
-          >
-            <Select allowClear>
-              {initialAutoRunScript.map((encoder, i) => (<Option value={encoder}>{encoder}</Option>))}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            {...formLayout}
-            label={formatText("app.payloadandhandler.PrependMigrate")}
-            tooltip={formatText("app.payloadandhandler.PrependMigrate_tip")}
-            name="PrependMigrate"
-            valuePropName="checked"
-            initialValue={false}
-            rules={[]}
-          >
-            <Checkbox/>
-          </Form.Item>
-          <Form.Item
-            {...formLayout}
-            label={formatText("app.payloadandhandler.PrependMigrateProc")}
-            name="PrependMigrateProc" rules={[]}>
-            <Select style={{ width: 200 }} allowClear>
-              {migrateProcess.map((encoder, i) => (<Option value={encoder}>{encoder}</Option>))}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            {...formLayout}
-            label={formatText("app.payloadandhandler.AutoUnhookProcess")}
-            tooltip={formatText("app.payloadandhandler.AutoUnhookProcess_tip")}
-            name="AutoUnhookProcess"
-            valuePropName="checked"
-            rules={[]}
-            initialValue={false}
-          >
-            <Checkbox/>
-          </Form.Item>
-        </Panel>
-        <Panel header={formatText("app.payloadandhandler.diy")} key="diy">
-          <Form.Item
-            {...formLayout}
-            label={formatText("app.payloadandhandler.AutoVerifySessionTimeout")}
-            tooltip={formatText("app.payloadandhandler.AutoVerifySessionTimeout_tip")}
-            name="AutoVerifySessionTimeout"
-            rules={[]}
-            initialValue={30}
-          >
-            <InputNumber
-              style={{ width: 160 }}
-              placeholder={formatText("app.payloadandhandler.AutoVerifySessionTimeout_ph")}/>
-          </Form.Item>
-          <Form.Item
-            {...formLayout}
-            label={formatText("app.payloadandhandler.SessionCommunicationTimeout")}
-            name="SessionCommunicationTimeout"
-            rules={[]}
-            initialValue={60 * 5}
-          >
-            <InputNumber
-              style={{ width: 160 }}/>
-          </Form.Item>
-          <Form.Item
-            {...formLayout}
-            label="ExpirationTimeout(second)"
-            name="SessionExpirationTimeout"
-            rules={[]}
-            initialValue={31536000}
-          >
-            <InputNumber
-              style={{ width: 160 }}
-            />
-          </Form.Item>
-          <Form.Item
-            {...formLayout}
-            label="RetryTotal(second)"
-            name="SessionRetryTotal"
-            rules={[]}
-            initialValue={31536000}
-          >
-            <InputNumber style={{ width: 160 }}/>
-          </Form.Item>
-
-          <Form.Item
-            {...formLayout}
-            label="RetryWait(second)"
-            name="SessionRetryWait"
-            rules={[]}
-            initialValue={10}
-          >
-            <InputNumber style={{ width: 160 }}/>
-          </Form.Item>
-          <Form.Item {...formLayout} label="StageEncoder" name="StageEncoder" rules={[]}>
-            <Select placeholder="Please select encoder">
-              {StageEncoder.map((encoder, i) => (<Option value={encoder}>{encoder}</Option>))}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            {...formLayout}
-            label="StageEncodingFallback"
-            name="StageEncodingFallback"
-            valuePropName="checked"
-            rules={[]}
-            initialValue
-          >
-            <Checkbox defaultChecked/>
-          </Form.Item>
-
-          <Form.Item
-            {...formLayout}
-            label={formatText("app.payloadandhandler.proxies_proto")}
-            tooltip={formatText("app.payloadandhandler.proxies_proto_tip")}
-          >
-            <Input.Group compact>
-              <Form.Item name="proxies_proto" noStyle initialValue="Direct" rules={[]}>
-                <Select style={{ width: 88 }}>
-                  <Option value="Direct">Direct</Option>
-                  <Option value="Socks5">Socks5</Option>
-                  <Option value="Socks4">Socks4</Option>
-                  <Option value="Http">Http</Option>
-                </Select>
-              </Form.Item>
-              <Form.Item name="proxies_ipport" noStyle rules={[]}>
-                <Input style={{ width: "70%" }} placeholder="IP:PORT"/>
-              </Form.Item>
-            </Input.Group>
-          </Form.Item>
-          <Form.Item
-            {...formLayout}
-            label="MeterpreterDebugBuild"
-            name="MeterpreterDebugBuild"
-            valuePropName="checked"
-            rules={[]}
-          >
-            <Checkbox/>
-          </Form.Item>
-          {handlerMeterpreterDebugLogging()}
-        </Panel>
-      </Collapse>
-      <Form.Item style={{ marginTop: 24 }} {...buttonLayout}>
-        <Button
-          block
-          loading={createHandlerReq.loading}
-          icon={<CustomerServiceOutlined/>}
-          htmlType="submit"
-          type="primary"
+    form={form}
+    onFinish={onCreateHandlerBySubmit}
+  >
+    <Collapse bordered={false} defaultActiveKey={["base", "advance"]}>
+      <Panel header={formatText("app.payloadandhandler.base")} key="base">
+        <Form.Item
+          {...formLayout}
+          label={formatText("app.payloadandhandler.payload")}
+          name="PAYLOAD"
+          rules={[
+            {
+              required: true, message: formatText("app.payloadandhandler.payload_rule"),
+            }]}
         >
-          {formatText("app.payloadandhandler.addhandler")}
-        </Button>
-      </Form.Item>
+          <Cascader
+            options={handlerPayloadOptions}
+            onChange={changePayloadOption}
+            placeholder={formatText("app.payloadandhandler.payload_rule")}
+          />
+        </Form.Item>
+        {handlerPayloadBaseOption()}
+        <Form.Item
+          {...formLayout}
+          label={formatText("app.payloadandhandler.EXITONSESSION")}
+          tooltip={formatText("app.payloadandhandler.EXITONSESSION_tip")}
+          name="ExitOnSession"
+          valuePropName="checked"
+          rules={[]}
+          initialValue={false}
+        >
+          <Checkbox/>
+        </Form.Item>
+        <Form.Item
+          {...formLayout}
+          label={formatText("app.payloadandhandler.VIRTUALHANDLER")}
+          tooltip={formatText("app.payloadandhandler.VIRTUALHANDLER_tip")}
+          name="VIRTUALHANDLER"
+          valuePropName="checked"
+          rules={[]}
+        >
+          <Checkbox/>
+        </Form.Item>
+        <Form.Item
+          {...formLayout}
+          label={formatText("app.payloadandhandler.handlername")}
+          name="HandlerName"
+          rules={[]}>
+          <Input placeholder={formatText("app.payloadandhandler.handlername_ph")}/>
+        </Form.Item>
+        {handlerPayloadWarnOption()}
+      </Panel>
+
+      {handlerPayloadComnOption()}
+      {handlerPayloadSpecialOption()}
+      <Panel header={formatText("app.payloadandhandler.auto")} key="auto">
+        <Form.Item
+          {...formLayout}
+          label={formatText("app.payloadandhandler.AutoRunScript")}
+          tooltip={formatText("app.payloadandhandler.AutoRunScript_tip")}
+          name="InitialAutoRunScript"
+          rules={[]}
+        >
+          <Select allowClear>
+            {initialAutoRunScript.map((encoder, i) => (<Option value={encoder}>{encoder}</Option>))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          {...formLayout}
+          label={formatText("app.payloadandhandler.PrependMigrate")}
+          tooltip={formatText("app.payloadandhandler.PrependMigrate_tip")}
+          name="PrependMigrate"
+          valuePropName="checked"
+          initialValue={false}
+          rules={[]}
+        >
+          <Checkbox/>
+        </Form.Item>
+        <Form.Item
+          {...formLayout}
+          label={formatText("app.payloadandhandler.PrependMigrateProc")}
+          name="PrependMigrateProc" rules={[]}>
+          <Select style={{ width: 200 }} allowClear>
+            {migrateProcess.map((encoder, i) => (<Option value={encoder}>{encoder}</Option>))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          {...formLayout}
+          label={formatText("app.payloadandhandler.AutoUnhookProcess")}
+          tooltip={formatText("app.payloadandhandler.AutoUnhookProcess_tip")}
+          name="AutoUnhookProcess"
+          valuePropName="checked"
+          rules={[]}
+          initialValue={false}
+        >
+          <Checkbox/>
+        </Form.Item>
+      </Panel>
+      <Panel header={formatText("app.payloadandhandler.diy")} key="diy">
+        <Form.Item
+          {...formLayout}
+          label={formatText("app.payloadandhandler.AutoVerifySessionTimeout")}
+          tooltip={formatText("app.payloadandhandler.AutoVerifySessionTimeout_tip")}
+          name="AutoVerifySessionTimeout"
+          rules={[]}
+          initialValue={30}
+        >
+          <InputNumber
+            style={{ width: 160 }}
+            placeholder={formatText("app.payloadandhandler.AutoVerifySessionTimeout_ph")}/>
+        </Form.Item>
+        <Form.Item
+          {...formLayout}
+          label={formatText("app.payloadandhandler.SessionCommunicationTimeout")}
+          name="SessionCommunicationTimeout"
+          rules={[]}
+          initialValue={60 * 5}
+        >
+          <InputNumber
+            style={{ width: 160 }}/>
+        </Form.Item>
+        <Form.Item
+          {...formLayout}
+          label="ExpirationTimeout(second)"
+          name="SessionExpirationTimeout"
+          rules={[]}
+          initialValue={31536000}
+        >
+          <InputNumber
+            style={{ width: 160 }}
+          />
+        </Form.Item>
+        <Form.Item
+          {...formLayout}
+          label="RetryTotal(second)"
+          name="SessionRetryTotal"
+          rules={[]}
+          initialValue={31536000}
+        >
+          <InputNumber style={{ width: 160 }}/>
+        </Form.Item>
+
+        <Form.Item
+          {...formLayout}
+          label="RetryWait(second)"
+          name="SessionRetryWait"
+          rules={[]}
+          initialValue={10}
+        >
+          <InputNumber style={{ width: 160 }}/>
+        </Form.Item>
+        <Form.Item {...formLayout} label="StageEncoder" name="StageEncoder" rules={[]}>
+          <Select placeholder="Please select encoder">
+            {StageEncoder.map((encoder, i) => (<Option value={encoder}>{encoder}</Option>))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          {...formLayout}
+          label="StageEncodingFallback"
+          name="StageEncodingFallback"
+          valuePropName="checked"
+          rules={[]}
+          initialValue
+        >
+          <Checkbox defaultChecked/>
+        </Form.Item>
+
+        <Form.Item
+          {...formLayout}
+          label={formatText("app.payloadandhandler.proxies_proto")}
+          tooltip={formatText("app.payloadandhandler.proxies_proto_tip")}
+        >
+          <Input.Group compact>
+            <Form.Item name="proxies_proto" noStyle initialValue="Direct" rules={[]}>
+              <Select style={{ width: 88 }}>
+                <Option value="Direct">Direct</Option>
+                <Option value="Socks5">Socks5</Option>
+                <Option value="Socks4">Socks4</Option>
+                <Option value="Http">Http</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item name="proxies_ipport" noStyle rules={[]}>
+              <Input style={{ width: "70%" }} placeholder="IP:PORT"/>
+            </Form.Item>
+          </Input.Group>
+        </Form.Item>
+        <Form.Item
+          {...formLayout}
+          label="MeterpreterDebugBuild"
+          name="MeterpreterDebugBuild"
+          valuePropName="checked"
+          rules={[]}
+        >
+          <Checkbox/>
+        </Form.Item>
+        {handlerMeterpreterDebugLogging()}
+      </Panel>
+    </Collapse>
+    <Form.Item style={{ marginTop: 24 }} {...buttonLayout}>
+      <Button
+        block
+        loading={createHandlerReq.loading}
+        icon={<CustomerServiceOutlined/>}
+        htmlType="submit"
+        type="primary"
+      >
+        {formatText("app.payloadandhandler.addhandler")}
+      </Button>
+    </Form.Item>
   </Form>);
 };
 
@@ -1317,17 +1316,17 @@ const CreatePayloadModalContent = props => {
     }
 
     return (<Form.Item
-        {...formLayout}
-        label={formatText("app.payloadandhandler.format")}
-        name="Format"
-        rules={[
-          {
-            required: true, message: formatText("app.payloadandhandler.format_rule"),
-          }]}
-      >
-        <Select style={{ width: 240 }}>
-          {options.map((format, i) => (<Option value={format.value}>{format.show}</Option>))}
-        </Select>
+      {...formLayout}
+      label={formatText("app.payloadandhandler.format")}
+      name="Format"
+      rules={[
+        {
+          required: true, message: formatText("app.payloadandhandler.format_rule"),
+        }]}
+    >
+      <Select style={{ width: 240 }}>
+        {options.map((format, i) => (<Option value={format.value}>{format.show}</Option>))}
+      </Select>
     </Form.Item>);
   };
 
@@ -1658,7 +1657,7 @@ const CreatePayloadModalContent = props => {
       return null;
     } else {
       return (<Panel header={formatText("app.payloadandhandler.advance")} key="advance">
-          {options}
+        {options}
       </Panel>);
     }
   };
@@ -1680,141 +1679,141 @@ const CreatePayloadModalContent = props => {
   };
 
   return (<Form onFinish={onCreatePayloadBySubmit}>
-      <Collapse bordered={false} defaultActiveKey={["base", "advance"]}>
-        <Panel header={formatText("app.payloadandhandler.base")} key="base">
-          <Form.Item
-            {...formLayout}
-            label={formatText("app.payloadandhandler.payload")}
-            name="PAYLOAD"
-            rules={[
-              {
-                required: true, message: formatText("app.payloadandhandler.payload_rule"),
-              }]}
-          >
-            <Cascader
-              options={payloadOptions}
-              onChange={changePayloadOption}
-              placeholder={formatText("app.payloadandhandler.payload_rule")}
-            />
-          </Form.Item>
-          {payloadBaseOption()}
-          {payloadFormatOption()}
-        </Panel>
-        {payloadSpecialOption()}
-        <Panel header={formatText("app.payloadandhandler.auto")} key="auto">
-          <Form.Item
-            {...formLayout}
-            label={formatText("app.payloadandhandler.PrependMigrate")}
-            tooltip={formatText("app.payloadandhandler.PrependMigrate_tip")}
-            name="PrependMigrate"
-            valuePropName="checked"
-            initialValue={false}
-            rules={[]}
-          >
-            <Checkbox/>
-          </Form.Item>
-          <Form.Item
-            {...formLayout}
-            label={formatText("app.payloadandhandler.PrependMigrateProc")}
-            name="PrependMigrateProc"
-            rules={[]}>
-            <Select style={{ width: 200 }} allowClear>
-              {migrateProcess.map((encoder, i) => (<Option value={encoder}>{encoder}</Option>))}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            {...formLayout}
-            label={formatText("app.payloadandhandler.ADD_HANDLER")}
-            tooltip={formatText("app.payloadandhandler.ADD_HANDLER_tip")}
-            name="ADD_HANDLER"
-            valuePropName="checked"
-            initialValue={false}
-            rules={[]}
-          >
-            <Checkbox/>
-          </Form.Item>
-        </Panel>
-
-        <Panel header={formatText("app.payloadandhandler.diy")} key="diy">
-          <Form.Item {...formLayout} label="Encoder" name="Encoder" rules={[]}>
-            <Select style={{ width: 200 }} allowClear>
-              {payloadEncoder.map((encoder, i) => (<Option value={encoder}>{encoder}</Option>))}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            {...formLayout}
-            label={formatText("app.payloadandhandler.Iterations")}
-            name="Iterations"
-            rules={[]}>
-            <InputNumber style={{ width: 160 }}/>
-          </Form.Item>
-          <Form.Item
-            {...formLayout}
-            label={formatText("app.payloadandhandler.ForceEncode")}
-            name="ForceEncode"
-            valuePropName="checked"
-            initialValue={false}
-            rules={[]}
-          >
-            <Checkbox/>
-          </Form.Item>
-
-          <Form.Item
-            {...formLayout}
-            label={formatText("app.payloadandhandler.BadChars")}
-            name="BadChars"
-            rules={[]}>
-            <Input/>
-          </Form.Item>
-          <Form.Item
-            {...formLayout}
-            label={formatText("app.payloadandhandler.SessionCommunicationTimeout")}
-            name="SessionCommunicationTimeout"
-            rules={[]}
-            initialValue={60 * 5}
-          >
-            <InputNumber style={{ width: 160 }}/>
-          </Form.Item>
-          <Form.Item
-            {...formLayout}
-            label="ExpirationTimeout(second)"
-            name="SessionExpirationTimeout"
-            rules={[]}
-            initialValue={31536000}
-          >
-            <InputNumber style={{ width: 160 }}/>
-          </Form.Item>
-          <Form.Item
-            {...formLayout}
-            label="SessionRetryTotal(Second)"
-            name="SessionRetryTotal"
-            rules={[]}
-            initialValue={31536000}
-          >
-            <InputNumber style={{ width: 160 }}/>
-          </Form.Item>
-          <Form.Item
-            {...formLayout}
-            label="SessionRetryWait(Second)"
-            name="SessionRetryWait"
-            rules={[]}
-            initialValue={10}
-          >
-            <InputNumber style={{ width: 160 }}/>
-          </Form.Item>
-        </Panel>
-      </Collapse>
-      <Form.Item style={{ marginTop: 24 }} {...buttonLayout}>
-        <Button
-          block
-          loading={createPayloadReq.loading}
-          icon={<BlockOutlined/>}
-          htmlType="submit"
-          type="primary"
+    <Collapse bordered={false} defaultActiveKey={["base", "advance"]}>
+      <Panel header={formatText("app.payloadandhandler.base")} key="base">
+        <Form.Item
+          {...formLayout}
+          label={formatText("app.payloadandhandler.payload")}
+          name="PAYLOAD"
+          rules={[
+            {
+              required: true, message: formatText("app.payloadandhandler.payload_rule"),
+            }]}
         >
-          {formatText("app.payloadandhandler.genpayload")}
-        </Button>
-      </Form.Item>
+          <Cascader
+            options={payloadOptions}
+            onChange={changePayloadOption}
+            placeholder={formatText("app.payloadandhandler.payload_rule")}
+          />
+        </Form.Item>
+        {payloadBaseOption()}
+        {payloadFormatOption()}
+      </Panel>
+      {payloadSpecialOption()}
+      <Panel header={formatText("app.payloadandhandler.auto")} key="auto">
+        <Form.Item
+          {...formLayout}
+          label={formatText("app.payloadandhandler.PrependMigrate")}
+          tooltip={formatText("app.payloadandhandler.PrependMigrate_tip")}
+          name="PrependMigrate"
+          valuePropName="checked"
+          initialValue={false}
+          rules={[]}
+        >
+          <Checkbox/>
+        </Form.Item>
+        <Form.Item
+          {...formLayout}
+          label={formatText("app.payloadandhandler.PrependMigrateProc")}
+          name="PrependMigrateProc"
+          rules={[]}>
+          <Select style={{ width: 200 }} allowClear>
+            {migrateProcess.map((encoder, i) => (<Option value={encoder}>{encoder}</Option>))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          {...formLayout}
+          label={formatText("app.payloadandhandler.ADD_HANDLER")}
+          tooltip={formatText("app.payloadandhandler.ADD_HANDLER_tip")}
+          name="ADD_HANDLER"
+          valuePropName="checked"
+          initialValue={false}
+          rules={[]}
+        >
+          <Checkbox/>
+        </Form.Item>
+      </Panel>
+
+      <Panel header={formatText("app.payloadandhandler.diy")} key="diy">
+        <Form.Item {...formLayout} label="Encoder" name="Encoder" rules={[]}>
+          <Select style={{ width: 200 }} allowClear>
+            {payloadEncoder.map((encoder, i) => (<Option value={encoder}>{encoder}</Option>))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          {...formLayout}
+          label={formatText("app.payloadandhandler.Iterations")}
+          name="Iterations"
+          rules={[]}>
+          <InputNumber style={{ width: 160 }}/>
+        </Form.Item>
+        <Form.Item
+          {...formLayout}
+          label={formatText("app.payloadandhandler.ForceEncode")}
+          name="ForceEncode"
+          valuePropName="checked"
+          initialValue={false}
+          rules={[]}
+        >
+          <Checkbox/>
+        </Form.Item>
+
+        <Form.Item
+          {...formLayout}
+          label={formatText("app.payloadandhandler.BadChars")}
+          name="BadChars"
+          rules={[]}>
+          <Input/>
+        </Form.Item>
+        <Form.Item
+          {...formLayout}
+          label={formatText("app.payloadandhandler.SessionCommunicationTimeout")}
+          name="SessionCommunicationTimeout"
+          rules={[]}
+          initialValue={60 * 5}
+        >
+          <InputNumber style={{ width: 160 }}/>
+        </Form.Item>
+        <Form.Item
+          {...formLayout}
+          label="ExpirationTimeout(second)"
+          name="SessionExpirationTimeout"
+          rules={[]}
+          initialValue={31536000}
+        >
+          <InputNumber style={{ width: 160 }}/>
+        </Form.Item>
+        <Form.Item
+          {...formLayout}
+          label="SessionRetryTotal(Second)"
+          name="SessionRetryTotal"
+          rules={[]}
+          initialValue={31536000}
+        >
+          <InputNumber style={{ width: 160 }}/>
+        </Form.Item>
+        <Form.Item
+          {...formLayout}
+          label="SessionRetryWait(Second)"
+          name="SessionRetryWait"
+          rules={[]}
+          initialValue={10}
+        >
+          <InputNumber style={{ width: 160 }}/>
+        </Form.Item>
+      </Panel>
+    </Collapse>
+    <Form.Item style={{ marginTop: 24 }} {...buttonLayout}>
+      <Button
+        block
+        loading={createPayloadReq.loading}
+        icon={<BlockOutlined/>}
+        htmlType="submit"
+        type="primary"
+      >
+        {formatText("app.payloadandhandler.genpayload")}
+      </Button>
+    </Form.Item>
   </Form>);
 };
 
@@ -1833,12 +1832,12 @@ const showHandlerDetail = item => {
   }
   Modal.info({
     mask: false, style: { top: 20 }, width: "95%", icon: "", content: (<Descriptions
-        style={{ marginTop: -32, marginRight: -24, marginLeft: -24, marginBottom: -16 }}
-        bordered
-        size="small"
-        column={3}
-      >
-        {Descriptions_Items}
+      style={{ marginTop: -32, marginRight: -24, marginLeft: -24, marginBottom: -16 }}
+      bordered
+      size="small"
+      column={3}
+    >
+      {Descriptions_Items}
     </Descriptions>), onOk () {
     },
   });
@@ -2015,190 +2014,198 @@ const PayloadAndHandler = (props) => {
   };
 
   return (<Fragment>
-      <DocIcon url="https://www.yuque.com/vipersec/help/rxb29t"/>
+    <DocIcon url="https://www.yuque.com/vipersec/help/rxb29t"/>
     <Row gutter={0}>
-        <Col span={8}>
-          <Button
-            block
-            icon={<CustomerServiceOutlined/>}
-            onClick={() => setCreateHandlerModalVisible(true)}
-          >
-            {formatText("app.payloadandhandler.addhandler")}
-          </Button>
-        </Col>
-        <Col span={8}>
-          <Button
-            loading={createPayloadReq.loading}
-            block
-            icon={<BlockOutlined/>}
-            onClick={() => setCreatePayloadModalVisible(true)}
-          >
-            {formatText("app.payloadandhandler.genpayload")}
-          </Button>
-        </Col>
-        <Col span={8}>
-          <Button
-            icon={<SyncOutlined/>}
-            style={{
-              width: "100%",
-            }}
-            loading={listHanderReq.loading || createHandlerReq.loading || destoryHandlerReq.loading}
-            onClick={() => listHanderReq.run()}
-          >
-            {formatText("app.core.refresh")}
-          </Button>
-        </Col>
-      </Row>
-      <Table
-        style={{
-          marginTop: 0,
-          padding: "0 0 0 0",
-          overflow: "auto",
-          maxHeight: cssCalc(`${resizeDownHeight} - 32px`),
-          minHeight: cssCalc(`${resizeDownHeight} - 32px`),
-        }}
-        size="small"
-        bordered
-        pagination={false}
-        rowKey="ID"
-        dataSource={handlerListActive}
-        columns={[
-          {
-            title: "ID", dataIndex: "ID", key: "ID", width: 48, render: (text, record) => record.ID >= 0 ? (<Avatar
-              style={{ backgroundColor: "#49aa19", width: "100%" }}
+      <Col span={8}>
+        <Button
+          block
+          icon={<CustomerServiceOutlined/>}
+          onClick={() => setCreateHandlerModalVisible(true)}
+        >
+          {formatText("app.payloadandhandler.addhandler")}
+        </Button>
+      </Col>
+      <Col span={8}>
+        <Button
+          loading={createPayloadReq.loading}
+          block
+          icon={<BlockOutlined/>}
+          onClick={() => setCreatePayloadModalVisible(true)}
+        >
+          {formatText("app.payloadandhandler.genpayload")}
+        </Button>
+      </Col>
+      <Col span={8}>
+        <Button
+          icon={<SyncOutlined/>}
+          style={{
+            width: "100%",
+          }}
+          loading={listHanderReq.loading || createHandlerReq.loading || destoryHandlerReq.loading}
+          onClick={() => listHanderReq.run()}
+        >
+          {formatText("app.core.refresh")}
+        </Button>
+      </Col>
+    </Row>
+    <Table
+      style={{
+        marginTop: 0,
+        padding: "0 0 0 0",
+        overflow: "auto",
+        maxHeight: cssCalc(`${resizeDownHeight} - 32px`),
+        minHeight: cssCalc(`${resizeDownHeight} - 32px`),
+      }}
+      size="small"
+      bordered
+      pagination={false}
+      rowKey="ID"
+      dataSource={handlerListActive}
+      columns={[
+        {
+          title: "ID",
+          dataIndex: "ID",
+          key: "ID",
+          width: 48,
+          render: (text, record) => record.ID >= 0 ? (
+            <Tooltip placement="right" title={formatText("app.payloadandhandler.realhandler")}><Avatar
+              style={{
+                backgroundColor: "#49aa19",
+                width: "100%",
+              }}
               shape="square"
               size={24}
-            >
-              <Tooltip placement="right" title={formatText("app.payloadandhandler.realhandler")}>
-                {record.ID}
-              </Tooltip>
-            </Avatar>) : (<Avatar style={{ width: "100%" }} shape="square" size={24}>
-              <Tooltip placement="right" title={formatText("app.payloadandhandler.virlhandler")}>
-                {-record.ID}
-              </Tooltip>
-            </Avatar>),
-          }, {
-            title: formatText("app.payloadandhandler.payload"), dataIndex: "PAYLOAD", key: "PAYLOAD", width: 280, render: (text, record) => record.PAYLOAD,
-          }, {
-            title: "LHOST/RHOST", dataIndex: "PAYLOAD", key: "PAYLOAD", width: 136, render: (text, record) => {
-              if (record.RHOST !== undefined && record.RHOST !== null) {
-                return <span>{record.RHOST}</span>;
-              }
-              if (record.LHOST !== undefined && record.LHOST !== null) {
-                return <span>{record.LHOST}</span>;
-              }
-              return null;
-            },
-          }, {
-            title: "PORT", dataIndex: "LPORT", key: "LPORT", width: 64, render: (text, record) => <span>{record.LPORT}</span>,
-          }, {
-            title: formatText("app.payloadandhandler.params"), dataIndex: "PAYLOAD", key: "PAYLOAD", render: (text, record) => {
-              const items = [];
+            >{record.ID}</Avatar></Tooltip>
+          ) : (<Avatar style={{ width: "100%" }}
+                       shape="square"
+                       size={24}
+          >
+            <Tooltip placement="right" title={formatText("app.payloadandhandler.virlhandler")}>
+              {-record.ID}
+            </Tooltip>
+          </Avatar>),
+        }, {
+          title: formatText("app.payloadandhandler.payload"), dataIndex: "PAYLOAD", key: "PAYLOAD", width: 280, render: (text, record) => record.PAYLOAD,
+        }, {
+          title: "LHOST/RHOST", dataIndex: "PAYLOAD", key: "PAYLOAD", width: 136, render: (text, record) => {
+            if (record.RHOST !== undefined && record.RHOST !== null) {
+              return <span>{record.RHOST}</span>;
+            }
+            if (record.LHOST !== undefined && record.LHOST !== null) {
+              return <span>{record.LHOST}</span>;
+            }
+            return null;
+          },
+        }, {
+          title: "PORT", dataIndex: "LPORT", key: "LPORT", width: 64, render: (text, record) => <span>{record.LPORT}</span>,
+        }, {
+          title: formatText("app.payloadandhandler.params"), dataIndex: "PAYLOAD", key: "PAYLOAD", render: (text, record) => {
+            const items = [];
 
-              if (record.LURI !== undefined && record.LURI !== null) {
-                items.push(<span>{` LURI: ${record.LURI}`}</span>);
-              }
-              if (record.HandlerSSLCert !== undefined && record.HandlerSSLCert !== null) {
-                const pos = record.HandlerSSLCert.lastIndexOf("/");
-                items.push(<span>{` ${formatText("app.payloadandhandler.pemfile")}: ${record.HandlerSSLCert.substr(pos + 1)}`}</span>);
-              }
+            if (record.LURI !== undefined && record.LURI !== null) {
+              items.push(<span>{` LURI: ${record.LURI}`}</span>);
+            }
+            if (record.HandlerSSLCert !== undefined && record.HandlerSSLCert !== null) {
+              const pos = record.HandlerSSLCert.lastIndexOf("/");
+              items.push(<span>{` ${formatText("app.payloadandhandler.pemfile")}: ${record.HandlerSSLCert.substr(pos + 1)}`}</span>);
+            }
 
-              if (record.RC4PASSWORD !== undefined && record.RC4PASSWORD !== null) {
-                items.push(<span>{` ${formatText("app.payloadandhandler.rc4password")}: ${record.RC4PASSWORD}`}</span>);
-              }
-              if (record.proxies !== undefined && record.proxies !== null) {
-                items.push(<span>{` ${formatText("app.payloadandhandler.proxy")}: ${record.proxies}`}</span>);
-              }
+            if (record.RC4PASSWORD !== undefined && record.RC4PASSWORD !== null) {
+              items.push(<span>{` ${formatText("app.payloadandhandler.rc4password")}: ${record.RC4PASSWORD}`}</span>);
+            }
+            if (record.proxies !== undefined && record.proxies !== null) {
+              items.push(<span>{` ${formatText("app.payloadandhandler.proxy")}: ${record.proxies}`}</span>);
+            }
 
-              if (record.DOMAIN !== undefined && record.DOMAIN !== null) {
-                items.push(<span>{` DOMAIN: ${record.DOMAIN}`}</span>);
-              }
+            if (record.DOMAIN !== undefined && record.DOMAIN !== null) {
+              items.push(<span>{` DOMAIN: ${record.DOMAIN}`}</span>);
+            }
 
-              if (record.REQ_TYPE !== undefined && record.REQ_TYPE !== null) {
-                items.push(<span>{` REQ_TYPE: ${record.REQ_TYPE}`}</span>);
-              }
+            if (record.REQ_TYPE !== undefined && record.REQ_TYPE !== null) {
+              items.push(<span>{` REQ_TYPE: ${record.REQ_TYPE}`}</span>);
+            }
 
-              if (record.SERVER_ID !== undefined && record.SERVER_ID !== null) {
-                items.push(<span>{` SERVER_ID: ${record.SERVER_ID}`}</span>);
-              }
+            if (record.SERVER_ID !== undefined && record.SERVER_ID !== null) {
+              items.push(<span>{` SERVER_ID: ${record.SERVER_ID}`}</span>);
+            }
 
-              if (record.ReverseListenerComm !== undefined && record.ReverseListenerComm !== null) {
-                items.push(<span>{` Channel Session: ${record.ReverseListenerComm}`}</span>);
-              }
+            if (record.ReverseListenerComm !== undefined && record.ReverseListenerComm !== null) {
+              items.push(<span>{` Channel Session: ${record.ReverseListenerComm}`}</span>);
+            }
 
-              return <Space style={{ display: "flex" }}>{items}</Space>;
-            },
-          }, {
-            title: formatText("app.payloadandhandler.handlername"), dataIndex: "HandlerName", key: "HandlerName", render: (text, record) => record.HandlerName,
-          }, {
-            title: formatText("app.payloadandhandler.backup"), dataIndex: "Backup", key: "ID", width: 48, render: (text, record) => record.Backup ? (<Avatar
-              style={{ backgroundColor: "#d8bd14", width: "100%" }}
-              shape="square"
-              size={24}
-            >
-              <SaveOutlined/>
-            </Avatar>) : null,
-          }, {
-            dataIndex: "operation", width: 400, render: (text, record) => {
-              let transformAction = null;
-              if (record.ID >= 0) {
-                transformAction = (<a style={{ color: "#a5a5a5" }} onClick={() => onCreateVirtualHandler(record)}>
-                    {formatText("app.payloadandhandler.getvirl")}
-                </a>);
-              } else {
-                transformAction = (<a style={{ color: "#faad14" }} onClick={() => onCreateHandlerByVirtual(record)}>
-                    {formatText("app.payloadandhandler.getreal")}
-                </a>);
-              }
-              return (<div style={{ textAlign: "center" }}>
-                  <Space size="middle">
-                    <a style={{ color: "green" }} onClick={() => onCreatePayloadByHandler(record)}>
-                      {formatText("app.payloadandhandler.genpe")}
-                    </a>
-                    <Popover
-                      placement="left"
-                      title={formatText("app.payloadandhandler.format_rule")}
-                      content={() => genPayloadByHandler(record)}
-                      trigger="click">
-                      <a style={{ color: "#13a8a8" }}>
-                        {formatText("app.payloadandhandler.genpayload")}
-                      </a>
-                    </Popover>
-                    <a onClick={() => showHandlerDetail(record)}>{formatText("app.payloadandhandler.Detail")}</a>
-                    {transformAction}
-                    <a
-                      onClick={() => destoryHandlerReq.run({ jobid: record.ID })}
-                      style={{ color: "red" }}
-                    >
-                      {formatText("app.core.delete")}
-                    </a>
-                  </Space>
-              </div>);
-            },
-          }]}
-      />
-      <Modal
-        style={{ top: 20 }}
-        width="60vw"
-        bodyStyle={{ padding: "0px 0px 1px 0px" }}
-        destroyOnClose
-        visible={createHandlerModalVisible}
-        footer={null}
-        onCancel={() => setCreateHandlerModalVisible(false)}
-      >
-        <CreateHandlerModalContent createHandlerFinish={createHandlerFinish}/>
-      </Modal>
-      <Modal
-        style={{ top: 20 }}
-        width="60vw"
-        bodyStyle={{ padding: "0px 0px 1px 0px" }}
-        destroyOnClose
-        visible={createPayloadModalVisible}
-        footer={null}
-        onCancel={() => setCreatePayloadModalVisible(false)}
-      >
-        <CreatePayloadModalContent createPayloadFinish={createPayloadFinish}/>
-      </Modal>
+            return <Space style={{ display: "flex" }}>{items}</Space>;
+          },
+        }, {
+          title: formatText("app.payloadandhandler.handlername"), dataIndex: "HandlerName", key: "HandlerName", render: (text, record) => record.HandlerName,
+        }, {
+          title: formatText("app.payloadandhandler.backup"), dataIndex: "Backup", key: "ID", width: 48, render: (text, record) => record.Backup ? (<Avatar
+            style={{ backgroundColor: "#d8bd14", width: "100%" }}
+            shape="square"
+            size={24}
+          >
+            <SaveOutlined/>
+          </Avatar>) : null,
+        }, {
+          dataIndex: "operation", width: 400, render: (text, record) => {
+            let transformAction = null;
+            if (record.ID >= 0) {
+              transformAction = (<a style={{ color: "#a5a5a5" }} onClick={() => onCreateVirtualHandler(record)}>
+                {formatText("app.payloadandhandler.getvirl")}
+              </a>);
+            } else {
+              transformAction = (<a style={{ color: "#faad14" }} onClick={() => onCreateHandlerByVirtual(record)}>
+                {formatText("app.payloadandhandler.getreal")}
+              </a>);
+            }
+            return (<div style={{ textAlign: "center" }}>
+              <Space size="middle">
+                <a style={{ color: "green" }} onClick={() => onCreatePayloadByHandler(record)}>
+                  {formatText("app.payloadandhandler.genpe")}
+                </a>
+                <Popover
+                  placement="left"
+                  title={formatText("app.payloadandhandler.format_rule")}
+                  content={() => genPayloadByHandler(record)}
+                  trigger="click">
+                  <a style={{ color: "#13a8a8" }}>
+                    {formatText("app.payloadandhandler.genpayload")}
+                  </a>
+                </Popover>
+                <a onClick={() => showHandlerDetail(record)}>{formatText("app.payloadandhandler.Detail")}</a>
+                {transformAction}
+                <a
+                  onClick={() => destoryHandlerReq.run({ jobid: record.ID })}
+                  style={{ color: "red" }}
+                >
+                  {formatText("app.core.delete")}
+                </a>
+              </Space>
+            </div>);
+          },
+        }]}
+    />
+    <Modal
+      style={{ top: 20 }}
+      width="60vw"
+      bodyStyle={{ padding: "0px 0px 1px 0px" }}
+      destroyOnClose
+      open={createHandlerModalVisible}
+      footer={null}
+      onCancel={() => setCreateHandlerModalVisible(false)}
+    >
+      <CreateHandlerModalContent createHandlerFinish={createHandlerFinish}/>
+    </Modal>
+    <Modal
+      style={{ top: 20 }}
+      width="60vw"
+      bodyStyle={{ padding: "0px 0px 1px 0px" }}
+      destroyOnClose
+      visible={createPayloadModalVisible}
+      footer={null}
+      onCancel={() => setCreatePayloadModalVisible(false)}
+    >
+      <CreatePayloadModalContent createPayloadFinish={createPayloadFinish}/>
+    </Modal>
   </Fragment>);
 };
 export const PayloadAndHandlerMemo = memo(PayloadAndHandler);

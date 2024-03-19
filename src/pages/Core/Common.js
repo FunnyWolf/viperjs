@@ -1,5 +1,6 @@
 import React from 'react'
-import { Avatar, Tag, Tooltip } from 'antd-v5'
+import { Tag, Tooltip } from 'antd-v5'
+import { Avatar } from 'antd'
 import {
   BugOutlined,
   CloudOutlined,
@@ -14,46 +15,46 @@ import moment from 'moment/moment'
 
 export const SidTag = sid => {
   return (<Tag
-      color="purple"
-      style={{
-        width: 40, marginRight: 0, textAlign: 'center',
-      }}
-    >
-      <strong>{sid}</strong>
+    color="purple"
+    style={{
+      width: 40, marginRight: 0, textAlign: 'center',
+    }}
+  >
+    <strong>{sid}</strong>
   </Tag>)
 }
 
 export const host_type_to_avatar_table = {
   ad_server: (<Avatar
-      size={22}
-      shape="square"
-      style={{ backgroundColor: '#177ddc', width: 80 }}
-      icon={<WindowsOutlined/>}
+    size={22}
+    shape="square"
+    style={{ backgroundColor: '#177ddc', width: 80 }}
+    icon={<WindowsOutlined/>}
   />), pc: (<Avatar
-      size={22}
-      shape="square"
-      style={{ backgroundColor: '#49aa19', width: 80 }}
-      icon={<LaptopOutlined/>}
+    size={22}
+    shape="square"
+    style={{ backgroundColor: '#49aa19', width: 80 }}
+    icon={<LaptopOutlined/>}
   />), web_server: (<Avatar
-      size={22}
-      shape="square"
-      style={{ backgroundColor: '#13a8a8', width: 80 }}
-      icon={<CloudOutlined/>}
+    size={22}
+    shape="square"
+    style={{ backgroundColor: '#13a8a8', width: 80 }}
+    icon={<CloudOutlined/>}
   />), cms: (<Avatar
-      size={22}
-      shape="square"
-      style={{ backgroundColor: '#d84a1b', width: 80 }}
-      icon={<BugOutlined/>}
+    size={22}
+    shape="square"
+    style={{ backgroundColor: '#d84a1b', width: 80 }}
+    icon={<BugOutlined/>}
   />), firewall: (<Avatar
-      size={22}
-      shape="square"
-      style={{ backgroundColor: '#d87a16', width: 80 }}
-      icon={<GatewayOutlined/>}
+    size={22}
+    shape="square"
+    style={{ backgroundColor: '#d87a16', width: 80 }}
+    icon={<GatewayOutlined/>}
   />), other: (<Avatar
-      size={22}
-      shape="square"
-      style={{ backgroundColor: '#bfbfbf', width: 80 }}
-      icon={<QuestionOutlined/>}
+    size={22}
+    shape="square"
+    style={{ backgroundColor: '#bfbfbf', width: 80 }}
+    icon={<QuestionOutlined/>}
   />),
 }
 
@@ -71,28 +72,28 @@ export const randomstr = (length) => {
 
 export const DocIcon = ({ url }) => {
   return (<a target="_blank" href={url}>
-      <QuestionCircleOutlined
-        style={{
-          fontSize: 16, bottom: 16, right: 16, position: 'fixed', zIndex: 100,
-        }}/>
+    <QuestionCircleOutlined
+      style={{
+        fontSize: 16, bottom: 16, right: 16, position: 'fixed', zIndex: 100,
+      }}/>
   </a>)
 }
 
 export const DocIconInDiv = ({ url }) => {
   return (<a target="_blank" href={url}>
-      <QuestionCircleOutlined
-        style={{
-          fontSize: 16, bottom: 16, right: 16, position: 'absolute', zIndex: 100,
-        }}/>
+    <QuestionCircleOutlined
+      style={{
+        fontSize: 16, bottom: 16, right: 16, position: 'absolute', zIndex: 100,
+      }}/>
   </a>)
 }
 
 export const DocIconInDivSessionIO = ({ url }) => {
   return (<a target="_blank" href={url}>
-      <QuestionCircleOutlined
-        style={{
-          fontSize: 16, bottom: 48, right: 16, position: 'absolute', zIndex: 100,
-        }}/>
+    <QuestionCircleOutlined
+      style={{
+        fontSize: 16, bottom: 48, right: 16, position: 'absolute', zIndex: 100,
+      }}/>
   </a>)
 }
 

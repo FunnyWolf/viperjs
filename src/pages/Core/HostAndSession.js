@@ -96,7 +96,6 @@ import {
 } from '@ant-design/icons'
 
 import {
-  Avatar,
   Button,
   Card,
   Checkbox,
@@ -121,7 +120,7 @@ import {
   Tooltip,
   Typography,
 } from 'antd-v5'
-import { Modal } from 'antd'
+import { Avatar, Modal } from 'antd'
 import copy from 'copy-to-clipboard'
 import GridContent from '@/components/PageHeaderWrapper/GridContent'
 import moment from 'moment'

@@ -14,8 +14,8 @@ import {
   SyncOutlined,
   WindowsOutlined,
 } from "@ant-design/icons";
-import { Alert, Avatar, Button, Col, Form, Input, InputNumber, Radio, Row, Select, Space, Table, Tag } from 'antd-v5';
-import { Modal } from 'antd'
+import { Alert, Button, Col, Form, Input, InputNumber, Radio, Row, Select, Space, Table, Tag } from 'antd-v5';
+import { Avatar, Modal } from 'antd'
 import { DocIcon, SidTag } from "@/pages/Core/Common";
 import {
   deleteCoreHostAPI,
@@ -506,7 +506,7 @@ const MsfSocks = () => {
             }, {
               title: formatText("app.msfsocks.portfwd.tip"), dataIndex: "remote", key: "remote", render: (text, record) => {
                 return (<div>
-                    <span>{`${record.tip}`}</span>
+                  <span>{`${record.tip}`}</span>
                 </div>);
               },
             }, {
