@@ -2558,7 +2558,8 @@ const FileSession = () => {
   })
 
   const [fileSessionInputPathActive, setFileSessionInputPathActive] = useState(fileSessionListActive.path)
-
+  const [showCatResultModal, setShowCatResultModal] = useState(false)
+  const [catResult, setCatResult] = useState({ data: null, reason: null })
   const createPostModuleActuatorReq = useRequest(postPostmodulePostModuleActuatorAPI, {
     manual: true, onSuccess: (result, params) => {
     }, onError: (error, params) => {
@@ -2628,40 +2629,9 @@ const FileSession = () => {
 
   const listFileSessionCatReq = useRequest(getMsgrpcFileSessionAPI, {
     manual: true, onSuccess: (result, params) => {
-      Modal.info({
-        icon: null,
-        title: result.reason,
-        mask: false,
-        bodyStyle: { padding: 8 },
-        style: { top: 32 },
-        width: '70%',
-        closable: true,
-        footer: null,
-        content: (<Form preserve={false} onFinish={onUpdateFileSession}>
-          <Form.Item name="filedata" initialValue={result.data}>
-            <TextArea
-              autoSize={{ minRows: 5, maxRows: 25 }}
-            />
-          </Form.Item>
-          <Space style={{ marginBottom: 0 }}>
-            <Form.Item>
-              <Button type="primary" htmlType="submit" loading={updateFileSessionReq.loading}>
-                {formatMessage({ id: 'app.hostandsession.filesession.update' })}
-              </Button>
-            </Form.Item>
-            <Form.Item>
-              <Button
-                onClick={() => copytoclipboard(result.data)}>
-                {formatMessage({ id: 'app.hostandsession.filesession.copy' })}
-              </Button>
-            </Form.Item>
-            <Form.Item name="sessionid" initialValue={hostAndSessionActive.session.id}/>
-            <Form.Item name="filepath" initialValue={result.reason}/>
-          </Space>
-        </Form>),
-        onOk () {
-        },
-      })
+      setCatResult(result)
+      setShowCatResultModal(true)
+
     }, onError: (error, params) => {
     },
   })
@@ -2975,6 +2945,40 @@ const FileSession = () => {
           }]}
       />
     </Row>
+    <Modal
+      title={catResult.reason}
+      mask={false}
+      style={{ top: 40 }}
+      width="60vw"
+      destroyOnClose
+      open={showCatResultModal}
+      onCancel={() => setShowCatResultModal(false)}
+      footer={null}
+      bodyStyle={{ padding: '0px 0px 0px 0px' }}
+    >
+      <Form preserve={false} onFinish={onUpdateFileSession}>
+        <Form.Item name="filedata" initialValue={catResult.data}>
+          <TextArea
+            autoSize={{ minRows: 5, maxRows: 25 }}
+          />
+        </Form.Item>
+        <Space style={{ marginBottom: 0 }}>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" loading={updateFileSessionReq.loading}>
+              {formatMessage({ id: 'app.hostandsession.filesession.update' })}
+            </Button>
+          </Form.Item>
+          <Form.Item>
+            <Button
+              onClick={() => copytoclipboard(catResult.data)}>
+              {formatMessage({ id: 'app.hostandsession.filesession.copy' })}
+            </Button>
+          </Form.Item>
+          <Form.Item name="sessionid" initialValue={hostAndSessionActive.session.id}/>
+          <Form.Item name="filepath" initialValue={catResult.reason}/>
+        </Space>
+      </Form>
+    </Modal>
   </Fragment>)
 }
 

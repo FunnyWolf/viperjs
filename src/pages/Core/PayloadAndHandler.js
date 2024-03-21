@@ -1830,17 +1830,14 @@ const showHandlerDetail = item => {
     }
     Descriptions_Items.push(<Descriptions.Item label={key}>{showstr}</Descriptions.Item>);
   }
-  Modal.info({
-    mask: false, style: { top: 20 }, width: "95%", icon: "", content: (<Descriptions
-      style={{ marginTop: -32, marginRight: -24, marginLeft: -24, marginBottom: -16 }}
-      bordered
-      size="small"
-      column={3}
-    >
-      {Descriptions_Items}
-    </Descriptions>), onOk () {
-    },
-  });
+  return <Descriptions
+    style={{ width: "80vw" }}
+    bordered
+    size="small"
+    column={3}
+  >
+    {Descriptions_Items}
+  </Descriptions>
 };
 
 function genPayloadByHandler (item) {
@@ -2171,7 +2168,14 @@ const PayloadAndHandler = (props) => {
                     {formatText("app.payloadandhandler.genpayload")}
                   </a>
                 </Popover>
-                <a onClick={() => showHandlerDetail(record)}>{formatText("app.payloadandhandler.Detail")}</a>
+                <Popover
+                  placement="left"
+                  overlayStyle={{ padding: '0px 0px 0px 0px' }}
+                  content={showHandlerDetail(record)}
+                  trigger="click"
+                >
+                  <a>{formatText("app.payloadandhandler.Detail")}</a>
+                </Popover>
                 {transformAction}
                 <a
                   onClick={() => destoryHandlerReq.run({ jobid: record.ID })}

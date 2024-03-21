@@ -167,68 +167,68 @@ const CreateWebDeliveryModalContent = props => {
     }
   };
   return (<Form onFinish={onCreateWebDeliveryBySubmit}>
-      <Collapse bordered={false} defaultActiveKey={["payload", "web"]}>
-        <Panel header={formatText("app.webdelivery.payload")} key="payload">
-          <Form.Item
-            {...formLayoutVeryShort}
-            rules={[
-              {
-                required: true, message: formatText("app.webdelivery.target.rule"),
-              }]}
-            label="Target"
-            tooltip={formatText("app.webdelivery.target.tip")}
-            name="TARGET"
-          >
-            <Select
-              placeholder={formatText("app.webdelivery.target.rule")}
-              onChange={changeTargetOption}
-              allowClear
-            >
-              <Option value={0}>Python</Option>
-              <Option value={1}>PHP</Option>
-              <Option value={2}>PSH</Option>
-              <Option value={3}>Regsvr32</Option>
-              <Option value={4}>pubprn</Option>
-              <Option value={5}>SyncAppvPublishingServer</Option>
-              <Option value={6}>PSH (Binary)</Option>
-              <Option value={7}>Linux</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            {...formLayoutLong}
-            rules={[
-              {
-                required: true, message: formatText("app.webdelivery.handlerconf.rule"),
-              }]}
-            label={<span>{formatText("app.webdelivery.handlerconf")}</span>}
-            name="handlerconf"
-          >
-            <Select
-              placeholder={formatText("app.webdelivery.handlerconf.rule")}
-              onChange={changePayloadOption}
-              allowClear>
-              {handlerConf.map((handler, i) => (<Option value={handler.value}>{getOptionTag(handler)}</Option>))}
-            </Select>
-          </Form.Item>
-        </Panel>
-        <Panel header={formatText("app.webdelivery.web")} key="web">
-          {webDevliverServerOption()}
-        </Panel>
-        <Panel header={formatText("app.webdelivery.advance")} key="advance">
-          {webDevliverAdvanceOption()}
-        </Panel>
-      </Collapse>
-      <Form.Item style={{ marginTop: 24 }} {...buttonLayout}>
-        <Button
-          block
-          loading={createWebDeliveryReq.loading}
-          icon={<CloudDownloadOutlined/>}
-          htmlType="submit"
-          type="primary"
+    <Collapse bordered={false} defaultActiveKey={["payload", "web"]}>
+      <Panel header={formatText("app.webdelivery.payload")} key="payload">
+        <Form.Item
+          {...formLayoutVeryShort}
+          rules={[
+            {
+              required: true, message: formatText("app.webdelivery.target.rule"),
+            }]}
+          label="Target"
+          tooltip={formatText("app.webdelivery.target.tip")}
+          name="TARGET"
         >
-          {formatText("app.webdelivery.submit")}
-        </Button>
-      </Form.Item>
+          <Select
+            placeholder={formatText("app.webdelivery.target.rule")}
+            onChange={changeTargetOption}
+            allowClear
+          >
+            <Option value={0}>Python</Option>
+            <Option value={1}>PHP</Option>
+            <Option value={2}>PSH</Option>
+            <Option value={3}>Regsvr32</Option>
+            <Option value={4}>pubprn</Option>
+            <Option value={5}>SyncAppvPublishingServer</Option>
+            <Option value={6}>PSH (Binary)</Option>
+            <Option value={7}>Linux</Option>
+          </Select>
+        </Form.Item>
+        <Form.Item
+          {...formLayoutLong}
+          rules={[
+            {
+              required: true, message: formatText("app.webdelivery.handlerconf.rule"),
+            }]}
+          label={<span>{formatText("app.webdelivery.handlerconf")}</span>}
+          name="handlerconf"
+        >
+          <Select
+            placeholder={formatText("app.webdelivery.handlerconf.rule")}
+            onChange={changePayloadOption}
+            allowClear>
+            {handlerConf.map((handler, i) => (<Option value={handler.value}>{getOptionTag(handler)}</Option>))}
+          </Select>
+        </Form.Item>
+      </Panel>
+      <Panel header={formatText("app.webdelivery.web")} key="web">
+        {webDevliverServerOption()}
+      </Panel>
+      <Panel header={formatText("app.webdelivery.advance")} key="advance">
+        {webDevliverAdvanceOption()}
+      </Panel>
+    </Collapse>
+    <Form.Item style={{ marginTop: 24 }} {...buttonLayout}>
+      <Button
+        block
+        loading={createWebDeliveryReq.loading}
+        icon={<CloudDownloadOutlined/>}
+        htmlType="submit"
+        type="primary"
+      >
+        {formatText("app.webdelivery.submit")}
+      </Button>
+    </Form.Item>
   </Form>);
 };
 
@@ -245,17 +245,21 @@ const showDeliveryDetail = item => {
     }
     Descriptions_Items.push(<Descriptions.Item label={key}>{showstr}</Descriptions.Item>);
   }
-  Modal.info({
-    mask: false, style: { top: 20 }, width: "70%", icon: "", content: (<Descriptions
-        style={{ marginTop: -32, marginRight: -24, marginLeft: -24, marginBottom: -16 }}
-        bordered
-        size="small"
-        column={1}
-      >
-        {Descriptions_Items}
-    </Descriptions>), onOk () {
-    },
-  });
+
+  return <Descriptions
+    style={{
+      width: "80vw",
+      overflow: "auto",
+      maxHeight: "60vh",
+      minHeight: "60vh",
+    }}
+    bordered
+    size="small"
+    column={1}
+  >
+    {Descriptions_Items}
+  </Descriptions>
+
 };
 
 const WebDelivery = (props) => {
@@ -310,125 +314,135 @@ const WebDelivery = (props) => {
   };
 
   return (<Fragment>
-      <DocIcon url="https://www.yuque.com/vipersec/help/kvxr65"/>
+    <DocIcon url="https://www.yuque.com/vipersec/help/kvxr65"/>
     <Row gutter={0}>
-        <Col span={12}>
-          <Button
-            block
-            icon={<CloudDownloadOutlined/>}
-            onClick={() => setCreateWebDeliveryModalVisible(true)}
-          >
-            {formatText("app.webdelivery.submit")}
-          </Button>
-        </Col>
-        <Col span={12}>
-          <Button
-            icon={<SyncOutlined/>}
-            block
-            loading={listWebDeliveryReq.loading || createWebDeliveryReq.loading || destoryWebDeliveryReq.loading}
-            onClick={() => listWebDeliveryReq.run()}
-          >
-            {formatText("app.core.refresh")}
-          </Button>
-        </Col>
-      </Row>
-      <Table
-        style={{
-          marginTop: 0,
-          padding: "0 0 0 0",
-          overflow: "auto",
-          maxHeight: cssCalc(`${resizeDownHeight} - 32px`),
-          minHeight: cssCalc(`${resizeDownHeight} - 32px`),
-        }}
-        size="small"
-        bordered
-        pagination={false}
-        rowKey="ID"
-        dataSource={webDeliveryList}
-        columns={[
-          {
-            title: "URL", dataIndex: "URL", key: "URL", width: 320, render: (text, record) => record.URL,
-          }, {
-            title: "Target", dataIndex: "Target-Name", key: "Target-Name", width: 120, render: (text, record) => record["Target-Name"],
-          }, {
-            title: formatText("app.webdelivery.payload.label"), dataIndex: "PAYLOAD", key: "PAYLOAD", width: 280, render: (text, record) => record.PAYLOAD,
-          }, {
-            title: "LHOST/RHOST", dataIndex: "PAYLOAD", key: "PAYLOAD", width: 160, render: (text, record) => {
-              if (record.RHOST !== undefined && record.RHOST !== null) {
-                return <span>{record.RHOST}</span>;
-              }
-              if (record.LHOST !== undefined && record.LHOST !== null) {
-                return <span>{record.LHOST}</span>;
-              }
-              return null;
-            },
-          }, {
-            title: "PORT", dataIndex: "LPORT", key: "LPORT", width: 64, render: (text, record) => <span>{record.LPORT}</span>,
-          }, {
-            title: formatText("app.webdelivery.payload"), dataIndex: "PAYLOAD", key: "PAYLOAD", render: (text, record) => {
-              const items = [];
+      <Col span={12}>
+        <Button
+          block
+          icon={<CloudDownloadOutlined/>}
+          onClick={() => setCreateWebDeliveryModalVisible(true)}
+        >
+          {formatText("app.webdelivery.submit")}
+        </Button>
+      </Col>
+      <Col span={12}>
+        <Button
+          icon={<SyncOutlined/>}
+          block
+          loading={listWebDeliveryReq.loading || createWebDeliveryReq.loading || destoryWebDeliveryReq.loading}
+          onClick={() => listWebDeliveryReq.run()}
+        >
+          {formatText("app.core.refresh")}
+        </Button>
+      </Col>
+    </Row>
+    <Table
+      style={{
+        marginTop: 0,
+        padding: "0 0 0 0",
+        overflow: "auto",
+        maxHeight: cssCalc(`${resizeDownHeight} - 32px`),
+        minHeight: cssCalc(`${resizeDownHeight} - 32px`),
+      }}
+      size="small"
+      bordered
+      pagination={false}
+      rowKey="ID"
+      dataSource={webDeliveryList}
+      columns={[
+        {
+          title: "URL", dataIndex: "URL", key: "URL", width: 320, render: (text, record) => record.URL,
+        }, {
+          title: "Target", dataIndex: "Target-Name", key: "Target-Name", width: 120, render: (text, record) => record["Target-Name"],
+        }, {
+          title: formatText("app.webdelivery.payload.label"), dataIndex: "PAYLOAD", key: "PAYLOAD", width: 280, render: (text, record) => record.PAYLOAD,
+        }, {
+          title: "LHOST/RHOST", dataIndex: "PAYLOAD", key: "PAYLOAD", width: 160, render: (text, record) => {
+            if (record.RHOST !== undefined && record.RHOST !== null) {
+              return <span>{record.RHOST}</span>;
+            }
+            if (record.LHOST !== undefined && record.LHOST !== null) {
+              return <span>{record.LHOST}</span>;
+            }
+            return null;
+          },
+        }, {
+          title: "PORT", dataIndex: "LPORT", key: "LPORT", width: 64, render: (text, record) => <span>{record.LPORT}</span>,
+        }, {
+          title: formatText("app.webdelivery.payload"), dataIndex: "PAYLOAD", key: "PAYLOAD", render: (text, record) => {
+            const items = [];
 
-              if (record.LURI !== undefined && record.LURI !== null) {
-                items.push(<span>{` LURI: ${record.LURI}`}</span>);
-              }
-              if (record.HandlerSSLCert !== undefined && record.HandlerSSLCert !== null) {
-                const pos = record.HandlerSSLCert.lastIndexOf("/");
-                items.push(<span>{` ${formatText("app.payloadandhandler.pemfile")}: ${record.HandlerSSLCert.substr(pos + 1)}`}</span>);
-              }
+            if (record.LURI !== undefined && record.LURI !== null) {
+              items.push(<span>{` LURI: ${record.LURI}`}</span>);
+            }
+            if (record.HandlerSSLCert !== undefined && record.HandlerSSLCert !== null) {
+              const pos = record.HandlerSSLCert.lastIndexOf("/");
+              items.push(<span>{` ${formatText("app.payloadandhandler.pemfile")}: ${record.HandlerSSLCert.substr(pos + 1)}`}</span>);
+            }
 
-              if (record.RC4PASSWORD !== undefined && record.RC4PASSWORD !== null) {
-                items.push(<span>{` ${formatText("app.payloadandhandler.rc4password")}: ${record.RC4PASSWORD}`}</span>);
-              }
-              if (record.proxies !== undefined && record.proxies !== null) {
-                items.push(<span>{` ${formatText("app.payloadandhandler.proxy")}: ${record.proxies}`}</span>);
-              }
+            if (record.RC4PASSWORD !== undefined && record.RC4PASSWORD !== null) {
+              items.push(<span>{` ${formatText("app.payloadandhandler.rc4password")}: ${record.RC4PASSWORD}`}</span>);
+            }
+            if (record.proxies !== undefined && record.proxies !== null) {
+              items.push(<span>{` ${formatText("app.payloadandhandler.proxy")}: ${record.proxies}`}</span>);
+            }
 
-              if (record.DOMAIN !== undefined && record.DOMAIN !== null) {
-                items.push(<span>{` DOMAIN: ${record.DOMAIN}`}</span>);
-              }
-              if (record.REQ_TYPE !== undefined && record.REQ_TYPE !== null) {
-                items.push(<span>{` REQ_TYPE: ${record.REQ_TYPE}`}</span>);
-              }
-              if (record.SERVER_ID !== undefined && record.SERVER_ID !== null) {
-                items.push(<span>{` SERVER_ID: ${record.SERVER_ID}`}</span>);
-              }
-              return <Space style={{ display: "flex" }}>{items}</Space>;
-            },
-          }, {
-            dataIndex: "operation", width: 216, render: (text, record) => {
-              return (<div style={{ textAlign: "center" }}>
-                  <Space size="middle">
-                    <Popover placement="left" title={text} trigger="click"
-                             content={<Card
-                               style={{ width: "50vw" }}
-                             >
-                               <Typography.Text
-                                 copyable
-                               >{record["ONE-LINE-CMD"]}</Typography.Text></Card>}
-                    >
-                      <a style={{ color: "#faad14" }}>{formatText("app.webdelivery.onelinecmd")}</a>
-                    </Popover>
-                    <a onClick={() => showDeliveryDetail(record)}>{formatText("app.webdelivery.Detail")}</a>
-                    <a
-                      onClick={() => destoryWebDeliveryReq.run({ jobid: record.ID })}
-                      style={{ color: "red" }}
-                    >{formatText("app.core.delete")}</a>
-                  </Space>
-              </div>);
-            },
-          }]}
-      />
-      <Modal
-        style={{ top: 20 }}
-        width="60vw"
-        bodyStyle={{ padding: "0px 0px 1px 0px" }}
-        destroyOnClose
-        visible={createWebDeliveryModalVisible}
-        footer={null}
-        onCancel={() => setCreateWebDeliveryModalVisible(false)}
-      >
-        <CreateWebDeliveryModalContent createWebDeliveryFinish={createWebDeliveryFinish}/>
-      </Modal>
+            if (record.DOMAIN !== undefined && record.DOMAIN !== null) {
+              items.push(<span>{` DOMAIN: ${record.DOMAIN}`}</span>);
+            }
+            if (record.REQ_TYPE !== undefined && record.REQ_TYPE !== null) {
+              items.push(<span>{` REQ_TYPE: ${record.REQ_TYPE}`}</span>);
+            }
+            if (record.SERVER_ID !== undefined && record.SERVER_ID !== null) {
+              items.push(<span>{` SERVER_ID: ${record.SERVER_ID}`}</span>);
+            }
+            return <Space style={{ display: "flex" }}>{items}</Space>;
+          },
+        }, {
+          dataIndex: "operation", width: 216, render: (text, record) => {
+            return (<div style={{ textAlign: "center" }}>
+              <Space size="middle">
+                <Popover placement="left" title={text} trigger="click"
+                         content={<Card
+                           style={{ width: "50vw" }}
+                         >
+                           <Typography.Text
+                             copyable
+                           >{record["ONE-LINE-CMD"]}</Typography.Text></Card>}
+                >
+                  <a style={{ color: "#faad14" }}>{formatText("app.webdelivery.onelinecmd")}</a>
+                </Popover>
+                <Popover
+                  placement="left"
+                  overlayStyle={{ padding: '0px 0px 0px 0px' }}
+                  content={showDeliveryDetail(record)}
+                  trigger="click"
+                >
+                  <a>{formatText("app.webdelivery.Detail")}</a>
+                </Popover>
+
+
+                {/*<a onClick={() => showDeliveryDetail(record)}>{formatText("app.webdelivery.Detail")}</a>*/}
+                <a
+                  onClick={() => destoryWebDeliveryReq.run({ jobid: record.ID })}
+                  style={{ color: "red" }}
+                >{formatText("app.core.delete")}</a>
+              </Space>
+            </div>);
+          },
+        }]}
+    />
+    <Modal
+      style={{ top: 20 }}
+      width="60vw"
+      bodyStyle={{ padding: "0px 0px 1px 0px" }}
+      destroyOnClose
+      visible={createWebDeliveryModalVisible}
+      footer={null}
+      onCancel={() => setCreateWebDeliveryModalVisible(false)}
+    >
+      <CreateWebDeliveryModalContent createWebDeliveryFinish={createWebDeliveryFinish}/>
+    </Modal>
   </Fragment>);
 };
 export const WebDeliveryMemo = memo(WebDelivery);
