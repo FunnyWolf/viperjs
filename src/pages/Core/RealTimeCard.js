@@ -319,7 +319,7 @@ const RealTimeNotices = () => {
     const getContent = item => {
       const content = item[getLocale()];
       if (item.level === 0) {
-        return (<Text style={{ color: "#49aa19", wordBreak: "break-all" }}>
+        return (<Text type="success" style={{ wordBreak: "break-all" }}>
           {content}
         </Text>);
       }
@@ -339,7 +339,7 @@ const RealTimeNotices = () => {
         </Text>);
       }
       if (item.level === 4) {
-        return (<Text mark style={{ wordBreak: "break-all" }}>
+        return (<Text type="danger" style={{ wordBreak: "break-all" }}>
           {content}
         </Text>);
       }
