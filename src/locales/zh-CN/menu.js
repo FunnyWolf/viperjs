@@ -36,8 +36,8 @@ export default {
   'menu.account.trigger': '触发报错',
   'menu.account.logout': '退出登录',
   //自定义
-  'menu.main': '红队模拟',
-  'menu.web': '互联网扫描',
+  'menu.main': '红队模拟平台',
+  'menu.web': '互联网攻击面管理',
   'menu.data-center': '数据管理',
   'menu.payload-and-handler': '监听载荷',
   'menu.setting': '设置',

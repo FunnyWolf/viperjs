@@ -1588,7 +1588,7 @@ const SessionInfo = () => {
     <Tabs defaultActiveKey="sessioninfo" size="small">
       <TabPane tab={formatText('app.hostandsession.session.SessionInfo')} key="sessioninfo">
         <Descriptions
-          style={{ marginTop: -8, width: '100%' }}
+          style={{ marginTop: 0, width: '100%' }}
           size="small"
           column={12}
           bordered
@@ -1684,7 +1684,7 @@ const SessionInfo = () => {
         <Input
           allowClear
           prefix={<SearchOutlined/>}
-          style={{ width: '100%', marginTop: -8 }}
+          style={{ width: '100%' }}
           placeholder="PID/PPID/NAME/PATH"
           onChange={e => {
             handleProcessesSearch(e.target.value)
