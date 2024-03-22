@@ -949,7 +949,7 @@ const HostAndSessionCard = () => {
         expandIcon: ({ expanded, onExpand, record }) => null,
       }}
 
-      scroll={{ y: cssCalc(`${resizeUpHeight}`) }}
+      // scroll={{ y: cssCalc(`${resizeUpHeight}`) }}
       style={{
         overflow: 'auto', minHeight: cssCalc(`${resizeUpHeight}`), maxHeight: cssCalc(`${resizeUpHeight}`),
       }}
@@ -1694,6 +1694,7 @@ const SessionInfo = () => {
           style={{
             marginTop: '8px',
           }}
+          className="tablev5"
           columns={processColumns}
           dataSource={processes}
           pagination={false}
@@ -2787,6 +2788,7 @@ const FileSession = () => {
         scroll={{ y: 'calc(80vh - 40px)' }}
         size="small"
         rowKey="name"
+        className="tablev5"
         pagination={false}
         dataSource={fileSessionListActive.entries}
         loading={createPostModuleActuatorReq.loading || listFileSessionReq.loading || listFileSessionRunReq.loading || updateFileSessionReq.loading ||

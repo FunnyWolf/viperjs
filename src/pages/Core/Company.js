@@ -318,11 +318,6 @@ export const Company = props => {
           onClick={() => handleRefresh()}
           loading={listCompanyReq.loading}
         />
-        {/*<Select*/}
-        {/*  defaultValue="lucy"*/}
-        {/*  style={{ width: "20%" }}*/}
-        {/*  options={[{ value: 'lucy', label: 'Lucy' }]}*/}
-        {/*/>*/}
       </Row>
       <Table
         style={{
@@ -331,6 +326,7 @@ export const Company = props => {
           // minHeight: cssCalc("100vh - 560px"),
         }}
         scroll={{ y: "calc(100vh - 88px - 24px)" }}
+        className="tablev5"
         // showHeader={false}
         onRow={record => ({
           onClick: () => {

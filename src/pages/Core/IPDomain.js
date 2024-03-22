@@ -816,6 +816,7 @@ const IPDomain = props => {
               dataSource={vulnerabilitys.data}
               pagination={false}
               scroll={{ y: listitemHeight - 32 }}
+              className="tablev5"
               size="small"
             />
           </Col>
@@ -846,6 +847,7 @@ const IPDomain = props => {
               dataSource={dnsrecord}
               pagination={false}
               scroll={{ y: listitemHeight - 32 }}
+              className="tablev5"
               size="small"
             />
           </Col>

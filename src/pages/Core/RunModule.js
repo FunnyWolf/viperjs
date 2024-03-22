@@ -703,6 +703,7 @@ export const RunModule = props => {
               padding: '0 0 0 0', marginTop: 8, maxHeight: cssCalc('80vh - 128px'), minHeight: cssCalc('80vh - 128px'),
             }}
             scroll={{ y: 'calc(80vh - 128px)' }}
+            className="tablev5"
             // rowClassName={styles.moduleTr}
             showHeader={false}
             onRow={record => ({
@@ -970,6 +971,7 @@ export const RunAutoModule = props => {
             padding: '0 0 0 0', marginTop: 8, maxHeight: cssCalc('80vh - 128px'), minHeight: cssCalc('80vh - 128px'),
           }}
           scroll={{ y: 'calc(80vh - 104px)' }}
+          className="tablev5"
           // rowClassName={styles.moduleTr}
           showHeader={false}
           onRow={record => ({
@@ -1273,6 +1275,7 @@ export const RunschedulerModule = props => {
             padding: '0 0 0 0', marginTop: 8, maxHeight: cssCalc('80vh - 128px'), minHeight: cssCalc('80vh - 128px'),
           }}
           scroll={{ y: 'calc(80vh - 104px)' }}
+          className="tablev5"
           // rowClassName={styles.moduleTr}
           showHeader={false}
           onRow={record => ({
@@ -1570,6 +1573,7 @@ export const RunBotModule = props => {
             padding: '0 0 0 0', maxHeight: cssCalc('100vh - 120px'), minHeight: cssCalc('100vh - 120px'),
           }}
           scroll={{ y: 'calc(100vh - 120px)' }}
+          className="tablev5"
           // rowClassName={styles.moduleTr}
           showHeader={false}
           onRow={record => ({
@@ -1758,6 +1762,7 @@ export const RunBotModule = props => {
                   marginTop: 0, padding: '0px 8px 16px 0px', maxHeight: '560px', minHeight: '560px',
                 }}
                 scroll={{ y: 480 }}
+                className="tablev5"
                 size="small"
                 bordered
                 pagination={false}
@@ -2770,6 +2775,7 @@ export const ProxyHttpScanModule = props => {
             padding: '0 0 0 0', marginTop: 8, maxHeight: cssCalc('80vh - 128px'), minHeight: cssCalc('80vh - 128px'),
           }}
           scroll={{ y: 'calc(80vh - 104px)' }}
+          className="tablev5"
           // rowClassName={styles.moduleTr}
           showHeader={false}
           onRow={record => ({

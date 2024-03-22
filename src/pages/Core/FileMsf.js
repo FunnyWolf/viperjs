@@ -12,6 +12,7 @@ import { cssCalc } from "@/utils/utils";
 import { formatText, manuali18n, msgerror, msgsuccess, msgwarning } from "@/utils/locales";
 import { DocIcon } from "@/pages/Core/Common";
 import { useModel } from "@@/plugin-model/useModel";
+import './TableV5.css'
 
 String.prototype.format = function () {
   let args = arguments;
@@ -171,6 +172,7 @@ const FileMsf = props => {
           style={{
             overflow: "auto", maxHeight: cssCalc(`${resizeDownHeight} - 32px`), minHeight: cssCalc(`${resizeDownHeight} - 32px`),
           }}
+          className="tablev5"
           scroll={{ y: cssCalc(`${resizeDownHeight} - 64px`) }}
           size="small"
           bordered
@@ -184,7 +186,8 @@ const FileMsf = props => {
               sorter: (a, b) => a.name >= b.name,
               render: (text, record) => <span>{record.name}</span>,
             }, {
-              title: formatText("app.filemsf.size"), dataIndex: "format_size", key: "format_size", sorter: (a, b) => a.size >= b.size, width: 96,
+              title: formatText("app.filemsf.size"), dataIndex: "format_size", key: "format_size",
+              sorter: (a, b) => a.size >= b.size, width: 96,
             }, {
               title: formatText("app.filemsf.mtime"),
               dataIndex: "mtime",

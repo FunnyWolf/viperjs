@@ -312,6 +312,7 @@ export const RunWebModule = props => {
           padding: "0 0 0 0", maxHeight: cssCalc("100vh - 560px"), minHeight: cssCalc("100vh - 560px"),
         }}
         scroll={{ y: "calc(100vh - 120px)" }}
+        className="tablev5"
         showHeader={false}
         onRow={record => ({
           onClick: () => {
@@ -384,6 +385,7 @@ export const RunWebModule = props => {
               // maxHeight: '560px', minHeight: '560px',
             }}
             scroll={{ y: "40vh" }}
+            className="tablev5"
             size="small"
             bordered
             pagination={false}
