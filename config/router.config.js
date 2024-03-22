@@ -15,7 +15,13 @@ export default [
     Routes: ['src/pages/Authorized'],
     authority: ['admin', 'user'],
     routes: [
-      { path: '/', redirect: 'main' },
+      { path: '/', redirect: 'nav' },
+      {
+        icon: 'Cluster',
+        path: 'nav',
+        name: 'nav',
+        component: './Core/Nav',
+      },
       {
         icon: 'Cluster',
         path: 'main',

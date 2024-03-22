@@ -37,4 +37,5 @@ export default {
   'menu.account.logout': 'Logout',
   'menu.main': 'MAIN',
   'menu.web': 'WEB',
+  'menu.nav': 'NAV',
 };

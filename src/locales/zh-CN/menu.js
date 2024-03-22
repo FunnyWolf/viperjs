@@ -38,6 +38,7 @@ export default {
   //自定义
   'menu.main': '红队模拟平台',
   'menu.web': '互联网攻击面管理',
+  'menu.nav': '导航页',
   'menu.data-center': '数据管理',
   'menu.payload-and-handler': '监听载荷',
   'menu.setting': '设置',
