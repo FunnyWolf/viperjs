@@ -460,7 +460,7 @@ const ModuleInfoContent = props => {
   return (<Descriptions
     size="small"
     style={{
-      padding: '0 0 0 0', marginRight: 8,
+      padding: '0 0 0 0', marginRight: 8, marginTop: 16,
     }}
     column={8}
     bordered
@@ -728,7 +728,7 @@ export const RunModule = props => {
           >
             <div
               style={{
-                display: 'flex', cursor: 'pointer', marginBottom: 24,
+                display: 'flex', cursor: 'pointer', marginBottom: 24, marginTop: 16,
               }}
             >
               <Fragment>
@@ -996,7 +996,7 @@ export const RunAutoModule = props => {
         >
           <Form
             style={{
-              marginBottom: 16, overflow: 'auto', maxHeight: cssCalc('80vh - 88px'), minHeight: cssCalc('80vh - 88px'),
+              marginBottom: 16, overflow: 'auto', maxHeight: cssCalc('80vh - 88px'), minHeight: cssCalc('80vh - 88px'), marginTop: 16,
             }}
             layout="vertical"
             wrapperCol={{ span: 24 }}
@@ -1300,7 +1300,7 @@ export const RunschedulerModule = props => {
         >
           <Form
             style={{
-              marginBottom: 16, overflow: 'auto', maxHeight: cssCalc('80vh - 88px'), minHeight: cssCalc('80vh - 88px'),
+              marginBottom: 16, overflow: 'auto', maxHeight: cssCalc('80vh - 88px'), minHeight: cssCalc('80vh - 88px'), marginTop: 16,
             }}
             layout="vertical"
             wrapperCol={{ span: 24 }}
@@ -1517,7 +1517,7 @@ export const RunBotModule = props => {
     return (<Descriptions
       size="small"
       style={{
-        padding: '0 0 0 0', marginRight: 8,
+        padding: '0 0 0 0', marginRight: 8, marginTop: 16,
       }}
       column={12}
       bordered
@@ -1600,7 +1600,9 @@ export const RunBotModule = props => {
           tab={<span><FormOutlined/> {formatText('app.runmodule.postmodule.params')}</span>}
           key="ipportlist"
         >
-          <Row gutter={8}>
+          <Row
+            style={{ marginTop: 16 }}
+            gutter={8}>
             <Col span={12}>
               <TextArea
                 placeholder={formatText('app.runmodule.postmodule.inputstr.ph')}
@@ -2800,7 +2802,7 @@ export const ProxyHttpScanModule = props => {
         >
           <Form
             style={{
-              marginBottom: 16, overflow: 'auto', maxHeight: cssCalc('80vh - 88px'), minHeight: cssCalc('80vh - 88px'),
+              marginBottom: 16, overflow: 'auto', maxHeight: cssCalc('80vh - 88px'), minHeight: cssCalc('80vh - 88px'), marginTop: 16,
             }}
             layout="vertical"
             wrapperCol={{ span: 24 }}

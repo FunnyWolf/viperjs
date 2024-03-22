@@ -1157,7 +1157,9 @@ const TabsBottom = () => {
   }
 
   return (<Fragment>
-    <Tabs style={{ marginTop: 4, marginRight: 1, marginLeft: 1 }} type="card" size="small" onChange={tabActiveOnChange}>
+    <Tabs
+      type="card" size="small" onChange={tabActiveOnChange}
+    >
       <TabPane
         tab={<div style={tabPanedivSytle}>
           <FundViewOutlined/>
@@ -1394,14 +1396,14 @@ const FloatingButtons = () => {
         style={{ width: 40 }}
         onClick={() => {
           setResizeUpHeight('58vh')
-          setResizeDownHeight(`100vh - 44px - 58vh`)
+          setResizeDownHeight(`100vh - 40px - 58vh`)
         }}
         icon={<ColumnHeightOutlined/>}
       /> : <Button
         style={{ width: 40 }}
         onClick={() => {
           setResizeUpHeight('28vh')
-          setResizeDownHeight(`100vh - 44px - 28vh`)
+          setResizeDownHeight(`100vh - 40px - 28vh`)
         }}
         icon={<VerticalAlignMiddleOutlined/>}
       />}
@@ -1588,7 +1590,7 @@ const SessionInfo = () => {
     <Tabs defaultActiveKey="sessioninfo" size="small">
       <TabPane tab={formatText('app.hostandsession.session.SessionInfo')} key="sessioninfo">
         <Descriptions
-          style={{ marginTop: 0, width: '100%' }}
+          style={{ width: '100%' }}
           size="small"
           column={12}
           bordered
@@ -2147,7 +2149,7 @@ const PortFwd = () => {
           tab={<span><SwapRightOutlined/>{formatText('app.msfsocks.portfwd.type.forword')}</span>}
           key="Forward"
         >
-          <Form style={{ marginLeft: 16 }} layout="inline" onFinish={onCreatePortFwdForward}>
+          <Form style={{ marginTop: 16, marginLeft: 16 }} layout="inline" onFinish={onCreatePortFwdForward}>
             <Form.Item
               label={formatText('app.hostandsession.portfwd.forword.lport')}
               name="lport"
@@ -2217,7 +2219,7 @@ const PortFwd = () => {
           tab={<span><SwapLeftOutlined/>{formatText('app.msfsocks.portfwd.type.reverse')}</span>}
           key="Reverse"
         >
-          <Form style={{ marginLeft: 16 }} layout="inline" onFinish={onCreatePortFwdReverse}>
+          <Form style={{ marginTop: 16, marginLeft: 16 }} layout="inline" onFinish={onCreatePortFwdReverse}>
             <Form.Item
               label={formatText('app.hostandsession.portfwd.reverse.lhost')}
               name="lhost"
@@ -3179,8 +3181,8 @@ const HostRuningInfo = () => {
           <Table
             style={{
               overflow: 'auto',
-
-              minHeight: cssCalc('80vh'), maxHeight: cssCalc('80vh'), minWidth: cssCalc('80vw - 16px'), maxWidth: cssCalc('80vw - 16px'),
+              minHeight: cssCalc('80vh'), maxHeight: cssCalc('80vh'),
+              minWidth: cssCalc('80vw - 16px'), maxWidth: cssCalc('80vw - 16px'),
             }}
             columns={interfaceColumns}
             dataSource={hostAndSessionBaseInfo.INTERFACE}
@@ -3194,7 +3196,6 @@ const HostRuningInfo = () => {
           <Table
             style={{
               overflow: 'auto',
-
               minHeight: cssCalc('80vh'), maxHeight: cssCalc('80vh'), minWidth: cssCalc('80vw - 16px'), maxWidth: cssCalc('80vw - 16px'),
             }}
             columns={netstatColumns}
@@ -3207,7 +3208,6 @@ const HostRuningInfo = () => {
           <Table
             style={{
               overflow: 'auto',
-
               minHeight: cssCalc('80vh'), maxHeight: cssCalc('80vh'), minWidth: cssCalc('80vw - 16px'), maxWidth: cssCalc('80vw - 16px'),
             }}
             columns={netstatColumns}
@@ -3233,7 +3233,6 @@ const HostRuningInfo = () => {
           <Table
             style={{
               overflow: 'auto',
-
               minHeight: cssCalc('80vh'), maxHeight: cssCalc('80vh'), minWidth: cssCalc('80vw - 16px'), maxWidth: cssCalc('80vw - 16px'),
             }}
             columns={arpColumns}
@@ -3260,7 +3259,6 @@ const HostRuningInfo = () => {
           <Table
             style={{
               overflow: 'auto',
-
               minHeight: cssCalc('80vh'), maxHeight: cssCalc('80vh'), minWidth: cssCalc('80vw - 16px'), maxWidth: cssCalc('80vw - 16px'),
             }}
             columns={netstatColumns}
@@ -3273,8 +3271,8 @@ const HostRuningInfo = () => {
           <Table
             style={{
               overflow: 'auto',
-
-              minHeight: cssCalc('80vh'), maxHeight: cssCalc('80vh'), minWidth: cssCalc('80vw - 16px'), maxWidth: cssCalc('80vw - 16px'),
+              minHeight: cssCalc('80vh'), maxHeight: cssCalc('80vh'),
+              minWidth: cssCalc('80vw - 16px'), maxWidth: cssCalc('80vw - 16px'),
             }}
             columns={processColumns}
             dataSource={hostAndSessionBaseInfo.PROCESSES}

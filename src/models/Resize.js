@@ -1,10 +1,8 @@
-import { useState } from "react";
 import { useLocalStorageState } from "ahooks";
-import { Upheight } from "@/utils/utils";
 
-export default function Resize() {
+export default function Resize () {
   const [resizeUpHeight, setResizeUpHeight] = useLocalStorageState("resizeUpHeight", "32vh");
-  const [resizeDownHeight, setResizeDownHeight] = useLocalStorageState("resizeDownHeight", `100vh - 44px - ${resizeUpHeight}`);
+  const [resizeDownHeight, setResizeDownHeight] = useLocalStorageState("resizeDownHeight", `100vh - 40px - ${resizeUpHeight}`);
   return {
     resizeUpHeight,
     setResizeUpHeight,

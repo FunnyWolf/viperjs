@@ -3,11 +3,10 @@ import { formatText } from "@/utils/locales";
 import React, { memo, useEffect, useState } from "react";
 import { useRequest } from "umi";
 import { deleteWebdatabaseCompanyBaseInfoAPI, getWebdatabaseCompanyBaseInfoAPI } from "@/services/apiv1";
-import { Button, Col, Descriptions, Image, Input, Row, Space, Table, Tabs, Typography } from "antd-v5";
+import { Button, Col, Descriptions, Image, Input, Row, Space, Table, Tabs } from "antd-v5";
 import { cssCalc } from "@/utils/utils";
 import { DeleteOutlined, SyncOutlined } from '@ant-design/icons'
 
-const { Paragraph, Text } = Typography;
 const { TabPane } = Tabs;
 const { Search, TextArea } = Input;
 const CompanyBaseInfoDescriptions = (companyBaseInfoActive) => {
