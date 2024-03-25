@@ -297,15 +297,11 @@ export const RunWebModule = props => {
         <Radio.Button
           value="Web_Auto_Module">{formatText("webmodule.auto")}</Radio.Button>
         <Radio.Button
-          value="Web_Common_Module">{formatText("webmodule.common")}</Radio.Button>
+          value="Web_Company_Intelligence">{formatText("webmodule.company")}</Radio.Button>
         <Radio.Button
-          value="Web_Company_Module">{formatText("webmodule.company")}</Radio.Button>
+          value="Web_Network_Scan">{formatText("webmodule.network")}</Radio.Button>
         <Radio.Button
-          value="Web_PortService_Scan">{formatText("webmodule.portscan")}</Radio.Button>
-        <Radio.Button
-          value="Web_Subdomain_Scan">{formatText("webmodule.subdomain")}</Radio.Button>
-        <Radio.Button
-          value="Web_Vuln_Scan">{formatText("webmodule.vuln")}</Radio.Button>
+          value="Web_CyberSecurity_Scan">{formatText("webmodule.cybersecurity")}</Radio.Button>
       </Radio.Group>
       <Table
         style={{

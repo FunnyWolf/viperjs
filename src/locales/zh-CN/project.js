@@ -9,12 +9,12 @@ export default {
 
   "ipdomain.portscan.ipdomainlist.ph": "192.168.1.1/24\n192.168.1.3",
   "ipdomain.delete.confirm": "确认删除该记录?",
+
   "webmodule.auto": "自动化",
-  "webmodule.common": "通用",
-  "webmodule.company": "企业信息",
-  "webmodule.portscan": "端口扫描",
-  "webmodule.subdomain": "子域名扫描",
-  "webmodule.vuln": "漏洞扫描",
+  "webmodule.company": "企业情报",
+  "webmodule.network": "网络扫描",
+  "webmodule.cybersecurity": "安全扫描",
+
   "webjobs.waiting": "等待中",
   "webjobs.running": "运行中",
   "webjobs.cancel": "取消",
