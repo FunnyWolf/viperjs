@@ -28,7 +28,7 @@ import { useLocalStorageState } from "ahooks";
 import { reloadAuthorized } from "@/utils/Authorized";
 import { formatText } from "@/utils/locales";
 import { DocIcon } from "@/pages/Core/Common";
-import { Version } from "@/config";
+import { BuildDate, Version } from "@/config";
 import { Table } from 'antd'
 
 const { TextArea } = Input;
@@ -201,6 +201,9 @@ const SystemInfo = () => {
         <Descriptions.Item label={formatText("app.systemsetting.version")}>
           <Tag color="blue">{viper_update_date}</Tag>
         </Descriptions.Item>
+        <Descriptions.Item label={formatText("app.systemsetting.builddate")}>
+          <Tag color="blue">{BuildDate}</Tag>
+        </Descriptions.Item>
         <Descriptions.Item
           label={formatText("app.systemsetting.lastversion")}>
           <Space>
@@ -214,9 +217,11 @@ const SystemInfo = () => {
             >
             </Button>
           </Space>
-
-
         </Descriptions.Item>
+      </Descriptions>
+    </Row>
+    <Row>
+      <Descriptions size="small" style={{ marginLeft: 64, marginTop: 16 }} column={5}>
         <Descriptions.Item label={formatText("app.systemsetting.updatedate")}>
           <a
             target="_blank"

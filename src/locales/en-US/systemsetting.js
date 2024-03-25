@@ -33,6 +33,7 @@ export default {
   "app.systemsetting.aboutviper": "About VIPER",
   "app.systemsetting.msfstatus": "MSF Status",
   "app.systemsetting.version": "Version",
+  "app.systemsetting.builddate": "Build Date",
   "app.systemsetting.updatedate": "Update History",
   "app.systemsetting.lastversion": "Last Version",
   "app.systemsetting.documentation": "Documentation",
