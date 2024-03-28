@@ -57,7 +57,19 @@ const inputItemLayout = {
     span: 16,
   },
 };
-
+const comonItemLayout = {
+  labelCol: {
+    span: 8,
+  },
+  wrapperCol: {
+    span: 16,
+  },
+};
+const CommonButtonItemLayout = {
+  wrapperCol: {
+    span: 16, offset: 8,
+  },
+};
 const SystemSetting = () => {
   const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState("viper-debug-flag", false);
   console.log("SystemSetting");
@@ -77,9 +89,6 @@ const SystemSetting = () => {
     </TabPane>
     <TabPane tab="FOFA API" key="FOFA">
       <FOFAForm/>
-    </TabPane>
-    <TabPane tab={formatText("app.systemsetting.networksearchengine")} key="Network_search_engine">
-      <NetworkSearchEngineForm/>
     </TabPane>
     <TabPane tab={formatText("app.systemsetting.aiqicha")} key="Aiqicha">
       <AiqichaForm/>
@@ -101,20 +110,9 @@ const SystemSetting = () => {
     <TabPane tab={formatText("app.systemsetting.networkconfig")} key="lhost">
       <LHostForm/>
     </TabPane>
-
-    {/*{viperDebugFlag ? (*/}
-    {/*  <TabPane*/}
-    {/*    tab={*/}
-    {/*      <div className={styles.tabPanediv}>*/}
-    {/*        <MailOutlined />*/}
-    {/*        <span className={styles.tabPanespan}>TEST</span>*/}
-    {/*      </div>*/}
-    {/*    }*/}
-    {/*    key="CollectSandbox"*/}
-    {/*  >*/}
-    {/*    <CollectSandboxMemo />*/}
-    {/*  </TabPane>*/}
-    {/*) : null}*/}
+    <TabPane tab={formatText("app.systemsetting.common")} key="Common">
+      <CommonForm/>
+    </TabPane>
   </Tabs>);
 };
 
@@ -752,79 +750,6 @@ const FOFAForm = props => {
   </Card>);
 };
 
-const NetworkSearchEngineForm = props => {
-  const [networkSearchEngineForm] = Form.useForm();
-  const [settingsNetworkSearchEnging, setSettingsNetworkSearchEnging] = useState({});
-
-  //初始化数据
-  const initListFOFAReq = useRequest(() => getCoreSettingAPI({ kind: "network_search_engine" }), {
-    onSuccess: (result, params) => {
-      setSettingsNetworkSearchEnging(result);
-      networkSearchEngineForm.setFieldsValue(result);
-    }, onError: (error, params) => {
-    },
-  });
-
-  const updateNetworkSearchEngineReq = useRequest(postCoreSettingAPI, {
-    manual: true, onSuccess: (result, params) => {
-      setSettingsNetworkSearchEnging(result);
-      networkSearchEngineForm.setFieldsValue(result);
-    }, onError: (error, params) => {
-    },
-  });
-
-  const onUpdateNetworkSearchEngine = values => {
-    let params = {
-      kind: "network_search_engine", tag: "default", setting: { ...values },
-    };
-    updateNetworkSearchEngineReq.run(params);
-  };
-
-  return (<Card>
-    <DocIcon url="https://www.yuque.com/vipersec/help/ngb9ta9tr5zo43qg"/>
-    <Row>
-      <Col span={16}>
-        <Form form={networkSearchEngineForm} onFinish={onUpdateNetworkSearchEngine} {...inputItemLayout}>
-          <Form.Item
-            label="每次获取最大记录数"
-            name="max_record_num_for_one_search"
-            rules={[
-              {
-                required: true, message: formatText("app.systemsetting.inputemail"),
-              }]}
-          >
-            <InputNumber min={1000} max={5000} defaultValue={1000}/>
-          </Form.Item>
-          <Form.Item {...buttonItemLayout}>
-            <Space>
-              <Button
-                icon={<DeliveredProcedureOutlined/>}
-                type="primary"
-                htmlType="submit"
-                loading={updateNetworkSearchEngineReq.loading}
-              >
-                {formatText("app.core.update")}
-              </Button>
-            </Space>
-          </Form.Item>
-        </Form>
-      </Col>
-      <Col span={8}>
-        <Typography>
-          <Paragraph>
-            <Title level={4}>{formatText("app.systemsetting.howtoconfig")}</Title>
-            <Text>{formatText("app.systemsetting.openfofavip")}</Text>
-            <br/>
-            <a target="_blank"
-               href="https://fofa.so/static_pages/api_help">
-              {formatText("app.systemsetting.fofaapireadme")}</a>
-          </Paragraph>
-        </Typography>
-      </Col>
-    </Row>
-  </Card>);
-};
-
 const QuakeForm = props => {
   const [quakeForm] = Form.useForm();
   const [settingsQuake, setSettingsQuake] = useState({});
@@ -1335,5 +1260,73 @@ const LHostForm = props => {
     </Row>
   </Card>);
 };
+const CommonForm = props => {
+  const [commonForm] = Form.useForm();
+  const [settingsCommon, setSettingsCommon] = useState({});
 
+  //初始化数据
+  const initListCOMMONReq = useRequest(() => getCoreSettingAPI({ kind: "common" }), {
+    onSuccess: (result, params) => {
+      setSettingsCommon(result);
+      commonForm.setFieldsValue(result);
+    }, onError: (error, params) => {
+    },
+  });
+
+  const updateCommonReq = useRequest(postCoreSettingAPI, {
+    manual: true, onSuccess: (result, params) => {
+      setSettingsCommon(result);
+      commonForm.setFieldsValue(result);
+    }, onError: (error, params) => {
+    },
+  });
+
+  const onUpdateCommonEngine = values => {
+    let params = {
+      kind: "common", tag: "default", setting: { ...values },
+    };
+    updateCommonReq.run(params);
+  };
+
+  return (<Card>
+    <DocIcon url="https://www.yuque.com/vipersec/help/ngb9ta9tr5zo43qg"/>
+    <Row>
+      <Col span={16}>
+        <Form form={commonForm} onFinish={onUpdateCommonEngine} {...comonItemLayout}>
+          <Form.Item
+            label="网络搜索引擎最大记录数"
+            name="max_record_num_for_one_search"
+            rules={[
+              {
+                required: true, message: formatText("app.systemsetting.inputemail"),
+              }]}
+          >
+            <InputNumber min={1000} max={5000} defaultValue={1000}/>
+          </Form.Item>
+          <Form.Item
+            label="wafw00f扫描线程数"
+            name="wafw00f_thread_num"
+            rules={[
+              {
+                required: true,
+              }]}
+          >
+            <InputNumber min={2} max={50} defaultValue={10}/>
+          </Form.Item>
+          <Form.Item {...CommonButtonItemLayout}>
+            <Button
+              icon={<DeliveredProcedureOutlined/>}
+              type="primary"
+              htmlType="submit"
+              loading={updateCommonReq.loading}
+
+            >
+              {formatText("app.core.update")}
+            </Button>
+          </Form.Item>
+        </Form>
+      </Col>
+    </Row>
+  </Card>);
+};
 export const SystemSettingMemo = memo(SystemSetting);

@@ -13,6 +13,7 @@ export default {
   "app.systemsetting.serverchan": "Server酱 Bot",
   "app.systemsetting.aiqicha": "爱企查 API",
   "app.systemsetting.networksearchengine": "网络搜索引擎",
+  "app.systemsetting.common": "通用配置",
   "app.systemsetting.openserverchan": "登录Server酱,配置消息通道,获取SendKey,填入SendKey",
   "app.systemsetting.serverchanapireadme": "Server酱·Turbo版",
   "app.systemsetting.opendingding": "新建一个DingDing Bot,并获取Token",
