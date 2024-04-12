@@ -31,7 +31,7 @@ export default {
   "app.systemsetting.defaultlhostdoc_2": "VIPER已占用端口",
   "app.systemsetting.defaultlhostdoc_ssh": "SSH(默认关闭):",
   "app.systemsetting.aboutviper": "关于VIPER",
-  "app.systemsetting.msfstatus": "渗透服务",
+  "app.systemsetting.msfstatus": "后台服务",
   "app.systemsetting.version": "当前版本",
   "app.systemsetting.builddate": "构建时间",
   "app.systemsetting.updatedate": "版本历史",

@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from 'react';
 import {
   deleteCoreSettingAPI,
   deleteCoreUUIDJsonAPI,
@@ -7,11 +7,29 @@ import {
   postCoreSettingAPI,
   putCoreSettingAPI,
   putPostmodulePostModuleConfigAPI,
-} from "@/services/apiv1";
-import { history, useRequest } from "umi";
+} from '@/services/apiv1';
+import { history, useRequest } from 'umi';
 
-import { setToken } from "@/utils/authority";
-import { Badge, Button, Card, Col, Descriptions, Form, Input, InputNumber, List, Popover, Row, Select, Space, Switch, Tabs, Tag, Typography } from "antd-v5";
+import { setToken } from '@/utils/authority';
+import {
+  Badge,
+  Button,
+  Card,
+  Col,
+  Descriptions,
+  Form,
+  Input,
+  InputNumber,
+  List,
+  Popover,
+  Row,
+  Select,
+  Space,
+  Switch,
+  Tabs,
+  Tag,
+  Typography,
+} from 'antd-v5';
 import {
   CheckOutlined,
   CloudDownloadOutlined,
@@ -22,14 +40,14 @@ import {
   PlusOutlined,
   ReloadOutlined,
   SyncOutlined,
-} from "@ant-design/icons";
-import { useLocalStorageState } from "ahooks";
+} from '@ant-design/icons';
+import { useLocalStorageState } from 'ahooks';
 
-import { reloadAuthorized } from "@/utils/Authorized";
-import { formatText } from "@/utils/locales";
-import { DocIcon } from "@/pages/Core/Common";
-import { BuildDate, Version } from "@/config";
-import { Table } from 'antd'
+import { reloadAuthorized } from '@/utils/Authorized';
+import { formatText } from '@/utils/locales';
+import { DocIcon } from '@/pages/Core/Common';
+import { BuildDate, Version } from '@/config';
+import { Table } from 'antd';
 
 const { TextArea } = Input;
 
@@ -71,47 +89,47 @@ const CommonButtonItemLayout = {
   },
 };
 const SystemSetting = () => {
-  const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState("viper-debug-flag", false);
-  console.log("SystemSetting");
-  return (<Tabs type="card" defaultActiveKey="system_info">
-    <TabPane tab={formatText("app.systemsetting.aboutviper")}
-             key="system_info">
-      <SystemInfo/>
+  const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState('viper-debug-flag', false);
+  console.log('SystemSetting');
+  return (<Tabs type='card' defaultActiveKey='system_info'>
+    <TabPane tab={formatText('app.systemsetting.aboutviper')}
+             key='system_info'>
+      <SystemInfo />
     </TabPane>
-    <TabPane tab="Quake API" key="Quake">
-      <QuakeForm/>
+    <TabPane tab='Quake API' key='Quake'>
+      <QuakeForm />
     </TabPane>
-    <TabPane tab="Hunter API" key="Hunter">
-      <HunterForm/>
+    <TabPane tab='Hunter API' key='Hunter'>
+      <HunterForm />
     </TabPane>
-    <TabPane tab="Zoomeye API" key="Zoomeye">
-      <ZoomeyeForm/>
+    <TabPane tab='Zoomeye API' key='Zoomeye'>
+      <ZoomeyeForm />
     </TabPane>
-    <TabPane tab="FOFA API" key="FOFA">
-      <FOFAForm/>
+    <TabPane tab='FOFA API' key='FOFA'>
+      <FOFAForm />
     </TabPane>
-    <TabPane tab={formatText("app.systemsetting.aiqicha")} key="Aiqicha">
-      <AiqichaForm/>
+    <TabPane tab={formatText('app.systemsetting.aiqicha')} key='Aiqicha'>
+      <AiqichaForm />
     </TabPane>
-    <TabPane tab={formatText("app.systemsetting.serverchan")}
-             key="serverchan">
-      <ServerChanForm/>
+    <TabPane tab={formatText('app.systemsetting.serverchan')}
+             key='serverchan'>
+      <ServerChanForm />
     </TabPane>
-    <TabPane tab="DingDing Bot" key="dingding">
-      <DingDingForm/>
+    <TabPane tab='DingDing Bot' key='dingding'>
+      <DingDingForm />
     </TabPane>
-    <TabPane tab="Telegram Bot" key="telegram">
-      <TelegramForm/>
+    <TabPane tab='Telegram Bot' key='telegram'>
+      <TelegramForm />
     </TabPane>
-    <TabPane tab={formatText("app.systemsetting.sessionmonitor")}
-             key="sessionmonitor">
-      <SessionMonitorForm/>
+    <TabPane tab={formatText('app.systemsetting.sessionmonitor')}
+             key='sessionmonitor'>
+      <SessionMonitorForm />
     </TabPane>
-    <TabPane tab={formatText("app.systemsetting.networkconfig")} key="lhost">
-      <LHostForm/>
+    <TabPane tab={formatText('app.systemsetting.networkconfig')} key='lhost'>
+      <LHostForm />
     </TabPane>
-    <TabPane tab={formatText("app.systemsetting.common")} key="Common">
-      <CommonForm/>
+    <TabPane tab={formatText('app.systemsetting.common')} key='Common'>
+      <CommonForm />
     </TabPane>
   </Tabs>);
 };
@@ -119,17 +137,20 @@ const SystemSetting = () => {
 const SystemInfo = () => {
   const datas = [
     {
-      name: "metasploit-framework", url: "https://github.com/rapid7/metasploit-framework/blob/master/LICENSE",
+      name: 'metasploit-framework', url: 'https://github.com/rapid7/metasploit-framework/blob/master/LICENSE',
     }, {
-      name: "ant-design-pro", url: "https://github.com/ant-design/ant-design-pro/blob/master/LICENSE",
+      name: 'ant-design-pro', url: 'https://github.com/ant-design/ant-design-pro/blob/master/LICENSE',
     }, {
-      name: "django-rest-framework", url: "https://github.com/encode/django-rest-framework/blob/master/LICENSE.md",
+      name: 'django-rest-framework', url: 'https://github.com/encode/django-rest-framework/blob/master/LICENSE.md',
     }];
 
-  const [serviceStatusActive, setServiceStatusActive] = useState({ json_rpc: { status: false } });
+  const [serviceStatusActive, setServiceStatusActive] = useState({
+    json_rpc: { status: false },
+    wafcheck: { status: false },
+  });
   const [lastestVersion, setLastestVersion] = useState(null);
   const [lastestVersionLoading, setLastestVersionLoading] = useState(false);
-  const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState("viper-debug-flag", false);
+  const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState('viper-debug-flag', false);
   // const [onlyShowSession, setOnlyShowSession] = useLocalStorageState("only-show-session", false);
 
   //初始化数据
@@ -141,8 +162,8 @@ const SystemInfo = () => {
   });
 
   const getLastestVersionReq = () => {
-    const repoName = "Viper";
-    const userName = "FunnyWolf";
+    const repoName = 'Viper';
+    const userName = 'FunnyWolf';
     const url = `https://api.github.com/repos/${userName}/${repoName}/releases/latest`;
     setLastestVersionLoading(true);
     fetch(url).then(res => res.json()).then(data => {
@@ -159,7 +180,7 @@ const SystemInfo = () => {
   });
 
   //初始化数据
-  const downloadlogReq = useRequest(() => getCoreSettingAPI({ kind: "downloadlog" }), {
+  const downloadlogReq = useRequest(() => getCoreSettingAPI({ kind: 'downloadlog' }), {
     manual: true, onSuccess: (result, params) => {
     }, onError: (error, params) => {
     },
@@ -182,34 +203,34 @@ const SystemInfo = () => {
   const loginOut = () => {
     const { query, pathname } = history.location;
     const { redirect } = query;
-    setToken("guest");
+    setToken('guest');
     reloadAuthorized();
     // Note: There may be security issues, please note
-    if (window.location.pathname !== "/user/login" && !redirect) {
+    if (window.location.pathname !== '/user/login' && !redirect) {
       history.replace({
-        pathname: "/user/login",
+        pathname: '/user/login',
       });
     }
   };
 
   return (<Card>
-    <DocIcon url="https://www.yuque.com/vipersec/help/vt9iyh"/>
+    <DocIcon url='https://www.yuque.com/vipersec/help/vt9iyh' />
     <Row>
-      <Descriptions size="small" style={{ marginLeft: 64 }} column={5}>
-        <Descriptions.Item label={formatText("app.systemsetting.version")}>
-          <Tag color="blue">{viper_update_date}</Tag>
+      <Descriptions size='small' style={{ marginLeft: 64 }} column={5}>
+        <Descriptions.Item label={formatText('app.systemsetting.version')}>
+          <Tag color='blue'>{viper_update_date}</Tag>
         </Descriptions.Item>
-        <Descriptions.Item label={formatText("app.systemsetting.builddate")}>
-          <Tag color="blue">{BuildDate}</Tag>
+        <Descriptions.Item label={formatText('app.systemsetting.builddate')}>
+          <Tag color='blue'>{BuildDate}</Tag>
         </Descriptions.Item>
         <Descriptions.Item
-          label={formatText("app.systemsetting.lastversion")}>
+          label={formatText('app.systemsetting.lastversion')}>
           <Space>
-            <Tag color="blue">{lastestVersion}</Tag>
+            <Tag color='blue'>{lastestVersion}</Tag>
             <Button
-              size="small"
+              size='small'
               style={{ width: 48 }}
-              icon={<SyncOutlined/>}
+              icon={<SyncOutlined />}
               onClick={() => getLastestVersionReq()}
               loading={lastestVersionLoading}
             >
@@ -219,50 +240,52 @@ const SystemInfo = () => {
       </Descriptions>
     </Row>
     <Row>
-      <Descriptions size="small" style={{ marginLeft: 64, marginTop: 16 }} column={5}>
-        <Descriptions.Item label={formatText("app.systemsetting.updatedate")}>
+      <Descriptions size='small' style={{ marginLeft: 64, marginTop: 16 }} column={5}>
+        <Descriptions.Item label={formatText('app.systemsetting.updatedate')}>
           <a
-            target="_blank"
-            href="https://github.com/FunnyWolf/Viper/releases"
+            target='_blank'
+            href='https://github.com/FunnyWolf/Viper/releases'
           >
             Github Releases
           </a>
         </Descriptions.Item>
         <Descriptions.Item
-          label={formatText("app.systemsetting.documentation")}>
-          <a target="_blank" href="https://www.yuque.com/vipersec">
-            {formatText("app.systemsetting.documentationlink")}
+          label={formatText('app.systemsetting.documentation')}>
+          <a target='_blank' href='https://www.yuque.com/vipersec'>
+            {formatText('app.systemsetting.documentationlink')}
           </a>
         </Descriptions.Item>
         <Descriptions.Item
-          label={formatText("app.systemsetting.opensourcesoftware")}>
+          label={formatText('app.systemsetting.opensourcesoftware')}>
           <Popover content={<List
-            size="small"
+            size='small'
             bordered
             dataSource={datas}
             renderItem={item => (<List.Item>
               <a href={item.url}>{item.name}</a>
             </List.Item>)}
           />}
-                   placement="left"
-                   trigger="click">
+                   placement='left'
+                   trigger='click'>
             <a>
-              {formatText("app.systemsetting.opensourcesoftwarelink")}
+              {formatText('app.systemsetting.opensourcesoftwarelink')}
             </a>
           </Popover>
         </Descriptions.Item>
       </Descriptions>
     </Row>
     <Row>
-      <Descriptions size="small" style={{ marginLeft: 64, marginTop: 16 }}
+      <Descriptions size='small' style={{ marginLeft: 64, marginTop: 16 }}
                     column={5}>
-        <Descriptions.Item label={formatText("app.systemsetting.msfstatus")}>
-          <Space>{serviceStatusActive.json_rpc.status ? (<Tag color="green">{formatText("app.core.working")}</Tag>) : (
-            <Tag color="red">{formatText("app.core.error")}</Tag>)}
+        <Descriptions.Item label={formatText('app.systemsetting.msfstatus')}>
+          <Space>{serviceStatusActive.json_rpc.status ? (<Tag color='green'>MSF</Tag>) : (
+            <Tag color='red'>MSF</Tag>)}
+            {serviceStatusActive.wafcheck.status ? (<Tag color='green'>WAFCHECK</Tag>) : (
+              <Tag color='red'>WAFCHECK</Tag>)}
             <Button
-              size="small"
+              size='small'
               style={{ width: 48 }}
-              icon={<SyncOutlined/>}
+              icon={<SyncOutlined />}
               onClick={() => listServiceStatusReq.run()}
               loading={listServiceStatusReq.loading}
             >
@@ -270,10 +293,10 @@ const SystemInfo = () => {
           </Space>
         </Descriptions.Item>
         <Descriptions.Item
-          label={formatText("app.systemsetting.betafunction")}>
+          label={formatText('app.systemsetting.betafunction')}>
           <Switch
-            checkedChildren={<CheckOutlined/>}
-            unCheckedChildren={<MinusOutlined/>}
+            checkedChildren={<CheckOutlined />}
+            unCheckedChildren={<MinusOutlined />}
             checked={viperDebugFlag}
             onClick={() => {
               setViperDebugFlag(!viperDebugFlag);
@@ -286,28 +309,28 @@ const SystemInfo = () => {
     <Row>
       <Space style={{ marginTop: 16, marginLeft: 64 }}>
         <Button
-          icon={<ReloadOutlined/>}
+          icon={<ReloadOutlined />}
           onClick={() => updatePostmodulePostModuleConfigReq.run()}
           loading={updatePostmodulePostModuleConfigReq.loading}
         >
-          {formatText("app.systemsetting.reloadallmodule")}
+          {formatText('app.systemsetting.reloadallmodule')}
         </Button>
         <Button
-          icon={<DeleteOutlined/>}
+          icon={<DeleteOutlined />}
           onClick={() => deleteUuidJsonReq.run()}
           loading={deleteUuidJsonReq.loading}
         >
-          {formatText("app.systemsetting.deleteuuidjson")}
+          {formatText('app.systemsetting.deleteuuidjson')}
         </Button>
         <Button
-          icon={<CloudDownloadOutlined/>}
+          icon={<CloudDownloadOutlined />}
           onClick={() => downloadlogReq.run()}
           loading={downloadlogReq.loading}
         >
-          {formatText("app.systemsetting.downloadlog")}
+          {formatText('app.systemsetting.downloadlog')}
         </Button>
-        <Button danger icon={<LogoutOutlined/>} onClick={loginOut}>
-          {formatText("app.systemsetting.logout")}
+        <Button danger icon={<LogoutOutlined />} onClick={loginOut}>
+          {formatText('app.systemsetting.logout')}
         </Button>
       </Space>
     </Row>
@@ -319,7 +342,7 @@ const SessionMonitorForm = props => {
   const [settingsSessionMonitor, setSettingsSessionMonitor] = useState({});
 
   //初始化数据
-  const initListSessionMonitorReq = useRequest(() => getCoreSettingAPI({ kind: "sessionmonitor" }), {
+  const initListSessionMonitorReq = useRequest(() => getCoreSettingAPI({ kind: 'sessionmonitor' }), {
     onSuccess: (result, params) => {
       setSettingsSessionMonitor(result);
       sessionMonitorForm.setFieldsValue(result);
@@ -337,7 +360,7 @@ const SessionMonitorForm = props => {
 
   const onUpdateSessionMonitor = () => {
     let params = {
-      kind: "sessionmonitor", tag: "default", setting: {
+      kind: 'sessionmonitor', tag: 'default', setting: {
         flag: !settingsSessionMonitor.flag,
       },
     };
@@ -345,14 +368,14 @@ const SessionMonitorForm = props => {
   };
 
   return (<Card>
-    <DocIcon url="https://www.yuque.com/vipersec/help/myo3a0"/>
+    <DocIcon url='https://www.yuque.com/vipersec/help/myo3a0' />
     <Row>
       <Col xs={24} sm={16}>
         <Form {...inputItemLayout}>
-          <Form.Item label={formatText("app.systemsetting.switch")}>
+          <Form.Item label={formatText('app.systemsetting.switch')}>
             <Switch
-              checkedChildren={<CheckOutlined/>}
-              unCheckedChildren={<MinusOutlined/>}
+              checkedChildren={<CheckOutlined />}
+              unCheckedChildren={<MinusOutlined />}
               checked={settingsSessionMonitor.flag}
               onClick={() => onUpdateSessionMonitor()}
             />
@@ -362,11 +385,11 @@ const SessionMonitorForm = props => {
       <Col span={8}>
         <Typography>
           <Paragraph>
-            <Title level={4}>{formatText("app.systemsetting.howtoconfig")}</Title>
+            <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
             <Text>
-              {formatText("app.systemsetting.sessionmonitorreadme")}
+              {formatText('app.systemsetting.sessionmonitorreadme')}
             </Text>
-            <br/>
+            <br />
           </Paragraph>
         </Typography>
       </Col>
@@ -379,10 +402,10 @@ const TelegramForm = props => {
   const [settingsTelegram, setSettingsTelegram] = useState({});
   const [userChatIdList, setUserChatIdList] = useState([]);
   const chat_id_options = userChatIdList.map(d => (<Option label={d.chat_id} key={d.chat_id}>
-    {d.user + " : " + d.chat_id}
+    {d.user + ' : ' + d.chat_id}
   </Option>));
   //初始化数据
-  const initListTelegramReq = useRequest(() => getCoreSettingAPI({ kind: "telegram" }), {
+  const initListTelegramReq = useRequest(() => getCoreSettingAPI({ kind: 'telegram' }), {
     onSuccess: (result, params) => {
       setSettingsTelegram(result);
       telegramForm.setFieldsValue(result);
@@ -392,7 +415,7 @@ const TelegramForm = props => {
 
   const updateTelegramReq = useRequest(postCoreSettingAPI, {
     manual: true, onSuccess: (result, params) => {
-      if (params.tag === "check") {
+      if (params.tag === 'check') {
         setUserChatIdList(result);
       } else {
         setSettingsTelegram(result);
@@ -404,13 +427,13 @@ const TelegramForm = props => {
 
   const onUpdateTelegram = values => {
     let params = {};
-    if (values.chat_id === "" || values.chat_id === undefined) {
+    if (values.chat_id === '' || values.chat_id === undefined) {
       params = {
-        kind: "telegram", tag: "check", setting: { ...values },
+        kind: 'telegram', tag: 'check', setting: { ...values },
       };
     } else {
       params = {
-        kind: "telegram", tag: "default", setting: { ...values },
+        kind: 'telegram', tag: 'default', setting: { ...values },
       };
     }
 
@@ -419,49 +442,50 @@ const TelegramForm = props => {
 
   return (<Card>
     <Row>
-      <DocIcon url="https://www.yuque.com/vipersec/help/su4tv8"/>
+      <DocIcon url='https://www.yuque.com/vipersec/help/su4tv8' />
       <Col span={16}>
         <Form onFinish={onUpdateTelegram}
               form={telegramForm} {...inputItemLayout}>
           <Form.Item
-            label="token"
-            name="token"
+            label='token'
+            name='token'
             rules={[
               {
-                required: true, message: formatText("app.systemsetting.inputtoken"),
+                required: true, message: formatText('app.systemsetting.inputtoken'),
               }]}
           >
-            <Input/>
+            <Input />
           </Form.Item>
-          <Form.Item label="chat_id" name="chat_id" rules={[]}>
+          <Form.Item label='chat_id' name='chat_id' rules={[]}>
             <Select
-              mode="tags"
-              style={{ width: "100%" }}
-              placeholder={formatText("app.systemsetting.selectorinputchatid")}
+              mode='tags'
+              style={{ width: '100%' }}
+              placeholder={formatText('app.systemsetting.selectorinputchatid')}
               defaultValue={[]}
-              optionLabelProp="label"
+              optionLabelProp='label'
             >
               {chat_id_options}
             </Select>
           </Form.Item>
 
-          <Form.Item label="proxy" name="proxy" rules={[]}>
-            <Input/>
+          <Form.Item label='proxy' name='proxy' rules={[]}>
+            <Input />
           </Form.Item>
           <Row>
             <Col style={{ marginBottom: 24 }} span={4} offset={4}>
-              {settingsTelegram.alive ? (<Badge status="processing"
-                                                text={formatText("app.core.working")}/>) : (<Badge status="error" text={formatText("app.core.error")}/>)}
+              {settingsTelegram.alive ? (<Badge status='processing'
+                                                text={formatText('app.core.working')} />) : (
+                <Badge status='error' text={formatText('app.core.error')} />)}
             </Col>
           </Row>
           <Form.Item {...buttonItemLayout}>
             <Button
-              icon={<DeliveredProcedureOutlined/>}
-              type="primary"
-              htmlType="submit"
+              icon={<DeliveredProcedureOutlined />}
+              type='primary'
+              htmlType='submit'
               loading={updateTelegramReq.loading}
             >
-              {formatText("app.systemsetting.updateorgetchatid")}
+              {formatText('app.systemsetting.updateorgetchatid')}
             </Button>
           </Form.Item>
         </Form>
@@ -469,22 +493,22 @@ const TelegramForm = props => {
       <Col span={8}>
         <Typography>
           <Paragraph>
-            <Title level={4}>{formatText("app.systemsetting.howtoconfig")}</Title>
-            <Text>{formatText("app.systemsetting.opentelegram")}</Text>
-            <br/>
+            <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+            <Text>{formatText('app.systemsetting.opentelegram')}</Text>
+            <br />
             <a
-              target="_blank"
-              href="https://longnight.github.io/2018/12/12/Telegram-Bot-notifications"
+              target='_blank'
+              href='https://longnight.github.io/2018/12/12/Telegram-Bot-notifications'
             >
-              {formatText("app.systemsetting.telegramreadme")}
+              {formatText('app.systemsetting.telegramreadme')}
             </a>
-            <br/>
+            <br />
             <Text>
-              {formatText("app.systemsetting.telegramdoc_1")}
-              <br/>
-              {formatText("app.systemsetting.telegramdoc_2")}
-              <Text code>{formatText("app.systemsetting.updateorgetchatid")}</Text>
-              {formatText("app.systemsetting.telegramdoc_3")}
+              {formatText('app.systemsetting.telegramdoc_1')}
+              <br />
+              {formatText('app.systemsetting.telegramdoc_2')}
+              <Text code>{formatText('app.systemsetting.updateorgetchatid')}</Text>
+              {formatText('app.systemsetting.telegramdoc_3')}
             </Text>
           </Paragraph>
         </Typography>
@@ -498,7 +522,7 @@ const DingDingForm = props => {
   const [settingsDingDing, setSettingsDingDing] = useState({});
 
   //初始化数据
-  const initListDingDingReq = useRequest(() => getCoreSettingAPI({ kind: "dingding" }), {
+  const initListDingDingReq = useRequest(() => getCoreSettingAPI({ kind: 'dingding' }), {
     onSuccess: (result, params) => {
       setSettingsDingDing(result);
       dingdingForm.setFieldsValue(result);
@@ -516,51 +540,52 @@ const DingDingForm = props => {
 
   const onUpdateDingDing = values => {
     let params = {
-      kind: "dingding", tag: "default", setting: { ...values },
+      kind: 'dingding', tag: 'default', setting: { ...values },
     };
     updateDingDingReq.run(params);
   };
 
   return (<Card>
     <Row>
-      <DocIcon url="https://www.yuque.com/vipersec/help/bogo5k"/>
+      <DocIcon url='https://www.yuque.com/vipersec/help/bogo5k' />
       <Col span={16}>
         <Form onFinish={onUpdateDingDing}
               form={dingdingForm} {...inputItemLayout}>
           <Form.Item
-            label="access_token"
-            name="access_token"
+            label='access_token'
+            name='access_token'
             rules={[
               {
-                required: true, message: formatText("app.systemsetting.dingdingrules"),
+                required: true, message: formatText('app.systemsetting.dingdingrules'),
               }]}
           >
-            <Input/>
+            <Input />
           </Form.Item>
           <Form.Item
-            label={formatText("app.systemsetting.keyword")}
-            name="keyword"
+            label={formatText('app.systemsetting.keyword')}
+            name='keyword'
             rules={[
               {
-                required: true, message: formatText("app.systemsetting.inputkeyword"),
+                required: true, message: formatText('app.systemsetting.inputkeyword'),
               }]}
           >
-            <Input/>
+            <Input />
           </Form.Item>
           <Row>
             <Col style={{ marginBottom: 24 }} span={4} offset={4}>
-              {settingsDingDing.alive ? (<Badge status="processing"
-                                                text={formatText("app.core.working")}/>) : (<Badge status="error" text={formatText("app.core.error")}/>)}
+              {settingsDingDing.alive ? (<Badge status='processing'
+                                                text={formatText('app.core.working')} />) : (
+                <Badge status='error' text={formatText('app.core.error')} />)}
             </Col>
           </Row>
           <Form.Item {...buttonItemLayout}>
             <Button
-              icon={<DeliveredProcedureOutlined/>}
-              type="primary"
-              htmlType="submit"
+              icon={<DeliveredProcedureOutlined />}
+              type='primary'
+              htmlType='submit'
               loading={updateDingDingReq.loading}
             >
-              {formatText("app.core.update")}
+              {formatText('app.core.update')}
             </Button>
           </Form.Item>
         </Form>
@@ -568,12 +593,12 @@ const DingDingForm = props => {
       <Col span={8}>
         <Typography>
           <Paragraph>
-            <Title level={4}>{formatText("app.systemsetting.howtoconfig")}</Title>
-            <Text>{formatText("app.systemsetting.opendingding")}</Text>
-            <br/>
-            <a target="_blank"
-               href="https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq">
-              {formatText("app.systemsetting.dingdingreadme")}
+            <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+            <Text>{formatText('app.systemsetting.opendingding')}</Text>
+            <br />
+            <a target='_blank'
+               href='https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq'>
+              {formatText('app.systemsetting.dingdingreadme')}
             </a>
           </Paragraph>
         </Typography>
@@ -587,7 +612,7 @@ const ServerChanForm = props => {
   const [settingsServerChan, setSettingsServerChan] = useState({ sendkey: null, alive: false });
 
   //初始化数据
-  const initListServerChanReq = useRequest(() => getCoreSettingAPI({ kind: "serverchan" }), {
+  const initListServerChanReq = useRequest(() => getCoreSettingAPI({ kind: 'serverchan' }), {
     onSuccess: (result, params) => {
       setSettingsServerChan(result);
       serverchanForm.setFieldsValue(result);
@@ -605,42 +630,42 @@ const ServerChanForm = props => {
 
   const onUpdateServerChan = values => {
     let params = {
-      kind: "serverchan", tag: "default", setting: { ...values },
+      kind: 'serverchan', tag: 'default', setting: { ...values },
     };
     updateServerChanReq.run(params);
   };
 
   return (<Card>
     <Row>
-      <DocIcon url="https://www.yuque.com/vipersec/help/uw2aha"/>
+      <DocIcon url='https://www.yuque.com/vipersec/help/uw2aha' />
       <Col span={16}>
         <Form onFinish={onUpdateServerChan}
               form={serverchanForm} {...inputItemLayout}>
           <Form.Item
-            label="SendKey"
-            name="sendkey"
+            label='SendKey'
+            name='sendkey'
             rules={[
               {
-                required: true, message: formatText("app.systemsetting.inputsendkey"),
+                required: true, message: formatText('app.systemsetting.inputsendkey'),
               }]}
           >
-            <Input/>
+            <Input />
           </Form.Item>
           <Row>
             <Col style={{ marginBottom: 24 }} span={4} offset={4}>
-              {settingsServerChan.alive ? (<Badge status="processing"
-                                                  text={formatText("app.core.working")}/>) : (<Badge status="error"
-                                                                                                     text={formatText("app.core.error")}/>)}
+              {settingsServerChan.alive ? (<Badge status='processing'
+                                                  text={formatText('app.core.working')} />) : (<Badge status='error'
+                                                                                                      text={formatText('app.core.error')} />)}
             </Col>
           </Row>
           <Form.Item {...buttonItemLayout}>
             <Button
-              icon={<DeliveredProcedureOutlined/>}
-              type="primary"
-              htmlType="submit"
+              icon={<DeliveredProcedureOutlined />}
+              type='primary'
+              htmlType='submit'
               loading={updateServerChanReq.loading}
             >
-              {formatText("app.core.update")}
+              {formatText('app.core.update')}
             </Button>
           </Form.Item>
         </Form>
@@ -648,11 +673,11 @@ const ServerChanForm = props => {
       <Col span={8}>
         <Typography>
           <Paragraph>
-            <Title level={4}>{formatText("app.systemsetting.howtoconfig")}</Title>
-            <Text>{formatText("app.systemsetting.openserverchan")}</Text>
-            <br/>
-            <a target="_blank" href="https://sct.ftqq.com/">
-              {formatText("app.systemsetting.serverchanapireadme")}
+            <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+            <Text>{formatText('app.systemsetting.openserverchan')}</Text>
+            <br />
+            <a target='_blank' href='https://sct.ftqq.com/'>
+              {formatText('app.systemsetting.serverchanapireadme')}
             </a>
           </Paragraph>
         </Typography>
@@ -666,7 +691,7 @@ const FOFAForm = props => {
   const [settingsFOFA, setSettingsFOFA] = useState({});
 
   //初始化数据
-  const initListFOFAReq = useRequest(() => getCoreSettingAPI({ kind: "FOFA" }), {
+  const initListFOFAReq = useRequest(() => getCoreSettingAPI({ kind: 'FOFA' }), {
     onSuccess: (result, params) => {
       setSettingsFOFA(result);
       fofaForm.setFieldsValue(result);
@@ -684,51 +709,52 @@ const FOFAForm = props => {
 
   const onUpdateFOFA = values => {
     let params = {
-      kind: "FOFA", tag: "default", setting: { ...values },
+      kind: 'FOFA', tag: 'default', setting: { ...values },
     };
     updateFOFAReq.run(params);
   };
 
   return (<Card>
-    <DocIcon url="https://www.yuque.com/vipersec/help/mboabvam043nwd46"/>
+    <DocIcon url='https://www.yuque.com/vipersec/help/mboabvam043nwd46' />
     <Row>
       <Col span={16}>
         <Form form={fofaForm} onFinish={onUpdateFOFA} {...inputItemLayout}>
           <Form.Item
-            label="email"
-            name="email"
+            label='email'
+            name='email'
             rules={[
               {
-                required: true, message: formatText("app.systemsetting.inputemail"),
+                required: true, message: formatText('app.systemsetting.inputemail'),
               }]}
           >
-            <Input/>
+            <Input />
           </Form.Item>
           <Form.Item
-            label="key"
-            name="key"
+            label='key'
+            name='key'
             rules={[
               {
-                required: true, message: formatText("app.systemsetting.inputkey"),
+                required: true, message: formatText('app.systemsetting.inputkey'),
               }]}
           >
-            <Input/>
+            <Input />
           </Form.Item>
           <Row>
             <Col style={{ marginBottom: 24 }} span={4} offset={4}>
-              {settingsFOFA.alive ? (<Badge status="processing"
-                                            text={formatText("app.core.working")}/>) : (<Badge status="error" text={formatText("app.core.error")}/>)}
+              {settingsFOFA.alive ? (<Badge status='processing'
+                                            text={formatText('app.core.working')} />) : (
+                <Badge status='error' text={formatText('app.core.error')} />)}
             </Col>
           </Row>
           <Form.Item {...buttonItemLayout}>
             <Space>
               <Button
-                icon={<DeliveredProcedureOutlined/>}
-                type="primary"
-                htmlType="submit"
+                icon={<DeliveredProcedureOutlined />}
+                type='primary'
+                htmlType='submit'
                 loading={updateFOFAReq.loading}
               >
-                {formatText("app.core.update")}
+                {formatText('app.core.update')}
               </Button>
             </Space>
           </Form.Item>
@@ -737,12 +763,12 @@ const FOFAForm = props => {
       <Col span={8}>
         <Typography>
           <Paragraph>
-            <Title level={4}>{formatText("app.systemsetting.howtoconfig")}</Title>
-            <Text>{formatText("app.systemsetting.openfofavip")}</Text>
-            <br/>
-            <a target="_blank"
-               href="https://fofa.so/static_pages/api_help">
-              {formatText("app.systemsetting.fofaapireadme")}</a>
+            <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+            <Text>{formatText('app.systemsetting.openfofavip')}</Text>
+            <br />
+            <a target='_blank'
+               href='https://fofa.so/static_pages/api_help'>
+              {formatText('app.systemsetting.fofaapireadme')}</a>
           </Paragraph>
         </Typography>
       </Col>
@@ -763,7 +789,7 @@ const QuakeForm = props => {
   // });
 
   useEffect(() => {
-    listQuakeReq.run({ kind: "Quake" });
+    listQuakeReq.run({ kind: 'Quake' });
   }, []);
 
   const listQuakeReq = useRequest(getCoreSettingAPI, {
@@ -775,91 +801,91 @@ const QuakeForm = props => {
 
   const createQuakeReq = useRequest(postCoreSettingAPI, {
     manual: true, onSuccess: (result, params) => {
-      listQuakeReq.run({ kind: "Quake" });
+      listQuakeReq.run({ kind: 'Quake' });
     }, onError: (error, params) => {
     },
   });
 
   const updateQuakeReq = useRequest(putCoreSettingAPI, {
     manual: true, onSuccess: (result, params) => {
-      listQuakeReq.run({ kind: "Quake" });
+      listQuakeReq.run({ kind: 'Quake' });
     }, onError: (error, params) => {
     },
   });
 
   const destoryQuakeReq = useRequest(deleteCoreSettingAPI, {
     manual: true, onSuccess: (result, params) => {
-      listQuakeReq.run({ kind: "Quake" });
+      listQuakeReq.run({ kind: 'Quake' });
     }, onError: (error, params) => {
     },
   });
 
   const onUpdateQuake = values => {
     let params = {
-      kind: "Quake", tag: "default", setting: { ...values },
+      kind: 'Quake', tag: 'default', setting: { ...values },
     };
     createQuakeReq.run(params);
   };
 
   return (<Card
-    bodyStyle={{ padding: "0px 0px 0px 0px" }}
+    bodyStyle={{ padding: '0px 0px 0px 0px' }}
   >
-    <DocIcon url="https://www.yuque.com/vipersec/help/hufexqh266gf76s9"/>
+    <DocIcon url='https://www.yuque.com/vipersec/help/hufexqh266gf76s9' />
     <Row>
       <Col span={18}>
         <Table
           columns={[
             {
-              title: "API KEY",
-              dataIndex: "key",
+              title: 'API KEY',
+              dataIndex: 'key',
               // width: 320,
             },
             {
-              title: "状态",
-              dataIndex: "ban_status",
+              title: '状态',
+              dataIndex: 'ban_status',
               width: 80,
             },
             {
-              title: "免费查询次数",
-              dataIndex: "free_query_api_count",
+              title: '免费查询次数',
+              dataIndex: 'free_query_api_count',
               width: 104,
             },
             {
-              title: "月度剩余积分",
-              dataIndex: "month_remaining_credit",
+              title: '月度剩余积分',
+              dataIndex: 'month_remaining_credit',
               width: 104,
             },
             {
-              title: "长效剩余积分",
-              dataIndex: "constant_credit",
+              title: '长效剩余积分',
+              dataIndex: 'constant_credit',
               width: 104,
             },
             {
-              title: "账号类型",
-              dataIndex: "account_role",
+              title: '账号类型',
+              dataIndex: 'account_role',
               width: 80,
             },
             {
-              dataIndex: "operation",
+              dataIndex: 'operation',
               width: 120,
               render: (text, record) => {
-                return <div style={{ textAlign: "center" }}>
-                  <Space size="middle">
+                return <div style={{ textAlign: 'center' }}>
+                  <Space size='middle'>
                     <a
                       onClick={() => updateQuakeReq.run({
-                        kind: "Quake", tag: "default", setting: { key: record.key },
+                        kind: 'Quake', tag: 'default', setting: { key: record.key },
                       })}
-                      style={{ color: "yellow" }}
+                      style={{ color: 'yellow' }}
                     >
-                      {formatText("app.core.update")}
+                      {formatText('app.core.update')}
                     </a>
                     <a
                       onClick={() => destoryQuakeReq.run({
-                        kind: "Quake", tag: "default", setting: { key: record.key },
+                        kind: 'Quake', tag: 'default', setting: { key: record.key },
                       })}
-                      style={{ color: "red" }}
+                      style={{ color: 'red' }}
                     >
-                      {formatText("app.core.delete")}
+                      {formatText('app.core.delete')}
                     </a>
                   </Space></div>;
               },
@@ -867,7 +893,7 @@ const QuakeForm = props => {
           ]}
           dataSource={settingsQuakeList}
           pagination={false}
-          size="small"
+          size='small'
           loading={listQuakeReq.loading}
           // style={{
           //   overflow: "auto", minHeight: listitemHeight, maxHeight: listitemHeight,
@@ -878,26 +904,26 @@ const QuakeForm = props => {
           style={{ padding: 8 }}
           form={quakeForm}
           onFinish={onUpdateQuake}
-          layout="inline"
+          layout='inline'
         >
           <Form.Item
-            label="API KEY"
-            name="key"
+            label='API KEY'
+            name='key'
             rules={[
               {
-                required: true, message: formatText("app.systemsetting.inputkey"),
+                required: true, message: formatText('app.systemsetting.inputkey'),
               }]}
           >
-            <Input style={{ width: 320 }}/>
+            <Input style={{ width: 320 }} />
           </Form.Item>
           <Form.Item>
             <Button
-              icon={<PlusOutlined/>}
-              type="primary"
-              htmlType="submit"
+              icon={<PlusOutlined />}
+              type='primary'
+              htmlType='submit'
               loading={createQuakeReq.loading}
             >
-              {formatText("app.core.add")}
+              {formatText('app.core.add')}
             </Button>
           </Form.Item>
         </Form>
@@ -907,13 +933,13 @@ const QuakeForm = props => {
           style={{ padding: 32 }}
         >
           <Paragraph>
-            <Title level={4}>{formatText("app.systemsetting.howtoconfig")}</Title>
-            <Text>{formatText("app.systemsetting.openquakevip")}</Text>
-            <br/>
+            <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+            <Text>{formatText('app.systemsetting.openquakevip')}</Text>
+            <br />
             <a
-              target="_blank"
-              href="https://quake.360.cn/quake/#/help?title=%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E">
-              {formatText("app.systemsetting.quakeapireadme")}
+              target='_blank'
+              href='https://quake.360.cn/quake/#/help?title=%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E'>
+              {formatText('app.systemsetting.quakeapireadme')}
             </a>
           </Paragraph>
         </Typography>
@@ -927,7 +953,7 @@ const HunterForm = props => {
   const [settingsHunter, setSettingsHunter] = useState({});
 
   //初始化数据
-  useRequest(() => getCoreSettingAPI({ kind: "Hunter" }), {
+  useRequest(() => getCoreSettingAPI({ kind: 'Hunter' }), {
     onSuccess: (result, params) => {
       setSettingsHunter(result);
       hunterForm.setFieldsValue(result);
@@ -945,42 +971,43 @@ const HunterForm = props => {
 
   const onUpdateHunter = values => {
     let params = {
-      kind: "Hunter", tag: "default", setting: { ...values },
+      kind: 'Hunter', tag: 'default', setting: { ...values },
     };
     updateHunterReq.run(params);
   };
 
   return (<Card>
-    <DocIcon url="https://www.yuque.com/vipersec/help/wi4m1pz3kf5yqxri"/>
+    <DocIcon url='https://www.yuque.com/vipersec/help/wi4m1pz3kf5yqxri' />
     <Row>
       <Col span={16}>
         <Form form={hunterForm}
               onFinish={onUpdateHunter} {...inputItemLayout}>
           <Form.Item
-            label="key"
-            name="key"
+            label='key'
+            name='key'
             rules={[
               {
-                required: true, message: formatText("app.systemsetting.inputkey"),
+                required: true, message: formatText('app.systemsetting.inputkey'),
               }]}
           >
-            <Input/>
+            <Input />
           </Form.Item>
           <Row>
             <Col style={{ marginBottom: 24 }} span={4} offset={4}>
-              {settingsHunter.alive ? (<Badge status="processing"
-                                              text={formatText("app.core.working")}/>) : (<Badge status="error" text={formatText("app.core.error")}/>)}
+              {settingsHunter.alive ? (<Badge status='processing'
+                                              text={formatText('app.core.working')} />) : (
+                <Badge status='error' text={formatText('app.core.error')} />)}
             </Col>
           </Row>
           <Form.Item {...buttonItemLayout}>
             <Space>
               <Button
-                icon={<DeliveredProcedureOutlined/>}
-                type="primary"
-                htmlType="submit"
+                icon={<DeliveredProcedureOutlined />}
+                type='primary'
+                htmlType='submit'
                 loading={updateHunterReq.loading}
               >
-                {formatText("app.core.update")}
+                {formatText('app.core.update')}
               </Button>
             </Space>
           </Form.Item>
@@ -989,13 +1016,13 @@ const HunterForm = props => {
       <Col span={8}>
         <Typography>
           <Paragraph>
-            <Title level={4}>{formatText("app.systemsetting.howtoconfig")}</Title>
-            <Text>{formatText("app.systemsetting.openhuntervip")}</Text>
-            <br/>
+            <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+            <Text>{formatText('app.systemsetting.openhuntervip')}</Text>
+            <br />
             <a
-              target="_blank"
-              href="https://hunter.qianxin.com/home/helpCenter?r=5-1-2">
-              {formatText("app.systemsetting.hunterapireadme")}
+              target='_blank'
+              href='https://hunter.qianxin.com/home/helpCenter?r=5-1-2'>
+              {formatText('app.systemsetting.hunterapireadme')}
             </a>
           </Paragraph>
         </Typography>
@@ -1009,7 +1036,7 @@ const ZoomeyeForm = props => {
   const [settingsZoomeye, setSettingsZoomeye] = useState({});
 
   //初始化数据
-  const initListZoomeyeReq = useRequest(() => getCoreSettingAPI({ kind: "Zoomeye" }), {
+  const initListZoomeyeReq = useRequest(() => getCoreSettingAPI({ kind: 'Zoomeye' }), {
     onSuccess: (result, params) => {
       setSettingsZoomeye(result);
       zoomeyeForm.setFieldsValue(result);
@@ -1027,43 +1054,44 @@ const ZoomeyeForm = props => {
 
   const onUpdateZoomeye = values => {
     let params = {
-      kind: "Zoomeye", tag: "default", setting: { ...values },
+      kind: 'Zoomeye', tag: 'default', setting: { ...values },
     };
     updateZoomeyeReq.run(params);
   };
 
   return (<Card>
-    <DocIcon url="https://www.yuque.com/vipersec/help/mcn0wyw0sx76p859"/>
+    <DocIcon url='https://www.yuque.com/vipersec/help/mcn0wyw0sx76p859' />
     <Row>
       <Col span={16}>
         <Form form={zoomeyeForm}
               onFinish={onUpdateZoomeye} {...inputItemLayout}>
           <Form.Item
-            label="key"
-            name="key"
+            label='key'
+            name='key'
             rules={[
               {
-                required: true, message: formatText("app.systemsetting.inputkey"),
+                required: true, message: formatText('app.systemsetting.inputkey'),
               }]}
           >
-            <Input/>
+            <Input />
           </Form.Item>
           <Row>
             <Col style={{ marginBottom: 24 }} span={4} offset={4}>
-              {settingsZoomeye.alive ? (<Badge status="processing"
-                                               text={formatText("app.core.working")}/>) : (<Badge status="error" text={formatText("app.core.error")}/>)}
+              {settingsZoomeye.alive ? (<Badge status='processing'
+                                               text={formatText('app.core.working')} />) : (
+                <Badge status='error' text={formatText('app.core.error')} />)}
             </Col>
           </Row>
           <Form.Item
             wrapperCol={{ span: 20, offset: 4 }}
           >
             <Button
-              icon={<DeliveredProcedureOutlined/>}
-              type="primary"
-              htmlType="submit"
+              icon={<DeliveredProcedureOutlined />}
+              type='primary'
+              htmlType='submit'
               loading={updateZoomeyeReq.loading}
             >
-              {formatText("app.core.update")}
+              {formatText('app.core.update')}
             </Button>
           </Form.Item>
         </Form>
@@ -1071,13 +1099,13 @@ const ZoomeyeForm = props => {
       <Col span={8}>
         <Typography>
           <Paragraph>
-            <Title level={4}>{formatText("app.systemsetting.howtoconfig")}</Title>
-            <Text>{formatText("app.systemsetting.openzoomeyevip")}</Text>
-            <br/>
+            <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+            <Text>{formatText('app.systemsetting.openzoomeyevip')}</Text>
+            <br />
             <a
-              target="_blank"
-              href="https://www.zoomeye.org/doc">
-              {formatText("app.systemsetting.zoomeyeapireadme")}
+              target='_blank'
+              href='https://www.zoomeye.org/doc'>
+              {formatText('app.systemsetting.zoomeyeapireadme')}
             </a>
           </Paragraph>
         </Typography>
@@ -1091,7 +1119,7 @@ const AiqichaForm = props => {
   const [settingsAiqicha, setSettingsAiqicha] = useState({});
 
   //初始化数据
-  const initListAiqichaReq = useRequest(() => getCoreSettingAPI({ kind: "Aiqicha" }), {
+  const initListAiqichaReq = useRequest(() => getCoreSettingAPI({ kind: 'Aiqicha' }), {
     onSuccess: (result, params) => {
       setSettingsAiqicha(result);
       aiqichaForm.setFieldsValue(result);
@@ -1109,13 +1137,13 @@ const AiqichaForm = props => {
 
   const onUpdateAiqicha = values => {
     let params = {
-      kind: "Aiqicha", tag: "default", setting: { ...values },
+      kind: 'Aiqicha', tag: 'default', setting: { ...values },
     };
     updateAiqichaReq.run(params);
   };
 
   return (<Card>
-    <DocIcon url="https://www.yuque.com/vipersec/help/ary2q9yqzv1zb8k8"/>
+    <DocIcon url='https://www.yuque.com/vipersec/help/ary2q9yqzv1zb8k8' />
     <Row>
       <Col span={20}>
         <Form
@@ -1125,31 +1153,32 @@ const AiqichaForm = props => {
           wrapperCol={{ span: 20, offset: 0 }}
         >
           < Form.Item
-            label="cookie"
-            name="cookie"
+            label='cookie'
+            name='cookie'
             rules={[
               {
-                required: true, message: formatText("app.systemsetting.inputcookie"),
+                required: true, message: formatText('app.systemsetting.inputcookie'),
               }]}
           >
-            <TextArea autoSize/>
+            <TextArea autoSize />
           </Form.Item>
           <Row>
             <Col style={{ marginBottom: 24 }} span={4} offset={2}>
-              {settingsAiqicha.alive ? (<Badge status="processing"
-                                               text={formatText("app.core.working")}/>) : (<Badge status="error" text={formatText("app.core.error")}/>)}
+              {settingsAiqicha.alive ? (<Badge status='processing'
+                                               text={formatText('app.core.working')} />) : (
+                <Badge status='error' text={formatText('app.core.error')} />)}
             </Col>
           </Row>
           <Form.Item
             wrapperCol={{ span: 20, offset: 2 }}
           >
             <Button
-              icon={<DeliveredProcedureOutlined/>}
-              type="primary"
-              htmlType="submit"
+              icon={<DeliveredProcedureOutlined />}
+              type='primary'
+              htmlType='submit'
               loading={updateAiqichaReq.loading}
             >
-              {formatText("app.core.update")}
+              {formatText('app.core.update')}
             </Button>
           </Form.Item>
         </Form>
@@ -1157,13 +1186,13 @@ const AiqichaForm = props => {
       <Col span={4}>
         <Typography>
           <Paragraph>
-            <Title level={4}>{formatText("app.systemsetting.howtoconfig")}</Title>
-            <Text>{formatText("app.systemsetting.getaiqichacookie")}</Text>
-            <br/>
+            <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+            <Text>{formatText('app.systemsetting.getaiqichacookie')}</Text>
+            <br />
             <a
-              target="_blank"
-              href="https://www.yuque.com/vipersec/help/ary2q9yqzv1zb8k8">
-              {formatText("app.systemsetting.getaiqichareadme")}
+              target='_blank'
+              href='https://www.yuque.com/vipersec/help/ary2q9yqzv1zb8k8'>
+              {formatText('app.systemsetting.getaiqichareadme')}
             </a>
           </Paragraph>
         </Typography>
@@ -1186,7 +1215,7 @@ const LHostForm = props => {
 
   // const [lhost, setLhost] = useState({});
   //初始化数据
-  const initListLHostReq = useRequest(() => getCoreSettingAPI({ kind: "lhost" }), {
+  const initListLHostReq = useRequest(() => getCoreSettingAPI({ kind: 'lhost' }), {
     onSuccess: (result, params) => {
       lHostForm.setFieldsValue(result);
     }, onError: (error, params) => {
@@ -1202,37 +1231,37 @@ const LHostForm = props => {
 
   const onUpdateLhost = values => {
     let params = {
-      kind: "lhost", setting: { ...values },
+      kind: 'lhost', setting: { ...values },
     };
     updateLHostReq.run(params);
   };
 
   return (<Card>
-    <DocIcon url="https://www.yuque.com/vipersec/help/mprur0"/>
+    <DocIcon url='https://www.yuque.com/vipersec/help/mprur0' />
     <Row>
       <Col span={16}>
         <Form form={lHostForm}
               onFinish={onUpdateLhost}
               {...lHostFormLayout}>
           <Form.Item
-            label={formatText("app.systemsetting.defaultlhost")}
-            name="lhost"
+            label={formatText('app.systemsetting.defaultlhost')}
+            name='lhost'
             rules={[
               {
-                required: true, message: formatText("app.systemsetting.defaultlhosttooltip"),
+                required: true, message: formatText('app.systemsetting.defaultlhosttooltip'),
               }]}
           >
-            <Input style={{ width: "80%" }} placeholder={formatText("app.systemsetting.defaultlhostplaceholder")}/>
+            <Input style={{ width: '80%' }} placeholder={formatText('app.systemsetting.defaultlhostplaceholder')} />
           </Form.Item>
 
           <Form.Item {...buttonLHostFormLayout}>
             <Button
-              icon={<DeliveredProcedureOutlined/>}
-              type="primary"
-              htmlType="submit"
+              icon={<DeliveredProcedureOutlined />}
+              type='primary'
+              htmlType='submit'
               loading={updateLHostReq.loading}
             >
-              {formatText("app.core.update")}
+              {formatText('app.core.update')}
             </Button>
           </Form.Item>
         </Form>
@@ -1240,19 +1269,19 @@ const LHostForm = props => {
       <Col span={8}>
         <Typography>
           <Paragraph>
-            <Title level={4}>{formatText("app.systemsetting.howtoconfig")}</Title>
-            <Text strong>{formatText("app.systemsetting.defaultlhost")}: </Text>
-            {formatText("app.systemsetting.defaultlhostdoc_1")}
-            <br/>
-            <Text>{formatText("app.systemsetting.defaultlhostdoc_2")}</Text>
-            <br/>
+            <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+            <Text strong>{formatText('app.systemsetting.defaultlhost')}: </Text>
+            {formatText('app.systemsetting.defaultlhostdoc_1')}
+            <br />
+            <Text>{formatText('app.systemsetting.defaultlhostdoc_2')}</Text>
+            <br />
             Nginx:<Text code>0.0.0.0:60000</Text>
-            <br/>
+            <br />
             Redis:<Text code>127.0.0.1:60004</Text>
-            <br/>
+            <br />
             Msfrpcd:<Text code>127.0.0.1:60005</Text>
-            <br/>
-            {formatText("app.systemsetting.defaultlhostdoc_ssh")}
+            <br />
+            {formatText('app.systemsetting.defaultlhostdoc_ssh')}
             <Text code>0.0.0.0:60010</Text>
           </Paragraph>
         </Typography>
@@ -1265,7 +1294,7 @@ const CommonForm = props => {
   const [settingsCommon, setSettingsCommon] = useState({});
 
   //初始化数据
-  const initListCOMMONReq = useRequest(() => getCoreSettingAPI({ kind: "common" }), {
+  const initListCOMMONReq = useRequest(() => getCoreSettingAPI({ kind: 'common' }), {
     onSuccess: (result, params) => {
       setSettingsCommon(result);
       commonForm.setFieldsValue(result);
@@ -1283,45 +1312,45 @@ const CommonForm = props => {
 
   const onUpdateCommonEngine = values => {
     let params = {
-      kind: "common", tag: "default", setting: { ...values },
+      kind: 'common', tag: 'default', setting: { ...values },
     };
     updateCommonReq.run(params);
   };
 
   return (<Card>
-    <DocIcon url="https://www.yuque.com/vipersec/help/ngb9ta9tr5zo43qg"/>
+    <DocIcon url='https://www.yuque.com/vipersec/help/ngb9ta9tr5zo43qg' />
     <Row>
       <Col span={16}>
         <Form form={commonForm} onFinish={onUpdateCommonEngine} {...comonItemLayout}>
           <Form.Item
-            label="网络搜索引擎最大记录数"
-            name="max_record_num_for_one_search"
+            label='网络搜索引擎最大记录数'
+            name='max_record_num_for_one_search'
             rules={[
               {
-                required: true, message: formatText("app.systemsetting.inputemail"),
+                required: true, message: formatText('app.systemsetting.inputemail'),
               }]}
           >
-            <InputNumber min={1000} max={5000} defaultValue={1000}/>
+            <InputNumber min={1000} max={5000} defaultValue={1000} />
           </Form.Item>
           <Form.Item
-            label="wafw00f扫描线程数"
-            name="wafw00f_thread_num"
+            label='wafw00f扫描线程数'
+            name='wafw00f_thread_num'
             rules={[
               {
                 required: true,
               }]}
           >
-            <InputNumber min={2} max={50} defaultValue={10}/>
+            <InputNumber min={2} max={50} defaultValue={10} />
           </Form.Item>
           <Form.Item {...CommonButtonItemLayout}>
             <Button
-              icon={<DeliveredProcedureOutlined/>}
-              type="primary"
-              htmlType="submit"
+              icon={<DeliveredProcedureOutlined />}
+              type='primary'
+              htmlType='submit'
               loading={updateCommonReq.loading}
 
             >
-              {formatText("app.core.update")}
+              {formatText('app.core.update')}
             </Button>
           </Form.Item>
         </Form>

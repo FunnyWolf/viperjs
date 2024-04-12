@@ -32,7 +32,7 @@ export default {
   "app.systemsetting.defaultlhostdoc_2": "VIPER Used Ports",
   "app.systemsetting.defaultlhostdoc_ssh": "SSH(Default Close):",
   "app.systemsetting.aboutviper": "About VIPER",
-  "app.systemsetting.msfstatus": "MSF Status",
+  "app.systemsetting.msfstatus": "Worker Status",
   "app.systemsetting.version": "Version",
   "app.systemsetting.builddate": "Build Date",
   "app.systemsetting.updatedate": "Update History",
