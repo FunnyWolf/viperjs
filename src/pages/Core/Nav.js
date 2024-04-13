@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Col, ConfigProvider, Row, theme } from "antd-v5";
 import { GlobalOutlined, SafetyCertificateOutlined } from '@ant-design/icons'
 import { formatText } from '@/utils/locales'
+import { useRequest } from "@@/plugin-request/request";
+import { getCoreCurrentUserAPI } from "@/services/apiv1";
 
 export const Nav = props => {
-  console.log("Company");
+  console.log("Nav");
+  const listCurrentUserReq = useRequest(getCoreCurrentUserAPI, {
+    manual: true, onSuccess: (result, params) => {
+    }, onError: (error, params) => {
+    },
+  });
+
+  useEffect(() => {
+    listCurrentUserReq.run();
+  }, [])
 
   return (<ConfigProvider
     theme={{
