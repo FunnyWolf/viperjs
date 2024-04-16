@@ -1332,16 +1332,16 @@ const CommonForm = props => {
           >
             <InputNumber min={1000} max={5000} defaultValue={1000} />
           </Form.Item>
-          <Form.Item
-            label='wafw00f扫描线程数'
-            name='wafw00f_thread_num'
-            rules={[
-              {
-                required: true,
-              }]}
-          >
-            <InputNumber min={2} max={50} defaultValue={10} />
-          </Form.Item>
+          {/*<Form.Item*/}
+          {/*  label='wafw00f扫描线程数'*/}
+          {/*  name='wafw00f_thread_num'*/}
+          {/*  rules={[*/}
+          {/*    {*/}
+          {/*      required: true,*/}
+          {/*    }]}*/}
+          {/*>*/}
+          {/*  <InputNumber min={2} max={50} defaultValue={10} />*/}
+          {/*</Form.Item>*/}
           <Form.Item {...CommonButtonItemLayout}>
             <Button
               icon={<DeliveredProcedureOutlined />}
