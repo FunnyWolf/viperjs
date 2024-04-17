@@ -780,7 +780,8 @@ const IPDomain = props => {
                   return tagSeverity(text);
                 },
               }, {
-                title: 'TemplateID', dataIndex: 'template_id', width: 160,
+                title: 'TemplateID', dataIndex: 'template_id',
+                // width: 160,
               }, {
                 title: 'Name', dataIndex: 'name',
               }, {
