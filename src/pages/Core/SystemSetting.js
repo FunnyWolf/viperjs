@@ -29,6 +29,7 @@ import {
   Tabs,
   Tag,
   Typography,
+  Checkbox,
 } from 'antd-v5';
 import {
   CheckOutlined,
@@ -70,16 +71,14 @@ const buttonItemLayout = {
 const inputItemLayout = {
   labelCol: {
     span: 4,
-  },
-  wrapperCol: {
+  }, wrapperCol: {
     span: 16,
   },
 };
 const comonItemLayout = {
   labelCol: {
     span: 8,
-  },
-  wrapperCol: {
+  }, wrapperCol: {
     span: 16,
   },
 };
@@ -135,18 +134,16 @@ const SystemSetting = () => {
 };
 
 const SystemInfo = () => {
-  const datas = [
-    {
-      name: 'metasploit-framework', url: 'https://github.com/rapid7/metasploit-framework/blob/master/LICENSE',
-    }, {
-      name: 'ant-design-pro', url: 'https://github.com/ant-design/ant-design-pro/blob/master/LICENSE',
-    }, {
-      name: 'django-rest-framework', url: 'https://github.com/encode/django-rest-framework/blob/master/LICENSE.md',
-    }];
+  const datas = [{
+    name: 'metasploit-framework', url: 'https://github.com/rapid7/metasploit-framework/blob/master/LICENSE',
+  }, {
+    name: 'ant-design-pro', url: 'https://github.com/ant-design/ant-design-pro/blob/master/LICENSE',
+  }, {
+    name: 'django-rest-framework', url: 'https://github.com/encode/django-rest-framework/blob/master/LICENSE.md',
+  }];
 
   const [serviceStatusActive, setServiceStatusActive] = useState({
-    json_rpc: { status: false },
-    wafcheck: { status: false },
+    json_rpc: { status: false }, wafcheck: { status: false },
   });
   const [lastestVersion, setLastestVersion] = useState(null);
   const [lastestVersionLoading, setLastestVersionLoading] = useState(false);
@@ -278,8 +275,7 @@ const SystemInfo = () => {
       <Descriptions size='small' style={{ marginLeft: 64, marginTop: 16 }}
                     column={5}>
         <Descriptions.Item label={formatText('app.systemsetting.msfstatus')}>
-          <Space>{serviceStatusActive.json_rpc.status ? (<Tag color='green'>MSF</Tag>) : (
-            <Tag color='red'>MSF</Tag>)}
+          <Space>{serviceStatusActive.json_rpc.status ? (<Tag color='green'>MSF</Tag>) : (<Tag color='red'>MSF</Tag>)}
             {serviceStatusActive.wafcheck.status ? (<Tag color='green'>WAFCHECK</Tag>) : (
               <Tag color='red'>WAFCHECK</Tag>)}
             <Button
@@ -449,10 +445,9 @@ const TelegramForm = props => {
           <Form.Item
             label='token'
             name='token'
-            rules={[
-              {
-                required: true, message: formatText('app.systemsetting.inputtoken'),
-              }]}
+            rules={[{
+              required: true, message: formatText('app.systemsetting.inputtoken'),
+            }]}
           >
             <Input />
           </Form.Item>
@@ -554,20 +549,18 @@ const DingDingForm = props => {
           <Form.Item
             label='access_token'
             name='access_token'
-            rules={[
-              {
-                required: true, message: formatText('app.systemsetting.dingdingrules'),
-              }]}
+            rules={[{
+              required: true, message: formatText('app.systemsetting.dingdingrules'),
+            }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             label={formatText('app.systemsetting.keyword')}
             name='keyword'
-            rules={[
-              {
-                required: true, message: formatText('app.systemsetting.inputkeyword'),
-              }]}
+            rules={[{
+              required: true, message: formatText('app.systemsetting.inputkeyword'),
+            }]}
           >
             <Input />
           </Form.Item>
@@ -644,10 +637,9 @@ const ServerChanForm = props => {
           <Form.Item
             label='SendKey'
             name='sendkey'
-            rules={[
-              {
-                required: true, message: formatText('app.systemsetting.inputsendkey'),
-              }]}
+            rules={[{
+              required: true, message: formatText('app.systemsetting.inputsendkey'),
+            }]}
           >
             <Input />
           </Form.Item>
@@ -722,20 +714,18 @@ const FOFAForm = props => {
           <Form.Item
             label='email'
             name='email'
-            rules={[
-              {
-                required: true, message: formatText('app.systemsetting.inputemail'),
-              }]}
+            rules={[{
+              required: true, message: formatText('app.systemsetting.inputemail'),
+            }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             label='key'
             name='key'
-            rules={[
-              {
-                required: true, message: formatText('app.systemsetting.inputkey'),
-              }]}
+            rules={[{
+              required: true, message: formatText('app.systemsetting.inputkey'),
+            }]}
           >
             <Input />
           </Form.Item>
@@ -834,63 +824,41 @@ const QuakeForm = props => {
     <Row>
       <Col span={18}>
         <Table
-          columns={[
-            {
-              title: 'API KEY',
-              dataIndex: 'key',
-              // width: 320,
+          columns={[{
+            title: 'API KEY', dataIndex: 'key', // width: 320,
+          }, {
+            title: '状态', dataIndex: 'ban_status', width: 80,
+          }, {
+            title: '免费查询次数', dataIndex: 'free_query_api_count', width: 104,
+          }, {
+            title: '月度剩余积分', dataIndex: 'month_remaining_credit', width: 104,
+          }, {
+            title: '长效剩余积分', dataIndex: 'constant_credit', width: 104,
+          }, {
+            title: '账号类型', dataIndex: 'account_role', width: 80,
+          }, {
+            dataIndex: 'operation', width: 120, render: (text, record) => {
+              return <div style={{ textAlign: 'center' }}>
+                <Space size='middle'>
+                  <a
+                    onClick={() => updateQuakeReq.run({
+                      kind: 'Quake', tag: 'default', setting: { key: record.key },
+                    })}
+                    style={{ color: 'yellow' }}
+                  >
+                    {formatText('app.core.update')}
+                  </a>
+                  <a
+                    onClick={() => destoryQuakeReq.run({
+                      kind: 'Quake', tag: 'default', setting: { key: record.key },
+                    })}
+                    style={{ color: 'red' }}
+                  >
+                    {formatText('app.core.delete')}
+                  </a>
+                </Space></div>;
             },
-            {
-              title: '状态',
-              dataIndex: 'ban_status',
-              width: 80,
-            },
-            {
-              title: '免费查询次数',
-              dataIndex: 'free_query_api_count',
-              width: 104,
-            },
-            {
-              title: '月度剩余积分',
-              dataIndex: 'month_remaining_credit',
-              width: 104,
-            },
-            {
-              title: '长效剩余积分',
-              dataIndex: 'constant_credit',
-              width: 104,
-            },
-            {
-              title: '账号类型',
-              dataIndex: 'account_role',
-              width: 80,
-            },
-            {
-              dataIndex: 'operation',
-              width: 120,
-              render: (text, record) => {
-                return <div style={{ textAlign: 'center' }}>
-                  <Space size='middle'>
-                    <a
-                      onClick={() => updateQuakeReq.run({
-                        kind: 'Quake', tag: 'default', setting: { key: record.key },
-                      })}
-                      style={{ color: 'yellow' }}
-                    >
-                      {formatText('app.core.update')}
-                    </a>
-                    <a
-                      onClick={() => destoryQuakeReq.run({
-                        kind: 'Quake', tag: 'default', setting: { key: record.key },
-                      })}
-                      style={{ color: 'red' }}
-                    >
-                      {formatText('app.core.delete')}
-                    </a>
-                  </Space></div>;
-              },
-            },
-          ]}
+          }]}
           dataSource={settingsQuakeList}
           pagination={false}
           size='small'
@@ -909,10 +877,9 @@ const QuakeForm = props => {
           <Form.Item
             label='API KEY'
             name='key'
-            rules={[
-              {
-                required: true, message: formatText('app.systemsetting.inputkey'),
-              }]}
+            rules={[{
+              required: true, message: formatText('app.systemsetting.inputkey'),
+            }]}
           >
             <Input style={{ width: 320 }} />
           </Form.Item>
@@ -985,10 +952,9 @@ const HunterForm = props => {
           <Form.Item
             label='key'
             name='key'
-            rules={[
-              {
-                required: true, message: formatText('app.systemsetting.inputkey'),
-              }]}
+            rules={[{
+              required: true, message: formatText('app.systemsetting.inputkey'),
+            }]}
           >
             <Input />
           </Form.Item>
@@ -1068,10 +1034,9 @@ const ZoomeyeForm = props => {
           <Form.Item
             label='key'
             name='key'
-            rules={[
-              {
-                required: true, message: formatText('app.systemsetting.inputkey'),
-              }]}
+            rules={[{
+              required: true, message: formatText('app.systemsetting.inputkey'),
+            }]}
           >
             <Input />
           </Form.Item>
@@ -1155,10 +1120,9 @@ const AiqichaForm = props => {
           < Form.Item
             label='cookie'
             name='cookie'
-            rules={[
-              {
-                required: true, message: formatText('app.systemsetting.inputcookie'),
-              }]}
+            rules={[{
+              required: true, message: formatText('app.systemsetting.inputcookie'),
+            }]}
           >
             <TextArea autoSize />
           </Form.Item>
@@ -1198,8 +1162,7 @@ const AiqichaForm = props => {
         </Typography>
       </Col>
     </Row>
-  </Card>)
-    ;
+  </Card>);
 };
 
 const LHostForm = props => {
@@ -1246,10 +1209,9 @@ const LHostForm = props => {
           <Form.Item
             label={formatText('app.systemsetting.defaultlhost')}
             name='lhost'
-            rules={[
-              {
-                required: true, message: formatText('app.systemsetting.defaultlhosttooltip'),
-              }]}
+            rules={[{
+              required: true, message: formatText('app.systemsetting.defaultlhosttooltip'),
+            }]}
           >
             <Input style={{ width: '80%' }} placeholder={formatText('app.systemsetting.defaultlhostplaceholder')} />
           </Form.Item>
@@ -1325,23 +1287,34 @@ const CommonForm = props => {
           <Form.Item
             label='网络搜索引擎最大记录数'
             name='max_record_num_for_one_search'
-            rules={[
-              {
-                required: true, message: formatText('app.systemsetting.inputemail'),
-              }]}
+            rules={[{
+              required: true, message: formatText('app.systemsetting.inputemail'),
+            }]}
           >
             <InputNumber min={1000} max={5000} defaultValue={1000} />
           </Form.Item>
-          {/*<Form.Item*/}
-          {/*  label='wafw00f扫描线程数'*/}
-          {/*  name='wafw00f_thread_num'*/}
-          {/*  rules={[*/}
-          {/*    {*/}
-          {/*      required: true,*/}
-          {/*    }]}*/}
-          {/*>*/}
-          {/*  <InputNumber min={2} max={50} defaultValue={10} />*/}
-          {/*</Form.Item>*/}
+          <Form.Item
+            label='Nuclei并发数'
+            name='nuclei_rate_limit'
+            rules={[{
+              required: true,
+            }]}
+          >
+            <InputNumber min={1000} max={20000} defaultValue={1000} />
+          </Form.Item>
+          <Form.Item
+            label='Nuclei漏洞级别'
+            name='nuclei_levels'
+            rules={[{
+              required: true,
+            }]}
+          >
+            <Checkbox.Group options={[{ label: 'Critical', value: 'critical' }, { label: 'High', value: 'high' }, {
+              label: 'Medium',
+              value: 'medium',
+            }, { label: 'Low', value: 'low' }]}
+                            defaultValue={['High', 'Critical']} />
+          </Form.Item>
           <Form.Item {...CommonButtonItemLayout}>
             <Button
               icon={<DeliveredProcedureOutlined />}
@@ -1353,6 +1326,7 @@ const CommonForm = props => {
               {formatText('app.core.update')}
             </Button>
           </Form.Item>
+
         </Form>
       </Col>
     </Row>
