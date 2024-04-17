@@ -73,10 +73,6 @@ const errorHandler = error => {
     const errortext = codeMessage[response.status] || response.statusText;
     const { status, url } = response;
     if (status === 401) {
-      notification.error({
-        message: "You have not logged in or your session has expired, please log in again.",
-      });
-
       history.push({
         pathname: "/user/login",
       });
