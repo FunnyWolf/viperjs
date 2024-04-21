@@ -2889,7 +2889,7 @@ const ProxyHttpScan = () => {
           block
           icon={<PlusOutlined/>}
           onClick={() => setRunProxyHttpScanModuleModalVisable(true)}
-        >{formatText('app.runmodule.autorobot.add')}</Button>
+        >{formatText('app.runmodule.proxymodule.add')}</Button>
       </Col>
       <Col span={12}>
         <Button

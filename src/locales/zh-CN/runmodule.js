@@ -65,6 +65,9 @@ export default {
   "app.runmodule.autoconf.10min": "10分钟",
   "app.runmodule.autoconf.max_session": "单一主机最大权限数量",
   "app.runmodule.autoconf.max_session.tip": "当同一个ip地址的权限大于N个时,不再执行编排(防止编排模块生成权限,权限又执行编排,造成死循环)",
+
+  "app.runmodule.proxymodule.add": "加入模块",
+
   "app.runmodule.autorobot.add": "新Session执行模块",
   "app.runmodule.autorobot.scheduler.add": "定时执行模块",
   "app.runmodule.autorobot.scheduler.pause": "暂停执行",

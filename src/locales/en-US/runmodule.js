@@ -62,6 +62,9 @@ export default {
   'app.runmodule.autoconf.10min': '10min',
   'app.runmodule.autoconf.max_session': 'Maximum number of sessions for a single host',
   'app.runmodule.autoconf.max_session.tip': 'When the sessions count on the same ip address is greater than N, the arrangement is no longer executed (to prevent the arrangement module from generating session, and the session executes the arrangement again, causing an infinite loop)',
+
+  "app.runmodule.proxymodule.add": "Add Module",
+
   'app.runmodule.autorobot.add': 'Add Module',
   'app.runmodule.autorobot.scheduler.add': 'Add Scheduler Module',
   "app.runmodule.autorobot.scheduler.pause": "Pause",
