@@ -38,7 +38,7 @@ export default {
 
   "app.runmodule.botmodule.newtask": "新建任务",
   "app.runmodule.botmodule.time": "创建时间",
-  "app.runmodule.botmodule.module": "新Session执行模块",
+  "app.runmodule.botmodule.module": "执行模块",
   "app.runmodule.botmodule.scheduler.module": "Session定时执行模块",
   "app.runmodule.botmodule.ip_list.count": "目标数量",
   "app.runmodule.botmodule.ip_list": "目标列表",
