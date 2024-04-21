@@ -1559,6 +1559,9 @@ export const RunBotModule = props => {
     }
   }
 
+  const onChangeEngine = (e) => {
+    setInputStr(botModuleConfigActive.SEARCH[e.target.value]);
+  };
   return (<Row>
     <Col span={6}>
       <Card bordered={false}
@@ -1670,10 +1673,10 @@ export const RunBotModule = props => {
                     label={formatText('app.runmodule.postmodule.engine')}
                     name="engine"
                     required>
-                    <Radio.Group>
-                      {viperDebugFlag ? (<Radio.Button value="FOFA" disabled={!engineConfs.FOFA}>
+                    <Radio.Group onChange={onChangeEngine}>
+                      <Radio.Button value="FOFA" disabled={!engineConfs.FOFA}>
                         FOFA
-                      </Radio.Button>) : null}
+                      </Radio.Button>
                       <Radio.Button value="Quake" disabled={!engineConfs.Quake}>
                         Quake
                       </Radio.Button>
