@@ -30,6 +30,7 @@ import {
   Table,
   Tabs,
   Tag,
+  Drawer,
 } from 'antd-v5';
 import {
   BugOutlined,
@@ -126,6 +127,7 @@ const IPDomain = props => {
   const [showCommentModal, setShowCommentModal] = useState(false);
   const [showSwitchModal, setShowSwitchModal] = useState(false);
   const [showVulnModal, setShowVulnModal] = useState(false);
+  const [showSearchModal, setShowSearchModal] = useState(false);
   const [vulnActive, setVulnActive] = useState({ reference: [] });
   const initTableParams = {
     current: 1, pageSize: 10,
@@ -178,6 +180,22 @@ const IPDomain = props => {
     },
   });
 
+  useEffect(() => {
+    listIPdomainReq.run({
+      project_id: projectActive.project_id, pagination: tableParams,
+    });
+
+  }, [projectActive]);
+
+  useEffect(() => {
+    listProjectReq.run();
+    if (ipdomains.length === 0) {
+      listIPdomainReq.run({
+        project_id: projectActive.project_id, pagination: tableParams,
+      });
+    }
+  }, []);
+
   const onUpdatePortComment = values => {
     updatePortCommentReq.run({ ipdomain: activeRecord.ipdomain, port: activeRecord.port, ...values });
   };
@@ -220,21 +238,6 @@ const IPDomain = props => {
     });
   };
 
-  useEffect(() => {
-    listIPdomainReq.run({
-      project_id: projectActive.project_id, pagination: tableParams,
-    });
-
-  }, [projectActive]);
-
-  useEffect(() => {
-    listProjectReq.run();
-    if (ipdomains.length === 0) {
-      listIPdomainReq.run({
-        project_id: projectActive.project_id, pagination: tableParams,
-      });
-    }
-  }, []);
 
   const LocationRow = (record) => {
     if (record.location) {
@@ -646,6 +649,111 @@ const IPDomain = props => {
     </Form>;
   };
 
+  const SearchCard = () => {
+    const [form] = Form.useForm();
+    return <Form
+      form={form}
+      // layout='inline'
+      onFinish={handleSearch}
+      initialValues={searchParams}
+      labelCol={{ span: 6 }}
+      wrapperCol={{ span: 14 }}
+    >
+      <Form.Item
+        name='ipdomain'
+        label='IP / Domain'
+      >
+        <Input style={{ width: 200 }} placeholder='IP / Domain' />
+      </Form.Item>
+      <Form.Item
+        name='port'
+        label='Port'
+      >
+        <InputNumber style={{ width: 104 }} placeholder='Port' min={1} max={65535} />
+      </Form.Item>
+      <Form.Item
+        name='service'
+        label='Service'
+      >
+        <AutoComplete
+          style={{
+            width: 120,
+          }}
+          options={[{
+            value: 'http',
+          }]}
+          placeholder='Service'
+        />
+      </Form.Item>
+      <Form.Item
+        name='waf_flag'
+        label='WAF'
+      >
+        <Select
+          style={{
+            width: 96,
+          }}
+          placeholder='WAF'
+          allowClear
+          options={[{
+            value: false, label: <span style={{ color: 'orange' }}><CloseOutlined /> WAF</span>,
+          }, {
+            value: true, label: <span style={{ color: 'green' }}><CheckOutlined /> WAF</span>,
+          }, {
+            value: 'unknown', label: <span><QuestionOutlined /> WAF</span>,
+          }]}
+        />
+      </Form.Item>
+      <Form.Item
+        name='cdn_flag'
+        label='CDN'
+      >
+        <Select
+          style={{
+            width: 96,
+          }}
+          placeholder='CDN'
+          allowClear
+          options={[{
+            value: false, label: <span style={{ color: 'orange' }}><CloseOutlined /> CDN</span>,
+          }, {
+            value: true, label: <span style={{ color: 'green' }}><CheckOutlined /> CDN</span>,
+          }, {
+            value: 'unknown', label: <span><QuestionOutlined /> CDN</span>,
+          }]}
+        />
+      </Form.Item>
+      <Form.Item
+        name='alive_flag'
+        // label="CDN"
+        label='Alive'
+      >
+        <Select
+          style={{
+            width: 96,
+          }}
+          placeholder='Status'
+          allowClear
+          options={[{
+            value: true, label: <span style={{ color: 'green' }}><CheckOutlined /> Open</span>,
+          }, {
+            value: false, label: <span style={{ color: 'orange' }}><CloseOutlined /> Close</span>,
+          }]}
+        />
+      </Form.Item>
+      <Form.Item
+      >
+        <Button
+          type='primary'
+          style={{ width: 96 }}
+          icon={<SearchOutlined />}
+          htmlType='submit'
+          loading={listIPdomainReq.loading}
+        />
+      </Form.Item>
+    </Form>;
+  };
+
   const HttpTabPane = (record) => {
     const http_base = record.http_base;
     const http_favicon = record.http_favicon;
@@ -955,6 +1063,13 @@ const IPDomain = props => {
     </Card>;
   };
 
+  const handleOpenSearchModel = () => {
+    setShowSearchModal(true);
+  };
+  const handleCloseSearchModel = () => {
+    setShowSearchModal(false);
+  };
+
   const renderItem = record => {
     return <List.Item
       style={{
@@ -989,6 +1104,12 @@ const IPDomain = props => {
             showSizeChanger={false}
             responsive={false}
           />
+          <Button
+            style={{ width: 96 }}
+            icon={<SyncOutlined />}
+            onClick={() => handleOpenSearchModel()}
+            // loading={listIPdomainReq.loading}
+          />
         </Space>
       </Col>
     </Row>
@@ -1006,6 +1127,16 @@ const IPDomain = props => {
       loading={listIPdomainReq.loading}
     >
     </List>
+    <Drawer
+      title='Basic Drawer'
+      placement='right'
+      closable={false}
+      onClose={onClose}
+      open={open}
+      getContainer={false}
+    >
+      <p>Some contents...</p>
+    </Drawer>
     <Modal
       // style={{ top: 32 }}
       width='40vw'
@@ -1145,6 +1276,9 @@ const IPDomain = props => {
         </Descriptions.Item>
       </Descriptions>
     </Modal>
+    {/*<Modal open={showSearchModal} onCancel={() => handleCloseSearchModel()} footer={null}>*/}
+    {/*  <SearchCard />*/}
+    {/*</Modal>*/}
   </Fragment>);
 };
 export const IPDomainMemo = memo(IPDomain);

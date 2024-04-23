@@ -1,7 +1,7 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
-import { useModel, useRequest } from "umi";
-import { useInterval } from "ahooks";
-import { deleteWebNoticesAPI, getCoreCurrentUserAPI } from "@/services/apiv1";
+import React, { Fragment, useEffect, useRef, useState } from 'react';
+import { useModel, useRequest } from 'umi';
+import { useInterval } from 'ahooks';
+import { deleteWebNoticesAPI, getCoreCurrentUserAPI } from '@/services/apiv1';
 import {
   BankOutlined,
   BellOutlined,
@@ -12,30 +12,44 @@ import {
   SettingOutlined,
 } from '@ant-design/icons';
 
-import { App, Button, Col, ConfigProvider, FloatButton, List, Modal, Row, Space, Tabs, Tag, theme, Typography } from "antd-v5";
-import GridContent from "@/components/PageHeaderWrapper/GridContent";
+import {
+  App,
+  Button,
+  Col,
+  ConfigProvider,
+  FloatButton,
+  List,
+  Modal,
+  Row,
+  Space,
+  Tabs,
+  Tag,
+  theme,
+  Typography,
+} from 'antd-v5';
+import GridContent from '@/components/PageHeaderWrapper/GridContent';
 
-import { IPDomainMemo } from "@/pages/Core/IPDomain";
+import { IPDomainMemo } from '@/pages/Core/IPDomain';
 
-import { SystemSettingMemo } from "@/pages/Core/SystemSetting";
-import { getToken } from "@/utils/authority";
-import { formatText } from "@/utils/locales";
-import { HostIP } from "@/config";
-import { ProjectButton } from "@/pages/Core/Project";
-import { RunWebModuleMemo } from "@/pages/Core/WebModule";
-import { MyIcon } from "@/pages/Core/Common";
-import { getLocale } from "@@/plugin-locale/localeExports";
-import { cssCalc } from "@/utils/utils";
-import moment from "moment/moment";
-import { CompanyMemo } from '@/pages/Core/Company'
+import { SystemSettingMemo } from '@/pages/Core/SystemSetting';
+import { getToken } from '@/utils/authority';
+import { formatText } from '@/utils/locales';
+import { HostIP } from '@/config';
+import { ProjectButton } from '@/pages/Core/Project';
+import { RunWebModuleMemo } from '@/pages/Core/WebModule';
+import { MyIcon } from '@/pages/Core/Common';
+import { getLocale } from '@@/plugin-locale/localeExports';
+import { cssCalc } from '@/utils/utils';
+import moment from 'moment/moment';
+import { CompanyMemo } from '@/pages/Core/Company';
 
 const { Text } = Typography;
 const { TabPane } = Tabs;
-let protocol = "ws://";
-let webHost = HostIP + ":8002";
-if (process.env.NODE_ENV === "production") {
-  webHost = location.hostname + (location.port ? `:${location.port}` : "");
-  protocol = "wss://";
+let protocol = 'ws://';
+let webHost = HostIP + ':8002';
+if (process.env.NODE_ENV === 'production') {
+  webHost = location.hostname + (location.port ? `:${location.port}` : '');
+  protocol = 'wss://';
 }
 
 const TabsOptions = () => {
@@ -43,30 +57,30 @@ const TabsOptions = () => {
     style={{
       paddingTop: 1, paddingBottom: 2, paddingRight: 4,
     }}>
-      <Button
-        style={{ width: 40 }}
-        icon={<CompassOutlined />}
-        href={'#/nav'}
-        target={'_blank'}
-      />
-    <WebNotice/>
-    <ProjectButton/>
+    <Button
+      style={{ width: 40 }}
+      icon={<CompassOutlined />}
+      href={'#/nav'}
+      target={'_blank'}
+    />
+    <WebNotice />
+    <ProjectButton />
   </Space>
 
   </>;
 };
 
 const TabsTop = () => {
-  console.log("TabsBottom");
+  console.log('TabsTop');
   const {
     setHeatbeatsocketalive, setWebModuleOptions,
-  } = useModel("HostAndSessionModel", model => ({
+  } = useModel('HostAndSessionModel', model => ({
     setHeatbeatsocketalive: model.setHeatbeatsocketalive, setWebModuleOptions: model.setWebModuleOptions,
   }));
 
   const {
     setWebjobList, setWebTaskResultList, setWebTaskResultListActive, setNotices,
-  } = useModel("WebMainModel", model => ({
+  } = useModel('WebMainModel', model => ({
     setNotices: model.setNotices,
     setWebjobList: model.setWebjobList,
     setWebTaskResultList: model.setWebTaskResultList,
@@ -76,13 +90,13 @@ const TabsTop = () => {
   let ipdomainRef = React.createRef();
   const tabActiveOnChange = activeKey => {
     switch (activeKey) {
-      case "IPDomain":
+      case 'IPDomain':
         if (ipdomainRef.current === null) {
         } else {
           ipdomainRef.current.updateData();
         }
         break;
-      case "SystemSetting":
+      case 'SystemSetting':
         break;
       default:
     }
@@ -101,7 +115,7 @@ const TabsTop = () => {
     },
   });
 
-  const urlpatterns = "/ws/v1/websocket/websync/?";
+  const urlpatterns = '/ws/v1/websocket/websync/?';
   const urlargs = `&token=${getToken()}`;
   const socketUrl = protocol + webHost + urlpatterns + urlargs;
 
@@ -140,7 +154,7 @@ const TabsTop = () => {
       const { notices } = response;
 
       if (module_options_update) {
-        setWebModuleOptions(module_options.filter(item => item.BROKER.indexOf("web") === 0));
+        setWebModuleOptions(module_options.filter(item => item.BROKER.indexOf('web') === 0));
       }
 
       if (jobs_update) {
@@ -189,36 +203,36 @@ const TabsTop = () => {
 
   return (<Tabs
     style={{ margin: 1 }}
-    tabBarExtraContent={<TabsOptions/>}
-    type="card"
+    tabBarExtraContent={<TabsOptions />}
+    type='card'
     onChange={tabActiveOnChange}
   >
     <TabPane
       tab={<div style={tabPanedivSytle}>
-        <GlobalOutlined/>
-        <span style={tabPanespanSytle}>{formatText("app.webmain.tab.ipdomain")}</span>
+        <GlobalOutlined />
+        <span style={tabPanespanSytle}>{formatText('app.webmain.tab.ipdomain')}</span>
       </div>}
-      key="IPDomain"
+      key='IPDomain'
     >
-      <IPDomainMemo onRef={ipdomainRef}/>
+      <IPDomainMemo onRef={ipdomainRef} />
     </TabPane>
     <TabPane
       tab={<div style={tabPanedivSytle}>
-        <BankOutlined/>
-        <span style={tabPanespanSytle}>{formatText("app.webmain.tab.company")}</span>
+        <BankOutlined />
+        <span style={tabPanespanSytle}>{formatText('app.webmain.tab.company')}</span>
       </div>}
-      key="Company"
+      key='Company'
     >
-      <CompanyMemo/>
+      <CompanyMemo />
     </TabPane>
     <TabPane
       tab={<div style={tabPanedivSytle}>
-        <ScanOutlined/>
-        <span style={tabPanespanSytle}>{formatText("app.webmain.tab.webscan")}</span>
+        <ScanOutlined />
+        <span style={tabPanespanSytle}>{formatText('app.webmain.tab.webscan')}</span>
       </div>}
-      key="WebScan"
+      key='WebScan'
     >
-      <RunWebModuleMemo/>
+      <RunWebModuleMemo />
     </TabPane>
     {/*<TabPane*/}
     {/*  tab={<div style={tabPanedivSytle}>*/}
@@ -231,42 +245,44 @@ const TabsTop = () => {
     {/*</TabPane>*/}
     <TabPane
       tab={<div style={tabPanedivSytle}>
-        <SettingOutlined/>
+        <SettingOutlined />
         <span
-          style={tabPanespanSytle}>{formatText("app.hostandsession.tab.SystemSetting")}</span>
+          style={tabPanespanSytle}>{formatText('app.hostandsession.tab.SystemSetting')}</span>
       </div>}
-      key="SystemSetting"
+      key='SystemSetting'
     >
-      <SystemSettingMemo/>
+      <SystemSettingMemo />
     </TabPane>
   </Tabs>);
 };
 const KeyToUserIcon = {
-  "0": "icon-yuanxingbaoshi",
-  "1": "icon-sanjiaobaoshi",
-  "2": "icon-shuidibaoshi",
-  "3": "icon-liujiaobaoshi",
-  "4": "icon-lingxingbaoshi",
-  "5": "icon-duojiaobaoshi",
+  '0': 'icon-yuanxingbaoshi',
+  '1': 'icon-sanjiaobaoshi',
+  '2': 'icon-shuidibaoshi',
+  '3': 'icon-liujiaobaoshi',
+  '4': 'icon-lingxingbaoshi',
+  '5': 'icon-duojiaobaoshi',
 };
 const WebNotice = () => {
   const [noticeModalVisible, setNoticeModalVisible] = useState(false);
-  const { notices, setNotices } = useModel("WebMainModel", model => ({
+  const { notices, setNotices } = useModel('WebMainModel', model => ({
     notices: model.notices, setNotices: model.setNotices,
   }));
   const [refresh, setRefresh] = useState(false);
   useInterval(() => setRefresh(!refresh), 60000);
   const {
     resizeUpHeight, resizeDownHeight, setResizeDownHeight,
-  } = useModel("Resize", model => ({
-    resizeUpHeight: model.resizeUpHeight, resizeDownHeight: model.resizeDownHeight, setResizeDownHeight: model.setResizeDownHeight,
+  } = useModel('Resize', model => ({
+    resizeUpHeight: model.resizeUpHeight,
+    resizeDownHeight: model.resizeDownHeight,
+    setResizeDownHeight: model.setResizeDownHeight,
   }));
 
   const userIconLarge = key => {
     return (<MyIcon
       type={KeyToUserIcon[key]}
       style={{
-        padding: "0px 0px 0px 0px", fontSize: "16px",
+        padding: '0px 0px 0px 0px', fontSize: '16px',
       }}
     />);
   };
@@ -275,77 +291,79 @@ const WebNotice = () => {
     const getContent = item => {
       const content = item[getLocale()];
       if (item.level === 0) {
-        return (<Text style={{ color: "#49aa19", wordBreak: "break-all" }}>
+        return (<Text style={{ color: '#49aa19', wordBreak: 'break-all' }}>
           {content}
         </Text>);
       }
       if (item.level === 1) {
-        return (<Text style={{ color: "#13a8a8", wordBreak: "break-all" }}>
+        return (<Text style={{ color: '#13a8a8', wordBreak: 'break-all' }}>
           {content}
         </Text>);
       }
       if (item.level === 2) {
-        return (<Text type="warning" style={{ wordBreak: "break-all" }}>
+        return (<Text type='warning' style={{ wordBreak: 'break-all' }}>
           {content}
         </Text>);
       }
       if (item.level === 3) {
-        return (<Text type="danger" style={{ wordBreak: "break-all" }}>
+        return (<Text type='danger' style={{ wordBreak: 'break-all' }}>
           {content}
         </Text>);
       }
       if (item.level === 4) {
-        return (<Text mark style={{ wordBreak: "break-all" }}>
+        return (<Text mark style={{ wordBreak: 'break-all' }}>
           {content}
         </Text>);
       }
       if (item.level === 5) {
         // 提醒
-        return (<Text style={{ color: "#642ab5", wordBreak: "break-all" }}>
+        return (<Text style={{ color: '#642ab5', wordBreak: 'break-all' }}>
           {content}
         </Text>);
       }
       if (item.level === 6) {
         return (<Space>
           {userIconLarge(item.userkey)}
-          <Text style={{ color: "#cb2b83", wordBreak: "break-all" }}>
-            {">"} {content}
+          <Text style={{ color: '#cb2b83', wordBreak: 'break-all' }}>
+            {'>'} {content}
           </Text>
         </Space>);
       }
-      return (<Text type="warning" style={{ wordBreak: "break-all" }}>
+      return (<Text type='warning' style={{ wordBreak: 'break-all' }}>
         {content}
       </Text>);
     };
     return (<List
-      id="noticescard"
+      id='noticescard'
       style={{
-        overflow: "auto", maxHeight: cssCalc(`${resizeDownHeight} - 30px`), minHeight: cssCalc(`${resizeDownHeight} - 30px`),
+        overflow: 'auto',
+        maxHeight: cssCalc(`${resizeDownHeight} - 30px`),
+        minHeight: cssCalc(`${resizeDownHeight} - 30px`),
       }}
       split={false}
-      size="small"
+      size='small'
       bordered
-      itemLayout="horizontal"
+      itemLayout='horizontal'
       dataSource={props.notices}
-      renderItem={item => (<List.Item style={{ padding: "0px 0px 0px 0px" }}>
+      renderItem={item => (<List.Item style={{ padding: '0px 0px 0px 0px' }}>
         <div
           style={{
-            display: "inline", marginTop: 0, marginBottom: 0,
+            display: 'inline', marginTop: 0, marginBottom: 0,
           }}
         >
           <Tag
-            color="cyan"
+            color='cyan'
             style={{
-              marginLeft: -1, marginRight: 4, textAlign: "center",
+              marginLeft: -1, marginRight: 4, textAlign: 'center',
             }}
           >
-            {moment(item.time * 1000).format("MM-DD HH:mm:ss")}
+            {moment(item.time * 1000).format('MM-DD HH:mm:ss')}
           </Tag>
           {getContent(item)}
         </div>
       </List.Item>)}
     >
-      <FloatButton.BackTop/>
+      <FloatButton.BackTop />
     </List>);
   };
 
@@ -363,19 +381,19 @@ const WebNotice = () => {
     />
     <Modal
       // style={{ top: 20 }}
-      width="40vw"
+      width='40vw'
       destroyOnClose
       open={noticeModalVisible}
       footer={null}
       closable={false}
       onCancel={() => setNoticeModalVisible(false)}
     >
-      <NoticesList notices={notices}/>
+      <NoticesList notices={notices} />
       <Row>
         <Col span={4}>
-          <Button icon={<DeleteOutlined/>} block danger
+          <Button icon={<DeleteOutlined />} block danger
                   onClick={() => deleteNoticesReq.run()}>
-            {formatText("app.core.clear")}
+            {formatText('app.core.clear')}
           </Button>
         </Col>
       </Row>
@@ -384,7 +402,7 @@ const WebNotice = () => {
 };
 
 const WebMain = props => {
-  console.log("WebMain");
+  console.log('WebMain');
   useEffect(() => {
   }, []);
 
@@ -402,13 +420,12 @@ const WebMain = props => {
           },
           Descriptions: {},
           Tabs: {
-            horizontalMargin: "0 0 0 0", /* 这里是你的组件 token */
+            horizontalMargin: '0 0 0 0', /* 这里是你的组件 token */
           },
         },
       }}
-    ><App>
-      <TabsTop/>
-    </App>
+    >
+      <TabsTop />
     </ConfigProvider>
   </GridContent>);
 };
