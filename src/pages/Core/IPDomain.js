@@ -1087,7 +1087,12 @@ const IPDomain = props => {
     >
       <Col span={24}>
         <Space size={0}>
-          <SearchRow />
+          <Button
+            style={{ width: 96 }}
+            icon={<SyncOutlined />}
+            onClick={() => handleOpenSearchModel()}
+            // loading={listIPdomainReq.loading}
+          />
           <Button
             style={{ width: 96 }}
             icon={<SyncOutlined />}
@@ -1104,12 +1109,7 @@ const IPDomain = props => {
             showSizeChanger={false}
             responsive={false}
           />
-          <Button
-            style={{ width: 96 }}
-            icon={<SyncOutlined />}
-            onClick={() => handleOpenSearchModel()}
-            // loading={listIPdomainReq.loading}
-          />
+
         </Space>
       </Col>
     </Row>
@@ -1127,16 +1127,6 @@ const IPDomain = props => {
       loading={listIPdomainReq.loading}
     >
     </List>
-    <Drawer
-      title='Basic Drawer'
-      placement='right'
-      closable={false}
-      onClose={onClose}
-      open={open}
-      getContainer={false}
-    >
-      <p>Some contents...</p>
-    </Drawer>
     <Modal
       // style={{ top: 32 }}
       width='40vw'
@@ -1276,9 +1266,15 @@ const IPDomain = props => {
         </Descriptions.Item>
       </Descriptions>
     </Modal>
-    {/*<Modal open={showSearchModal} onCancel={() => handleCloseSearchModel()} footer={null}>*/}
-    {/*  <SearchCard />*/}
-    {/*</Modal>*/}
+    <Modal
+      open={showSearchModal}
+      onCancel={() => handleCloseSearchModel()}
+      footer={null}
+      mask={false}
+      maskClosable
+    >
+      <SearchCard />
+    </Modal>
   </Fragment>);
 };
 export const IPDomainMemo = memo(IPDomain);
