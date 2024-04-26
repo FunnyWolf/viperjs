@@ -1318,6 +1318,7 @@ const IPDomain = props => {
       </Descriptions>
     </Modal>
     <Modal
+      style={{ top: 76 }}
       width="60vw"
       bodyStyle={{ padding: '8px 8px 8px 8px' }}
       size="small"
