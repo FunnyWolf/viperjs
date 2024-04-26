@@ -656,15 +656,28 @@ const IPDomain = props => {
   const SearchCard = () => {
 
     const [serviceOptions, setServiceOptions] = useState([]);
-    const listOptionsReq = useRequest(getWebdatabaseOptionsAPI, {
+    const [componentOptions, setComponentOptions] = useState([]);
+    const listServiceOptionsReq = useRequest(getWebdatabaseOptionsAPI, {
       manual: true, onSuccess: (result, params) => {
         setServiceOptions(result);
       }, onError: (error, params) => {
       },
     });
+    const listComponentOptionsReq = useRequest(getWebdatabaseOptionsAPI, {
+      manual: true, onSuccess: (result, params) => {
+        setComponentOptions(result);
+      }, onError: (error, params) => {
+      },
+    });
+
     useEffect(() => {
-      listOptionsReq.run({ project_id: projectActive.project_id, table: "ServiceModel", param: "service" });
+      listServiceOptionsReq.run({ project_id: projectActive.project_id, table: "ServiceModel", param: "service" });
     }, []);
+
+    useEffect(() => {
+      listComponentOptionsReq.run({ project_id: projectActive.project_id, table: "ComponentModel", param: "product_name" });
+    }, []);
+
     const [form] = Form.useForm();
     return <Form
       form={form}
@@ -712,11 +725,28 @@ const IPDomain = props => {
           <Select
             mode="multiple"
             style={{
-              width: '360px',
+              width: '320px',
             }}
             placeholder="Service"
             allowClear
             options={serviceOptions.map(item => ({
+              label: item,
+              value: item,
+            }))}
+          />
+        </Form.Item>
+        <Form.Item
+          name="component"
+          label="Component"
+        >
+          <Select
+            mode="multiple"
+            style={{
+              width: '400px',
+            }}
+            placeholder="Component"
+            allowClear
+            options={componentOptions.map(item => ({
               label: item,
               value: item,
             }))}
