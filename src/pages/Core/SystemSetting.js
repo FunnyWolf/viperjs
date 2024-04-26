@@ -15,6 +15,7 @@ import {
   Badge,
   Button,
   Card,
+  Checkbox,
   Col,
   Descriptions,
   Form,
@@ -29,7 +30,6 @@ import {
   Tabs,
   Tag,
   Typography,
-  Checkbox,
 } from 'antd-v5';
 import {
   CheckOutlined,
@@ -1321,7 +1321,6 @@ const CommonForm = props => {
               type='primary'
               htmlType='submit'
               loading={updateCommonReq.loading}
-
             >
               {formatText('app.core.update')}
             </Button>

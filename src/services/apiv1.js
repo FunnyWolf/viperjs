@@ -478,6 +478,12 @@ export async function deleteWebdatabaseIPDomainAPI (params) {
   })
 }
 
+export async function getWebdatabaseOptionsAPI (params) {
+  return request('/api/v1/webdatabase/options/', {
+    params,
+  })
+}
+
 export async function deleteWebTaskResultAPI (params) {
   return request('/api/v1/webdatabase/webtaskresult/', {
     method: 'DELETE', params,
