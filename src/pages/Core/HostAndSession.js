@@ -1,6 +1,6 @@
 import React, { Fragment, memo, useCallback, useEffect, useRef, useState } from 'react';
 import { formatMessage, FormattedMessage, getLocale, setLocale, useModel, useRequest } from 'umi';
-import { AutoRobotMemo, BotScan, PostModuleMemo, ProxyHttpScanMemo, RunModuleMemo } from '@/pages/Core/RunModule';
+import { PostModuleMemo, RunModuleMemo } from '@/pages/Core/RunModule';
 import { useInterval, useLocalStorageState, useSessionStorageState } from 'ahooks';
 import {
   deleteCoreHostAPI,
@@ -43,13 +43,11 @@ import {
   CaretRightOutlined,
   CheckOutlined,
   CloseCircleOutlined,
-  CloudDownloadOutlined,
   CloudOutlined,
   CodeOutlined,
   ColumnHeightOutlined,
   CompassOutlined,
   ContactsOutlined,
-  CustomerServiceOutlined,
   DashboardOutlined,
   DeleteOutlined,
   DeliveredProcedureOutlined,
@@ -59,14 +57,11 @@ import {
   ExclamationCircleOutlined,
   FolderAddOutlined,
   FolderOpenOutlined,
-  FundViewOutlined,
   GatewayOutlined,
   HomeOutlined,
   InteractionOutlined,
-  KeyOutlined,
   LaptopOutlined,
   MinusOutlined,
-  MonitorOutlined,
   NodeIndexOutlined,
   PartitionOutlined,
   PlayCircleOutlined,
@@ -75,15 +70,10 @@ import {
   PushpinOutlined,
   QuestionCircleOutlined,
   QuestionOutlined,
-  RadarChartOutlined,
   RestOutlined,
   RetweetOutlined,
   RightOutlined,
-  RobotOutlined,
   SearchOutlined,
-  SettingOutlined,
-  SisternodeOutlined,
-  StopOutlined,
   SubnodeOutlined,
   SwapLeftOutlined,
   SwapOutlined,
@@ -125,24 +115,18 @@ import { Avatar, Modal } from 'antd';
 import copy from 'copy-to-clipboard';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import moment from 'moment';
-import { RealTimeJobsMemo, RealTimeModuleResultMemo, RealTimeNoticesMemo, TaskQueueTagMemo } from '@/pages/Core/RealTimeCard';
-import { FileMsfMemo, FileMsfModal } from '@/pages/Core/FileMsf';
-import { PayloadAndHandlerMemo } from '@/pages/Core/PayloadAndHandler';
-import { WebDeliveryMemo } from '@/pages/Core/WebDelivery';
+import { FileMsfModal } from '@/pages/Core/FileMsf';
 import { DocIconInDiv, DocIconInDivSessionIO, host_type_to_avatar_table, MyIcon, SidTag } from '@/pages/Core/Common';
-import { SystemSettingMemo } from '@/pages/Core/SystemSetting';
-import { MsfSocksMemo } from '@/pages/Core/MsfSocks';
-import { CredentialMemo } from '@/pages/Core/Credential';
 import { getToken } from '@/utils/authority';
 import styles from '@/utils/utils.less';
-import { NetworkMemo, NetworkWindowMemo } from '@/pages/Core/Network';
+import { NetworkWindowMemo } from '@/pages/Core/Network';
 import ReactJson from 'react-json-view';
-import MsfConsoleXTermMemo, { MsfconsoleMemo } from '@/pages/Core/MsfConsoleXTerm';
+import MsfConsoleXTermMemo from '@/pages/Core/MsfConsoleXTerm';
 import { cssCalc } from '@/utils/utils';
 import { formatText, getOptionDesc, getOptionTag, getSessionlocate, manuali18n, msgsuccess } from '@/utils/locales';
-import { IPFilterMemo } from '@/pages/Core/IPFilter';
 import { HostIP } from '@/config';
 import NewWindow from 'rc-new-window';
+import { TabsBottom } from '@/pages/Core/TabsBottom'
 
 const { Text } = Typography;
 const { Paragraph } = Typography;
@@ -151,6 +135,7 @@ const ButtonGroup = Button.Group;
 const { Search, TextArea } = Input;
 const { TabPane } = Tabs;
 const { confirm } = Modal;
+
 //websocket连接地址设置
 let protocol = 'ws://';
 let webHost = HostIP + ':8002';
@@ -323,10 +308,10 @@ const HostAndSession = props => {
       },
     }}
   ><GridContent>
-    {/*<FloatingButtons/>*/}
     <HostAndSessionCard/>
     <TabsBottom/>
-  </GridContent></ConfigProvider>);
+  </GridContent>
+  </ConfigProvider>);
 };
 
 const HostAndSessionCard = () => {
@@ -1105,204 +1090,6 @@ const HostAndSessionCard = () => {
     >
       <UpdateHostMemo closeModal={() => setUpdateHostModalVisable(false)}/>
     </Modal>
-  </Fragment>);
-};
-
-const TabsBottom = () => {
-  console.log('TabsBottom');
-  let payloadandhandlerRef = React.createRef();
-  let webDeliveryRef = React.createRef();
-  let filemsfRef = React.createRef();
-  let ipfileterRef = React.createRef();
-  const tabActiveOnChange = activeKey => {
-    switch (activeKey) {
-      case 'MsfConsole':
-        break;
-      case 'MsfSocks':
-        break;
-      case 'FileMsf':
-        if (filemsfRef.current === null) {
-        } else {
-          filemsfRef.current.updateData();
-        }
-        break;
-      case 'Credential':
-        break;
-      case 'LazyLoader':
-        break;
-      case 'PayloadAndHandler':
-        if (payloadandhandlerRef.current === null) {
-        } else {
-          payloadandhandlerRef.current.updateData();
-        }
-        break;
-      case 'WebDelivery':
-        if (webDeliveryRef.current === null) {
-        } else {
-          webDeliveryRef.current.updateData();
-        }
-        break;
-      case 'IPFilter':
-        if (ipfileterRef.current === null) {
-        } else {
-          ipfileterRef.current.updateData();
-        }
-        break;
-      case 'SystemSetting':
-        break;
-      default:
-    }
-  };
-
-  const tabPanedivSytle = {
-    marginLeft: '-6px', marginRight: '-6px',
-  };
-  const tabPanespanSytle = {
-    marginLeft: '-4px',
-  };
-
-  return (<Fragment>
-    <Tabs
-      type="card" size="small" onChange={tabActiveOnChange}
-    >
-      <TabPane
-        tab={<div style={tabPanedivSytle}>
-          <FundViewOutlined/>
-          <span style={tabPanespanSytle}>{formatText('app.hostandsession.tab.Notices')}</span>
-        </div>}
-        key="Notices"
-      >
-        <Row gutter={0}>
-          <Col span={13}>
-            <RealTimeModuleResultMemo/>
-          </Col>
-          <Col span={11}>
-            <RealTimeNoticesMemo/>
-          </Col>
-        </Row>
-      </TabPane>
-      <TabPane
-        tab={<div style={tabPanedivSytle}>
-          <TaskQueueTagMemo/>
-          <span style={tabPanespanSytle}>{formatText('app.hostandsession.tab.JobList')}</span>
-        </div>}
-        key="JobList"
-      >
-        <RealTimeJobsMemo/>
-      </TabPane>
-      <TabPane
-        tab={<div style={tabPanedivSytle}>
-          <CustomerServiceOutlined/>
-          <span
-            style={tabPanespanSytle}>{formatText('app.hostandsession.tab.PayloadAndHandler')}</span>
-        </div>}
-        key="PayloadAndHandler"
-      >
-        <PayloadAndHandlerMemo onRef={payloadandhandlerRef}/>
-      </TabPane>
-      <TabPane
-        tab={<div style={tabPanedivSytle}>
-          <StopOutlined/>
-          <span style={tabPanespanSytle}>{formatText('app.hostandsession.tab.IPFilter')}</span>
-        </div>}
-        key="IPFilter"
-      >
-        <IPFilterMemo onRef={ipfileterRef}/>
-      </TabPane>
-      <TabPane
-        tab={<div style={tabPanedivSytle}>
-          <CloudDownloadOutlined/>
-          <span style={tabPanespanSytle}>WebDelivery</span>
-        </div>}
-        key="WebDelivery"
-      >
-        <WebDeliveryMemo onRef={webDeliveryRef}/>
-      </TabPane>
-      <TabPane
-        tab={<div style={tabPanedivSytle}>
-          <FolderOpenOutlined/>
-          <span style={tabPanespanSytle}>{formatText('app.hostandsession.tab.FileMsf')}</span>
-        </div>}
-        key="FileMsf"
-      >
-        <FileMsfMemo onRef={filemsfRef}/>
-      </TabPane>
-      <TabPane
-        tab={<div style={tabPanedivSytle}>
-          <DeploymentUnitOutlined/>
-          <span style={tabPanespanSytle}>{formatText('app.hostandsession.tab.Network')}</span>
-        </div>}
-        key="Network"
-      >
-        <NetworkMemo/>
-      </TabPane>
-      <TabPane
-        tab={<div style={tabPanedivSytle}>
-          <RobotOutlined/>
-          <span style={tabPanespanSytle}>{formatText('app.hostandsession.tab.AutoRobot')}</span>
-        </div>}
-        key="AutoRobot"
-      >
-        <AutoRobotMemo/>
-      </TabPane>
-      <TabPane
-        tab={<div style={tabPanedivSytle}>
-          <SisternodeOutlined/>
-          <span style={tabPanespanSytle}>{formatText('app.hostandsession.tab.MsfSocks')}</span>
-        </div>}
-        key="MsfSocks"
-      >
-        <MsfSocksMemo/>
-      </TabPane>
-      <TabPane
-        tab={<div style={tabPanedivSytle}>
-          <KeyOutlined/>
-          <span style={tabPanespanSytle}>{formatText('app.hostandsession.tab.Credential')}</span>
-        </div>}
-        key="Credential"
-      >
-        <CredentialMemo/>
-      </TabPane>
-      <TabPane
-        tab={<div style={tabPanedivSytle}>
-          <CodeOutlined/>
-          <span style={tabPanespanSytle}>MSFCONSOLE</span>
-        </div>}
-        key="MsfConsole"
-        // forceRender
-      >
-        <MsfconsoleMemo/>
-      </TabPane>
-      <TabPane
-        tab={<div style={tabPanedivSytle}>
-          <RadarChartOutlined/>
-          <span style={tabPanespanSytle}>{formatText('app.hostandsession.tab.BotScan')}</span>
-        </div>}
-        key="BotScan"
-      >
-        <BotScan/>
-      </TabPane>
-      <TabPane
-        tab={<div style={tabPanedivSytle}>
-          <MonitorOutlined/>
-          <span
-            style={tabPanespanSytle}>{formatText('app.hostandsession.tab.passivescan')}</span>
-        </div>}
-        key="ProxyHttpScan"
-      >
-        <ProxyHttpScanMemo/>
-      </TabPane>
-      <TabPane
-        tab={<div style={tabPanedivSytle}>
-          <SettingOutlined/>
-          <span
-            style={tabPanespanSytle}>{formatText('app.hostandsession.tab.SystemSetting')}</span>
-        </div>}
-        key="SystemSetting"
-      >
-        <SystemSettingMemo/>
-      </TabPane>
-    </Tabs>
   </Fragment>);
 };
 

@@ -2358,7 +2358,7 @@ const AutoRobot = () => {
     },
   })
 
-  return (<Tabs type="card" defaultActiveKey="system_info">
+  return (<Tabs type="card" size="small" defaultActiveKey="auto">
     <TabPane tab={formatText('app.runmodule.autoconf.auto')} key="auto">
       <DocIcon url="https://www.yuque.com/vipersec/help/gh60e1"/>
       <Row gutter={0}>
