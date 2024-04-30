@@ -88,7 +88,6 @@ const CommonButtonItemLayout = {
   },
 };
 const SystemSetting = () => {
-  const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState('viper-debug-flag', false);
   console.log('SystemSetting');
   return (<Tabs type="card" size="small" defaultActiveKey="system_info">
     <TabPane tab={formatText('app.systemsetting.aboutviper')}
