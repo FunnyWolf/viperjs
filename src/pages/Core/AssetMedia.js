@@ -1,30 +1,30 @@
 import { useModel } from "@@/plugin-model/useModel";
 import React, { Fragment, memo, useEffect, useState } from "react";
 import { useRequest } from "umi";
-import { deleteWebdatabaseCompanyICPAPI, getWebdatabaseCompanyICPAPI } from "@/services/apiv1";
-import { Button, Flex, Table } from "antd-v5";
+import { deleteWebdatabaseCompanyMediaAPI, getWebdatabaseCompanyMediaAPI } from "@/services/apiv1";
+import { Button, Flex, Image, Table } from "antd-v5";
 import { cssCalc } from "@/utils/utils";
 import { SyncOutlined } from '@ant-design/icons'
 import { DocIcon, WebMainHeight } from '@/pages/Core/Common'
 import { formatText } from '@/utils/locales'
 
-export const AssetICP = props => {
+export const AssetMedia = props => {
   console.log("Company");
   const {
     projectActive,
   } = useModel("WebMainModel", model => ({
     projectActive: model.projectActive,
   }));
-  const [companyICPList, setCompanyICPList] = useState([])
+  const [companyMediaList, setCompanyMediaList] = useState([])
 
-  const listCompanyICPReq = useRequest(getWebdatabaseCompanyICPAPI, {
+  const listCompanyMediaReq = useRequest(getWebdatabaseCompanyMediaAPI, {
     manual: true, onSuccess: (result, params) => {
-      setCompanyICPList(result);
+      setCompanyMediaList(result);
     }, onError: (error, params) => {
     },
   });
 
-  const destoryCompanyICPReq = useRequest(deleteWebdatabaseCompanyICPAPI, {
+  const destoryCompanyMediaReq = useRequest(deleteWebdatabaseCompanyMediaAPI, {
     manual: true, onSuccess: (result, params) => {
       handleRefresh();
     }, onError: (error, params) => {
@@ -35,7 +35,7 @@ export const AssetICP = props => {
   }, [projectActive]);
 
   const handleRefresh = () => {
-    listCompanyICPReq.run({
+    listCompanyMediaReq.run({
       project_id: projectActive.project_id,
     });
   };
@@ -53,7 +53,7 @@ export const AssetICP = props => {
         style={{ width: 80 }}
         icon={<SyncOutlined/>}
         onClick={() => handleRefresh()}
-        loading={listCompanyICPReq.loading}
+        loading={listCompanyMediaReq.loading}
       />
     </Flex>
     <Table
@@ -67,37 +67,33 @@ export const AssetICP = props => {
       rowKey="id"
       columns={[
         {
-          title: "Company Name", dataIndex: "companyName", key: "companyName", render: (text, record) => {
+          title: "Wechat Name", dataIndex: "wechatName", key: "wechatName", render: (text, record) => {
             return text
           },
         }, {
-          title: "ICP No", dataIndex: "icpNo", key: "icpNo", render: (text, record) => {
+          title: "Wechat Introduction", dataIndex: "wechatIntruduction", key: "wechatIntruduction", render: (text, record) => {
             return text
           },
         }, {
-          title: "Site Name", dataIndex: "siteName", key: "siteName", render: (text, record) => {
-            return text
+          title: "Logo", dataIndex: "wechatLogo", key: "wechatLogo", width: 64, render: (text, record) => {
+            return <Image width={48} src={text}/>
           },
         }, {
-          title: "Home Site", dataIndex: "homeSite", key: "homeSite", render: (text, record) => {
-            return text
-          },
-        }, {
-          title: "Domain", dataIndex: "domain", key: "domain", render: (text, record) => {
-            return text
+          title: "Qrcode", dataIndex: "qrcode", key: "qrcode", width: 64, render: (text, record) => {
+            return <Image width={48} src={text}/>
           },
         }, {
           dataIndex: "operation", width: 48, render: (text, record) => (<div style={{ textAlign: "center" }}>
             <a
-              onClick={() => destoryCompanyICPReq.run({ project_id: projectActive.project_id, companyName: record.companyName })}
+              onClick={() => destoryCompanyMediaReq.run({ project_id: projectActive.project_id, companyName: record.companyName })}
               style={{ color: "red" }}
             >
               {formatText("app.core.delete")}
             </a>
           </div>),
         }]}
-      dataSource={companyICPList}
+      dataSource={companyMediaList}
     />
   </Fragment>);
 };
-export const AssetICPMemo = memo(AssetICP);
+export const AssetMediaMemo = memo(AssetMedia);

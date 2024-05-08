@@ -513,3 +513,39 @@ export async function deleteWebdatabaseCompanyBaseInfoAPI (params) {
     method: 'DELETE', params,
   })
 }
+
+export async function getWebdatabaseCompanyICPAPI (params) {
+  return request('/api/v1/webdatabase/companyicp/', {
+    params,
+  })
+}
+
+export async function deleteWebdatabaseCompanyICPAPI (params) {
+  return request('/api/v1/webdatabase/companyicp/', {
+    method: 'DELETE', params,
+  })
+}
+
+export async function getWebdatabaseCompanyAPPAPI (params) {
+  return request('/api/v1/webdatabase/companyapp/', {
+    params,
+  })
+}
+
+export async function deleteWebdatabaseCompanyAPPAPI (params) {
+  return request('/api/v1/webdatabase/companyapp/', {
+    method: 'DELETE', params,
+  })
+}
+
+export async function getWebdatabaseCompanyMediaAPI (params) {
+  return request('/api/v1/webdatabase/companymedia/', {
+    params,
+  })
+}
+
+export async function deleteWebdatabaseCompanyMediaAPI (params) {
+  return request('/api/v1/webdatabase/companymedia/', {
+    method: 'DELETE', params,
+  })
+}

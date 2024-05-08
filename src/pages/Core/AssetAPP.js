@@ -1,30 +1,30 @@
 import { useModel } from "@@/plugin-model/useModel";
 import React, { Fragment, memo, useEffect, useState } from "react";
 import { useRequest } from "umi";
-import { deleteWebdatabaseCompanyICPAPI, getWebdatabaseCompanyICPAPI } from "@/services/apiv1";
-import { Button, Flex, Table } from "antd-v5";
+import { deleteWebdatabaseCompanyAPPAPI, getWebdatabaseCompanyAPPAPI } from "@/services/apiv1";
+import { Button, Flex, Image, Table, Typography } from "antd-v5";
 import { cssCalc } from "@/utils/utils";
 import { SyncOutlined } from '@ant-design/icons'
 import { DocIcon, WebMainHeight } from '@/pages/Core/Common'
 import { formatText } from '@/utils/locales'
 
-export const AssetICP = props => {
+export const AssetAPP = props => {
   console.log("Company");
   const {
     projectActive,
   } = useModel("WebMainModel", model => ({
     projectActive: model.projectActive,
   }));
-  const [companyICPList, setCompanyICPList] = useState([])
+  const [CompanyAPPList, setCompanyAPPList] = useState([])
 
-  const listCompanyICPReq = useRequest(getWebdatabaseCompanyICPAPI, {
+  const listCompanyAPPReq = useRequest(getWebdatabaseCompanyAPPAPI, {
     manual: true, onSuccess: (result, params) => {
-      setCompanyICPList(result);
+      setCompanyAPPList(result);
     }, onError: (error, params) => {
     },
   });
 
-  const destoryCompanyICPReq = useRequest(deleteWebdatabaseCompanyICPAPI, {
+  const destoryCompanyAPPReq = useRequest(deleteWebdatabaseCompanyAPPAPI, {
     manual: true, onSuccess: (result, params) => {
       handleRefresh();
     }, onError: (error, params) => {
@@ -35,7 +35,7 @@ export const AssetICP = props => {
   }, [projectActive]);
 
   const handleRefresh = () => {
-    listCompanyICPReq.run({
+    listCompanyAPPReq.run({
       project_id: projectActive.project_id,
     });
   };
@@ -53,51 +53,52 @@ export const AssetICP = props => {
         style={{ width: 80 }}
         icon={<SyncOutlined/>}
         onClick={() => handleRefresh()}
-        loading={listCompanyICPReq.loading}
+        loading={listCompanyAPPReq.loading}
       />
     </Flex>
     <Table
-      style={{
-        overflow: 'auto', maxHeight: cssCalc(`${WebMainHeight} - 64px`), minHeight: cssCalc(`${WebMainHeight} - 64px`),
-      }}
-      scroll={{ y: cssCalc(`${WebMainHeight} - 64px`) }}
+      // style={{
+      //   overflow: 'auto', maxHeight: cssCalc(`${WebMainHeight} - 64px`), minHeight: cssCalc(`${WebMainHeight} - 64px`),
+      // }}
+      scroll={{ y: cssCalc(`${WebMainHeight} - 96px`) }}
       size="small"
       bordered
       pagination={false}
       rowKey="id"
       columns={[
         {
-          title: "Company Name", dataIndex: "companyName", key: "companyName", render: (text, record) => {
+          title: "APP Name", dataIndex: "name", key: "name", width: 160, render: (text, record) => {
             return text
           },
         }, {
-          title: "ICP No", dataIndex: "icpNo", key: "icpNo", render: (text, record) => {
+          title: "Classify", dataIndex: "classify", key: "classify", width: 160, render: (text, record) => {
             return text
           },
-        }, {
-          title: "Site Name", dataIndex: "siteName", key: "siteName", render: (text, record) => {
-            return text
+        },
+        {
+          title: "Logo Brief", dataIndex: "logoBrief", key: "logoBrief", render: (text, record) => {
+            return <Typography.Paragraph ellipsis={{
+              rows: 3,
+              expandable: 'collapsible',
+            }}>{text}</Typography.Paragraph>
           },
-        }, {
-          title: "Home Site", dataIndex: "homeSite", key: "homeSite", render: (text, record) => {
-            return text
-          },
-        }, {
-          title: "Domain", dataIndex: "domain", key: "domain", render: (text, record) => {
-            return text
+        },
+        {
+          title: "Logo", dataIndex: "logo", key: "logo", width: 64, render: (text, record) => {
+            return <Image width={48} src={text}/>
           },
         }, {
           dataIndex: "operation", width: 48, render: (text, record) => (<div style={{ textAlign: "center" }}>
             <a
-              onClick={() => destoryCompanyICPReq.run({ project_id: projectActive.project_id, companyName: record.companyName })}
+              onClick={() => destoryCompanyAPPReq.run({ project_id: projectActive.project_id, name: record.name })}
               style={{ color: "red" }}
             >
               {formatText("app.core.delete")}
             </a>
           </div>),
         }]}
-      dataSource={companyICPList}
+      dataSource={CompanyAPPList}
     />
   </Fragment>);
 };
-export const AssetICPMemo = memo(AssetICP);
+export const AssetAPPMemo = memo(AssetAPP);

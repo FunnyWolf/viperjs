@@ -4,16 +4,18 @@ import { useRequest } from '@@/plugin-request/request'
 import { deleteWebNoticesAPI } from '@/services/apiv1'
 import { useInterval } from 'ahooks'
 
-import { BankOutlined, BellOutlined, CompassOutlined, DeleteOutlined, GlobalOutlined, ScanOutlined, SettingOutlined } from '@ant-design/icons'
+import { BellOutlined, CompassOutlined, DeleteOutlined, GlobalOutlined, ScanOutlined, SettingOutlined } from '@ant-design/icons'
 import { formatText } from '@/utils/locales'
 import { IPDomainMemo } from '@/pages/Core/IPDomain'
-import { CompanyMemo } from '@/pages/Core/Company'
 import { RunWebModuleMemo } from '@/pages/Core/WebModule'
 import { SystemSettingMemo } from '@/pages/Core/SystemSetting'
 import { ProjectButton } from '@/pages/Core/Project'
 import { Button, Col, List, Row, Space, Tabs } from 'antd-v5'
 import { Modal } from 'antd'
 import { AssetICPMemo } from '@/pages/Core/AssetICP'
+import { AssetAPPMemo } from '@/pages/Core/AssetAPP'
+import { AssetMediaMemo } from '@/pages/Core/AssetMedia'
+import { AssetBaseInfoMemo } from '@/pages/Core/AssetCompanyBase'
 
 const { TabPane } = Tabs;
 
@@ -45,8 +47,7 @@ export const TabsTop = () => {
   };
 
   const tabPanedivSytle = {
-    marginLeft: '8px',
-    marginRight: '8px',
+    marginLeft: '8px', marginRight: '8px',
   };
   const tabPanespanSytle = {
     // marginLeft: '-4px',
@@ -65,7 +66,21 @@ export const TabsTop = () => {
       </div>}
       key="Clue"
     >
-
+      <Tabs
+        // type="card"
+        size="small"
+        onChange={tabActiveOnChange}
+      >
+        <TabPane
+          tab={<div style={tabPanedivSytle}>
+            <GlobalOutlined/>
+            <span style={tabPanespanSytle}>{formatText('app.webmain.tab.company')}</span>
+          </div>}
+          key="ICP"
+        >
+          <AssetBaseInfoMemo/>
+        </TabPane>
+      </Tabs>
     </TabPane>
     <TabPane
       tab={<div style={tabPanedivSytle}>
@@ -97,16 +112,25 @@ export const TabsTop = () => {
         >
           <AssetICPMemo/>
         </TabPane>
+        <TabPane
+          tab={<div style={tabPanedivSytle}>
+            <GlobalOutlined/>
+            <span style={tabPanespanSytle}>移动应用</span>
+          </div>}
+          key="APP"
+        >
+          <AssetAPPMemo/>
+        </TabPane>
+        <TabPane
+          tab={<div style={tabPanedivSytle}>
+            <GlobalOutlined/>
+            <span style={tabPanespanSytle}>社交媒体</span>
+          </div>}
+          key="Media"
+        >
+          <AssetMediaMemo/>
+        </TabPane>
       </Tabs>
-    </TabPane>
-    <TabPane
-      tab={<div style={tabPanedivSytle}>
-        <BankOutlined/>
-        <span style={tabPanespanSytle}>{formatText('app.webmain.tab.company')}</span>
-      </div>}
-      key="Company"
-    >
-      <CompanyMemo/>
     </TabPane>
     <TabPane
       tab={<div style={tabPanedivSytle}>
@@ -140,9 +164,7 @@ const WebNotice = () => {
   const {
     resizeUpHeight, resizeDownHeight, setResizeDownHeight,
   } = useModel('Resize', model => ({
-    resizeUpHeight: model.resizeUpHeight,
-    resizeDownHeight: model.resizeDownHeight,
-    setResizeDownHeight: model.setResizeDownHeight,
+    resizeUpHeight: model.resizeUpHeight, resizeDownHeight: model.resizeDownHeight, setResizeDownHeight: model.setResizeDownHeight,
   }));
 
   const userIconLarge = key => {
@@ -203,9 +225,7 @@ const WebNotice = () => {
     return (<List
       id="noticescard"
       style={{
-        overflow: 'auto',
-        maxHeight: cssCalc(`${resizeDownHeight} - 30px`),
-        minHeight: cssCalc(`${resizeDownHeight} - 30px`),
+        overflow: 'auto', maxHeight: cssCalc(`${resizeDownHeight} - 30px`), minHeight: cssCalc(`${resizeDownHeight} - 30px`),
       }}
       split={false}
       size="small"
