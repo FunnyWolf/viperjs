@@ -87,7 +87,7 @@ export const AssetBaseInfo = props => {
             return text
           },
         }, {
-          title: "Open Status", dataIndex: "openStatus", key: "openStatus", width: 80, render: (text, record) => {
+          title: "Open Status", dataIndex: "openStatus", key: "openStatus", width: 96, render: (text, record) => {
             return text
           },
         }, {
