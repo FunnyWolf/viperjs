@@ -337,7 +337,7 @@ const WebTaskResult = () => {
       id="moduleresultlist"
       bordered
       style={{
-        overflow: 'auto', maxHeight: cssCalc(`${WebMainHeight} - 64px`), minHeight: cssCalc(`${WebMainHeight} - 64px`),
+        overflow: 'auto', maxHeight: cssCalc(`${WebMainHeight} - 24px`), minHeight: cssCalc(`${WebMainHeight} - 24px`),
       }}
       itemLayout="vertical"
       size="small"
