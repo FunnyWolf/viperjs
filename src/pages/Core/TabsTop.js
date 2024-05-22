@@ -4,7 +4,16 @@ import { useRequest } from '@@/plugin-request/request'
 import { deleteWebNoticesAPI } from '@/services/apiv1'
 import { useInterval } from 'ahooks'
 
-import { BellOutlined, CompassOutlined, DeleteOutlined, GlobalOutlined, ScanOutlined, SettingOutlined } from '@ant-design/icons'
+import {
+  AimOutlined,
+  BellOutlined,
+  CompassOutlined,
+  DeleteOutlined,
+  FundProjectionScreenOutlined,
+  GlobalOutlined,
+  ScanOutlined,
+  SettingOutlined,
+} from '@ant-design/icons'
 import { formatText } from '@/utils/locales'
 import { IPDomainMemo } from '@/pages/Core/IPDomain'
 import { RunWebModuleMemo } from '@/pages/Core/WebModule'
@@ -26,6 +35,23 @@ const KeyToUserIcon = {
   '3': 'icon-liujiaobaoshi',
   '4': 'icon-lingxingbaoshi',
   '5': 'icon-duojiaobaoshi',
+};
+
+const TabsOptions = () => {
+  return <><Space
+    style={{
+      paddingTop: 1, paddingBottom: 2, paddingRight: 4,
+    }}>
+    <Button
+      style={{ width: 40 }}
+      icon={<CompassOutlined/>}
+      href={'#/nav'}
+      target={'_blank'}
+    />
+    <WebNotice/>
+    <ProjectButton/>
+  </Space>
+  </>;
 };
 
 export const TabsTop = () => {
@@ -51,6 +77,7 @@ export const TabsTop = () => {
   };
   const tabPanespanSytle = {
     // marginLeft: '-4px',
+    width: 400,
   };
 
   return (<Tabs
@@ -61,24 +88,70 @@ export const TabsTop = () => {
   >
     <TabPane
       tab={<div style={tabPanedivSytle}>
-        <GlobalOutlined/>
+        <FundProjectionScreenOutlined/>
+        <span style={tabPanespanSytle}>总览</span>
+      </div>}
+      key="Overview"
+    >
+    </TabPane>
+    <TabPane
+      tab={<div style={tabPanedivSytle}>
+        <AimOutlined/>
         <span style={tabPanespanSytle}>线索</span>
       </div>}
       key="Clue"
     >
       <Tabs
-        // type="card"
         size="small"
         onChange={tabActiveOnChange}
       >
         <TabPane
           tab={<div style={tabPanedivSytle}>
-            <GlobalOutlined/>
             <span style={tabPanespanSytle}>{formatText('app.webmain.tab.company')}</span>
           </div>}
-          key="ICP"
+          key="company"
         >
           <AssetBaseInfoMemo/>
+        </TabPane>
+        <TabPane
+          tab={<div style={tabPanedivSytle}>
+            <span style={tabPanespanSytle}>WHOIS</span>
+          </div>}
+          key="whois"
+        >
+
+        </TabPane>
+        <TabPane
+          tab={<div style={tabPanedivSytle}>
+            <span style={tabPanespanSytle}>邮箱</span>
+          </div>}
+          key="email"
+        >
+
+        </TabPane>
+        <TabPane
+          tab={<div style={tabPanedivSytle}>
+            <span style={tabPanespanSytle}>证书</span>
+          </div>}
+          key="cert"
+        >
+
+        </TabPane>
+        <TabPane
+          tab={<div style={tabPanedivSytle}>
+            <span style={tabPanespanSytle}>Favicon</span>
+          </div>}
+          key="favicon"
+        >
+
+        </TabPane>
+        <TabPane
+          tab={<div style={tabPanedivSytle}>
+            <span style={tabPanespanSytle}>网站标题</span>
+          </div>}
+          key="web_title"
+        >
+
         </TabPane>
       </Tabs>
     </TabPane>
@@ -96,7 +169,6 @@ export const TabsTop = () => {
       >
         <TabPane
           tab={<div style={tabPanedivSytle}>
-            <GlobalOutlined/>
             <span style={tabPanespanSytle}>{formatText('app.webmain.tab.ipdomain')}</span>
           </div>}
           key="IPDomain"
@@ -105,8 +177,7 @@ export const TabsTop = () => {
         </TabPane>
         <TabPane
           tab={<div style={tabPanedivSytle}>
-            <GlobalOutlined/>
-            <span style={tabPanespanSytle}>备案信息</span>
+            <span style={tabPanespanSytle}>备案</span>
           </div>}
           key="ICP"
         >
@@ -114,7 +185,6 @@ export const TabsTop = () => {
         </TabPane>
         <TabPane
           tab={<div style={tabPanedivSytle}>
-            <GlobalOutlined/>
             <span style={tabPanespanSytle}>移动应用</span>
           </div>}
           key="APP"
@@ -123,7 +193,6 @@ export const TabsTop = () => {
         </TabPane>
         <TabPane
           tab={<div style={tabPanedivSytle}>
-            <GlobalOutlined/>
             <span style={tabPanespanSytle}>社交媒体</span>
           </div>}
           key="Media"
@@ -288,21 +357,4 @@ const WebNotice = () => {
   </>;
 };
 
-const TabsOptions = () => {
-  return <><Space
-    style={{
-      paddingTop: 1, paddingBottom: 2, paddingRight: 4,
-    }}>
-    <Button
-      style={{ width: 40 }}
-      icon={<CompassOutlined/>}
-      href={'#/nav'}
-      target={'_blank'}
-    />
-    <WebNotice/>
-    <ProjectButton/>
-  </Space>
-
-  </>;
-};
 

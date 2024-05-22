@@ -50,6 +50,7 @@ export default {
   "app.systemsetting.deleteuuidjson": "Clean RPCMSG",
   "app.systemsetting.logout": "Logout",
   "app.systemsetting.switch": "Switch",
+  "app.systemsetting.common.session_monitor_switch": "Session Monitor Switch",
   "app.systemsetting.inputtoken": "Input token",
   "app.systemsetting.selectorinputchatid": "Select or input chat_id",
   "app.systemsetting.updateorgetchatid": "Update or request chat_id",

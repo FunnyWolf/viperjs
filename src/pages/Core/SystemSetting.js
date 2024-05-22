@@ -89,8 +89,8 @@ const CommonButtonItemLayout = {
 };
 const SystemSetting = () => {
   console.log('SystemSetting');
-  return (<Tabs type="card" size="small" defaultActiveKey="system_info">
-    <TabPane tab={formatText('app.systemsetting.aboutviper')}
+  return (<Tabs size="small" defaultActiveKey="system_info">
+    <TabPane tab={<span style={{ marginLeft: 8, marginRight: 8 }}>{formatText('app.systemsetting.aboutviper')}</span>}
              key="system_info">
       <SystemInfo/>
     </TabPane>
@@ -118,13 +118,6 @@ const SystemSetting = () => {
     </TabPane>
     <TabPane tab="Telegram Bot" key="telegram">
       <TelegramForm/>
-    </TabPane>
-    <TabPane tab={formatText('app.systemsetting.sessionmonitor')}
-             key="sessionmonitor">
-      <SessionMonitorForm/>
-    </TabPane>
-    <TabPane tab={formatText('app.systemsetting.networkconfig')} key="lhost">
-      <LHostForm/>
     </TabPane>
     <TabPane tab={formatText('app.systemsetting.common')} key="Common">
       <CommonForm/>
@@ -329,66 +322,6 @@ const SystemInfo = () => {
           {formatText('app.systemsetting.logout')}
         </Button>
       </Space>
-    </Row>
-  </Card>);
-};
-
-const SessionMonitorForm = props => {
-  const [sessionMonitorForm] = Form.useForm();
-  const [settingsSessionMonitor, setSettingsSessionMonitor] = useState({});
-
-  //初始化数据
-  const initListSessionMonitorReq = useRequest(() => getCoreSettingAPI({ kind: 'sessionmonitor' }), {
-    onSuccess: (result, params) => {
-      setSettingsSessionMonitor(result);
-      sessionMonitorForm.setFieldsValue(result);
-    }, onError: (error, params) => {
-    },
-  });
-
-  const updateSessionMonitorReq = useRequest(postCoreSettingAPI, {
-    manual: true, onSuccess: (result, params) => {
-      setSettingsSessionMonitor(result);
-      sessionMonitorForm.setFieldsValue(result);
-    }, onError: (error, params) => {
-    },
-  });
-
-  const onUpdateSessionMonitor = () => {
-    let params = {
-      kind: 'sessionmonitor', tag: 'default', setting: {
-        flag: !settingsSessionMonitor.flag,
-      },
-    };
-    updateSessionMonitorReq.run(params);
-  };
-
-  return (<Card>
-    <DocIcon url="https://www.yuque.com/vipersec/help/myo3a0"/>
-    <Row>
-      <Col xs={24} sm={16}>
-        <Form {...inputItemLayout}>
-          <Form.Item label={formatText('app.systemsetting.switch')}>
-            <Switch
-              checkedChildren={<CheckOutlined/>}
-              unCheckedChildren={<MinusOutlined/>}
-              checked={settingsSessionMonitor.flag}
-              onClick={() => onUpdateSessionMonitor()}
-            />
-          </Form.Item>
-        </Form>
-      </Col>
-      <Col span={8}>
-        <Typography>
-          <Paragraph>
-            <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
-            <Text>
-              {formatText('app.systemsetting.sessionmonitorreadme')}
-            </Text>
-            <br/>
-          </Paragraph>
-        </Typography>
-      </Col>
     </Row>
   </Card>);
 };
@@ -774,15 +707,8 @@ const FOFAForm = props => {
 
 const QuakeForm = props => {
   const [quakeForm] = Form.useForm();
-  const [settingsQuake, setSettingsQuake] = useState({});
   const [settingsQuakeList, setSettingsQuakeList] = useState([]);
   //初始化数据
-  // const initListQuakeReq = useRequest(() => getCoreSettingAPI({ kind: "Quake" }), {
-  //   onSuccess: (result, params) => {
-  //     setSettingsQuakeList(result);
-  //   }, onError: (error, params) => {
-  //   },
-  // });
 
   useEffect(() => {
     listQuakeReq.run({ kind: 'Quake' });
@@ -824,7 +750,7 @@ const QuakeForm = props => {
   };
 
   return (<Card
-    bodyStyle={{ padding: '0px 0px 0px 0px' }}
+    bodyStyle={{ padding: '24px 0px 0px 0px' }}
   >
     <DocIcon url="https://www.yuque.com/vipersec/help/hufexqh266gf76s9"/>
     <Row>
@@ -876,7 +802,7 @@ const QuakeForm = props => {
           // scroll={{ y: listitemHeight - 32 }}
         />
         <Form
-          style={{ padding: 8 }}
+          style={{ padding: 24 }}
           form={quakeForm}
           onFinish={onUpdateQuake}
           layout="inline"
@@ -1135,7 +1061,10 @@ const AiqichaForm = props => {
                 required: true, message: formatText('app.systemsetting.inputcookie'),
               }]}
           >
-            <TextArea autoSize/>
+            <TextArea autoSize={{
+              minRows: 3,
+              maxRows: 10,
+            }}/>
           </Form.Item>
           <Row>
             <Col style={{ marginBottom: 24 }} span={4} offset={2}>
@@ -1176,93 +1105,6 @@ const AiqichaForm = props => {
   </Card>);
 };
 
-const LHostForm = props => {
-  const [lHostForm] = Form.useForm();
-  const lHostFormLayout = {
-    labelCol: { span: 4 }, wrapperCol: { span: 16 },
-  };
-  const buttonLHostFormLayout = {
-    wrapperCol: {
-      span: 16, offset: 4,
-    },
-  };
-
-  // const [lhost, setLhost] = useState({});
-  //初始化数据
-  const initListLHostReq = useRequest(() => getCoreSettingAPI({ kind: 'lhost' }), {
-    onSuccess: (result, params) => {
-      lHostForm.setFieldsValue(result);
-    }, onError: (error, params) => {
-    },
-  });
-
-  const updateLHostReq = useRequest(postCoreSettingAPI, {
-    manual: true, onSuccess: (result, params) => {
-      lHostForm.setFieldsValue(result);
-    }, onError: (error, params) => {
-    },
-  });
-
-  const onUpdateLhost = values => {
-    let params = {
-      kind: 'lhost', setting: { ...values },
-    };
-    updateLHostReq.run(params);
-  };
-
-  return (<Card>
-    <DocIcon url="https://www.yuque.com/vipersec/help/mprur0"/>
-    <Row>
-      <Col span={16}>
-        <Form form={lHostForm}
-              onFinish={onUpdateLhost}
-              {...lHostFormLayout}>
-          <Form.Item
-            label={formatText('app.systemsetting.defaultlhost')}
-            name="lhost"
-            rules={[
-              {
-                required: true, message: formatText('app.systemsetting.defaultlhosttooltip'),
-              }]}
-          >
-            <Input style={{ width: '80%' }} placeholder={formatText('app.systemsetting.defaultlhostplaceholder')}/>
-          </Form.Item>
-
-          <Form.Item {...buttonLHostFormLayout}>
-            <Button
-              icon={<DeliveredProcedureOutlined/>}
-              type="primary"
-              htmlType="submit"
-              loading={updateLHostReq.loading}
-            >
-              {formatText('app.core.update')}
-            </Button>
-          </Form.Item>
-        </Form>
-      </Col>
-      <Col span={8}>
-        <Typography>
-          <Paragraph>
-            <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
-            <Text strong>{formatText('app.systemsetting.defaultlhost')}: </Text>
-            {formatText('app.systemsetting.defaultlhostdoc_1')}
-            <br/>
-            <Text>{formatText('app.systemsetting.defaultlhostdoc_2')}</Text>
-            <br/>
-            Nginx:<Text code>0.0.0.0:60000</Text>
-            <br/>
-            Redis:<Text code>127.0.0.1:60004</Text>
-            <br/>
-            Msfrpcd:<Text code>127.0.0.1:60005</Text>
-            <br/>
-            {formatText('app.systemsetting.defaultlhostdoc_ssh')}
-            <Text code>0.0.0.0:60010</Text>
-          </Paragraph>
-        </Typography>
-      </Col>
-    </Row>
-  </Card>);
-};
 const CommonForm = props => {
   const [commonForm] = Form.useForm();
   const [settingsCommon, setSettingsCommon] = useState({});
@@ -1331,6 +1173,23 @@ const CommonForm = props => {
               }, { label: 'Low', value: 'low' }]}
                             defaultValue={['High', 'Critical']}/>
           </Form.Item>
+          <Form.Item
+            label={formatText('app.systemsetting.defaultlhost')}
+            name="lhost"
+            rules={[
+              {
+                required: true, message: formatText('app.systemsetting.defaultlhosttooltip'),
+              }]}
+          >
+            <Input style={{ width: '80%' }} placeholder={formatText('app.systemsetting.defaultlhostplaceholder')}/>
+          </Form.Item>
+
+          <Form.Item label={formatText('app.systemsetting.common.session_monitor_switch')} name="session_monitor" valuePropName="checked">
+            <Switch
+              checkedChildren={<CheckOutlined/>}
+              unCheckedChildren={<MinusOutlined/>}
+            />
+          </Form.Item>
           <Form.Item {...CommonButtonItemLayout}>
             <Button
               icon={<DeliveredProcedureOutlined/>}
@@ -1341,7 +1200,6 @@ const CommonForm = props => {
               {formatText('app.core.update')}
             </Button>
           </Form.Item>
-
         </Form>
       </Col>
     </Row>

@@ -48,7 +48,7 @@ export default {
   "app.systemsetting.reloadallmodule": "重新加载所有模块",
   "app.systemsetting.deleteuuidjson": "清除RPCMSG",
   "app.systemsetting.logout": "退出平台",
-  "app.systemsetting.switch": "开关",
+  "app.systemsetting.common.session_monitor_switch": "Session监控开关",
   "app.systemsetting.inputtoken": "请输入token",
   "app.systemsetting.selectorinputchatid": "请选择或输入chat_id",
   "app.systemsetting.updateorgetchatid": "更新/获取chat_id",
