@@ -2358,8 +2358,8 @@ const AutoRobot = () => {
     },
   })
 
-  return (<Tabs type="card" size="small" defaultActiveKey="auto">
-    <TabPane tab={formatText('app.runmodule.autoconf.auto')} key="auto">
+  return (<Tabs size="small" defaultActiveKey="auto">
+    <TabPane tab={<span style={{ marginLeft: 8, marginRight: 8 }}>{formatText('app.runmodule.autoconf.auto')}</span>} key="auto">
       <DocIcon url="https://www.yuque.com/vipersec/help/gh60e1"/>
       <Row gutter={0}>
         <Col span={12}>

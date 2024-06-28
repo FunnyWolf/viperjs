@@ -119,6 +119,9 @@ const SystemSetting = () => {
     <TabPane tab="Telegram Bot" key="telegram">
       <TelegramForm/>
     </TabPane>
+    <TabPane tab="OpenAI" key="openai">
+      <OpenAIForm/>
+    </TabPane>
     <TabPane tab={formatText('app.systemsetting.common')} key="Common">
       <CommonForm/>
     </TabPane>
@@ -1097,6 +1100,94 @@ const AiqichaForm = props => {
               target="_blank"
               href="https://www.yuque.com/vipersec/help/ary2q9yqzv1zb8k8">
               {formatText('app.systemsetting.getaiqichareadme')}
+            </a>
+          </Paragraph>
+        </Typography>
+      </Col>
+    </Row>
+  </Card>);
+};
+
+const OpenAIForm = props => {
+  const [mainForm] = Form.useForm();
+  const [settings, setSettings] = useState({});
+  const kind = 'OpenAI'
+  //初始化数据
+  useRequest(() => getCoreSettingAPI({ kind: kind }), {
+    onSuccess: (result, params) => {
+      setSettings(result);
+      mainForm.setFieldsValue(result);
+    }, onError: (error, params) => {
+    },
+  });
+
+  const updateReq = useRequest(postCoreSettingAPI, {
+    manual: true, onSuccess: (result, params) => {
+      setSettings(result);
+      mainForm.setFieldsValue(result);
+    }, onError: (error, params) => {
+    },
+  });
+
+  const onUpdate = values => {
+    let params = {
+      kind: kind, tag: 'default', setting: { ...values },
+    };
+    updateReq.run(params);
+  };
+
+  return (<Card>
+    <DocIcon url="https://www.yuque.com/vipersec/help/oa9zmgf5uyk96kgh"/>
+    <Row>
+      <Col span={16}>
+        <Form form={mainForm}
+              onFinish={onUpdate} {...inputItemLayout}>
+          <Form.Item
+            label="base_url"
+            name="base_url"
+            rules={[]}
+          >
+            <Input/>
+          </Form.Item>
+          <Form.Item
+            label="api_key"
+            name="api_key"
+            rules={[
+              {
+                required: true, message: formatText('app.systemsetting.inputkey'),
+              }]}
+          >
+            <Input/>
+          </Form.Item>
+          <Row>
+            <Col style={{ marginBottom: 24 }} span={4} offset={4}>
+              {settings.alive ? (<Badge status="processing"
+                                        text={formatText('app.core.working')}/>) : (
+                <Badge status="error" text={formatText('app.core.error')}/>)}
+            </Col>
+          </Row>
+          <Form.Item {...buttonItemLayout}>
+            <Space>
+              <Button
+                icon={<DeliveredProcedureOutlined/>}
+                type="primary"
+                htmlType="submit"
+                loading={updateReq.loading}
+              >
+                {formatText('app.core.update')}
+              </Button>
+            </Space>
+          </Form.Item>
+        </Form>
+      </Col>
+      <Col span={8}>
+        <Typography>
+          <Paragraph>
+            <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+            <a
+              target="_blank"
+              href="https://www.yuque.com/vipersec/help/oa9zmgf5uyk96kgh">
+              {formatText('app.systemsetting.openaimanual')}
             </a>
           </Paragraph>
         </Typography>
