@@ -1,17 +1,17 @@
-import React, { Fragment, memo, useState } from "react";
-import { ChromeOutlined, FormOutlined, MehOutlined, PlusOutlined, SyncOutlined, WindowsOutlined } from "@ant-design/icons";
-import { Button, Col, Collapse, Form, Input, Popover, Radio, Row, Table, Tooltip } from 'antd-v5';
-import { Modal } from 'antd'
+import React, {Fragment, memo, useState} from "react";
+import {ChromeOutlined, FormOutlined, MehOutlined, PlusOutlined, SyncOutlined, WindowsOutlined} from "@ant-design/icons";
+import {Button, Col, Collapse, Form, Input, Popover, Radio, Row, Table, Tooltip} from 'antd-v5';
+import {Modal} from 'antd'
 import Ellipsis from "@/components/Ellipsis";
-import { deletePostlateralCredentialAPI, getPostlateralCredentialAPI, postPostlateralCredentialAPI, putPostlateralCredentialAPI } from "@/services/apiv1";
-import { useRequest } from "umi";
-import { formatText, getOptionTag } from "@/utils/locales";
-import { DocIcon } from "@/pages/Core/Common";
-import { cssCalc } from "@/utils/utils";
-import { useModel } from "@@/plugin-model/useModel";
+import {deletePostlateralCredentialAPI, getPostlateralCredentialAPI, postPostlateralCredentialAPI, putPostlateralCredentialAPI} from "@/services/apiv1";
+import {useRequest} from "umi";
+import {formatText, getOptionTag} from "@/utils/locales";
+import {DocIcon} from "@/pages/Core/Common";
+import {cssCalc} from "@/utils/utils";
+import {useModel} from "@@/plugin-model/useModel";
 
-const { Panel } = Collapse;
-const { Search } = Input;
+const {Panel} = Collapse;
+const {Search} = Input;
 
 const Credential = () => {
   console.log("Credential");
@@ -58,15 +58,17 @@ const Credential = () => {
   });
 
   const formLayout = {
-    labelCol: { span: 4 }, wrapperCol: { span: 16 },
+    labelCol: {span: 4}, wrapperCol: {span: 16},
   };
   const tailLayout = {
-    wrapperCol: { offset: 4, span: 16 },
+    wrapperCol: {offset: 4, span: 16},
   };
 
   return (<Fragment>
     <DocIcon url="https://www.yuque.com/vipersec/help/iydrqn"/>
-    <Row gutter={0}>
+    <Row gutter={0}
+         style={{paddingLeft: 1, paddingRight: 1}}
+    >
       <Col span={12}>
         <Button
           block
@@ -117,11 +119,11 @@ const Credential = () => {
         }, {
           title: formatText("app.credential.passwordtype"), dataIndex: "password_type", key: "password_type", width: 40, render: (text, record) => {
             const typetoicon = {
-              windows: (<div style={{ textAlign: "center" }}>
+              windows: (<div style={{textAlign: "center"}}>
                 <WindowsOutlined/>
-              </div>), userinput: (<div style={{ textAlign: "center" }}>
+              </div>), userinput: (<div style={{textAlign: "center"}}>
                 <MehOutlined/>
-              </div>), browsers: (<div style={{ textAlign: "center" }}>
+              </div>), browsers: (<div style={{textAlign: "center"}}>
                 <ChromeOutlined/>
               </div>),
             };
@@ -144,7 +146,7 @@ const Credential = () => {
         }, {
           title: formatText("app.credential.hostipaddress"), dataIndex: "host_ipaddress", key: "host_ipaddress", width: 120, render: (text, record) => {
             const test = text;
-            return <strong style={{ color: "#d8bd14" }}>{text}</strong>;
+            return <strong style={{color: "#d8bd14"}}>{text}</strong>;
           },
         }, {
           title: formatText("app.credential.desc"), dataIndex: "desc", key: "desc", render: (text, record) => {
@@ -156,23 +158,23 @@ const Credential = () => {
               <Popover
                 content={<Search
                   defaultValue={text}
-                  style={{ width: 320 }}
+                  style={{width: 320}}
                   enterButton={formatText("app.core.update")}
                   size="default"
-                  onSearch={value => updateCredentialReq.run({ id: record.id, desc: value })}
+                  onSearch={value => updateCredentialReq.run({id: record.id, desc: value})}
                   loading={updateCredentialReq.loading}
                 />}
                 trigger="click"
               >
-                <a style={{ float: "right" }}><FormOutlined/></a>
+                <a style={{float: "right"}}><FormOutlined/></a>
               </Popover>
             </Fragment>);
           },
         }, {
-          dataIndex: "operation", width: 48, render: (text, record) => (<div style={{ textAlign: "center" }}>
+          dataIndex: "operation", width: 48, render: (text, record) => (<div style={{textAlign: "center"}}>
             <a
-              onClick={() => destoryCredentialReq.run({ id: record.id })}
-              style={{ color: "red" }}
+              onClick={() => destoryCredentialReq.run({id: record.id})}
+              style={{color: "red"}}
             >
               {formatText("app.core.delete")}
             </a>
@@ -183,7 +185,7 @@ const Credential = () => {
     <Modal
       title={formatText("app.credential.addcred")}
       width="50vw"
-      bodyStyle={{ padding: "0px 0px 2px 0px" }}
+      bodyStyle={{padding: "0px 0px 2px 0px"}}
       footer={null}
       destroyOnClose
       visible={createCredentialModalVisible}
@@ -196,7 +198,7 @@ const Credential = () => {
               {...formLayout}
               label={<span>{formatText("app.credential.username")}</span>}
               name="username"
-              rules={[{ required: true, message: formatText("app.credential.username.rule") }]}
+              rules={[{required: true, message: formatText("app.credential.username.rule")}]}
             >
               <Input placeholder={formatText("app.credential.username.rule")}/>
             </Form.Item>
@@ -204,7 +206,7 @@ const Credential = () => {
               {...formLayout}
               label={formatText("app.credential.passwordandhash")}
               name="password"
-              rules={[{ required: true, message: formatText("app.credential.passwordandhash.rule") }]}
+              rules={[{required: true, message: formatText("app.credential.passwordandhash.rule")}]}
             >
               <Input placeholder={formatText("app.credential.passwordandhash.rule")}/>
             </Form.Item>

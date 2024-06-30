@@ -18,7 +18,7 @@ export default {
   "app.runmodule.postmodule.moduletype.Discovery": "信息收集",
   "app.runmodule.postmodule.moduletype.Lateral_Movement": "横向移动",
   "app.runmodule.postmodule.moduletype.Collection": "数据采集",
-
+  'app.runmodule.postmodule.moduletype.AI_Agent': 'AI Agent',
   "app.runmodule.postmodule.params": "参数",
   "app.runmodule.postmodule.run": "执行",
   "app.runmodule.postmodule.add": "加入",

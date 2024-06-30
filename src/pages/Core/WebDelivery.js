@@ -315,7 +315,9 @@ const WebDelivery = (props) => {
 
   return (<Fragment>
     <DocIcon url="https://www.yuque.com/vipersec/help/kvxr65"/>
-    <Row gutter={0}>
+    <Row gutter={0}
+         style={{paddingLeft: 1, paddingRight: 1}}
+    >
       <Col span={12}>
         <Button
           block

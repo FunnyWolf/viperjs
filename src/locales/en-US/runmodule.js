@@ -18,7 +18,7 @@ export default {
   'app.runmodule.postmodule.moduletype.Discovery': 'Discovery',
   'app.runmodule.postmodule.moduletype.Lateral_Movement': 'Lateral Movement',
   'app.runmodule.postmodule.moduletype.Collection': 'Collection',
-
+  'app.runmodule.postmodule.moduletype.AI_Agent': 'AI Agent',
   'app.runmodule.postmodule.params': 'Param',
   'app.runmodule.postmodule.run': 'Run',
   'app.runmodule.postmodule.add': 'Add',

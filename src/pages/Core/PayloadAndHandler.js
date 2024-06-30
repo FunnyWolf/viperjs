@@ -2012,7 +2012,9 @@ const PayloadAndHandler = (props) => {
 
   return (<Fragment>
     <DocIcon url="https://www.yuque.com/vipersec/help/rxb29t"/>
-    <Row gutter={0}>
+    <Row gutter={0}
+         style={{paddingLeft: 1, paddingRight: 1}}
+    >
       <Col span={8}>
         <Button
           block

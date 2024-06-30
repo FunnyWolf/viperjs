@@ -278,7 +278,7 @@ export const RunWebModule = props => {
     </Descriptions>);
   };
 
-  return (<Row gutter={[0, 0]}>
+  return (<Row gutter={0}>
     <Col
       span={6}>
       <Search

@@ -1,12 +1,12 @@
-import { useModel } from "@@/plugin-model/useModel";
-import React, { Fragment, memo, useEffect, useState } from "react";
-import { useRequest } from "umi";
-import { deleteWebdatabaseCompanyBaseInfoAPI, getWebdatabaseCompanyBaseInfoAPI } from "@/services/apiv1";
-import { Button, Flex, Table } from "antd-v5";
-import { cssCalc } from "@/utils/utils";
-import { SyncOutlined } from '@ant-design/icons'
-import { DocIcon, WebMainHeight } from '@/pages/Core/Common'
-import { formatText } from '@/utils/locales'
+import {useModel} from "@@/plugin-model/useModel";
+import React, {Fragment, memo, useEffect, useState} from "react";
+import {useRequest} from "umi";
+import {deleteWebdatabaseCompanyBaseInfoAPI, getWebdatabaseCompanyBaseInfoAPI} from "@/services/apiv1";
+import {Button, Flex, Table} from "antd-v5";
+import {cssCalc} from "@/utils/utils";
+import {SyncOutlined} from '@ant-design/icons'
+import {DocIcon, WebMainHeight} from '@/pages/Core/Common'
+import {formatText} from '@/utils/locales'
 
 export const AssetBaseInfo = props => {
   console.log("Company");
@@ -42,15 +42,9 @@ export const AssetBaseInfo = props => {
 
   return (<Fragment>
     <DocIcon url="https://www.yuque.com/vipersec/help/yc0ipk"/>
-    <Flex justify="flex-end" align="flex-start">
-      {/*<Button*/}
-      {/*  style={{ width: 80 }}*/}
-      {/*  icon={<SearchOutlined/>}*/}
-      {/*  // onClick={() => handleOpenSearchModel()}*/}
-      {/*  // loading={listIPdomainReq.loading}*/}
-      {/*/>*/}
+    <Flex justify="flex-end" align="flex-start" style={{paddingLeft: 1, paddingRight: 1}}>
       <Button
-        style={{ width: 80 }}
+        style={{width: 80}}
         icon={<SyncOutlined/>}
         onClick={() => handleRefresh()}
         loading={listCompanyBaseInfoReq.loading}
@@ -60,7 +54,7 @@ export const AssetBaseInfo = props => {
       style={{
         overflow: 'auto', maxHeight: cssCalc(`${WebMainHeight} - 64px`), minHeight: cssCalc(`${WebMainHeight} - 64px`),
       }}
-      scroll={{ y: cssCalc(`${WebMainHeight} - 64px`) }}
+      scroll={{y: cssCalc(`${WebMainHeight} - 64px`)}}
       size="small"
       bordered
       pagination={false}
@@ -91,10 +85,10 @@ export const AssetBaseInfo = props => {
             return text
           },
         }, {
-          dataIndex: "operation", width: 48, render: (text, record) => (<div style={{ textAlign: "center" }}>
+          dataIndex: "operation", width: 48, render: (text, record) => (<div style={{textAlign: "center"}}>
             <a
-              onClick={() => destoryCompanyBaseInfoReq.run({ project_id: projectActive.project_id, companyName: record.companyName })}
-              style={{ color: "red" }}
+              onClick={() => destoryCompanyBaseInfoReq.run({project_id: projectActive.project_id, companyName: record.companyName})}
+              style={{color: "red"}}
             >
               {formatText("app.core.delete")}
             </a>
