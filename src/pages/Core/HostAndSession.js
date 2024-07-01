@@ -1,7 +1,7 @@
-import React, {Fragment, memo, useCallback, useEffect, useRef, useState} from 'react';
-import {formatMessage, FormattedMessage, getLocale, setLocale, useModel, useRequest} from 'umi';
-import {PostModuleMemo, RunModuleMemo} from '@/pages/Core/RunModule';
-import {useInterval, useLocalStorageState, useSessionStorageState} from 'ahooks';
+import React, { Fragment, memo, useCallback, useEffect, useRef, useState } from 'react';
+import { formatMessage, FormattedMessage, getLocale, setLocale, useModel, useRequest } from 'umi';
+import { PostModuleMemo, RunModuleMemo } from '@/pages/Core/RunModule';
+import { useInterval, useLocalStorageState, useSessionStorageState } from 'ahooks';
 import {
   deleteCoreHostAPI,
   deleteMsgrpcFileSessionAPI,
@@ -111,30 +111,30 @@ import {
   Tooltip,
   Typography,
 } from 'antd-v5';
-import {Avatar, Modal} from 'antd';
+import { Avatar, Modal } from 'antd';
 import copy from 'copy-to-clipboard';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import moment from 'moment';
-import {FileMsfModal} from '@/pages/Core/FileMsf';
-import {DocIconInDiv, DocIconInDivSessionIO, host_type_to_avatar_table, MyIcon, SidTag} from '@/pages/Core/Common';
-import {getToken} from '@/utils/authority';
+import { FileMsfModal } from '@/pages/Core/FileMsf';
+import { DocIconInDiv, DocIconInDivSessionIO, host_type_to_avatar_table, MyIcon, SidTag } from '@/pages/Core/Common';
+import { getToken } from '@/utils/authority';
 import styles from '@/utils/utils.less';
-import {NetworkWindowMemo} from '@/pages/Core/Network';
+import { NetworkWindowMemo } from '@/pages/Core/Network';
 import ReactJson from 'react-json-view';
 import MsfConsoleXTermMemo from '@/pages/Core/MsfConsoleXTerm';
-import {cssCalc} from '@/utils/utils';
-import {formatText, getOptionDesc, getOptionTag, getSessionlocate, manuali18n, msgsuccess} from '@/utils/locales';
-import {HostIP} from '@/config';
+import { cssCalc } from '@/utils/utils';
+import { formatText, getOptionDesc, getOptionTag, getSessionlocate, manuali18n, msgsuccess } from '@/utils/locales';
+import { HostIP } from '@/config';
 import NewWindow from 'rc-new-window';
-import {TabsBottom} from '@/pages/Core/TabsBottom'
+import { TabsBottom } from '@/pages/Core/TabsBottom'
 
-const {Text} = Typography;
-const {Paragraph} = Typography;
-const {Option} = Select;
+const { Text } = Typography;
+const { Paragraph } = Typography;
+const { Option } = Select;
 const ButtonGroup = Button.Group;
-const {Search, TextArea} = Input;
-const {TabPane} = Tabs;
-const {confirm} = Modal;
+const { Search, TextArea } = Input;
+const { TabPane } = Tabs;
+const { confirm } = Modal;
 
 //websocket连接地址设置
 let protocol = 'ws://';
@@ -160,6 +160,7 @@ const HostAndSession = props => {
     setBotWaitList,
     setNetworkData,
     setModuleOptions,
+    setLlmModuleOptions,
   } = useModel('HostAndSessionModel', model => ({
     setProxyHttpScanModuleOptions: model.setProxyHttpScanModuleOptions,
     setBotModuleOptions: model.setBotModuleOptions,
@@ -175,6 +176,7 @@ const HostAndSession = props => {
     setNotices: model.setNotices,
     setBotWaitList: model.setBotWaitList,
     setModuleOptions: model.setModuleOptions,
+    setLlmModuleOptions: model.setLlmModuleOptions,
   }));
 
   const listCurrentUserReq = useRequest(getCoreCurrentUserAPI, {
@@ -208,28 +210,28 @@ const HostAndSession = props => {
     };
     ws.current.onmessage = event => {
       const response = JSON.parse(event.data);
-      const {task_queue_length} = response;
+      const { task_queue_length } = response;
 
-      const {hosts_sorted_update} = response;
-      const {hosts_sorted} = response;
+      const { hosts_sorted_update } = response;
+      const { hosts_sorted } = response;
 
-      const {network_data_update} = response;
-      const {network_data} = response;
+      const { network_data_update } = response;
+      const { network_data } = response;
 
-      const {result_history_update} = response;
-      const {result_history} = response;
+      const { result_history_update } = response;
+      const { result_history } = response;
 
-      const {notices_update} = response;
-      const {notices} = response;
+      const { notices_update } = response;
+      const { notices } = response;
 
-      const {jobs_update} = response;
-      const {jobs} = response;
+      const { jobs_update } = response;
+      const { jobs } = response;
 
-      const {bot_wait_list_update} = response;
-      const {bot_wait_list} = response;
+      const { bot_wait_list_update } = response;
+      const { bot_wait_list } = response;
 
-      const {module_options} = response;
-      const {module_options_update} = response;
+      const { module_options } = response;
+      const { module_options_update } = response;
 
       setTaskQueueLength(task_queue_length);
 
@@ -256,9 +258,10 @@ const HostAndSession = props => {
       }
 
       if (module_options_update) {
-        setPostModuleOptions(module_options.filter(item => item.BROKER.indexOf('post') === 0));
-        setBotModuleOptions(module_options.filter(item => item.BROKER.indexOf('bot') === 0));
-        setProxyHttpScanModuleOptions(module_options.filter(item => item.BROKER.indexOf('proxy') === 0));
+        setPostModuleOptions(module_options.filter(item => item.BROKER.indexOf('post_') === 0));
+        setBotModuleOptions(module_options.filter(item => item.BROKER.indexOf('bot_') === 0));
+        setProxyHttpScanModuleOptions(module_options.filter(item => item.BROKER.indexOf('proxy_') === 0));
+        setLlmModuleOptions(module_options.filter(item => item.BROKER.indexOf('llm_') === 0));
       }
     };
   };
@@ -397,7 +400,7 @@ const HostAndSessionCard = () => {
   };
 
   const SessionMenu = record => {
-    const onClick = ({key}) => {
+    const onClick = ({ key }) => {
       switch (key) {
         case 'HostRuningInfo':
           setActiveHostAndSession(record);
@@ -439,8 +442,8 @@ const HostAndSessionCard = () => {
                 width: 100,
               },
             },
-            onOk() {
-              destorySessionReq.run({sessionid: record.session.id});
+            onOk () {
+              destorySessionReq.run({ sessionid: record.session.id });
             },
           });
           break;
@@ -470,14 +473,14 @@ const HostAndSessionCard = () => {
       <Menu.Item icon={<DashboardOutlined/>} key="HostRuningInfo">
         <FormattedMessage id="app.hostandsession.session.HostRuningInfo"/>
       </Menu.Item>
-      <Menu.Item icon={<CloseCircleOutlined style={{color: 'red'}}/>} danger key="DestorySession">
+      <Menu.Item icon={<CloseCircleOutlined style={{ color: 'red' }}/>} danger key="DestorySession">
         <FormattedMessage id="app.hostandsession.session.DestorySession"/>
       </Menu.Item>
     </Menu>;
   };
 
   const HostMenu = record => {
-    const onClick = ({key, domEvent}) => {
+    const onClick = ({ key, domEvent }) => {
       domEvent.stopPropagation();
       switch (key) {
         case 'HostInfo':
@@ -493,7 +496,7 @@ const HostAndSessionCard = () => {
           setVulnerabilityModalVisable(true);
           break;
         case 'DestoryHost':
-          destoryHostReq.run({ipaddress: record.ipaddress});
+          destoryHostReq.run({ ipaddress: record.ipaddress });
           break;
         default:
           console.log('unknow command');
@@ -510,7 +513,7 @@ const HostAndSessionCard = () => {
       <Menu.Item icon={<BugOutlined/>} key="Vulnerability">
         <FormattedMessage id="app.hostandsession.host.Vulnerability"/>
       </Menu.Item>
-      <Menu.Item icon={<DeleteOutlined style={{color: 'red'}}/>} danger key="DestoryHost">
+      <Menu.Item icon={<DeleteOutlined style={{ color: 'red' }}/>} danger key="DestoryHost">
         <FormattedMessage id="app.hostandsession.host.DestoryHost"/>
       </Menu.Item>
     </Menu>);
@@ -867,7 +870,7 @@ const HostAndSessionCard = () => {
             style={{
               cursor: 'pointer', marginLeft: -6,
             }}
-          ><SubnodeOutlined/><span style={{fontWeight: 'bold'}}>{session.comm_channel_session}</span>
+          ><SubnodeOutlined/><span style={{ fontWeight: 'bold' }}>{session.comm_channel_session}</span>
           </Tag>);
 
           const hostwithsession = JSON.parse(JSON.stringify(hostRecord)); // deep copy
@@ -900,13 +903,13 @@ const HostAndSessionCard = () => {
     return <Table
       loading={!heatbeatsocketalive}
       dataSource={hostRecord.session}
-      style={{marginLeft: 23}}
+      style={{ marginLeft: 23 }}
       size="small"
       columns={sessionTableColumns}
       rowKey={item => item.id}
       pagination={false}
       showHeader={false}
-      locale={{emptyText: null}}
+      locale={{ emptyText: null }}
     />;
   };
 
@@ -916,7 +919,7 @@ const HostAndSessionCard = () => {
         loading={!heatbeatsocketalive}
         dataSource={onlyShowSessionModel ? hostAndSessionList.map(record => {
           if (record.session.length > 0 || record.ipaddress === '255.255.255.255') {
-            return {...record};
+            return { ...record };
           }
           return null;
         }).filter(record => !!record) : hostAndSessionList}
@@ -929,15 +932,15 @@ const HostAndSessionCard = () => {
           expandRowByClick: true,
           expandedRowRender: sessionRowRender,
           rowExpandable: record => record.session.length > 0,
-          expandIcon: ({expanded, onExpand, record}) => null,
+          expandIcon: ({ expanded, onExpand, record }) => null,
         }}
         // scroll={{ y: cssCalc(`${resizeUpHeight}`) }}
         style={{
-          overflow: 'auto', minHeight: cssCalc(`${resizeUpHeight}`), maxHeight: cssCalc(`${resizeUpHeight}`)
+          overflow: 'auto', minHeight: cssCalc(`${resizeUpHeight}`), maxHeight: cssCalc(`${resizeUpHeight}`),
         }}
         rowKey="ipaddress"
         size="small"
-        locale={{emptyText: null}}
+        locale={{ emptyText: null }}
         pagination={false}
         showHeader={false}
       />
@@ -945,129 +948,129 @@ const HostAndSessionCard = () => {
     </Flex>
     <Modal
       mask={false}
-      style={{top: 32}}
+      style={{ top: 32 }}
       width="90vw"
       destroyOnClose
       visible={runModuleModalVisable}
       onCancel={() => setRunModuleModalVisable(false)}
       footer={null}
-      bodyStyle={{padding: '0px 0px 0px 0px'}}
+      bodyStyle={{ padding: '0px 0px 0px 0px' }}
     >
       <RunModuleMemo closeModel={() => setRunModuleModalVisable(false)}/>
     </Modal>
     <Modal
-      style={{top: 32}}
+      style={{ top: 32 }}
       width="70vw"
       destroyOnClose
       visible={sessionInfoModalVisable}
       onCancel={() => setSessionInfoModalVisable(false)}
-      bodyStyle={{padding: '8px 8px 8px 8px'}}
+      bodyStyle={{ padding: '8px 8px 8px 8px' }}
       footer={null}
     >
       <SessionInfoMemo/>
     </Modal>
     <Modal
-      style={{top: 32}}
+      style={{ top: 32 }}
       width="72vw"
       destroyOnClose
       visible={fileSessionModalVisable}
       onCancel={() => setFileSessionModalVisable(false)}
       footer={null}
-      bodyStyle={{padding: '8px 0px 0px 0px'}}
+      bodyStyle={{ padding: '8px 0px 0px 0px' }}
     >
       <FileSessionMemo/>
     </Modal>
     <Modal
       title={formatText('app.hostandsession.session.Route')}
-      style={{top: 32}}
+      style={{ top: 32 }}
       width="70vw"
       destroyOnClose
       visible={routeModalVisable}
       onCancel={() => setRouteModalVisable(false)}
       footer={null}
-      bodyStyle={{padding: '0px 0px 16px 0px'}}
+      bodyStyle={{ padding: '0px 0px 16px 0px' }}
     >
       <MsfRouteMemo/>
     </Modal>
     <Modal
       title={formatText('app.hostandsession.session.PortFwd')}
-      style={{top: 32}}
+      style={{ top: 32 }}
       width="80vw"
       destroyOnClose
       visible={portFwdModalVisable}
       onCancel={() => setPortFwdModalVisable(false)}
       footer={null}
-      bodyStyle={{padding: '0px 0px 16px 0px'}}
+      bodyStyle={{ padding: '0px 0px 16px 0px' }}
     >
       <PortFwdMemo/>
     </Modal>
     <Modal
       title={formatText('app.hostandsession.session.Transport')}
-      style={{top: 32}}
+      style={{ top: 32 }}
       width="80vw"
       destroyOnClose
       visible={transportModalVisable}
       onCancel={() => setTransportModalVisable(false)}
       footer={null}
-      bodyStyle={{padding: '0px 0px 16px 0px'}}
+      bodyStyle={{ padding: '0px 0px 16px 0px' }}
     >
       <TransportMemo closeModal={closeTransportModel}/>
     </Modal>
     <Modal
-      style={{top: 32}}
+      style={{ top: 32 }}
       width="70vw"
       destroyOnClose
       visible={sessionIOModalVisable}
       onCancel={() => setSessionIOModalVisable(false)}
       footer={null}
-      bodyStyle={{padding: '0px 0px 0px 0px'}}
+      bodyStyle={{ padding: '0px 0px 0px 0px' }}
     >
       <SessionIOMemo/>
     </Modal>
     <Modal
-      style={{top: 32}}
+      style={{ top: 32 }}
       width="80vw"
       destroyOnClose
       visible={hostRunningInfoModalVisable}
       onCancel={() => setHostRunningInfoModalVisable(false)}
       footer={null}
-      bodyStyle={{padding: '8px 8px 8px 8px'}}
+      bodyStyle={{ padding: '8px 8px 8px 8px' }}
     >
       <HostRunningInfoMemo/>
     </Modal>
     <Modal
       title={formatText('app.hostandsession.host.HostInfo')}
-      style={{top: 32}}
+      style={{ top: 32 }}
       width="50vw"
       destroyOnClose
       visible={hostInfoModalVisable}
       onCancel={() => setHostInfoModalVisable(false)}
       footer={null}
-      bodyStyle={{padding: '8px 8px 8px 8px'}}
+      bodyStyle={{ padding: '8px 8px 8px 8px' }}
     >
       <HostInfoMemo/>
     </Modal>
     <Modal
       title={formatText('app.hostandsession.host.PortService')}
-      style={{top: 32}}
+      style={{ top: 32 }}
       width="70vw"
       destroyOnClose
       visible={portServiceModalVisable}
       onCancel={() => setPortServiceModalVisable(false)}
       footer={null}
-      bodyStyle={{padding: '0px 8px 0px 8px'}}
+      bodyStyle={{ padding: '0px 8px 0px 8px' }}
     >
       <PortServiceMemo/>
     </Modal>
     <Modal
       title={formatText('app.hostandsession.host.Vulnerability')}
-      style={{top: 32}}
+      style={{ top: 32 }}
       width="70vw"
       destroyOnClose
       visible={vulnerabilityModalVisable}
       onCancel={() => setVulnerabilityModalVisable(false)}
       footer={null}
-      bodyStyle={{padding: '0px 0px 0px 0px'}}
+      bodyStyle={{ padding: '0px 0px 0px 0px' }}
     >
       <VulnerabilityMemo/>
     </Modal>
@@ -1075,7 +1078,7 @@ const HostAndSessionCard = () => {
       style={{
         position: 'absolute', left: '320px', top: 48,
       }}
-      bodyStyle={{padding: '0px 0px 0px 0px'}}
+      bodyStyle={{ padding: '0px 0px 0px 0px' }}
       destroyOnClose
       visible={updateHostModalVisable}
       footer={null}
@@ -1091,7 +1094,7 @@ const FloatingButtons = () => {
   const [showMsfconsoleWindow, setShowMsfconsoleWindow] = useState(false);
   const [showNetworkWindow, setShowNetworkWindow] = useState(false);
   const [onlyShowSession, setOnlyShowSession] = useLocalStorageState('only-show-session', false);
-  const {onlyShowSessionModel, setOnlyShowSessionModel} = useModel('HostAndSessionModel', model => ({
+  const { onlyShowSessionModel, setOnlyShowSessionModel } = useModel('HostAndSessionModel', model => ({
     onlyShowSessionModel: model.onlyShowSessionModel, setOnlyShowSessionModel: model.setOnlyShowSessionModel,
   }));
   const {
@@ -1106,15 +1109,15 @@ const FloatingButtons = () => {
     const lang = getLocale();
     if (lang === 'en-US') {
       return <Button
-        style={{width: 40}}
+        style={{ width: 40 }}
         onClick={() => setLocale('zh-CN', true)}>
-        <div style={{marginLeft: -4}}>中</div>
+        <div style={{ marginLeft: -4 }}>中</div>
       </Button>;
     } else {
       return <Button
-        style={{width: 40}}
+        style={{ width: 40 }}
         onClick={() => setLocale('en-US', true)}>
-        <div style={{marginLeft: -4}}>En</div>
+        <div style={{ marginLeft: -4 }}>En</div>
       </Button>;
     }
   };
@@ -1139,27 +1142,27 @@ const FloatingButtons = () => {
     <Flex vertical>
       <LangSwitch/>
       {showMsfconsoleWindow ? <Button
-        style={{width: 40}}
+        style={{ width: 40 }}
         danger
         onClick={() => setShowMsfconsoleWindow(!showMsfconsoleWindow)}
         icon={<CodeOutlined/>}
       /> : <Button
-        style={{width: 40}}
+        style={{ width: 40 }}
         onClick={() => setShowMsfconsoleWindow(!showMsfconsoleWindow)}
         icon={<CodeOutlined/>}
       />}
       {showNetworkWindow ? <Button
-        style={{width: 40}}
+        style={{ width: 40 }}
         danger
         onClick={() => setShowNetworkWindow(!showNetworkWindow)}
         icon={<DeploymentUnitOutlined/>}
       /> : <Button
-        style={{width: 40}}
+        style={{ width: 40 }}
         onClick={() => setShowNetworkWindow(!showNetworkWindow)}
         icon={<DeploymentUnitOutlined/>}
       />}
       {onlyShowSessionModel ? <Button
-        style={{width: 40}}
+        style={{ width: 40 }}
         onClick={() => {
           setOnlyShowSession(!onlyShowSessionModel);
           setOnlyShowSessionModel(!onlyShowSessionModel);
@@ -1167,7 +1170,7 @@ const FloatingButtons = () => {
         }}
         icon={<MinusOutlined/>}
       /> : <Button
-        style={{width: 40}}
+        style={{ width: 40 }}
         onClick={() => {
           setOnlyShowSession(!onlyShowSession);
           setOnlyShowSessionModel(!onlyShowSession);
@@ -1175,14 +1178,14 @@ const FloatingButtons = () => {
         icon={<AlignLeftOutlined/>}
       />}
       {resizeUpHeight === '28vh' ? <Button
-        style={{width: 40}}
+        style={{ width: 40 }}
         onClick={() => {
           setResizeUpHeight('58vh');
           setResizeDownHeight(`100vh - 38px - 58vh`);
         }}
         icon={<ColumnHeightOutlined/>}
       /> : <Button
-        style={{width: 40}}
+        style={{ width: 40 }}
         onClick={() => {
           setResizeUpHeight('28vh');
           setResizeDownHeight(`100vh - 38px - 28vh`);
@@ -1190,13 +1193,13 @@ const FloatingButtons = () => {
         icon={<VerticalAlignMiddleOutlined/>}
       />}
       <Button
-        style={{width: 40}}
+        style={{ width: 40 }}
         icon={<CompassOutlined/>}
         href={'#/nav'}
         target={'_blank'}
       />
       <Button
-        style={{width: 40}}
+        style={{ width: 40 }}
         icon={<QuestionCircleOutlined/>}
         // href={'#/nav'}
         target={'_blank'}
@@ -1208,7 +1211,7 @@ const FloatingButtons = () => {
 
 const SessionInfo = () => {
   console.log('SessionInfo');
-  const {hostAndSessionActive} = useModel('HostAndSessionModel', model => ({
+  const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
   const [sessionInfoActive, setSessionInfoActive] = useState({
@@ -1254,7 +1257,7 @@ const SessionInfo = () => {
   });
   const [processes, setProcesses] = useState([]);
 
-  const initListSessionInfoReq = useRequest(() => getMsgrpcSessionAPI({sessionid: hostAndSessionActive.session.id}), {
+  const initListSessionInfoReq = useRequest(() => getMsgrpcSessionAPI({ sessionid: hostAndSessionActive.session.id }), {
     onSuccess: (result, params) => {
       setSessionInfoActive(result);
       setProcesses(result.processes);
@@ -1310,13 +1313,13 @@ const SessionInfo = () => {
       title: 'ARCH', width: 64, dataIndex: 'arch', sorter: (a, b) => a.arch >= b.arch,
     }, {
       dataIndex: 'operation', width: 80, render: (text, record) => (<Popover
-        style={{width: '50vw'}}
+        style={{ width: '50vw' }}
         arrowPointAtCenter
         placement="left"
         content={<PostModuleMemo
           loadpath="MODULES.DefenseEvasion_ProcessInjection_ProcessHandle"
           hostAndSessionActive={hostAndSessionActive}
-          initialValues={{PID: record.pid}}
+          initialValues={{ PID: record.pid }}
         />}
         title={formatText('app.hostandsession.processoper')}
         trigger="click"
@@ -1325,7 +1328,7 @@ const SessionInfo = () => {
       </Popover>),
     }];
 
-  const os_tag_new = sessionInfoActive.platform === 'windows' ? (<Tag color="blue" style={{marginLeft: -6}}>
+  const os_tag_new = sessionInfoActive.platform === 'windows' ? (<Tag color="blue" style={{ marginLeft: -6 }}>
     <MyIcon
       type="icon-windows"
       style={{
@@ -1333,7 +1336,7 @@ const SessionInfo = () => {
       }}
     />
     {sessionInfoActive.os}
-  </Tag>) : (<Tag color="magenta" style={{marginLeft: -6}}>
+  </Tag>) : (<Tag color="magenta" style={{ marginLeft: -6 }}>
     <MyIcon
       type="icon-linux"
       style={{
@@ -1360,7 +1363,7 @@ const SessionInfo = () => {
       } catch (error) {
       }
       if (pid || ppid || name || path) {
-        return {...record};
+        return { ...record };
       }
       return null;
     }).filter(record => !!record);
@@ -1379,7 +1382,7 @@ const SessionInfo = () => {
     <Tabs defaultActiveKey="sessioninfo" size="small">
       <TabPane tab={formatText('app.hostandsession.session.SessionInfo')} key="sessioninfo">
         <Descriptions
-          style={{width: '100%'}}
+          style={{ width: '100%' }}
           size="small"
           column={12}
           bordered
@@ -1392,7 +1395,7 @@ const SessionInfo = () => {
             {SidTag(sessionInfoActive.sessionid)}
           </Descriptions.Item>
           <Descriptions.Item label={formatText('app.hostandsession.sessioninfo.hostip')} span={8}>
-            <strong style={{color: '#d8bd14'}}>{sessionInfoActive.session_host}</strong>
+            <strong style={{ color: '#d8bd14' }}>{sessionInfoActive.session_host}</strong>
           </Descriptions.Item>
           <Descriptions.Item label="Arch" span={4}>
             {sessionInfoActive.arch}
@@ -1462,12 +1465,12 @@ const SessionInfo = () => {
                 'app.hostandsession.sessioninfo.unload')}</Tag>}
           </Descriptions.Item>
         </Descriptions>
-        <Space style={{marginTop: 8}}>
+        <Space style={{ marginTop: 8 }}>
           <Button
             type="primary"
             icon={<SyncOutlined/>}
             loading={updateSessionInfoReq.loading || initListSessionInfoReq.loading}
-            onClick={() => updateSessionInfoReq.run({sessionid: hostAndSessionActive.session.id})}
+            onClick={() => updateSessionInfoReq.run({ sessionid: hostAndSessionActive.session.id })}
           >
             {formatText('app.hostandsession.sessioninfo.update')}
           </Button>
@@ -1477,7 +1480,7 @@ const SessionInfo = () => {
         <Input
           allowClear
           prefix={<SearchOutlined/>}
-          style={{width: '100%'}}
+          style={{ width: '100%' }}
           placeholder="PID/PPID/NAME/PATH"
           onChange={e => {
             handleProcessesSearch(e.target.value);
@@ -1491,11 +1494,11 @@ const SessionInfo = () => {
           columns={processColumns}
           dataSource={processes}
           pagination={false}
-          scroll={{y: '40vh'}}
+          scroll={{ y: '40vh' }}
           size="small"
         />
         <Descriptions
-          style={{marginTop: 8, width: '100%'}}
+          style={{ marginTop: 8, width: '100%' }}
           size="small"
           column={12}
           bordered
@@ -1511,12 +1514,12 @@ const SessionInfo = () => {
             {sessionInfoActive.ppath}
           </Descriptions.Item>
         </Descriptions>
-        <Space style={{marginTop: 8}}>
+        <Space style={{ marginTop: 8 }}>
           <Button
             type="primary"
             icon={<SyncOutlined/>}
             loading={updateSessionInfoReq.loading || initListSessionInfoReq.loading}
-            onClick={() => updateSessionInfoReq.run({sessionid: hostAndSessionActive.session.id})}
+            onClick={() => updateSessionInfoReq.run({ sessionid: hostAndSessionActive.session.id })}
           >
             {formatText('app.hostandsession.sessioninfo.update')}
           </Button>
@@ -1530,7 +1533,7 @@ const SessionInfoMemo = memo(SessionInfo);
 
 const SessionIO = () => {
   console.log('SessionIO');
-  const {hostAndSessionActive} = useModel('HostAndSessionModel', model => ({
+  const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
   const [sessionIOOutput, setSessionIOOutput] = useState('');
@@ -1634,7 +1637,7 @@ const SessionIO = () => {
         {formatText('app.hostandsession.sessionio.idletime')}
       </Button>
     </Space>
-    <Space style={{marginTop: 4}}>
+    <Space style={{ marginTop: 4 }}>
       <Button size="small" onClick={() => onCreateSessionio('sysinfo')}>
         SystemInfo
       </Button>
@@ -1657,10 +1660,10 @@ const SessionIO = () => {
         {formatText('app.hostandsession.sessionio.python_reset')}
       </Button>
     </Space>
-    <Row style={{marginTop: 8}} gutter={8}>
+    <Row style={{ marginTop: 8 }} gutter={8}>
       <Col xs={24} sm={20}>
         <Input
-          style={{width: '100%', backgroundColor: '#000'}}
+          style={{ width: '100%', backgroundColor: '#000' }}
           disabled={sessiondisabled}
           placeholder=""
           value={shellInput}
@@ -1676,7 +1679,7 @@ const SessionIO = () => {
           danger
           block
           icon={<DeleteOutlined/>}
-          onClick={() => destorySessionioReq.run({ipaddress: hostAndSessionActive.ipaddress})}
+          onClick={() => destorySessionioReq.run({ ipaddress: hostAndSessionActive.ipaddress })}
         >
           {formatText('app.core.clear')}
         </Button>
@@ -1689,13 +1692,13 @@ const SessionIOMemo = memo(SessionIO);
 
 const MsfRoute = () => {
   console.log('MsfRoute');
-  const {hostAndSessionActive} = useModel('HostAndSessionModel', model => ({
+  const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
   const [routeActive, setRouteActive] = useState([]);
   const [autoRouteCheck, setAutoRouteCheck] = useState(false);
 
-  const initListRouteReq = useRequest(() => getMsgrpcRouteAPI({sessionid: hostAndSessionActive.session.id}), {
+  const initListRouteReq = useRequest(() => getMsgrpcRouteAPI({ sessionid: hostAndSessionActive.session.id }), {
     onSuccess: (result, params) => {
       setRouteActive(result.route);
     }, onError: (error, params) => {
@@ -1710,7 +1713,7 @@ const MsfRoute = () => {
 
   const createRouteReq = useRequest(postMsgrpcRouteAPI, {
     manual: true, onSuccess: (result, params) => {
-      listRouteReq.run({sessionid: hostAndSessionActive.session.id});
+      listRouteReq.run({ sessionid: hostAndSessionActive.session.id });
     }, onError: (error, params) => {
     },
   });
@@ -1723,7 +1726,7 @@ const MsfRoute = () => {
 
   const destoryRouteReq = useRequest(deleteMsgrpcRouteAPI, {
     manual: true, onSuccess: (result, params) => {
-      listRouteReq.run({sessionid: hostAndSessionActive.session.id});
+      listRouteReq.run({ sessionid: hostAndSessionActive.session.id });
     }, onError: (error, params) => {
     },
   });
@@ -1756,7 +1759,7 @@ const MsfRoute = () => {
         }, {
           dataIndex: 'operation',
           width: 64,
-          render: (text, record) => (<a style={{color: 'red'}} onClick={() => onDestoryRoute(record)}>
+          render: (text, record) => (<a style={{ color: 'red' }} onClick={() => onDestoryRoute(record)}>
             {formatText('app.core.delete')}
           </a>),
         }]}
@@ -1785,7 +1788,7 @@ const MsfRoute = () => {
             required: !autoRouteCheck, message: formatText('app.hostandsession.msfroute.subnet.rule'),
           }]}
       >
-        <Input style={{width: 240}} disabled={autoRouteCheck}
+        <Input style={{ width: 240 }} disabled={autoRouteCheck}
                placeholder={formatText('app.hostandsession.msfroute.subnet.rule')}/>
       </Form.Item>
       <Form.Item
@@ -1796,7 +1799,7 @@ const MsfRoute = () => {
             required: !autoRouteCheck, message: formatText('app.hostandsession.msfroute.netmask.rule'),
           }]}
       >
-        <Input style={{width: 240}} disabled={autoRouteCheck}
+        <Input style={{ width: 240 }} disabled={autoRouteCheck}
                placeholder={formatText('app.hostandsession.msfroute.netmask.rule')}/>
       </Form.Item>
       <Form.Item>
@@ -1813,7 +1816,7 @@ const MsfRoute = () => {
         <Button
           block
           icon={<SyncOutlined/>}
-          onClick={() => listRouteReq.run({sessionid: hostAndSessionActive.session.id})}
+          onClick={() => listRouteReq.run({ sessionid: hostAndSessionActive.session.id })}
           loading={listRouteReq.loading}
         >
           {formatText('app.core.refresh')}
@@ -1827,12 +1830,12 @@ const MsfRouteMemo = memo(MsfRoute);
 
 const PortFwd = () => {
   console.log('PortFwd');
-  const {hostAndSessionActive} = useModel('HostAndSessionModel', model => ({
+  const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
   const [portFwdActive, setPortFwdActive] = useState([]);
 
-  const initListPortFwdReq = useRequest(() => getMsgrpcPortFwdAPI({sessionid: hostAndSessionActive.session.id}), {
+  const initListPortFwdReq = useRequest(() => getMsgrpcPortFwdAPI({ sessionid: hostAndSessionActive.session.id }), {
     onSuccess: (result, params) => {
       setPortFwdActive(result);
     }, onError: (error, params) => {
@@ -1848,7 +1851,7 @@ const PortFwd = () => {
 
   const createPortFwdReq = useRequest(postMsgrpcPortFwdAPI, {
     manual: true, onSuccess: (result, params) => {
-      listPortFwdReq.run({sessionid: hostAndSessionActive.session.id});
+      listPortFwdReq.run({ sessionid: hostAndSessionActive.session.id });
     }, onError: (error, params) => {
     },
   });
@@ -1866,7 +1869,7 @@ const PortFwd = () => {
 
   const destoryPortFwdReq = useRequest(deleteMsgrpcPortFwdAPI, {
     manual: true, onSuccess: (result, params) => {
-      listPortFwdReq.run({sessionid: hostAndSessionActive.session.id});
+      listPortFwdReq.run({ sessionid: hostAndSessionActive.session.id });
     }, onError: (error, params) => {
     },
   });
@@ -1898,14 +1901,14 @@ const PortFwd = () => {
           title: formatText('app.msfsocks.portfwd.local'), dataIndex: 'local', key: 'local', render: (text, record) => {
             if (record.type === 'Forward') {
               return (<div>
-                <Tag style={{marginRight: 8}} color="green">
+                <Tag style={{ marginRight: 8 }} color="green">
                   {formatText('app.msfsocks.portfwd.listen')}
                 </Tag>
                 <span>{`${record.lhost}:${record.lport}`}</span>
               </div>);
             }
             return (<div>
-              <Tag style={{marginRight: 8}} color="gold">
+              <Tag style={{ marginRight: 8 }} color="gold">
                 {formatText('app.msfsocks.portfwd.target')}
               </Tag>
               <span>{`${record.lhost}:${record.lport}`}</span>
@@ -1918,14 +1921,14 @@ const PortFwd = () => {
           render: (text, record) => {
             if (record.type === 'Forward') {
               return (<div>
-                <Tag style={{marginRight: 8}} color="gold">
+                <Tag style={{ marginRight: 8 }} color="gold">
                   {formatText('app.msfsocks.portfwd.target')}
                 </Tag>
                 <span>{`${record.rhost}:${record.rport}`}</span>
               </div>);
             }
             return (<div>
-              <Tag style={{marginRight: 8}} color="green">
+              <Tag style={{ marginRight: 8 }} color="green">
                 {formatText('app.msfsocks.portfwd.listen')}
               </Tag>
               <span>{`${record.rhost}:${record.rport}`}</span>
@@ -1940,18 +1943,18 @@ const PortFwd = () => {
         }, {
           dataIndex: 'operation',
           width: '10%',
-          render: (text, record) => (<a style={{color: 'red'}} onClick={() => destoryPortFwdReq.run(record)}>
+          render: (text, record) => (<a style={{ color: 'red' }} onClick={() => destoryPortFwdReq.run(record)}>
             {formatText('app.core.delete')}
           </a>),
         }]}
     />
-    <Row style={{marginTop: 8}}>
+    <Row style={{ marginTop: 8 }}>
       <Tabs defaultActiveKey="Forward" size="small">
         <TabPane
           tab={<span><SwapRightOutlined/>{formatText('app.msfsocks.portfwd.type.forword')}</span>}
           key="Forward"
         >
-          <Form style={{marginTop: 16, marginLeft: 16}} layout="inline" onFinish={onCreatePortFwdForward}>
+          <Form style={{ marginTop: 16, marginLeft: 16 }} layout="inline" onFinish={onCreatePortFwdForward}>
             <Form.Item
               label={formatText('app.hostandsession.portfwd.forword.lport')}
               name="lport"
@@ -1960,7 +1963,7 @@ const PortFwd = () => {
                   required: true, message: formatText('app.hostandsession.portfwd.forword.lport.rule'),
                 }]}
             >
-              <InputNumber style={{width: 120}}
+              <InputNumber style={{ width: 120 }}
                            placeholder={formatText('app.hostandsession.portfwd.forword.lport.ph')}/>
             </Form.Item>
             <Form.Item
@@ -1971,7 +1974,7 @@ const PortFwd = () => {
                   required: true, message: formatText('app.hostandsession.portfwd.forword.rhost.rule'),
                 }]}
             >
-              <Input style={{width: 160}}
+              <Input style={{ width: 160 }}
                      placeholder={formatText('app.hostandsession.portfwd.forword.rhost.ph')}/>
             </Form.Item>
             <Form.Item
@@ -1982,7 +1985,7 @@ const PortFwd = () => {
                   required: true, message: formatText('app.hostandsession.portfwd.forword.rport.rule'),
                 }]}
             >
-              <InputNumber style={{width: 120}}
+              <InputNumber style={{ width: 120 }}
                            placeholder={formatText('app.hostandsession.portfwd.forword.rport.ph')}/>
             </Form.Item>
             <Form.Item>
@@ -1999,7 +2002,7 @@ const PortFwd = () => {
               <Button
                 block
                 icon={<SyncOutlined/>}
-                onClick={() => listPortFwdReq.run({sessionid: hostAndSessionActive.session.id})}
+                onClick={() => listPortFwdReq.run({ sessionid: hostAndSessionActive.session.id })}
                 loading={listPortFwdReq.loading}
               >
                 {formatText('app.core.refresh')}
@@ -2007,7 +2010,7 @@ const PortFwd = () => {
             </Form.Item>
           </Form>
           <Paragraph
-            style={{marginLeft: 16, marginTop: 16}}
+            style={{ marginLeft: 16, marginTop: 16 }}
             ellipsis={{
               rows: 3, expandable: true,
             }}
@@ -2021,7 +2024,7 @@ const PortFwd = () => {
           tab={<span><SwapLeftOutlined/>{formatText('app.msfsocks.portfwd.type.reverse')}</span>}
           key="Reverse"
         >
-          <Form style={{marginTop: 16, marginLeft: 16}} layout="inline" onFinish={onCreatePortFwdReverse}>
+          <Form style={{ marginTop: 16, marginLeft: 16 }} layout="inline" onFinish={onCreatePortFwdReverse}>
             <Form.Item
               label={formatText('app.hostandsession.portfwd.reverse.lhost')}
               name="lhost"
@@ -2030,7 +2033,7 @@ const PortFwd = () => {
                   required: true, message: formatText('app.hostandsession.portfwd.reverse.lhost.rule'),
                 }]}
             >
-              <Input style={{width: 160}}
+              <Input style={{ width: 160 }}
                      placeholder={formatText('app.hostandsession.portfwd.reverse.lhost.ph')}/>
             </Form.Item>
             <Form.Item
@@ -2041,7 +2044,7 @@ const PortFwd = () => {
                   required: true, message: formatText('app.hostandsession.portfwd.reverse.lport.rule'),
                 }]}
             >
-              <InputNumber style={{width: 120}}
+              <InputNumber style={{ width: 120 }}
                            placeholder={formatText('app.hostandsession.portfwd.reverse.lport.ph')}/>
             </Form.Item>
             <Form.Item
@@ -2052,7 +2055,7 @@ const PortFwd = () => {
                   required: true, message: formatText('app.hostandsession.portfwd.reverse.rport.rule'),
                 }]}
             >
-              <InputNumber style={{width: 120}}
+              <InputNumber style={{ width: 120 }}
                            placeholder={formatText('app.hostandsession.portfwd.reverse.rport.ph')}/>
             </Form.Item>
             <Form.Item>
@@ -2069,7 +2072,7 @@ const PortFwd = () => {
               <Button
                 block
                 icon={<SyncOutlined/>}
-                onClick={() => listPortFwdReq.run({sessionid: hostAndSessionActive.session.id})}
+                onClick={() => listPortFwdReq.run({ sessionid: hostAndSessionActive.session.id })}
                 loading={listPortFwdReq.loading}
               >
                 {formatText('app.core.refresh')}
@@ -2077,7 +2080,7 @@ const PortFwd = () => {
             </Form.Item>
           </Form>
           <Paragraph
-            style={{marginLeft: 16, marginTop: 16}}
+            style={{ marginLeft: 16, marginTop: 16 }}
             ellipsis={{
               rows: 3, expandable: true,
             }}
@@ -2098,15 +2101,15 @@ const PortFwdMemo = memo(PortFwd);
 
 const Transport = props => {
   console.log('Transport');
-  const {hostAndSessionActive} = useModel('HostAndSessionModel', model => ({
+  const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
-  const {closeModal} = props;
+  const { closeModal } = props;
   const [session_exp, setSession_exp] = useState(0);
   const [transports, setTransports] = useState([]);
   const [handlers, setHandlers] = useState([]);
 
-  const initListTransportReq = useRequest(() => getMsgrpcTransportAPI({sessionid: hostAndSessionActive.session.id}), {
+  const initListTransportReq = useRequest(() => getMsgrpcTransportAPI({ sessionid: hostAndSessionActive.session.id }), {
     onSuccess: (result, params) => {
       setSession_exp(result.session_exp);
       setTransports(result.transports);
@@ -2126,13 +2129,13 @@ const Transport = props => {
 
   const createTransportReq = useRequest(postMsgrpcTransportAPI, {
     manual: true, onSuccess: (result, params) => {
-      listTransportReq.run({sessionid: hostAndSessionActive.session.id});
+      listTransportReq.run({ sessionid: hostAndSessionActive.session.id });
     }, onError: (error, params) => {
     },
   });
 
   const onCreateTransport = values => {
-    createTransportReq.run({...values, sessionid: hostAndSessionActive.session.id});
+    createTransportReq.run({ ...values, sessionid: hostAndSessionActive.session.id });
   };
 
   const updateTransportReq = useRequest(putMsgrpcTransportAPI, {
@@ -2143,7 +2146,7 @@ const Transport = props => {
   });
 
   const onUpdateTransport = action => {
-    updateTransportReq.run({action, sessionid: hostAndSessionActive.session.id, type: 'Reverse'});
+    updateTransportReq.run({ action, sessionid: hostAndSessionActive.session.id, type: 'Reverse' });
   };
 
   const onSleepSession = values => {
@@ -2154,7 +2157,7 @@ const Transport = props => {
 
   const destoryTransportReq = useRequest(deleteMsgrpcTransportAPI, {
     manual: true, onSuccess: (result, params) => {
-      listPortFwdReq.run({sessionid: hostAndSessionActive.session.id});
+      listPortFwdReq.run({ sessionid: hostAndSessionActive.session.id });
     }, onError: (error, params) => {
     },
   });
@@ -2208,7 +2211,7 @@ const Transport = props => {
               return (<Avatar
                 shape="square"
                 size={20}
-                style={{backgroundColor: '#1890ff'}}
+                style={{ backgroundColor: '#1890ff' }}
                 icon={<CheckOutlined/>}
               />);
             } else {
@@ -2218,11 +2221,11 @@ const Transport = props => {
         }, {
           title: 'URL', dataIndex: 'url', key: 'url', ellipsis: true, render: (text, record) => {
             if (text.startsWith('tcp://')) {
-              return <span style={{color: 'orange'}}>{text}</span>;
+              return <span style={{ color: 'orange' }}>{text}</span>;
             } else if (text.startsWith('http://')) {
-              return <span style={{color: 'red'}}>{text}</span>;
+              return <span style={{ color: 'red' }}>{text}</span>;
             } else if (text.startsWith('https://')) {
-              return <span style={{color: 'green'}}>{text}</span>;
+              return <span style={{ color: 'green' }}>{text}</span>;
             } else {
               return <span>{text}</span>;
             }
@@ -2265,7 +2268,7 @@ const Transport = props => {
               return null;
             }
 
-            return (<a style={{color: 'red'}} onClick={() => onDestoryTransport(record)}>
+            return (<a style={{ color: 'red' }} onClick={() => onDestoryTransport(record)}>
               {formatText('app.core.delete')}
             </a>);
           },
@@ -2282,7 +2285,7 @@ const Transport = props => {
       <Form.Item
         label={formatText('app.hostandsession.transport.handler')}
         name="handler"
-        rules={[{required: true, message: formatText('app.hostandsession.transport.handler.rule')}]}
+        rules={[{ required: true, message: formatText('app.hostandsession.transport.handler.rule') }]}
       >
         <Select
           allowClear
@@ -2327,7 +2330,7 @@ const Transport = props => {
         <Button
           block
           icon={<SyncOutlined/>}
-          onClick={() => listTransportReq.run({sessionid: hostAndSessionActive.session.id})}
+          onClick={() => listTransportReq.run({ sessionid: hostAndSessionActive.session.id })}
           loading={listTransportReq.loading}
         >
           {formatText('app.core.refresh')}
@@ -2343,9 +2346,9 @@ const Transport = props => {
       initialValues={{}}
     >
       <Form.Item name="sleep"
-                 rules={[{required: true, message: formatText('app.hostandsession.transport.sleep.rule')}]}
+                 rules={[{ required: true, message: formatText('app.hostandsession.transport.sleep.rule') }]}
                  label={formatText('app.hostandsession.transport.sleep')}>
-        <Select style={{width: 120}}>
+        <Select style={{ width: 120 }}>
           <Option value={60}>{formatText('app.hostandsession.transport.1min')}</Option>
           <Option value={60 * 60}>{formatText('app.hostandsession.transport.1hour')}</Option>
           <Option value={60 * 60 * 6}>{formatText('app.hostandsession.transport.6hour')}</Option>
@@ -2371,7 +2374,7 @@ const TransportMemo = memo(Transport);
 
 const FileSession = () => {
   console.log('FileSession');
-  const {hostAndSessionActive} = useModel('HostAndSessionModel', model => ({
+  const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
 
@@ -2381,7 +2384,7 @@ const FileSession = () => {
 
   const [fileSessionInputPathActive, setFileSessionInputPathActive] = useState(fileSessionListActive.path);
   const [showCatResultModal, setShowCatResultModal] = useState(false);
-  const [catResult, setCatResult] = useState({data: null, reason: null});
+  const [catResult, setCatResult] = useState({ data: null, reason: null });
   const createPostModuleActuatorReq = useRequest(postPostmodulePostModuleActuatorAPI, {
     manual: true, onSuccess: (result, params) => {
     }, onError: (error, params) => {
@@ -2401,21 +2404,21 @@ const FileSession = () => {
 
   useEffect(() => {
     if (fileSessionListActive.path === null) {
-      listFileSessionReq.run({sessionid: hostAndSessionActive.session.id, operation: 'pwd'});
+      listFileSessionReq.run({ sessionid: hostAndSessionActive.session.id, operation: 'pwd' });
     }
   }, []);
 
   const onListFileSession = (sessionid, operation, filepath = null, dirpath = '/') => {
     if (operation === 'pwd') {
-      listFileSessionReq.run({sessionid, operation});
+      listFileSessionReq.run({ sessionid, operation });
     } else if (operation === 'list') {
-      listFileSessionReq.run({sessionid, operation, dirpath});
+      listFileSessionReq.run({ sessionid, operation, dirpath });
     } else if (operation === 'download') {
       createPostModuleActuatorReq.run({
         ipaddress: hostAndSessionActive.ipaddress,
         loadpath: 'MODULES.FileSessionDownloadModule',
         sessionid: sessionid,
-        custom_param: JSON.stringify({SESSION_FILE: filepath}),
+        custom_param: JSON.stringify({ SESSION_FILE: filepath }),
       });
     }
   };
@@ -2428,7 +2431,7 @@ const FileSession = () => {
 
   const onListFileSessionRun = (sessionid, operation, filepath = null, arg = '') => {
     if (operation === 'run') {
-      listFileSessionRunReq.run({sessionid, operation, filepath, arg});
+      listFileSessionRunReq.run({ sessionid, operation, filepath, arg });
     }
   };
 
@@ -2459,11 +2462,11 @@ const FileSession = () => {
   });
 
   const onListFileSessionCat = (sessionid, filepath = null) => {
-    listFileSessionCatReq.run({sessionid, operation: 'cat', filepath});
+    listFileSessionCatReq.run({ sessionid, operation: 'cat', filepath });
   };
 
   const onListFileSessionCd = (sessionid, operation, dirpath = '/') => {
-    listFileSessionRunReq.run({sessionid, operation, dirpath});
+    listFileSessionRunReq.run({ sessionid, operation, dirpath });
   };
 
   const createFileSessionReq = useRequest(postMsgrpcFileSessionAPI, {
@@ -2475,7 +2478,7 @@ const FileSession = () => {
 
   const onCreateFileSession = (sessionid, operation, dirpath = '/') => {
     if (operation === 'create_dir') {
-      createFileSessionReq.run({sessionid, operation, dirpath});
+      createFileSessionReq.run({ sessionid, operation, dirpath });
     }
   };
 
@@ -2489,34 +2492,34 @@ const FileSession = () => {
   const onDestoryFileSession = (record, operation) => {
     const sessionid = hostAndSessionActive.session.id;
     if (operation === 'destory_dir') {
-      destoryFileSessionReq.run({sessionid, operation, dirpath: record.absolute_path});
+      destoryFileSessionReq.run({ sessionid, operation, dirpath: record.absolute_path });
     } else if (operation === 'destory_file') {
-      destoryFileSessionReq.run({sessionid, operation, filepath: record.absolute_path});
+      destoryFileSessionReq.run({ sessionid, operation, filepath: record.absolute_path });
     }
   };
 
   const formLayout = {
-    labelCol: {span: 0}, wrapperCol: {span: 24},
+    labelCol: { span: 0 }, wrapperCol: { span: 24 },
   };
   const tailLayout = {
-    wrapperCol: {offset: 0, span: 24},
+    wrapperCol: { offset: 0, span: 24 },
   };
 
   return (<Fragment>
     <Row>
-      <Space style={{display: 'flex'}}>
+      <Space style={{ display: 'flex' }}>
         <ButtonGroup>
           <Tooltip placement="bottom" mouseEnterDelay={0.3}
                    title={formatText('app.hostandsession.filesession.root')}>
             <Button
-              style={{marginLeft: 8, width: 56}}
+              style={{ marginLeft: 8, width: 56 }}
               icon={<DesktopOutlined/>}
               onClick={() => onListFileSession(hostAndSessionActive.session.id, 'list', null, '/')}
             />
           </Tooltip>
           <Tooltip placement="bottom" title={formatText('app.hostandsession.filesession.pwd')}>
             <Button
-              style={{width: 56}}
+              style={{ width: 56 }}
               icon={<HomeOutlined/>}
               onClick={() => onListFileSession(hostAndSessionActive.session.id, 'pwd')}
             />
@@ -2524,7 +2527,7 @@ const FileSession = () => {
           <Tooltip placement="bottom" mouseEnterDelay={0.3}
                    title={formatText('app.hostandsession.filesession.uppath')}>
             <Button
-              style={{width: 56}}
+              style={{ width: 56 }}
               onClick={() => onListFileSession(hostAndSessionActive.session.id, 'list', null, `${fileSessionListActive.path}/..`)}
               icon={<ArrowUpOutlined/>}
             />
@@ -2550,7 +2553,7 @@ const FileSession = () => {
                  title={formatText('app.hostandsession.filesession.reloadpwd')}>
           <Button
             loading={listFileSessionReq.loading}
-            style={{width: 56}}
+            style={{ width: 56 }}
             onClick={() => onListFileSession(hostAndSessionActive.session.id, 'list', null, fileSessionListActive.path)}
             icon={<SyncOutlined/>}
           />
@@ -2559,7 +2562,7 @@ const FileSession = () => {
                  title={formatText('app.hostandsession.filesession.cdpwd')}>
           <Button
             loading={listFileSessionRunReq.loading}
-            style={{width: 56}}
+            style={{ width: 56 }}
             onClick={() => onListFileSessionCd(hostAndSessionActive.session.id, 'cd', fileSessionListActive.path)}
             icon={<PushpinOutlined/>}
           />
@@ -2568,7 +2571,7 @@ const FileSession = () => {
           title={formatText('app.hostandsession.filesession.mkdir.name')}
           placement="bottomRight"
           content={<Search
-            style={{width: '300px'}}
+            style={{ width: '300px' }}
             enterButton={formatText('app.hostandsession.filesession.mk')}
             size="default"
             onSearch={value => onCreateFileSession(hostAndSessionActive.session.id, 'create_dir', `${fileSessionListActive.path}/${value}`)}
@@ -2577,14 +2580,14 @@ const FileSession = () => {
         >
           <Button
             loading={createFileSessionReq.loading}
-            style={{width: 56}}
+            style={{ width: 56 }}
             disabled={hostAndSessionActive.session.id === -1}
             icon={<FolderAddOutlined/>}
           />
         </Popover>
         <Popover
           placement="bottomRight"
-          overlayStyle={{padding: '0px 0px 0px 0px'}}
+          overlayStyle={{ padding: '0px 0px 0px 0px' }}
           content={<FileMsfModal
             hostAndSessionActive={hostAndSessionActive}
             dirpath={fileSessionListActive.path}
@@ -2593,7 +2596,7 @@ const FileSession = () => {
         >
           <Button
             type="primary"
-            style={{width: 56}}
+            style={{ width: 56 }}
             disabled={hostAndSessionActive.session.id === -1}
             icon={<UploadOutlined/>}
           />
@@ -2606,7 +2609,7 @@ const FileSession = () => {
         style={{
           marginTop: '8px', minHeight: cssCalc('80vh - 40px'), maxHeight: cssCalc('80vh - 40px'), width: '72vw',
         }}
-        scroll={{y: 'calc(80vh - 40px)'}}
+        scroll={{ y: 'calc(80vh - 40px)' }}
         size="small"
         rowKey="name"
         className="tablev5"
@@ -2634,33 +2637,33 @@ const FileSession = () => {
             },
             render: (text, record) => {
               if (text === 'file') {
-                return (<div style={{textAlign: 'center'}}>
-                  <MyIcon type="icon-wenjian1" style={{fontSize: '22px'}}/>
+                return (<div style={{ textAlign: 'center' }}>
+                  <MyIcon type="icon-wenjian1" style={{ fontSize: '22px' }}/>
                 </div>);
               }
               if (text === 'directory') {
-                return (<div style={{textAlign: 'center'}}>
-                  <MyIcon type="icon-wenjian" style={{fontSize: '26px'}}/>
+                return (<div style={{ textAlign: 'center' }}>
+                  <MyIcon type="icon-wenjian" style={{ fontSize: '26px' }}/>
                 </div>);
               }
               if (text === 'fixed') {
-                return (<div style={{textAlign: 'center'}}>
-                  <MyIcon type="icon-yingpan" style={{fontSize: '26px'}}/>
+                return (<div style={{ textAlign: 'center' }}>
+                  <MyIcon type="icon-yingpan" style={{ fontSize: '26px' }}/>
                 </div>);
               }
               if (text === 'remote') {
-                return (<div style={{textAlign: 'center'}}>
-                  <MyIcon type="icon-zhichixiezaiguazai" style={{fontSize: '26px'}}/>
+                return (<div style={{ textAlign: 'center' }}>
+                  <MyIcon type="icon-zhichixiezaiguazai" style={{ fontSize: '26px' }}/>
                 </div>);
               }
 
               if (text === 'cdrom') {
-                return (<div style={{textAlign: 'center'}}>
-                  <MyIcon type="icon-CD" style={{fontSize: '22px'}}/>
+                return (<div style={{ textAlign: 'center' }}>
+                  <MyIcon type="icon-CD" style={{ fontSize: '22px' }}/>
                 </div>);
               }
-              return (<div style={{textAlign: 'center'}}>
-                <MyIcon type="icon-unknow" style={{fontSize: '22px'}}/>
+              return (<div style={{ textAlign: 'center' }}>
+                <MyIcon type="icon-unknow" style={{ fontSize: '22px' }}/>
               </div>);
             },
           }, {
@@ -2708,26 +2711,26 @@ const FileSession = () => {
             dataIndex: 'operation', width: 226, render: (text, record) => {
               if (record.type === 'directory') {
                 // 文件夹打开类操作
-                return (<div style={{textAlign: 'center'}}>
+                return (<div style={{ textAlign: 'center' }}>
                   <Space size="middle">
                     <a
                       onClick={() => onListFileSession(hostAndSessionActive.session.id, 'list', null, record.absolute_path)}
                     >{formatText('app.hostandsession.filesession.open')}</a>
-                    <a style={{visibility: 'Hidden'}}>{formatText('app.hostandsession.filesession.holder')}</a>
-                    <a style={{visibility: 'Hidden'}}>{formatText('app.hostandsession.filesession.exec')}</a>
+                    <a style={{ visibility: 'Hidden' }}>{formatText('app.hostandsession.filesession.holder')}</a>
+                    <a style={{ visibility: 'Hidden' }}>{formatText('app.hostandsession.filesession.exec')}</a>
                     <Popconfirm
                       placement="topRight"
                       title={formatText('app.hostandsession.filesession.destory_dir.tip')}
                       onConfirm={() => onDestoryFileSession(record, 'destory_dir')}
                     >
-                      <a style={{color: 'red'}}>{formatText('app.core.delete')}</a>
+                      <a style={{ color: 'red' }}>{formatText('app.core.delete')}</a>
                     </Popconfirm>
                   </Space>
                 </div>);
               }
               if (record.type === 'fixed' || record.type === 'remote') {
                 // 文件夹打开类操作
-                return (<div style={{textAlign: 'center'}}>
+                return (<div style={{ textAlign: 'center' }}>
                   <a
                     onClick={() => onListFileSession(hostAndSessionActive.session.id, 'list', null, record.absolute_path)}
                   >{formatText('app.core.open')}
@@ -2736,16 +2739,16 @@ const FileSession = () => {
               }
               if (record.type === 'file') {
                 // 文件类操作
-                return (<div style={{textAlign: 'center'}}>
+                return (<div style={{ textAlign: 'center' }}>
                   <Space size="middle">
                     <a
                       onClick={() => onListFileSession(hostAndSessionActive.session.id, 'download', record.absolute_path, null)}
                     >{formatText('app.hostandsession.filesession.download')}</a>
                     {record.cat_able === true ? (<a
-                      style={{color: 'green'}}
+                      style={{ color: 'green' }}
                       onClick={() => onListFileSessionCat(hostAndSessionActive.session.id, record.absolute_path)}
                     >{formatText('app.hostandsession.filesession.view')}</a>) : (
-                      <a style={{visibility: 'Hidden'}}>{formatText('app.hostandsession.filesession.holder2')}</a>)}
+                      <a style={{ visibility: 'Hidden' }}>{formatText('app.hostandsession.filesession.holder2')}</a>)}
                     <Popover
                       placement="left"
                       title={formatText('app.hostandsession.filesession.args')}
@@ -2770,14 +2773,14 @@ const FileSession = () => {
                       </Form>}
                       trigger="click"
                     >
-                      <a style={{color: '#faad14'}}>{formatText('app.hostandsession.filesession.exec')}</a>
+                      <a style={{ color: '#faad14' }}>{formatText('app.hostandsession.filesession.exec')}</a>
                     </Popover>
                     <Popconfirm
                       placement="topRight"
                       title={formatText('app.hostandsession.filesession.destory_file.tip')}
                       onConfirm={() => onDestoryFileSession(record, 'destory_file')}
                     >
-                      <a style={{color: 'red'}}>{formatText('app.core.delete')}</a>
+                      <a style={{ color: 'red' }}>{formatText('app.core.delete')}</a>
                     </Popconfirm>
                   </Space>
                 </div>);
@@ -2789,30 +2792,30 @@ const FileSession = () => {
     <Modal
       title={catResult.reason}
       mask={false}
-      style={{top: 40}}
+      style={{ top: 40 }}
       width="60vw"
       destroyOnClose
       open={showCatResultModal}
       onCancel={() => setShowCatResultModal(false)}
       footer={null}
-      bodyStyle={{padding: '0px 0px 0px 0px'}}
+      bodyStyle={{ padding: '0px 0px 0px 0px' }}
     >
       <Form preserve={false} onFinish={onUpdateFileSession}>
         <Form.Item name="filedata" initialValue={catResult.data}>
           <TextArea
-            autoSize={{minRows: 5, maxRows: 25}}
+            autoSize={{ minRows: 5, maxRows: 25 }}
           />
         </Form.Item>
-        <Space style={{marginBottom: 0}}>
+        <Space style={{ marginBottom: 0 }}>
           <Form.Item>
             <Button type="primary" htmlType="submit" loading={updateFileSessionReq.loading}>
-              {formatMessage({id: 'app.hostandsession.filesession.update'})}
+              {formatMessage({ id: 'app.hostandsession.filesession.update' })}
             </Button>
           </Form.Item>
           <Form.Item>
             <Button
               onClick={() => copytoclipboard(catResult.data)}>
-              {formatMessage({id: 'app.hostandsession.filesession.copy'})}
+              {formatMessage({ id: 'app.hostandsession.filesession.copy' })}
             </Button>
           </Form.Item>
           <Form.Item name="sessionid" initialValue={hostAndSessionActive.session.id}/>
@@ -2827,7 +2830,7 @@ const FileSessionMemo = memo(FileSession);
 
 const HostRuningInfo = () => {
   console.log('HostRuningInfo');
-  const {hostAndSessionActive} = useModel('HostAndSessionModel', model => ({
+  const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
   const [hostAndSessionBaseInfo, setHostAndSessionBaseInfo] = useState({
@@ -2874,7 +2877,7 @@ const HostRuningInfo = () => {
   });
 
   const onListHostInfo = record => {
-    listHostInfoReq.run({ipaddress: record.ipaddress, loadpath: 'MODULES.HostBaseInfoModule'});
+    listHostInfoReq.run({ ipaddress: record.ipaddress, loadpath: 'MODULES.HostBaseInfoModule' });
   };
 
   const updateHostInfoReq = useRequest(postPostmodulePostModuleActuatorAPI, {
@@ -3102,7 +3105,7 @@ const HostRuningInfo = () => {
               minWidth: cssCalc('80vw - 16px'),
               maxWidth: cssCalc('80vw - 16px'),
             }}
-            scroll={{x: 'calc(70vw - 16px)'}}
+            scroll={{ x: 'calc(70vw - 16px)' }}
             columns={usefulProcessColumns}
             dataSource={hostAndSessionBaseInfo.useful_processes}
             pagination={false}
@@ -3145,11 +3148,11 @@ const HostRunningInfoMemo = memo(HostRuningInfo);
 
 const HostInfo = () => {
   console.log('HostInfo');
-  const {hostAndSessionActive} = useModel('HostAndSessionModel', model => ({
+  const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
   const [hostinfo, setHostInfo] = useState({});
-  useRequest(() => getCoreHostInfoAPI({ipaddress: hostAndSessionActive.ipaddress}), {
+  useRequest(() => getCoreHostInfoAPI({ ipaddress: hostAndSessionActive.ipaddress }), {
     onSuccess: (result, params) => {
       setHostInfo(result);
     }, onError: (error, params) => {
@@ -3160,7 +3163,7 @@ const HostInfo = () => {
     style={{
       overflow: 'auto', minHeight: cssCalc('100vh - 160px'), maxHeight: cssCalc('100vh - 160px'),
     }}
-    bodyStyle={{padding: '0px 0px 0px 0px'}}
+    bodyStyle={{ padding: '0px 0px 0px 0px' }}
   >
     <DocIconInDiv url="https://www.yuque.com/vipersec/help/bp9nso"/>
     <ReactJson
@@ -3176,12 +3179,12 @@ const HostInfoMemo = memo(HostInfo);
 
 const PortService = () => {
   console.log('PortService');
-  const {hostAndSessionActive} = useModel('HostAndSessionModel', model => ({
+  const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
   const [portServiceActive, setPortServiceActive] = useState([]);
 
-  const initListPortServiceReq = useRequest(() => getPostlateralPortserviceAPI({ipaddress: hostAndSessionActive.ipaddress}), {
+  const initListPortServiceReq = useRequest(() => getPostlateralPortserviceAPI({ ipaddress: hostAndSessionActive.ipaddress }), {
     onSuccess: (result, params) => {
       setPortServiceActive(result);
     }, onError: (error, params) => {
@@ -3196,13 +3199,13 @@ const PortService = () => {
 
   const destoryPortServiceReq = useRequest(deletePostlateralPortserviceAPI, {
     manual: true, onSuccess: (result, params) => {
-      listPortServiceReq.run({ipaddress: hostAndSessionActive.ipaddress});
+      listPortServiceReq.run({ ipaddress: hostAndSessionActive.ipaddress });
     }, onError: (error, params) => {
     },
   });
 
   const onDestoryPortService = record => {
-    destoryPortServiceReq.run({ipaddress: record.ipaddress, port: record.port});
+    destoryPortServiceReq.run({ ipaddress: record.ipaddress, port: record.port });
   };
   const paginationProps = {
     simple: true, pageSize: 5,
@@ -3236,7 +3239,7 @@ const PortService = () => {
         }, {
           dataIndex: 'operation',
           width: 48,
-          render: (text, record) => (<a onClick={() => onDestoryPortService(record)} style={{color: 'red'}}>
+          render: (text, record) => (<a onClick={() => onDestoryPortService(record)} style={{ color: 'red' }}>
             {formatText('app.core.delete')}
           </a>),
         }]}
@@ -3246,12 +3249,12 @@ const PortServiceMemo = memo(PortService);
 
 const Vulnerability = () => {
   console.log('Vulnerability');
-  const {hostAndSessionActive} = useModel('HostAndSessionModel', model => ({
+  const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
   const [vulnerabilityActive, setVulnerabilityActive] = useState([]);
 
-  const initListVulnerabilityeReq = useRequest(() => getPostlateralVulnerabilityAPI({ipaddress: hostAndSessionActive.ipaddress}), {
+  const initListVulnerabilityeReq = useRequest(() => getPostlateralVulnerabilityAPI({ ipaddress: hostAndSessionActive.ipaddress }), {
     onSuccess: (result, params) => {
       setVulnerabilityActive(result);
     }, onError: (error, params) => {
@@ -3266,13 +3269,13 @@ const Vulnerability = () => {
 
   const destoryVulnerabilityReq = useRequest(deletePostlateralVulnerabilityAPI, {
     manual: true, onSuccess: (result, params) => {
-      listVulnerabilityReq.run({ipaddress: hostAndSessionActive.ipaddress});
+      listVulnerabilityReq.run({ ipaddress: hostAndSessionActive.ipaddress });
     }, onError: (error, params) => {
     },
   });
 
   const onDestoryVulnerability = record => {
-    destoryVulnerabilityReq.run({id: record.id});
+    destoryVulnerabilityReq.run({ id: record.id });
   };
 
   const paginationProps = {
@@ -3303,7 +3306,7 @@ const Vulnerability = () => {
         }, {
           dataIndex: 'operation',
           width: 48,
-          render: (text, record) => (<a onClick={() => onDestoryVulnerability(record)} style={{color: 'red'}}>
+          render: (text, record) => (<a onClick={() => onDestoryVulnerability(record)} style={{ color: 'red' }}>
             {formatText('app.core.delete')}
           </a>),
         }]}
@@ -3313,7 +3316,7 @@ const VulnerabilityMemo = memo(Vulnerability);
 
 const UpdateHost = props => {
   console.log('UpdateHost');
-  const {hostAndSessionActive} = useModel('HostAndSessionModel', model => ({
+  const { hostAndSessionActive } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive,
   }));
   const updateHostReq = useRequest(putCoreHostAPI, {
@@ -3328,18 +3331,18 @@ const UpdateHost = props => {
   };
 
   const formLayout = {
-    labelCol: {span: 0}, wrapperCol: {span: 24},
+    labelCol: { span: 0 }, wrapperCol: { span: 24 },
   };
   const tailLayout = {
-    wrapperCol: {offset: 0, span: 24},
+    wrapperCol: { offset: 0, span: 24 },
   };
   const hostTypeToAvatar = {
-    ad_server: (<Avatar shape="square" style={{backgroundColor: '#177ddc'}} icon={<WindowsOutlined/>}/>),
-    pc: <Avatar shape="square" style={{backgroundColor: '#49aa19'}} icon={<LaptopOutlined/>}/>,
-    web_server: (<Avatar shape="square" style={{backgroundColor: '#13a8a8'}} icon={<CloudOutlined/>}/>),
-    cms: <Avatar shape="square" style={{backgroundColor: '#d84a1b'}} icon={<BugOutlined/>}/>,
-    firewall: (<Avatar shape="square" style={{backgroundColor: '#d87a16'}} icon={<GatewayOutlined/>}/>),
-    other: (<Avatar shape="square" style={{backgroundColor: '#bfbfbf'}} icon={<QuestionOutlined/>}/>),
+    ad_server: (<Avatar shape="square" style={{ backgroundColor: '#177ddc' }} icon={<WindowsOutlined/>}/>),
+    pc: <Avatar shape="square" style={{ backgroundColor: '#49aa19' }} icon={<LaptopOutlined/>}/>,
+    web_server: (<Avatar shape="square" style={{ backgroundColor: '#13a8a8' }} icon={<CloudOutlined/>}/>),
+    cms: <Avatar shape="square" style={{ backgroundColor: '#d84a1b' }} icon={<BugOutlined/>}/>,
+    firewall: (<Avatar shape="square" style={{ backgroundColor: '#d87a16' }} icon={<GatewayOutlined/>}/>),
+    other: (<Avatar shape="square" style={{ backgroundColor: '#bfbfbf' }} icon={<QuestionOutlined/>}/>),
   };
 
   return (<Card>
@@ -3355,8 +3358,8 @@ const UpdateHost = props => {
       <Form.Item
         label={<span>ipaddress</span>}
         name="ipaddress"
-        rules={[{required: true}]}
-        style={{display: 'None'}}
+        rules={[{ required: true }]}
+        style={{ display: 'None' }}
         {...formLayout}
       >
         <span>{hostAndSessionActive.ipaddress}</span>
@@ -3375,7 +3378,7 @@ const UpdateHost = props => {
       </Form.Item>
       <Form.Item
         name="comment"
-        rules={[{message: formatText('app.hostandsession.updatehost.comment.rule'), max: 20}]}
+        rules={[{ message: formatText('app.hostandsession.updatehost.comment.rule'), max: 20 }]}
         {...formLayout}
       >
         <Input placeholder={formatText('app.hostandsession.updatehost.comment.rule')}/>

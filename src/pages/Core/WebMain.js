@@ -81,7 +81,7 @@ const WebMain = props => {
       const { notices } = response;
 
       if (module_options_update) {
-        setWebModuleOptions(module_options.filter(item => item.BROKER.indexOf('web') === 0));
+        setWebModuleOptions(module_options.filter(item => item.BROKER.indexOf('web_') === 0));
       }
 
       if (jobs_update) {

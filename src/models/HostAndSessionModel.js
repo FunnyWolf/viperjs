@@ -1,112 +1,118 @@
-import {useState} from 'react'
-import {useLocalStorageState} from 'ahooks'
+import { useState } from 'react'
+import { useLocalStorageState } from 'ahooks'
 
-export default function HostAndSessionModel() {
+export default function HostAndSessionModel () {
 
-    const [postModuleOptions, setPostModuleOptions] = useState([])
-    const [botModuleOptions, setBotModuleOptions] = useState([])
-    const [proxyHttpScanModuleOptions, setProxyHttpScanModuleOptions] = useState([])
-    const [webModuleOptions, setWebModuleOptions] = useState([])
-    const [hostAndSessionList, setHostAndSessionList] = useState([])
-    const [networkData, setNetworkData] = useState({nodes: [], edges: []})
+  const [postModuleOptions, setPostModuleOptions] = useState([])
+  const [botModuleOptions, setBotModuleOptions] = useState([])
+  const [proxyHttpScanModuleOptions, setProxyHttpScanModuleOptions] = useState([])
+  const [webModuleOptions, setWebModuleOptions] = useState([])
 
-    const [heatbeatsocketalive, setHeatbeatsocketalive] = useState(false)
-    const [taskQueueLength, setTaskQueueLength] = useState(0)
-    const [jobList, setJobList] = useState([])
-    const [postModuleResultHistory, setPostModuleResultHistory] = useState([])
-    const [postModuleResultHistoryActive, setPostModuleResultHistoryActive] = useState([])
-    const [notices, setNotices] = useState([])
-    const [botWaitList, setBotWaitList] = useState([])
+  const [llmModuleOptions, setLlmModuleOptions] = useState([])
 
-    const [moduleOptions, setModuleOptions] = useState([])
-    const [hostAndSessionActive, setHostAndSessionActive] = useState({
-        ipaddress: null,
-        tag: 'other',
-        comment: null,
-        session: {
-            id: -1,
-            type: 'meterpreter',
-            session_host: '请选择Session',
-            tunnel_local: null,
-            tunnel_peer: null,
-            tunnel_peer_ip: null,
-            tunnel_peer_locate_zh: null,
-            tunnel_peer_locate_en: null,
-            tunnel_peer_asn: null,
-            via_exploit: null,
-            via_payload: null,
-            info: null,
-            user: null,
-            os: null,
-            os_short: null,
-            arch: null,
-            platform: null,
-            fromnow: 0,
-            available: 0,
-            isadmin: null,
-            pid: -1,
-            job_info: {
-                job_id: -1,
-                PAYLOAD: null,
-                LPORT: null,
-                LHOST: null,
-                RHOST: null,
-            },
-        },
-    })
+  const [hostAndSessionList, setHostAndSessionList] = useState([])
+  const [networkData, setNetworkData] = useState({ nodes: [], edges: [] })
 
-    const [onlyShowSession, setOnlyShowSession] = useLocalStorageState('only-show-session', false)
+  const [heatbeatsocketalive, setHeatbeatsocketalive] = useState(false)
+  const [taskQueueLength, setTaskQueueLength] = useState(0)
+  const [jobList, setJobList] = useState([])
+  const [postModuleResultHistory, setPostModuleResultHistory] = useState([])
+  const [postModuleResultHistoryActive, setPostModuleResultHistoryActive] = useState([])
+  const [notices, setNotices] = useState([])
+  const [botWaitList, setBotWaitList] = useState([])
 
-    const [onlyShowSessionModel, setOnlyShowSessionModel] = useState(onlyShowSession)
+  const [moduleOptions, setModuleOptions] = useState([])
+  const [hostAndSessionActive, setHostAndSessionActive] = useState({
+    ipaddress: null,
+    tag: 'other',
+    comment: null,
+    session: {
+      id: -1,
+      type: 'meterpreter',
+      session_host: '请选择Session',
+      tunnel_local: null,
+      tunnel_peer: null,
+      tunnel_peer_ip: null,
+      tunnel_peer_locate_zh: null,
+      tunnel_peer_locate_en: null,
+      tunnel_peer_asn: null,
+      via_exploit: null,
+      via_payload: null,
+      info: null,
+      user: null,
+      os: null,
+      os_short: null,
+      arch: null,
+      platform: null,
+      fromnow: 0,
+      available: 0,
+      isadmin: null,
+      pid: -1,
+      job_info: {
+        job_id: -1,
+        PAYLOAD: null,
+        LPORT: null,
+        LHOST: null,
+        RHOST: null,
+      },
+    },
+  })
 
-    return {
-        postModuleOptions,
-        setPostModuleOptions,
+  const [onlyShowSession, setOnlyShowSession] = useLocalStorageState('only-show-session', false)
 
-        botModuleOptions,
-        setBotModuleOptions,
+  const [onlyShowSessionModel, setOnlyShowSessionModel] = useState(onlyShowSession)
 
-        proxyHttpScanModuleOptions,
-        setProxyHttpScanModuleOptions,
+  return {
+    postModuleOptions,
+    setPostModuleOptions,
 
-        webModuleOptions,
-        setWebModuleOptions,
+    botModuleOptions,
+    setBotModuleOptions,
 
-        taskQueueLength,
-        setTaskQueueLength,
+    proxyHttpScanModuleOptions,
+    setProxyHttpScanModuleOptions,
 
-        heatbeatsocketalive,
-        setHeatbeatsocketalive,
+    webModuleOptions,
+    setWebModuleOptions,
 
-        hostAndSessionList,
-        setHostAndSessionList,
+    taskQueueLength,
+    setTaskQueueLength,
 
-        networkData,
-        setNetworkData,
+    heatbeatsocketalive,
+    setHeatbeatsocketalive,
 
-        jobList,
-        setJobList,
+    hostAndSessionList,
+    setHostAndSessionList,
 
-        postModuleResultHistory,
-        setPostModuleResultHistory,
+    networkData,
+    setNetworkData,
 
-        postModuleResultHistoryActive,
-        setPostModuleResultHistoryActive,
+    jobList,
+    setJobList,
 
-        notices,
-        setNotices,
+    postModuleResultHistory,
+    setPostModuleResultHistory,
 
-        botWaitList,
-        setBotWaitList,
+    postModuleResultHistoryActive,
+    setPostModuleResultHistoryActive,
 
-        hostAndSessionActive,
-        setHostAndSessionActive,
+    notices,
+    setNotices,
 
-        moduleOptions,
-        setModuleOptions,
+    botWaitList,
+    setBotWaitList,
 
-        onlyShowSessionModel,
-        setOnlyShowSessionModel,
+    hostAndSessionActive,
+    setHostAndSessionActive,
 
-    }
+    moduleOptions,
+    setModuleOptions,
+
+    onlyShowSessionModel,
+    setOnlyShowSessionModel,
+
+    llmModuleOptions,
+    setLlmModuleOptions,
+
+  }
 }

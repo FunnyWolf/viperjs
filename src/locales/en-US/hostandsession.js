@@ -23,6 +23,7 @@ export default {
   'app.hostandsession.tab.AutoRobot': 'Automation',
   'app.hostandsession.tab.MsfSocks': 'Intranet',
   'app.hostandsession.tab.Credential': 'Credential',
+  'app.hostandsession.tab.VGPT': 'V-GPT',
   'app.hostandsession.tab.LazyLoader': 'LazyLoader',
   'app.hostandsession.tab.BotScan': 'InternetScan',
   'app.hostandsession.tab.SystemSetting': 'Setting',

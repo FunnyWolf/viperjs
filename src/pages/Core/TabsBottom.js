@@ -9,6 +9,7 @@ import {
   FundViewOutlined,
   KeyOutlined,
   MonitorOutlined,
+  OpenAIOutlined,
   RadarChartOutlined,
   RobotOutlined,
   SettingOutlined,
@@ -27,6 +28,7 @@ import { MsfSocksMemo } from '@/pages/Core/MsfSocks'
 import { CredentialMemo } from '@/pages/Core/Credential'
 import { MsfconsoleMemo } from '@/pages/Core/MsfConsoleXTerm'
 import { SystemSettingMemo } from '@/pages/Core/SystemSetting'
+import { VGPTMemo } from '@/pages/Core/GPT'
 
 const { TabPane } = Tabs;
 export const TabsBottom = () => {
@@ -212,6 +214,15 @@ export const TabsBottom = () => {
         key="ProxyHttpScan"
       >
         <ProxyHttpScanMemo/>
+      </TabPane>
+      <TabPane
+        tab={<div style={tabPanedivSytle}>
+          <OpenAIOutlined/>
+          <span style={tabPanespanSytle}>{formatText('app.hostandsession.tab.VGPT')}</span>
+        </div>}
+        key="VGPT"
+      >
+        <VGPTMemo/>
       </TabPane>
       <TabPane
         tab={<div style={tabPanedivSytle}>
