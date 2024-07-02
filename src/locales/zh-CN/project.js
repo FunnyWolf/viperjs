@@ -15,6 +15,12 @@ export default {
   "webmodule.network": "网络扫描",
   "webmodule.cybersecurity": "安全扫描",
 
+  "llmmodule.agent": "Agent",
+  "llmmodule.rag": "RAG",
+  "llmmodule.multi_agent": "Multi Agent",
+
+  "llmmodule.delete.confirm": "确认删除历史消息?",
+
   "webjobs.waiting": "等待中",
   "webjobs.running": "运行中",
   "webjobs.cancel": "取消",

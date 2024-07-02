@@ -3,13 +3,77 @@ import { formatText, getModuleDesc, getModuleName } from "@/utils/locales";
 import React, { memo, useState } from "react";
 import { useRequest } from "umi";
 import { postPostmodulePostModuleActuatorAPI } from "@/services/apiv1";
-import { ExclamationCircleOutlined, PlayCircleOutlined, StarOutlined, StarTwoTone } from "@ant-design/icons";
-import { Button, Col, Descriptions, Form, Input, Popover, Radio, Row, Table, Tabs, Tag } from "antd-v5";
+import { DeleteOutlined, ExclamationCircleOutlined, SendOutlined, StarOutlined, StarTwoTone } from "@ant-design/icons";
+import { Button, Col, Descriptions, Flex, Input, List, Popover, Radio, Row, Table, Tag } from "antd-v5";
 import { cssCalc } from "@/utils/utils";
-import { changePin, getModuleOptions, getPins } from "@/pages/Core/RunModule";
+import { changePin, getPins } from "@/pages/Core/RunModule";
+import { MyIcon } from '@/pages/Core/Common'
+import { Popconfirm } from 'antd'
 
 const { Search, TextArea } = Input;
-const { TabPane } = Tabs;
+
+const ModuleInfoContent = (record) => {
+  const readme = record.README;
+  const readmeCom = [];
+  for (let i = 0; i < readme.length; i++) {
+    readmeCom.push(<div>
+      <a href={readme[i]} target="_blank">
+        {readme[i]}
+      </a>
+    </div>);
+  }
+  const references = record.REFERENCES;
+  const referencesCom = [];
+  for (let i = 0; i < references.length; i++) {
+    referencesCom.push(<div>
+      <a href={references[i]} target="_blank">
+        {references[i]}
+      </a>
+    </div>);
+  }
+
+  const authors = record.AUTHOR;
+  const authorCom = [];
+  for (let i = 0; i < authors.length; i++) {
+    authorCom.push(<Tag color="lime">{authors[i]}</Tag>);
+  }
+
+  return (<Descriptions
+    size="small"
+    style={{
+      padding: 0, margin: 0,
+    }}
+    column={12}
+    bordered
+  >
+    <Descriptions.Item label={formatText("app.runmodule.postmodule.NAME")}
+                       span={12}>
+      {getModuleName(record)}
+    </Descriptions.Item>
+    <Descriptions.Item
+      label={formatText("app.runmodule.postmodule.authorCom")} span={12}>
+      {authorCom}
+    </Descriptions.Item>
+    <Descriptions.Item
+      label={formatText("app.runmodule.postmodule.readmeCom")} span={12}>
+      {readmeCom}
+    </Descriptions.Item>
+    <Descriptions.Item
+      label={formatText("app.runmodule.postmodule.referencesCom")} span={12}>
+      {referencesCom}
+    </Descriptions.Item>
+    <Descriptions.Item
+      span={12}
+      label={formatText("app.runmodule.postmodule.DESC")}>
+          <pre
+            style={{
+              whiteSpace: "pre-wrap", overflowX: "hidden", padding: "0 0 0 0",
+            }}
+          >{getModuleDesc(record)}</pre>
+    </Descriptions.Item>
+  </Descriptions>);
+};
+
 export const VGPT = props => {
   console.log("RunWebModule");
 
@@ -30,7 +94,7 @@ export const VGPT = props => {
   }));
 
   const [llmModuleConfigList, setLlmModuleConfigList] = useState(llmModuleOptions);
-  const [webModuleConfigActive, setWebModuleConfigActive] = useState({
+  const [llmModuleConfigActive, setLlmModuleConfigActive] = useState({
     NAME_ZH: null,
     NAME_EN: null,
     DESC_ZH: null,
@@ -60,8 +124,7 @@ export const VGPT = props => {
     createPostModuleActuatorReq.run({
       moduletype: "Web",
       input_list: selectedRows,
-      project_id: projectActive.project_id,
-      loadpath: webModuleConfigActive.loadpath,
+      loadpath: llmModuleConfigActive.loadpath,
       custom_param: JSON.stringify(params),
     });
   };
@@ -136,7 +199,7 @@ export const VGPT = props => {
         />);
 
         let selectStyles = {};
-        if (record.loadpath === webModuleConfigActive.loadpath) {
+        if (record.loadpath === llmModuleConfigActive.loadpath) {
           selectStyles = {
             color: "#d89614", fontWeight: "bolder",
           };
@@ -159,78 +222,79 @@ export const VGPT = props => {
       },
     }];
 
-  const ModuleInfoContent = (record) => {
-    const readme = record.README;
-    const readmeCom = [];
-    for (let i = 0; i < readme.length; i++) {
-      readmeCom.push(<div>
-        <a href={readme[i]} target="_blank">
-          {readme[i]}
-        </a>
-      </div>);
-    }
-    const references = record.REFERENCES;
-    const referencesCom = [];
-    for (let i = 0; i < references.length; i++) {
-      referencesCom.push(<div>
-        <a href={references[i]} target="_blank">
-          {references[i]}
-        </a>
-      </div>);
-    }
+  const ListItem = (item) => {
 
-    const authors = record.AUTHOR;
-    const authorCom = [];
-    for (let i = 0; i < authors.length; i++) {
-      authorCom.push(<Tag color="lime">{authors[i]}</Tag>);
+    const avatar_dict = {
+      Human: <MyIcon type="icon-heike" style={{ fontSize: '24px' }}/>,
+      AI: <MyIcon type="icon-rengongzhineng1" style={{ fontSize: '24px' }}/>,
     }
+    return <List.Item>
+      <List.Item.Meta
+        avatar={avatar_dict[item.role]}
+        title={<pre>{item.message}</pre>}
+      />
+    </List.Item>
+  }
 
-    return (<Descriptions
-      size="small"
-      style={{
-        padding: 0, margin: 0,
-      }}
-      column={12}
-      bordered
-    >
-      <Descriptions.Item label={formatText("app.runmodule.postmodule.NAME")}
-                         span={12}>
-        {getModuleName(record)}
-      </Descriptions.Item>
-      <Descriptions.Item
-        label={formatText("app.runmodule.postmodule.authorCom")} span={12}>
-        {authorCom}
-      </Descriptions.Item>
-      <Descriptions.Item
-        label={formatText("app.runmodule.postmodule.readmeCom")} span={12}>
-        {readmeCom}
-      </Descriptions.Item>
-      <Descriptions.Item
-        label={formatText("app.runmodule.postmodule.referencesCom")} span={12}>
-        {referencesCom}
-      </Descriptions.Item>
-      <Descriptions.Item
-        span={12}
-        label={formatText("app.runmodule.postmodule.DESC")}>
-          <pre
-            style={{
-              whiteSpace: "pre-wrap", overflowX: "hidden", padding: "0 0 0 0",
-            }}
-          >{getModuleDesc(record)}</pre>
-      </Descriptions.Item>
-    </Descriptions>);
-  };
+  const data = [
+    {
+      role: 'Human',
+      message: 'Ant Design Title 1',
+    },
+    {
+      role: 'AI',
+      message: 'just for test\njust for testjust for testjust for testjust for testjust for test\njust for test111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
+    },
+    {
+      role: 'Human',
+      message: 'Ant Design Title 1',
+    },
+    {
+      role: 'AI',
+      message: 'just for test\njust for testjust for testjust for testjust for testjust for test\njust for test',
+    },
+    {
+      role: 'Human',
+      message: 'Ant Design Title 1',
+    },
+    {
+      role: 'AI',
+      message: 'just for test\njust for testjust for testjust for testjust for testjust for test\njust for test',
+    },
+    {
+      role: 'Human',
+      message: 'Ant Design Title 1',
+    },
+    {
+      role: 'AI',
+      message: 'just for test\njust for testjust for testjust for testjust for testjust for test\njust for test',
+    },
+    {
+      role: 'Human',
+      message: 'Ant Design Title 1',
+    },
+    {
+      role: 'AI',
+      message: 'just for test\njust for testjust for testjust for testjust for testjust for test\njust for test',
+    },
+    {
+      role: 'Human',
+      message: 'Ant Design Title 1',
+    },
+    {
+      role: 'AI',
+      message: 'just for test\njust for testjust for testjust for testjust for testjust for test\njust for test',
+    },
+  ];
 
   return (<Row gutter={0}>
-    <Col
-      span={6}>
+    <Col span={5}>
       <Search
         placeholder={formatText("app.runmodule.postmodule.searchmodule.ph")}
         onSearch={value => handleModuleSearch(value)}
       />
       <Radio.Group
         defaultValue=""
-        buttonStyle="solid"
         onChange={(e) => moduleTypeOnChange(e.target.value)}
         style={{
           marginTop: 0,
@@ -238,13 +302,11 @@ export const VGPT = props => {
       >
         <Radio.Button value="">{formatText("app.runmodule.postmodule.moduletype.all")}</Radio.Button>
         <Radio.Button
-          value="Web_Auto_Module">{formatText("webmodule.auto")}</Radio.Button>
+          value="AI_Agent">{formatText("llmmodule.agent")}</Radio.Button>
         <Radio.Button
-          value="Web_Company_Intelligence">{formatText("webmodule.company")}</Radio.Button>
+          value="AI_RAG">{formatText("llmmodule.rag")}</Radio.Button>
         <Radio.Button
-          value="Web_Network_Scan">{formatText("webmodule.network")}</Radio.Button>
-        <Radio.Button
-          value="Web_CyberSecurity_Scan">{formatText("webmodule.cybersecurity")}</Radio.Button>
+          value="AI_MULTI_RAG">{formatText("llmmodule.multi_agent")}</Radio.Button>
       </Radio.Group>
       <Table
         style={{
@@ -254,7 +316,7 @@ export const VGPT = props => {
         showHeader={false}
         onRow={record => ({
           onClick: () => {
-            setWebModuleConfigActive(record);
+            setLlmModuleConfigActive(record);
             setSelectedRowKeys([]);
             setSelectedRows([]);
           },
@@ -268,33 +330,33 @@ export const VGPT = props => {
         dataSource={llmModuleConfigList}
       />
     </Col>
-    <Col
-      span={10}
-    >
-      <Form
-        style={{ marginTop: 4, padding: 4 }}
-        layout="vertical"
-        wrapperCol={{ span: 24 }}
-        onFinish={onCreateWebModuleActuator}
-      >
-        <Row style={{
-          maxHeight: cssCalc("100vh - 160px"),
-          overflowY: "auto",
-          marginBottom: 16,
-        }}>
-          {getModuleOptions(webModuleConfigActive)}
-        </Row>
-        <Row>
-          <Button
-            type="primary"
-            htmlType="submit"
-            block
-            disabled={webModuleConfigActive.loadpath === null}
-            icon={<PlayCircleOutlined/>}
-            loading={createPostModuleActuatorReq.loading}
-          >{formatText("app.runmodule.postmodule.run")}</Button>
-        </Row>
-      </Form>
+    <Col span={13}>
+      <div style={{ marginLeft: 8, marginRight: 8 }}>
+        <List
+          style={{
+            padding: "0 0 0 0",
+            overflow: "auto",
+            maxHeight: cssCalc(`${resizeDownHeight} - 64px`),
+            minHeight: cssCalc(`${resizeDownHeight} - 64px`),
+          }}
+          itemLayout="horizontal"
+          dataSource={data}
+          renderItem={(item, index) => (ListItem(item))}
+        />
+        <Flex vertical={false}>
+          <Input placeholder="Basic usage" suffix={<SendOutlined/>}/>
+          <Popconfirm
+            description={formatText('llmmodule.delete.confirm')}
+            // onConfirm={() => destoryIPDomainReq.run({ ipdomain: record.ipdomain })}
+          >
+            <Button
+              style={{ width: 64 }}
+              size="middle"
+              icon={<DeleteOutlined/>}
+            />
+          </Popconfirm>
+        </Flex>
+      </div>
     </Col>
   </Row>);
 };

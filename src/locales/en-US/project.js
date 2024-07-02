@@ -11,6 +11,12 @@ export default {
   "webmodule.network": "Network Scan",
   "webmodule.cybersecurity": "Security Scan",
 
+  "llmmodule.agent": "Agent",
+  "llmmodule.rag": "RAG",
+  "llmmodule.multi_agent": "Multi Agent",
+
+  "llmmodule.delete.confirm": "Delete history messages?",
+
   "webjobs.waiting": "waiting",
   "webjobs.running": "running",
   "webjobs.cancel": "cancel",

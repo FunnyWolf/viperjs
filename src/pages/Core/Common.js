@@ -60,7 +60,7 @@ export const host_type_to_avatar_table = {
 
 //iconfont地址设置
 export const MyIcon = createFromIconfontCN({
-  scriptUrl: 'https://at.alicdn.com/t/font_1077799_3losja1jye6.js', // 在 iconfont.cn 上生成
+  scriptUrl: 'https://at.alicdn.com/t/c/font_1077799_candygnjo7p.js', // 在 iconfont.cn 上生成
 })
 
 export const randomstr = (length) => {
