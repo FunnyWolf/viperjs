@@ -1,14 +1,21 @@
 import { useModel } from "@@/plugin-model/useModel";
 import { formatText, getModuleDesc, getModuleName } from "@/utils/locales";
-import React, { memo, useState } from "react";
-import { useRequest } from "umi";
-import { postPostmodulePostModuleActuatorAPI } from "@/services/apiv1";
+import React, { memo, useRef, useState } from "react";
 import { DeleteOutlined, ExclamationCircleOutlined, SendOutlined, StarOutlined, StarTwoTone } from "@ant-design/icons";
 import { Button, Col, Descriptions, Flex, Input, List, Popover, Radio, Row, Table, Tag } from "antd-v5";
 import { cssCalc } from "@/utils/utils";
 import { changePin, getPins } from "@/pages/Core/RunModule";
 import { MyIcon } from '@/pages/Core/Common'
 import { Popconfirm } from 'antd'
+import { HostIP } from '@/config'
+import { getToken } from '@/utils/authority'
+
+let webHost = HostIP + ":8002";
+let protocol = "ws://";
+if (process.env.NODE_ENV === "production") {
+  webHost = location.hostname + (location.port ? `:${location.port}` : "");
+  protocol = "wss://";
+}
 
 const { Search, TextArea } = Input;
 
@@ -77,6 +84,8 @@ const ModuleInfoContent = (record) => {
 export const VGPT = props => {
   console.log("RunWebModule");
 
+  const ws_llm_module = useRef(null);
+
   const { llmModuleOptions } = useModel("HostAndSessionModel", model => ({
     llmModuleOptions: model.llmModuleOptions,
   }));
@@ -87,47 +96,17 @@ export const VGPT = props => {
     resizeDownHeight: model.resizeDownHeight,
   }));
 
-  const {
-    webIPDomainPortWaitList, setWebIPDomainPortWaitList, projectActive,
-  } = useModel("WebMainModel", model => ({
-    webIPDomainPortWaitList: model.webIPDomainPortWaitList, setWebIPDomainPortWaitList: model.setWebIPDomainPortWaitList, projectActive: model.projectActive,
-  }));
-
   const [llmModuleConfigList, setLlmModuleConfigList] = useState(llmModuleOptions);
   const [llmModuleConfigActive, setLlmModuleConfigActive] = useState({
-    NAME_ZH: null,
-    NAME_EN: null,
-    DESC_ZH: null,
-    DESC_EN: null,
-    AUTHOR: [],
-    OPTIONS: [],
-    REQUIRE_SESSION: true,
-    loadpath: null,
-    REFERENCES: [],
-    README: [],
-    SEARCH: "",
+    NAME_ZH: null, NAME_EN: null, DESC_ZH: null, DESC_EN: null, AUTHOR: [], OPTIONS: [], loadpath: null, REFERENCES: [], README: [],
   });
 
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [selectedRows, setSelectedRows] = useState([]);
+  const [messageList, setMessageList] = useState([]);
+
+  const [userInputValue, setUserInputValue] = useState(null);
 
   const pins = getPins();
   llmModuleConfigList.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath));
-
-  const createPostModuleActuatorReq = useRequest(postPostmodulePostModuleActuatorAPI, {
-    manual: true, onSuccess: (result, params) => {
-    }, onError: (error, params) => {
-    },
-  });
-
-  const onCreateWebModuleActuator = params => {
-    createPostModuleActuatorReq.run({
-      moduletype: "Web",
-      input_list: selectedRows,
-      loadpath: llmModuleConfigActive.loadpath,
-      custom_param: JSON.stringify(params),
-    });
-  };
 
   const onPostModuleConfigListChange = botModuleConfigList => {
     const pins = getPins();
@@ -155,11 +134,6 @@ export const VGPT = props => {
       }
       return null;
     }).filter(record => !!record));
-  };
-
-  const onSelectChange = (selectedRowKeys, selectedRows) => {
-    setSelectedRowKeys(selectedRowKeys);
-    setSelectedRows(selectedRows);
   };
 
   const moduleTypeOnChange = value => {
@@ -223,10 +197,8 @@ export const VGPT = props => {
     }];
 
   const ListItem = (item) => {
-
     const avatar_dict = {
-      Human: <MyIcon type="icon-heike" style={{ fontSize: '24px' }}/>,
-      AI: <MyIcon type="icon-rengongzhineng1" style={{ fontSize: '24px' }}/>,
+      Human: <MyIcon type="icon-heike" style={{ fontSize: '24px' }}/>, AI: <MyIcon type="icon-rengongzhineng1" style={{ fontSize: '24px' }}/>,
     }
     return <List.Item>
       <List.Item.Meta
@@ -236,56 +208,67 @@ export const VGPT = props => {
     </List.Item>
   }
 
+  function changeActiveModule (record) {
+    const urlpatternsMsf = "/ws/v1/websocket/llmmodule/?";
+
+    try {
+      ws_llm_module.current.close();
+    } catch (error) {
+    }
+    try {
+      ws_llm_module.current = null;
+    } catch (error) {
+    }
+    const urlargs = `token=${getToken()}&loadpath=${record.loadpath}`;
+    const socketUrlMsf = protocol + webHost + urlpatternsMsf + urlargs;
+
+    ws_llm_module.current = new WebSocket(socketUrlMsf);
+    ws_llm_module.current.onmessage = event => {
+      const recv_message = JSON.parse(event.data);
+      if (Array.isArray(recv_message)) {
+        setMessageList(recv_message);
+      } else {
+        setMessageList(prevItems => [...prevItems, recv_message]);
+      }
+    };
+    setLlmModuleConfigActive(record);
+  }
+
+  function handleUserInput (e) {
+    let message = { role: "Human", message: e.target.value }
+    setUserInputValue(null)
+    setMessageList(prevItems => [...prevItems, message]);
+
+    ws_llm_module.current.send(JSON.stringify(message))
+  }
+
   const data = [
     {
-      role: 'Human',
-      message: 'Ant Design Title 1',
-    },
-    {
+      role: 'Human', message: 'Ant Design Title 1',
+    }, {
       role: 'AI',
       message: 'just for test\njust for testjust for testjust for testjust for testjust for test\njust for test111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
-    },
-    {
-      role: 'Human',
-      message: 'Ant Design Title 1',
-    },
-    {
-      role: 'AI',
-      message: 'just for test\njust for testjust for testjust for testjust for testjust for test\njust for test',
-    },
-    {
-      role: 'Human',
-      message: 'Ant Design Title 1',
-    },
-    {
-      role: 'AI',
-      message: 'just for test\njust for testjust for testjust for testjust for testjust for test\njust for test',
-    },
-    {
-      role: 'Human',
-      message: 'Ant Design Title 1',
-    },
-    {
-      role: 'AI',
-      message: 'just for test\njust for testjust for testjust for testjust for testjust for test\njust for test',
-    },
-    {
-      role: 'Human',
-      message: 'Ant Design Title 1',
-    },
-    {
-      role: 'AI',
-      message: 'just for test\njust for testjust for testjust for testjust for testjust for test\njust for test',
-    },
-    {
-      role: 'Human',
-      message: 'Ant Design Title 1',
-    },
-    {
-      role: 'AI',
-      message: 'just for test\njust for testjust for testjust for testjust for testjust for test\njust for test',
-    },
-  ];
+    }, {
+      role: 'Human', message: 'Ant Design Title 1',
+    }, {
+      role: 'AI', message: 'just for test\njust for testjust for testjust for testjust for testjust for test\njust for test',
+    }, {
+      role: 'Human', message: 'Ant Design Title 1',
+    }, {
+      role: 'AI', message: 'just for test\njust for testjust for testjust for testjust for testjust for test\njust for test',
+    }, {
+      role: 'Human', message: 'Ant Design Title 1',
+    }, {
+      role: 'AI', message: 'just for test\njust for testjust for testjust for testjust for testjust for test\njust for test',
+    }, {
+      role: 'Human', message: 'Ant Design Title 1',
+    }, {
+      role: 'AI', message: 'just for test\njust for testjust for testjust for testjust for testjust for test\njust for test',
+    }, {
+      role: 'Human', message: 'Ant Design Title 1',
+    }, {
+      role: 'AI', message: 'just for test\njust for testjust for testjust for testjust for testjust for test\njust for test',
+    }];
 
   return (<Row gutter={0}>
     <Col span={5}>
@@ -316,9 +299,9 @@ export const VGPT = props => {
         showHeader={false}
         onRow={record => ({
           onClick: () => {
-            setLlmModuleConfigActive(record);
-            setSelectedRowKeys([]);
-            setSelectedRows([]);
+            if (record.loadpath !== llmModuleConfigActive.loadpath) {
+              changeActiveModule(record);
+            }
           },
         })}
         size="small"
@@ -334,17 +317,19 @@ export const VGPT = props => {
       <div style={{ marginLeft: 8, marginRight: 8 }}>
         <List
           style={{
-            padding: "0 0 0 0",
-            overflow: "auto",
-            maxHeight: cssCalc(`${resizeDownHeight} - 64px`),
-            minHeight: cssCalc(`${resizeDownHeight} - 64px`),
+            padding: "0 0 0 0", overflow: "auto", maxHeight: cssCalc(`${resizeDownHeight} - 64px`), minHeight: cssCalc(`${resizeDownHeight} - 64px`),
           }}
           itemLayout="horizontal"
-          dataSource={data}
+          dataSource={messageList}
           renderItem={(item, index) => (ListItem(item))}
         />
         <Flex vertical={false}>
-          <Input placeholder="Basic usage" suffix={<SendOutlined/>}/>
+          <Input placeholder="Basic usage"
+                 value={userInputValue}
+                 suffix={<SendOutlined/>}
+                 onChange={(e) => setUserInputValue(e.target.value)}
+                 onPressEnter={(e) => handleUserInput(e)}
+          />
           <Popconfirm
             description={formatText('llmmodule.delete.confirm')}
             // onConfirm={() => destoryIPDomainReq.run({ ipdomain: record.ipdomain })}
