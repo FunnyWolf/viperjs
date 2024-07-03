@@ -1,14 +1,13 @@
-import { useModel } from "@@/plugin-model/useModel";
-import { formatText, getModuleDesc, getModuleName } from "@/utils/locales";
-import React, { memo, useRef, useState } from "react";
-import { DeleteOutlined, ExclamationCircleOutlined, SendOutlined, StarOutlined, StarTwoTone } from "@ant-design/icons";
-import { Button, Col, Descriptions, Flex, Input, List, Popover, Radio, Row, Table, Tag } from "antd-v5";
-import { cssCalc } from "@/utils/utils";
-import { changePin, getPins } from "@/pages/Core/RunModule";
-import { MyIcon } from '@/pages/Core/Common'
-import { Popconfirm } from 'antd'
-import { HostIP } from '@/config'
-import { getToken } from '@/utils/authority'
+import {useModel} from "@@/plugin-model/useModel";
+import {formatText, getModuleDesc, getModuleName} from "@/utils/locales";
+import React, {memo, useRef, useState} from "react";
+import {DeleteOutlined, ExclamationCircleOutlined, OpenAIOutlined, SendOutlined, StarOutlined, StarTwoTone, UserOutlined} from "@ant-design/icons";
+import {Button, Card, Col, Descriptions, Flex, Input, List, Popover, Radio, Row, Table, Tag} from "antd-v5";
+import {cssCalc} from "@/utils/utils";
+import {changePin, getPins} from "@/pages/Core/RunModule";
+import {Popconfirm} from 'antd'
+import {HostIP} from '@/config'
+import {getToken} from '@/utils/authority'
 
 let webHost = HostIP + ":8002";
 let protocol = "ws://";
@@ -17,7 +16,7 @@ if (process.env.NODE_ENV === "production") {
   protocol = "wss://";
 }
 
-const { Search, TextArea } = Input;
+const {Search, TextArea} = Input;
 
 const ModuleInfoContent = (record) => {
   const readme = record.README;
@@ -81,12 +80,13 @@ const ModuleInfoContent = (record) => {
   </Descriptions>);
 };
 
+
 export const VGPT = props => {
   console.log("RunWebModule");
 
   const ws_llm_module = useRef(null);
 
-  const { llmModuleOptions } = useModel("HostAndSessionModel", model => ({
+  const {llmModuleOptions} = useModel("HostAndSessionModel", model => ({
     llmModuleOptions: model.llmModuleOptions,
   }));
 
@@ -184,7 +184,7 @@ export const VGPT = props => {
           }}
         >
           {pinIcon}
-          <a style={{ marginLeft: 4, ...selectStyles }}>{getModuleName(record)}</a>
+          <a style={{marginLeft: 4, ...selectStyles}}>{getModuleName(record)}</a>
           <Popover content={() => ModuleInfoContent(record)} placement="right">
             <ExclamationCircleOutlined
               style={{
@@ -198,17 +198,32 @@ export const VGPT = props => {
 
   const ListItem = (item) => {
     const avatar_dict = {
-      Human: <MyIcon type="icon-heike" style={{ fontSize: '24px' }}/>, AI: <MyIcon type="icon-rengongzhineng1" style={{ fontSize: '24px' }}/>,
+      human: <UserOutlined style={{fontSize: '24px'}}/>, ai: <OpenAIOutlined style={{fontSize: '24px'}}/>,
     }
+    let title = null
+    if (item.type === "human") {
+      title = <pre style={{paddingLeft: 12, paddingTop: 0, marginRight: 16}}>{item.data.content}</pre>
+    } else if (item.type === "ai") {
+      title = <Card
+        size="small"
+        style={{padding: 0, marginRight: 16}}
+        bordered={false}>
+        <pre>{item.data.content}</pre>
+      </Card>
+    } else {
+      title = <pre>{item.data.content}</pre>
+    }
+
+
     return <List.Item>
       <List.Item.Meta
-        avatar={avatar_dict[item.role]}
-        title={<pre>{item.message}</pre>}
+        avatar={avatar_dict[item.type]}
+        title={title}
       />
     </List.Item>
   }
 
-  function changeActiveModule (record) {
+  function changeActiveModule(record) {
     const urlpatternsMsf = "/ws/v1/websocket/llmmodule/?";
 
     try {
@@ -234,41 +249,14 @@ export const VGPT = props => {
     setLlmModuleConfigActive(record);
   }
 
-  function handleUserInput (e) {
-    let message = { role: "Human", message: e.target.value }
+  function handleUserInput(e) {
+    let message = {role: "Human", message: e.target.value}
     setUserInputValue(null)
     setMessageList(prevItems => [...prevItems, message]);
 
     ws_llm_module.current.send(JSON.stringify(message))
   }
 
-  const data = [
-    {
-      role: 'Human', message: 'Ant Design Title 1',
-    }, {
-      role: 'AI',
-      message: 'just for test\njust for testjust for testjust for testjust for testjust for test\njust for test111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
-    }, {
-      role: 'Human', message: 'Ant Design Title 1',
-    }, {
-      role: 'AI', message: 'just for test\njust for testjust for testjust for testjust for testjust for test\njust for test',
-    }, {
-      role: 'Human', message: 'Ant Design Title 1',
-    }, {
-      role: 'AI', message: 'just for test\njust for testjust for testjust for testjust for testjust for test\njust for test',
-    }, {
-      role: 'Human', message: 'Ant Design Title 1',
-    }, {
-      role: 'AI', message: 'just for test\njust for testjust for testjust for testjust for testjust for test\njust for test',
-    }, {
-      role: 'Human', message: 'Ant Design Title 1',
-    }, {
-      role: 'AI', message: 'just for test\njust for testjust for testjust for testjust for testjust for test\njust for test',
-    }, {
-      role: 'Human', message: 'Ant Design Title 1',
-    }, {
-      role: 'AI', message: 'just for test\njust for testjust for testjust for testjust for testjust for test\njust for test',
-    }];
 
   return (<Row gutter={0}>
     <Col span={5}>
@@ -295,7 +283,7 @@ export const VGPT = props => {
         style={{
           padding: "0 0 0 0", maxHeight: cssCalc("100vh - 560px"), minHeight: cssCalc("100vh - 560px"),
         }}
-        scroll={{ y: "calc(100vh - 120px)" }}
+        scroll={{y: "calc(100vh - 120px)"}}
         showHeader={false}
         onRow={record => ({
           onClick: () => {
@@ -314,11 +302,12 @@ export const VGPT = props => {
       />
     </Col>
     <Col span={13}>
-      <div style={{ marginLeft: 8, marginRight: 8 }}>
+      <div style={{marginLeft: 8, marginRight: 8}}>
         <List
           style={{
-            padding: "0 0 0 0", overflow: "auto", maxHeight: cssCalc(`${resizeDownHeight} - 64px`), minHeight: cssCalc(`${resizeDownHeight} - 64px`),
+            overflow: "auto", maxHeight: cssCalc(`${resizeDownHeight} - 64px`), minHeight: cssCalc(`${resizeDownHeight} - 64px`),
           }}
+          split={false}
           itemLayout="horizontal"
           dataSource={messageList}
           renderItem={(item, index) => (ListItem(item))}
@@ -335,7 +324,7 @@ export const VGPT = props => {
             // onConfirm={() => destoryIPDomainReq.run({ ipdomain: record.ipdomain })}
           >
             <Button
-              style={{ width: 64 }}
+              style={{width: 64}}
               size="middle"
               icon={<DeleteOutlined/>}
             />
