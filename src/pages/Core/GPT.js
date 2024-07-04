@@ -1,13 +1,14 @@
-import {useModel} from "@@/plugin-model/useModel";
-import {formatText, getModuleDesc, getModuleName} from "@/utils/locales";
-import React, {memo, useRef, useState} from "react";
-import {DeleteOutlined, ExclamationCircleOutlined, OpenAIOutlined, SendOutlined, StarOutlined, StarTwoTone, UserOutlined} from "@ant-design/icons";
-import {Button, Card, Col, Descriptions, Flex, Input, List, Popover, Radio, Row, Table, Tag} from "antd-v5";
-import {cssCalc} from "@/utils/utils";
-import {changePin, getPins} from "@/pages/Core/RunModule";
-import {Popconfirm} from 'antd'
-import {HostIP} from '@/config'
-import {getToken} from '@/utils/authority'
+import { useModel } from "@@/plugin-model/useModel";
+import { formatText, getModuleDesc, getModuleName } from "@/utils/locales";
+import React, { memo, useRef, useState } from "react";
+import { DeleteOutlined, ExclamationCircleOutlined, OpenAIOutlined, SendOutlined, StarOutlined, StarTwoTone, UserOutlined } from "@ant-design/icons";
+import { Button, Card, Col, Descriptions, Flex, Input, List, Popover, Radio, Row, Table, Tag } from "antd-v5";
+import { cssCalc } from "@/utils/utils";
+import { changePin, getPins } from "@/pages/Core/RunModule";
+import { HostIP } from '@/config'
+import { getToken } from '@/utils/authority'
+import { useRequest } from '@@/plugin-request/request'
+import { deleteLLMModuleAPI } from '@/services/apiv1'
 
 let webHost = HostIP + ":8002";
 let protocol = "ws://";
@@ -16,7 +17,7 @@ if (process.env.NODE_ENV === "production") {
   protocol = "wss://";
 }
 
-const {Search, TextArea} = Input;
+const { Search, TextArea } = Input;
 
 const ModuleInfoContent = (record) => {
   const readme = record.README;
@@ -80,13 +81,12 @@ const ModuleInfoContent = (record) => {
   </Descriptions>);
 };
 
-
 export const VGPT = props => {
   console.log("RunWebModule");
 
   const ws_llm_module = useRef(null);
 
-  const {llmModuleOptions} = useModel("HostAndSessionModel", model => ({
+  const { llmModuleOptions } = useModel("HostAndSessionModel", model => ({
     llmModuleOptions: model.llmModuleOptions,
   }));
 
@@ -107,6 +107,13 @@ export const VGPT = props => {
 
   const pins = getPins();
   llmModuleConfigList.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath));
+
+  const destoryLLMModuleReq = useRequest(deleteLLMModuleAPI, {
+    manual: true, onSuccess: (result, params) => {
+      setMessageList([])
+    }, onError: (error, params) => {
+    },
+  })
 
   const onPostModuleConfigListChange = botModuleConfigList => {
     const pins = getPins();
@@ -184,7 +191,7 @@ export const VGPT = props => {
           }}
         >
           {pinIcon}
-          <a style={{marginLeft: 4, ...selectStyles}}>{getModuleName(record)}</a>
+          <a style={{ marginLeft: 4, ...selectStyles }}>{getModuleName(record)}</a>
           <Popover content={() => ModuleInfoContent(record)} placement="right">
             <ExclamationCircleOutlined
               style={{
@@ -198,22 +205,21 @@ export const VGPT = props => {
 
   const ListItem = (item) => {
     const avatar_dict = {
-      human: <UserOutlined style={{fontSize: '24px'}}/>, ai: <OpenAIOutlined style={{fontSize: '24px'}}/>,
+      human: <UserOutlined style={{ fontSize: '24px' }}/>, ai: <OpenAIOutlined style={{ fontSize: '24px' }}/>,
     }
     let title = null
     if (item.type === "human") {
-      title = <pre style={{paddingLeft: 12, paddingTop: 0, marginRight: 16}}>{item.data.content}</pre>
+      title = <pre style={{ paddingLeft: 12, paddingTop: 0, marginRight: 16 }}>{item.data.content}</pre>
     } else if (item.type === "ai") {
       title = <Card
         size="small"
-        style={{padding: 0, marginRight: 16}}
+        style={{ padding: 0, marginRight: 16 }}
         bordered={false}>
         <pre>{item.data.content}</pre>
       </Card>
     } else {
       title = <pre>{item.data.content}</pre>
     }
-
 
     return <List.Item>
       <List.Item.Meta
@@ -223,7 +229,7 @@ export const VGPT = props => {
     </List.Item>
   }
 
-  function changeActiveModule(record) {
+  function changeActiveModule (record) {
     const urlpatternsMsf = "/ws/v1/websocket/llmmodule/?";
 
     try {
@@ -249,14 +255,13 @@ export const VGPT = props => {
     setLlmModuleConfigActive(record);
   }
 
-  function handleUserInput(e) {
-    let message = {role: "Human", message: e.target.value}
+  function handleUserInput (e) {
+    let message = { type: "human", data: { content: e.target.value } }
     setUserInputValue(null)
     setMessageList(prevItems => [...prevItems, message]);
 
     ws_llm_module.current.send(JSON.stringify(message))
   }
-
 
   return (<Row gutter={0}>
     <Col span={5}>
@@ -277,13 +282,13 @@ export const VGPT = props => {
         <Radio.Button
           value="AI_RAG">{formatText("llmmodule.rag")}</Radio.Button>
         <Radio.Button
-          value="AI_MULTI_RAG">{formatText("llmmodule.multi_agent")}</Radio.Button>
+          value="AI_Multi_Agent">{formatText("llmmodule.multi_agent")}</Radio.Button>
       </Radio.Group>
       <Table
         style={{
           padding: "0 0 0 0", maxHeight: cssCalc("100vh - 560px"), minHeight: cssCalc("100vh - 560px"),
         }}
-        scroll={{y: "calc(100vh - 120px)"}}
+        scroll={{ y: "calc(100vh - 120px)" }}
         showHeader={false}
         onRow={record => ({
           onClick: () => {
@@ -302,7 +307,7 @@ export const VGPT = props => {
       />
     </Col>
     <Col span={13}>
-      <div style={{marginLeft: 8, marginRight: 8}}>
+      <div style={{ marginLeft: 8, marginRight: 8 }}>
         <List
           style={{
             overflow: "auto", maxHeight: cssCalc(`${resizeDownHeight} - 64px`), minHeight: cssCalc(`${resizeDownHeight} - 64px`),
@@ -313,22 +318,23 @@ export const VGPT = props => {
           renderItem={(item, index) => (ListItem(item))}
         />
         <Flex vertical={false}>
-          <Input placeholder="Basic usage"
-                 value={userInputValue}
-                 suffix={<SendOutlined/>}
-                 onChange={(e) => setUserInputValue(e.target.value)}
-                 onPressEnter={(e) => handleUserInput(e)}
+          <Input
+            disabled={llmModuleConfigActive.loadpath === null}
+            placeholder="Basic usage"
+            value={userInputValue}
+            suffix={<SendOutlined/>}
+            onChange={(e) => setUserInputValue(e.target.value)}
+            onPressEnter={(e) => handleUserInput(e)}
           />
-          <Popconfirm
-            description={formatText('llmmodule.delete.confirm')}
-            // onConfirm={() => destoryIPDomainReq.run({ ipdomain: record.ipdomain })}
-          >
-            <Button
-              style={{width: 64}}
-              size="middle"
-              icon={<DeleteOutlined/>}
-            />
-          </Popconfirm>
+          <Button
+            disabled={llmModuleConfigActive.loadpath === null}
+            style={{ width: 64 }}
+            size="middle"
+            icon={<DeleteOutlined/>}
+            onClick={() => {
+              destoryLLMModuleReq.run({ loadpath: llmModuleConfigActive.loadpath })
+            }}
+          />
         </Flex>
       </div>
     </Col>

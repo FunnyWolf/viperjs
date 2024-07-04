@@ -278,6 +278,14 @@ export async function postPostmodulePostModuleActuatorAPI (params) {
   })
 }
 
+export async function deleteLLMModuleAPI (params) {
+  return request('/api/v1/postmodule/llmmodule/', {
+    method: 'DELETE', params,
+  })
+}
+
+
+
 export async function getCoreCurrentUserAPI (params) {
   return request('/api/v1/core/currentuser/', { params })
 }
