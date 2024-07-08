@@ -408,7 +408,7 @@ export const VGPT = props => {
             <Input
               style={{ marginLeft: 40 }}
               disabled={llmModuleConfigActive.loadpath === null}
-              placeholder="Basic usage"
+              // placeholder="Basic usage"
               value={userInputValue}
               suffix={<SendOutlined/>}
               onChange={(e) => setUserInputValue(e.target.value)}

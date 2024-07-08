@@ -60,6 +60,7 @@ export default {
   "app.systemsetting.inputsendkey": "Input sendkey",
   "app.systemsetting.inputemail": "Input email",
   "app.systemsetting.inputkey": "Input key",
+  "app.systemsetting.selectmodel": "Select Model",
   "app.systemsetting.inputbaseurl": "Input base url",
   "app.systemsetting.inputcookie": "Input Cookie",
   "app.systemsetting.defaultlhost": "Default LHost",

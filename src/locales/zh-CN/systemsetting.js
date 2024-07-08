@@ -58,6 +58,7 @@ export default {
   "app.systemsetting.inputsendkey": "请输入SendKey",
   "app.systemsetting.inputemail": "请输入email",
   "app.systemsetting.inputkey": "请输入key",
+  "app.systemsetting.selectmodel": "请选择Model",
   "app.systemsetting.inputcookie": "请输入Cookie",
   "app.systemsetting.inputbaseurl": "请输入base url",
   "app.systemsetting.defaultlhost": "回连地址",

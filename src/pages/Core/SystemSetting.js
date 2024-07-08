@@ -1159,6 +1159,29 @@ const OpenAIForm = props => {
           >
             <Input/>
           </Form.Item>
+          <Form.Item
+            label="model"
+            name="model"
+            rules={[
+              {
+                required: true, message: formatText('app.systemsetting.selectmodel'),
+              }]}
+          >
+            <Select
+              style={{
+                width: 160,
+              }}
+              options={[
+                {
+                  value: "gpt-3.5-turbo", label: "gpt-3.5-turbo",
+                }, {
+                  value: "gpt-4-turbo", label: "gpt-4-turbo",
+                }, {
+                  value: "gpt-4o", label: "gpt-4o",
+                },
+              ]}
+            />
+          </Form.Item>
           <Row>
             <Col style={{ marginBottom: 24 }} span={4} offset={4}>
               {settings.alive ? (<Badge status="processing"
