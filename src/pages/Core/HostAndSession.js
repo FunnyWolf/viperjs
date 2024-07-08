@@ -1181,14 +1181,14 @@ const FloatingButtons = () => {
         style={{ width: 40 }}
         onClick={() => {
           setResizeUpHeight('58vh');
-          setResizeDownHeight(`100vh - 38px - 58vh`);
+          setResizeDownHeight(`100vh - 40px - 58vh`);
         }}
         icon={<ColumnHeightOutlined/>}
       /> : <Button
         style={{ width: 40 }}
         onClick={() => {
           setResizeUpHeight('28vh');
-          setResizeDownHeight(`100vh - 38px - 28vh`);
+          setResizeDownHeight(`100vh - 40px - 28vh`);
         }}
         icon={<VerticalAlignMiddleOutlined/>}
       />}

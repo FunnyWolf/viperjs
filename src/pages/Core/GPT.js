@@ -1,16 +1,27 @@
-import {useModel} from "@@/plugin-model/useModel";
-import {formatText, getModuleDesc, getModuleName} from "@/utils/locales";
-import React, {memo, useEffect, useRef, useState} from "react";
-import {DeleteOutlined, ExclamationCircleOutlined, FunctionOutlined, OpenAIOutlined, SendOutlined, StarOutlined, StarTwoTone, ToolOutlined, UserOutlined} from "@ant-design/icons";
-import {Button, Col, Descriptions, Flex, Input, List, Popover, Radio, Row, Table, Tag, Typography} from "antd-v5";
-import {cssCalc} from "@/utils/utils";
-import {changePin, getPins} from "@/pages/Core/RunModule";
-import {HostIP} from '@/config'
-import {getToken} from '@/utils/authority'
-import {useRequest} from '@@/plugin-request/request'
-import {deleteLLMModuleAPI, postLLMModuleAPI} from '@/services/apiv1'
+import { useModel } from "@@/plugin-model/useModel";
+import { formatText, getModuleDesc, getModuleName } from "@/utils/locales";
+import React, { memo, useEffect, useRef, useState } from "react";
+import {
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+  FunctionOutlined,
+  OpenAIOutlined,
+  SendOutlined,
+  StarOutlined,
+  StarTwoTone,
+  ToolOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { Button, Col, Descriptions, Flex, Input, List, Popover, Radio, Row, Table, Tag, Typography } from "antd-v5";
+import { cssCalc } from "@/utils/utils";
+import { changePin, getPins } from "@/pages/Core/RunModule";
+import { HostIP } from '@/config'
+import { getToken } from '@/utils/authority'
+import { useRequest } from '@@/plugin-request/request'
+import { deleteLLMModuleAPI, postLLMModuleAPI } from '@/services/apiv1'
+import { useInterval } from 'ahooks'
 
-const {Title, Paragraph, Text, Link} = Typography;
+const { Title, Paragraph, Text, Link } = Typography;
 let webHost = HostIP + ":8002";
 let protocol = "ws://";
 if (process.env.NODE_ENV === "production") {
@@ -18,7 +29,7 @@ if (process.env.NODE_ENV === "production") {
   protocol = "wss://";
 }
 
-const {Search, TextArea} = Input;
+const { Search, TextArea } = Input;
 
 const ModuleInfoContent = (record) => {
   const readme = record.README;
@@ -87,7 +98,7 @@ export const VGPT = props => {
 
   const ws_llm_module = useRef(null);
 
-  const {llmModuleOptions} = useModel("HostAndSessionModel", model => ({
+  const { llmModuleOptions } = useModel("HostAndSessionModel", model => ({
     llmModuleOptions: model.llmModuleOptions,
   }));
 
@@ -101,7 +112,7 @@ export const VGPT = props => {
   const [llmModuleConfigActive, setLlmModuleConfigActive] = useState({
     NAME_ZH: null, NAME_EN: null, DESC_ZH: null, DESC_EN: null, AUTHOR: [], OPTIONS: [], loadpath: null, REFERENCES: [], README: [],
   });
-
+  const [websocketAlive, setWebsocketAlive] = useState(true);
   const [messageList, setMessageList] = useState([]);
 
   const [userInputValue, setUserInputValue] = useState(null);
@@ -122,7 +133,6 @@ export const VGPT = props => {
     }, onError: (error, params) => {
     },
   })
-
 
   const createLLMModuleReq = useRequest(postLLMModuleAPI, {
     manual: true, onSuccess: (result, params) => {
@@ -206,7 +216,7 @@ export const VGPT = props => {
           }}
         >
           {pinIcon}
-          <a style={{marginLeft: 4, ...selectStyles}}>{getModuleName(record)}</a>
+          <a style={{ marginLeft: 4, ...selectStyles }}>{getModuleName(record)}</a>
           <Popover content={() => ModuleInfoContent(record)} placement="right">
             <ExclamationCircleOutlined
               style={{
@@ -220,44 +230,46 @@ export const VGPT = props => {
 
   const ListItem = (item) => {
     const avatar_dict = {
-      human: <UserOutlined style={{fontSize: '32px', marginTop: 16}}/>,
-      ai: <OpenAIOutlined style={{fontSize: '32px', marginTop: 16}}/>,
-      tool: <ToolOutlined style={{fontSize: '32px', marginTop: 16}}/>,
-      function: <FunctionOutlined style={{fontSize: '32px', marginTop: 16}}/>,
+      human: <UserOutlined style={{ fontSize: '28px', marginTop: 16 }}/>,
+      ai: <OpenAIOutlined style={{ fontSize: '28px', marginTop: 16 }}/>,
+      tool: <ToolOutlined style={{ fontSize: '28px', marginTop: 16 }}/>,
+      function: <FunctionOutlined style={{ fontSize: '28px', marginTop: 16 }}/>,
     }
     let title = null
     if (item.type === "human") {
-      title = <Flex justify='flex-end' align='flex-start' gap="middle">
-        <Paragraph style={{marginLeft: 40}}>
-          <pre>{item.data.content}</pre>
+      title = <Flex justify="flex-end" align="flex-start" gap="small">
+        <Paragraph style={{ marginLeft: 40 }}>
+          <pre
+            style={{ backgroundColor: "#135200" }}
+          >{item.data.content}</pre>
         </Paragraph>
         {avatar_dict[item.type]}
       </Flex>
     } else if (item.type === "ai") {
       if (item.data.content === "") { // tool call
         let tool_calls = item.data.tool_calls;
-        title = <Flex justify='flex-start' align='flex-start' gap="middle">
+        title = <Flex justify="flex-start" align="flex-start" gap="small">
           {avatar_dict["function"]}
-          <Paragraph style={{marginRight: 40}}>
+          <Paragraph style={{ marginRight: 40 }}>
             <Text type="secondary">
               <pre>{JSON.stringify(tool_calls)}</pre>
             </Text>
           </Paragraph>
         </Flex>
       } else {
-        title = <Flex justify='flex-start' align='flex-start' gap="middle">
+        title = <Flex justify="flex-start" align="flex-start" gap="small">
           {avatar_dict[item.type]}
-          <Paragraph style={{marginRight: 40}}>
+          <Paragraph style={{ marginRight: 40 }}>
             <pre>{item.data.content}</pre>
           </Paragraph>
         </Flex>
       }
     } else if (item.type === "tool") {
-      title = <Flex justify='flex-start' align='flex-start' gap="middle">
+      title = <Flex justify="flex-start" align="flex-start" gap="small">
         {avatar_dict[item.type]}
-        <Paragraph style={{marginRight: 40}} ellipsis={{rows: 2, expandable: true, symbol: 'more'}}>
+        <Paragraph style={{ marginRight: 40 }}>
           <Text type="secondary">
-            <pre>{JSON.stringify({name: item.data.name, content: item.data.content})}</pre>
+            <pre>{JSON.stringify({ name: item.data.name, content: item.data.content })}</pre>
           </Text>
         </Paragraph>
       </Flex>
@@ -267,9 +279,14 @@ export const VGPT = props => {
     return title
   }
 
-  function changeActiveModule(record) {
-    const urlpatternsMsf = "/ws/v1/websocket/llmmodule/?";
+  function changeActiveModule (record) {
+    setLlmModuleConfigActive(record);
+    setWebSocket(record);
+  }
 
+  function setWebSocket (record) {
+    setWebsocketAlive(false)
+    const urlpatternsMsf = "/ws/v1/websocket/llmmodule/?";
     try {
       ws_llm_module.current.close();
     } catch (error) {
@@ -278,10 +295,12 @@ export const VGPT = props => {
       ws_llm_module.current = null;
     } catch (error) {
     }
+
     const urlargs = `token=${getToken()}&loadpath=${record.loadpath}`;
     const socketUrlMsf = protocol + webHost + urlpatternsMsf + urlargs;
 
     ws_llm_module.current = new WebSocket(socketUrlMsf);
+
     ws_llm_module.current.onmessage = event => {
       const recv_message = JSON.parse(event.data);
       if (Array.isArray(recv_message)) {
@@ -290,19 +309,37 @@ export const VGPT = props => {
         setMessageList(prevItems => [...prevItems, recv_message]);
       }
     };
-    setLlmModuleConfigActive(record);
+    ws_llm_module.current.onopen = () => {
+      setWebsocketAlive(true);
+    };
+    ws_llm_module.current.onclose = CloseEvent => {
+      setWebsocketAlive(false);
+    };
+    ws_llm_module.current.onerror = ErrorEvent => {
+      setWebsocketAlive(false);
+    };
   }
 
-  function handleUserInput(e) {
-    let message = {type: "human", data: {content: e.target.value}}
+  function handleUserInput (e) {
+    let message = { type: "human", data: { content: e.target.value } }
     setUserInputValue(null)
     // setMessageList(prevItems => [...prevItems, message]);
-    createLLMModuleReq.run({message: message, loadpath: llmModuleConfigActive.loadpath});
+    createLLMModuleReq.run({ message: message, loadpath: llmModuleConfigActive.loadpath });
     // ws_llm_module.current.send(JSON.stringify(message))
   }
 
+  const heartbeatmonitor = () => {
+    if (llmModuleConfigActive.loadpath !== null) {
+      if (ws_llm_module.current !== undefined && ws_llm_module.current !== null && ws_llm_module.current.readyState === WebSocket.OPEN) {
+      } else {
+        setWebSocket(llmModuleConfigActive);
+      }
+    }
+  };
+  useInterval(() => heartbeatmonitor(), 3000);
+
   return (<Row gutter={0}>
-      <Col span={5}>
+      <Col span={6}>
         <Search
           placeholder={formatText("app.runmodule.postmodule.searchmodule.ph")}
           onSearch={value => handleModuleSearch(value)}
@@ -326,7 +363,7 @@ export const VGPT = props => {
           style={{
             padding: "0 0 0 0", maxHeight: cssCalc("100vh - 560px"), minHeight: cssCalc("100vh - 560px"),
           }}
-          scroll={{y: "calc(100vh - 120px)"}}
+          scroll={{ y: "calc(100vh - 120px)" }}
           showHeader={false}
           onRow={record => ({
             onClick: () => {
@@ -344,23 +381,24 @@ export const VGPT = props => {
           dataSource={llmModuleConfigList}
         />
       </Col>
-      <Col span={13}>
-        <div style={{marginLeft: 8, marginRight: 8}}>
+      <Col span={14}>
+        <div style={{ marginLeft: 16, marginRight: 16 }}>
           <List
             id="message_history_list"
             style={{
               overflow: "auto", maxHeight: cssCalc(`${resizeDownHeight} - 64px`), minHeight: cssCalc(`${resizeDownHeight} - 64px`),
-              // marginLeft: 8, marginRight: 8, marginTop: 8, marginBottom: 8
+
             }}
+            loading={!websocketAlive}
             split={false}
             itemLayout="horizontal"
             dataSource={messageList}
             renderItem={(item, index) => (ListItem(item))}
           />
-          <div style={{height: 32}}></div>
+          <div style={{ height: 32 }}></div>
           <Flex vertical={false}>
             <Input
-              style={{marginLeft: 40}}
+              style={{ marginLeft: 40 }}
               disabled={llmModuleConfigActive.loadpath === null}
               placeholder="Basic usage"
               value={userInputValue}
@@ -369,12 +407,12 @@ export const VGPT = props => {
               onPressEnter={(e) => handleUserInput(e)}
             />
             <Button
-              disabled={llmModuleConfigActive.loadpath === null}
-              style={{width: 64}}
+              disabled={llmModuleConfigActive.loadpath === null || !websocketAlive}
+              style={{ width: 64 }}
               size="middle"
               icon={<DeleteOutlined/>}
               onClick={() => {
-                destoryLLMModuleReq.run({loadpath: llmModuleConfigActive.loadpath})
+                destoryLLMModuleReq.run({ loadpath: llmModuleConfigActive.loadpath })
               }}
             />
           </Flex>

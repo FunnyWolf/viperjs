@@ -198,6 +198,15 @@ export const TabsBottom = () => {
       </TabPane>
       <TabPane
         tab={<div style={tabPanedivSytle}>
+          <OpenAIOutlined/>
+          <span style={tabPanespanSytle}>{formatText('app.hostandsession.tab.VGPT')}</span>
+        </div>}
+        key="VGPT"
+      >
+        <VGPTMemo/>
+      </TabPane>
+      <TabPane
+        tab={<div style={tabPanedivSytle}>
           <RadarChartOutlined/>
           <span style={tabPanespanSytle}>{formatText('app.hostandsession.tab.BotScan')}</span>
         </div>}
@@ -214,15 +223,6 @@ export const TabsBottom = () => {
         key="ProxyHttpScan"
       >
         <ProxyHttpScanMemo/>
-      </TabPane>
-      <TabPane
-        tab={<div style={tabPanedivSytle}>
-          <OpenAIOutlined/>
-          <span style={tabPanespanSytle}>{formatText('app.hostandsession.tab.VGPT')}</span>
-        </div>}
-        key="VGPT"
-      >
-        <VGPTMemo/>
       </TabPane>
       <TabPane
         tab={<div style={tabPanedivSytle}>
