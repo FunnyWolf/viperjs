@@ -5,6 +5,7 @@ import {
   CodeOutlined,
   CustomerServiceOutlined,
   DeploymentUnitOutlined,
+  FilterOutlined,
   FolderOpenOutlined,
   FundViewOutlined,
   KeyOutlined,
@@ -14,7 +15,6 @@ import {
   RobotOutlined,
   SettingOutlined,
   SisternodeOutlined,
-  StopOutlined,
 } from '@ant-design/icons'
 import { formatText } from '@/utils/locales'
 import { RealTimeJobsMemo, RealTimeModuleResultMemo, RealTimeNoticesMemo, TaskQueueTagMemo } from '@/pages/Core/RealTimeCard'
@@ -29,9 +29,11 @@ import { CredentialMemo } from '@/pages/Core/Credential'
 import { MsfconsoleMemo } from '@/pages/Core/MsfConsoleXTerm'
 import { SystemSettingMemo } from '@/pages/Core/SystemSetting'
 import { VGPTMemo } from '@/pages/Core/GPT'
+import { useLocalStorageState } from 'ahooks'
 
 const { TabPane } = Tabs;
 export const TabsBottom = () => {
+  const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState('viper-debug-flag', false)
   console.log('TabsBottom');
   let payloadandhandlerRef = React.createRef();
   let webDeliveryRef = React.createRef();
@@ -78,10 +80,10 @@ export const TabsBottom = () => {
   };
 
   const tabPanedivSytle = {
-    marginLeft: '-6px', marginRight: '-6px',
+    marginLeft: '-8px', marginRight: '-8px',
   };
   const tabPanespanSytle = {
-    marginLeft: '-4px',
+    marginLeft: '-6px',
   };
 
   return (<Fragment>
@@ -125,7 +127,7 @@ export const TabsBottom = () => {
       </TabPane>
       <TabPane
         tab={<div style={tabPanedivSytle}>
-          <StopOutlined/>
+          <FilterOutlined/>
           <span style={tabPanespanSytle}>{formatText('app.hostandsession.tab.IPFilter')}</span>
         </div>}
         key="IPFilter"

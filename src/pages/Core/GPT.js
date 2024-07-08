@@ -56,7 +56,11 @@ const ModuleInfoContent = (record) => {
   for (let i = 0; i < authors.length; i++) {
     authorCom.push(<Tag color="lime">{authors[i]}</Tag>);
   }
-
+  const tags = record.TAGS;
+  const tagCom = [];
+  for (let i = 0; i < tags.length; i++) {
+    tagCom.push(<Tag color="geekblue">{tags[i]}</Tag>);
+  }
   return (<Descriptions
     size="small"
     style={{
@@ -68,6 +72,10 @@ const ModuleInfoContent = (record) => {
     <Descriptions.Item label={formatText("app.runmodule.postmodule.NAME")}
                        span={12}>
       {getModuleName(record)}
+    </Descriptions.Item>
+    <Descriptions.Item
+      label={formatText("app.runmodule.postmodule.tags")} span={12}>
+      {tagCom}
     </Descriptions.Item>
     <Descriptions.Item
       label={formatText("app.runmodule.postmodule.authorCom")} span={12}>
@@ -110,7 +118,7 @@ export const VGPT = props => {
 
   const [llmModuleConfigList, setLlmModuleConfigList] = useState(llmModuleOptions);
   const [llmModuleConfigActive, setLlmModuleConfigActive] = useState({
-    NAME_ZH: null, NAME_EN: null, DESC_ZH: null, DESC_EN: null, AUTHOR: [], OPTIONS: [], loadpath: null, REFERENCES: [], README: [],
+    NAME_ZH: null, NAME_EN: null, DESC_ZH: null, DESC_EN: null, AUTHOR: [], OPTIONS: [], loadpath: null, REFERENCES: [], README: [], TAGS: [],
   });
   const [websocketAlive, setWebsocketAlive] = useState(true);
   const [messageList, setMessageList] = useState([]);

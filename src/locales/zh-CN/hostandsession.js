@@ -17,7 +17,7 @@ export default {
   'app.hostandsession.tab.Notices': '实时输出',
   'app.hostandsession.tab.JobList': '任务列表',
   'app.hostandsession.tab.PayloadAndHandler': '监听载荷',
-  'app.hostandsession.tab.IPFilter': '监听防火墙',
+  'app.hostandsession.tab.IPFilter': '回连过滤',
   'app.hostandsession.tab.FileMsf': '文件列表',
   'app.hostandsession.tab.Network': '网络拓扑',
   'app.hostandsession.tab.passivescan': '被动扫描',

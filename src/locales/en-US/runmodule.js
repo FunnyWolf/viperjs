@@ -1,6 +1,7 @@
 export default {
   'app.runmodule.postmodule.NAME': 'Name',
   'app.runmodule.postmodule.authorCom': 'Author',
+  'app.runmodule.postmodule.tags': 'Tags',
   'app.runmodule.postmodule.platformCom': 'Platform',
   'app.runmodule.postmodule.permissionsCom': 'Permission',
   'app.runmodule.postmodule.readmeCom': 'Readme',

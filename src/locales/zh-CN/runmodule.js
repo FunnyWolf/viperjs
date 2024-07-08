@@ -1,6 +1,7 @@
 export default {
   "app.runmodule.postmodule.NAME": "名称",
   "app.runmodule.postmodule.authorCom": "作者",
+  'app.runmodule.postmodule.tags': '标签',
   "app.runmodule.postmodule.platformCom": "适用系统",
   "app.runmodule.postmodule.permissionsCom": "适用权限",
   "app.runmodule.postmodule.readmeCom": "使用文档",

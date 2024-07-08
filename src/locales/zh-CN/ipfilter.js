@@ -17,7 +17,7 @@ export default {
   "app.ipfilter.switch": "总开关",
   "app.ipfilter.switch.running": "开启",
   "app.ipfilter.switch.inactive": "关闭",
-  "app.ipfilter.switch.tip": "监听防火墙总开关,开启该选项后IP过滤才生效",
+  "app.ipfilter.switch.tip": "回连过滤总开关,开启该选项后IP过滤才生效",
   "app.ipfilter.search.ph": "输入IP地址检测是否被屏蔽",
   "app.ipfilter.update": "更新配置"
 };
