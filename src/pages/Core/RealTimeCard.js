@@ -450,7 +450,7 @@ const RealTimeNotices = () => {
 
   return (<Fragment>
     <DocIcon url="https://www.yuque.com/vipersec/help/vdbhlm"/>
-    <Row>
+    <Row style={{ paddingLeft: 1, paddingRight: 1 }}>
       <Col span={16}>
         <UserInput createNotice={params => createNoticeReq.run(params)}/>
       </Col>
