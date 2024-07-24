@@ -1001,7 +1001,7 @@ const CreateHandlerModalContent = props => {
         htmlType="submit"
         type="primary"
       >
-        {formatText("app.payloadandhandler.addhandler")}
+        <span style={{ marginLeft: 4 }}>{formatText("app.payloadandhandler.addhandler")}</span>
       </Button>
     </Form.Item>
   </Form>);
@@ -1811,7 +1811,7 @@ const CreatePayloadModalContent = props => {
         htmlType="submit"
         type="primary"
       >
-        {formatText("app.payloadandhandler.genpayload")}
+        <span style={{ marginLeft: 4 }}>{formatText("app.payloadandhandler.genpayload")}</span>
       </Button>
     </Form.Item>
   </Form>);
@@ -2013,7 +2013,7 @@ const PayloadAndHandler = (props) => {
   return (<Fragment>
     <DocIcon url="https://www.yuque.com/vipersec/help/rxb29t"/>
     <Row gutter={0}
-         style={{paddingLeft: 1, paddingRight: 1}}
+         style={{ paddingLeft: 1, paddingRight: 1 }}
     >
       <Col span={8}>
         <Button
@@ -2021,7 +2021,7 @@ const PayloadAndHandler = (props) => {
           icon={<CustomerServiceOutlined/>}
           onClick={() => setCreateHandlerModalVisible(true)}
         >
-          {formatText("app.payloadandhandler.addhandler")}
+          <span style={{ marginLeft: 4 }}>{formatText("app.payloadandhandler.addhandler")}</span>
         </Button>
       </Col>
       <Col span={8}>
@@ -2031,19 +2031,17 @@ const PayloadAndHandler = (props) => {
           icon={<BlockOutlined/>}
           onClick={() => setCreatePayloadModalVisible(true)}
         >
-          {formatText("app.payloadandhandler.genpayload")}
+          <span style={{ marginLeft: 4 }}>{formatText("app.payloadandhandler.genpayload")}</span>
         </Button>
       </Col>
       <Col span={8}>
         <Button
           icon={<SyncOutlined/>}
-          style={{
-            width: "100%",
-          }}
+          block
           loading={listHanderReq.loading || createHandlerReq.loading || destoryHandlerReq.loading}
           onClick={() => listHanderReq.run()}
         >
-          {formatText("app.core.refresh")}
+          <span style={{ marginLeft: 4 }}>{formatText("app.core.refresh")}</span>
         </Button>
       </Col>
     </Row>

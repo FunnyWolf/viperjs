@@ -1472,7 +1472,7 @@ const SessionInfo = () => {
             loading={updateSessionInfoReq.loading || initListSessionInfoReq.loading}
             onClick={() => updateSessionInfoReq.run({ sessionid: hostAndSessionActive.session.id })}
           >
-            {formatText('app.hostandsession.sessioninfo.update')}
+            <span style={{ marginLeft: 4 }}>{formatText('app.hostandsession.sessioninfo.update')}</span>
           </Button>
         </Space>
       </TabPane>
@@ -1521,7 +1521,7 @@ const SessionInfo = () => {
             loading={updateSessionInfoReq.loading || initListSessionInfoReq.loading}
             onClick={() => updateSessionInfoReq.run({ sessionid: hostAndSessionActive.session.id })}
           >
-            {formatText('app.hostandsession.sessioninfo.update')}
+            <span style={{ marginLeft: 4 }}>{formatText('app.hostandsession.sessioninfo.update')}</span>
           </Button>
         </Space>
       </TabPane>
@@ -1681,7 +1681,7 @@ const SessionIO = () => {
           icon={<DeleteOutlined/>}
           onClick={() => destorySessionioReq.run({ ipaddress: hostAndSessionActive.ipaddress })}
         >
-          {formatText('app.core.clear')}
+          <span style={{ marginLeft: 4 }}>{formatText('app.core.clear')}</span>
         </Button>
       </Col>
     </Row>
@@ -1809,7 +1809,7 @@ const MsfRoute = () => {
           type="primary"
           htmlType="submit"
         >
-          {formatText('app.core.add')}
+          <span style={{ marginLeft: 4 }}>{formatText('app.core.add')}</span>
         </Button>
       </Form.Item>
       <Form.Item>
@@ -1819,7 +1819,7 @@ const MsfRoute = () => {
           onClick={() => listRouteReq.run({ sessionid: hostAndSessionActive.session.id })}
           loading={listRouteReq.loading}
         >
-          {formatText('app.core.refresh')}
+          <span style={{ marginLeft: 4 }}>{formatText('app.core.refresh')}</span>
         </Button>
       </Form.Item>
     </Form>
@@ -1995,7 +1995,7 @@ const PortFwd = () => {
                 htmlType="submit"
                 loading={createPortFwdReq.loading}
               >
-                {formatText('app.core.add')}
+                <span style={{ marginLeft: 4 }}>{formatText('app.core.add')}</span>
               </Button>
             </Form.Item>
             <Form.Item>
@@ -2005,7 +2005,7 @@ const PortFwd = () => {
                 onClick={() => listPortFwdReq.run({ sessionid: hostAndSessionActive.session.id })}
                 loading={listPortFwdReq.loading}
               >
-                {formatText('app.core.refresh')}
+                <span style={{ marginLeft: 4 }}>{formatText('app.core.refresh')}</span>
               </Button>
             </Form.Item>
           </Form>
@@ -2065,7 +2065,7 @@ const PortFwd = () => {
                 htmlType="submit"
                 icon={<PlusOutlined/>}
               >
-                {formatText('app.core.add')}
+                <span style={{ marginLeft: 4 }}>{formatText('app.core.add')}</span>
               </Button>
             </Form.Item>
             <Form.Item>
@@ -2075,7 +2075,7 @@ const PortFwd = () => {
                 onClick={() => listPortFwdReq.run({ sessionid: hostAndSessionActive.session.id })}
                 loading={listPortFwdReq.loading}
               >
-                {formatText('app.core.refresh')}
+                <span style={{ marginLeft: 4 }}>{formatText('app.core.refresh')}</span>
               </Button>
             </Form.Item>
           </Form>
@@ -2303,7 +2303,7 @@ const Transport = props => {
           htmlType="submit"
           icon={<PlusOutlined/>}
         >
-          {formatText('app.core.add')}
+          <span style={{ marginLeft: 4 }}>{formatText('app.core.add')}</span>
         </Button>
       </Form.Item>
       <Form.Item>
@@ -2312,7 +2312,7 @@ const Transport = props => {
           onConfirm={() => onUpdateTransport('prev')}
         >
           <Button loading={updateTransportReq.loading} danger icon={<UpOutlined/>}>
-            {formatText('app.hostandsession.transport.update')}
+            <span style={{ marginLeft: 4 }}>{formatText('app.hostandsession.transport.update')}</span>
           </Button>
         </Popconfirm>
       </Form.Item>
@@ -2322,7 +2322,7 @@ const Transport = props => {
           onConfirm={() => onUpdateTransport('next')}
         >
           <Button loading={updateTransportReq.loading} danger icon={<DownOutlined/>}>
-            {formatText('app.hostandsession.transport.update')}
+            <span style={{ marginLeft: 4 }}>{formatText('app.hostandsession.transport.update')}</span>
           </Button>
         </Popconfirm>
       </Form.Item>
@@ -2333,7 +2333,7 @@ const Transport = props => {
           onClick={() => listTransportReq.run({ sessionid: hostAndSessionActive.session.id })}
           loading={listTransportReq.loading}
         >
-          {formatText('app.core.refresh')}
+          <span style={{ marginLeft: 4 }}>{formatText('app.core.refresh')}</span>
         </Button>
       </Form.Item>
     </Form>
@@ -2363,7 +2363,7 @@ const Transport = props => {
           htmlType="submit"
           icon={<RestOutlined/>}
         >
-          {formatText('app.hostandsession.transport.sleep')}
+          <span style={{ marginLeft: 4 }}>{formatText('app.hostandsession.transport.sleep')}</span>
         </Button>
       </Form.Item>
     </Form>
@@ -2768,7 +2768,7 @@ const FileSession = () => {
                             type="primary"
                             htmlType="submit"
                             loading={listFileSessionRunReq.loading}
-                          >{formatText('app.hostandsession.filesession.exec')}</Button>
+                          ><span style={{ marginLeft: 4 }}>{formatText('app.hostandsession.filesession.exec')}</span></Button>
                         </Form.Item>
                       </Form>}
                       trigger="click"
@@ -2974,14 +2974,14 @@ const HostRuningInfo = () => {
           icon={<SyncOutlined/>}
           onClick={() => onListHostInfo(hostAndSessionActive)}
           loading={listHostInfoReq.loading}
-        >{formatText('app.hostandsession.hostruninginfo.list')}</Button>
+        ><span style={{ marginLeft: 4 }}>{formatText('app.hostandsession.hostruninginfo.list')}</span></Button>
         <Button
           icon={<RetweetOutlined/>}
           loading={updateHostInfoReq.loading}
           onClick={() => onUpdateHostInfo()}
           disabled={hostAndSessionActive.session === undefined || hostAndSessionActive.session === null || hostAndSessionActive.session.id === undefined ||
             hostAndSessionActive.session.id === -1}
-        >{formatText('app.hostandsession.hostruninginfo.update')}</Button>
+        ><span style={{ marginLeft: 4 }}>{formatText('app.hostandsession.hostruninginfo.update')}</span></Button>
       </ButtonGroup>
       {hostAndSessionBaseInfo.UPDATE_TIME === 0 || hostAndSessionBaseInfo.UPDATE_TIME === undefined ? (<Tag
         style={{
@@ -3390,7 +3390,7 @@ const UpdateHost = props => {
           type="primary"
           htmlType="submit"
           loading={updateHostReq.loading}
-        >{formatText('app.core.update')}</Button>
+        ><span style={{ marginLeft: 4 }}>{formatText('app.core.update')}</span></Button>
       </Form.Item>
     </Form>
   </Card>);

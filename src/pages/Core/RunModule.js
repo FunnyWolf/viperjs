@@ -1,7 +1,7 @@
-import React, {Fragment, memo, useState} from 'react'
-import {getLocale, useModel, useRequest} from 'umi'
-import {useLocalStorageState} from 'ahooks'
-import {ModalForm, ProFormTextArea} from '@ant-design/pro-form'
+import React, { Fragment, memo, useState } from 'react'
+import { getLocale, useModel, useRequest } from 'umi'
+import { useLocalStorageState } from 'ahooks'
+import { ModalForm, ProFormTextArea } from '@ant-design/pro-form'
 import {
   CaretRightOutlined,
   CheckOutlined,
@@ -40,7 +40,7 @@ import {
   Tooltip,
   Typography,
 } from 'antd-v5'
-import {Modal} from 'antd'
+import { Modal } from 'antd'
 import moment from 'moment'
 import {
   deleteMsgrpcJobAPI,
@@ -56,11 +56,11 @@ import {
   postProxyHttpScanAPI,
   putPostModuleAutoAPI,
 } from '@/services/apiv1'
-import {formatText, getModuleDesc, getModuleName, getOptionDesc, getOptionTag} from '@/utils/locales'
-import {postModuleOpts} from '@/pages/Core/RealTimeCard'
-import {sessionTagList} from '@/pages/Core/HostAndSession'
-import {DocIcon, DocIconInDiv} from '@/pages/Core/Common'
-import {cssCalc} from '@/utils/utils'
+import { formatText, getModuleDesc, getModuleName, getOptionDesc, getOptionTag } from '@/utils/locales'
+import { postModuleOpts } from '@/pages/Core/RealTimeCard'
+import { sessionTagList } from '@/pages/Core/HostAndSession'
+import { DocIcon, DocIconInDiv } from '@/pages/Core/Common'
+import { cssCalc } from '@/utils/utils'
 
 const {Title, Paragraph, Text} = Typography
 const {Search, TextArea} = Input
@@ -764,7 +764,7 @@ export const RunModule = props => {
                     disabled={postModuleConfigActive.loadpath === null}
                     icon={<CaretRightOutlined/>}
                     loading={createPostModuleActuatorReq.loading}
-                  >{formatText('app.runmodule.postmodule.run')}</Button>
+                  ><span style={{ marginLeft: 4 }}>{formatText('app.runmodule.postmodule.run')}</span></Button>
                 </Col>
               </Row>
             </Form>
@@ -1015,7 +1015,7 @@ export const RunAutoModule = props => {
                   disabled={postModuleConfigActive.loadpath === null}
                   icon={<PlusOutlined/>}
                   loading={createPostModuleAutoReq.loading}
-                >{formatText('app.runmodule.postmodule.add')}</Button>
+                ><span style={{ marginLeft: 4 }}>{formatText('app.runmodule.postmodule.add')}</span></Button>
               </Col>
             </Row>
           </Form>
@@ -1321,7 +1321,7 @@ export const RunschedulerModule = props => {
                   disabled={postModuleConfigActive.loadpath === null}
                   icon={<PlusOutlined/>}
                   loading={createPostModuleAutoReq.loading}
-                >{formatText('app.runmodule.postmodule.add')}</Button>
+                ><span style={{ marginLeft: 4 }}>{formatText('app.runmodule.postmodule.add')}</span></Button>
               </Col>
             </Row>
           </Form>
@@ -1736,7 +1736,7 @@ export const RunBotModule = props => {
                     htmlType="submit"
                     disabled={botModuleConfigActive.loadpath === null}
                     loading={listNetworkSearchReq.loading}
-                  >{formatText('app.runmodule.postmodule.search')}</Button>
+                  ><span style={{ marginLeft: 4 }}>{formatText('app.runmodule.postmodule.search')}</span></Button>
                 </Form.Item>
               </Form>
               <Divider/>
@@ -1828,7 +1828,7 @@ export const RunBotModule = props => {
                   disabled={botModuleConfigActive.loadpath === null || selectedRows.length === 0}
                   icon={<PlayCircleOutlined/>}
                   loading={createPostModuleActuatorReq.loading}
-                >{formatText('app.runmodule.postmodule.run')}</Button>
+                ><span style={{ marginLeft: 4 }}>{formatText('app.runmodule.postmodule.run')}</span></Button>
               </Col>
             </Row>
           </Form>
@@ -1855,7 +1855,7 @@ export const BotScan = () => {
           block
           icon={<PlusOutlined/>}
           onClick={() => setRunBotModuleModalVisable(true)}
-        >{formatText('app.runmodule.botmodule.newtask')}</Button>
+        ><span style={{ marginLeft: 4 }}>{formatText('app.runmodule.botmodule.newtask')}</span></Button>
       </Col>
     </Row>
     <RealTimeBotWaitListMemo/>
@@ -2169,7 +2169,7 @@ export const PostModule = props => {
           block
           icon={<PlayCircleOutlined/>}
           loading={createPostModuleActuatorReq.loading}
-        >{formatText('app.runmodule.postmodule.run')}</Button>
+        ><span style={{ marginLeft: 4 }}>{formatText('app.runmodule.postmodule.run')}</span></Button>
       </Col>
     </Row>
   </Form>)
@@ -2371,7 +2371,7 @@ const AutoRobot = () => {
             block
             icon={<PlusOutlined/>}
             onClick={() => setRunAutoModuleModalModalVisable(true)}
-          >{formatText('app.runmodule.autorobot.add')}</Button>
+          ><span style={{ marginLeft: 4 }}>{formatText('app.runmodule.autorobot.add')}</span></Button>
         </Col>
         <Col span={12}>
           <Button
@@ -2381,7 +2381,7 @@ const AutoRobot = () => {
             }}
             loading={listPostModuleAutoReq.loading || createPostModuleAutoReq.loading || destoryPostModuleAutoReq.loading}
             onClick={() => listPostModuleAutoReq.run()}
-          >{formatText('app.core.refresh')}</Button>
+          ><span style={{ marginLeft: 4 }}>{formatText('app.core.refresh')}</span></Button>
         </Col>
       </Row>
       <Row gutter={0}>
@@ -2454,7 +2454,7 @@ const AutoRobot = () => {
             block
             icon={<PlusOutlined/>}
             onClick={() => setRunAutoModuleSchedulerModalModalVisable(true)}
-          >{formatText('app.runmodule.autorobot.scheduler.add')}</Button>
+          ><span style={{ marginLeft: 4 }}>{formatText('app.runmodule.autorobot.scheduler.add')}</span></Button>
         </Col>
         <Col span={12}>
           <Button
@@ -2464,7 +2464,7 @@ const AutoRobot = () => {
             }}
             loading={listPostModuleAutoReq.loading || createPostModuleAutoReq.loading || destoryPostModuleAutoReq.loading}
             onClick={() => listPostModuleAutoReq.run()}
-          >{formatText('app.core.refresh')}</Button>
+          ><span style={{ marginLeft: 4 }}>{formatText('app.core.refresh')}</span></Button>
         </Col>
       </Row>
       <Row gutter={0}>
@@ -2828,7 +2828,7 @@ export const ProxyHttpScanModule = props => {
                   disabled={postModuleConfigActive.loadpath === null}
                   icon={<PlusOutlined/>}
                   loading={createProxyHttpScanReq.loading}
-                >{formatText('app.runmodule.postmodule.add')}</Button>
+                ><span style={{ marginLeft: 4 }}>{formatText('app.runmodule.postmodule.add')}</span></Button>
               </Col>
             </Row>
           </Form>
@@ -2897,7 +2897,7 @@ const ProxyHttpScan = () => {
           block
           icon={<PlusOutlined/>}
           onClick={() => setRunProxyHttpScanModuleModalVisable(true)}
-        >{formatText('app.runmodule.proxymodule.add')}</Button>
+        ><span style={{ marginLeft: 4 }}>{formatText('app.runmodule.proxymodule.add')}</span></Button>
       </Col>
       <Col span={12}>
         <Button
@@ -2907,7 +2907,7 @@ const ProxyHttpScan = () => {
           }}
           loading={listProxyHttpScanReq.loading || createProxyHttpScanReq.loading || destoryProxyHttpScanReq.loading}
           onClick={() => listProxyHttpScanReq.run()}
-        >{formatText('app.core.refresh')}</Button>
+        ><span style={{ marginLeft: 4 }}>{formatText('app.core.refresh')}</span></Button>
       </Col>
     </Row>
     <Row gutter={0}>

@@ -514,7 +514,7 @@ const IPDomain = props => {
         size="middle"
         icon={<PlusCircleOutlined/>}
         onClick={() => addToWebIPDomainPortWaitList(record)}
-      ></Button>
+      />
       <Button
         size="middle"
         icon={<TagOutlined/>}
@@ -1225,7 +1225,7 @@ const IPDomain = props => {
             type="primary"
             htmlType="submit"
           >
-            {formatText('app.core.update')}
+            <span style={{ marginLeft: 4 }}>{formatText('app.core.update')}</span>
           </Button>
         </Form.Item>
       </Form>

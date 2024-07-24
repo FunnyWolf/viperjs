@@ -361,7 +361,7 @@ export const RunWebModule = props => {
                 disabled={webModuleConfigActive.loadpath === null}
                 icon={<PlayCircleOutlined/>}
                 loading={createPostModuleActuatorReq.loading}
-              >{formatText("app.runmodule.postmodule.run")}</Button>
+              ><span style={{ marginLeft: 4 }}>{formatText("app.runmodule.postmodule.run")}</span></Button>
             </Row>
           </Form>
         </TabPane>
@@ -373,7 +373,7 @@ export const RunWebModule = props => {
             <Button
               icon={<DeleteOutlined/>}
               onClick={() => deleteSelectedWebIPDomainPortWaitList()}
-            >{formatText("common.delete")}</Button>
+            ><span style={{ marginLeft: 4 }}>{formatText("common.delete")}</span></Button>
           </Row>
           <Table
             style={{

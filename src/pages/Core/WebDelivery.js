@@ -226,7 +226,7 @@ const CreateWebDeliveryModalContent = props => {
         htmlType="submit"
         type="primary"
       >
-        {formatText("app.webdelivery.submit")}
+        <span style={{ marginLeft: 4 }}>{formatText("app.webdelivery.submit")}</span>
       </Button>
     </Form.Item>
   </Form>);
@@ -324,7 +324,7 @@ const WebDelivery = (props) => {
           icon={<CloudDownloadOutlined/>}
           onClick={() => setCreateWebDeliveryModalVisible(true)}
         >
-          {formatText("app.webdelivery.submit")}
+          <span style={{ marginLeft: 4 }}>{formatText("app.webdelivery.submit")}</span>
         </Button>
       </Col>
       <Col span={12}>
@@ -334,7 +334,7 @@ const WebDelivery = (props) => {
           loading={listWebDeliveryReq.loading || createWebDeliveryReq.loading || destoryWebDeliveryReq.loading}
           onClick={() => listWebDeliveryReq.run()}
         >
-          {formatText("app.core.refresh")}
+          <span style={{ marginLeft: 4 }}>{formatText("app.core.refresh")}</span>
         </Button>
       </Col>
     </Row>

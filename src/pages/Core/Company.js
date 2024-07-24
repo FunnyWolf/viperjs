@@ -365,7 +365,7 @@ export const Company = props => {
                   companyName: companyBaseInfoActive.companyName,
                 });
               }}
-            >Delete</Button>
+            ><span style={{ marginLeft: 4 }}>Delete</span></Button>
           </Space>
         </TabPane>
         {CompanyICPTable(companyBaseInfoActive)}

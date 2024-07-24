@@ -139,7 +139,7 @@ const CollectSandbox = () => {
                 htmlType="submit"
                 loading={updateCollectSandboxTagReq.loading}
               >
-                {formatText("app.core.update")}
+                <span style={{ marginLeft: 4 }}>{formatText("app.core.update")}</span>
               </Button>
             </Form.Item>
           </Form>
@@ -149,7 +149,7 @@ const CollectSandbox = () => {
             onClick={() => listCollectSandboxReq.run()}
             loading={listCollectSandboxReq.loading || updateCollectSandboxTagReq.loading || destoryCollectSandboxReq.loading}
           >
-            刷新
+            <span style={{ marginLeft: 4 }}>刷新</span>
           </Button>
         </Col>
       </Row>

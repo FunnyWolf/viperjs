@@ -239,7 +239,7 @@ const IPFilter = (props) => {
             htmlType="submit"
             loading={updateIPFilterReq.loading}
           >
-            {formatText("app.ipfilter.update")}
+            <span style={{ marginLeft: 4 }}>{formatText("app.ipfilter.update")}</span>
           </Button>
         </Form>
       </Card>

@@ -289,7 +289,7 @@ const MsfSocks = () => {
               block
               disabled={selectedRowKeys.length === 0}
               icon={<CopyOutlined/>}
-            >{formatText("app.core.copy")}</Button>
+            ><span style={{ marginLeft: 4 }}>{formatText("app.core.copy")}</span></Button>
           </Col>
           <Col span={6}>
             <Button
@@ -383,7 +383,7 @@ const MsfSocks = () => {
               onClick={() => listHostReq.run()}
               block
               loading={listHostReq.loading || destoryHostReq.loading || destorySocksReq.loading || destoryPortFwdReq.loading || destoryRouteReq.loading}
-            >{formatText("app.core.refresh")}</Button>
+            ><span style={{ marginLeft: 4 }}>{formatText("app.core.refresh")}</span></Button>
             <Table
               bordered
               style={{
@@ -420,8 +420,7 @@ const MsfSocks = () => {
               block
               icon={<PlusOutlined/>}
               onClick={() => setCreateSocksModalVisible(true)}
-            >{formatText("app.msfsocks.socks.add")}
-            </Button>
+            ><span style={{ marginLeft: 4 }}>{formatText("app.msfsocks.socks.add")}</span></Button>
             <Table
               bordered
               style={{
@@ -572,7 +571,7 @@ const MsfSocks = () => {
             htmlType="submit"
             loading={updateHostReq.loading}
           >
-            {formatText("app.core.update")}
+            <span style={{ marginLeft: 4 }}>{formatText("app.core.update")}</span>
           </Button>
         </Form.Item>
       </Form>
@@ -621,7 +620,7 @@ const MsfSocks = () => {
             htmlType="submit"
             type="primary"
           >
-            {formatText("app.core.add")}
+            <span style={{ marginLeft: 4 }}>{formatText("app.core.add")}</span>
           </Button>
         </Form.Item>
         <Row>

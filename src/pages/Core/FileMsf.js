@@ -1,17 +1,17 @@
-import React, {Fragment, memo, useImperativeHandle, useState} from "react";
+import React, { Fragment, memo, useImperativeHandle, useState } from "react";
 import moment from "moment";
-import {getLocale, useRequest} from "umi";
-import {deleteMsgrpcFileMsfAPI, getMsgrpcFileMsfAPI, postPostmodulePostModuleActuatorAPI} from "@/services/apiv1";
+import { getLocale, useRequest } from "umi";
+import { deleteMsgrpcFileMsfAPI, getMsgrpcFileMsfAPI, postPostmodulePostModuleActuatorAPI } from "@/services/apiv1";
 
-import {Button, Card, Col, Popover, Row, Space, Table, Tag} from 'antd-v5';
-import {Modal, Upload} from 'antd'
-import {CopyOutlined, SyncOutlined, UploadOutlined} from "@ant-design/icons";
+import { Button, Card, Col, Popover, Row, Space, Table, Tag } from 'antd-v5';
+import { Modal, Upload } from 'antd'
+import { CopyOutlined, SyncOutlined, UploadOutlined } from "@ant-design/icons";
 import copy from "copy-to-clipboard";
-import {getToken} from "@/utils/authority";
-import {cssCalc} from "@/utils/utils";
-import {formatText, manuali18n, msgerror, msgsuccess, msgwarning} from "@/utils/locales";
-import {DocIcon} from "@/pages/Core/Common";
-import {useModel} from "@@/plugin-model/useModel";
+import { getToken } from "@/utils/authority";
+import { cssCalc } from "@/utils/utils";
+import { formatText, manuali18n, msgerror, msgsuccess, msgwarning } from "@/utils/locales";
+import { DocIcon } from "@/pages/Core/Common";
+import { useModel } from "@@/plugin-model/useModel";
 import './TableV5.css'
 
 String.prototype.format = function () {
@@ -168,7 +168,7 @@ const FileMsf = props => {
           onClick={() => listFileMsfReq.run()}
           loading={listFileMsfReq.loading || listFileMsfForDownloadReq.loading || listFileMsfForViewReq.loading || msfUploading}
         >
-          {formatText("app.core.refresh")}
+          <span style={{ marginLeft: 4 }}>{formatText("app.core.refresh")}</span>
         </Button>
         <Table
           style={{
@@ -291,9 +291,11 @@ const DownloadFileWayTable = item => {
           copy(record.cmd);
           msgsuccess("已复制到剪切板", "Copyed to clipboard");
         }}
-      >{manuali18n("复制", "Copy")}</Button>),
+        ><span style={{ marginLeft: 4 }}>{manuali18n("复制", "Copy")}</span></Button>
+      ),
     }];
-  return <Table style={{width: "60vw"}} size="small" columns={columns} dataSource={data} pagination={false}/>
+  return
+  <Table style={{ width: "60vw" }} size="small" columns={columns} dataSource={data} pagination={false}/>
 };
 
 export const FileMsfMemo = memo(FileMsf);
@@ -442,7 +444,7 @@ export const FileMsfModal = props => {
           onClick={() => listFileMsfReq.run()}
           loading={listFileMsfReq.loading || listFileMsfForDownloadReq.loading || createPostModuleActuatorReq.loading}
         >
-          {formatText("app.core.refresh")}
+          <span style={{ marginLeft: 4 }}>{formatText("app.core.refresh")}</span>
         </Button>
       </Col>
     </Row>

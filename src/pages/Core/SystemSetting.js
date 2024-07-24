@@ -226,8 +226,7 @@ const SystemInfo = () => {
               icon={<SyncOutlined/>}
               onClick={() => getLastestVersionReq()}
               loading={lastestVersionLoading}
-            >
-            </Button>
+            />
           </Space>
         </Descriptions.Item>
       </Descriptions>
@@ -280,8 +279,7 @@ const SystemInfo = () => {
               icon={<SyncOutlined/>}
               onClick={() => listServiceStatusReq.run()}
               loading={listServiceStatusReq.loading}
-            >
-            </Button>
+            />
           </Space>
         </Descriptions.Item>
         <Descriptions.Item
@@ -305,24 +303,24 @@ const SystemInfo = () => {
           onClick={() => updatePostmodulePostModuleConfigReq.run()}
           loading={updatePostmodulePostModuleConfigReq.loading}
         >
-          {formatText('app.systemsetting.reloadallmodule')}
+          <span style={{ marginLeft: 4 }}>{formatText('app.systemsetting.reloadallmodule')}</span>
         </Button>
         <Button
           icon={<DeleteOutlined/>}
           onClick={() => deleteUuidJsonReq.run()}
           loading={deleteUuidJsonReq.loading}
         >
-          {formatText('app.systemsetting.deleteuuidjson')}
+          <span style={{ marginLeft: 4 }}>{formatText('app.systemsetting.deleteuuidjson')}</span>
         </Button>
         <Button
           icon={<CloudDownloadOutlined/>}
           onClick={() => downloadlogReq.run()}
           loading={downloadlogReq.loading}
         >
-          {formatText('app.systemsetting.downloadlog')}
+          <span style={{ marginLeft: 4 }}>{formatText('app.systemsetting.downloadlog')}</span>
         </Button>
         <Button danger icon={<LogoutOutlined/>} onClick={loginOut}>
-          {formatText('app.systemsetting.logout')}
+          <span style={{ marginLeft: 4 }}>{formatText('app.systemsetting.logout')}</span>
         </Button>
       </Space>
     </Row>
@@ -417,7 +415,7 @@ const TelegramForm = props => {
               htmlType="submit"
               loading={updateTelegramReq.loading}
             >
-              {formatText('app.systemsetting.updateorgetchatid')}
+              <span style={{ marginLeft: 4 }}>{formatText('app.systemsetting.updateorgetchatid')}</span>
             </Button>
           </Form.Item>
         </Form>
@@ -517,7 +515,7 @@ const DingDingForm = props => {
               htmlType="submit"
               loading={updateDingDingReq.loading}
             >
-              {formatText('app.core.update')}
+              <span style={{ marginLeft: 4 }}>{formatText('app.core.update')}</span>
             </Button>
           </Form.Item>
         </Form>
@@ -597,7 +595,7 @@ const ServerChanForm = props => {
               htmlType="submit"
               loading={updateServerChanReq.loading}
             >
-              {formatText('app.core.update')}
+              <span style={{ marginLeft: 4 }}>{formatText('app.core.update')}</span>
             </Button>
           </Form.Item>
         </Form>
@@ -686,7 +684,7 @@ const FOFAForm = props => {
                 htmlType="submit"
                 loading={updateFOFAReq.loading}
               >
-                {formatText('app.core.update')}
+                <span style={{ marginLeft: 4 }}>{formatText('app.core.update')}</span>
               </Button>
             </Space>
           </Form.Item>
@@ -827,7 +825,7 @@ const QuakeForm = props => {
               htmlType="submit"
               loading={createQuakeReq.loading}
             >
-              {formatText('app.core.add')}
+              <span style={{ marginLeft: 4 }}>{formatText('app.core.add')}</span>
             </Button>
           </Form.Item>
         </Form>
@@ -911,7 +909,7 @@ const HunterForm = props => {
                 htmlType="submit"
                 loading={updateHunterReq.loading}
               >
-                {formatText('app.core.update')}
+                <span style={{ marginLeft: 4 }}>{formatText('app.core.update')}</span>
               </Button>
             </Space>
           </Form.Item>
@@ -995,7 +993,7 @@ const ZoomeyeForm = props => {
               htmlType="submit"
               loading={updateZoomeyeReq.loading}
             >
-              {formatText('app.core.update')}
+              <span style={{ marginLeft: 4 }}>{formatText('app.core.update')}</span>
             </Button>
           </Form.Item>
         </Form>
@@ -1085,7 +1083,7 @@ const AiqichaForm = props => {
               htmlType="submit"
               loading={updateAiqichaReq.loading}
             >
-              {formatText('app.core.update')}
+              <span style={{ marginLeft: 4 }}>{formatText('app.core.update')}</span>
             </Button>
           </Form.Item>
         </Form>
@@ -1197,7 +1195,7 @@ const OpenAIForm = props => {
                 htmlType="submit"
                 loading={updateReq.loading}
               >
-                {formatText('app.core.update')}
+                <span style={{ marginLeft: 4 }}>{formatText('app.core.update')}</span>
               </Button>
             </Space>
           </Form.Item>
@@ -1311,7 +1309,7 @@ const CommonForm = props => {
               htmlType="submit"
               loading={updateCommonReq.loading}
             >
-              {formatText('app.core.update')}
+              <span style={{ marginLeft: 4 }}>{formatText('app.core.update')}</span>
             </Button>
           </Form.Item>
         </Form>

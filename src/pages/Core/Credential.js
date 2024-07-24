@@ -1,14 +1,14 @@
-import React, {Fragment, memo, useState} from "react";
-import {ChromeOutlined, FormOutlined, MehOutlined, PlusOutlined, SyncOutlined, WindowsOutlined} from "@ant-design/icons";
-import {Button, Col, Collapse, Form, Input, Popover, Radio, Row, Table, Tooltip} from 'antd-v5';
-import {Modal} from 'antd'
+import React, { Fragment, memo, useState } from "react";
+import { ChromeOutlined, FormOutlined, MehOutlined, PlusOutlined, SyncOutlined, WindowsOutlined } from "@ant-design/icons";
+import { Button, Col, Collapse, Form, Input, Popover, Radio, Row, Table, Tooltip } from 'antd-v5';
+import { Modal } from 'antd'
 import Ellipsis from "@/components/Ellipsis";
-import {deletePostlateralCredentialAPI, getPostlateralCredentialAPI, postPostlateralCredentialAPI, putPostlateralCredentialAPI} from "@/services/apiv1";
-import {useRequest} from "umi";
-import {formatText, getOptionTag} from "@/utils/locales";
-import {DocIcon} from "@/pages/Core/Common";
-import {cssCalc} from "@/utils/utils";
-import {useModel} from "@@/plugin-model/useModel";
+import { deletePostlateralCredentialAPI, getPostlateralCredentialAPI, postPostlateralCredentialAPI, putPostlateralCredentialAPI } from "@/services/apiv1";
+import { useRequest } from "umi";
+import { formatText, getOptionTag } from "@/utils/locales";
+import { DocIcon } from "@/pages/Core/Common";
+import { cssCalc } from "@/utils/utils";
+import { useModel } from "@@/plugin-model/useModel";
 
 const {Panel} = Collapse;
 const {Search} = Input;
@@ -75,7 +75,7 @@ const Credential = () => {
           icon={<PlusOutlined/>}
           onClick={() => setCreateCredentialModalVisible(true)}
         >
-          {formatText("app.credential.form.add")}
+          <span style={{ marginLeft: 4 }}>{formatText("app.credential.form.add")}</span>
         </Button>
       </Col>
       <Col span={12}>
@@ -85,7 +85,7 @@ const Credential = () => {
           onClick={() => listCredentialReq.run()}
           loading={listCredentialReq.loading || destoryCredentialReq.loading}
         >
-          {formatText("app.core.refresh")}
+          <span style={{ marginLeft: 4 }}>{formatText("app.core.refresh")}</span>
         </Button>
       </Col>
     </Row>
@@ -236,7 +236,7 @@ const Credential = () => {
               htmlType="submit"
               loading={createCredentialReq.loading}
             >
-              {formatText("app.core.add")}
+              <span style={{ marginLeft: 4 }}>{formatText("app.core.add")}</span>
             </Button>
           </Form.Item>
         </Collapse>

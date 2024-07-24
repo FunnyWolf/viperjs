@@ -92,7 +92,7 @@ export const ProjectButton = () => {
             type="primary"
             htmlType="submit"
           >
-            {formatText("app.core.add")}
+            <span style={{ marginLeft: 4 }}>{formatText("app.core.add")}</span>
           </Button>
         </Form.Item>
       </Form>;
@@ -190,7 +190,7 @@ export const ProjectButton = () => {
     <Button onClick={showProject}
             icon={<ProjectOutlined/>}
             style={{ minWidth: 180 }}>
-      <span>{projectActive.name}</span>
+      <span style={{ marginLeft: 4 }}>{projectActive.name}</span>
     </Button>
     <Modal
       closable={false}

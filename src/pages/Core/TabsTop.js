@@ -349,7 +349,7 @@ const WebNotice = () => {
         <Col span={4}>
           <Button icon={<DeleteOutlined/>} block danger
                   onClick={() => deleteNoticesReq.run()}>
-            {formatText('app.core.clear')}
+            <span style={{ marginLeft: 4 }}>{formatText('app.core.clear')}</span>
           </Button>
         </Col>
       </Row>

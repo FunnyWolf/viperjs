@@ -140,7 +140,7 @@ const RealTimeModuleResult = () => {
           onClick={() => deletePostModuleResultHistoryReq.run()}
           icon={<DeleteOutlined/>}
         >
-          {formatText("app.core.clear")}
+          <span style={{ marginLeft: 4 }}>{formatText("app.core.clear")}</span>
         </Button>
       </Col>
     </Row>
@@ -465,13 +465,13 @@ const RealTimeNotices = () => {
           trigger="click"
         >
           <Button block icon={<SearchOutlined/>}>
-            RPCMSG
+            <span style={{ marginLeft: 4 }}>RPCMSG</span>
           </Button>
         </Popover>
       </Col>
       <Col span={4}>
         <Button icon={<DeleteOutlined/>} block danger onClick={() => deleteNoticesReq.run()}>
-          {formatText("app.core.clear")}
+          <span style={{ marginLeft: 4 }}>{formatText("app.core.clear")}</span>
         </Button>
       </Col>
     </Row>
