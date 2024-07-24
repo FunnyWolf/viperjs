@@ -3006,7 +3006,7 @@ const HostRuningInfo = () => {
         }}
       >
         <TabPane tab={<span>{formatText('app.hostandsession.hostruninginfo.baseinfo')}</span>} key="1">
-          <Descriptions size="small" column={1} bordered>
+          <Descriptions size="small" column={1} bordered style={{ width: "60vw" }}>
             <Descriptions.Item label={formatText('app.hostandsession.hostruninginfo.Computer')}>
               {hostAndSessionBaseInfo.Computer}
             </Descriptions.Item>
