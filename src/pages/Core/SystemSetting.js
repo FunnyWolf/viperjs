@@ -1176,6 +1176,8 @@ const OpenAIForm = props => {
                   value: "gpt-4-turbo", label: "gpt-4-turbo",
                 }, {
                   value: "gpt-4o", label: "gpt-4o",
+                }, {
+                  value: "gpt-4o-mini", label: "gpt-4o-mini",
                 },
               ]}
             />
