@@ -122,6 +122,9 @@ const SystemSetting = () => {
     <TabPane tab="OpenAI" key="openai">
       <OpenAIForm/>
     </TabPane>
+    <TabPane tab={formatText('app.systemsetting.smtp')} key="smtp">
+      <SMTPForm/>
+    </TabPane>
     <TabPane tab={formatText('app.systemsetting.common')} key="Common">
       <CommonForm/>
     </TabPane>
@@ -1105,7 +1108,6 @@ const AiqichaForm = props => {
     </Row>
   </Card>);
 };
-
 const OpenAIForm = props => {
   const [mainForm] = Form.useForm();
   const [settings, setSettings] = useState({});
@@ -1211,6 +1213,113 @@ const OpenAIForm = props => {
               target="_blank"
               href="https://www.yuque.com/vipersec/help/oa9zmgf5uyk96kgh">
               {formatText('app.systemsetting.openaimanual')}
+            </a>
+          </Paragraph>
+        </Typography>
+      </Col>
+    </Row>
+  </Card>);
+};
+
+const SMTPForm = props => {
+  const [mainForm] = Form.useForm();
+  const [settings, setSettings] = useState({});
+  const kind = 'SMTP'
+  //初始化数据
+  useRequest(() => getCoreSettingAPI({ kind: kind }), {
+    onSuccess: (result, params) => {
+      setSettings(result);
+      mainForm.setFieldsValue(result);
+    }, onError: (error, params) => {
+    },
+  });
+
+  const updateReq = useRequest(postCoreSettingAPI, {
+    manual: true, onSuccess: (result, params) => {
+      setSettings(result);
+      mainForm.setFieldsValue(result);
+    }, onError: (error, params) => {
+    },
+  });
+
+  const onUpdate = values => {
+    let params = {
+      kind: kind, tag: 'default', setting: { ...values },
+    };
+    updateReq.run(params);
+  };
+
+  return (<Card>
+    <DocIcon url="https://www.yuque.com/vipersec/help/oa9zmgf5uyk96kgh"/>
+    <Row>
+      <Col span={16}>
+        <Form form={mainForm}
+              onFinish={onUpdate} {...inputItemLayout}>
+          <Form.Item
+            label="SMTP Server"
+            name="smtp_server"
+            rules={[]}
+          >
+            <Input style={{ width: "400px" }}/>
+          </Form.Item>
+          <Form.Item
+            label="SMTP Port"
+            name="smtp_port"
+            rules={[]}
+          >
+            <InputNumber defaultValue={465}/>
+          </Form.Item>
+          <Form.Item
+            label="SSL"
+            name="ssl"
+            rules={[]}
+            valuePropName="checked"
+          >
+            <Checkbox defaultChecked={true}/>
+          </Form.Item>
+          <Form.Item
+            label="Mail Account"
+            name="mail_account"
+            rules={[]}
+          >
+            <Input placeholder="e.g. test@gmail.com" style={{ width: "400px" }}/>
+          </Form.Item>
+          <Form.Item
+            label="Mail Password"
+            name="mail_password"
+            rules={[]}
+          >
+            <Input.Password placeholder="smtp login password" style={{ width: "400px" }}/>
+          </Form.Item>
+          <Row>
+            <Col style={{ marginBottom: 24 }} span={4} offset={4}>
+              {settings.alive ? (<Badge status="processing"
+                                        text={formatText('app.core.working')}/>) : (
+                <Badge status="error" text={formatText('app.core.error')}/>)}
+            </Col>
+          </Row>
+          <Form.Item {...buttonItemLayout}>
+            <Space>
+              <Button
+                icon={<DeliveredProcedureOutlined/>}
+                type="primary"
+                htmlType="submit"
+                loading={updateReq.loading}
+              >
+                <span style={{ marginLeft: 4 }}>{formatText('app.core.update')}</span>
+              </Button>
+            </Space>
+          </Form.Item>
+        </Form>
+      </Col>
+      <Col span={8}>
+        <Typography>
+          <Paragraph>
+            <Title level={4}>{formatText('app.systemsetting.howtoconfig')}</Title>
+            <a
+              target="_blank"
+              href="https://www.yuque.com/vipersec/help/ezl4dzg2gw1d0ecw">
+              {formatText('app.systemsetting.smtpmanual')}
             </a>
           </Paragraph>
         </Typography>
