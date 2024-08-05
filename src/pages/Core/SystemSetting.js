@@ -492,7 +492,7 @@ const DingDingForm = props => {
                 required: true, message: formatText('app.systemsetting.dingdingrules'),
               }]}
           >
-            <Input/>
+            <Input.Password/>
           </Form.Item>
           <Form.Item
             label={formatText('app.systemsetting.keyword')}
@@ -582,7 +582,7 @@ const ServerChanForm = props => {
                 required: true, message: formatText('app.systemsetting.inputsendkey'),
               }]}
           >
-            <Input/>
+            <Input.Password/>
           </Form.Item>
           <Row>
             <Col style={{ marginBottom: 24 }} span={4} offset={4}>
@@ -670,7 +670,7 @@ const FOFAForm = props => {
                 required: true, message: formatText('app.systemsetting.inputkey'),
               }]}
           >
-            <Input/>
+            <Input.Password/>
           </Form.Item>
           <Row>
             <Col style={{ marginBottom: 24 }} span={4} offset={4}>
@@ -819,7 +819,7 @@ const QuakeForm = props => {
                 required: true, message: formatText('app.systemsetting.inputkey'),
               }]}
           >
-            <Input style={{ width: 320 }}/>
+            <Input.Password style={{ width: 320 }}/>
           </Form.Item>
           <Form.Item>
             <Button
@@ -895,7 +895,7 @@ const HunterForm = props => {
                 required: true, message: formatText('app.systemsetting.inputkey'),
               }]}
           >
-            <Input/>
+            <Input.Password/>
           </Form.Item>
           <Row>
             <Col style={{ marginBottom: 24 }} span={4} offset={4}>
@@ -978,7 +978,7 @@ const ZoomeyeForm = props => {
                 required: true, message: formatText('app.systemsetting.inputkey'),
               }]}
           >
-            <Input/>
+            <Input.Password/>
           </Form.Item>
           <Row>
             <Col style={{ marginBottom: 24 }} span={4} offset={4}>
@@ -1157,7 +1157,7 @@ const OpenAIForm = props => {
                 required: true, message: formatText('app.systemsetting.inputkey'),
               }]}
           >
-            <Input/>
+            <Input.Password/>
           </Form.Item>
           <Form.Item
             label="model"
