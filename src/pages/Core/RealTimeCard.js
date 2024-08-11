@@ -1,19 +1,19 @@
-import React, { Fragment, memo, useState } from "react";
-import { getLocale, useModel, useRequest } from "umi";
-import { useControllableValue, useInterval } from "ahooks";
-import { deleteMsgrpcJobAPI, deleteNoticesAPI, deletePostmodulePostModuleResultHistoryAPI, getCoreUUIDJsonAPI, postCoreNoticesAPI } from "@/services/apiv1";
-import { DeleteOutlined, FieldTimeOutlined, SearchOutlined, VerticalAlignTopOutlined } from "@ant-design/icons";
-import { BackTop, Badge, Button, Card, Col, Input, List, Popover, Radio, Row, Space, Table, Tag, Typography } from 'antd-v5';
-import { Modal } from 'antd'
+import React, {Fragment, memo, useState} from "react";
+import {getLocale, useModel, useRequest} from "umi";
+import {useControllableValue, useInterval} from "ahooks";
+import {deleteMsgrpcJobAPI, deleteNoticesAPI, deletePostmodulePostModuleResultHistoryAPI, getCoreUUIDJsonAPI, postCoreNoticesAPI} from "@/services/apiv1";
+import {DeleteOutlined, FieldTimeOutlined, SearchOutlined, VerticalAlignTopOutlined} from "@ant-design/icons";
+import {BackTop, Badge, Button, Card, Col, Input, List, Popover, Radio, Row, Space, Table, Tag, Typography} from 'antd-v5';
+import {Modal} from 'antd'
 import moment from "moment";
-import { DocIcon, MyIcon, SidTag } from "@/pages/Core/Common";
-import { cssCalc } from "@/utils/utils";
-import { PostModuleInfoContent } from "@/pages/Core/RunModule";
-import { formatText, getModuleName, getModuleResultTable, getOptionTag, getResultData } from "@/utils/locales";
+import {DocIcon, MyIcon, SidTag} from "@/pages/Core/Common";
+import {cssCalc} from "@/utils/utils";
+import {PostModuleInfoContent} from "@/pages/Core/RunModule";
+import {formatText, getModuleName, getModuleResultTable, getOptionTag, getResultData} from "@/utils/locales";
 import ReactJson from "react-json-view";
 
-const { Text, Link } = Typography;
-const { Search } = Input;
+const {Text, Link} = Typography;
+const {Search} = Input;
 
 export const postModuleOpts = opts => {
   const optcoms = [];
@@ -61,7 +61,7 @@ const RealTimeModuleResult = () => {
       }
 
       if (moduleNameMatch || resultMatch || optsMatch || hostMatch) {
-        return { ...record };
+        return {...record};
       }
       return null;
     }).filter(record => !!record);
@@ -107,7 +107,7 @@ const RealTimeModuleResult = () => {
           >{data}</pre>);
       }
     }
-    return <Space style={{ marginTop: 16, marginBottom: 8 }} direction="vertical" size={2}>{resultComs}</Space>;
+    return <Space style={{marginTop: 16, marginBottom: 8}} direction="vertical" size={2}>{resultComs}</Space>;
   };
 
   const deletePostModuleResultHistoryReq = useRequest(deletePostmodulePostModuleResultHistoryAPI, {
@@ -124,7 +124,7 @@ const RealTimeModuleResult = () => {
         <Input
           allowClear
           prefix={<SearchOutlined/>}
-          style={{ width: "100%" }}
+          style={{width: "100%"}}
           placeholder={formatText("app.realtimecard.moduleresult_search")}
           value={text}
           onChange={e => {
@@ -140,7 +140,7 @@ const RealTimeModuleResult = () => {
           onClick={() => deletePostModuleResultHistoryReq.run()}
           icon={<DeleteOutlined/>}
         >
-          <span style={{ marginLeft: 4 }}>{formatText("app.core.clear")}</span>
+          <span style={{marginLeft: 4}}>{formatText("app.core.clear")}</span>
         </Button>
       </Col>
     </Row>
@@ -153,7 +153,7 @@ const RealTimeModuleResult = () => {
       itemLayout="vertical"
       size="small"
       dataSource={postModuleResultHistoryActive}
-      renderItem={item => (<List.Item key={item.id} style={{ padding: "4px 0px 0px 4px" }}>
+      renderItem={item => (<List.Item key={item.id} style={{padding: "4px 0px 0px 4px"}}>
         <Space>
           <Tag
             color="cyan"
@@ -236,7 +236,7 @@ const KeyToUserIcon = {
 };
 // 单独独立出来是为了不丢失焦点
 const UserInput = props => {
-  const [text, onInputChange] = useControllableValue({}, { defaultValue: "" });
+  const [text, onInputChange] = useControllableValue({}, {defaultValue: ""});
   const userIcon = key => {
     return (<MyIcon
       type={KeyToUserIcon[key]}
@@ -276,7 +276,7 @@ const UserInput = props => {
   };
 
   return (<Input
-    style={{ width: "100%" }}
+    style={{width: "100%"}}
     placeholder={formatText("app.realtimecard.sendmsg")}
     value={text}
     prefix={<PrefixIcon/>}
@@ -284,7 +284,7 @@ const UserInput = props => {
       if (text === null || text === "") {
         return;
       } else {
-        props.createNotice({ userkey: iconkey, content: text });
+        props.createNotice({userkey: iconkey, content: text});
       }
       onInputChange("");
     }}
@@ -295,7 +295,7 @@ const UserInput = props => {
 const RealTimeNotices = () => {
   console.log("RealTimeNotices");
 
-  const { notices, setNotices } = useModel("HostAndSessionModel", model => ({
+  const {notices, setNotices} = useModel("HostAndSessionModel", model => ({
     notices: model.notices, setNotices: model.setNotices,
   }));
   const [refresh, setRefresh] = useState(false);
@@ -319,45 +319,45 @@ const RealTimeNotices = () => {
     const getContent = item => {
       const content = item[getLocale()];
       if (item.level === 0) {
-        return (<Text type="success" style={{ wordBreak: "break-all" }}>
+        return (<Text type="success" style={{wordBreak: "break-all"}}>
           {content}
         </Text>);
       }
       if (item.level === 1) {
-        return (<Text style={{ color: "#13a8a8", wordBreak: "break-all" }}>
+        return (<Text style={{color: "#13a8a8", wordBreak: "break-all"}}>
           {content}
         </Text>);
       }
       if (item.level === 2) {
-        return (<Text type="warning" style={{ wordBreak: "break-all" }}>
+        return (<Text type="warning" style={{wordBreak: "break-all"}}>
           {content}
         </Text>);
       }
       if (item.level === 3) {
-        return (<Text type="danger" style={{ wordBreak: "break-all" }}>
+        return (<Text type="danger" style={{wordBreak: "break-all"}}>
           {content}
         </Text>);
       }
       if (item.level === 4) {
-        return (<Text type="danger" style={{ wordBreak: "break-all" }}>
+        return (<Text type="danger" style={{wordBreak: "break-all"}}>
           {content}
         </Text>);
       }
       if (item.level === 5) {
         // 提醒
-        return (<Text style={{ color: "#642ab5", wordBreak: "break-all" }}>
+        return (<Text style={{color: "#642ab5", wordBreak: "break-all"}}>
           {content}
         </Text>);
       }
       if (item.level === 6) {
         return (<Space>
           {userIconLarge(item.userkey)}
-          <Text style={{ color: "#cb2b83", wordBreak: "break-all" }}>
+          <Text style={{color: "#cb2b83", wordBreak: "break-all"}}>
             {">"} {content}
           </Text>
         </Space>);
       }
-      return (<Text type="warning" style={{ wordBreak: "break-all" }}>
+      return (<Text type="warning" style={{wordBreak: "break-all"}}>
         {content}
       </Text>);
     };
@@ -371,7 +371,7 @@ const RealTimeNotices = () => {
       bordered
       itemLayout="horizontal"
       dataSource={props.notices}
-      renderItem={item => (<List.Item style={{ padding: "0px 0px 0px 0px" }}>
+      renderItem={item => (<List.Item style={{padding: "0px 0px 0px 0px"}}>
         <div
           style={{
             display: "inline", marginTop: 0, marginBottom: 0,
@@ -429,11 +429,14 @@ const RealTimeNotices = () => {
   const getUUIDJsonReq = useRequest(getCoreUUIDJsonAPI, {
     manual: true, onSuccess: (result, params) => {
       Modal.info({
-        style: { top: 32 }, width: "50vw", content: (<Card
+        style: {top: 32},
+        width: "50vw",
+        maskClosable: true,
+        closable: true,
+        content: (<Card
           style={{
             overflow: "auto", maxHeight: cssCalc("100vh - 240px"), minHeight: cssCalc("100vh - 240px"),
           }}
-          bodyStyle={{ padding: "0px 0px 0px 0px" }}
         >
           <ReactJson
             src={result}
@@ -441,7 +444,8 @@ const RealTimeNotices = () => {
             displayDataTypes={false}
             displayObjectSize={false}
           />
-        </Card>), onOk () {
+        </Card>),
+        onOk() {
         },
       });
     }, onError: (error, params) => {
@@ -450,7 +454,7 @@ const RealTimeNotices = () => {
 
   return (<Fragment>
     <DocIcon url="https://www.yuque.com/vipersec/help/vdbhlm"/>
-    <Row style={{ paddingLeft: 1, paddingRight: 1 }}>
+    <Row style={{paddingLeft: 1, paddingRight: 1}}>
       <Col span={16}>
         <UserInput createNotice={params => createNoticeReq.run(params)}/>
       </Col>
@@ -459,19 +463,19 @@ const RealTimeNotices = () => {
           content={<Search
             placeholder="UUID"
             size="default"
-            onSearch={value => getUUIDJsonReq.run({ uuid: value })}
+            onSearch={value => getUUIDJsonReq.run({uuid: value})}
             loading={getUUIDJsonReq.loading}
           />}
           trigger="click"
         >
           <Button block icon={<SearchOutlined/>}>
-            <span style={{ marginLeft: 4 }}>RPCMSG</span>
+            <span style={{marginLeft: 4}}>RPCMSG</span>
           </Button>
         </Popover>
       </Col>
       <Col span={4}>
         <Button icon={<DeleteOutlined/>} block danger onClick={() => deleteNoticesReq.run()}>
-          <span style={{ marginLeft: 4 }}>{formatText("app.core.clear")}</span>
+          <span style={{marginLeft: 4}}>{formatText("app.core.clear")}</span>
         </Button>
       </Col>
     </Row>
@@ -483,7 +487,7 @@ export const RealTimeNoticesMemo = memo(RealTimeNotices);
 
 const RealTimeJobs = () => {
   console.log("RealTimeJobs");
-  const { jobList, setJobList } = useModel("HostAndSessionModel", model => ({
+  const {jobList, setJobList} = useModel("HostAndSessionModel", model => ({
     jobList: model.jobList, setJobList: model.setJobList,
   }));
   const {
@@ -493,14 +497,14 @@ const RealTimeJobs = () => {
   }));
   const destoryJobReq = useRequest(deleteMsgrpcJobAPI, {
     manual: true, onSuccess: (result, params) => {
-      const { uuid } = result;
+      const {uuid} = result;
       setJobList(jobList.filter(item => item.uuid !== uuid));
     }, onError: (error, params) => {
     },
   });
 
   const onDestoryJob = record => {
-    destoryJobReq.run({ uuid: record.uuid, job_id: record.job_id, broker: record.broker });
+    destoryJobReq.run({uuid: record.uuid, job_id: record.job_id, broker: record.broker});
   };
 
   return (<Fragment>
@@ -536,7 +540,7 @@ const RealTimeJobs = () => {
             return <Fragment>{postModuleOpts(record.opts)}</Fragment>;
           },
         }, {
-          dataIndex: "operation", width: 48, render: (text, record) => (<a style={{ color: "red" }} onClick={() => onDestoryJob(record)}>
+          dataIndex: "operation", width: 48, render: (text, record) => (<a style={{color: "red"}} onClick={() => onDestoryJob(record)}>
             {formatText("app.core.delete")}
           </a>),
         }]}
@@ -547,7 +551,7 @@ export const RealTimeJobsMemo = memo(RealTimeJobs);
 
 const TaskQueueTag = () => {
   console.log("TaskQueueTag");
-  const { taskQueueLength } = useModel("HostAndSessionModel", model => ({
+  const {taskQueueLength} = useModel("HostAndSessionModel", model => ({
     taskQueueLength: model.taskQueueLength,
   }));
   if (taskQueueLength > 0) {

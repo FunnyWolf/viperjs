@@ -329,7 +329,7 @@ export const VGPT = props => {
   }
 
   function handleUserInput (e) {
-    let message = { type: "human", data: { content: e.target.value } }
+    let message = { user_input: e.target.value }
     setUserInputValue(null)
     // setMessageList(prevItems => [...prevItems, message]);
     createLLMModuleReq.run({ message: message, loadpath: llmModuleConfigActive.loadpath });

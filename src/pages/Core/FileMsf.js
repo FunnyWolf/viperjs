@@ -56,16 +56,25 @@ const FileMsf = props => {
       if (result.type === "img") {
         Modal.info({
           icon: null,
-          bodyStyle: { padding: "0 0 0 0" },
+          // bodyStyle: { padding: "24 0 0 0" },
           mask: false,
           width: "80vw",
           content: <img style={{ width: "100%" }} src={`data:image/png;base64,${result.data}`}/>,
+          maskClosable:true,
+          closable:true
         });
       } else {
         Modal.info({
-          icon: null, style: {
-            top: 40, padding: "0px 0px 0px 0px",
-          }, mask: false, width: "70vw", content: (<Fragment>
+          icon: null,
+          style: {
+            top: 40,
+            // padding: "0px 0px 0px 0px",
+          },
+          mask: false,
+          width: "70vw",
+          maskClosable:true,
+          closable:true,
+          content: (<Fragment>
               <pre
                 style={{
                   width: "100%", maxHeight: "60vh",
