@@ -835,9 +835,13 @@ const QuakeForm = props => {
 const HunterForm = props => {
   const [hunterForm] = Form.useForm();
   const [settingsHunter, setSettingsHunter] = useState({});
-
   //初始化数据
-  useRequest(() => getCoreSettingAPI({kind: 'Hunter'}), {
+  useEffect(() => {
+    getReq.run({kind: 'Hunter'})
+  }, []);
+
+  const getReq = useRequest(getCoreSettingAPI, {
+    manual: true,
     onSuccess: (result, params) => {
       setSettingsHunter(result);
       hunterForm.setFieldsValue(result);
@@ -1091,8 +1095,14 @@ const OpenAIForm = props => {
   const [mainForm] = Form.useForm();
   const [settings, setSettings] = useState({});
   const kind = 'OpenAI'
+
   //初始化数据
-  useRequest(() => getCoreSettingAPI({kind: kind}), {
+  useEffect(() => {
+    getReq.run({kind: kind})
+  }, []);
+
+  const getReq = useRequest(getCoreSettingAPI, {
+    manual: true,
     onSuccess: (result, params) => {
       setSettings(result);
       mainForm.setFieldsValue(result);
@@ -1205,13 +1215,19 @@ const SMTPForm = props => {
   const [settings, setSettings] = useState({});
   const kind = 'SMTP'
   //初始化数据
-  useRequest(() => getCoreSettingAPI({kind: kind}), {
+  useEffect(() => {
+    getReq.run({kind: kind})
+  }, []);
+
+  const getReq = useRequest(getCoreSettingAPI, {
+    manual: true,
     onSuccess: (result, params) => {
       setSettings(result);
       mainForm.setFieldsValue(result);
     }, onError: (error, params) => {
     },
   });
+
 
   const updateReq = useRequest(postCoreSettingAPI, {
     manual: true, onSuccess: (result, params) => {
