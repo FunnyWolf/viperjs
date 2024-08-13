@@ -1,8 +1,9 @@
-import {useModel} from "@@/plugin-model/useModel";
-import {formatText, getModuleDesc, getModuleName} from "@/utils/locales";
-import React, {memo, useEffect, useRef, useState} from "react";
+import { useModel } from "@@/plugin-model/useModel";
+import { formatText, getModuleDesc, getModuleName } from "@/utils/locales";
+import React, { memo, useEffect, useRef, useState } from "react";
 import {
   CheckOutlined,
+  CloseOutlined,
   DeleteOutlined,
   ExclamationCircleOutlined,
   FunctionOutlined,
@@ -13,16 +14,16 @@ import {
   ToolOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import {Button, Col, Descriptions, Flex, Input, List, Popover, Radio, Row, Table, Tag, Typography} from "antd-v5";
-import {cssCalc} from "@/utils/utils";
-import {changePin, getPins} from "@/pages/Core/RunModule";
-import {HostIP} from '@/config'
-import {getToken} from '@/utils/authority'
-import {useRequest} from '@@/plugin-request/request'
-import {deleteLLMModuleAPI, postLLMModuleAPI} from '@/services/apiv1'
-import {useInterval} from 'ahooks'
+import { Button, Col, Descriptions, Flex, Input, List, Popover, Radio, Row, Table, Tag, Typography } from "antd-v5";
+import { cssCalc } from "@/utils/utils";
+import { changePin, getPins } from "@/pages/Core/RunModule";
+import { HostIP } from '@/config'
+import { getToken } from '@/utils/authority'
+import { useRequest } from '@@/plugin-request/request'
+import { deleteLLMModuleAPI, postLLMModuleAPI } from '@/services/apiv1'
+import { useInterval } from 'ahooks'
 
-const {Title, Paragraph, Text, Link} = Typography;
+const { Title, Paragraph, Text, Link } = Typography;
 let webHost = HostIP + ":8002";
 let protocol = "ws://";
 if (process.env.NODE_ENV === "production") {
@@ -30,7 +31,7 @@ if (process.env.NODE_ENV === "production") {
   protocol = "wss://";
 }
 
-const {Search, TextArea} = Input;
+const { Search, TextArea } = Input;
 
 const ModuleInfoContent = (record) => {
   const readme = record.README;
@@ -107,7 +108,7 @@ export const VGPT = props => {
 
   const ws_llm_module = useRef(null);
 
-  const {llmModuleOptions} = useModel("HostAndSessionModel", model => ({
+  const { llmModuleOptions } = useModel("HostAndSessionModel", model => ({
     llmModuleOptions: model.llmModuleOptions,
   }));
 
@@ -225,7 +226,7 @@ export const VGPT = props => {
           }}
         >
           {pinIcon}
-          <a style={{marginLeft: 4, ...selectStyles}}>{getModuleName(record)}</a>
+          <a style={{ marginLeft: 4, ...selectStyles }}>{getModuleName(record)}</a>
           <Popover content={() => ModuleInfoContent(record)} placement="right">
             <ExclamationCircleOutlined
               style={{
@@ -237,38 +238,55 @@ export const VGPT = props => {
       },
     }];
 
-  const ListItem = (item) => {
+  const ListItem = (item, index) => {
     const avatar_dict = {
-      human: <UserOutlined style={{fontSize: '32px', marginTop: 16}}/>,
-      ai: <OpenAIOutlined style={{fontSize: '32px', marginTop: 16}}/>,
-      tool: <ToolOutlined style={{fontSize: '32px', marginTop: 16}}/>,
-      function: <FunctionOutlined style={{fontSize: '32px', marginTop: 16}}/>,
+      human: <UserOutlined style={{ fontSize: '32px', marginTop: 16 }}/>,
+      ai: <OpenAIOutlined style={{ fontSize: '32px', marginTop: 16 }}/>,
+      tool: <ToolOutlined style={{ fontSize: '32px', marginTop: 16 }}/>,
+      function: <FunctionOutlined style={{ fontSize: '32px', marginTop: 16 }}/>,
     }
     let title = null
     if (item.type === "human") {
       title = <Flex justify="flex-end" align="flex-start" gap="small">
-        <Text style={{marginLeft: 40}}>
+        <Text style={{ marginLeft: 40 }}>
           <pre
-            style={{backgroundColor: "#135200"}}
+            style={{ backgroundColor: "#135200" }}
           >{item.data.content}</pre>
         </Text>
         {avatar_dict[item.type]}
       </Flex>
     } else if (item.type === "ai") {
       if (item.data.content === "") { // tool call
+
         let tool_calls = item.data.tool_calls;
         title = <Flex justify="flex-start" align="flex-start" gap="small">
           {avatar_dict["function"]}
           <Text type="secondary">
             <pre>{JSON.stringify(tool_calls)}</pre>
           </Text>
-          {/*<Button type="primary" icon={<CheckOutlined/>} style={{marginTop: 16}}/>*/}
-          {/*<Button type="primary" icon={<CheckOutlined/>} style={{marginTop: 16}}/>*/}
         </Flex>
+
+        if (index === (messageList.length - 1)) {
+          title = <Flex justify="flex-start" align="flex-start" gap="small">
+            {avatar_dict["function"]}
+            <Text type="secondary">
+              <pre>{JSON.stringify(tool_calls)}</pre>
+            </Text>
+            <Button icon={<CheckOutlined/>} style={{ marginTop: 16 }} ghost={true} onClick={() => handleUserDecision(true)}/>
+            <Button icon={<CloseOutlined/>} style={{ marginTop: 16 }} ghost={true} onClick={() => handleUserDecision(false)}/>
+          </Flex>
+        } else {
+          title = <Flex justify="flex-start" align="flex-start" gap="small">
+            {avatar_dict["function"]}
+            <Text type="secondary">
+              <pre>{JSON.stringify(tool_calls)}</pre>
+            </Text>
+          </Flex>
+        }
       } else {
         title = <Flex justify="flex-start" align="flex-start" gap="small">
           {avatar_dict[item.type]}
-          <Text style={{marginRight: 40}}>
+          <Text style={{ marginRight: 40 }}>
             <pre>{item.data.content}</pre>
           </Text>
         </Flex>
@@ -277,7 +295,7 @@ export const VGPT = props => {
       title = <Flex justify="flex-start" align="flex-start" gap="small">
         {avatar_dict[item.type]}
         <Text type="secondary">
-          <pre>{JSON.stringify({name: item.data.name, content: item.data.content})}</pre>
+          <pre>{JSON.stringify({ name: item.data.name, content: item.data.content })}</pre>
         </Text>
       </Flex>
     } else {
@@ -286,12 +304,12 @@ export const VGPT = props => {
     return title
   }
 
-  function changeActiveModule(record) {
+  function changeActiveModule (record) {
     setLlmModuleConfigActive(record);
     setWebSocket(record);
   }
 
-  function setWebSocket(record) {
+  function setWebSocket (record) {
     setWebsocketAlive(false)
     const urlpatternsMsf = "/ws/v1/websocket/llmmodule/?";
     try {
@@ -327,12 +345,17 @@ export const VGPT = props => {
     };
   }
 
-  function handleUserInput(e) {
-    let message = {user_input: e.target.value}
+  function handleUserInput (e) {
+    let message = { user_input: e.target.value }
     setUserInputValue(null)
     // setMessageList(prevItems => [...prevItems, message]);
-    createLLMModuleReq.run({message: message, loadpath: llmModuleConfigActive.loadpath});
+    createLLMModuleReq.run({ message: message, loadpath: llmModuleConfigActive.loadpath });
     // ws_llm_module.current.send(JSON.stringify(message))
+  }
+
+  function handleUserDecision (decision) {
+    let message = { user_decision: decision }
+    createLLMModuleReq.run({ message: message, loadpath: llmModuleConfigActive.loadpath });
   }
 
   const heartbeatmonitor = () => {
@@ -370,7 +393,7 @@ export const VGPT = props => {
           style={{
             padding: "0 0 0 0", maxHeight: cssCalc("100vh - 560px"), minHeight: cssCalc("100vh - 560px"),
           }}
-          scroll={{y: "calc(100vh - 120px)"}}
+          scroll={{ y: "calc(100vh - 120px)" }}
           showHeader={false}
           onRow={record => ({
             onClick: () => {
@@ -389,7 +412,7 @@ export const VGPT = props => {
         />
       </Col>
       <Col span={14}>
-        <div style={{marginLeft: 16, marginRight: 16}}>
+        <div style={{ marginLeft: 16, marginRight: 16 }}>
           <List
             id="message_history_list"
             style={{
@@ -400,12 +423,12 @@ export const VGPT = props => {
             split={false}
             itemLayout="horizontal"
             dataSource={messageList}
-            renderItem={(item, index) => (ListItem(item))}
+            renderItem={(item, index) => (ListItem(item, index))}
           />
-          <div style={{height: 32}}></div>
+          <div style={{ height: 32 }}></div>
           <Flex vertical={false}>
             <Input
-              style={{marginLeft: 40}}
+              style={{ marginLeft: 40 }}
               disabled={llmModuleConfigActive.loadpath === null}
               // placeholder="Basic usage"
               value={userInputValue}
@@ -415,11 +438,11 @@ export const VGPT = props => {
             />
             <Button
               disabled={llmModuleConfigActive.loadpath === null || !websocketAlive}
-              style={{width: 96}}
+              style={{ width: 96 }}
               size="middle"
               icon={<DeleteOutlined/>}
               onClick={() => {
-                destoryLLMModuleReq.run({loadpath: llmModuleConfigActive.loadpath})
+                destoryLLMModuleReq.run({ loadpath: llmModuleConfigActive.loadpath })
               }}
             />
           </Flex>
