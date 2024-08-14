@@ -3,7 +3,6 @@ import { formatText, getModuleDesc, getModuleName } from "@/utils/locales";
 import React, { memo, useEffect, useRef, useState } from "react";
 import {
   CheckOutlined,
-  CloseOutlined,
   DeleteOutlined,
   ExclamationCircleOutlined,
   FunctionOutlined,
@@ -273,7 +272,6 @@ export const VGPT = props => {
               <pre>{JSON.stringify(tool_calls)}</pre>
             </Text>
             <Button icon={<CheckOutlined/>} style={{ marginTop: 16 }} ghost={true} onClick={() => handleUserDecision(true)}/>
-            <Button icon={<CloseOutlined/>} style={{ marginTop: 16 }} ghost={true} onClick={() => handleUserDecision(false)}/>
           </Flex>
         } else {
           title = <Flex justify="flex-start" align="flex-start" gap="small">
