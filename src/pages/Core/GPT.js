@@ -13,7 +13,7 @@ import {
   ToolOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Button, Col, Descriptions, Flex, Input, List, Popover, Radio, Row, Table, Tag, Typography } from "antd-v5";
+import { Badge, Button, Col, Descriptions, Flex, Input, List, Popover, Radio, Row, Table, Tag, Typography } from "antd-v5";
 import { cssCalc } from "@/utils/utils";
 import { changePin, getPins } from "@/pages/Core/RunModule";
 import { HostIP } from '@/config'
@@ -239,14 +239,14 @@ export const VGPT = props => {
 
   const ListItem = (item, index) => {
     const avatar_dict = {
-      human: <UserOutlined style={{ fontSize: '32px', marginTop: 16 }}/>,
-      ai: <OpenAIOutlined style={{ fontSize: '32px', marginTop: 16 }}/>,
-      tool: <ToolOutlined style={{ fontSize: '32px', marginTop: 16 }}/>,
-      function: <FunctionOutlined style={{ fontSize: '32px', marginTop: 16 }}/>,
+      human: <UserOutlined style={{ fontSize: '32px' }}/>,
+      ai: <OpenAIOutlined style={{ fontSize: '32px' }}/>,
+      tool: <ToolOutlined style={{ fontSize: '32px' }}/>,
+      function: <FunctionOutlined style={{ fontSize: '32px' }}/>,
     }
     let title = null
     if (item.type === "human") {
-      title = <Flex justify="flex-end" align="flex-start" gap="small">
+      title = <Flex justify="flex-end" align="center" gap="small">
         <Text style={{ marginLeft: 40 }}>
           <pre
             style={{ backgroundColor: "#135200" }}
@@ -255,42 +255,47 @@ export const VGPT = props => {
         {avatar_dict[item.type]}
       </Flex>
     } else if (item.type === "ai") {
-      if (item.data.content === "") { // tool call
-
+      let token = item.data.usage_metadata.total_tokens
+      // tool call
+      if (item.data.tool_calls.length !== 0) {
         let tool_calls = item.data.tool_calls;
-        title = <Flex justify="flex-start" align="flex-start" gap="small">
+        title = <Flex justify="flex-start" align="center" gap="small">
           {avatar_dict["function"]}
           <Text type="secondary">
             <pre>{JSON.stringify(tool_calls)}</pre>
           </Text>
+          <Badge count={token} overflowCount={9999} color="#389e0d"/>
         </Flex>
-
+        // man in loop特殊处理
         if (index === (messageList.length - 1)) {
-          title = <Flex justify="flex-start" align="flex-start" gap="small">
+          title = <Flex justify="flex-start" align="center" gap="small">
             {avatar_dict["function"]}
             <Text type="secondary">
               <pre>{JSON.stringify(tool_calls)}</pre>
             </Text>
+            <Badge count={token} overflowCount={9999} color="#389e0d"/>
             <Button icon={<CheckOutlined/>} style={{ marginTop: 16 }} ghost={true} onClick={() => handleUserDecision(true)}/>
           </Flex>
         } else {
-          title = <Flex justify="flex-start" align="flex-start" gap="small">
+          title = <Flex justify="flex-start" align="center" gap="small">
             {avatar_dict["function"]}
             <Text type="secondary">
               <pre>{JSON.stringify(tool_calls)}</pre>
             </Text>
+            <Badge count={token} overflowCount={9999} color="#389e0d"/>
           </Flex>
         }
-      } else {
-        title = <Flex justify="flex-start" align="flex-start" gap="small">
+      } else { // normal ai message
+        title = <Flex justify="flex-start" align="center" gap="small">
           {avatar_dict[item.type]}
-          <Text style={{ marginRight: 40 }}>
+          <Text>
             <pre>{item.data.content}</pre>
           </Text>
+          <Badge count={token} overflowCount={9999} color="#389e0d"/>
         </Flex>
       }
     } else if (item.type === "tool") {
-      title = <Flex justify="flex-start" align="flex-start" gap="small">
+      title = <Flex justify="flex-start" align="center" gap="small">
         {avatar_dict[item.type]}
         <Text type="secondary">
           <pre>{JSON.stringify({ name: item.data.name, content: item.data.content })}</pre>
@@ -410,7 +415,7 @@ export const VGPT = props => {
         />
       </Col>
       <Col span={14}>
-        <div style={{ marginLeft: 16, marginRight: 16 }}>
+        <div style={{ marginLeft: 32, marginRight: 32 }}>
           <List
             id="message_history_list"
             style={{
