@@ -148,7 +148,7 @@ const IPFilter = (props) => {
 
   return (<Fragment>
       <DocIcon url="https://www.yuque.com/vipersec/help/lxlre4"/>
-    <Card bodyStyle={{ padding: "16px 16px 16px 16px" }}>
+    <Card styles={{ body: { padding: "16px 16px 16px 16px" } }}>
         <Form
           layout="vertical"
           form={mainForm}

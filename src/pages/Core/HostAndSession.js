@@ -1596,9 +1596,7 @@ const SessionIO = () => {
   const sessiondisabled = hostAndSessionActive.session.id === -1;
 
   return (<Card
-    bodyStyle={{
-      padding: '0px 0px 0px 0px', backgroundColor: '#000',
-    }}
+    styles={{ body: { padding: "0px 0px 0px 0px", backgroundColor: '#000' } }}
   >
     <DocIconInDivSessionIO url="https://www.yuque.com/vipersec/help/rwuako"/>
     <pre id="sessionIOPre"
@@ -3163,7 +3161,7 @@ const HostInfo = () => {
     style={{
       overflow: 'auto', minHeight: cssCalc('100vh - 160px'), maxHeight: cssCalc('100vh - 160px'),
     }}
-    bodyStyle={{ padding: '0px 0px 0px 0px' }}
+    styles={{ body: { padding: "0px 0px 0px 0px" } }}
   >
     <DocIconInDiv url="https://www.yuque.com/vipersec/help/bp9nso"/>
     <ReactJson

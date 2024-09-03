@@ -75,7 +75,7 @@ const CollectSandbox = () => {
   };
 
   return (<Fragment>
-    <Card bodyStyle={{ padding: "0px 0px 0px 0px" }}>
+    <Card styles={{ body: { padding: "0px 0px 0px 0px" } }}>
       <Row>
         <Col span={12}>
           <Table

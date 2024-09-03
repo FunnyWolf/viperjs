@@ -1087,9 +1087,7 @@ const IPDomain = props => {
 
   const IPDomainPortCard = (record) => {
     return <Card
-      bodyStyle={{
-        padding: 0, minHeight: listitemHeight + 40,
-      }}
+      styles={{ body: { padding: "0px 0px 0px 0px", minHeight: listitemHeight + 40 } }}
     >
       <Row>
         <Col span={8}>
@@ -1139,7 +1137,7 @@ const IPDomain = props => {
 
   return (<Fragment>
     <DocIcon url="https://www.yuque.com/vipersec/help/yc0ipk"/>
-    <Flex justify="flex-end" align="flex-start" style={{paddingLeft: 1, paddingRight: 1}}>
+    <Flex justify="flex-end" align="flex-start" style={{ paddingLeft: 1, paddingRight: 1 }}>
       <Button
         style={{ width: 80 }}
         icon={<SearchOutlined/>}

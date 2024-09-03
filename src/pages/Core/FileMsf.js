@@ -372,7 +372,7 @@ export const FileMsfModal = props => {
         marginTop: -16, marginLeft: -16, marginRight: -16,
       }}
       bordered
-      bodyStyle={{ padding: "0px 0px 0px 0px" }}
+      styles={{ body: { padding: "0px 0px 0px 0px" } }}
     >
       <Table
         style={{

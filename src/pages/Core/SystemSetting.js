@@ -755,7 +755,7 @@ const QuakeForm = props => {
   };
 
   return (<Card
-    bodyStyle={{ padding: '24px 0px 0px 0px' }}
+    styles={{ body: { padding: "24px 0px 0px 0px" } }}
   >
     <DocIcon url="https://www.yuque.com/vipersec/help/hufexqh266gf76s9"/>
     <Row>
@@ -1495,7 +1495,7 @@ const UserForm = props => {
   };
 
   return (<Card
-    bodyStyle={{ padding: '0' }}
+    styles={{ body: { padding: "0px 0px 0px 0px" } }}
   >
     <DocIcon url="https://www.yuque.com/vipersec/help/hufexqh266gf76s9"/>
     <Row>

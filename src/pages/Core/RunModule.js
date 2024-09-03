@@ -62,10 +62,10 @@ import { sessionTagList } from '@/pages/Core/HostAndSession'
 import { DocIcon, DocIconInDiv } from '@/pages/Core/Common'
 import { cssCalc } from '@/utils/utils'
 
-const {Title, Paragraph, Text} = Typography
-const {Search, TextArea} = Input
-const {TabPane} = Tabs
-const {Option, OptGroup} = Select
+const { Title, Paragraph, Text } = Typography
+const { Search, TextArea } = Input
+const { TabPane } = Tabs
+const { Option, OptGroup } = Select
 
 export const PostModuleInfoContent = postModuleConfig => {
   const platform = postModuleConfig.PLATFORM
@@ -177,7 +177,7 @@ export const getModuleOptions = (postModuleConfigActive) => {
             }]}
         >
           <Input
-            style={{width: '90%'}}
+            style={{ width: '90%' }}
           />
         </Form.Item>
       </Col>)
@@ -194,7 +194,7 @@ export const getModuleOptions = (postModuleConfigActive) => {
             }]}
         >
           <TextArea
-            style={{width: '95%'}}
+            style={{ width: '95%' }}
             showCount
             allowClear
           />
@@ -213,7 +213,7 @@ export const getModuleOptions = (postModuleConfigActive) => {
               required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
             }]}
         >
-          <Checkbox style={{width: '90%'}} defaultChecked={oneOption.default}/>
+          <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
         </Form.Item>
       </Col>)
     } else if (oneOption.type === 'integer') {
@@ -243,10 +243,10 @@ export const getModuleOptions = (postModuleConfigActive) => {
           name={oneOption.name}
           initialValue={oneOption.default}
           rules={rules}
-          wrapperCol={{span: 24}}
+          wrapperCol={{ span: 24 }}
         >
           <InputNumber
-            style={{width: '90%'}}
+            style={{ width: '90%' }}
           />
         </Form.Item>
       </Col>)
@@ -261,11 +261,11 @@ export const getModuleOptions = (postModuleConfigActive) => {
             {
               required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
             }]}
-          wrapperCol={{span: 24}}
+          wrapperCol={{ span: 24 }}
         >
           <InputNumber
             step={0.1}
-            style={{width: '90%'}}
+            style={{ width: '90%' }}
           />
         </Form.Item>
       </Col>)
@@ -288,7 +288,7 @@ export const getModuleOptions = (postModuleConfigActive) => {
             {
               required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
             }]}
-          wrapperCol={{span: 24}}
+          wrapperCol={{ span: 24 }}
         >
           <Select
             allowClear
@@ -303,7 +303,7 @@ export const getModuleOptions = (postModuleConfigActive) => {
     } else if (oneOption.type === 'select_multi') {
       const selectOptions = []
       for (const oneselect of oneOption.options) {
-        selectOptions.push({label: getOptionTag(oneselect), value: oneselect.value})
+        selectOptions.push({ label: getOptionTag(oneselect), value: oneselect.value })
       }
       options.push(<Col span={oneOption.length}>
         <Form.Item
@@ -315,7 +315,7 @@ export const getModuleOptions = (postModuleConfigActive) => {
             {
               required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
             }]}
-          wrapperCol={{span: 24}}
+          wrapperCol={{ span: 24 }}
         >
           <Select
             mode="tags"
@@ -340,10 +340,10 @@ export const getModuleOptions = (postModuleConfigActive) => {
             {
               required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
             }]}
-          wrapperCol={{span: 24}}
+          wrapperCol={{ span: 24 }}
         >
           <Input
-            style={{width: '90%'}}
+            style={{ width: '90%' }}
           />
         </Form.Item>
       </Col>)
@@ -360,7 +360,7 @@ const getWarn = (postModuleConfigActive) => {
     if (locale === 'en-US') {
       return <Col span={22}>
         <Alert
-          style={{marginBottom: 16}}
+          style={{ marginBottom: 16 }}
           type="warning"
           showIcon
           message={postModuleConfigActive.WARN_EN}
@@ -369,7 +369,7 @@ const getWarn = (postModuleConfigActive) => {
     } else {
       return <Col span={22}>
         <Alert
-          style={{marginBottom: 16}}
+          style={{ marginBottom: 16 }}
           type="warning"
           showIcon
           message={postModuleConfigActive.WARN_ZH}
@@ -401,7 +401,7 @@ export const changePin = loadpath => {
 }
 
 const ModuleInfoContent = props => {
-  const {postModuleConfig} = props
+  const { postModuleConfig } = props
   if (postModuleConfig === undefined) {
     return null
   }
@@ -498,8 +498,8 @@ const ModuleInfoContent = props => {
 
 export const RunModule = props => {
   console.log('RunModule')
-  const {closeModel} = props
-  const {hostAndSessionActive, postModuleOptions, moduleOptions} = useModel('HostAndSessionModel', model => ({
+  const { closeModel } = props
+  const { hostAndSessionActive, postModuleOptions, moduleOptions } = useModel('HostAndSessionModel', model => ({
     hostAndSessionActive: model.hostAndSessionActive, postModuleOptions: model.postModuleOptions, moduleOptions: model.moduleOptions,
   }))
   const [text, setText] = useState('')
@@ -509,18 +509,18 @@ export const RunModule = props => {
   let postModuleConfigListRun = postModuleOptions.map(record => {
     if (record.REQUIRE_SESSION) {
       if (hasSession) {
-        return {...record}
+        return { ...record }
       }
       return null
     }
-    return {...record}
+    return { ...record }
   }).filter(record => !!record)
 
   const pins = getPins()
 
   postModuleConfigListRun = postModuleConfigListRun.map(record => {
     record.pin = pins.indexOf(record.loadpath)
-    return {...record}
+    return { ...record }
   })
 
   postModuleConfigListRun.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath))
@@ -573,7 +573,7 @@ export const RunModule = props => {
   const onPostModuleConfigListPinsChange = (postModuleConfigListState, pins) => {
     postModuleConfigListState = postModuleConfigListState.map(record => {
       record.pin = pins.indexOf(record.loadpath)
-      return {...record}
+      return { ...record }
     })
     setPostModuleConfigList(postModuleConfigListState)
   }
@@ -642,9 +642,9 @@ export const RunModule = props => {
           }}
         />)
 
-        return (<div style={{display: 'inline'}}>
+        return (<div style={{ display: 'inline' }}>
           {pinIcon}
-          <a style={{...selectStyles}}>{getModuleName(record)}</a>
+          <a style={{ ...selectStyles }}>{getModuleName(record)}</a>
         </div>)
       },
     }]
@@ -660,7 +660,7 @@ export const RunModule = props => {
           <Input
             allowClear
             prefix={<SearchOutlined/>}
-            style={{width: '100%'}}
+            style={{ width: '100%' }}
             placeholder={formatText('app.runmodule.postmodule.search.ph')}
             value={text}
             onChange={e => {
@@ -670,7 +670,7 @@ export const RunModule = props => {
           />
           <Radio.Group
             defaultValue=""
-            style={{marginTop: 8}}
+            style={{ marginTop: 8 }}
             buttonStyle="solid"
             onChange={(e) => moduleTypeOnChange(e.target.value)}
           >
@@ -704,7 +704,7 @@ export const RunModule = props => {
             style={{
               padding: '0 0 0 0', marginTop: 8, maxHeight: cssCalc('80vh - 128px'), minHeight: cssCalc('80vh - 128px'),
             }}
-            scroll={{y: 'calc(80vh - 128px)'}}
+            scroll={{ y: 'calc(80vh - 128px)' }}
             className="tablev5"
             // rowClassName={styles.moduleTr}
             showHeader={false}
@@ -723,7 +723,7 @@ export const RunModule = props => {
         </Card>
       </Col>
       <Col span={16}>
-        <Tabs defaultActiveKey="params" style={{marginTop: 12}}>
+        <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
           <TabPane
             tab={<span><FormOutlined/> {formatText('app.runmodule.postmodule.params')}</span>}
             key="params"
@@ -750,7 +750,7 @@ export const RunModule = props => {
                 marginBottom: 16, overflow: 'auto', maxHeight: cssCalc('80vh - 88px'), minHeight: cssCalc('80vh - 88px'),
               }}
               layout="vertical"
-              wrapperCol={{span: 24}}
+              wrapperCol={{ span: 24 }}
               onFinish={onCreatePostModuleActuator}
             >
               <Row>{getModuleOptions(postModuleConfigActive)}</Row>
@@ -784,15 +784,15 @@ export const RunModuleMemo = memo(RunModule)
 
 export const RunAutoModule = props => {
   console.log('RunAutoModule')
-  const {closeModel, listData} = props
-  const {postModuleOptions} = useModel('HostAndSessionModel', model => ({
+  const { closeModel, listData } = props
+  const { postModuleOptions } = useModel('HostAndSessionModel', model => ({
     postModuleOptions: model.postModuleOptions,
   }))
   const [text, setText] = useState('')
 
   let postModuleConfigAuto = postModuleOptions.map(record => {
     if (record.REQUIRE_SESSION) {
-      return {...record}
+      return { ...record }
     } else {
       return null
     }
@@ -801,7 +801,7 @@ export const RunAutoModule = props => {
   const pins = getPins()
   postModuleConfigAuto = postModuleConfigAuto.map(record => {
     record.pin = pins.indexOf(record.loadpath)
-    return {...record}
+    return { ...record }
   })
 
   postModuleConfigAuto.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath))
@@ -852,7 +852,7 @@ export const RunAutoModule = props => {
   const onPostModuleConfigListPinsChange = (postModuleConfigListState, pins) => {
     postModuleConfigListState = postModuleConfigListState.map(record => {
       record.pin = pins.indexOf(record.loadpath)
-      return {...record}
+      return { ...record }
     })
     setPostModuleConfigList(postModuleConfigListState)
   }
@@ -919,9 +919,9 @@ export const RunAutoModule = props => {
             marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
           }}
         />)
-        return (<div style={{display: 'inline'}}>
+        return (<div style={{ display: 'inline' }}>
           {pinIcon}
-          <a style={{...selectStyles}}>{getModuleName(record)}</a>
+          <a style={{ ...selectStyles }}>{getModuleName(record)}</a>
         </div>)
       },
     }]
@@ -932,7 +932,7 @@ export const RunAutoModule = props => {
         <Input
           allowClear
           prefix={<SearchOutlined/>}
-          style={{width: '100%'}}
+          style={{ width: '100%' }}
           placeholder={formatText('app.runmodule.postmodule.search.ph')}
           value={text}
           onChange={e => {
@@ -942,7 +942,7 @@ export const RunAutoModule = props => {
         />
         <Radio.Group
           defaultValue=""
-          style={{marginTop: 8}}
+          style={{ marginTop: 8 }}
           buttonStyle="solid"
           onChange={(e) => moduleTypeOnChange(e.target.value)}
         >
@@ -972,7 +972,7 @@ export const RunAutoModule = props => {
           style={{
             padding: '0 0 0 0', marginTop: 8, maxHeight: cssCalc('80vh - 128px'), minHeight: cssCalc('80vh - 128px'),
           }}
-          scroll={{y: 'calc(80vh - 104px)'}}
+          scroll={{ y: 'calc(80vh - 104px)' }}
           className="tablev5"
           // rowClassName={styles.moduleTr}
           showHeader={false}
@@ -991,7 +991,7 @@ export const RunAutoModule = props => {
       </Card>
     </Col>
     <Col span={16}>
-      <Tabs defaultActiveKey="params" style={{marginTop: 12}}>
+      <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
         <TabPane
           tab={<span><FormOutlined/> {formatText('app.runmodule.postmodule.params')}</span>}
           key="params"
@@ -1001,7 +1001,7 @@ export const RunAutoModule = props => {
               marginBottom: 16, overflow: 'auto', maxHeight: cssCalc('80vh - 88px'), minHeight: cssCalc('80vh - 88px'), marginTop: 16,
             }}
             layout="vertical"
-            wrapperCol={{span: 24}}
+            wrapperCol={{ span: 24 }}
             onFinish={onCreatePostModuleAuto}
           >
             <Row>{getModuleOptions(postModuleConfigActive)}</Row>
@@ -1033,8 +1033,8 @@ export const RunAutoModule = props => {
 export const RunAutoModuleMemo = memo(RunAutoModule)
 export const RunschedulerModule = props => {
   console.log('RunAutoModule')
-  const {closeModel, listData} = props
-  const {postModuleOptions} = useModel('HostAndSessionModel', model => ({
+  const { closeModel, listData } = props
+  const { postModuleOptions } = useModel('HostAndSessionModel', model => ({
     postModuleOptions: model.postModuleOptions,
   }))
   const [text, setText] = useState('')
@@ -1042,7 +1042,7 @@ export const RunschedulerModule = props => {
 
   let postModuleConfigAuto = postModuleOptions.map(record => {
     if (record.REQUIRE_SESSION) {
-      return {...record}
+      return { ...record }
     } else {
       return null
     }
@@ -1051,7 +1051,7 @@ export const RunschedulerModule = props => {
   const pins = getPins()
   postModuleConfigAuto = postModuleConfigAuto.map(record => {
     record.pin = pins.indexOf(record.loadpath)
-    return {...record}
+    return { ...record }
   })
 
   postModuleConfigAuto.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath))
@@ -1079,7 +1079,7 @@ export const RunschedulerModule = props => {
     },
   })
 
-  useRequest(() => getCoreSettingAPI({kind: 'lhost'}), {
+  useRequest(() => getCoreSettingAPI({ kind: 'lhost' }), {
     onSuccess: (result, params) => {
       setSessionDict(result.sessions)
     }, onError: (error, params) => {
@@ -1135,7 +1135,7 @@ export const RunschedulerModule = props => {
   })
 
   const onCreatePostModuleAuto = params => {
-    let {scheduler_session, scheduler_interval} = params
+    let { scheduler_session, scheduler_interval } = params
     delete params.scheduler_session
     delete params.scheduler_interval
     createPostModuleAutoReq.run({
@@ -1156,7 +1156,7 @@ export const RunschedulerModule = props => {
   const onPostModuleConfigListPinsChange = (postModuleConfigListState, pins) => {
     postModuleConfigListState = postModuleConfigListState.map(record => {
       record.pin = pins.indexOf(record.loadpath)
-      return {...record}
+      return { ...record }
     })
     setPostModuleConfigList(postModuleConfigListState)
   }
@@ -1223,9 +1223,9 @@ export const RunschedulerModule = props => {
             marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
           }}
         />)
-        return (<div style={{display: 'inline'}}>
+        return (<div style={{ display: 'inline' }}>
           {pinIcon}
-          <a style={{...selectStyles}}>{getModuleName(record)}</a>
+          <a style={{ ...selectStyles }}>{getModuleName(record)}</a>
         </div>)
       },
     }]
@@ -1236,7 +1236,7 @@ export const RunschedulerModule = props => {
         <Input
           allowClear
           prefix={<SearchOutlined/>}
-          style={{width: '100%'}}
+          style={{ width: '100%' }}
           placeholder={formatText('app.runmodule.postmodule.search.ph')}
           value={text}
           onChange={e => {
@@ -1246,7 +1246,7 @@ export const RunschedulerModule = props => {
         />
         <Radio.Group
           defaultValue=""
-          style={{marginTop: 8}}
+          style={{ marginTop: 8 }}
           buttonStyle="solid"
           onChange={(e) => moduleTypeOnChange(e.target.value)}
         >
@@ -1276,7 +1276,7 @@ export const RunschedulerModule = props => {
           style={{
             padding: '0 0 0 0', marginTop: 8, maxHeight: cssCalc('80vh - 128px'), minHeight: cssCalc('80vh - 128px'),
           }}
-          scroll={{y: 'calc(80vh - 104px)'}}
+          scroll={{ y: 'calc(80vh - 104px)' }}
           className="tablev5"
           // rowClassName={styles.moduleTr}
           showHeader={false}
@@ -1295,7 +1295,7 @@ export const RunschedulerModule = props => {
       </Card>
     </Col>
     <Col span={16}>
-      <Tabs defaultActiveKey="params" style={{marginTop: 12}}>
+      <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
         <TabPane
           tab={<span><FormOutlined/> {formatText('app.runmodule.postmodule.params')}</span>}
           key="params"
@@ -1305,7 +1305,7 @@ export const RunschedulerModule = props => {
               marginBottom: 16, overflow: 'auto', maxHeight: cssCalc('80vh - 88px'), minHeight: cssCalc('80vh - 88px'), marginTop: 16,
             }}
             layout="vertical"
-            wrapperCol={{span: 24}}
+            wrapperCol={{ span: 24 }}
             onFinish={onCreatePostModuleAuto}
           >
             {sessionListOption()}
@@ -1373,7 +1373,7 @@ export const RunBotModule = props => {
     FOFA: false, Quake: false, Zoomeye: false,
   })
   const [viperDebugFlag, setViperDebugFlag] = useLocalStorageState('viper-debug-flag', false)
-  useRequest(() => getCoreNetworkSearchAPI({cmdtype: 'list_config'}), {
+  useRequest(() => getCoreNetworkSearchAPI({ cmdtype: 'list_config' }), {
     onSuccess: (result, params) => {
       setEngineConfs(result)
     }, onError: (error, params) => {
@@ -1474,7 +1474,7 @@ export const RunBotModule = props => {
           }}
         >
           {pinIcon}
-          <a style={{marginLeft: 4, ...selectStyles}}>{getModuleName(record)}</a>
+          <a style={{ marginLeft: 4, ...selectStyles }}>{getModuleName(record)}</a>
         </div>)
       },
     }]
@@ -1487,7 +1487,7 @@ export const RunBotModule = props => {
     setInputStr(e.target.value)
   }
   const ModuleInfoContent = props => {
-    const {postModuleConfig} = props
+    const { postModuleConfig } = props
     if (postModuleConfig === undefined) {
       return null
     }
@@ -1577,7 +1577,7 @@ export const RunBotModule = props => {
           style={{
             padding: '0 0 0 0', maxHeight: cssCalc('100vh - 120px'), minHeight: cssCalc('100vh - 120px'),
           }}
-          scroll={{y: 'calc(100vh - 120px)'}}
+          scroll={{ y: 'calc(100vh - 120px)' }}
           className="tablev5"
           // rowClassName={styles.moduleTr}
           showHeader={false}
@@ -1600,31 +1600,31 @@ export const RunBotModule = props => {
       </Card>
     </Col>
     <Col span={18}>
-      <Tabs defaultActiveKey="ipportlist" style={{marginTop: 12}}>
+      <Tabs defaultActiveKey="ipportlist" style={{ marginTop: 12 }}>
         <TabPane
           tab={<span><FormOutlined/> {formatText('app.runmodule.postmodule.params')}</span>}
           key="ipportlist"
         >
           <Row
-            style={{marginTop: 16}}
+            style={{ marginTop: 16 }}
             gutter={8}>
             <Col span={12}>
               <TextArea
                 placeholder={formatText('app.runmodule.postmodule.inputstr.ph')}
-                autoSize={{minRows: 3, maxRows: 3}}
+                autoSize={{ minRows: 3, maxRows: 3 }}
                 onChange={onChageInputStr}
                 value={inputStr}
               />
               <Input.Group compact
-                           style={{marginTop: 8, marginBottom: 24}}
+                           style={{ marginTop: 8, marginBottom: 24 }}
               >
-                <Select style={{width: '15%'}}
+                <Select style={{ width: '15%' }}
                         onChange={(value) => setLogic(value)}
                 >
                   <Option value="AND">AND</Option>
                   <Option value="OR">OR</Option>
                 </Select>
-                <Select style={{width: '25%'}}
+                <Select style={{ width: '25%' }}
                         onChange={(value) => setField(value)}
                 >
                   <OptGroup label={formatText('app.runmodule.botmodule.base')}>
@@ -1664,13 +1664,13 @@ export const RunBotModule = props => {
                     <Option value="isp">isp</Option>
                   </OptGroup>
                 </Select>
-                <Search style={{width: '60%'}}
+                <Search style={{ width: '60%' }}
                         enterButton={<PlusOutlined/>}
                         onSearch={addToInputStr}
                 />
               </Input.Group>
               <Form layout="horizontal" onFinish={searchNetworkSubmit}>
-                <div style={{display: 'flex'}}>
+                <div style={{ display: 'flex' }}>
                   <Form.Item
                     label={formatText('app.runmodule.postmodule.engine')}
                     name="engine"
@@ -1724,7 +1724,7 @@ export const RunBotModule = props => {
                     name="size"
                   >
                     <InputNumber
-                      style={{width: 160}}
+                      style={{ width: 160 }}
                     />
                   </Form.Item>
                 </Space>
@@ -1748,7 +1748,7 @@ export const RunBotModule = props => {
                 onFinish={async (values) => {
                   const ipportlist = values.ipporttext.split('\n').map((record, index) => {
                     let ipportpair = record.split(':')
-                    return {index: index, ip: ipportpair[0], port: ipportpair[1]}
+                    return { index: index, ip: ipportpair[0], port: ipportpair[1] }
                   })
                   setIpportListState(ipportlist)
                   return true
@@ -1768,7 +1768,7 @@ export const RunBotModule = props => {
                 style={{
                   marginTop: 0, padding: '0px 8px 16px 0px', maxHeight: '560px', minHeight: '560px',
                 }}
-                scroll={{y: 480}}
+                scroll={{ y: 480 }}
                 className="tablev5"
                 size="small"
                 bordered
@@ -1815,7 +1815,7 @@ export const RunBotModule = props => {
           </Row>
           <Form
             layout="vertical"
-            wrapperCol={{span: 24}}
+            wrapperCol={{ span: 24 }}
             onFinish={onCreatePostModuleActuator}
           >
             <Row>{getModuleOptions(botModuleConfigActive)}</Row>
@@ -1861,13 +1861,13 @@ export const BotScan = () => {
     <RealTimeBotWaitListMemo/>
     <Modal
       mask={false}
-      style={{top: 16}}
+      style={{ top: 16 }}
       width="90vw"
       destroyOnClose
       visible={runBotModuleModalVisable}
       onCancel={() => setRunBotModuleModalVisable(false)}
       footer={null}
-      bodyStyle={{padding: '0px 0px 0px 0px'}}
+      bodyStyle={{ padding: '0px 0px 0px 0px' }}
     >
       <RunBotModuleMemo/>
     </Modal>
@@ -1876,7 +1876,7 @@ export const BotScan = () => {
 
 const RealTimeBotWaitList = () => {
   console.log('RealTimeBotWaitList')
-  const {botWaitList, setBotWaitList} = useModel('HostAndSessionModel', model => ({
+  const { botWaitList, setBotWaitList } = useModel('HostAndSessionModel', model => ({
     botWaitList: model.botWaitList, setBotWaitList: model.setBotWaitList,
   }))
   const {
@@ -1886,7 +1886,7 @@ const RealTimeBotWaitList = () => {
   }))
   const destoryBotWaitReq = useRequest(deleteMsgrpcJobAPI, {
     manual: true, onSuccess: (result, params) => {
-      const {uuid} = result
+      const { uuid } = result
       setBotWaitList(botWaitList.filter(item => item.group_uuid !== uuid))
     }, onError: (error, params) => {
     },
@@ -1911,7 +1911,7 @@ const RealTimeBotWaitList = () => {
       }
       Descriptions_Items.push(<Descriptions.Item label={key}>{showstr}</Descriptions.Item>)
     }
-    return (<Descriptions style={{width: '80vw'}} bordered size="small" column={2}>
+    return (<Descriptions style={{ width: '80vw' }} bordered size="small" column={2}>
       {Descriptions_Items}
     </Descriptions>)
   }
@@ -1970,7 +1970,7 @@ const RealTimeBotWaitList = () => {
         </Popover>)
       },
     }, {
-      dataIndex: 'operation', width: 48, render: (text, record) => (<a style={{color: 'red'}} onClick={() => onDestoryBotWait(record)}>
+      dataIndex: 'operation', width: 48, render: (text, record) => (<a style={{ color: 'red' }} onClick={() => onDestoryBotWait(record)}>
         {formatText('app.core.delete')}
       </a>),
     }]
@@ -1992,7 +1992,7 @@ const RealTimeBotWaitListMemo = memo(RealTimeBotWaitList)
 
 export const PostModule = props => {
   console.log('PostModule')
-  const {loadpath, initialValues} = props
+  const { loadpath, initialValues } = props
   const {
     hostAndSessionActive, postModuleOptions,
   } = useModel('HostAndSessionModel', model => ({
@@ -2036,7 +2036,7 @@ export const PostModule = props => {
     return []
   }
   for (const oneOption of moduleconfig.OPTIONS) {
-    form.setFieldsValue({[oneOption.name]: oneOption.default})
+    form.setFieldsValue({ [oneOption.name]: oneOption.default })
     if (oneOption.type === 'str') {
       options.push(<Col span={oneOption.length}>
         <Form.Item
@@ -2049,7 +2049,7 @@ export const PostModule = props => {
             }]}
         >
           <Input
-            style={{width: '90%'}}
+            style={{ width: '90%' }}
           />
         </Form.Item>
       </Col>)
@@ -2065,7 +2065,7 @@ export const PostModule = props => {
               required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
             }]}
         >
-          <Checkbox style={{width: '90%'}} defaultChecked={oneOption.default}/>
+          <Checkbox style={{ width: '90%' }} defaultChecked={oneOption.default}/>
         </Form.Item>
       </Col>)
     } else if (oneOption.type === 'integer') {
@@ -2078,10 +2078,10 @@ export const PostModule = props => {
             {
               required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
             }]}
-          wrapperCol={{span: 24}}
+          wrapperCol={{ span: 24 }}
         >
           <InputNumber
-            style={{width: '90%'}}
+            style={{ width: '90%' }}
             // defaultValue={oneOption.default}
           />
         </Form.Item>
@@ -2096,11 +2096,11 @@ export const PostModule = props => {
             {
               required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
             }]}
-          wrapperCol={{span: 24}}
+          wrapperCol={{ span: 24 }}
         >
           <InputNumber
             step={0.1}
-            style={{width: '90%'}}
+            style={{ width: '90%' }}
           />
         </Form.Item>
       </Col>)
@@ -2122,7 +2122,7 @@ export const PostModule = props => {
             {
               required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
             }]}
-          wrapperCol={{span: 24}}
+          wrapperCol={{ span: 24 }}
         >
           <Select
             style={{
@@ -2143,10 +2143,10 @@ export const PostModule = props => {
             {
               required: oneOption.required, message: `${formatText('app.runmodule.common.rule')}${getOptionTag(oneOption)}`,
             }]}
-          wrapperCol={{span: 24}}
+          wrapperCol={{ span: 24 }}
         >
           <Input
-            style={{width: '90%'}}
+            style={{ width: '90%' }}
           />
         </Form.Item>
       </Col>)
@@ -2156,7 +2156,7 @@ export const PostModule = props => {
   return (<Form
     form={form}
     layout="vertical"
-    wrapperCol={{span: 24}}
+    wrapperCol={{ span: 24 }}
     onFinish={onCreatePostModuleActuator}
     initialValues={initialValues}
   >
@@ -2177,7 +2177,7 @@ export const PostModule = props => {
 
 export const PostModuleMemo = memo(PostModule)
 
-export const ModuleInfo = ({postModuleConfig}) => {
+export const ModuleInfo = ({ postModuleConfig }) => {
   const references = postModuleConfig.REFERENCES
   const referencesCom = []
   for (let i = 0; i < references.length; i++) {
@@ -2240,7 +2240,7 @@ const PostModuleAutoConfForm = props => {
   const [settingsPostModuleAutoConf, setSettingsPostModuleAutoConf] = useState({})
 
   //初始化数据
-  const initListPostModuleAutoConfReq = useRequest(() => getCoreSettingAPI({kind: 'postmoduleautoconf'}), {
+  const initListPostModuleAutoConfReq = useRequest(() => getCoreSettingAPI({ kind: 'postmoduleautoconf' }), {
     onSuccess: (result, params) => {
       setSettingsPostModuleAutoConf(result)
       postModuleAutoConfForm.setFieldsValue(result)
@@ -2269,13 +2269,13 @@ const PostModuleAutoConfForm = props => {
         checkedChildren={<CheckOutlined/>}
         unCheckedChildren={<MinusOutlined/>}
         checked={settingsPostModuleAutoConf.flag}
-        onClick={() => onUpdateSessionMonitor({flag: !settingsPostModuleAutoConf.flag})}
+        onClick={() => onUpdateSessionMonitor({ flag: !settingsPostModuleAutoConf.flag })}
       />
     </Form.Item>
     <Form.Item label={formatText('app.runmodule.autoconf.interval')}
                tooltip={formatText('app.runmodule.autoconf.interval.tip')}>
       <Radio.Group
-        onChange={e => onUpdateSessionMonitor({interval: e.target.value})}
+        onChange={e => onUpdateSessionMonitor({ interval: e.target.value })}
         value={settingsPostModuleAutoConf.interval}
       >
         <Radio value={10}>{formatText('app.runmodule.autoconf.10s')}</Radio>
@@ -2288,7 +2288,7 @@ const PostModuleAutoConfForm = props => {
       tooltip={formatText('app.runmodule.autoconf.max_session.tip')}
     >
       <Radio.Group
-        onChange={e => onUpdateSessionMonitor({max_session: e.target.value})}
+        onChange={e => onUpdateSessionMonitor({ max_session: e.target.value })}
         value={settingsPostModuleAutoConf.max_session}
       >
         <Radio value={3}>3</Radio>
@@ -2314,7 +2314,7 @@ const AutoRobot = () => {
   //初始化数据
   useRequest(getPostModuleAutoAPI, {
     onSuccess: (result, params) => {
-      let {auto, scheduler} = result
+      let { auto, scheduler } = result
       setPostModuleAutoList(auto)
       setPostModuleSchedulerList(scheduler)
     }, onError: (error, params) => {
@@ -2323,7 +2323,7 @@ const AutoRobot = () => {
 
   const listPostModuleAutoReq = useRequest(getPostModuleAutoAPI, {
     manual: true, onSuccess: (result, params) => {
-      let {auto, scheduler} = result
+      let { auto, scheduler } = result
       setPostModuleAutoList(auto)
       setPostModuleSchedulerList(scheduler)
     }, onError: (error, params) => {
@@ -2346,7 +2346,7 @@ const AutoRobot = () => {
 
   const destoryPostModuleAutoReq = useRequest(deletePostModuleAutoAPI, {
     manual: true, onSuccess: (result, params) => {
-      const {_module_uuid} = result
+      const { _module_uuid } = result
       setPostModuleAutoList(postModuleAutoList.filter(item => item._module_uuid !== _module_uuid))
     }, onError: (error, params) => {
     },
@@ -2354,17 +2354,17 @@ const AutoRobot = () => {
 
   const destoryPostModuleSchedulerReq = useRequest(deletePostModuleAutoAPI, {
     manual: true, onSuccess: (result, params) => {
-      const {job_id} = result
+      const { job_id } = result
       setPostModuleSchedulerList(postModuleSchedulerList.filter(item => item.job_id !== job_id))
     }, onError: (error, params) => {
     },
   })
 
   return (<Tabs size="small" defaultActiveKey="auto">
-    <TabPane tab={<span style={{marginLeft: 8, marginRight: 8}}>{formatText('app.runmodule.autoconf.auto')}</span>} key="auto">
+    <TabPane tab={<span style={{ marginLeft: 8, marginRight: 8 }}>{formatText('app.runmodule.autoconf.auto')}</span>} key="auto">
       <DocIcon url="https://www.yuque.com/vipersec/help/gh60e1"/>
       <Row gutter={0}
-           style={{paddingLeft: 1, paddingRight: 1}}
+           style={{ paddingLeft: 1, paddingRight: 1 }}
       >
         <Col span={12}>
           <Button
@@ -2386,7 +2386,9 @@ const AutoRobot = () => {
       </Row>
       <Row gutter={0}>
         <Col span={24}>
-          <Card style={{margin: 0}} bodyStyle={{padding: '4px 4px 4px 4px'}}>
+          <Card
+            styles={{ body: { padding: '4px 4px 4px 4px', margin: 0 } }}
+          >
             <PostModuleAutoConfFormMemo/>
           </Card>
           <Table
@@ -2412,9 +2414,9 @@ const AutoRobot = () => {
                   return postModuleOpts(record.opts)
                 },
               }, {
-                dataIndex: 'operation', width: 56, render: (text, record) => (<div style={{textAlign: 'center'}}>
+                dataIndex: 'operation', width: 56, render: (text, record) => (<div style={{ textAlign: 'center' }}>
                   <a
-                    style={{color: 'red'}}
+                    style={{ color: 'red' }}
                     onClick={() => destoryPostModuleAutoReq.run({
                       module_type: 'auto', _module_uuid: record._module_uuid,
                     })}
@@ -2426,13 +2428,13 @@ const AutoRobot = () => {
       </Row>
       <Modal
         mask={false}
-        style={{top: 32}}
+        style={{ top: 32 }}
         width="90vw"
         destroyOnClose
         visible={runAutoModuleModalVisable}
         onCancel={() => setRunAutoModuleModalModalVisable(false)}
         footer={null}
-        bodyStyle={{padding: '0px 0px 0px 0px'}}
+        bodyStyle={{ padding: '0px 0px 0px 0px' }}
       >
         <RunAutoModuleMemo
           closeModel={() => {
@@ -2447,7 +2449,7 @@ const AutoRobot = () => {
     <TabPane tab={formatText('app.runmodule.autoconf.scheduler')} key="scheduler">
       <DocIcon url="https://www.yuque.com/vipersec/help/gh60e1"/>
       <Row gutter={0}
-           style={{paddingLeft: 1, paddingRight: 1}}
+           style={{ paddingLeft: 1, paddingRight: 1 }}
       >
         <Col span={12}>
           <Button
@@ -2536,25 +2538,25 @@ const AutoRobot = () => {
                 dataIndex: 'operation', width: 136, render: (text, record) => {
                   let jobAction = null
                   if (record.next_run_time !== null) {
-                    jobAction = (<a style={{color: '#faad14'}}
+                    jobAction = (<a style={{ color: '#faad14' }}
                                     onClick={() => updatePostModuleSchedulerReq.run({
                                       job_id: record.job_id, action: 'pause',
                                     })}>
                       {formatText('app.runmodule.autorobot.scheduler.pause')}
                     </a>)
                   } else {
-                    jobAction = (<a style={{color: '#a5a5a5'}}
+                    jobAction = (<a style={{ color: '#a5a5a5' }}
                                     onClick={() => updatePostModuleSchedulerReq.run({
                                       job_id: record.job_id, action: 'resume',
                                     })}>
                       {formatText('app.runmodule.autorobot.scheduler.resume')}
                     </a>)
                   }
-                  return <div style={{textAlign: 'center'}}>
+                  return <div style={{ textAlign: 'center' }}>
                     <Space size="middle">
                       {jobAction}
                       <a
-                        style={{color: 'red'}}
+                        style={{ color: 'red' }}
                         onClick={() => destoryPostModuleSchedulerReq.run({
                           module_type: 'scheduler', job_id: record.job_id,
                         })}
@@ -2567,13 +2569,13 @@ const AutoRobot = () => {
       </Row>
       <Modal
         mask={false}
-        style={{top: 32}}
+        style={{ top: 32 }}
         width="90vw"
         destroyOnClose
         visible={runAutoModuleSchedulerModalVisable}
         onCancel={() => setRunAutoModuleSchedulerModalModalVisable(false)}
         footer={null}
-        bodyStyle={{padding: '0px 0px 0px 0px'}}
+        bodyStyle={{ padding: '0px 0px 0px 0px' }}
       >
         <RunschedulerModuleMemo
           closeModel={() => {
@@ -2595,7 +2597,7 @@ const ProxyHttpScanConfForm = props => {
   const [settingsProxyHttpScanConf, setSettingsProxyHttpScanConf] = useState({})
 
   //初始化数据
-  const initListPostModuleAutoConfReq = useRequest(() => getCoreSettingAPI({kind: 'proxyhttpscanconf'}), {
+  const initListPostModuleAutoConfReq = useRequest(() => getCoreSettingAPI({ kind: 'proxyhttpscanconf' }), {
     onSuccess: (result, params) => {
       setSettingsProxyHttpScanConf(result)
       proxyHttpScanConfForm.setFieldsValue(result)
@@ -2618,13 +2620,13 @@ const ProxyHttpScanConfForm = props => {
     updateSessionMonitorReq.run(params)
   }
 
-  return (<Form labelCol={{span: 24}} wrapperCol={{span: 24}} layout="vertical">
+  return (<Form labelCol={{ span: 24 }} wrapperCol={{ span: 24 }} layout="vertical">
     <Form.Item label={formatText('app.runmodule.autoconf.switch')}>
       <Switch
         checkedChildren={<CheckOutlined/>}
         unCheckedChildren={<MinusOutlined/>}
         checked={settingsProxyHttpScanConf.flag}
-        onClick={() => onUpdateProxyHttpScanConf({flag: !settingsProxyHttpScanConf.flag})}
+        onClick={() => onUpdateProxyHttpScanConf({ flag: !settingsProxyHttpScanConf.flag })}
       />
     </Form.Item>
     PROXY : <Text strong>Http://VPSIP:28888</Text>
@@ -2633,16 +2635,16 @@ const ProxyHttpScanConfForm = props => {
 
 export const ProxyHttpScanModule = props => {
   console.log('RunProxyHttpScanModule')
-  const {closeModel, listData} = props
+  const { closeModel, listData } = props
   const [text, setText] = useState('')
-  const {proxyHttpScanModuleOptions} = useModel('HostAndSessionModel', model => ({
+  const { proxyHttpScanModuleOptions } = useModel('HostAndSessionModel', model => ({
     proxyHttpScanModuleOptions: model.proxyHttpScanModuleOptions,
   }))
 
   const pins = getPins()
   let proxyHttpScanModuleOptionsAuto = proxyHttpScanModuleOptions.map(record => {
     record.pin = pins.indexOf(record.loadpath)
-    return {...record}
+    return { ...record }
   })
 
   proxyHttpScanModuleOptionsAuto.sort((a, b) => pins.indexOf(b.loadpath) - pins.indexOf(a.loadpath))
@@ -2693,7 +2695,7 @@ export const ProxyHttpScanModule = props => {
   const onPostModuleConfigListPinsChange = (postModuleConfigListState, pins) => {
     postModuleConfigListState = postModuleConfigListState.map(record => {
       record.pin = pins.indexOf(record.loadpath)
-      return {...record}
+      return { ...record }
     })
     setPostModuleConfigList(postModuleConfigListState)
   }
@@ -2760,9 +2762,9 @@ export const ProxyHttpScanModule = props => {
             marginTop: 4, marginLeft: 4, marginRight: 8, float: 'left', fontSize: '18px',
           }}
         />)
-        return (<div style={{display: 'inline'}}>
+        return (<div style={{ display: 'inline' }}>
           {pinIcon}
-          <a style={{...selectStyles}}>{getModuleName(record)}</a>
+          <a style={{ ...selectStyles }}>{getModuleName(record)}</a>
         </div>)
       },
     }]
@@ -2773,7 +2775,7 @@ export const ProxyHttpScanModule = props => {
         <Input
           allowClear
           prefix={<SearchOutlined/>}
-          style={{width: '100%'}}
+          style={{ width: '100%' }}
           placeholder={formatText('app.runmodule.postmodule.search.ph')}
           value={text}
           onChange={e => {
@@ -2785,7 +2787,7 @@ export const ProxyHttpScanModule = props => {
           style={{
             padding: '0 0 0 0', marginTop: 8, maxHeight: cssCalc('80vh - 128px'), minHeight: cssCalc('80vh - 128px'),
           }}
-          scroll={{y: 'calc(80vh - 104px)'}}
+          scroll={{ y: 'calc(80vh - 104px)' }}
           className="tablev5"
           // rowClassName={styles.moduleTr}
           showHeader={false}
@@ -2804,7 +2806,7 @@ export const ProxyHttpScanModule = props => {
       </Card>
     </Col>
     <Col span={16}>
-      <Tabs defaultActiveKey="params" style={{marginTop: 12}}>
+      <Tabs defaultActiveKey="params" style={{ marginTop: 12 }}>
         <TabPane
           tab={<span><FormOutlined/> {formatText('app.runmodule.postmodule.params')}</span>}
           key="params"
@@ -2814,7 +2816,7 @@ export const ProxyHttpScanModule = props => {
               marginBottom: 16, overflow: 'auto', maxHeight: cssCalc('80vh - 88px'), minHeight: cssCalc('80vh - 88px'), marginTop: 16,
             }}
             layout="vertical"
-            wrapperCol={{span: 24}}
+            wrapperCol={{ span: 24 }}
             onFinish={onCreateProxyHttpScan}
           >
             <Row>{getModuleOptions(postModuleConfigActive)}</Row>
@@ -2881,7 +2883,7 @@ const ProxyHttpScan = () => {
 
   const destoryProxyHttpScanReq = useRequest(deleteProxyHttpScanAPI, {
     manual: true, onSuccess: (result, params) => {
-      const {_module_uuid} = result
+      const { _module_uuid } = result
       setProxyHttpScanList(proxyHttpScanList.filter(item => item._module_uuid !== _module_uuid))
     }, onError: (error, params) => {
     },
@@ -2890,7 +2892,7 @@ const ProxyHttpScan = () => {
   return (<Fragment>
     <DocIcon url="https://www.yuque.com/vipersec/help/bg1zvcdmg5f6q71e"/>
     <Row gutter={0}
-         style={{paddingLeft: 1, paddingRight: 1}}
+         style={{ paddingLeft: 1, paddingRight: 1 }}
     >
       <Col span={12}>
         <Button
@@ -2912,7 +2914,7 @@ const ProxyHttpScan = () => {
     </Row>
     <Row gutter={0}>
       <Col span={4}>
-        <Card style={{marginTop: 0}}>
+        <Card style={{ marginTop: 0 }}>
           <ProxyHttpScanConfFormMemo/>
         </Card>
       </Col>
@@ -2940,10 +2942,10 @@ const ProxyHttpScan = () => {
                 return postModuleOpts(record.opts)
               },
             }, {
-              dataIndex: 'operation', width: 56, render: (text, record) => (<div style={{textAlign: 'center'}}>
+              dataIndex: 'operation', width: 56, render: (text, record) => (<div style={{ textAlign: 'center' }}>
                 <a
-                  style={{color: 'red'}}
-                  onClick={() => destoryProxyHttpScanReq.run({_module_uuid: record._module_uuid})}
+                  style={{ color: 'red' }}
+                  onClick={() => destoryProxyHttpScanReq.run({ _module_uuid: record._module_uuid })}
                 >{formatText('app.core.delete')}</a>
               </div>),
             }]}
@@ -2952,13 +2954,13 @@ const ProxyHttpScan = () => {
     </Row>
     <Modal
       mask={false}
-      style={{top: 32}}
+      style={{ top: 32 }}
       width="90vw"
       destroyOnClose
       visible={runProxyHttpScanModuleModalVisable}
       onCancel={() => setRunProxyHttpScanModuleModalVisable(false)}
       footer={null}
-      bodyStyle={{padding: '0px 0px 0px 0px'}}
+      bodyStyle={{ padding: '0px 0px 0px 0px' }}
     >
       <ProxyHttpScanModuleMemo
         closeModel={() => {

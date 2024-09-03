@@ -112,7 +112,7 @@ const LazyLoader = () => {
           </Button>
         </Col>
       </Row>
-      <Card style={{ marginTop: 0 }} bodyStyle={{ padding: "0px 0px 0px 0px" }}>
+    <Card style={{ marginTop: 0 }} styles={{ body: { padding: "0px 0px 0px 0px" } }}>
         <Table
           style={{
             padding: "0 0 0 0", overflow: "auto", maxHeight: cssCalc(`${resizeDownHeight} - 32px`), minHeight: cssCalc(`${resizeDownHeight} - 32px`),

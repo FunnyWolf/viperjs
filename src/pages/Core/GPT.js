@@ -13,7 +13,7 @@ import {
   ToolOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Badge, Button, Col, Descriptions, Flex, Input, List, Popover, Radio, Row, Table, Tag, Typography } from "antd-v5";
+import { Badge, Button, Card, Col, Descriptions, Flex, Input, List, Popover, Row, Table, Tag, Typography } from "antd-v5";
 import { cssCalc } from "@/utils/utils";
 import { changePin, getPins } from "@/pages/Core/RunModule";
 import { HostIP } from '@/config'
@@ -21,6 +21,12 @@ import { getToken } from '@/utils/authority'
 import { useRequest } from '@@/plugin-request/request'
 import { deleteLLMModuleAPI, postLLMModuleAPI } from '@/services/apiv1'
 import { useInterval } from 'ahooks'
+import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import 'highlight.js/styles/github-dark.css';
+import remarkBreaks from 'remark-breaks';
+import rehypeRaw from 'rehype-raw';
+import rehypeHighlight from 'rehype-highlight';
 
 const { Title, Paragraph, Text, Link } = Typography;
 let webHost = HostIP + ":8002";
@@ -104,7 +110,6 @@ const ModuleInfoContent = (record) => {
 
 export const VGPT = props => {
   console.log("RunWebModule");
-
   const ws_llm_module = useRef(null);
 
   const { llmModuleOptions } = useModel("HostAndSessionModel", model => ({
@@ -239,27 +244,27 @@ export const VGPT = props => {
 
   const ListItem = (item, index) => {
     const avatar_dict = {
-      human: <UserOutlined style={{ fontSize: '32px' }}/>,
-      ai: <OpenAIOutlined style={{ fontSize: '32px' }}/>,
-      tool: <ToolOutlined style={{ fontSize: '32px' }}/>,
-      function: <FunctionOutlined style={{ fontSize: '32px' }}/>,
+      human: <UserOutlined style={{ fontSize: '24px' }}/>,
+      ai: <OpenAIOutlined style={{ fontSize: '24px' }}/>,
+      tool: <ToolOutlined style={{ fontSize: '24px' }}/>,
+      function: <FunctionOutlined style={{ fontSize: '24px' }}/>,
     }
     let title = null
     if (item.type === "human") {
-      title = <Flex justify="flex-end" align="center" gap="small">
-        <Text style={{ marginLeft: 40 }}>
+      title = <Flex justify="flex-end" align="flex-end" gap="small" vertical={true} style={{ marginRight: 8 }}>
+        {avatar_dict[item.type]}
+        <Text>
           <pre
-            style={{ backgroundColor: "#135200" }}
+            style={{ backgroundColor: "#135200", marginTop: 0 }}
           >{item.data.content}</pre>
         </Text>
-        {avatar_dict[item.type]}
       </Flex>
     } else if (item.type === "ai") {
       let token = item.data.usage_metadata.total_tokens
       // tool call
       if (item.data.tool_calls.length !== 0) {
         let tool_calls = item.data.tool_calls;
-        title = <Flex justify="flex-start" align="center" gap="small">
+        title = <Flex justify="flex-start" align="center" gap="small" vertical={true} style={{ marginRight: 8 }}>
           {avatar_dict["function"]}
           <Text type="secondary">
             <pre>{JSON.stringify(tool_calls)}</pre>
@@ -268,7 +273,7 @@ export const VGPT = props => {
         </Flex>
         // man in loop特殊处理
         if (index === (messageList.length - 1)) {
-          title = <Flex justify="flex-start" align="center" gap="small">
+          title = <Flex justify="flex-start" align="center" gap="small" vertical={true} style={{ marginRight: 8 }}>
             {avatar_dict["function"]}
             <Text type="secondary">
               <pre>{JSON.stringify(tool_calls)}</pre>
@@ -277,7 +282,7 @@ export const VGPT = props => {
             <Button icon={<CheckOutlined/>} style={{ marginTop: 16 }} ghost={true} onClick={() => handleUserDecision(true)}/>
           </Flex>
         } else {
-          title = <Flex justify="flex-start" align="center" gap="small">
+          title = <Flex justify="flex-start" align="center" gap="small" vertical={true} style={{ marginRight: 8 }}>
             {avatar_dict["function"]}
             <Text type="secondary">
               <pre>{JSON.stringify(tool_calls)}</pre>
@@ -286,16 +291,23 @@ export const VGPT = props => {
           </Flex>
         }
       } else { // normal ai message
-        title = <Flex justify="flex-start" align="center" gap="small">
+        title = <Flex justify="flex-start" align="flex-start" gap="small" vertical={true} style={{ marginRight: 8 }}>
           {avatar_dict[item.type]}
-          <Text>
-            <pre>{item.data.content}</pre>
-          </Text>
+          <Card
+            styles={{ body: { padding: "12px 12px 0px 12px" } }}
+          >
+            <Markdown
+              remarkPlugins={[remarkGfm, remarkBreaks]}
+              rehypePlugins={[rehypeRaw, rehypeHighlight]}
+            >
+              {item.data.content}
+            </Markdown>
+          </Card>
           <Badge count={token} overflowCount={9999} color="#389e0d"/>
         </Flex>
       }
     } else if (item.type === "tool") {
-      title = <Flex justify="flex-start" align="center" gap="small">
+      title = <Flex justify="flex-start" align="center" gap="small" vertical={true} style={{ marginRight: 8 }}>
         {avatar_dict[item.type]}
         <Text type="secondary">
           <pre>{JSON.stringify({ name: item.data.name, content: item.data.content })}</pre>
@@ -377,21 +389,21 @@ export const VGPT = props => {
           placeholder={formatText("app.runmodule.postmodule.searchmodule.ph")}
           onSearch={value => handleModuleSearch(value)}
         />
-        <Radio.Group
-          defaultValue=""
-          onChange={(e) => moduleTypeOnChange(e.target.value)}
-          style={{
-            marginTop: 0,
-          }}
-        >
-          <Radio.Button value="">{formatText("app.runmodule.postmodule.moduletype.all")}</Radio.Button>
-          <Radio.Button
-            value="AI_Agent">{formatText("llmmodule.agent")}</Radio.Button>
-          <Radio.Button
-            value="AI_RAG">{formatText("llmmodule.rag")}</Radio.Button>
-          <Radio.Button
-            value="AI_Multi_Agent">{formatText("llmmodule.multi_agent")}</Radio.Button>
-        </Radio.Group>
+        {/*<Radio.Group*/}
+        {/*  defaultValue=""*/}
+        {/*  onChange={(e) => moduleTypeOnChange(e.target.value)}*/}
+        {/*  style={{*/}
+        {/*    marginTop: 0,*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  <Radio.Button value="">{formatText("app.runmodule.postmodule.moduletype.all")}</Radio.Button>*/}
+        {/*  <Radio.Button*/}
+        {/*    value="AI_Agent">{formatText("llmmodule.agent")}</Radio.Button>*/}
+        {/*  <Radio.Button*/}
+        {/*    value="AI_RAG">{formatText("llmmodule.rag")}</Radio.Button>*/}
+        {/*  <Radio.Button*/}
+        {/*    value="AI_Multi_Agent">{formatText("llmmodule.multi_agent")}</Radio.Button>*/}
+        {/*</Radio.Group>*/}
         <Table
           style={{
             padding: "0 0 0 0", maxHeight: cssCalc("100vh - 560px"), minHeight: cssCalc("100vh - 560px"),
@@ -415,12 +427,12 @@ export const VGPT = props => {
         />
       </Col>
       <Col span={14}>
-        <div style={{ marginLeft: 32, marginRight: 32 }}>
+        <div style={{ marginLeft: 16, marginRight: 16 }}>
           <List
             id="message_history_list"
             style={{
-              overflow: "auto", maxHeight: cssCalc(`${resizeDownHeight} - 64px`), minHeight: cssCalc(`${resizeDownHeight} - 64px`),
-
+              overflow: "auto", maxHeight: cssCalc(`${resizeDownHeight} - 48px`), minHeight: cssCalc(`${resizeDownHeight} - 48px`),
+              marginTop: 8,
             }}
             loading={!websocketAlive}
             split={false}
@@ -428,10 +440,8 @@ export const VGPT = props => {
             dataSource={messageList}
             renderItem={(item, index) => (ListItem(item, index))}
           />
-          <div style={{ height: 32 }}></div>
-          <Flex vertical={false}>
+          <Flex style={{ marginTop: 8 }} vertical={false}>
             <Input
-              style={{ marginLeft: 40 }}
               disabled={llmModuleConfigActive.loadpath === null}
               // placeholder="Basic usage"
               value={userInputValue}
@@ -454,4 +464,5 @@ export const VGPT = props => {
     </Row>
   );
 };
+
 export const VGPTMemo = memo(VGPT);
