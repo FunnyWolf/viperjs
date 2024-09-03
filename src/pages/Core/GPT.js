@@ -251,7 +251,7 @@ export const VGPT = props => {
     }
     let title = null
     if (item.type === "human") {
-      title = <Flex justify="flex-end" align="flex-end" gap="small" vertical={true} style={{ marginRight: 8 }}>
+      title = <Flex justify="flex-end" align="flex-end" gap={4} vertical={true} style={{ marginRight: 8 }}>
         {avatar_dict[item.type]}
         <Text>
           <pre
@@ -264,7 +264,7 @@ export const VGPT = props => {
       // tool call
       if (item.data.tool_calls.length !== 0) {
         let tool_calls = item.data.tool_calls;
-        title = <Flex justify="flex-start" align="center" gap="small" vertical={true} style={{ marginRight: 8 }}>
+        title = <Flex justify="flex-start" align="flex-start" gap={0} vertical={true} style={{ marginRight: 8 }}>
           {avatar_dict["function"]}
           <Text type="secondary">
             <pre>{JSON.stringify(tool_calls)}</pre>
@@ -273,25 +273,25 @@ export const VGPT = props => {
         </Flex>
         // man in loop特殊处理
         if (index === (messageList.length - 1)) {
-          title = <Flex justify="flex-start" align="center" gap="small" vertical={true} style={{ marginRight: 8 }}>
+          title = <Flex justify="flex-start" align="flex-start" gap={0} vertical={true} style={{ marginRight: 8 }}>
             {avatar_dict["function"]}
-            <Text type="secondary">
+            <Text type="secondary" style={{ marginTop: -8 }}>
               <pre>{JSON.stringify(tool_calls)}</pre>
             </Text>
-            <Badge count={token} overflowCount={9999} color="#389e0d"/>
+            <Badge count={token} overflowCount={9999} color="#389e0d" style={{ marginTop: -8 }}/>
             <Button icon={<CheckOutlined/>} style={{ marginTop: 16 }} ghost={true} onClick={() => handleUserDecision(true)}/>
           </Flex>
         } else {
-          title = <Flex justify="flex-start" align="center" gap="small" vertical={true} style={{ marginRight: 8 }}>
+          title = <Flex justify="flex-start" align="flex-start" gap={0} vertical={true} style={{ marginRight: 8 }}>
             {avatar_dict["function"]}
-            <Text type="secondary">
+            <Text type="secondary" style={{ marginTop: -8 }}>
               <pre>{JSON.stringify(tool_calls)}</pre>
             </Text>
-            <Badge count={token} overflowCount={9999} color="#389e0d"/>
+            <Badge count={token} overflowCount={9999} color="#389e0d" style={{ marginTop: -8 }}/>
           </Flex>
         }
       } else { // normal ai message
-        title = <Flex justify="flex-start" align="flex-start" gap="small" vertical={true} style={{ marginRight: 8 }}>
+        title = <Flex justify="flex-start" align="flex-start" gap={4} vertical={true} style={{ marginRight: 8 }}>
           {avatar_dict[item.type]}
           <Card
             styles={{ body: { padding: "12px 12px 0px 12px" } }}
@@ -307,9 +307,9 @@ export const VGPT = props => {
         </Flex>
       }
     } else if (item.type === "tool") {
-      title = <Flex justify="flex-start" align="center" gap="small" vertical={true} style={{ marginRight: 8 }}>
+      title = <Flex justify="flex-start" align="flex-start" gap={0} vertical={true} style={{ marginRight: 8 }}>
         {avatar_dict[item.type]}
-        <Text type="secondary">
+        <Text style={{ marginTop: -8 }} type="secondary">
           <pre>{JSON.stringify({ name: item.data.name, content: item.data.content })}</pre>
         </Text>
       </Flex>
