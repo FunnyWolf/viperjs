@@ -1497,7 +1497,7 @@ const UserForm = props => {
   return (<Card
     styles={{ body: { padding: "0px 0px 0px 0px" } }}
   >
-    <DocIcon url="https://www.yuque.com/vipersec/help/hufexqh266gf76s9"/>
+    <DocIcon url="https://www.yuque.com/vipersec/help/atz5qaexqzxz1oc0"/>
     <Row>
       <Table
         columns={[
