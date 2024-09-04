@@ -251,47 +251,54 @@ export const VGPT = props => {
     }
     let title = null
     if (item.type === "human") {
-      title = <Flex justify="flex-end" align="flex-end" gap={4} vertical={true} style={{ marginRight: 8 }}>
+      title = <Flex justify="flex-end" align="flex-end" gap={2} vertical={true} style={{ marginRight: 8, marginBottom: 8 }}>
         {avatar_dict[item.type]}
-        <Text>
-          <pre
-            style={{ backgroundColor: "#135200", marginTop: 0 }}
-          >{item.data.content}</pre>
-        </Text>
+        <Card
+          style={{ backgroundColor: "#434343" }}
+          styles={{ body: { padding: "12px 12px 0px 12px" } }}
+        >
+          <pre>{item.data.content}</pre>
+        </Card>
       </Flex>
     } else if (item.type === "ai") {
       let token = item.data.usage_metadata.total_tokens
       // tool call
       if (item.data.tool_calls.length !== 0) {
         let tool_calls = item.data.tool_calls;
-        title = <Flex justify="flex-start" align="flex-start" gap={0} vertical={true} style={{ marginRight: 8 }}>
+        title = <Flex justify="flex-start" align="flex-start" gap={2} vertical={true} style={{ marginRight: 8, marginBottom: 8 }}>
           {avatar_dict["function"]}
-          <Text type="secondary">
-            <pre>{JSON.stringify(tool_calls)}</pre>
-          </Text>
+          <Card
+            styles={{ body: { padding: "12px 12px 0px 12px" } }}
+          >
+            <pre style={{ opacity: 0.5 }}>{JSON.stringify(tool_calls)}</pre>
+          </Card>
           <Badge count={token} overflowCount={9999} color="#389e0d"/>
         </Flex>
         // man in loop特殊处理
         if (index === (messageList.length - 1)) {
-          title = <Flex justify="flex-start" align="flex-start" gap={0} vertical={true} style={{ marginRight: 8 }}>
+          title = <Flex justify="flex-start" align="flex-start" gap={2} vertical={true} style={{ marginRight: 8, marginBottom: 8 }}>
             {avatar_dict["function"]}
-            <Text type="secondary" style={{ marginTop: -8 }}>
-              <pre>{JSON.stringify(tool_calls)}</pre>
-            </Text>
-            <Badge count={token} overflowCount={9999} color="#389e0d" style={{ marginTop: -8 }}/>
+            <Card
+              styles={{ body: { padding: "12px 12px 0px 12px" } }}
+            >
+              <pre style={{ opacity: 0.5 }}>{JSON.stringify(tool_calls)}</pre>
+            </Card>
+            <Badge count={token} overflowCount={9999} color="#389e0d"/>
             <Button icon={<CheckOutlined/>} style={{ marginTop: 16 }} ghost={true} onClick={() => handleUserDecision(true)}/>
           </Flex>
         } else {
-          title = <Flex justify="flex-start" align="flex-start" gap={0} vertical={true} style={{ marginRight: 8 }}>
+          title = <Flex justify="flex-start" align="flex-start" gap={2} vertical={true} style={{ marginRight: 8, marginBottom: 8 }}>
             {avatar_dict["function"]}
-            <Text type="secondary" style={{ marginTop: -8 }}>
-              <pre>{JSON.stringify(tool_calls)}</pre>
-            </Text>
-            <Badge count={token} overflowCount={9999} color="#389e0d" style={{ marginTop: -8 }}/>
+            <Card
+              styles={{ body: { padding: "12px 12px 0px 12px" } }}
+            >
+              <pre style={{ opacity: 0.5 }}>{JSON.stringify(tool_calls)}</pre>
+            </Card>
+            <Badge count={token} overflowCount={9999} color="#389e0d"/>
           </Flex>
         }
       } else { // normal ai message
-        title = <Flex justify="flex-start" align="flex-start" gap={4} vertical={true} style={{ marginRight: 8 }}>
+        title = <Flex justify="flex-start" align="flex-start" gap={2} vertical={true} style={{ marginRight: 8, marginBottom: 8 }}>
           {avatar_dict[item.type]}
           <Card
             styles={{ body: { padding: "12px 12px 0px 12px" } }}
@@ -307,11 +314,13 @@ export const VGPT = props => {
         </Flex>
       }
     } else if (item.type === "tool") {
-      title = <Flex justify="flex-start" align="flex-start" gap={0} vertical={true} style={{ marginRight: 8 }}>
+      title = <Flex justify="flex-start" align="flex-start" gap={2} vertical={true} style={{ marginRight: 8, marginBottom: 8 }}>
         {avatar_dict[item.type]}
-        <Text style={{ marginTop: -8 }} type="secondary">
-          <pre>{JSON.stringify({ name: item.data.name, content: item.data.content })}</pre>
-        </Text>
+        <Card
+          styles={{ body: { padding: "12px 12px 0px 12px" } }}
+        >
+          <pre style={{ opacity: 0.5 }}>{JSON.stringify({ name: item.data.name, content: item.data.content })}</pre>
+        </Card>
       </Flex>
     } else {
       title = <pre>{item.data.content}</pre>
@@ -431,7 +440,7 @@ export const VGPT = props => {
           <List
             id="message_history_list"
             style={{
-              overflow: "auto", maxHeight: cssCalc(`${resizeDownHeight} - 48px`), minHeight: cssCalc(`${resizeDownHeight} - 48px`),
+              overflow: "auto", maxHeight: cssCalc(`${resizeDownHeight} - 64px`), minHeight: cssCalc(`${resizeDownHeight} - 64px`),
               marginTop: 8,
             }}
             loading={!websocketAlive}
@@ -443,7 +452,7 @@ export const VGPT = props => {
           <Flex style={{ marginTop: 8 }} vertical={false}>
             <Input
               disabled={llmModuleConfigActive.loadpath === null}
-              // placeholder="Basic usage"
+              size="large"
               value={userInputValue}
               suffix={<SendOutlined/>}
               onChange={(e) => setUserInputValue(e.target.value)}
@@ -452,7 +461,7 @@ export const VGPT = props => {
             <Button
               disabled={llmModuleConfigActive.loadpath === null || !websocketAlive}
               style={{ width: 96 }}
-              size="middle"
+              size="large"
               icon={<DeleteOutlined/>}
               onClick={() => {
                 destoryLLMModuleReq.run({ loadpath: llmModuleConfigActive.loadpath })
