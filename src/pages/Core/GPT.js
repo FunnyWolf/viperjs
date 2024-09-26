@@ -440,7 +440,8 @@ export const VGPT = props => {
           <List
             id="message_history_list"
             style={{
-              overflow: "auto", maxHeight: cssCalc(`${resizeDownHeight} - 64px`), minHeight: cssCalc(`${resizeDownHeight} - 64px`),
+              overflow: "auto",
+              maxHeight: cssCalc(`${resizeDownHeight} - 64px`), minHeight: cssCalc(`${resizeDownHeight} - 64px`),
               marginTop: 8,
             }}
             loading={!websocketAlive}

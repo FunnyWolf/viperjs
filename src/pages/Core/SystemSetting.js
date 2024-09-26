@@ -1116,6 +1116,7 @@ const AiqichaForm = props => {
 const OpenAIForm = props => {
   const [mainForm] = Form.useForm();
   const [settings, setSettings] = useState({});
+
   const kind = 'OpenAI'
 
   //初始化数据
@@ -1178,6 +1179,32 @@ const OpenAIForm = props => {
                 required: true, message: formatText('app.systemsetting.selectmodel'),
               }]}
           >
+            <Select
+              style={{ width: 300 }}
+              placeholder="custom dropdown render"
+              dropdownRender={(menu) => (
+                <>
+                  {menu}
+                  <Divider style={{ margin: '8px 0' }}/>
+                  <Space style={{ padding: '0 8px 4px' }}>
+                    <Input
+                      placeholder="Please enter item"
+                      ref={inputRef}
+                      value={name}
+                      onChange={onNameChange}
+                      onKeyDown={(e) => e.stopPropagation()}
+                    />
+                    <Button type="text" icon={<PlusOutlined/>} onClick={addItem}>
+                      Add item
+                    </Button>
+                  </Space>
+                </>
+              )}
+              options={items.map((item) => ({ label: item, value: item }))}
+            />
+
+
+
             <Select
               style={{
                 width: 160,
