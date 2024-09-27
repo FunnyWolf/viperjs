@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import {
   deleteCoreSettingAPI,
   deleteCoreUUIDJsonAPI,
@@ -18,6 +18,7 @@ import {
   Checkbox,
   Col,
   Descriptions,
+  Divider,
   Form,
   Input,
   InputNumber,
@@ -33,6 +34,7 @@ import {
   Typography,
 } from 'antd-v5';
 import { message } from 'antd';
+
 import {
   CheckOutlined,
   CloudDownloadOutlined,
@@ -1116,14 +1118,26 @@ const AiqichaForm = props => {
 const OpenAIForm = props => {
   const [mainForm] = Form.useForm();
   const [settings, setSettings] = useState({});
-
+  const [items, setItems] = useState(['gpt-3.5-turbo', 'gpt-4-turbo', 'gpt-4o', 'gpt-4o-mini']);
+  const [name, setName] = useState('');
+  const inputRef = useRef(null);
   const kind = 'OpenAI'
 
   //初始化数据
   useEffect(() => {
     getReq.run({ kind: kind })
   }, []);
-
+  const addItem = (e) => {
+    e.preventDefault();
+    setItems([...items, name || `New item ${index++}`]);
+    setName('');
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0);
+  };
+  const onNameChange = (event) => {
+    setName(event.target.value);
+  };
   const getReq = useRequest(getCoreSettingAPI, {
     manual: true,
     onSuccess: (result, params) => {
@@ -1181,14 +1195,13 @@ const OpenAIForm = props => {
           >
             <Select
               style={{ width: 300 }}
-              placeholder="custom dropdown render"
               dropdownRender={(menu) => (
                 <>
                   {menu}
                   <Divider style={{ margin: '8px 0' }}/>
                   <Space style={{ padding: '0 8px 4px' }}>
                     <Input
-                      placeholder="Please enter item"
+                      placeholder={formatText('app.systemsetting.inputmodel')}
                       ref={inputRef}
                       value={name}
                       onChange={onNameChange}
@@ -1202,25 +1215,22 @@ const OpenAIForm = props => {
               )}
               options={items.map((item) => ({ label: item, value: item }))}
             />
-
-
-
-            <Select
-              style={{
-                width: 160,
-              }}
-              options={[
-                {
-                  value: "gpt-3.5-turbo", label: "gpt-3.5-turbo",
-                }, {
-                  value: "gpt-4-turbo", label: "gpt-4-turbo",
-                }, {
-                  value: "gpt-4o", label: "gpt-4o",
-                }, {
-                  value: "gpt-4o-mini", label: "gpt-4o-mini",
-                },
-              ]}
-            />
+            {/*<Select*/}
+            {/*  style={{*/}
+            {/*    width: 160,*/}
+            {/*  }}*/}
+            {/*  options={[*/}
+            {/*    {*/}
+            {/*      value: "gpt-3.5-turbo", label: "gpt-3.5-turbo",*/}
+            {/*    }, {*/}
+            {/*      value: "gpt-4-turbo", label: "gpt-4-turbo",*/}
+            {/*    }, {*/}
+            {/*      value: "gpt-4o", label: "gpt-4o",*/}
+            {/*    }, {*/}
+            {/*      value: "gpt-4o-mini", label: "gpt-4o-mini",*/}
+            {/*    },*/}
+            {/*  ]}*/}
+            {/*/>*/}
           </Form.Item>
           <Row>
             <Col style={{ marginBottom: 24 }} span={4} offset={4}>

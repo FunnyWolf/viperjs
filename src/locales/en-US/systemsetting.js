@@ -70,6 +70,7 @@ export default {
   "app.systemsetting.password.ph": "Input Password",
   "app.systemsetting.confirm_not_match": "Password and Confirm not match",
   "app.systemsetting.selectmodel": "Select Model",
+  "app.systemsetting.inputmodel": "Input Model Name",
   "app.systemsetting.inputbaseurl": "Input base url",
   "app.systemsetting.inputcookie": "Input Cookie",
   "app.systemsetting.defaultlhost": "Default LHost",

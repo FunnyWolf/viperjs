@@ -68,6 +68,7 @@ export default {
   "app.systemsetting.password.ph": "请输入密码",
   "app.systemsetting.confirm_not_match": "两次输入的密码不一致",
   "app.systemsetting.selectmodel": "请选择Model",
+  "app.systemsetting.inputmodel": "输入Model名称",
   "app.systemsetting.inputcookie": "请输入Cookie",
   "app.systemsetting.inputbaseurl": "请输入base url",
   "app.systemsetting.defaultlhost": "回连地址",
