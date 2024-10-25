@@ -243,6 +243,9 @@ export const VGPT = props => {
     }];
 
   const ListItem = (item, index) => {
+
+    const card_styles = { body: { padding: "12px 12px 0px 12px" } }
+
     const avatar_dict = {
       human: <UserOutlined style={{ fontSize: '24px' }}/>,
       ai: <OpenAIOutlined style={{ fontSize: '24px' }}/>,
@@ -255,7 +258,7 @@ export const VGPT = props => {
         {avatar_dict[item.type]}
         <Card
           style={{ backgroundColor: "#434343" }}
-          styles={{ body: { padding: "12px 12px 0px 12px" } }}
+          styles={card_styles}
         >
           <pre>{item.data.content}</pre>
         </Card>
@@ -268,7 +271,7 @@ export const VGPT = props => {
         title = <Flex justify="flex-start" align="flex-start" gap={2} vertical={true} style={{ marginRight: 8, marginBottom: 8 }}>
           {avatar_dict["function"]}
           <Card
-            styles={{ body: { padding: "12px 12px 0px 12px" } }}
+            styles={card_styles}
           >
             <pre style={{ opacity: 0.5 }}>{JSON.stringify(tool_calls)}</pre>
           </Card>
@@ -279,7 +282,7 @@ export const VGPT = props => {
           title = <Flex justify="flex-start" align="flex-start" gap={2} vertical={true} style={{ marginRight: 8, marginBottom: 8 }}>
             {avatar_dict["function"]}
             <Card
-              styles={{ body: { padding: "12px 12px 0px 12px" } }}
+              styles={card_styles}
             >
               <pre style={{ opacity: 0.5 }}>{JSON.stringify(tool_calls)}</pre>
             </Card>
@@ -290,7 +293,7 @@ export const VGPT = props => {
           title = <Flex justify="flex-start" align="flex-start" gap={2} vertical={true} style={{ marginRight: 8, marginBottom: 8 }}>
             {avatar_dict["function"]}
             <Card
-              styles={{ body: { padding: "12px 12px 0px 12px" } }}
+              styles={card_styles}
             >
               <pre style={{ opacity: 0.5 }}>{JSON.stringify(tool_calls)}</pre>
             </Card>
@@ -301,7 +304,7 @@ export const VGPT = props => {
         title = <Flex justify="flex-start" align="flex-start" gap={2} vertical={true} style={{ marginRight: 8, marginBottom: 8 }}>
           {avatar_dict[item.type]}
           <Card
-            styles={{ body: { padding: "12px 12px 0px 12px" } }}
+            styles={card_styles}
           >
             <Markdown
               remarkPlugins={[remarkGfm, remarkBreaks]}
@@ -317,7 +320,7 @@ export const VGPT = props => {
       title = <Flex justify="flex-start" align="flex-start" gap={2} vertical={true} style={{ marginRight: 8, marginBottom: 8 }}>
         {avatar_dict[item.type]}
         <Card
-          styles={{ body: { padding: "12px 12px 0px 12px" } }}
+          styles={card_styles}
         >
           <pre style={{ opacity: 0.5 }}>{JSON.stringify({ name: item.data.name, content: item.data.content })}</pre>
         </Card>
