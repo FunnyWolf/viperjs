@@ -63,11 +63,12 @@ export const AssetICP = props => {
       scroll={{ y: cssCalc(`${WebMainHeight} - 64px`) }}
       size="small"
       bordered
+      tableLayout="auto"
       pagination={false}
       rowKey="id"
       columns={[
         {
-          title: "Company Name", dataIndex: "companyName", key: "companyName", render: (text, record) => {
+          title: "Company Name", dataIndex: "company_name", key: "company_name", render: (text, record) => {
             return text
           },
         }, {
@@ -89,7 +90,7 @@ export const AssetICP = props => {
         }, {
           dataIndex: "operation", width: 48, render: (text, record) => (<div style={{ textAlign: "center" }}>
             <a
-              onClick={() => destoryCompanyICPReq.run({ project_id: projectActive.project_id, companyName: record.companyName })}
+              onClick={() => destoryCompanyICPReq.run({ project_id: projectActive.project_id, company_name: record.company_name })}
               style={{ color: "red" }}
             >
               {formatText("app.core.delete")}

@@ -54,6 +54,7 @@ export const AssetBaseInfo = props => {
       style={{
         overflow: 'auto', maxHeight: cssCalc(`${WebMainHeight} - 64px`), minHeight: cssCalc(`${WebMainHeight} - 64px`),
       }}
+      tableLayout="auto"
       scroll={{y: cssCalc(`${WebMainHeight} - 64px`)}}
       size="small"
       bordered
@@ -61,7 +62,7 @@ export const AssetBaseInfo = props => {
       rowKey="id"
       columns={[
         {
-          title: "Company Name", dataIndex: "companyName", key: "companyName", render: (text, record) => {
+          title: "Company Name", dataIndex: "company_name", key: "company_name", render: (text, record) => {
             return text
           },
         }, {
@@ -87,7 +88,7 @@ export const AssetBaseInfo = props => {
         }, {
           dataIndex: "operation", width: 48, render: (text, record) => (<div style={{textAlign: "center"}}>
             <a
-              onClick={() => destoryCompanyBaseInfoReq.run({project_id: projectActive.project_id, companyName: record.companyName})}
+              onClick={() => destoryCompanyBaseInfoReq.run({project_id: projectActive.project_id, company_name: record.company_name})}
               style={{color: "red"}}
             >
               {formatText("app.core.delete")}
