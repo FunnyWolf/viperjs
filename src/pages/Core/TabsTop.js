@@ -20,12 +20,14 @@ import { RunWebModuleMemo } from '@/pages/Core/WebModule';
 import { SystemSettingMemo } from '@/pages/Core/SystemSetting';
 import { ProjectButton } from '@/pages/Core/Project';
 import { Button, Col, List, Row, Space, Tabs } from 'antd-v5';
-import { Modal } from 'antd';
+import { Modal, Typography } from 'antd';
 import { AssetICPMemo } from '@/pages/Core/AssetICP';
 import { AssetAPPMemo } from '@/pages/Core/AssetAPP';
 import { AssetMediaMemo } from '@/pages/Core/AssetMedia';
-import { AssetBaseInfoMemo } from '@/pages/Core/AssetCompanyBase';
+import { ClueCompanyMemo } from '@/pages/Core/ClueCompany';
+import { ClueFaviconMemo } from '@/pages/Core/ClueFavicon';
 
+const { Text, Link } = Typography;
 const { TabPane } = Tabs;
 
 const KeyToUserIcon = {
@@ -116,7 +118,7 @@ export const TabsTop = () => {
             }
             key="company"
           >
-            <AssetBaseInfoMemo />
+            <ClueCompanyMemo />
           </TabPane>
           <TabPane
             tab={
@@ -149,7 +151,9 @@ export const TabsTop = () => {
               </div>
             }
             key="favicon"
-          />
+          >
+            <ClueFaviconMemo />
+          </TabPane>
           <TabPane
             tab={
               <div style={tabPanedivSytle}>

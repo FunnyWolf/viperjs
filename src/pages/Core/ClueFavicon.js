@@ -1,29 +1,30 @@
 import { useModel } from '@@/plugin-model/useModel';
 import React, { Fragment, memo, useEffect, useState } from 'react';
 import { useRequest } from 'umi';
-import { deleteWebdatabaseCompanyAPPAPI, getWebdatabaseCompanyAPPAPI } from '@/services/apiv1';
-import { Button, Flex, Image, Table, Typography } from 'antd-v5';
+import { deleteWebdatabaseClueFaviconAPI, getWebdatabaseClueFaviconAPI } from '@/services/apiv1';
+import { Button, Flex, Table } from 'antd-v5';
 import { cssCalc } from '@/utils/utils';
-import { SyncOutlined } from '@ant-design/icons';
-import { DocIcon, WebMainHeight } from '@/pages/Core/Common';
+import { CheckCircleOutlined, CheckOutlined, MinusOutlined, SyncOutlined } from '@ant-design/icons';
+import { DocIcon, TimeTag, WebMainHeight } from '@/pages/Core/Common';
 import { formatText } from '@/utils/locales';
+import { Avatar } from 'antd';
 
-export const AssetAPP = props => {
+export const ClueFavicon = props => {
   console.log('Company');
   const { projectActive } = useModel('WebMainModel', model => ({
     projectActive: model.projectActive,
   }));
-  const [CompanyAPPList, setCompanyAPPList] = useState([]);
+  const [clueFaviconList, setclueFaviconList] = useState([]);
 
-  const listCompanyAPPReq = useRequest(getWebdatabaseCompanyAPPAPI, {
+  const listClueFaviconReq = useRequest(getWebdatabaseClueFaviconAPI, {
     manual: true,
     onSuccess: (result, params) => {
-      setCompanyAPPList(result);
+      setclueFaviconList(result);
     },
     onError: (error, params) => {},
   });
 
-  const destoryCompanyAPPReq = useRequest(deleteWebdatabaseCompanyAPPAPI, {
+  const destoryClueFaviconReq = useRequest(deleteWebdatabaseClueFaviconAPI, {
     manual: true,
     onSuccess: (result, params) => {
       handleRefresh();
@@ -38,7 +39,7 @@ export const AssetAPP = props => {
   );
 
   const handleRefresh = () => {
-    listCompanyAPPReq.run({
+    listClueFaviconReq.run({
       project_id: projectActive.project_id,
     });
   };
@@ -51,62 +52,67 @@ export const AssetAPP = props => {
           style={{ width: 80 }}
           icon={<SyncOutlined />}
           onClick={() => handleRefresh()}
-          loading={listCompanyAPPReq.loading}
+          loading={listClueFaviconReq.loading}
         />
       </Flex>
       <Table
-        // style={{
-        //   overflow: 'auto', maxHeight: cssCalc(`${WebMainHeight} - 64px`), minHeight: cssCalc(`${WebMainHeight} - 64px`),
-        // }}
-        scroll={{ y: cssCalc(`${WebMainHeight} - 96px`) }}
+        style={{
+          overflow: 'auto',
+          maxHeight: cssCalc(`${WebMainHeight} - 64px`),
+          minHeight: cssCalc(`${WebMainHeight} - 64px`),
+        }}
+        tableLayout="auto"
+        scroll={{ y: cssCalc(`${WebMainHeight} - 64px`) }}
         size="small"
         bordered
         pagination={false}
         rowKey="id"
-        tableLayout="auto"
         columns={[
           {
-            title: 'APP Name',
-            dataIndex: 'name',
-            key: 'name',
-            width: 160,
+            title: 'icon',
+            dataIndex: 'content',
+            key: 'hash',
+            render: (text, record) => {
+              const src = 'data:image/png;base64,' + text;
+              return <Avatar shape="square" size={24} src={src} />;
+            },
+          },
+
+          {
+            title: 'hash',
+            dataIndex: 'hash',
+            key: 'hash',
             render: (text, record) => {
               return text;
             },
           },
           {
-            title: 'Classify',
-            dataIndex: 'classify',
-            key: 'classify',
-            width: 160,
+            title: 'note',
+            dataIndex: 'note',
+            key: 'hash',
             render: (text, record) => {
               return text;
             },
           },
           {
-            title: 'Logo Brief',
-            dataIndex: 'logoBrief',
-            key: 'logoBrief',
+            title: 'exact',
+            dataIndex: 'exact',
+            key: 'hash',
             render: (text, record) => {
-              return (
-                <Typography.Paragraph
-                  ellipsis={{
-                    rows: 2,
-                    expandable: 'collapsible',
-                  }}
-                >
-                  {text}
-                </Typography.Paragraph>
-              );
+              if (record.exact) {
+                return <CheckOutlined />;
+              } else {
+                return <MinusOutlined />;
+              }
             },
           },
           {
-            title: 'Logo',
-            dataIndex: 'logo',
-            key: 'logo',
-            width: 64,
+            title: 'update_time',
+            dataIndex: 'update_time',
+            key: 'hash',
+            width: 108,
             render: (text, record) => {
-              return <Image width={48} src={text} />;
+              return TimeTag(record.update_time);
             },
           },
           {
@@ -116,9 +122,8 @@ export const AssetAPP = props => {
               <div style={{ textAlign: 'center' }}>
                 <a
                   onClick={() =>
-                    destoryCompanyAPPReq.run({
-                      project_id: projectActive.project_id,
-                      name: record.name,
+                    destoryClueFaviconReq.run({
+                      id: record.id,
                     })
                   }
                   style={{ color: 'red' }}
@@ -129,9 +134,9 @@ export const AssetAPP = props => {
             ),
           },
         ]}
-        dataSource={CompanyAPPList}
+        dataSource={clueFaviconList}
       />
     </Fragment>
   );
 };
-export const AssetAPPMemo = memo(AssetAPP);
+export const ClueFaviconMemo = memo(ClueFavicon);

@@ -1,29 +1,29 @@
 import { useModel } from '@@/plugin-model/useModel';
 import React, { Fragment, memo, useEffect, useState } from 'react';
 import { useRequest } from 'umi';
-import { deleteWebdatabaseCompanyAPPAPI, getWebdatabaseCompanyAPPAPI } from '@/services/apiv1';
-import { Button, Flex, Image, Table, Typography } from 'antd-v5';
+import { deleteWebdatabaseClueCompanyAPI, getWebdatabaseClueCompanyAPI } from '@/services/apiv1';
+import { Button, Flex, Table } from 'antd-v5';
 import { cssCalc } from '@/utils/utils';
 import { SyncOutlined } from '@ant-design/icons';
 import { DocIcon, WebMainHeight } from '@/pages/Core/Common';
 import { formatText } from '@/utils/locales';
 
-export const AssetAPP = props => {
+export const ClueCompany = props => {
   console.log('Company');
   const { projectActive } = useModel('WebMainModel', model => ({
     projectActive: model.projectActive,
   }));
-  const [CompanyAPPList, setCompanyAPPList] = useState([]);
+  const [companyBaseInfoList, setCompanyBaseInfoList] = useState([]);
 
-  const listCompanyAPPReq = useRequest(getWebdatabaseCompanyAPPAPI, {
+  const listCompanyBaseInfoReq = useRequest(getWebdatabaseClueCompanyAPI, {
     manual: true,
     onSuccess: (result, params) => {
-      setCompanyAPPList(result);
+      setCompanyBaseInfoList(result);
     },
     onError: (error, params) => {},
   });
 
-  const destoryCompanyAPPReq = useRequest(deleteWebdatabaseCompanyAPPAPI, {
+  const destoryCompanyBaseInfoReq = useRequest(deleteWebdatabaseClueCompanyAPI, {
     manual: true,
     onSuccess: (result, params) => {
       handleRefresh();
@@ -38,7 +38,7 @@ export const AssetAPP = props => {
   );
 
   const handleRefresh = () => {
-    listCompanyAPPReq.run({
+    listCompanyBaseInfoReq.run({
       project_id: projectActive.project_id,
     });
   };
@@ -51,62 +51,70 @@ export const AssetAPP = props => {
           style={{ width: 80 }}
           icon={<SyncOutlined />}
           onClick={() => handleRefresh()}
-          loading={listCompanyAPPReq.loading}
+          loading={listCompanyBaseInfoReq.loading}
         />
       </Flex>
       <Table
-        // style={{
-        //   overflow: 'auto', maxHeight: cssCalc(`${WebMainHeight} - 64px`), minHeight: cssCalc(`${WebMainHeight} - 64px`),
-        // }}
-        scroll={{ y: cssCalc(`${WebMainHeight} - 96px`) }}
+        style={{
+          overflow: 'auto',
+          maxHeight: cssCalc(`${WebMainHeight} - 64px`),
+          minHeight: cssCalc(`${WebMainHeight} - 64px`),
+        }}
+        tableLayout="auto"
+        scroll={{ y: cssCalc(`${WebMainHeight} - 64px`) }}
         size="small"
         bordered
         pagination={false}
         rowKey="id"
-        tableLayout="auto"
         columns={[
           {
-            title: 'APP Name',
-            dataIndex: 'name',
-            key: 'name',
-            width: 160,
+            title: 'Company Name',
+            dataIndex: 'company_name',
+            key: 'company_name',
             render: (text, record) => {
               return text;
             },
           },
           {
-            title: 'Classify',
-            dataIndex: 'classify',
-            key: 'classify',
-            width: 160,
+            title: 'Domicile',
+            dataIndex: 'titleDomicile',
+            key: 'titleDomicile',
             render: (text, record) => {
               return text;
             },
           },
           {
-            title: 'Logo Brief',
-            dataIndex: 'logoBrief',
-            key: 'logoBrief',
+            title: 'Ent Type',
+            dataIndex: 'entType',
+            key: 'entType',
             render: (text, record) => {
-              return (
-                <Typography.Paragraph
-                  ellipsis={{
-                    rows: 2,
-                    expandable: 'collapsible',
-                  }}
-                >
-                  {text}
-                </Typography.Paragraph>
-              );
+              return text;
             },
           },
           {
-            title: 'Logo',
-            dataIndex: 'logo',
-            key: 'logo',
-            width: 64,
+            title: 'LogoWord',
+            dataIndex: 'logoWord',
+            key: 'logoWord',
             render: (text, record) => {
-              return <Image width={48} src={text} />;
+              return text;
+            },
+          },
+          {
+            title: 'Validity From',
+            dataIndex: 'validityFrom',
+            key: 'validityFrom',
+            width: 108,
+            render: (text, record) => {
+              return text;
+            },
+          },
+          {
+            title: 'Open Status',
+            dataIndex: 'openStatus',
+            key: 'openStatus',
+            width: 96,
+            render: (text, record) => {
+              return text;
             },
           },
           {
@@ -116,9 +124,9 @@ export const AssetAPP = props => {
               <div style={{ textAlign: 'center' }}>
                 <a
                   onClick={() =>
-                    destoryCompanyAPPReq.run({
+                    destoryCompanyBaseInfoReq.run({
                       project_id: projectActive.project_id,
-                      name: record.name,
+                      company_name: record.company_name,
                     })
                   }
                   style={{ color: 'red' }}
@@ -129,9 +137,9 @@ export const AssetAPP = props => {
             ),
           },
         ]}
-        dataSource={CompanyAPPList}
+        dataSource={companyBaseInfoList}
       />
     </Fragment>
   );
 };
-export const AssetAPPMemo = memo(AssetAPP);
+export const ClueCompanyMemo = memo(ClueCompany);

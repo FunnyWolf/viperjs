@@ -3,13 +3,13 @@ import React, { useEffect, useRef } from 'react';
 import { ConfigProvider, theme } from 'antd-v5';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
 
-import { TabsTop } from '@/pages/Core/TabsTop'
-import { useModel } from '@@/plugin-model/useModel'
-import { useRequest } from '@@/plugin-request/request'
-import { getCoreCurrentUserAPI } from '@/services/apiv1'
-import { getToken } from '@/utils/authority'
-import { useInterval } from 'ahooks'
-import { HostIP } from '@/config'
+import { TabsTop } from '@/pages/Core/TabsTop';
+import { useModel } from '@@/plugin-model/useModel';
+import { useRequest } from '@@/plugin-request/request';
+import { getCoreCurrentUserAPI } from '@/services/apiv1';
+import { getToken } from '@/utils/authority';
+import { useInterval } from 'ahooks';
+import { HostIP } from '@/config';
 
 let protocol = 'ws://';
 let webHost = HostIP + ':8002';
@@ -21,25 +21,28 @@ if (process.env.NODE_ENV === 'production') {
 const WebMain = props => {
   console.log('WebMain');
 
-  const {
-    setHeatbeatsocketalive, setWebModuleOptions,
-  } = useModel('HostAndSessionModel', model => ({
-    setHeatbeatsocketalive: model.setHeatbeatsocketalive, setWebModuleOptions: model.setWebModuleOptions,
-  }));
+  const { setHeatbeatsocketalive, setWebModuleOptions } = useModel(
+    'HostAndSessionModel',
+    model => ({
+      setHeatbeatsocketalive: model.setHeatbeatsocketalive,
+      setWebModuleOptions: model.setWebModuleOptions,
+    })
+  );
 
-  const {
-    setWebjobList, setWebTaskResultList, setWebTaskResultListActive, setNotices,
-  } = useModel('WebMainModel', model => ({
-    setNotices: model.setNotices,
-    setWebjobList: model.setWebjobList,
-    setWebTaskResultList: model.setWebTaskResultList,
-    setWebTaskResultListActive: model.setWebTaskResultListActive,
-  }));
+  const { setWebjobList, setWebTaskResultList, setWebTaskResultListActive, setNotices } = useModel(
+    'WebMainModel',
+    model => ({
+      setNotices: model.setNotices,
+      setWebjobList: model.setWebjobList,
+      setWebTaskResultList: model.setWebTaskResultList,
+      setWebTaskResultListActive: model.setWebTaskResultListActive,
+    })
+  );
 
   const listCurrentUserReq = useRequest(getCoreCurrentUserAPI, {
-    manual: true, onSuccess: (result, params) => {
-    }, onError: (error, params) => {
-    },
+    manual: true,
+    onSuccess: (result, params) => {},
+    onError: (error, params) => {},
   });
 
   const urlpatterns = '/ws/v1/websocket/websync/?';
@@ -100,16 +103,18 @@ const WebMain = props => {
   };
 
   const websyncmonitor = () => {
-    if (ws.current !== undefined && ws.current !== null && ws.current.readyState === WebSocket.OPEN) {
+    if (
+      ws.current !== undefined &&
+      ws.current !== null &&
+      ws.current.readyState === WebSocket.OPEN
+    ) {
     } else {
       try {
         ws.current.close();
-      } catch (error) {
-      }
+      } catch (error) {}
       try {
         ws.current = null;
-      } catch (error) {
-      }
+      } catch (error) {}
       initWebSync();
     }
   };
@@ -119,36 +124,37 @@ const WebMain = props => {
     return () => {
       try {
         ws.current.close();
-      } catch (error) {
-      }
+      } catch (error) {}
       try {
         ws.current = null;
-      } catch (error) {
-      }
+      } catch (error) {}
     };
   }, []);
 
-  return (<GridContent>
-    <ConfigProvider
-      theme={{
-        algorithm: theme.darkAlgorithm,
-        // algorithm: [theme.darkAlgorithm, theme.compactAlgorithm],
-        token: {
-          // fontSizeSM: 16,
-        },
-        components: {
-          Table: {
-            cellPaddingBlockSM: 4, headerBorderRadius: 2,
+  return (
+    <GridContent>
+      <ConfigProvider
+        theme={{
+          algorithm: theme.darkAlgorithm,
+          // algorithm: [theme.darkAlgorithm, theme.compactAlgorithm],
+          token: {
+            // fontSizeSM: 16,
           },
-          Descriptions: {},
-          Tabs: {
-            horizontalMargin: '0 0 0 0', /* 这里是你的组件 token */
+          components: {
+            Table: {
+              cellPaddingBlockSM: 4,
+              headerBorderRadius: 2,
+            },
+            Descriptions: {},
+            Tabs: {
+              horizontalMargin: '0 0 0 0' /* 这里是你的组件 token */,
+            },
           },
-        },
-      }}
-    >
-      <TabsTop/>
-    </ConfigProvider>
-  </GridContent>);
+        }}
+      >
+        <TabsTop />
+      </ConfigProvider>
+    </GridContent>
+  );
 };
 export default WebMain;
