@@ -596,6 +596,26 @@ export async function deleteWebdatabaseClueFaviconAPI(params) {
   });
 }
 
+export async function getWebdatabaseClueCertAPI(params) {
+  return request('/api/v1/webdatabase/cluecert/', {
+    params,
+  });
+}
+
+export async function postWebdatabaseClueCertAPI(params) {
+  return request('/api/v1/webdatabase/cluecert/', {
+    method: 'POST',
+    data: params,
+  });
+}
+
+export async function deleteWebdatabaseClueCertAPI(params) {
+  return request('/api/v1/webdatabase/cluecert/', {
+    method: 'DELETE',
+    params,
+  });
+}
+
 export async function getWebdatabaseClueCompanyAPI(params) {
   return request('/api/v1/webdatabase/cluecompany/', {
     params,

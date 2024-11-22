@@ -26,6 +26,7 @@ import { AssetAPPMemo } from '@/pages/Core/AssetAPP';
 import { AssetMediaMemo } from '@/pages/Core/AssetMedia';
 import { ClueCompanyMemo } from '@/pages/Core/ClueCompany';
 import { ClueFaviconMemo } from '@/pages/Core/ClueFavicon';
+import { ClueCertMemo } from '@/pages/Core/ClueCert';
 
 const { Text, Link } = Typography;
 const { TabPane } = Tabs;
@@ -143,7 +144,9 @@ export const TabsTop = () => {
               </div>
             }
             key="cert"
-          />
+          >
+            <ClueCertMemo />
+          </TabPane>
           <TabPane
             tab={
               <div style={tabPanedivSytle}>

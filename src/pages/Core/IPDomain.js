@@ -4,7 +4,7 @@ import {
   deleteWebdatabaseIPDomainAPI,
   getWebdatabaseIPDomainAPI,
   getWebdatabaseOptionsAPI,
-  getWebdatabaseProjectAPI,
+  getWebdatabaseProjectAPI, postWebdatabaseClueCertAPI,
   postWebdatabaseClueFaviconAPI,
   postWebdatabaseProjectAPI,
   putWebdatabasePortAPI,
@@ -285,6 +285,12 @@ const IPDomain = props => {
     onError: (error, params) => {},
   });
 
+  const postClueCertReq = useRequest(postWebdatabaseClueCertAPI, {
+    manual: true,
+    onSuccess: (result, params) => {},
+    onError: (error, params) => {},
+  });
+
   useEffect(
     () => {
       listIPdomainReq.run({
@@ -326,6 +332,14 @@ const IPDomain = props => {
   const add_favicon_to_clue = record => {
     const { ipdomain, port } = record;
     postClueFaviconReq.run({
+      ipdomain: ipdomain,
+      port: port,
+    });
+  };
+
+  const add_cert_to_clue = record => {
+    const { ipdomain, port } = record;
+    postClueCertReq.run({
       ipdomain: ipdomain,
       port: port,
     });
@@ -710,6 +724,9 @@ const IPDomain = props => {
         case 'add_favicon_to_clue':
           add_favicon_to_clue(record);
           break;
+        case 'add_cert_to_clue':
+          add_cert_to_clue(record);
+          break;
         case 'delete':
           confirm({
             title: manuali18n('确认删除该记录', 'Confirm to delete this record'),
@@ -751,6 +768,11 @@ const IPDomain = props => {
       {
         label: 'add_favicon_to_clue',
         key: 'add_favicon_to_clue',
+        icon: <TagOutlined />,
+      },
+      {
+        label: 'add_cert_to_clue',
+        key: 'add_cert_to_clue',
         icon: <TagOutlined />,
       },
       {
@@ -1198,32 +1220,37 @@ const IPDomain = props => {
       const subject = cert.subject;
       return (
         <Tabs.TabPane icon={<KeyOutlined />} tab={<span>Cert</span>} key="Cert">
-          <Descriptions column={1} layout="vertical">
-            <Descriptions.Item label="subject_dn">{cert.subject_dn}</Descriptions.Item>
-            <Descriptions.Item label="jarm">{cert.jarm}</Descriptions.Item>
-            <Descriptions.Item label="dns_names">{cert.dns_names}</Descriptions.Item>
-          </Descriptions>
-          {/*<Row>*/}
-          {/*  <Col span={8}>*/}
-
-          {/*  </Col>*/}
-          {/*  <Col span={16}>*/}
-          {/*    <pre*/}
-          {/*      style={{*/}
-          {/*        marginBottom: 0,*/}
-          {/*        padding: '0 0 0 0',*/}
-          {/*        overflowX: 'hidden',*/}
-          {/*        maxHeight: listitemHeight,*/}
-          {/*        minHeight: listitemHeight,*/}
-          {/*        whiteSpace: 'pre-wrap',*/}
-          {/*        wordWrap: 'break-word',*/}
-          {/*        background: '#141414',*/}
-          {/*      }}*/}
-          {/*    >*/}
-          {/*      {cert.cert}*/}
-          {/*    </pre>*/}
-          {/*  </Col>*/}
-          {/*</Row>*/}
+          <Row>
+            <Col span={16}>
+              <Descriptions column={1} layout="vertical">
+                <Descriptions.Item label="subject_dn">{cert.subject_dn}</Descriptions.Item>
+                <Descriptions.Item label="jarm">{cert.jarm}</Descriptions.Item>
+              </Descriptions>
+            </Col>
+            <Col span={8}>
+              <Table
+                style={{
+                  overflow: 'auto',
+                  minHeight: listitemHeight,
+                  maxHeight: listitemHeight,
+                }}
+                columns={[
+                  {
+                    title: 'DNS Names',
+                    dataIndex: 'id',
+                    render: (text, record) => {
+                      return record;
+                    },
+                  },
+                ]}
+                dataSource={cert.dns_names}
+                pagination={false}
+                scroll={{ y: listitemHeight - 32 }}
+                className="tablev5"
+                size="small"
+              />
+            </Col>
+          </Row>
         </Tabs.TabPane>
       );
     }
