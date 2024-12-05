@@ -28,7 +28,7 @@ export default {
   'app.hostandsession.tab.LazyLoader': '钓鱼管理',
   'app.hostandsession.tab.BotScan': '全网扫描',
   'app.hostandsession.tab.SystemSetting': '平台设置',
-
+  'app.hostandsession.tab.SystemSettingShort': '设置',
   'app.hostandsession.low': '低',
   'app.hostandsession.medium': '中',
   'app.hostandsession.high': '高',

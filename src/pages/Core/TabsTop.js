@@ -239,7 +239,7 @@ export const TabsTop = () => {
           <div style={tabPanedivSytle}>
             <SettingOutlined />
             <span style={tabPanespanSytle}>
-              {formatText('app.hostandsession.tab.SystemSetting')}
+              {formatText('app.hostandsession.tab.SystemSettingShort')}
             </span>
           </div>
         }
