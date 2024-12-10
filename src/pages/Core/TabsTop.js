@@ -19,7 +19,7 @@ import { IPDomainMemo } from '@/pages/Core/IPDomain';
 import { RunWebModuleMemo } from '@/pages/Core/WebModule';
 import { SystemSettingMemo } from '@/pages/Core/SystemSetting';
 import { ProjectButton } from '@/pages/Core/Project';
-import { Button, Col, List, Row, Space, Tabs } from 'antd-v5';
+import { Button, Col, List, Row, Space, Tabs, FloatButton, Tag } from 'antd-v5';
 import { Modal, Typography } from 'antd';
 import { AssetICPMemo } from '@/pages/Core/AssetICP';
 import { AssetAPPMemo } from '@/pages/Core/AssetAPP';
@@ -27,6 +27,10 @@ import { AssetMediaMemo } from '@/pages/Core/AssetMedia';
 import { ClueCompanyMemo } from '@/pages/Core/ClueCompany';
 import { ClueFaviconMemo } from '@/pages/Core/ClueFavicon';
 import { ClueCertMemo } from '@/pages/Core/ClueCert';
+import { cssCalc } from '@/utils/utils';
+import moment from 'moment';
+import { getLocale } from 'umi';
+import { MyIcon } from '@/pages/Core/Common';
 
 const { Text, Link } = Typography;
 const { TabPane } = Tabs;
@@ -42,19 +46,11 @@ const KeyToUserIcon = {
 
 const TabsOptions = () => {
   return (
-    <>
-      <Space
-        style={{
-          paddingTop: 1,
-          paddingBottom: 2,
-          paddingRight: 4,
-        }}
-      >
-        <Button style={{ width: 40 }} icon={<CompassOutlined />} href={'#/nav'} target={'_blank'} />
-        <WebNotice />
-        <ProjectButton />
-      </Space>
-    </>
+    <Space>
+      <Button style={{ width: 40 }} icon={<CompassOutlined />} href={'#/nav'} target={'_blank'} />
+      <WebNotice />
+      <ProjectButton />
+    </Space>
   );
 };
 
