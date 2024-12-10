@@ -87,7 +87,7 @@ export const TabsTop = () => {
 
   return (
     <Tabs
-      style={{ margin: 0 }}
+      style={{ margin: 1 }}
       tabBarExtraContent={<TabsOptions />}
       type="card"
       onChange={tabActiveOnChange}

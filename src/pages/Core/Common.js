@@ -109,4 +109,4 @@ export const TimeTag = (time) => {
   </Tag></Tooltip>
 }
 
-export const WebMainHeight = '100vh - 48px'
+export const WebMainHeight = '100vh - 50px'
