@@ -130,7 +130,7 @@ export const VGPT = props => {
   const [messageList, setMessageList] = useState([]);
 
   const [userInputValue, setUserInputValue] = useState(null);
-
+  const [moduleRunning, setModuleRunning] = useState(false);
   useEffect(() => {
     const element = document.getElementById('message_history_list');
     if (element) {
@@ -265,8 +265,9 @@ export const VGPT = props => {
       </Flex>
     } else if (item.type === "ai") {
       let token = item.data.usage_metadata.total_tokens
+      let tool_calls = item.data.tool_calls
       // tool call
-      if (item.data.tool_calls.length !== 0) {
+      if (tool_calls !== undefined && tool_calls.length !== 0) {
         let tool_calls = item.data.tool_calls;
         title = <Flex justify="flex-start" align="flex-start" gap={2} vertical={true} style={{ marginRight: 8, marginBottom: 8 }}>
           {avatar_dict["function"]}
@@ -325,6 +326,14 @@ export const VGPT = props => {
           <pre style={{ opacity: 0.5 }}>{JSON.stringify({ name: item.data.name, content: item.data.content })}</pre>
         </Card>
       </Flex>
+    } else if (item.type === "status") {
+      if (index === (messageList.length - 1)) {
+        if (item.data.content === "running") {
+          setModuleRunning(true)
+        } else {
+          setModuleRunning(false)
+        }
+      }
     } else {
       title = <pre>{item.data.content}</pre>
     }
@@ -466,6 +475,7 @@ export const VGPT = props => {
               disabled={llmModuleConfigActive.loadpath === null || !websocketAlive}
               style={{ width: 96 }}
               size="large"
+              loading={moduleRunning}
               icon={<DeleteOutlined/>}
               onClick={() => {
                 destoryLLMModuleReq.run({ loadpath: llmModuleConfigActive.loadpath })
