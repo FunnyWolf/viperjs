@@ -1,0 +1,23 @@
+export default {
+  "app.ipfilter.diy_whitelist": "自定义白名单",
+  "app.ipfilter.diy_whitelist.ph": "10.10.10.10及10.10.10.10/24格式,每行一个IP地址,不支持逗号分隔",
+  "app.ipfilter.diy_whitelist.tip": "允许白名单中IP地址访问监听",
+  "app.ipfilter.diy_blacklist": "自定义黑名单",
+  "app.ipfilter.diy_blacklist.ph": "10.10.10.10及10.10.10.10/24格式,每行一个IP地址,不支持逗号分隔",
+  "app.ipfilter.diy_blacklist.tip": "屏蔽黑名单中IP地址访问监听",
+  "app.ipfilter.cloud_blacklist": "屏蔽云厂商IP",
+  "app.ipfilter.cloud_blacklist.tip": "只允许中国移动,中国联通,中国电信网络访问监听(根据geo数据库判断)",
+  "app.ipfilter.sandbox_blacklist": "屏蔽沙箱IP",
+  "app.ipfilter.sandbox_blacklist.tip": "屏蔽所有云沙箱IP访问监听(根据内置IP数据库判断)",
+  "app.ipfilter.check_all": "全选",
+  "app.ipfilter.geo_blacklist": "地理位置黑名单",
+  "app.ipfilter.geo_blacklist.tip": "屏蔽所有列表中地理位置的IP访问监听(根据geo数据库判断)",
+  "app.ipfilter.geo_whitelist": "地理位置白名单",
+  "app.ipfilter.geo_whitelist.tip": "<只允许>列表中地理位置的IP访问监听(根据geo数据库判断)",
+  "app.ipfilter.switch": "总开关",
+  "app.ipfilter.switch.running": "开启",
+  "app.ipfilter.switch.inactive": "关闭",
+  "app.ipfilter.switch.tip": "回连过滤总开关,开启该选项后IP过滤才生效",
+  "app.ipfilter.search.ph": "输入IP地址检测是否被屏蔽",
+  "app.ipfilter.update": "更新配置"
+};
